@@ -1,0 +1,19 @@
+=== HTMLBook
+
+Let's write books in HTML!
+
+HTMLBook is built on the premise that:
+
+* Books are timeless. The basic "book" structure has persisted for hundreds of years and will continue to persist for our lifetimes, be it in digital or print form. 
+* HTML is the markup language of the world for the foreseeable future.
+* Single-source document processing will remain valuable for the foreseeable future.
+
+As such, HTMLBook can be characterized in the following ways:
+
+* HTMLBook is a subset of XHTML5.
+* HTMLBook will contain no additional elements or attributes outside of the HTML5 specification.
+* All HTMLBook is HTML5, but not all HTML5 is HTMLBook.
+* HTMLBook is semantically tailored to the structure of a "book" (including more complex content used in technical and reference documents).
+* HTMLBook is defined with with an XML schema/DTD.
+* HTMLBook templates will be written in CSS.
+* HTMLBook supports both full-fledged book content, as well as shorter-form content—e.g., articles.
