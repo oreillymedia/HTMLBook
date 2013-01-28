@@ -1,0 +1,62 @@
+== The HTMLBook Elements
+
+=== Components
+
+book
+chapter
+appendix
+bibliography
+glossary
+preface 
+colophon
+part
+dedication
+index
+titlepage
+copyright page
+toc
+
+=== Block
+
+para
+sidebar
+note/tip
+warning
+sectn
+table
+figure
+example
+programlisting
+orderedlist
+itemizedlist
+simplelist <- maybe tie in with itemized list somehow
+variablelist
+blockquote
+title
+equation
+
+=== Inline
+
+emphasis (bold, italic, roman)
+literal
+footnote/endnote
+userinput
+replaceable
+xref
+ulink
+link
+indexterm
+sup
+sub
+
+=== Metadata
+
+isbn
+author
+title
+
+=== Questions
+
+How are we handling metadata? Is this something we need to define handling for?
+Figure numbering, chapter numbering, etc: can we model something in CSS about how to do this? We can just use counters in CSS. Just have to make sure the HTML is written well so the CSS can apply.
+
