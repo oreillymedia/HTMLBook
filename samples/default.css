@@ -1,0 +1,38 @@
+@charset "UTF-8";
+
+/* ------------------ INDEX ------------------ */
+
+/* setting up an index using the target page numbers */
+/* NOT TESTED */
+
+section.index dd {
+	display: inline;
+}
+
+section.index dd:before {
+	content: ", ";
+}
+
+section.index dd a {
+	content: target-counter(attr(href, url), page);
+}
+
+/* setting up an index using auto-generated counters */
+/* NOT TESTED */
+
+section.index dt {
+	counter-reset: indexterm;
+}
+
+section.index dd {
+	display: inline;
+}
+
+section.index dd:before {
+	content: ", ";
+}
+
+section.index dd a {
+	counter-increment: indexterm;
+	content:" " counter(indexterm);
+}
