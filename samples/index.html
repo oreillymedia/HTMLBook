@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+
+<head>
+</head>
+
+<body>
+
+	<h1>Index</h1>
+
+	<h2>Markup Samples</h2>
+	<p><em>View source for HTML markup.</em></p>
+
+	<div class="sample">
+		<section class="index">
+			<title>Index</title>
+		    <p>Descriptive paragraph if desired.</p>
+		    <div class="">
+		    	<div class="indexsect">
+		    		<h3>A</h3>
+		    		<dl>
+		    			<dt>An Index Term</dt>
+		    			<dd><a class="indexterm" href="#id1"></a></dd>
+		    			<dd><a class="indexterm" href="#id2"></a></dd>
+		    		</dl>
+		    	</div>
+		    	<p>More descriptive text if desired.</p>
+		    </div>
+		    <p>More descriptive text if desired.</p>
+		</section>
+	</div>
+
+	<h2>Description</h2>
+	<p></p>
+
+	<h2>Attributes</h2>
+	<p>The parent index section must have a class of "index".</p>
+
+	<h2>Additional Constraints</h2>
+	<p>Indexterm inner html may be popluated with a number of different things. You may choose to auto-generate the text via the CSS, using either the page number where the term occurs (appropriate for fixed-page presentations, e.g. print and PDF), or establishing a counter in the CSS and numbering each occurrance of a term sequentially, e.g.: An Index Term, 1, 2. See default.css for examples of using the target page number or a new counter. You may also populate the inner html with arbitrary text, e.g., the title of the section in which the term occurs.
+	</p>
+
+</body>
+</html>
