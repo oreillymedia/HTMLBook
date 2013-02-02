@@ -33,7 +33,7 @@ A list of mappings is below. Special semantics, unless otherwise noted, come fro
 ----
 <section class="chapter">
   <!-- h1 used for all chapter titles -->
-  <h1>Chapter Title</h1>
+  <h1 class="title">Chapter Title</h1>
   <!-- Lots of chapter content here -->
 </section>
 ----
@@ -51,7 +51,7 @@ A list of mappings is below. Special semantics, unless otherwise noted, come fro
 ----
 <section class="appendix">
   <!-- h1 used for all appendix titles -->
-  <h1>Appendix Title</h1>
+  <h1 class="title">Appendix Title</h1>
   <!-- Lots of appendix content here -->
 </section>
 ----
@@ -69,7 +69,7 @@ A list of mappings is below. Special semantics, unless otherwise noted, come fro
 ----
 <section class="bibliography">
   <!-- optional h1 used for all bibliography titles -->
-  <h1>Bibliography Title</h1>
+  <h1 class="title">Bibliography Title</h1>
   <p class="biblioentry"><!-- Biblioentry content --></p>
   <!-- More biblioentries below -->
 </section>
@@ -93,7 +93,7 @@ A list of mappings is below. Special semantics, unless otherwise noted, come fro
 ----
 <section class="glossary">
   <!-- h1 used for all glossary titles -->
-  <h1>Glossary Title</h1>
+  <h1 class="title">Glossary Title</h1>
   <dl class="glossary">
     <dt class="glossterm">
       <dfn>Atlas</dfn>
@@ -118,7 +118,7 @@ A list of mappings is below. Special semantics, unless otherwise noted, come fro
 ----
 <section class="preface">
   <!-- h1 used for all preface titles -->
-  <h1>Preface Title</h1>
+  <h1 class="title">Preface Title</h1>
   <!-- Lots of preface content here -->
 </section>
 ----
@@ -136,7 +136,7 @@ A list of mappings is below. Special semantics, unless otherwise noted, come fro
 ----
 <section class="colophon">
   <!-- optional h1 used for colophon titles -->
-  <h1>Colophon Title</h1>
+  <h1 class="title">Colophon Title</h1>
   <!-- Lots of colophon content here -->
 </section>
 ----
@@ -154,7 +154,7 @@ A list of mappings is below. Special semantics, unless otherwise noted, come fro
 ----
 <section class="part">
   <!-- h1 used for all part titles -->
-  <h1>Part Title</h1>
+  <h1 class="title">Part Title</h1>
   <!-- Lots of part content here -->
 </section>
 ----
@@ -172,7 +172,7 @@ A list of mappings is below. Special semantics, unless otherwise noted, come fro
 ----
 <section class="dedication">
   <!-- optional h1 used for dedication titles -->
-  <h1>Dedication Title</h1>
+  <h1 class="title">Dedication Title</h1>
   <p>I owe it all to Project Unicorn</p>
 </section>
 ----
@@ -196,9 +196,9 @@ A list of mappings is below. Special semantics, unless otherwise noted, come fro
 ----
 <section class="index">
   <!-- optional h1 used for index titles -->
-  <h1>Index Title</h1>
+  <h1 class="title">Index Title</h1>
   <div class="indexdiv">
-    <h2>A</h2>
+    <h2 class="title">A</h2>
     <dl>
       <dt class="indexentry">Aardvark, <a class="indexentry xref" href="ch01#aardvark">All about Aardvark</a></dt>
       <dd>
@@ -227,7 +227,7 @@ A list of mappings is below. Special semantics, unless otherwise noted, come fro
 ----
 <section class="titlepage">
   <!-- h1 used for book title -->
-  <h1>Book Title</h1>
+  <h1 class="title">Book Title</h1>
   <!-- Whatever else goes on the title page: publishername, logo, etc. -->
 </section>
 ----
@@ -262,7 +262,7 @@ A list of mappings is below. Special semantics, unless otherwise noted, come fro
 
 ----
 <nav class="toc" epub:type="toc">
-  <h1>Table of Contents</h1>
+  <h1 class="title">Table of Contents</h1>
    <ol>
      <li><a href="examples_page.html">A Note Regarding Supplemental Files</a></li>
      <li><a href="pr02.html">Foreword</a></li>
@@ -275,5 +275,98 @@ A list of mappings is below. Special semantics, unless otherwise noted, come fro
   <!-- And so on... -->
   </ol>
 </nav>
+----
+
+=== Block Elements
+
+==== Paragraph
+
+*Legacy DB element*: <para> or <simpara>
+
+*New HTML element*: <p>
+
+*Special semantics*: in most cases, none--but we may define classes in specific circumstances; e.g., <p class="biblioentry">
+
+*Example*:
+
+----
+<p>Nothing exciting here. Move on, yo!</p>
+----
+
+==== Sidebar
+
+*Legacy DB element*: <sidebar>
+
+*New HTML element*: <aside>
+
+*Special semantics*: class="sidebar"
+
+*Example*:
+
+----
+<aside class="sidebar">
+  <!-- Optional h5 for sidebar title -->
+  <h5 class="title">Amusing Digression</h5>
+  <p>Did you know that in Boston, they call it "soda", and in Chicago, they call it "pop"?</p>
+</aside>
+----
+
+==== Admonitions
+
+*Legacy DB element*: <note>, <tip>, <warning>, <caution>, <important>
+
+*New HTML element*: <div>
+
+*Special semantics*: class="note" or class="warning" (these are the two admon values in the EPUB 3 Structural Semantics Vocabulary spec; we can always define more if note/warning do not suffice)
+
+*Note*: Given the current state of EPUB 3 support, we will likely need to transform back to <div> in EPUB output order to ensure backward compatibility in EPUB 2 readers
+
+*Example*:
+
+----
+<div class="note">
+  <p>Type "hubot kitteh" to get a picture of an adorable cat</p>
+</div>
+----
+
+==== Sections
+
+*Legacy DB element*: <section>, <sect1>, <sect2>, <sect3>, <sect4>, <sect5>
+
+*New HTML element*: <section>
+
+*Special semantics*: class="sect1", class="sect2", class="sect3", class="sect4", class="sect5"
+
+*Note*: EPUB 3 Structural Semantic Vocabulary only has the term "division" for sections, and has no semantics for different section levels, so the above semantics are pulled directly from DocBook (operating on the assumption that semantics for section level are valuable in CSS, such that we don't need to write selectors like:
+
+----
+section section section section { font-size: 50% }
+----
+
+*Note 2*: Proposed use of HTML heading elements for sections is as follows:
+
+----
+sect1 -> h1
+sect2 -> h2
+sect3 -> h3
+sect4 -> h4
+sect5 -> h5
+----
+
+*Note 3*: Given the current state of EPUB 3 support, we will likely need to transform back to <div> in EPUB output order to ensure backward compatibility in EPUB 2 readers
+
+*Example*:
+
+----
+<section class="sect1">
+  <h1>A-Head</h1>
+  <p>If you httpparty, you must party hard</p>
+  <!-- Some more paragraphs -->
+  <section class="sect2">
+    <h2>B-Head</h2>
+    <p>What's the frequency, Kenneth?</p>
+    <!-- And so on... -->
+  </section>
+</section>
 ----
 
