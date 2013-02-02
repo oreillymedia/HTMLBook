@@ -44,7 +44,7 @@ A list of mappings is below. Special semantics, unless otherwise noted, come fro
 
 *New HTML element*: <section>
 
-*Special semantics*: +class="appendix"+ 
+*Special semantics*: +class="appendix"+ or class="afterword", depending on content
 
 *Example*
 
@@ -105,6 +105,113 @@ A list of mappings is below. Special semantics, unless otherwise noted, come fro
 </section>
 ----
 
+==== Preface
 
+*Legacy DB element*: <preface>
+
+*New HTML element*: <section>
+
+*Special semantics*: +class="preface"+ or class="foreword", depending on content
+
+*Example*
+
+----
+<section class="preface">
+  <!-- h1 used for all preface titles -->
+  <h1>Preface Title</h1>
+  <!-- Lots of preface content here -->
+</section>
+----
+
+==== Colophon
+
+*Legacy DB element*: <colophon>
+
+*New HTML element*: <section>
+
+*Special semantics*: +class="colophon"+ 
+
+*Example*
+
+----
+<section class="colophon">
+  <!-- optional h1 used for colophon titles -->
+  <h1>Colophon Title</h1>
+  <!-- Lots of colophon content here -->
+</section>
+----
+
+==== Part
+
+*Legacy DB element*: <part>
+
+*New HTML element*: <section>
+
+*Special semantics*: +class="part"+ 
+
+*Example*
+
+----
+<section class="part">
+  <!-- h1 used for all part titles -->
+  <h1>Part Title</h1>
+  <!-- Lots of part content here -->
+</section>
+----
+
+==== Dedication
+
+*Legacy DB element*: <dedication>
+
+*New HTML element*: <section>
+
+*Special semantics*: +class="dedication"+ 
+
+*Example*
+
+----
+<section class="dedication">
+  <!-- optional h1 used for dedication titles -->
+  <h1>Dedication Title</h1>
+  <p>I owe it all to Project Unicorn</p>
+</section>
+----
+
+==== Index
+
+*Legacy DB element*: <index>
+
+*New HTML element*: <section>
+
+*Special semantics*: +class="index"+ on <section>; class="indexdiv" on each term grouping; class="indexentry" on each indexentry; class="indexentry xref" on index hyperlinks
+
+// OPEN QUESTION: Not entirely sold on using a definition list to mark up index sections; yes, it provides a built-in mechanism for doing the necessary indentation for subentries, but shoehorning in the index results in icky empty <dd>s in places and semantically it's a bad fit. Wondering why not use an <ol> or <ul> instead? Either way, we'd suppress the markers in CSS (for Mobi, we'd need to transform to <div>/<blockquote> markup--sigh)
+
+// OPEN QUESTION 2: What class to use on index hyperlinks? I'm not in love with "indexentry xref", but I wanted a way to indicate that it was an XREF and that it was in an indexentry
+
+// OPEN QUESTION 3: Special semantics for entry level (primary, secondary, tertiary)?
+
+*Example*
+
+----
+<section class="index">
+  <!-- optional h1 used for index titles -->
+  <h1>Index Title</h1>
+  <div class="indexdiv">
+    <h2>A</h2>
+    <dl>
+      <dt class="indexentry">Aardvark, <a class="indexentry xref" href="ch01#aardvark">All about Aardvark</a></dt>
+      <dd>
+	<dl>
+           <dt class="indexentry">precursor to Atlas, <a class="indexentry xref" href="ch01#atlasagain">Precursors to Atlas</a></dt>
+           <dd></dd>
+         </dl>
+      </dd>
+      <dt class="indexentry">Atlas, <a class="indexentry xref" href="ch01#atlas">All about Atlas</a>
+      <dd></dd>
+     </dl>
+  </div>
+</section>
+----
 
 
