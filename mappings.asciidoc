@@ -10,7 +10,7 @@ A list of mappings is below. Special semantics, unless otherwise noted, come fro
 
 *New HTML element*: <body>
 
-*Special semantics*: +class="book"+ 
+*Special semantics*: +class="book"+footnote:[Not in EPUB 3 Structural Semantics Vocabulary; from DocBook]
 
 *Example*
 
@@ -19,6 +19,92 @@ A list of mappings is below. Special semantics, unless otherwise noted, come fro
   <!-- Lots of book content here -->
 </body>
 ----
+
+==== Chapter
+
+*Legacy DB element*: <chapter>
+
+*New HTML element*: <section>
+
+*Special semantics*: +class="chapter"+ 
+
+*Example*
+
+----
+<section class="chapter">
+  <!-- h1 used for all chapter titles -->
+  <h1>Chapter Title</h1>
+  <!-- Lots of chapter content here -->
+</section>
+----
+
+==== Appendix
+
+*Legacy DB element*: <appendix>
+
+*New HTML element*: <section>
+
+*Special semantics*: +class="appendix"+ 
+
+*Example*
+
+----
+<section class="appendix">
+  <!-- h1 used for all appendix titles -->
+  <h1>Appendix Title</h1>
+  <!-- Lots of appendix content here -->
+</section>
+----
+
+==== Bibliography
+
+*Legacy DB element*: <bibliography>
+
+*New HTML element*: <section>
+
+*Special semantics*: +class="bibliography"+ for main bibliography; class="biblioentry" for each biblioentry
+
+*Example*
+
+----
+<section class="bibliography">
+  <!-- optional h1 used for all bibliography titles -->
+  <h1>Bibliography Title</h1>
+  <p class="biblioentry"><!-- Biblioentry content --></p>
+  <!-- More biblioentries below -->
+</section>
+----
+
+// OPEN QUESTION: Is <p> sufficient for biblioentries, or do we need more sophisticated tagging for proper CSS styling?
+
+[[glossary]]
+==== Glossary
+
+*Legacy DB element*: <glossary>
+
+*New HTML element*: <section> for formal titled glossary; <dl> for the actual definition list
+
+*Special semantics*: +class="glossary"+ on <section> and <dl>; class="glossterm" on <dt>; class="glossdef" on <dd>
+
+*Accessibility Best Practices*: Wrap the term text in a https://developer.mozilla.org/en-US/docs/HTML/Element/dfn[<dfn>]
+
+*Example*
+
+----
+<section class="glossary">
+  <!-- h1 used for all glossary titles -->
+  <h1>Glossary Title</h1>
+  <dl class="glossary">
+    <dt class="glossterm">
+      <dfn>Atlas</dfn>
+    </dt>
+    <dd class="glossdef">
+      Best authoring platform ever
+    </dd>
+   </dl>
+</section>
+----
+
 
 
 
