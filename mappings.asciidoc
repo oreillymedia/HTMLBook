@@ -370,3 +370,68 @@ sect5 -> h5
 </section>
 ----
 
+==== Tables
+
+*Legacy DB element*: <table>
+
+*New HTML element*: <table>
+
+*Special semantics*: None, but use child <caption> element for table title
+
+*Example*:
+
+----
+<table>
+<caption>State capitals</caption>
+<tr>
+  <th>State</th>
+  <th>Capital</th>
+</tr>
+<tr>
+  <td>Massachusetts</td>
+  <td>Boston</td>
+</tr>
+...
+</table>
+----
+
+==== Figures
+
+*Legacy DB element*: <figure>
+
+*New HTML element*: <figure>
+
+*Special semantics*: None, but use child <figcaption> element for figure title
+
+*Note*: May need to transform <figure> to a <div> for EPUB output for EPUB 2 backward compatibility
+
+*Example*:
+
+----
+<figure>
+<figcaption>Project Unicorn Logo</caption>
+<img src="unicorn.gif"/>
+</figure>
+----
+
+==== Examples
+
+*Legacy DB element*: <example>
+
+*New HTML element*: <div>
+
+*Special semantics*: class="example"footnote:[From DocBook; EPUB 3 Structural Semantics Vocabulary has no good match (closest is probably "practice")]
+
+*Note*: Examples are intended to be titled in DocBook model; Would suggest using <caption>, but HTML spec reserves it exclusively for table elements.
+
+*Note*: Typically in our books, examples contain code listings, but this is not a requirement in the DocBook model, and occasionally, we'll include other block content instead (lists, paras, etc.)
+
+*Example*:
+
+----
+<div class="example">
+<h5>Hello World in Python</h5>
+<pre class="programlisting">print "Hello World"</pre>
+</div>
+----
+
