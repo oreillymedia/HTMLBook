@@ -391,7 +391,7 @@ sect5 -> h5
   <td>Massachusetts</td>
   <td>Boston</td>
 </tr>
-...
+<!-- And so on -->
 </table>
 ----
 
@@ -435,3 +435,150 @@ sect5 -> h5
 </div>
 ----
 
+==== Code listings
+
+*Legacy DB element*: <programlisting> or <screen>
+
+*New HTML element*: <pre>
+
+*Special semantics*: class="programlisting" or class="creen"footnote:[From DocBook; EPUB 3 Structural Semantics Vocabulary has no semantics for code blocks)]
+
+*Note*: May not be worth supporting semantic distinction between "screen" and "programlisting", but I can see it being valuable, if we want distinct styling for command-line environments.
+
+*Example*:
+
+----
+<pre class="programlisting">print "Hello World"</pre>
+----
+
+==== Ordered lists
+
+*Legacy DB element*: <orderedlist>
+
+*New HTML element*: <ol>
+
+*Special semantics*: None
+
+*Example*:
+
+----
+<ol>
+<li>Step 1</li>
+<li>Step 2</li>
+<!-- And so on -->
+</ol>
+----
+
+==== Itemized lists
+
+*Legacy DB element*: <itemizedlist>
+
+*New HTML element*: <ul>
+
+*Special semantics*: None
+
+*Example*:
+
+----
+<ul>
+<li>Red</li>
+<li>Orange</li>
+<!-- And so on -->
+</ul>
+----
+
+==== Definition lists
+
+*Legacy DB element*: <variablelist>
+
+*New HTML element*: <dl>
+
+*Special semantics*: Generally none, but see <<glossary>> for an example of a special case
+
+*Example*:
+
+----
+<dl>
+  <dt>Constant Width Bold</dt>
+  <dd>Used to indicate user input</dd>
+</dl>
+----
+
+==== Blockquote
+
+*Legacy DB element*: <blockquote>
+
+*New HTML element*: <blockquote>
+
+*Special semantics*: class="epigraph", class="attribution"footnote:[From DocBook; no close match in EPUB 3 Structural Semantics Vocabulary] where appropriate
+
+*Example*:
+
+----
+<blockquote class="epigraph">
+  <p>When in the course of human events...</p>
+  <p class="attribution">U.S. Declaration of Independence</p>
+</blockquote>
+----
+
+==== Headings
+
+*Legacy DB element*: <title>
+
+*New HTML element*: <h1>, <h2>, <h3>, <h4>, <h5>, <h6>
+
+*Special semantics*: class="title"
+
+*Note*: In DocBook, <title> is used for all heading titles, regardless of "level", and context is used to determine formatting/styling. In HTML, best practice suggests that we associate each heading with a level from <h1> to <h6> that roughly indicates its rank. Here are my proposed mappings for each section type:
+
+----
+book title -> h1
+part title -> h1
+chapter title -> h1
+preface title -> h1
+appendix title -> h1
+colophon title -> h1
+dedication title -> h1
+glossary title -> h1
+bibliography title -> h1
+sect1 title -> h1
+sect2 title -> h2
+sect3 title -> h3
+sect4 title -> h4
+sect5 title -> h5
+sidebar title -> h5
+example title -> h5
+equation title -> h5
+admon title -> h6
+----
+
+I'm advocating we use h1 for book title, part title, and chapter-level titles because I think it's important to have consistency across all books, regardless of whether they have Parts or not. I think it would be confusing and potentially problematic if in a book that had parts, <h1> was used for part titles and <h2> was used for chapter titles, and then in a book that had no parts, <h1> was used for chapter titles. 
+
+I also like the idea of having heading level match the section class semantics, such that sect1 = <h1>, sect2 = <h2>, etc. I think doing anything else would be confusing.
+
+Look forward to discussing all this further, though.
+
+==== Equation
+
+*Legacy DB element*: <equation>
+
+*New HTML element*: <div>
+
+*Special semantics*: class="equation"footnote:[From DocBook; no close match in EPUB 3 Structural Semantics Vocabulary]
+
+*Note: Support embedded MathML or LaTex, as well as images
+
+*Example*:
+
+----
+<div class="equation">
+<h5>Pythagorean Theorem</h5>
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+  <msup><mi>a</mi><mn>2</mn></msup>
+  <mo>+</mo>
+  <msup><mi>b</mi><mn>2</mn></msup>
+  <mo>=</mo>
+  <msup><mi>c</mi><mn>2</mn></msup>
+</math>
+</div>
+----
