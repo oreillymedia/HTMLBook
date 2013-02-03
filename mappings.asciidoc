@@ -582,3 +582,142 @@ Look forward to discussing all this further, though.
 </math>
 </div>
 ----
+
+=== Inline Elements
+
+==== Emphasis (bold)
+
+*Legacy DB element*: <emphasis>
+
+*New HTML element*: <em>
+
+*Special semantics*: class="roman" where appropriatefootnote:[From DocBook; no close match in EPUB 3 Structural Semantics Vocabulary]; potentially some other options
+
+Example:
+
+----
+<p>I <em>love</em> Atlas!</p>
+----
+
+==== Strong (generally bold)
+
+*Legacy DB element*: <emphasis>
+
+*New HTML element*: <strong>
+
+*Special semantics*: class="bold" where appropriatefootnote:[From DocBook; no close match in EPUB 3 Structural Semantics Vocabulary]; potentially some other options
+
+Example:
+
+----
+<p>I <strong>love</strong> Atlas!</p>
+----
+
+==== Literal (for inline code elements: variables, functions, etc.)
+
+*Legacy DB element*: <literal>, <userinput>, <replaceable>
+
+*New HTML element*: <code>
+
+*Special semantics*: class="userinput" or class="replaceable"  where appropriatefootnote:[From DocBook; no close match in EPUB 3 Structural Semantics Vocabulary]; potentially some other options
+
+Example:
+
+----
+<p>Enter <code class="userinput">echo "Hello World"</code> on the command line</p>
+----
+
+==== General-purpose phrase markup for other styling (underline, strikethrough, etc.)
+
+
+*Legacy DB element*: <phrase>
+
+*New HTML element*: <span>
+
+*Special semantics*: class="underline", class="strikethrough"footnote:[From DocBook; no close match in EPUB 3 Structural Semantics Vocabulary]; potentially some other options
+
+==== Footnote, endnote
+
+*Legacy DB element*: <footnote>
+
+*New HTML element*: <a> (for marker); <div> for block of footnote/endnote content; <aside> for footnote or endnote
+
+*Special semantics*: class="noteref" (for marker); class="footnotes" or class="rearnotes" for block of footnotes/endnotes; class="footnote" or class="rearnote" for footnote or endnote
+
+*Note*: May need to transform <aside> to a <div> for EPUB output for EPUB 2 backward compatibility
+
+Example:
+
+----
+<p>Five out of every six people who try AsciiDoc prefer it to Markdown<a href="#ftn1" id="ftnref1" class="noteref">1</a></p>
+<!-- Interceding text -->
+<div class="footnotes">
+<aside class="footnote"><sup><a href="#ftn1ref1">1</a></sup> Totally made-up statistic</aside>
+</div>
+----
+
+==== Cross-references
+
+*Legacy DB element*: <xref> or <link>
+
+*New HTML element*: <a>
+
+*Special semantics*: class="xref"footnote:[From DocBook; no close match in EPUB 3 Structural Semantics Vocabulary]
+
+Example:
+
+----
+<section id="html5" class="chapter">
+  <h1>Intro to HTML5<h1>
+  <p>As I said at the beginning of <a href="#html5">Chapter 1</a>, HTML5 is great...</p>
+  <!-- Blah blah blah -->
+</section>
+----
+
+==== Index Term
+
+*Legacy DB element*: <indexterm>
+
+*New HTML element*: <a>
+
+*Special semantics*: class="indexterm"; data-primary="primary entry"; data-secondary="secondary entry"; data-tertiary="tertiary entry"; data-see="see term"; data-seealso="see also term"; data-sortas="alphabetization term"footnote:[From DocBook; no close match in EPUB 3 Structural Semantics Vocabulary]
+
+*Note*: Use of HTML5 data-* attributes seemed best fit for nonrendererd indexterm data, but would like to discuss this further.
+
+*Example*:
+
+----
+<p>The Atlas build system<a class="indexterm" data-primary="Atlas" data-secondary="build system"/> lets you build EPUB, Mobi, PDF, and HTML content</p>
+----
+
+==== Superscripts
+
+*Legacy DB element*: <superscript>
+
+*New HTML element*: <sup>
+
+*Special semantics*: None
+
+*Example*:
+
+----
+<p>The area of a circle is πr<sup>2</sup></p>
+----
+
+==== Subscripts
+
+*Legacy DB element*: <subscript>
+
+*New HTML element*: <sub>
+
+*Special semantics*: None
+
+*Example*:
+
+----
+<p>The formula for water is H<sub>2</sub>O</p>
+----
+
+=== Metadata
+
+All metadata should be captured in the <head> of the main book HTML file; consider following http://idpf.org/epub/30/spec/epub30-publications.html#sec-metadata-elem[metadata conventions specified in EPUB 3 specification]
