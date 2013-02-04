@@ -124,13 +124,13 @@ A list of mappings is below. Special semantics, unless otherwise noted, come fro
 </section>
 ----
 
-==== Colophon
+==== Backmatter
 
 *Legacy DB element*: <colophon>
 
 *New HTML element*: <section>
 
-*Special semantics*: +class="colophon"+ 
+*Special semantics*: +class="colophon"+, +class="acknowledgments"+, +class="afterword"+, +class="conclusion"+
 
 *Example*
 
