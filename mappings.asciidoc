@@ -552,7 +552,7 @@ sect5 title -> h5
 sidebar title -> h5
 example title -> h5
 equation title -> h5
-admon title -> h6
+admon title -> h5
 ----
 
 I'm advocating we use h1 for book title, part title, and chapter-level titles because I think it's important to have consistency across all books, regardless of whether they have Parts or not. I think it would be confusing and potentially problematic if in a book that had parts, <h1> was used for part titles and <h2> was used for chapter titles, and then in a book that had no parts, <h1> was used for chapter titles. 
