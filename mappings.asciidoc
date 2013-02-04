@@ -188,6 +188,8 @@ A list of mappings is below. Special semantics, unless otherwise noted, come fro
 
 // OPEN QUESTION: Not entirely sold on using a definition list to mark up index sections; yes, it provides a built-in mechanism for doing the necessary indentation for subentries, but shoehorning in the index results in icky empty <dd>s in places and semantically it's a bad fit. Wondering why not use an <ol> or <ul> instead? Either way, we'd suppress the markers in CSS (for Mobi, we'd need to transform to <div>/<blockquote> markup--sigh)
 
+// MAYBE, ADD ANOTHER EXAMPLE USING <ol>
+
 // OPEN QUESTION 2: What class to use on index hyperlinks? I'm not in love with "indexentry xref", but I wanted a way to indicate that it was an XREF and that it was in an indexentry
 
 // OPEN QUESTION 3: Special semantics for entry level (primary, secondary, tertiary)?
