@@ -622,7 +622,7 @@ Example:
 
 *New HTML element*: <code>
 
-*Special semantics*: class="userinput" or class="replaceable"  where appropriatefootnote:[From DocBook; no close match in EPUB 3 Structural Semantics Vocabulary]; potentially some other options
+*Special semantics*: class="userinput", class="replaceable", class="filename"  where appropriatefootnote:[From DocBook; no close match in EPUB 3 Structural Semantics Vocabulary]; potentially some other options
 
 Example:
 
