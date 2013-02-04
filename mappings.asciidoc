@@ -588,7 +588,7 @@ Look forward to discussing all this further, though.
 
 === Inline Elements
 
-==== Emphasis (bold)
+==== Emphasis (italic)
 
 *Legacy DB element*: <emphasis>
 
