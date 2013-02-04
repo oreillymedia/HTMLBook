@@ -14,6 +14,7 @@ A list of mappings is below. Special semantics, unless otherwise noted, come fro
 
 *Example*
 
+[source, html]
 ----
 <body class="book">
   <!-- Lots of book content here -->
