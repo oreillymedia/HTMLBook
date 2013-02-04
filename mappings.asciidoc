@@ -112,7 +112,7 @@ A list of mappings is below. Special semantics, unless otherwise noted, come fro
 
 *New HTML element*: <section>
 
-*Special semantics*: +class="preface"+ or class="foreword", depending on content
+*Special semantics*: +class="preface"+, class="foreword" or class="introduction", depending on content
 
 *Example*
 
