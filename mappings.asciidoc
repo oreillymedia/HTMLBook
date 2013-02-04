@@ -444,7 +444,7 @@ sect5 -> h5
 
 *New HTML element*: <pre>
 
-*Special semantics*: class="programlisting" or class="creen"footnote:[From DocBook; EPUB 3 Structural Semantics Vocabulary has no semantics for code blocks)]
+*Special semantics*: class="programlisting" or class="screen"footnote:[From DocBook; EPUB 3 Structural Semantics Vocabulary has no semantics for code blocks)]
 
 *Note*: May not be worth supporting semantic distinction between "screen" and "programlisting", but I can see it being valuable, if we want distinct styling for command-line environments.
 
