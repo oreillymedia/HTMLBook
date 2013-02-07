@@ -82,9 +82,218 @@
   	  	<p>You can also remove collaborators using the same Collaborators tab.</p>
   	  </aside>
 
+      <section class="sect2" id="creatingnewfiles">
+        <h2>Creating New Files</h2>
+        <p>When you create your book<a class="indexterm" data-primary="creating files"/> in Atlas, it will have no files, as shown in <a class="xref" href="#blank_slate">Figure 2-1</a>.</p>
+
+        <figure id="blank_slate">
+          <figcaption><span class="figure-label">Figure 2-1.</span> When you create a new book in Atlas, you start off with a blank slate</figcaption>
+          <img src="images/blank_slate.png" alt="A screenshot of the Atlas dashboard for a new project"/>
+        </figure>
+
+        <p>Once you've created the file, you're ready to start writing!</p>
+
+      </section>
+
+      <section class="sect2" id="working_with_asciidoc_text">
+        <h2>Working with AsciiDoc Text in Atlas</h2>
+        
+        <p>When you're working in the Atlas wiki interface, you will need to write in AsciiDoc.<a href="#ftn1" id="ftnref1" class="noteref">1</a> See <a class="xref" href="#intro_to_asc">Chapter 4</a> for an introduction to AsciiDoc markup.</p>
+
+        <p>The Atlas wiki editor works just as you'd expect. Use the buttons to insert simple AsciiDoc markup. For example, <a class="xref" href="#atlas_editor">Figure 2-2</a> shows what happens when you click the H1 button.</p>
+
+        <figure id="atlas_editor">
+          <figcaption><span class="figure-label">Figure 2-2.</span> Use the Atlas wiki interface to write in your web browser</figcaption>
+          <img src="images/atlas_editor.png" alt="A screenshot of the Atlas wiki interface" />
+        </figure>
+
+        <p>Once you've entered some text, click Save and your changes will be committed to a git repository that is created automatically each time you start a new book. Optionally, you can enter a log message<a class="indexterm" data-primary="entering a log message"/> before you click Save, and it will be included with the commit to the git repository, as show in <a class="xref" href="#log_message">Figure 2-3</a>. Read more about making the most of your git repository in <a class="xref" href="working_locally">Working Locally</a> and <a class="xref" href="#using_git_with_atlas">Chapter 6</a>.</p>
+
+        <figure id="log_message">
+          <figcaption><span class="figure-label">Figure 2-3.</span> It's good practice to add a meaningful log message</figcaption>
+          <img src="images/log_message.png" alt="A screenshot showing an example of entering a log message in the Atlas">
+        </figure>
+
+        <p>Note also that you can use the File Manager drop-down to jump to other files or to create new ones.</p>
+
+       <div class="footnotes">
+         <aside class="footnote"><sup><a href="#ftn1ref1">1</a></sup> Atlas supports Markdown for less technically complex text. Ask your editor if Markdown is a good fit for your project.</aside>
+       </div>
+
+      </section>
+
+      <section class="sect2" id="adding_images">
+        <h2>Adding Images via the Atlas Interface</h2>
+        
+        <p>You can upload images to your book directly in the Atlas wiki interface. Click on Image manager and then select Choose File and finally Upload, as shown in <a class="xref" href="#image_upload">Figure 2-4</a>.</p>
+
+        <figure id="image_upload">
+          <figcaption><span class="figure-label">Figure 2-4.</span> Upload your images within Atlas</figcaption>
+          <img src="images/image_upload.png" alt="A screenshot of the Atlas image uploader"/>
+        </figure>
+
+        <p>Once you've uploaded your image, Atlas will generate a thumbnail preview of that image, which you can see at any time by bringing up the Image manager.</p>
+
+        <div class="note">
+          <p>At this time, if you upload an image via git, the image will not have a thumbnail preview within the Image manager.</p>
+        </div>
+
+        <p>You can also use the Image manager to insert the AsciiDoc reference to that image:</p>
+
+          <ol>
+            <li>Place the cursor where you'd like to insert the image within the text.</li>
+            <li>Click on Image manager.</li>
+            <li>Select the thumbnail preview of the image you've uploaded and click Insert (<a class="xref" href="insert_image_asciidoc">Figure 2-5</a>).</li>
+          </ol>
+
+        <figure id="insert_image_asciidoc">
+          <figcaption><span class="figure-label">Figure 2-5.</span> You've uploaded the image; now reference it within your document</figcaption>
+          <img src="images/insert_image_asciidoc.png" alt="A screenshot showing how to highlight and insert a reference to an image from the Atlas image uploader"/>
+        </figure>
+
+        <p>Once you click insert, Atlas will add AsciiDoc markup that looks something like the following to your document:</p>
+
+        <pre class="programlisting">image::images/insert_image_asciidoc.png[]</pre>
+
+        <p>Read more about figure and image markup in <a class="xref" href="#figures_and_other_images">Figures and Other Images</a> in <a class="xref" href="intro_to_asc">Chapter 4</a>.</p>
+
+      </section>
 
   	</section>
 
+    <section class="sect1" id="tracking_changes_in_atlas">
+      <h1>Tracking Changes in Atlas</h1>
+
+      <p>Each time you save a change in the wiki interface or use git to push a change to your repository (as described in <a href="committing_and_pushing">Committing and Pushing</a>), Atlas displays that change on the Changes tab.</p>
+
+      <figure id="changes_in_atlas">
+          <figcaption><span class="figure-label">Figure 2-6.</span> An Atlas change box shows additions and deletions made to the text</figcaption>
+          <img src="images/changes_in_atlas.png" alt="A screenshot of how Atlas displays edits to the text. Added text has a green background. Deleted text is crossed out and has a red background."/>
+      </figure>
+
+      <a class="xref" href="#changes_in_atlas">Figure 2-6</a> shows a change that was saved to the repository via a <code>git push</code>. In this change notification box, Atlas displays the author who made the change along with the log message used during <code>git commit</code>. If the author were to use the Save button on the wiki interface (instead of git), as explained in <a class="xref" href="working_with_asciidoc_text">Working with AsciiDoc Text in Atlas</a>, the change would be captured and displayed in the same way.
+
+    </section>
+
+    <section class="sect1" id="working_locally">
+      <h1>Working Locally</h1>
+
+      <p>Atlas sits on top of a git repository, giving you the flexibility to write how and when you want. For example, suppose you have a long flight and want to write edit on the plane. No problem—just pull down your book files, make your changes locally, and then push them back up when you're connected to the Internet again. Or perhaps you'd rather skip the wiki interface entirely and work on your local machine exclusively. That's fine too.</p>
+
+      <section class="sect2" id="cloning_your_book">
+        <h2>Cloning Your Book</h2>
+
+        <p>In order to work locally, you will need to have <a href="http://git-scm.com/">git</a> installed on your machine. The following section describes a few basic git commands to get you up and running, but see <a href="using_git_with_atlas">Using Git with Atlas</a> for more details around using git with Atlas.</p>
+
+        <p>Once you have git installed, click on the Metadata tab in the Atlas interface to retrieve your git repository URL, as shown in <a class="xref" href="git_repo_url">Figure 2-7</a>.</p>
+
+        <figure id="git_repo_url">
+          <figcaption><span class="figure-label">Figure 2-7.</span> Grab your git repository URL from the Metadata tab</figcaption>
+          <img src="images/git_repo_url.png" alt="A screenshot of the Metadata tab in Atlas showing the git URL"/>
+        </figure>
+
+        <p>Now that you have the URL, you can use git to clone it to your computer. Use the `git clone` command and enter your Atlas password. When you clone the repo, you can optionally add the name of the directory, like so:</p>
+
+        <pre class="programlisting">$ git clone https://adam%40oreilly.com@atlas-admin.oreilly.com/git/1230000000065.git
+   getting_started_with_atlas/
+
+Cloning into getting_started_with_atlas...
+remote: Counting objects: 338, done.
+remote: Compressing objects: 100% (337/337), done.
+remote: Total 338 (delta 136), reused 0 (delta 0)
+Receiving objects: 100% (338/338), 4.10 MiB | 534 KiB/s, done.
+Resolving deltas: 100% (136/136), done.</pre>
+
+        <p>The <code>clone</code> command will download all of the files into a directory named <em>getting_started_with_atlas</em>, and that directory is now under version control with git.</p>
+
+        <div class="note">
+          <p>All of the examples in this guide use the command line git client. If the command line is not for you, there are several GUI git clients available for Windows, OS X, and Linux.</p>
+        </div>
+
+      </section>
+
+      <section class="sect2" id="committing_and_pushing">
+        <h2>Committing and Pushing</h2>
+
+        <p>Now that you've got a local checkout of your project, you can open and edit the <em>.asciidoc</em> file. As explained in <a class="xref" href="intro_to_asc">Chapter 4</a>, AsciiDoc is a text-based markup language. You can use any text editor to edit the files. <a class="xref" href="editing_in_textmate">Figure 2-8</a> shows edits being made to this chapter in TextMate, a text editor for the Mac.</p>
+
+        <figure id="editing_in_textmate">
+          <figcaption><span class="figure-label">Figure 2-8.</span> Editing an AsciiDoc file in TextMate</figcaption>
+          <img src="images/editing_in_textmate.png" alt="A screenshot of an AsciiDoc file in TextMate"/>
+        </figure>
+
+        <p>Now it's time to commit the changes to the git repo. You can include a log message with <code>-m</code>. The <code>-a</code> means to include all changes.</p>
+
+        <pre class="programlisting">$ git commit -a -m'added section on interfacing with the Atlas git backend'
+[master 0e487ee] added section on interfacing with the Atlas git backend
+ 3 files changed, 46 insertions(+), 6 deletions(-)
+ create mode 100644 images/editing_in_textmate.png</pre>
+
+        <p>Finally, <code>push</code> your committed changes:</p>
+
+        <pre class="programlisting">$ git push origin
+Counting objects: 11, done.
+Delta compression using up to 4 threads.
+Compressing objects: 100% (7/7), done.
+Writing objects: 100% (7/7), 54.03 KiB, done.
+Total 7 (delta 4), reused 0 (delta 0)
+To https://adam%40oreilly.com@atlas-admin.oreilly.com/git/1230000000065.git
+   ffb554d..90fd00f  master -> master</pre>
+
+        <p>Now if you look in the Altas web interface, you will see the changes that you made locally reflected in the wiki interface.</p>
+      </section>
+
+      <section class="sect2" id="fetching_and_pulling">
+        <h2>Fetching and Pulling</h2>
+
+        <p>You can also use git to pull down changes that were made in the wiki environment or by other contributors. There are two ways of downloading changes. One way is to use <code>fetch</code> followed by <code>merge</code>, as in this example:</p>
+
+        <pre class="programlisting">$ git fetch
+remote: Counting objects: 5, done.
+remote: Compressing objects: 100% (3/3), done.
+remote: Total 3 (delta 2), reused 0 (delta 0)
+Unpacking objects: 100% (3/3), done.
+From https://atlas-admin.oreilly.com/git/1230000000065
+   cd86112..cba41ff  master     -> origin/master</pre>
+
+        <p><code>fetch</code> downloads the changes. Now use <code>merge</code> to bring your local files up to date:</p>
+
+        <pre class="programlisting">$ git merge origin
+Updating cd86112..cba41ff
+Fast-forward
+ ch02.asciidoc |    3 ++-
+ 1 files changed, 2 insertions(+), 1 deletions(-)</pre>
+
+        <p>Alternatively, you can use <code>pull</code>, which downloads the changes and merges them in with a single command:</p>
+
+        <pre class="programlisting">$ git pull
+remote: Counting objects: 8, done.
+remote: Compressing objects: 100% (6/6), done.
+remote: Total 6 (delta 4), reused 0 (delta 0)
+Unpacking objects: 100% (6/6), done.
+From https://atlas-admin.oreilly.com/git/1230000000065
+   cba41ff..a972d49  master     -> origin/master
+Updating cba41ff..a972d49
+Fast-forward
+ ch02.asciidoc |   25 +++++++++++++++++++++++++
+ 1 files changed, 25 insertions(+), 0 deletions(-)</pre>
+
+        <p>Using <code>push</code> and <code>pull</code> to interface with your Atlas repo is the just the beginning of what you can do with git. Check out the <a href="http://gitref.org/">Git Reference</a> and <a href="#using_git_with_atlas">Using Git with Atlas</a> to learn what else is possible.</p>
+
+      </section>
+
+      <section class="sect2" id="resolving_conflicts">
+        <h2>Resolving Conflicts</h2>
+
+        <p>When you use <code>git merge</code> or <code>git pull</code>, git will attempt to combine all changes into one document. Sometimes, however, git will fail to combine the text and your AsciiDoc file will have a conflict. This situation may arise if, for example, two authors try to <code>push</code> changes to the same line of text. Conflict resolution is beyond the scope of this document, but the Git User’s Manual has an <a href="http://schacon.github.com/git/user-manual.html#resolving-a-merge">excellent overview</a> of git conflicts and how to resolve them.</p>
+      </section>
+
+    </section>
+
+  </section>
+
+  <section class="chapter" id="building_and_debugging">
+    <h1>Building and Debugging</h1>
 
 
   </section>
