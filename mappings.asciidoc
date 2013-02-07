@@ -672,7 +672,7 @@ Example:
 ----
 <section id="html5" class="chapter">
   <h1>Intro to HTML5<h1>
-  <p>As I said at the beginning of <a href="#html5">Chapter 1</a>, HTML5 is great...</p>
+  <p>As I said at the beginning of <a class="xref" href="#html5">Chapter 1</a>, HTML5 is great...</p>
   <!-- Blah blah blah -->
 </section>
 ----
