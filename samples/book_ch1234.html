@@ -295,6 +295,79 @@ Fast-forward
   <section class="chapter" id="building_and_debugging">
     <h1>Building and Debugging</h1>
 
+    <p>You can use Atlas to build your book in three formats—PDF, EPUB, and KF8—whenever you like.</p>
+
+    <div class="sidebar">
+      <h5>Three Major Ebook Formats</h5>
+      <p>You may be wondering about the three book formats that Altas produces. An overview of each follows:</p>
+      <ul>
+        <li>The fixed-layout PDF format is undoubtedly familiar to you and remains <a href="http://radar.oreilly.com/2012/03/publishers-data-direct-sales-customers.html">most popular format</a> among customers who buy direct from O'Reilly. If your book ends up being printed, we will use a slightly modified version of the online-friendly PDF that Atlas outputs. </li>
+        <li><a href="http://en.wikipedia.org/wiki/EPUB">EPUB</a> uses a fluid layout, which means that the text reflows to fit the container in which it is presented. EPUB is sold by most major ebook retailers, with the exception of Amazon. You can read an EPUB with <a href="http://itunes.apple.com/us/app/ibooks/id364709193?mt=8">iBooks</a> on an iOS device, <a href="http://www.aldiko.com/download.html">Aldiko</a> on an Android device, and <a href="http://www.adobe.com/products/digitaleditions/">Adobe Digital Editions</a> on your desktop.</li>
+        <li>The <a href="http://www.amazon.com/gp/feature.html?docId=1000729511">KF8</a> format is also a fluid format and is used by Amazon's Kindle platform. You can copy the KF8 that Atlas outputs to your Kindle, or you can preview it with the <a href="http://www.amazon.com/gp/feature.html?docId=1000729511">Kindle Previewer</a>.</li>
+      </ul>
+    </div>
+
+    <section class="sect1" id="building_books">
+      <h1>Building Books</h1>
+
+      <p>To kick off a build, click on the Build tab. Then, select New Build, and you will be presented with a list of the files that you've created so far. Drag or click the files that you'd like to include in the build and select the ebook formats that you'd like generate, as shown in <a class="xref" href="#files_to_build">Figure 3-1</a>.</p>
+
+      <div class="warning">
+        <p>A few things to keep in mind when building books in Atlas:</p>
+        <ul>
+          <li>Atlas expects a file extension of <em>.asciidoc</em>, so please use that instead of <em>.asc</em>.</li>
+          <li>When you trigger a build, Atlas automatically creates a <em>book.asciidoc</em> file that references the files that you choose to include in the build, so there is no need to add one.</li>
+          <li>Do not include <em>book-docinfo.xml</em> file in the build. This metadata-only file is described in <a class="xref" href="#adding_metadata">Adding Metadata</a>.</li>
+        </ul>
+      </div>
+
+      <figure id="files_to_build">
+        <figcaption><span class="figure-label">Figure 3-1.</span> Select your ebook formats and files</figcaption>
+        <img src="images/files_to_build.png" alt="A screenshot of the Atlas build screen interface"/>
+      </figure>
+
+      <p>The builds will change to a status of pending. Wait a few minutes, and then refresh the page. Assuming the builds were successful, you can download your files right from Atlas. If you run into an error, see <a href="#debugging_errors">Debugging Errors</a>.</p>
+
+      <div class="note">
+        <p>Build times vary based on the length of your book, but most builds finish within a few minutes. EPUB files build the fastest, PDF files the slowest, and KF8 files somewhere in between.</p>
+      </div>
+
+    </section>
+
+    <section class="sect1" id="adding_metadata">
+      <h1>Adding Metadata</h1>
+
+      <p>If the title and copyright pages in your book builds are looking bare, you can optionally fill them in by adding a file called _book-docinfo.xml_ to your project via git (see <a href="#using_git_with_atlas">Using Git with Atlas</a>), and then adding the appropriate metadata using XML tags. Here is an example showing the metadata that you might like to include:</p>
+
+      <pre class="programlisting">BOOK METADATA GOES HERE</pre>
+
+      <p>When you create a new build, the metadata will be added to the title and copyright pages of your PDF. Note that you do not need to include the <em>book-docinfo.xml</em> file iself in the build. Atlas sees and picks up the metadata information automatically.</p>
+
+    </section>
+
+    <section class="sect1" id="debugging_errors">
+      <h1>Debugging Errors</h1>
+
+      <p>Book builds will sometimes fail. The most likely cause of a failure is that your AsciiDoc isn't structured in a syntactically valid way. When you trigger a build, Atlas transforms your AsciiDoc into DocBook XML 4.5 and, using the DocBook as a source, builds the book files. If one of your builds fails, Atlas will report the error, which should help you to fix it.</p>
+
+      <p>For example, here is an Atlas error log for a PDF build that failed:</p>
+
+      <pre class="programlisting">book.xml:291: element xref: validity error : IDREF attribute
+linkend references an unknown ID "cloning_to_github"</pre>
+
+      <p>In this case, the problem is that there is a cross-reference referring to an ID that does not exist. You can fix it by adding an ID to the appropriate block, as explained in <a href="#intro_to_asc">Chapter 4</a>.</p>
+
+      <p>We realize that build failures can be tricky to troubleshoot, so we're working on improving the error messaging. Also, we've configured Atlas to be permissive enough so that it doesn't fail on minor errors. Please let us know about your experiences with troubleshooting build failures, and how Atlas can be improved to make the experience better.</p>
+
+    </section>
+
+  </section>
+
+  <section class="chapter" id="intro_to_asc">
+    <h1>AsciiDoc 101</h1>
+
+    <p>CHAPTER 4 GOES HERE...</p>
+
 
   </section>
 
