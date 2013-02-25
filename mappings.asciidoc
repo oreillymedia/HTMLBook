@@ -721,6 +721,61 @@ Example:
 <p>The formula for water is H<sub>2</sub>O</p>
 ----
 
+=== Interactive Elements
+
+==== Video
+
+*Legacy DB element*: <videoobject>
+
+*New HTML element*: <video>
+
+*Note*: Should include a fallback image via the +poster+ attribute and/or a link to the video online.
+
+*Example*:
+
+----
+<video id="asteroids_video" width="480" height="270" controls="controls" poster="images/fallback_image.png">
+<source src="video/html5_asteroids.mp4" type="video/mp4"/>
+<source src="video/html5_asteroids.ogg" type="video/ogg"/>
+<em>Sorry, the &lt;video&gt; element not supported in your
+  reading system. View the video online at http://example.com.</em>
+</video>
+----
+
+==== Audio
+
+*Legacy DB element*: <audioobject>
+
+*New HTML element*: <audio>
+
+*Note*: Should include a fallback link to the audio online.
+
+*Example*:
+
+----
+<audio id="new_slang">
+<source src="audio/new_slang.wav" type="audio/wav"/>
+<source src="audio/new_slang.mp3" type="audio/mp3"/>
+<source src="audionew_slang.ogg" type="audio/ogg"/>
+<em>Sorry, the &lt;audio&gt; element is not supported in your
+  reading system. Hear the audio online at http://example.com.</em>
+</audio>
+----
+
+==== General Interactive
+
+*Legacy DB element*: No direct correlation 
+
+*New HTML element*: <div class="interactive">
+
+*Note*: Should include a fallback link.
+
+*Examples*: 
+
+----
+TK
+----
+
 === Metadata
 
 All metadata should be captured in the <head> of the main book HTML file; consider following http://idpf.org/epub/30/spec/epub30-publications.html#sec-metadata-elem[metadata conventions specified in EPUB 3 specification]
