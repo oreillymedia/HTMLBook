@@ -446,6 +446,8 @@ sect5 -> h5
 
 *Special semantics*: class="programlisting" or class="screen"footnote:[From DocBook; EPUB 3 Structural Semantics Vocabulary has no semantics for code blocks)]
 
+Also, data-language to indicate programming language, e.g., +data-language="python"+
+
 *Note*: May not be worth supporting semantic distinction between "screen" and "programlisting", but I can see it being valuable, if we want distinct styling for command-line environments.
 
 *Example*:
@@ -453,6 +455,7 @@ sect5 -> h5
 ----
 <pre class="programlisting">print "Hello World"</pre>
 ----
+
 
 ==== Ordered lists
 
@@ -762,6 +765,22 @@ Example:
 </audio>
 ----
 
+==== Canvas
+
+*Legacy DB element*: No direct correlation 
+
+*New HTML element*: <canvas>
+
+*Note*: Should include a fallback link.
+
+*Examples*:
+
+----
+<canvas id="canvas" width="400" height="400">
+ Your browser does not support the HTML 5 Canvas. See the interactive example at http://example.com.
+</canvas>
+----
+
 ==== General Interactive
 
 *Legacy DB element*: No direct correlation 
@@ -773,7 +792,19 @@ Example:
 *Examples*: 
 
 ----
-TK
+<div class="interactive">
+  <div class="fallback">
+    <p>See the interactive example at http://example.com.</p>
+    <img src="images/fallback_image.png" />
+  </div>
+  
+  <div class="content">
+   
+   <!--- code goes here -->
+  
+  </div>
+
+</div>
 ----
 
 === Metadata
