@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+<xs:element name="html">
+  <xs:complexType>
+    <xs:sequence>
+      <xs:element ref="head"/>
+      <xs:element ref="body"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+  
+<xs:element name="head">
+  <xs:complexType>
+    <xs:sequence>
+      <!-- Note icky kludge here of having to do 2 xs:groups for head elements, in order to support content model allowing just
+         1 title element that can go anywhere in the head -->
+      <xs:group ref="headunboundedmetadata" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:choice minOccurs="0" maxOccurs="1">
+        <xs:element ref="title"/>
+      </xs:choice>
+      <xs:group ref="headunboundedmetadata" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+  
+<xs:element name="body">
+  
+</xs:element>
+  
+  <xs:group name="headunboundedmetadata">
+    <xs:choice>
+      <xs:element ref="base"/>
+      <xs:element ref="command"/>
+      <xs:element ref="link"/>
+      <xs:element ref="meta"/>
+      <xs:element ref="noscript"/>
+      <xs:element ref="script"/>
+      <xs:element ref="style"/>
+    </xs:choice>
+  </xs:group>
+
+<xs:element name="title">
+  
+</xs:element>
+</xs:schema>
