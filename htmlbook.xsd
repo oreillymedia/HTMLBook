@@ -37,6 +37,9 @@
   </xs:complexType>
 </xs:element>
   
+<!-- Metadata elements -->
+<!-- ToDo: What restrictions to add? -->
+  
 <xs:element name="title">
   
 </xs:element>
@@ -69,6 +72,20 @@
     
 </xs:element>
   
+<!-- Heading elements -->
+<!-- ToDo: Mixed content model that supports inlines -->
+<xs:element name="h1" type="xs:token"/>
+
+<xs:element name="h2" type="xs:token"/>
+
+<xs:element name="h3" type="xs:token"/>
+  
+<xs:element name="h4" type="xs:token"/>
+  
+<xs:element name="h5" type="xs:token"/>
+  
+<xs:element name="h6" type="xs:token"/>
+  
 <!-- Global simple type definitions; see corresponding complex types -->
 <xs:simpleType name="bookmaindivtype">
   <xs:restriction base="xs:string">
@@ -96,6 +113,7 @@
 <!-- Chapter/Appendix/Preface/etc. -->
 <xs:complexType name="bookmaindiv">
   <xs:sequence>
+    <xs:element ref="h1"/>
     <xs:group ref="blockelements" minOccurs="0" maxOccurs="unbounded"/>
     <xs:element name="section" minOccurs="0" maxOccurs="unbounded" type="sect1"/>
   </xs:sequence>
@@ -105,6 +123,7 @@
 <!-- Parts -->
 <xs:complexType name="bookpart">
   <xs:sequence>
+    <xs:element ref="h1"/>
     <xs:element name="section" maxOccurs="unbounded" type="bookmaindiv"/>
   </xs:sequence>
   <xs:attribute name="class" use="required" fixed="part"/>
@@ -113,6 +132,7 @@
 <!-- Sect1s -->
 <xs:complexType name="sect1">
   <xs:sequence>
+    <xs:element ref="h1"/>
     <xs:group ref="blockelements" minOccurs="0" maxOccurs="unbounded"/>
     <xs:element name="section" minOccurs="0" maxOccurs="unbounded" type="sect2"/>
   </xs:sequence>
@@ -122,6 +142,7 @@
 <!-- Sect2s -->
 <xs:complexType name="sect2">
   <xs:sequence>
+    <xs:element ref="h2"/>
     <xs:group ref="blockelements" minOccurs="0" maxOccurs="unbounded"/>
     <xs:element name="section" minOccurs="0" maxOccurs="unbounded" type="sect3"/>
   </xs:sequence>
@@ -131,6 +152,7 @@
 <!-- Sect3s -->
 <xs:complexType name="sect3">
   <xs:sequence>
+    <xs:element ref="h3"/>
     <xs:group ref="blockelements" minOccurs="0" maxOccurs="unbounded"/>
     <xs:element name="section" minOccurs="0" maxOccurs="unbounded" type="sect4"/>
   </xs:sequence>
@@ -140,6 +162,7 @@
 <!-- Sect4s -->
 <xs:complexType name="sect4">
   <xs:sequence>
+    <xs:element ref="h4"/>
     <xs:group ref="blockelements" minOccurs="0" maxOccurs="unbounded"/>
     <xs:element name="section" minOccurs="0" maxOccurs="unbounded" type="sect5"/>
   </xs:sequence>
@@ -149,6 +172,7 @@
 <!-- Sect5 -->
 <xs:complexType name="sect5">
   <xs:sequence>
+    <xs:element ref="h5"/>
     <xs:group ref="blockelements" minOccurs="0" maxOccurs="unbounded"/>
   </xs:sequence>
   <xs:attribute name="class" use="required" fixed="sect5"/>  
