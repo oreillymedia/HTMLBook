@@ -92,19 +92,74 @@
 </xs:simpleType>
  
 <!-- Global complex type definitions; see corresponding simple types-->
-  
+
+<!-- Chapter/Appendix/Preface/etc. -->
 <xs:complexType name="bookmaindiv">
   <xs:sequence>
-    <xs:element name="section" maxOccurs="unbounded"/>
+    <xs:group ref="blockelements" minOccurs="0" maxOccurs="unbounded"/>
+    <xs:element name="section" minOccurs="0" maxOccurs="unbounded" type="sect1"/>
   </xs:sequence>
   <xs:attribute name="class" use="required" type="bookmaindivtype"/>
 </xs:complexType>
-  
+
+<!-- Parts -->
 <xs:complexType name="bookpart">
   <xs:sequence>
     <xs:element name="section" maxOccurs="unbounded" type="bookmaindiv"/>
   </xs:sequence>
   <xs:attribute name="class" use="required" fixed="part"/>
 </xs:complexType>
+  
+<!-- Sect1s -->
+<xs:complexType name="sect1">
+  <xs:sequence>
+    <xs:group ref="blockelements" minOccurs="0" maxOccurs="unbounded"/>
+    <xs:element name="section" minOccurs="0" maxOccurs="unbounded" type="sect2"/>
+  </xs:sequence>
+  <xs:attribute name="class" use="required" fixed="sect1"/>  
+</xs:complexType>
+
+<!-- Sect2s -->
+<xs:complexType name="sect2">
+  <xs:sequence>
+    <xs:group ref="blockelements" minOccurs="0" maxOccurs="unbounded"/>
+    <xs:element name="section" minOccurs="0" maxOccurs="unbounded" type="sect3"/>
+  </xs:sequence>
+  <xs:attribute name="class" use="required" fixed="sect2"/>  
+</xs:complexType>
+  
+<!-- Sect3s -->
+<xs:complexType name="sect3">
+  <xs:sequence>
+    <xs:group ref="blockelements" minOccurs="0" maxOccurs="unbounded"/>
+    <xs:element name="section" minOccurs="0" maxOccurs="unbounded" type="sect4"/>
+  </xs:sequence>
+  <xs:attribute name="class" use="required" fixed="sect3"/>  
+</xs:complexType>
+  
+<!-- Sect4s -->
+<xs:complexType name="sect4">
+  <xs:sequence>
+    <xs:group ref="blockelements" minOccurs="0" maxOccurs="unbounded"/>
+    <xs:element name="section" minOccurs="0" maxOccurs="unbounded" type="sect5"/>
+  </xs:sequence>
+  <xs:attribute name="class" use="required" fixed="sect4"/>  
+</xs:complexType>
+  
+<!-- Sect5 -->
+<xs:complexType name="sect5">
+  <xs:sequence>
+    <xs:group ref="blockelements" minOccurs="0" maxOccurs="unbounded"/>
+  </xs:sequence>
+  <xs:attribute name="class" use="required" fixed="sect5"/>  
+</xs:complexType>
+
+<!-- Global groups -->
+<xs:group name="blockelements">
+  <xs:choice>
+    <xs:element name="p"/>
+    <xs:element name="ul"/>
+  </xs:choice>
+</xs:group>
 
 </xs:schema>
