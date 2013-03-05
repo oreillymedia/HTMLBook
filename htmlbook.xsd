@@ -94,6 +94,7 @@
 <!-- Heading elements -->
 <!-- ToDo: Mixed content model that supports inlines -->
 <!-- ToDo: Support hgroup to facilitate subtitles? -->
+<!-- ToDo: Should we really require class="title" on all section heading titles? -->
 <xs:element name="h1" type="xs:token"/>
 
 <xs:element name="h2" type="xs:token"/>
