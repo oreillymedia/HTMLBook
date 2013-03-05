@@ -13,7 +13,7 @@
 <xs:element name="head">
   <xs:complexType>
     <xs:sequence>
-      <!-- Note icky kludge here of having to do 2 xs:groups for head elements, in order to support content model allowing just
+      <!-- Note icky kludge here of having to do 2 xs:groups for head elements, in order to support content model where there can be just
          1 title element that can go anywhere in the head -->
       <xs:group ref="headunboundedmetadata" minOccurs="0" maxOccurs="unbounded"/>
       <xs:choice minOccurs="0" maxOccurs="1">
@@ -43,4 +43,33 @@
 <xs:element name="title">
   
 </xs:element>
+  
+<xs:element name="base">
+    
+</xs:element>
+  
+<xs:element name="command">
+    
+</xs:element>
+  
+<xs:element name="link">
+    
+</xs:element>
+  
+<xs:element name="meta">
+    
+</xs:element>
+  
+<xs:element name="noscript">
+    
+</xs:element>
+  
+<xs:element name="script">
+    
+</xs:element>
+  
+<xs:element name="style">
+    
+</xs:element>
+
 </xs:schema>
