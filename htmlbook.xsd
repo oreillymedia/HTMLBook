@@ -108,7 +108,7 @@
   
 <xs:complexType name="bookpart">
   <xs:sequence>
-    <xs:element name="section" maxOccurs="unbounded"/>
+    <xs:element name="section" maxOccurs="unbounded" type="bookmaindiv"/>
   </xs:sequence>
   <xs:attribute name="class" use="required" type="bookparttype"/>
 </xs:complexType>
