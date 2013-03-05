@@ -29,9 +29,10 @@
   
 <xs:element name="body">
   <xs:complexType>
-    <xs:sequence>
-      <xs:element name="section" maxOccurs="unbounded" type="bookdivs"/>
-    </xs:sequence>
+      <xs:choice maxOccurs="unbounded">
+      <xs:element name="section" type="bookmaindiv"/>
+      <xs:element name="div" type="bookpart"/>
+      </xs:choice>    
   </xs:complexType>
 </xs:element>
   
@@ -67,8 +68,8 @@
     
 </xs:element>
   
-<!-- Global simple type definitions -->
-<xs:simpleType name="bookdivtype">
+<!-- Global simple type definitions; see corresponding complex types -->
+<xs:simpleType name="bookmaindivtype">
   <xs:restriction base="xs:string">
     <xs:enumeration value="acknowledgments"/>
     <xs:enumeration value="afterword"/>
@@ -84,19 +85,32 @@
     <xs:enumeration value="index"/>
     <xs:enumeration value="introduction"/>
     <xs:enumeration value="preface"/>
-    <xs:enumeration value="part"/>
     <xs:enumeration value="titlepage"/>
     <xs:enumeration value="toc"/>
   </xs:restriction>
 </xs:simpleType>
   
-<!-- Global complex type definitions -->
+<xs:simpleType name="bookparttype">
+  <!-- Separate out parts, as they have specific child requirements -->
+  <xs:restriction base="xs:string">
+    <xs:enumeration value="part"/>
+  </xs:restriction>
+</xs:simpleType>
+    
+<!-- Global complex type definitions; see corresponding simple types-->
   
-<xs:complexType name="bookdivs">
+<xs:complexType name="bookmaindiv">
   <xs:sequence>
     <xs:element name="section" maxOccurs="unbounded"/>
   </xs:sequence>
-  <xs:attribute name="class" use="required" type="bookdivtype"/>
+  <xs:attribute name="class" use="required" type="bookmaindivtype"/>
+</xs:complexType>
+  
+<xs:complexType name="bookpart">
+  <xs:sequence>
+    <xs:element name="section" maxOccurs="unbounded"/>
+  </xs:sequence>
+  <xs:attribute name="class" use="required" type="bookparttype"/>
 </xs:complexType>
 
 </xs:schema>
