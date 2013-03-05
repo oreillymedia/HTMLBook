@@ -366,9 +366,268 @@ linkend references an unknown ID "cloning_to_github"</pre>
   <section class="chapter" id="intro_to_asc">
     <h1>AsciiDoc 101</h1>
 
-    <p>CHAPTER 4 GOES HERE...</p>
+    <p><a href="http://www.methods.co.nz/asciidoc/index.html">AsciiDoc</a> is a text document format for writing (among other things) books, ebooks, and documentation. It's similar to wiki markup—if you can write a Wikipedia article, then you'll have no problem with AsciiDoc. The main advantages of AsciiDoc are that it is easy to use and plays well with O'Reilly's publishing tools, including Atlas.</p>
+
+    <div class="note">
+      <h5>Use the Source, Luke</h5>
+      <p>If you're viewing this document as a PDF, EPUB, or KF8, you're seeing the <em>output</em> from the AsciiDoc source, rather than the AsciiDoc markup itself. Since this chapter is intended as an introduction to the markup, it may be helpful to view the source, available at <a href="http://cdn.oreilly.com/atlas_docs.zip">http://cdn.oreilly.com/atlas_docs.zip</a>.</p>
+    </div>
+
+    <section class="sect1">
+      <h1>How Do I Get Started Writing?</h1>
+
+      <p>There are two ways you can write with AsciiDoc in Atlas:</p>
+
+      <ol>
+        <li><strong>Write directly in the Atlas web interface.</strong> Simply click on the "Write" tab in Atlas. Select an existing chapter file to edit, or choose "New File" to create one.</li>
+        <li><strong>Write in a text editor and add it to Atlas.</strong> You can add text to Atlas by pasting the text directly into the writing interface or by using git (see <a class="xref" href="using_git_with_atlas">Chapter 5</a>) to push your local <em>.asciidoc</em> files to the Atlas repository.
+        </li>
+      </ol>
+
+      <div class="sidebar">
+        <h5>Text Editors</h5>
+        <p>Looking for a text editor to use? If you're on Windows, you could try <a href="http://notepad-plus-plus.org">Notepad++</a>, or any other text editor. If you're on a Mac, TextEdit, <a href="http://macromates.com/">TextMate</a> paired with an <a href="https://github.com/zuckschwerdt/asciidoc.tmbundle">AsciiDoc bundle</a>), or <a href="http://www.barebones.com/products/textwrangler/">TextWrangler</a>, are great choices. Or maybe you prefer old school vi or Emacs. That's okay, too.</p>
+      </div>
+
+    </section>
+
+    <section class="sect1">
+      <h1>Notes to Production</h1>
+
+      <p>To leave a note to the Production team, please use a passthrough block with the Docbook <code>remark</code> element, like this:</p>
+
+      <pre>&lt;remark&gt;Use a passthrough block like this for notes to production staff&lt;/remark&gt;</pre>
+
+      <p>AsciiDoc does have specific markup for comments (two slash characters, like this: \\, followed by the comment text), but they do not get passed to the DocBook output by default. In order to make sure the Production team sees your comments, please use the DocBook passthrough method listed above. (See <a class="xref" href="#passthroughs">Passthroughs</a> for more info on DocBook passthroughs.)</p>
+
+    </section>
+
+    <section class="sect1">
+      <h1>AsciiDoc Markup Reference</h1>
+
+      <p>This section illustrates some of the most common elements used in writing technical documentation. The <a href="http://www.methods.co.nz/asciidoc/userguide.html">AsciiDoc User Guide</a> and the <a href="http://powerman.name/doc/asciidoc">AsciiDoc cheat sheet</a> are other helpful references, but the following sections will give you an overview of the markup you'll use most frequently, plus some customized markup that is specific to Atlas.</p>
+
+      <p>If you can't find what you're looking for here or if you just need a quick answer, please don't hesitate to email our support team at <a href="mailto:toolsreq@oreilly.com">toolsreq@oreilly.com</a>.</p>
+
+      <section class="sect2" id="text">
+        <h2>Text</h2>
+
+        <p>Regular paragraph text does not need any special markup in AsciiDoc. Just add a blank line both above and below each paragraph, and the first word in the paragraph should not have a space before it. Here are some example paragraphs in AsciiDoc:</p>
+
+        <pre>This is an example paragraph written in AsciiDoc. See, it's just plain text; no special markup necessary! Do make sure there aren't spaces or manual indentations at the beginning of your paragraph text.
+
+        This is a second example paragraph in AsciiDoc. Note that there's a line break and a blank line between paragraphs.</pre>
+
+        <p>To learn how to add inline markup such as italics to your text see the <a class="xref" href="#INLINES">Inline Markup</a> section below.</p>
+
+        <div class="sidebar">
+          <h5>What's Going On, Anyway?</h5>
+
+          <p>A general understanding of what is going on under the hood of Atlas will help you make the most of the system. When you build your book (as described in <a class="xref" href="#building_and_debugging">Chapter 3</a>), Atlas first converts the AsciiDoc to <a href="http://www.docbook.org/">DocBook XML</a> and then generates the book formats from that DocBook. For each AsciiDoc markup, there is an equivalent DocBook element. As long as the AsciiDoc markup uses the expected syntax, the conversion to DocBook (and then to the book formats) goes smoothly.</p>
+
+          <p>If you get a build error, the most likely cause is an AsciiDoc markup error. Atlas provides error message logs to help you troubleshoot and fix syntax errors. Read more about building and debugging in <a href="#building_and_debugging">Chapter 3</a>.</p>
+        </div>
+
+      </section>
+
+      <section class="sect2" id="chapter_markup">
+        <h2>Chapters</h2>
+
+        <p>The top of each chapter file should begin with a chapter title preceded by two equals signs. It's good practice to always include a unique ID string above the chapter title, surrounded in double brackets, for example:</p>
+
+        <pre>[[unique_chapter_id]]
+          == Chapter Title
+          Chapter text begins here.</pre>
+
+      </section>
+
+      <section class="sect2" id="headings_markup">
+        <h2>Headings</h2>
+
+        <p>There are multiple ways to mark up heading levels in AsciiDoc. We've chosen our favorite "delimited" style to show you below, but feel free to use the <a href="http://www.methods.co.nz/asciidoc/userguide.html#X17">two-line underlined heading</a> style if you prefer.</p>
+
+        <div class="note">
+          <p>Note that the levels described in the <a href="http://www.methods.co.nz/asciidoc/userguide.html">AsciiDoc User Guide</a> can be confusing: in AsciiDoc, the document (book) is considered level 0; generally a chapter will be at AsciiDoc level 1 (unless you're dividing the book into parts), and sections within chapters start at AsciiDoc level 3 (which is equivalent to DocBook <code>&lt;sect1&gt;</code>).</p>
+        </div>
+
+        <section class="sect3" id="sect1_markup">
+          <h3>Top-level heading</h3>
+
+          <p>Within a chapter, the first and highest heading level uses three equals signs:</p>
+
+          <pre>=== Top-Level Heading</pre>
+
+        </section>
+
+        <section class="sect3" id="sect2_markup">
+          <h3>Second-level heading</h3>
+
+          <p>This heading level should only follow a top-level heading:</p>
+
+          <pre>==== Second-Level Heading</pre>
+
+        </section>
+
+        <section class="sect3" id="sect3_markup">
+          <h3>Third-level heading</h3>
+
+          <p>This heading level should follow a second-level heading only:</p>
+
+          <pre>===== Third-level heading</pre>
+
+        </section>
+
+      </section>
+
+      <section class="sect2" id="part_markup">
+        <h2>Parts</h2>
+
+        <p>If you want to group your chapters into parts, navigate to the file that should be the first chapter in that part, and add the part markup above the chapter title. It’s good practice to always include a unique ID string above the part title, like so:</p>
+
+        <pre>[[unique_part_id]]
+          = Part Title
+
+          [[unique_chapter_id]]
+          == Chapter Title
+
+          Chapter text begins here.</pre>
+
+        <p>To add introductory text to a part, add this <code>partintro</code> markup after the part title, but before the chapter title:</p>
+
+        <pre>[[unique_part_id]]
+          = Part Title
+
+          [partintro]
+
+          --
+          Insert introductory text here.
+          --
+
+          [[unique_chapter_id]]
+          == Chapter Title
+
+          Chapter text begins here.</pre>
+
+      </section>
+
+      <section class="sect2" id="preface_markup">
+        <h2>Prefaces</h2>
+
+        <p>A preface file should begin with the word <em>preface</em> in single brackets, followed on the next line by two equals signs and the preface title:</p>
+
+        <pre>[preface]
+          == Preface Title
+
+          Preface text begins here.</pre>
+
+      </section>
+
+      <section class="sect2" id="add_dedication">
+        <h2>Dedications</h2>
+
+        <p>A dedication file should begin with the word <em>dedication</em> in single brackets, followed by a blank line and then the dedication title and text. The title must be present, but it will not render in the output:</p>
+
+        <pre>[dedication]
+          == Dedication
+
+          This book is dedicated to my cat, Garfield.</pre>
+
+        <p>Dedication pages render on their own page at the beginning of the book, before the table of contents.</p>
+
+      </section>
+
+      <section class="sect2" id="praise_markup">
+        <h2>Praise Pages</h2>
+
+        <p>Praise pages are marked up similarly to <a class="xref" href="#add_dedication">Dedications</a>, but you will add a special <code>role="praise"</code> attribute. For each item of praise, use the quote markup (discussed in <a href="#add_quotes">Quotes</a>):</p>
+
+        <pre>["dedication", role="praise"]
+          == Praise for Getting Started with Atlas
+
+          [quote, Jane Doe]
+          ____
+          "This book is awesome."
+          ____
+        </pre>
+
+        <p>Praise pages render at the beginning of the book, before the title page, and are not included in the regular page numbering of the book.</p>
+
+      </section>
+
+
+    </section>
 
 
   </section>
+
+  <section class="index" title="Index" id="_index">
+  <h1 class="title">Index</h1>
+
+  <div class="indexdiv">
+    <h2>C</h2>
+    <dl>
+      <dt class="indexentry">collaborators</dt>
+      <dd>
+        <dl>
+          <dt class="indexentry">inviting</dt>
+          <dd><a class="indexentry xref" href="#idp64272">Working in the Atlas Wiki</a></dd>
+        </dl>
+      </dd>
+      <dt>creating files</dt>
+      <dd><a class="indexentry xref" href="#idp67424">Creating New Files</a></dd>
+    </dl>
+  </div>
+
+  <div class="indexdiv">
+    <h2>E</h2>
+    <dl>
+      <dt class="indexentry">entering a log message</dt> 
+      <dd><a class="indexentry xref" href="#idp5534176">Working with AsciiDoc Text in Atlas</a></dd>
+    </dl>
+  </div>
+
+  <div class="indexdiv">
+    <h2>G</h2>
+    <dl>
+      <dt class="indexentry">git</dt> 
+      <dd><a class="indexentry xref" href="#idp6015536">Using Git with Atlas</a></dd> 
+      <dd><a class="indexentry xref" href="#idp6161264">Working with GitHub</a></dd>
+      <dt class="indexentry">GitHub</dt> 
+      <dd><a class="indexentry xref" href="#idp6161888">Working with GitHub</a></dd>
+      <dt class="indexentry">gravatar</dt>
+      <dd><a class="indexentry xref" href="#idp900640">Write How You Want</a></dd>
+    </dl>
+  </div>
+
+  <div class="indexdiv">
+    <h2>I</h2>
+    <dl>
+      <dt class="indexentry">invitation</dt> 
+      <dd><a class="indexentry xref" href="#idp2843056">How It Works</a></dd>
+    </dl>
+  </div>
+
+  <div class="indexdiv">
+    <h2>V</h2>
+    <dl>
+      <dt class="indexentry">video</dt>
+      <dd>
+        <dl>
+          <dt class="indexentry">introduction to Atlas</dt> 
+          <dd><a class="indexentry xref" href="#idp4299824">Join the Publishing Revolution</a></dd>
+        </dl>
+      </dd>
+    </dl>
+  </div>
+
+  <div class="indexdiv">
+    <h2>W</h2>
+    <dl>
+      <dt class="indexentry">wiki interface</dt>
+      <dd><a class="indexentry xref" href="#idp897328">Write How You Want</a></dd>
+    </dl>
+  </div>
+
+</section>
 
 </body>
