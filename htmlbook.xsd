@@ -1,0 +1,245 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.w3.org/1999/xhtml" elementFormDefault="qualified">
+
+<xs:element name="html">
+  <xs:complexType>
+    <xs:sequence>
+      <xs:element ref="head"/>
+      <xs:element ref="body"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+  
+<xs:element name="head">
+  <xs:complexType>
+    <xs:sequence>
+      <!-- Note that in order to produce a valid content model, title must be first -->
+        <xs:element ref="title"/>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element ref="command"/>
+          <xs:element ref="link"/>
+          <xs:element ref="meta"/>
+          <xs:element ref="noscript"/>
+          <xs:element ref="script"/>
+          <xs:element ref="style"/>
+      </xs:choice>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+  
+<xs:element name="body">
+  <xs:complexType>
+    <xs:sequence>
+      <xs:element ref="h1"/>
+      <xs:choice maxOccurs="unbounded">
+        <xs:element name="section" type="bookmaindiv"/>
+        <!-- Separate out parts, as they have specific child requirements -->
+        <xs:element name="div" type="bookpart"/>
+      </xs:choice>
+    </xs:sequence>  
+    <xs:attribute name="class" use="required" fixed="book"/>
+  </xs:complexType>
+</xs:element>
+  
+<!-- Metadata elements -->
+<!-- ToDo: What restrictions to add? -->
+  
+<xs:element name="title"/>
+  
+<xs:element name="base"/>
+
+<xs:element name="command"/>
+    
+<xs:element name="link"/>
+    
+<xs:element name="meta"/>
+    
+<xs:element name="noscript"/>
+
+<xs:element name="script"/>
+    
+<xs:element name="style"/>
+  
+<!-- Block elements -->
+<!-- ToDo: What restrictions to add? -->
+<xs:element name="address"/>
+<xs:element name="aside"/>
+<xs:element name="audio"/>
+<xs:element name="blockquote"/>
+<xs:element name="br"/>
+<xs:element name="button"/>
+<xs:element name="canvas"/>
+<xs:element name="datalist"/>
+<xs:element name="details"/>
+<xs:element name="div"/>
+<xs:element name="dl"/>
+<xs:element name="embed"/>
+<xs:element name="fieldset"/>
+<xs:element name="figure"/>
+<xs:element name="form"/>
+<xs:element name="hr"/>
+<xs:element name="iframe"/>
+<xs:element name="img"/>
+<xs:element name="map"/>
+<xs:element name="menu"/>
+<xs:element name="object"/>
+<xs:element name="ol"/>
+<xs:element name="output"/>
+<xs:element name="p"/>
+<xs:element name="pre"/>
+<xs:element name="table"/>
+<xs:element name="ul"/>
+<xs:element name="video"/>
+  
+<!-- Heading elements -->
+<!-- ToDo: Mixed content model that supports inlines -->
+<!-- ToDo: Support hgroup to facilitate subtitles? -->
+<!-- ToDo: Should we really require class="title" on all section heading titles? -->
+<xs:element name="h1" type="xs:token"/>
+
+<xs:element name="h2" type="xs:token"/>
+
+<xs:element name="h3" type="xs:token"/>
+  
+<xs:element name="h4" type="xs:token"/>
+  
+<xs:element name="h5" type="xs:token"/>
+  
+<xs:element name="h6" type="xs:token"/>
+  
+<!-- Global simple type definitions; see corresponding complex types -->
+
+<!-- For class attribute on book division <sections>, except part -->
+<xs:simpleType name="bookmaindivtype">
+  <xs:restriction base="xs:string">
+    <xs:enumeration value="acknowledgments"/>
+    <xs:enumeration value="afterword"/>
+    <xs:enumeration value="appendix"/>
+    <xs:enumeration value="bibliography"/>
+    <xs:enumeration value="chapter"/>
+    <xs:enumeration value="colophon"/>
+    <xs:enumeration value="conclusion"/>
+    <xs:enumeration value="copyright-page"/>
+    <xs:enumeration value="dedication"/>
+    <xs:enumeration value="foreword"/>
+    <xs:enumeration value="glossary"/>
+    <xs:enumeration value="index"/>
+    <xs:enumeration value="introduction"/>
+    <xs:enumeration value="preface"/>
+    <xs:enumeration value="titlepage"/>
+    <xs:enumeration value="toc"/>
+  </xs:restriction>
+</xs:simpleType>
+ 
+<!-- Global complex type definitions; see corresponding simple types-->
+
+<!-- Chapter/Appendix/Preface/etc. -->
+<xs:complexType name="bookmaindiv">
+  <xs:sequence>
+    <xs:element ref="h1"/>
+    <xs:group ref="blockelements" minOccurs="0" maxOccurs="unbounded"/>
+    <xs:element name="section" minOccurs="0" maxOccurs="unbounded" type="sect1"/>
+  </xs:sequence>
+  <xs:attribute name="class" use="required" type="bookmaindivtype"/>
+</xs:complexType>
+
+<!-- Parts -->
+<xs:complexType name="bookpart">
+  <xs:sequence>
+    <xs:element ref="h1"/>
+    <xs:element name="section" maxOccurs="unbounded" type="bookmaindiv"/>
+  </xs:sequence>
+  <xs:attribute name="class" use="required" fixed="part"/>
+</xs:complexType>
+  
+<!-- Sect1s -->
+<xs:complexType name="sect1">
+  <xs:sequence>
+    <xs:element ref="h1"/>
+    <xs:group ref="blockelements" minOccurs="0" maxOccurs="unbounded"/>
+    <xs:element name="section" minOccurs="0" maxOccurs="unbounded" type="sect2"/>
+  </xs:sequence>
+  <xs:attribute name="class" use="required" fixed="sect1"/>  
+</xs:complexType>
+
+<!-- Sect2s -->
+<xs:complexType name="sect2">
+  <xs:sequence>
+    <xs:element ref="h2"/>
+    <xs:group ref="blockelements" minOccurs="0" maxOccurs="unbounded"/>
+    <xs:element name="section" minOccurs="0" maxOccurs="unbounded" type="sect3"/>
+  </xs:sequence>
+  <xs:attribute name="class" use="required" fixed="sect2"/>  
+</xs:complexType>
+  
+<!-- Sect3s -->
+<xs:complexType name="sect3">
+  <xs:sequence>
+    <xs:element ref="h3"/>
+    <xs:group ref="blockelements" minOccurs="0" maxOccurs="unbounded"/>
+    <xs:element name="section" minOccurs="0" maxOccurs="unbounded" type="sect4"/>
+  </xs:sequence>
+  <xs:attribute name="class" use="required" fixed="sect3"/>  
+</xs:complexType>
+  
+<!-- Sect4s -->
+<xs:complexType name="sect4">
+  <xs:sequence>
+    <xs:element ref="h4"/>
+    <xs:group ref="blockelements" minOccurs="0" maxOccurs="unbounded"/>
+    <xs:element name="section" minOccurs="0" maxOccurs="unbounded" type="sect5"/>
+  </xs:sequence>
+  <xs:attribute name="class" use="required" fixed="sect4"/>  
+</xs:complexType>
+  
+<!-- Sect5 -->
+<xs:complexType name="sect5">
+  <xs:sequence>
+    <xs:element ref="h5"/>
+    <xs:group ref="blockelements" minOccurs="0" maxOccurs="unbounded"/>
+  </xs:sequence>
+  <xs:attribute name="class" use="required" fixed="sect5"/>  
+</xs:complexType>
+
+<!-- Global groups -->
+  
+<xs:group name="blockelements">
+  <!-- We're defining "block elements" here as a subset of HTML5 flow content that can be children of a <section> -->
+  <xs:choice>
+    <xs:element ref="address"/>
+    <xs:element ref="aside"/>
+    <xs:element ref="audio"/>
+    <xs:element ref="blockquote"/>
+    <xs:element ref="br"/> <!-- Yucky? -->
+    <xs:element ref="button"/>
+    <xs:element ref="canvas"/>
+    <xs:element ref="datalist"/>
+    <xs:element ref="details"/>
+    <xs:element ref="div"/>
+    <xs:element ref="dl"/>
+    <xs:element ref="embed"/>
+    <xs:element ref="fieldset"/>
+    <xs:element ref="figure"/>
+    <xs:element ref="form"/>
+    <xs:element ref="hr"/>
+    <xs:element ref="iframe"/>
+    <xs:element ref="img"/> <!-- Debatable? Require all block images to be nested in div/figure/etc? -->
+    <xs:element ref="map"/>
+    <!-- ToDo: Add separate schema for MathML ref here? 
+    <xs:element ref="mml:math"/> -->
+    <xs:element ref="menu"/>
+    <xs:element ref="noscript"/>
+    <xs:element ref="object"/>
+    <xs:element ref="ol"/>
+    <xs:element ref="output"/>
+    <xs:element ref="p"/>
+    <xs:element ref="pre"/>
+    <!-- ToDo: Add separate schema for SVG ref here? 
+    <xs:element ref="svg:svg"/> -->
+    <xs:element ref="table"/>
+    <xs:element ref="ul"/>
+    <xs:element ref="video"/>
+  </xs:choice>
+</xs:group>
+
+</xs:schema>

@@ -146,18 +146,18 @@ A list of mappings is below. Special semantics, unless otherwise noted, come fro
 
 *Legacy DB element*: <part>
 
-*New HTML element*: <section>
+*New HTML element*: <div>
 
 *Special semantics*: +class="part"+ 
 
 *Example*
 
 ----
-<section class="part">
+<div class="part">
   <!-- h1 used for all part titles -->
   <h1 class="title">Part Title</h1>
   <!-- Lots of part content here -->
-</section>
+</div>
 ----
 
 ==== Dedication
