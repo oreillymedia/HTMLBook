@@ -13,9 +13,8 @@
 <xs:element name="head">
   <xs:complexType>
     <xs:sequence>
-      <!-- Note that in order to produce a valid content model, title and base must be first -->
+      <!-- Note that in order to produce a valid content model, title must be first -->
         <xs:element ref="title"/>
-        <xs:element ref="base" minOccurs="0"/>
         <xs:choice minOccurs="0" maxOccurs="unbounded">
           <xs:element ref="command"/>
           <xs:element ref="link"/>
@@ -29,6 +28,11 @@
 </xs:element>
   
 <xs:element name="body">
+  <xs:complexType>
+    <xs:sequence>
+      <xs:element name="section" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
 </xs:element>
   
 <xs:element name="title">
