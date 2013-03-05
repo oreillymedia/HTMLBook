@@ -31,6 +31,7 @@
   <xs:complexType>
       <xs:choice maxOccurs="unbounded">
       <xs:element name="section" type="bookmaindiv"/>
+      <!-- Separate out parts, as they have specific child requirements -->
       <xs:element name="div" type="bookpart"/>
       </xs:choice>    
   </xs:complexType>
@@ -89,14 +90,7 @@
     <xs:enumeration value="toc"/>
   </xs:restriction>
 </xs:simpleType>
-  
-<xs:simpleType name="bookparttype">
-  <!-- Separate out parts, as they have specific child requirements -->
-  <xs:restriction base="xs:string">
-    <xs:enumeration value="part"/>
-  </xs:restriction>
-</xs:simpleType>
-    
+ 
 <!-- Global complex type definitions; see corresponding simple types-->
   
 <xs:complexType name="bookmaindiv">
@@ -110,7 +104,7 @@
   <xs:sequence>
     <xs:element name="section" maxOccurs="unbounded" type="bookmaindiv"/>
   </xs:sequence>
-  <xs:attribute name="class" use="required" type="bookparttype"/>
+  <xs:attribute name="class" use="required" fixed="part"/>
 </xs:complexType>
 
 </xs:schema>
