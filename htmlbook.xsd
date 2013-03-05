@@ -13,33 +13,24 @@
 <xs:element name="head">
   <xs:complexType>
     <xs:sequence>
-      <!-- Note icky kludge here of having to do 2 xs:groups for head elements, in order to support content model where there can be just
-         1 title element that can go anywhere in the head -->
-      <xs:group ref="headunboundedmetadata" minOccurs="0" maxOccurs="unbounded"/>
-      <xs:choice minOccurs="0" maxOccurs="1">
+      <!-- Note that in order to produce a valid content model, title and base must be first -->
         <xs:element ref="title"/>
+        <xs:element ref="base" minOccurs="0"/>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element ref="command"/>
+          <xs:element ref="link"/>
+          <xs:element ref="meta"/>
+          <xs:element ref="noscript"/>
+          <xs:element ref="script"/>
+          <xs:element ref="style"/>
       </xs:choice>
-      <xs:group ref="headunboundedmetadata" minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>
   </xs:complexType>
 </xs:element>
   
 <xs:element name="body">
-  
 </xs:element>
   
-  <xs:group name="headunboundedmetadata">
-    <xs:choice>
-      <xs:element ref="base"/>
-      <xs:element ref="command"/>
-      <xs:element ref="link"/>
-      <xs:element ref="meta"/>
-      <xs:element ref="noscript"/>
-      <xs:element ref="script"/>
-      <xs:element ref="style"/>
-    </xs:choice>
-  </xs:group>
-
 <xs:element name="title">
   
 </xs:element>
