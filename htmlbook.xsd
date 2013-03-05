@@ -29,11 +29,15 @@
   
 <xs:element name="body">
   <xs:complexType>
+    <xs:sequence>
+      <xs:element ref="h1"/>
       <xs:choice maxOccurs="unbounded">
-      <xs:element name="section" type="bookmaindiv"/>
-      <!-- Separate out parts, as they have specific child requirements -->
-      <xs:element name="div" type="bookpart"/>
-      </xs:choice>    
+        <xs:element name="section" type="bookmaindiv"/>
+        <!-- Separate out parts, as they have specific child requirements -->
+        <xs:element name="div" type="bookpart"/>
+      </xs:choice>
+    </xs:sequence>  
+    <xs:attribute name="class" use="required" fixed="book"/>
   </xs:complexType>
 </xs:element>
   
