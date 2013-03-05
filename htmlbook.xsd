@@ -40,40 +40,56 @@
 <!-- Metadata elements -->
 <!-- ToDo: What restrictions to add? -->
   
-<xs:element name="title">
+<xs:element name="title"/>
   
-</xs:element>
-  
-<xs:element name="base">
+<xs:element name="base"/>
+
+<xs:element name="command"/>
     
-</xs:element>
-  
-<xs:element name="command">
+<xs:element name="link"/>
     
-</xs:element>
-  
-<xs:element name="link">
+<xs:element name="meta"/>
     
-</xs:element>
-  
-<xs:element name="meta">
+<xs:element name="noscript"/>
+
+<xs:element name="script"/>
     
-</xs:element>
+<xs:element name="style"/>
   
-<xs:element name="noscript">
-    
-</xs:element>
-  
-<xs:element name="script">
-    
-</xs:element>
-  
-<xs:element name="style">
-    
-</xs:element>
+<!-- Block elements -->
+<!-- ToDo: What restrictions to add? -->
+<xs:element name="address"/>
+<xs:element name="aside"/>
+<xs:element name="audio"/>
+<xs:element name="blockquote"/>
+<xs:element name="br"/>
+<xs:element name="button"/>
+<xs:element name="canvas"/>
+<xs:element name="datalist"/>
+<xs:element name="details"/>
+<xs:element name="div"/>
+<xs:element name="dl"/>
+<xs:element name="embed"/>
+<xs:element name="fieldset"/>
+<xs:element name="figure"/>
+<xs:element name="form"/>
+<xs:element name="hr"/>
+<xs:element name="iframe"/>
+<xs:element name="img"/>
+<xs:element name="map"/>
+<xs:element name="menu"/>
+<xs:element name="object"/>
+<xs:element name="ol"/>
+<xs:element name="output"/>
+<xs:element name="p"/>
+<xs:element name="pre"/>
+<xs:element name="table"/>
+<xs:element name="ul"/>
+<xs:element name="video"/>
   
 <!-- Heading elements -->
 <!-- ToDo: Mixed content model that supports inlines -->
+<!-- ToDo: Support hgroup to facilitate subtitles? -->
 <xs:element name="h1" type="xs:token"/>
 
 <xs:element name="h2" type="xs:token"/>
@@ -87,6 +103,8 @@
 <xs:element name="h6" type="xs:token"/>
   
 <!-- Global simple type definitions; see corresponding complex types -->
+
+<!-- For class attribute on book division <sections>, except part -->
 <xs:simpleType name="bookmaindivtype">
   <xs:restriction base="xs:string">
     <xs:enumeration value="acknowledgments"/>
@@ -179,10 +197,43 @@
 </xs:complexType>
 
 <!-- Global groups -->
+  
 <xs:group name="blockelements">
+  <!-- We're defining "block elements" here as a subset of HTML5 flow content that can be children of a <section> -->
   <xs:choice>
-    <xs:element name="p"/>
-    <xs:element name="ul"/>
+    <xs:element ref="address"/>
+    <xs:element ref="aside"/>
+    <xs:element ref="audio"/>
+    <xs:element ref="blockquote"/>
+    <xs:element ref="br"/> <!-- Yucky? -->
+    <xs:element ref="button"/>
+    <xs:element ref="canvas"/>
+    <xs:element ref="datalist"/>
+    <xs:element ref="details"/>
+    <xs:element ref="div"/>
+    <xs:element ref="dl"/>
+    <xs:element ref="embed"/>
+    <xs:element ref="fieldset"/>
+    <xs:element ref="figure"/>
+    <xs:element ref="form"/>
+    <xs:element ref="hr"/>
+    <xs:element ref="iframe"/>
+    <xs:element ref="img"/> <!-- Debatable? Require all block images to be nested in div/figure/etc? -->
+    <xs:element ref="map"/>
+    <!-- ToDo: Add separate schema for MathML ref here? 
+    <xs:element ref="mml:math"/> -->
+    <xs:element ref="menu"/>
+    <xs:element ref="noscript"/>
+    <xs:element ref="object"/>
+    <xs:element ref="ol"/>
+    <xs:element ref="output"/>
+    <xs:element ref="p"/>
+    <xs:element ref="pre"/>
+    <!-- ToDo: Add separate schema for SVG ref here? 
+    <xs:element ref="svg:svg"/> -->
+    <xs:element ref="table"/>
+    <xs:element ref="ul"/>
+    <xs:element ref="video"/>
   </xs:choice>
 </xs:group>
 
