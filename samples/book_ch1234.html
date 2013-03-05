@@ -396,7 +396,7 @@ linkend references an unknown ID "cloning_to_github"</pre>
 
       <p>To leave a note to the Production team, please use a passthrough block with the Docbook <code>remark</code> element, like this:</p>
 
-      <pre>&lt;remark&gt;Use a passthrough block like this for notes to production staff&lt;/remark&gt;</pre>
+      <pre class="programlisting">&lt;remark&gt;Use a passthrough block like this for notes to production staff&lt;/remark&gt;</pre>
 
       <p>AsciiDoc does have specific markup for comments (two slash characters, like this: \\, followed by the comment text), but they do not get passed to the DocBook output by default. In order to make sure the Production team sees your comments, please use the DocBook passthrough method listed above. (See <a class="xref" href="#passthroughs">Passthroughs</a> for more info on DocBook passthroughs.)</p>
 
@@ -414,7 +414,7 @@ linkend references an unknown ID "cloning_to_github"</pre>
 
         <p>Regular paragraph text does not need any special markup in AsciiDoc. Just add a blank line both above and below each paragraph, and the first word in the paragraph should not have a space before it. Here are some example paragraphs in AsciiDoc:</p>
 
-        <pre>This is an example paragraph written in AsciiDoc. See, it's just plain text; no special markup necessary! Do make sure there aren't spaces or manual indentations at the beginning of your paragraph text.
+        <pre class="programlisting">This is an example paragraph written in AsciiDoc. See, it's just plain text; no special markup necessary! Do make sure there aren't spaces or manual indentations at the beginning of your paragraph text.
 
         This is a second example paragraph in AsciiDoc. Note that there's a line break and a blank line between paragraphs.</pre>
 
@@ -435,7 +435,7 @@ linkend references an unknown ID "cloning_to_github"</pre>
 
         <p>The top of each chapter file should begin with a chapter title preceded by two equals signs. It's good practice to always include a unique ID string above the chapter title, surrounded in double brackets, for example:</p>
 
-        <pre>[[unique_chapter_id]]
+        <pre class="programlisting">[[unique_chapter_id]]
           == Chapter Title
           Chapter text begins here.</pre>
 
@@ -455,7 +455,7 @@ linkend references an unknown ID "cloning_to_github"</pre>
 
           <p>Within a chapter, the first and highest heading level uses three equals signs:</p>
 
-          <pre>=== Top-Level Heading</pre>
+          <pre class="programlisting">=== Top-Level Heading</pre>
 
         </section>
 
@@ -464,7 +464,7 @@ linkend references an unknown ID "cloning_to_github"</pre>
 
           <p>This heading level should only follow a top-level heading:</p>
 
-          <pre>==== Second-Level Heading</pre>
+          <pre class="programlisting">==== Second-Level Heading</pre>
 
         </section>
 
@@ -473,7 +473,7 @@ linkend references an unknown ID "cloning_to_github"</pre>
 
           <p>This heading level should follow a second-level heading only:</p>
 
-          <pre>===== Third-level heading</pre>
+          <pre class="programlisting">===== Third-level heading</pre>
 
         </section>
 
@@ -484,7 +484,7 @@ linkend references an unknown ID "cloning_to_github"</pre>
 
         <p>If you want to group your chapters into parts, navigate to the file that should be the first chapter in that part, and add the part markup above the chapter title. It’s good practice to always include a unique ID string above the part title, like so:</p>
 
-        <pre>[[unique_part_id]]
+        <pre class="programlisting">[[unique_part_id]]
           = Part Title
 
           [[unique_chapter_id]]
@@ -494,7 +494,7 @@ linkend references an unknown ID "cloning_to_github"</pre>
 
         <p>To add introductory text to a part, add this <code>partintro</code> markup after the part title, but before the chapter title:</p>
 
-        <pre>[[unique_part_id]]
+        <pre class="programlisting">[[unique_part_id]]
           = Part Title
 
           [partintro]
@@ -515,7 +515,7 @@ linkend references an unknown ID "cloning_to_github"</pre>
 
         <p>A preface file should begin with the word <em>preface</em> in single brackets, followed on the next line by two equals signs and the preface title:</p>
 
-        <pre>[preface]
+        <pre class="programlisting">[preface]
           == Preface Title
 
           Preface text begins here.</pre>
@@ -527,7 +527,7 @@ linkend references an unknown ID "cloning_to_github"</pre>
 
         <p>A dedication file should begin with the word <em>dedication</em> in single brackets, followed by a blank line and then the dedication title and text. The title must be present, but it will not render in the output:</p>
 
-        <pre>[dedication]
+        <pre class="programlisting">[dedication]
           == Dedication
 
           This book is dedicated to my cat, Garfield.</pre>
@@ -541,7 +541,7 @@ linkend references an unknown ID "cloning_to_github"</pre>
 
         <p>Praise pages are marked up similarly to <a class="xref" href="#add_dedication">Dedications</a>, but you will add a special <code>role="praise"</code> attribute. For each item of praise, use the quote markup (discussed in <a href="#add_quotes">Quotes</a>):</p>
 
-        <pre>["dedication", role="praise"]
+        <pre class="programlisting">["dedication", role="praise"]
           == Praise for Getting Started with Atlas
 
           [quote, Jane Doe]
@@ -552,8 +552,152 @@ linkend references an unknown ID "cloning_to_github"</pre>
 
         <p>Praise pages render at the beginning of the book, before the title page, and are not included in the regular page numbering of the book.</p>
 
+      </section class="sect2" id="INLINES">
+        <h2>Inline Markup</h2>
+
+        <p>Here are some standard O'Reilly typographical conventions with explanations of their use:</p>
+
+        <dl>
+          <dt><emphasis>_Italic_</emphasis></dt>
+          <dd>Italic text indicates new terms, URLs, email addresses, filenames, and file
+              extensions. The AsciiDoc markup is one underscore character on either side of
+              the text to be italic.</dd>
+          
+          <dt><strong>*Bold*</strong></dt>
+          <dd>Bolded text is used to emphasize a word or phrase. Note that
+              http://oreilly.com/oreilly/author/stylesheet.html[O’Reilly house style] prefers
+              italics for emphasis. The AsciiDoc markup is one asterisk on either side of the
+              text to be bolded.</dd>
+          
+          <dt><code>+Constant Width+</code></dt>
+          <dd>Constant width, or monospaced, text is used for code, as well as within
+              paragraphs to refer to program elements such as variable or function names,
+              databases, data types, environment variables, statements, and keywords. The
+              AsciiDoc markup is one plus sign on either side of the text to monospaced.</dd>
+          
+          <dt><code class="userinput">*+Constant Width Bold+*</code></dt>
+          <dd>Monospaced and bolded text is used to show commands or other text that should
+              be typed literally by the user. The AsciiDoc markup is one asterisk and one plus
+              sign on either side of the text. Note that the asterisk (*) pair should be on
+              the outside and the plus-symbol (+) pair on the inside.</dd>
+          
+          <dt><code class="replaceable">_++Constant Width Italic++_</code></dt>
+          <dd>Monospaced and italicized text indicates where text should be replaced with
+              user-supplied values or by values determined by context. The AsciiDoc markup is
+              one underscore and two plus signs on either side of the text. Note that the
+              underscore (_) must be on the outside and the plus-symbol (+) pair on the
+              inside.</dd>
+          
+          <dt><sub>~subscript~</sub></dt>
+          <dd>For <sub>subscript</sub> text, use a tilde character (~) on either side of the
+              subscript text.</dd>
+          
+          <dt><sup>^superscript^</sup></dt>
+          <dd>For <sup>superscript</sup> text, use a caret (^) character on either side of
+              the superscript text.</dd>
+          
+          <dt>Hyperlinks</dt>
+          <dd>
+            <p>For hyperlinks to external sources, just add the full URL string followed by
+              brackets containing the text you’d like to appear with the URL. The bracketed
+              text will become a clickable link in web versions. In print versions, it will
+              appear in the text, followed by the actual URL in parenthesis.</p>
+            <p>The markup looks like this:</p>
+            <pre class="programlisting">Visit the http://oreilly.com[O'Reilly website]</pre>
+            <p>Note that these will become hyperlinks in online versions, so for fake or
+              example URLs, use <code class="literal">+constant width+</code> or <span
+                class="emphasis"><em>_italic_</em></span> markup instead.</p>
+          </dd>
+        </dl>
+
+        <div class="sidebar" id="challenging_inlines">
+          <h5>Troubleshooting Inline Markup</h5>
+
+          <p>If you're having problems with inline markup not rendering correctly, or if it's producing validation errors, check if you are experiencing one of these known issues:</p>
+
+          <dl>
+            <dt>Inlines that abut a non-whitespace character on one or both sides</dt>
+            <dd>If inline markup occurs within a single word, like <code>foo</code>bar, or if the inline markup abuts some other non-whitespace character on one or more sides (like an em dash), it may render incorrectly like this: <code>foo\+bar</code>. The fix for this is to double up the markup. For example: ++foo++bar. See <a href="http://www.methods.co.nz/asciidoc/userguide.html#X52">“Constrained and Unconstrained Quotes”</a> for further detail.
+            </dd>
+            
+            <dt>Inlines nested within each other incorrectly</dt>
+            <dd>Attempting to nest inlines within each other may sometimes result in problems if the markup is done in the wrong order. For example, constant width bold text uses an asterisk and a plus sign on either side of the text, but the asterisk pair must be on the outside of the plus sign pair, otherwise you’ll get an error.</dd>
+          </dl>
+
+          <p>Using inlines in AsciiDoc can sometimes be tricky. When all else fails, you can always use passthroughs to embed DocBook markup as is (see <a class="xref" href="#passthroughs">Passthroughs</a>). For example, these example passthroughs are rendered as constant-width italic, constant-width bold, and constant-width bold italic, respectively.:</p>
+          
+          <pre class="screen">pass:[&lt;replaceable&gt;foo&lt;/replaceable&gt;]
+            pass:[&lt;userinput&gt;foo&lt;/userinput&gt;]
+            pass:[&lt;userinput&gt;&lt;replaceable&gt;foo&lt;/replaceable&gt;&lt;/userinput&gt;]</pre>
+
+          <p>As an enhancement for finer-tuned semantic distinctions downstream, the Atlas configuration file supports the following variants, via <code>@role</code> attributes:</p>
+
+          <ul>
+            <li>To indicate a filename or path, use <em>/path/to/file.ext</em>.</li>
+            <li>For a book title, use <em>This Book Needs No Title</em>.</li>
+          </ul>
+        </div>
       </section>
 
+      <section class="sect2" id="SIDEBARS">
+        <h2>Sidebars</h2>
+
+        <p>These are called "sidebars" in DocBook, but "asides" in HTML5.</p>
+
+        <aside class="sidebar">
+          <!-- Optional h5 for sidebar title -->
+          <h5 class="title">Amusing Digression</h5>
+          <p>Did you know that in Boston, they call it "soda," but in Chicago, they call it "pop"?</p>
+        </aside>
+      </section>
+
+      <section class="sect2" id="Admonitions">
+        <h2>Notes and Warnings</h2>
+
+        <p>Here's a note:</p>
+
+        <div class="note">
+          <p>Here's some text inside a note.</p>
+        </div>
+
+        <p>Here's a warning:</p>
+
+        <div class="warning">
+          <p>Alert! You have been warned! Alert! Turn back!</p>
+        </div>
+
+        <p>You can add a title, if you like:</p>
+
+        <div class="warning">
+          <h5>Alert!</h5>
+          <p>No, really! You should turn back! Nasties ahead!</p>
+        </div>
+
+      </section>
+
+      <section class="sect2" id="adding_footnotes">
+        <h2>Footnotes</h2>
+
+        <p>You can create a footnote like this.<a href="#ftn1" id="ftnref1" class="noteref">1</a></p>
+
+      </section>
+
+      <section class="sect2" id="Quotes">
+        <h2>Quotes</h2>
+
+        <p>Blockquotes are easy:</p>
+
+        <blockquote>
+          <p>When in the course of human events...</p>
+          <p class="attribution">U.S. Declaration of Independence</p>
+        </blockquote>
+
+      </section>
+
+
+    <div class="footnotes">
+      <aside class="footnote"><sup><a href="#ftn1ref1">1</a></sup> Hey, look at me. I'm a footnote!</aside>
+    </div>
 
     </section>
 
