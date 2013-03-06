@@ -465,6 +465,8 @@ Also, data-language to indicate programming language, e.g., +data-language="pyth
 
 *Special semantics*: None
 
+*Note*: Optionally, you could add <p>s for a <li> with multiple paragraphs.
+
 *Example*:
 
 ----
@@ -483,6 +485,8 @@ Also, data-language to indicate programming language, e.g., +data-language="pyth
 
 *Special semantics*: None
 
+*Note*: Optionally, you could add <p>s for an <li> with multiple paragraphs.
+
 *Example*:
 
 ----
@@ -500,6 +504,8 @@ Also, data-language to indicate programming language, e.g., +data-language="pyth
 *New HTML element*: <dl>
 
 *Special semantics*: Generally none, but see <<glossary>> for an example of a special case
+
+*Note*: Optionally, you could add <p>s to a <dd> with multiple paragraphs.
 
 *Example*:
 
