@@ -412,8 +412,8 @@ sect5 -> h5
 
 ----
 <figure>
-<figcaption>Project Unicorn Logo</caption>
-<img src="unicorn.gif"/>
+<figcaption>Project Unicorn Logo</figcaption>
+<img src="unicorn.gif" alt="Illustration of a unicorn running."/>
 </figure>
 ----
 

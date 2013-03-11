@@ -16,7 +16,7 @@
 
     <div class="copyright-page">
       <h1>HTMLBook Sample</h1>
-      <p class="author">by O'Reilly Media</p>       
+      <p class="author">by O’Reilly Media</p>     
     </div>
 
     <section class="dedication">
@@ -74,8 +74,9 @@
       <section class="chapter" id="chapter01">
         <h1>Chapter 1. HTMLBook Markup</h1>
 
-        <p>This chapter describes and demonstrates the types of markup that
-        might appear in a chapter. See <em>mappings.asciidoc</em> for more
+        <p>This chapter describes and demonstrates the types of markup<a
+        class="indexterm" data-primary="markup" data-secondary="types of"/>
+        that might appear in a chapter. See <em>mappings.asciidoc</em> for more
         information. HTMLBook borrows much of its semantics from the EPUB 3
         specification, as applied via the <a
         href="http://idpf.org/accessibility/guidelines/content/semantics/epub-type.php"><code>epub:type</code></a>
@@ -84,12 +85,12 @@
         <code>class="userinput"</code>, as described in <a class ="xref"
         href="#sect0104">Inline Markup</a>.</p>
 
-        <section class="sect1" id="sect0101">
+        <section class="sect1" id="ahead">
           <h1>This Is an A-Head</h1>
 
           <p>Nested sections are captured in <code>section</code> tags.</p>
 
-          <section class="sect2" id="sect0102">
+          <section class="sect2" id="bhead">
             <h2>This Is a B-Head</h2>
 
             <p>Note that the <code>hN</code> tag matches the <code>sectN</code>
@@ -99,14 +100,14 @@
 
         </section>
 
-        <section class="sect1" id="sect0103">
+        <section class="sect1" id="markup_examples">
           <h1>Some Markup Examples</h1>
 
           <p>This file uses the components of the book container, such as the
           chapters, table of contents, and so on. The following section
           demonstrates the components typically used in a chapter.</p>
 
-          <section class="sect2" id="sect0104">
+          <section class="sect2" id="inlines">
             <h2>Inline Markup</h2>
 
             <p>No surprises here, just vanilla HTML for <em>emphasis</em> and
@@ -116,13 +117,14 @@
 
           </section>
 
-          <section class="sect2" id="sect0105">
+          <section class="sect2" id="blocks">
             <h2>Block Elements</h2>
 
-            <p>Block elements in HTMLBook are pretty much standard HTML, with
-            some semantic classes sometimes included.</p>
+            <p>Block elements<a class="indexterm" data-primary="markup"
+            data-secondary="block elements"/> in HTMLBook are pretty much
+            standard HTML, with some semantic classes sometimes included.</p>
 
-            <section class="sect3">
+            <section class="sect3" id="lists">
               <h3>Lists</h3>
 
               <p>Unordered list:</p>
@@ -159,7 +161,86 @@
 
             </section>
 
+            <section class="sect3" id="images">
+              <h3>Images</h3>
 
+              <p>Images use the <code>figure</code>, which can optionally have a caption.</p>
+
+              <figure id="robot_unicorn">
+                <figcaption><span class="label">Figure 1-1.</span> A robot unicorn</figcaption>
+                <img src="images/robot-unicorn.jpg" alt="Illustration of a unicorn running. The unicorn has a metallic coat, with a flowing, rainbow-colored tail and mane."/>
+              </figure>
+
+            </section>
+
+            <section class="sect3" id="tables">
+              <h3>Tables</h3>
+
+              <p>Tables use standard HTML markup.</p>
+
+              <table>
+                <caption><span class="label">Table 1-1.</span> State capitals</caption>
+                <tr>
+                  <th>State</th>
+                  <th>Capital</th>
+                </tr>
+                <tr>
+                  <td>Massachusetts</td>
+                  <td>Boston</td>
+                </tr>
+                <!-- And so on -->
+             </table>
+
+            </section>
+
+            <section class="sect3" id="equations">
+              <h3>Equations</h3>
+
+              <!-- fill this in -->
+
+            </section>
+
+            <section class="sect3" id="examples">
+              <h3>Examples</h3>
+
+              <!-- fill this in -->
+
+            </section>
+
+            <section class="sect3" id="sidebars">
+              <h3>Sidebars</h3>
+
+              <!-- fill this in -->
+
+            </section>
+
+            <section class="sect3" id="codelisting">
+              <h3>Code Listings</h3>
+
+              <!-- fill this in -->
+
+            </section>
+
+          </section>
+
+          <section class="sect2" id="multimedia">
+            <h2>Multimudeia</h2>
+
+            <!-- fill this in -->
+
+          </section>
+
+          <section class="sect2" id="linking">
+            <h2>Linking</h2>
+
+            <!-- fill this in -->
+
+          </section>
+
+          <section class="sect2" id="notes">
+            <h2>Notes</h2>
+
+            <!-- fill this in -->
 
           </section>
 
@@ -238,6 +319,80 @@
       </section>
 
     </div>
+
+    <div class="part" id="part02"> <!-- parts are optional and use divs -->
+      <h1>Part II, Return of HTMLBook</h1>
+
+      <p>This part is just a slug. We can't have just one part after all.</p>
+
+      <section class="chapter" id="sect0301">
+        <h1>Chapter 3. Lorem Ipsum!</h1>
+
+        <!-- chapter content here -->
+
+      </section>
+
+      <section class="chapter" id="sect0301">
+        <h1>Chapter 4. Consectetur Adipiscing Elit</h1>
+
+        <!-- chapter content here -->
+
+      </section>
+
+    </div>
+
+    <section class="appendix" id="appendixa">
+      <h1>Curabitur Bibendum</h1>
+
+      <p>Nunc malesuada blandit nisi ac iaculis. Ut bibendum tincidunt dui quis
+      iaculis. Vivamus lectus tortor, volutpat sed scelerisque ut, tempus vel
+      eros. Phasellus placerat rutrum massa vulputate scelerisque. In hac
+      habitasse platea dictumst. Etiam sem erat, pulvinar ut luctus elementum,
+      gravida condimentum lacus. Nulla vehicula metus vel sem feugiat rutrum
+      iaculis leo auctor. Praesent vehicula augue id libero hendrerit interdum.
+      Etiam consectetur sagittis egestas. Pellentesque in bibendum magna.</p>
+      </section>
+
+    <section class="glossary" id="glossary">
+      <h1 class="title">Glossary</h1>
+      
+      <dl class="glossary">
+        <dt class="glossterm">
+         <dfn>Atlas</dfn>
+        </dt>
+        <dd class="glossdef">
+          Best authoring platform ever.
+        </dd>
+      </dl>
+
+      <dl class="glossary">
+        <dt class="glossterm">
+         <dfn>Suspendisse mollis</dfn>
+        </dt>
+        <dd class="glossdef">
+          Sed quis nisl dui, et vestibulum sem.
+        </dd>
+      </dl>
+
+    </section>
+
+    <section class="index" id="index">
+      <h1>Index</h1>
+      
+      <div class="indexdiv">
+        <h2>M</h2>
+          <dl>
+            <dt class="indexentry">markup</dt>
+              <dl>
+                <dt class="indexentry">types of, <a class="indexentry xref" href="#chapter01">types of</a></dt>
+                <dd/>
+                <dt class="indexentry">block elements, <a class="indexentry xref" href="#blocks">block elements</a></dt>
+                <dd/>
+              </dl>
+          </dl>
+      </div>
+
+    </section>
 
   </body>
 
