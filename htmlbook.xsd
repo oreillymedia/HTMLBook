@@ -84,6 +84,7 @@
 <xs:element name="img"/>
 <xs:element name="map"/>
 <xs:element name="menu"/>
+<xs:element name="nav"/>
 <xs:element name="object"/>
 <xs:element name="ol"/>
 <xs:element name="output"/>
@@ -263,6 +264,7 @@
     <!-- ToDo: Add separate schema for MathML ref here? 
     <xs:element ref="mml:math"/> -->
     <xs:element ref="menu"/>
+    <xs:element ref="nav"/>
     <xs:element ref="noscript"/>
     <xs:element ref="object"/>
     <xs:element ref="ol"/>
