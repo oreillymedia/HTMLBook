@@ -31,6 +31,7 @@
   <xs:complexType>
     <xs:sequence>
       <xs:element ref="h1"/>
+      <xs:element name="h2" minOccurs="0" type="subtitle"/>
       <xs:choice maxOccurs="unbounded">
         <xs:element name="section" type="bookmaindiv"/>
         <!-- Separate out parts, as they have specific child requirements -->
@@ -138,6 +139,7 @@
 <xs:complexType name="bookmaindiv">
   <xs:sequence>
     <xs:element ref="h1"/>
+    <xs:element name="h2" minOccurs="0" type="subtitle"/>
     <xs:group ref="blockelements" minOccurs="0" maxOccurs="unbounded"/>
     <xs:element name="section" minOccurs="0" maxOccurs="unbounded" type="sect1"/>
   </xs:sequence>
@@ -148,6 +150,7 @@
 <xs:complexType name="bookpart">
   <xs:sequence>
     <xs:element ref="h1"/>
+    <xs:element name="h2" minOccurs="0" type="subtitle"/>
     <xs:element name="section" maxOccurs="unbounded" type="bookmaindiv"/>
   </xs:sequence>
   <xs:attribute name="class" use="required" fixed="part"/>
@@ -157,6 +160,7 @@
 <xs:complexType name="sect1">
   <xs:sequence>
     <xs:element ref="h1"/>
+    <xs:element name="h2" minOccurs="0" type="subtitle"/>
     <xs:group ref="blockelements" minOccurs="0" maxOccurs="unbounded"/>
     <xs:element name="section" minOccurs="0" maxOccurs="unbounded" type="sect2"/>
   </xs:sequence>
@@ -168,6 +172,7 @@
 <xs:complexType name="sect2">
   <xs:sequence>
     <xs:element ref="h2"/>
+    <xs:element name="h3" minOccurs="0" type="subtitle"/>
     <xs:group ref="blockelements" minOccurs="0" maxOccurs="unbounded"/>
     <xs:element name="section" minOccurs="0" maxOccurs="unbounded" type="sect3"/>
   </xs:sequence>
@@ -179,6 +184,7 @@
 <xs:complexType name="sect3">
   <xs:sequence>
     <xs:element ref="h3"/>
+    <xs:element name="h4" minOccurs="0" type="subtitle"/>
     <xs:group ref="blockelements" minOccurs="0" maxOccurs="unbounded"/>
     <xs:element name="section" minOccurs="0" maxOccurs="unbounded" type="sect4"/>
   </xs:sequence>
@@ -190,6 +196,7 @@
 <xs:complexType name="sect4">
   <xs:sequence>
     <xs:element ref="h4"/>
+    <xs:element name="h5" minOccurs="0" type="subtitle"/>
     <xs:group ref="blockelements" minOccurs="0" maxOccurs="unbounded"/>
     <xs:element name="section" minOccurs="0" maxOccurs="unbounded" type="sect5"/>
   </xs:sequence>
@@ -201,10 +208,20 @@
 <xs:complexType name="sect5">
   <xs:sequence>
     <xs:element ref="h5"/>
+    <xs:element name="h6" minOccurs="0" type="subtitle"/>
     <xs:group ref="blockelements" minOccurs="0" maxOccurs="unbounded"/>
   </xs:sequence>
   <xs:attribute name="class" use="required" fixed="sect5"/>
   <xs:attribute name="id" type="xs:ID"/>  
+</xs:complexType>
+  
+  <!-- Subtitle -->
+<xs:complexType name="subtitle">
+  <xs:simpleContent>
+    <xs:extension base="xs:token">
+      <xs:attribute name="class" use="required" fixed="subtitle"/>
+    </xs:extension>
+  </xs:simpleContent>
 </xs:complexType>
 
 <!-- Global groups -->
