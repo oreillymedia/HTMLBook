@@ -38,9 +38,10 @@
       </xs:choice>
     </xs:sequence>  
     <xs:attribute name="class" use="required" fixed="book"/>
+    <xs:attribute name="id" type="xs:ID"/>
   </xs:complexType>
 </xs:element>
-  
+
 <!-- Metadata elements -->
 <!-- ToDo: What restrictions to add? -->
   
@@ -159,7 +160,8 @@
     <xs:group ref="blockelements" minOccurs="0" maxOccurs="unbounded"/>
     <xs:element name="section" minOccurs="0" maxOccurs="unbounded" type="sect2"/>
   </xs:sequence>
-  <xs:attribute name="class" use="required" fixed="sect1"/>  
+  <xs:attribute name="class" use="required" fixed="sect1"/>
+  <xs:attribute name="id" type="xs:ID"/>
 </xs:complexType>
 
 <!-- Sect2s -->
@@ -169,7 +171,8 @@
     <xs:group ref="blockelements" minOccurs="0" maxOccurs="unbounded"/>
     <xs:element name="section" minOccurs="0" maxOccurs="unbounded" type="sect3"/>
   </xs:sequence>
-  <xs:attribute name="class" use="required" fixed="sect2"/>  
+  <xs:attribute name="class" use="required" fixed="sect2"/>
+  <xs:attribute name="id" type="xs:ID"/>
 </xs:complexType>
   
 <!-- Sect3s -->
@@ -179,7 +182,8 @@
     <xs:group ref="blockelements" minOccurs="0" maxOccurs="unbounded"/>
     <xs:element name="section" minOccurs="0" maxOccurs="unbounded" type="sect4"/>
   </xs:sequence>
-  <xs:attribute name="class" use="required" fixed="sect3"/>  
+  <xs:attribute name="class" use="required" fixed="sect3"/>
+  <xs:attribute name="id" type="xs:ID"/>
 </xs:complexType>
   
 <!-- Sect4s -->
@@ -189,7 +193,8 @@
     <xs:group ref="blockelements" minOccurs="0" maxOccurs="unbounded"/>
     <xs:element name="section" minOccurs="0" maxOccurs="unbounded" type="sect5"/>
   </xs:sequence>
-  <xs:attribute name="class" use="required" fixed="sect4"/>  
+  <xs:attribute name="class" use="required" fixed="sect4"/>
+  <xs:attribute name="id" type="xs:ID"/>
 </xs:complexType>
   
 <!-- Sect5 -->
@@ -198,7 +203,8 @@
     <xs:element ref="h5"/>
     <xs:group ref="blockelements" minOccurs="0" maxOccurs="unbounded"/>
   </xs:sequence>
-  <xs:attribute name="class" use="required" fixed="sect5"/>  
+  <xs:attribute name="class" use="required" fixed="sect5"/>
+  <xs:attribute name="id" type="xs:ID"/>  
 </xs:complexType>
 
 <!-- Global groups -->
