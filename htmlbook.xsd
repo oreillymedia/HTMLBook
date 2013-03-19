@@ -162,6 +162,7 @@
   <xs:sequence>
     <xs:element ref="h1"/>
     <xs:element name="h2" minOccurs="0" maxOccurs="unbounded" type="subheading"/>
+    <xs:group ref="blockelements" minOccurs="0" maxOccurs="unbounded"/>
     <xs:element name="section" maxOccurs="unbounded" type="bookmaindiv"/>
   </xs:sequence>
   <xs:attribute name="class" use="required" fixed="part"/>
