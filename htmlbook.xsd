@@ -64,7 +64,10 @@
   
 <!-- Block elements -->
 <!-- ToDo: What restrictions to add? -->
-<xs:element name="address"/>
+  
+<!-- For now, limit "address" to support only inline element children -->
+<xs:element name="address" type="block_with_inline_children_only"/>
+
 <xs:element name="aside"/>
 <xs:element name="audio"/>
 <xs:element name="blockquote"/>
@@ -276,6 +279,16 @@
     </xs:extension>
   </xs:simpleContent>
 </xs:complexType>
+  
+<!-- Block element that can accept only inline children -->
+<xs:complexType name="block_with_inline_children_only" mixed="true">
+  <xs:sequence>
+    <xs:group ref="inlineelements" minOccurs="0" maxOccurs="unbounded"/>
+  </xs:sequence>
+  <!-- No HTMLBook-specific attribute rules for this set of elements; deferring to HTML5 spec on attribute rules and not 
+       validating in this schema -->
+  <xs:anyAttribute processContents="lax"/>
+</xs:complexType>
 
 <!-- Global groups -->
   
@@ -320,7 +333,8 @@
 </xs:group>
   
 <xs:group name="inlineelements">
-<!-- We're defining "inline elements" here as a subset of HTML5 phrasing elements that can be children of a block element -->
+<!-- We're defining "inline elements" here as being generally equivalent to the set of HTML5 phrasing elements: 
+     those that can be children of a block element -->
   <xs:choice>
     <xs:element ref="a"/>
     <xs:element ref="abbr"/>
