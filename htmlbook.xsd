@@ -87,7 +87,8 @@
   </xs:complexType>
 </xs:element>
   
-<xs:element name="blockquote"/>
+<xs:element name="blockquote" type="block_or_inline_children"/>
+  
 <xs:element name="br"/>
 <xs:element name="button"/>
 <xs:element name="canvas"/>
@@ -310,7 +311,7 @@
   <xs:attribute name="class" use="required" type="subheadingtype"/>
 </xs:complexType>
   
-<!-- For elements that can accept only inline children -->
+<!-- General handling for elements that can accept only inline children -->
 <xs:complexType name="inline_children_only" mixed="true">
   <xs:sequence>
     <xs:group ref="inlineelements" minOccurs="0" maxOccurs="unbounded"/>
@@ -319,7 +320,18 @@
        validating in this schema -->
   <xs:anyAttribute processContents="lax"/>
 </xs:complexType>
-
+  
+<!-- General handling for elements that can accept either block children or inline children (not both)-->
+<xs:complexType name="block_or_inline_children" mixed="true">
+  <xs:choice>
+    <xs:group ref="blockelements" minOccurs="0" maxOccurs="unbounded"/>
+    <xs:group ref="inlineelements" minOccurs="0" maxOccurs="unbounded"/>
+  </xs:choice>
+  <!-- No HTMLBook-specific attribute rules for this set of elements; deferring to HTML5 spec on attribute rules and not 
+       validating in this schema -->
+  <xs:anyAttribute processContents="lax"/>
+</xs:complexType>
+  
 <!-- Global groups -->
   
 <xs:group name="blockelements">
