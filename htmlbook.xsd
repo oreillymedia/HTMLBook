@@ -66,7 +66,7 @@
 <!-- ToDo: What restrictions to add? -->
   
 <!-- For now, limit "address" to support only inline element children -->
-<xs:element name="address" type="block_with_inline_children_only"/>
+<xs:element name="address" type="inline_children_only"/>
 
 <xs:element name="aside" type="sidebar"/>
 
@@ -161,17 +161,17 @@
 <!-- ToDo: Mixed content model that supports inlines -->
 <!-- ToDo: Support hgroup to facilitate subheadings? -->
 <!-- ToDo: Should we require class="title" on all section heading titles? -->
-<xs:element name="h1" type="xs:token"/>
+<xs:element name="h1" type="inline_children_only"/>
 
-<xs:element name="h2" type="xs:token"/>
+<xs:element name="h2" type="inline_children_only"/>
 
-<xs:element name="h3" type="xs:token"/>
+<xs:element name="h3" type="inline_children_only"/>
   
-<xs:element name="h4" type="xs:token"/>
+<xs:element name="h4" type="inline_children_only"/>
   
-<xs:element name="h5" type="xs:token"/>
+<xs:element name="h5" type="inline_children_only"/>
   
-<xs:element name="h6" type="xs:token"/>
+<xs:element name="h6" type="inline_children_only"/>
   
 <!-- Global simple type definitions; see corresponding complex types -->
 
@@ -303,16 +303,15 @@
   
 <!-- Subheadings: support subtitles, author attributions, etc. -->
 <!-- ToDo: Continue to flesh out as necessary -->
-<xs:complexType name="subheading">
-  <xs:simpleContent>
-    <xs:extension base="xs:token">
-      <xs:attribute name="class" use="required" type="subheadingtype"/>
-    </xs:extension>
-  </xs:simpleContent>
+<xs:complexType name="subheading" mixed="true">
+  <xs:sequence>
+    <xs:group ref="inlineelements" minOccurs="0" maxOccurs="unbounded"/>
+  </xs:sequence>
+  <xs:attribute name="class" use="required" type="subheadingtype"/>
 </xs:complexType>
   
-<!-- Block element that can accept only inline children -->
-<xs:complexType name="block_with_inline_children_only" mixed="true">
+<!-- For elements that can accept only inline children -->
+<xs:complexType name="inline_children_only" mixed="true">
   <xs:sequence>
     <xs:group ref="inlineelements" minOccurs="0" maxOccurs="unbounded"/>
   </xs:sequence>
@@ -406,6 +405,7 @@
 </xs:group>
   
 <!-- Global attribute groups -->
+<!--ToDo: any further restrictions on these attributes? -->
 <xs:attributeGroup name="mediaattributes">
   <xs:attribute name="src"/>
   <xs:attribute name="preload"/>
