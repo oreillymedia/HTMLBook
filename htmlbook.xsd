@@ -88,12 +88,19 @@
 </xs:element>
   
 <xs:element name="blockquote" type="block_or_inline_children"/>
+
+<xs:element name="canvas" type="block_or_inline_children"/>
   
-<xs:element name="br"/>
-<xs:element name="button"/>
-<xs:element name="canvas"/>
-<xs:element name="datalist"/>
-<xs:element name="details"/>
+<xs:element name="details">
+  <xs:complexType>
+    <xs:sequence>
+      <xs:element ref="summary" minOccurs="0" maxOccurs="1"/>
+      <xs:group ref="blockelements" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:anyAttribute processContents="lax"/>
+  </xs:complexType>
+</xs:element>
+  
 <xs:element name="div"/>
 <xs:element name="dl"/>
 <xs:element name="embed"/>
@@ -122,8 +129,11 @@
 <xs:element name="b"/>
 <xs:element name="bdi"/>
 <xs:element name="bdo"/>
+<xs:element name="br"/>
+<xs:element name="button"/>
 <!-- Command as inline element? Also defined as part of meta block -->
 <xs:element name="cite"/>
+<xs:element name="datalist"/>
 <xs:element name="del"/>
 <xs:element name="dfn"/>
 <xs:element name="em"/>
@@ -154,6 +164,7 @@
   
 <!-- Miscellaneous elements -->
 <xs:element name="source"/>
+<xs:element name="summary"/>
 <xs:element name="track"/>
   
 <!-- ToDo: Separate out elements that can be either inline or block into a distinct list -->
@@ -341,10 +352,7 @@
     <xs:element ref="aside"/>
     <xs:element ref="audio"/>
     <xs:element ref="blockquote"/>
-    <xs:element ref="br"/> <!-- Yucky? -->
-    <xs:element ref="button"/>
     <xs:element ref="canvas"/>
-    <xs:element ref="datalist"/>
     <xs:element ref="details"/>
     <xs:element ref="div"/>
     <xs:element ref="dl"/>
@@ -384,8 +392,11 @@
     <xs:element ref="b"/>
     <xs:element ref="bdi"/>
     <xs:element ref="bdo"/>
+    <xs:element ref="br"/> <!-- Yucky? -->
+    <xs:element ref="button"/>
     <xs:element ref="command"/>
     <xs:element ref="cite"/>
+    <xs:element ref="datalist"/>
     <xs:element ref="del"/>
     <xs:element ref="dfn"/>
     <xs:element ref="em"/>
