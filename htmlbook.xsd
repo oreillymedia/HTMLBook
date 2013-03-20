@@ -94,6 +94,45 @@
 <xs:element name="ul"/>
 <xs:element name="video"/>
   
+<!-- Inline elements -->
+<xs:element name="a"/>
+<xs:element name="abbr"/>
+<xs:element name="area"/>
+<xs:element name="b"/>
+<xs:element name="bdi"/>
+<xs:element name="bdo"/>
+<!-- Command as inline element? Also defined as part of meta block -->
+<xs:element name="cite"/>
+<xs:element name="del"/>
+<xs:element name="dfn"/>
+<xs:element name="em"/>
+<xs:element name="i"/>
+<xs:element name="input"/>
+<xs:element name="ins"/>
+<xs:element name="kbd"/>
+<xs:element name="keygen"/>  
+<xs:element name="label"/>  
+<xs:element name="mark"/>  
+<xs:element name="meter"/>
+<xs:element name="progress"/>
+<xs:element name="q"/>
+<xs:element name="ruby"/>
+<xs:element name="s"/>
+<xs:element name="samp"/>
+<xs:element name="select"/>
+<xs:element name="small"/>
+<xs:element name="span"/>
+<xs:element name="strong"/>
+<xs:element name="sub"/>
+<xs:element name="sup"/>
+<xs:element name="textarea"/>
+<xs:element name="time"/>
+<xs:element name="u"/>
+<xs:element name="var"/>
+<xs:element name="wbr"/>
+  
+<!-- ToDo: Separate out elements that can be either inline or block into a distinct list -->
+
 <!-- Heading elements -->
 <!-- ToDo: Mixed content model that supports inlines -->
 <!-- ToDo: Support hgroup to facilitate subheadings? -->
@@ -277,6 +316,47 @@
     <xs:element ref="table"/>
     <xs:element ref="ul"/>
     <xs:element ref="video"/>
+  </xs:choice>
+</xs:group>
+  
+<xs:group name="inlineelements">
+<!-- We're defining "inline elements" here as a subset of HTML5 phrasing elements that can be children of a block element -->
+  <xs:choice>
+    <xs:element ref="a"/>
+    <xs:element ref="abbr"/>
+    <xs:element ref="area"/>
+    <xs:element ref="b"/>
+    <xs:element ref="bdi"/>
+    <xs:element ref="bdo"/>
+    <xs:element ref="command"/>
+    <xs:element ref="cite"/>
+    <xs:element ref="del"/>
+    <xs:element ref="dfn"/>
+    <xs:element ref="em"/>
+    <xs:element ref="i"/>
+    <xs:element ref="input"/>
+    <xs:element ref="ins"/>
+    <xs:element ref="kbd"/>
+    <xs:element ref="keygen"/>  
+    <xs:element ref="label"/>  
+    <xs:element ref="mark"/>  
+    <xs:element ref="meter"/>
+    <xs:element ref="progress"/>
+    <xs:element ref="q"/>
+    <xs:element ref="ruby"/>
+    <xs:element ref="s"/>
+    <xs:element ref="samp"/>
+    <xs:element ref="select"/>
+    <xs:element ref="small"/>
+    <xs:element ref="span"/>
+    <xs:element ref="strong"/>
+    <xs:element ref="sub"/>
+    <xs:element ref="sup"/>
+    <xs:element ref="textarea"/>
+    <xs:element ref="time"/>
+    <xs:element ref="u"/>
+    <xs:element ref="var"/>
+    <xs:element ref="wbr"/>
   </xs:choice>
 </xs:group>
 
