@@ -87,11 +87,13 @@
   </xs:complexType>
 </xs:element>
   
-<xs:element name="blockquote" type="block_or_inline_children"/>
+<xs:element name="blockquote" type="block_xor_inline_children"/>
 
-<xs:element name="canvas" type="block_or_inline_children"/>
+<xs:element name="canvas" type="block_xor_inline_children"/>
 
-<xs:element name="dd"/>
+<xs:element name="dd" type="block_xor_inline_children">
+  
+</xs:element>
 
 <xs:element name="details">
   <xs:complexType>
@@ -104,7 +106,7 @@
   </xs:complexType>
 </xs:element>
   
-<xs:element name="div" type="block_or_inline_children"/>
+<xs:element name="div" type="block_xor_inline_children"/>
     
 <xs:element name="dl">
   <xs:complexType>
@@ -117,7 +119,7 @@
   </xs:complexType>
 </xs:element>
   
-<xs:element name="dt"/>
+<xs:element name="dt" type="inline_children_only"/>
 
 <xs:element name="embed"/>
 <xs:element name="fieldset"/>
@@ -350,7 +352,7 @@
 </xs:complexType>
   
 <!-- General handling for elements that can accept either block children or inline children (not both)-->
-<xs:complexType name="block_or_inline_children" mixed="true">
+<xs:complexType name="block_xor_inline_children" mixed="true">
   <xs:choice>
     <xs:group ref="blockelements" minOccurs="0" maxOccurs="unbounded"/>
     <xs:group ref="inlineelements" minOccurs="0" maxOccurs="unbounded"/>
