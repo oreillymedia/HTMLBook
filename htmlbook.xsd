@@ -206,8 +206,23 @@
   
 <!--ToDo: Open question: Allow h1-h6 at beginning (or even middle) of navs? -->
 <xs:element name="nav" type="block_xor_inline_children"/>
+  
+<xs:element name="object">
+  <xs:complexType mixed="true">
+    <xs:sequence>
+      <xs:element ref="param" minOccurs="0" maxOccurs="1"/>
+      <xs:choice>
+        <xs:group ref="blockelements" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:group ref="inlineelements" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:choice>
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:ID"/>
+    <!-- Deferring to HTML5 spec for all other attribute validation -->
+    <xs:anyAttribute processContents="lax"/>
+  </xs:complexType>
+</xs:element>
 
-<xs:element name="object"/>
+
 <xs:element name="ol"/>
 <xs:element name="output"/>
 <xs:element name="p"/>
@@ -259,6 +274,7 @@
 <!-- Miscellaneous elements -->
 <xs:element name="figcaption"/>
 <xs:element name="legend"/>
+<xs:element name="param"/>
 <xs:element name="source"/>
 <xs:element name="summary"/>
 <xs:element name="track"/>
