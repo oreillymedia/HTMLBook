@@ -197,8 +197,10 @@
     <xs:anyAttribute processContents="lax"/>
   </xs:complexType>
 </xs:element>
+
+<!-- Not imposing any HTMLBook specific constraints on form content; deferring to HTML5 spec -->
+<xs:element name="map" type="any_elems_attrs"/>
   
-<xs:element name="map"/>
 <xs:element name="menu"/>
 <xs:element name="nav"/>
 <xs:element name="object"/>
