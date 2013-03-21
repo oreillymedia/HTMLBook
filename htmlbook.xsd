@@ -301,7 +301,7 @@
 <xs:element name="dt" type="inline_children_only"/>
 <xs:element name="figcaption"/>
 <xs:element name="legend"/>
-<xs:element name="li"/>
+<xs:element name="li" type="block_xor_inline_children"/>
 <xs:element name="param"/>
 <xs:element name="source"/>
 <xs:element name="summary"/>
