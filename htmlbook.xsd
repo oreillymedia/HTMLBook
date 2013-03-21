@@ -168,17 +168,8 @@
   </xs:complexType>
 </xs:element>
 
-<xs:element name="form">
-  <xs:complexType mixed="true">
-    <xs:sequence minOccurs="0">
-      <!-- Not imposing any HTMLBook specific constraints on form content; deferring to HTML5 spec -->
-      <xs:any processContents="lax"/>
-    </xs:sequence>
-    <xs:attribute name="id" type="xs:ID"/>
-    <!-- Deferring to HTML5 spec for all other attribute validation -->
-    <xs:anyAttribute processContents="lax"/>  
-  </xs:complexType>
-</xs:element>
+<!-- Not imposing any HTMLBook specific constraints on form content; deferring to HTML5 spec -->
+<xs:element name="form" type="any_elems_attrs"/>
   
 <xs:element name="hr">
   <xs:complexType>
@@ -442,6 +433,16 @@
        validating in this schema -->
   <xs:attribute name="id" type="xs:ID"/>
   <xs:anyAttribute processContents="lax"/>
+</xs:complexType>
+
+<!-- Type for no restrictions on child content, except uniqueness for optional id attribute; used for deferral to HTML5 specs -->
+<xs:complexType name="any_elems_attrs" mixed="true">
+  <xs:sequence minOccurs="0">
+    <xs:any processContents="lax"/>
+  </xs:sequence>
+  <xs:attribute name="id" type="xs:ID"/>
+  <!-- Deferring to HTML5 spec for all other attribute validation -->
+  <xs:anyAttribute processContents="lax"/>  
 </xs:complexType>
   
 <!-- Global groups -->
