@@ -249,7 +249,8 @@
   </xs:complexType>
 </xs:element>
   
-<xs:element name="p"/>
+<xs:element name="p" type="inline_children_only"/>
+  
 <xs:element name="pre"/>
 <xs:element name="table"/>
 <xs:element name="ul"/>
