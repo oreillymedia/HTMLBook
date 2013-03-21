@@ -108,7 +108,7 @@
   </xs:complexType>
 </xs:element>
 
-<!--ToDo: Open question: Allow headings at beginning of divs? -->
+<!--ToDo: Open question: Allow h1-h6 at beginning (or even middle) of divs? -->
 <xs:element name="div" type="block_xor_inline_children"/>
     
 <xs:element name="dl">
@@ -203,8 +203,10 @@
 
 <!-- Not imposing any HTMLBook specific constraints on menu content; deferring to HTML5 spec -->
 <xs:element name="menu" type="any_elems_attrs"/>
+  
+<!--ToDo: Open question: Allow h1-h6 at beginning (or even middle) of navs? -->
+<xs:element name="nav" type="block_xor_inline_children"/>
 
-<xs:element name="nav"/>
 <xs:element name="object"/>
 <xs:element name="ol"/>
 <xs:element name="output"/>
@@ -468,7 +470,7 @@
     <xs:element ref="form"/>
     <xs:element ref="hr"/>
     <xs:element ref="iframe"/>
-    <xs:element ref="img"/> <!-- Debatable? Require all block images to be nested in div/figure/etc? -->
+    <xs:element ref="img"/>
     <xs:element ref="map"/>
     <!-- ToDo: Add separate schema for MathML ref here? 
     <xs:element ref="mml:math"/> -->
