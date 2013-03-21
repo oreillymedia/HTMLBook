@@ -91,17 +91,19 @@
 
 <xs:element name="canvas" type="block_xor_inline_children"/>
 
-<xs:element name="dd" type="block_xor_inline_children">
+<xs:element name="dd" type="block_xor_inline_children"/>
   
-</xs:element>
-
 <xs:element name="details">
   <xs:complexType>
     <xs:sequence>
       <xs:element ref="summary" minOccurs="0" maxOccurs="1"/>
-      <xs:group ref="blockelements" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:choice>
+        <xs:group ref="blockelements" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:group ref="inlineelements" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:choice>
     </xs:sequence>
     <xs:attribute name="id" type="xs:ID"/>
+    <!-- Deferring to HTML5 spec for all other attribute validation -->
     <xs:anyAttribute processContents="lax"/>
   </xs:complexType>
 </xs:element>
