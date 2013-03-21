@@ -90,19 +90,35 @@
 <xs:element name="blockquote" type="block_or_inline_children"/>
 
 <xs:element name="canvas" type="block_or_inline_children"/>
-  
+
+<xs:element name="dd"/>
+
 <xs:element name="details">
   <xs:complexType>
     <xs:sequence>
       <xs:element ref="summary" minOccurs="0" maxOccurs="1"/>
       <xs:group ref="blockelements" minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>
+    <xs:attribute name="id" type="xs:ID"/>
     <xs:anyAttribute processContents="lax"/>
   </xs:complexType>
 </xs:element>
   
-<xs:element name="div"/>
-<xs:element name="dl"/>
+<xs:element name="div" type="block_or_inline_children"/>
+    
+<xs:element name="dl">
+  <xs:complexType>
+    <xs:sequence maxOccurs="unbounded">
+      <xs:element ref="dt" minOccurs="1" maxOccurs="unbounded"/>
+      <xs:element ref="dd" minOccurs="1" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:ID"/>
+    <xs:anyAttribute processContents="lax"/>
+  </xs:complexType>
+</xs:element>
+  
+<xs:element name="dt"/>
+
 <xs:element name="embed"/>
 <xs:element name="fieldset"/>
 <xs:element name="figure"/>
@@ -327,8 +343,9 @@
   <xs:sequence>
     <xs:group ref="inlineelements" minOccurs="0" maxOccurs="unbounded"/>
   </xs:sequence>
-  <!-- No HTMLBook-specific attribute rules for this set of elements; deferring to HTML5 spec on attribute rules and not 
+  <!-- No HTMLBook-specific attribute rules for this set of elements other than id; deferring to HTML5 spec on attribute rules and not 
        validating in this schema -->
+  <xs:attribute name="id" type="xs:ID"/>
   <xs:anyAttribute processContents="lax"/>
 </xs:complexType>
   
@@ -338,8 +355,9 @@
     <xs:group ref="blockelements" minOccurs="0" maxOccurs="unbounded"/>
     <xs:group ref="inlineelements" minOccurs="0" maxOccurs="unbounded"/>
   </xs:choice>
-  <!-- No HTMLBook-specific attribute rules for this set of elements; deferring to HTML5 spec on attribute rules and not 
+  <!-- No HTMLBook-specific attribute rules for this set of elements other than id; deferring to HTML5 spec on attribute rules and not 
        validating in this schema -->
+  <xs:attribute name="id" type="xs:ID"/>
   <xs:anyAttribute processContents="lax"/>
 </xs:complexType>
   
