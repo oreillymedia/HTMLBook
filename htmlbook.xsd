@@ -251,7 +251,8 @@
   
 <xs:element name="p" type="inline_children_only"/>
   
-<xs:element name="pre"/>
+<xs:element name="pre" type="inline_children_only"/>
+  
 <xs:element name="table"/>
 <xs:element name="ul"/>
 <xs:element name="video"/>
