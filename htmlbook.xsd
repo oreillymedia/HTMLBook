@@ -107,7 +107,8 @@
     <xs:anyAttribute processContents="lax"/>
   </xs:complexType>
 </xs:element>
-  
+
+<!--ToDo: Open question: Allow headings at beginning of divs? -->
 <xs:element name="div" type="block_xor_inline_children"/>
     
 <xs:element name="dl">
@@ -179,7 +180,14 @@
   </xs:complexType>
 </xs:element>
   
-<xs:element name="hr"/>
+<xs:element name="hr">
+  <xs:complexType>
+    <xs:attribute name="id" type="xs:ID"/>
+    <!-- Deferring to HTML5 spec for all other attribute validation -->
+    <xs:anyAttribute processContents="lax"/>
+  </xs:complexType>
+</xs:element>
+  
 <xs:element name="iframe"/>
 <xs:element name="img"/>
 <xs:element name="map"/>
