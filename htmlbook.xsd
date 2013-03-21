@@ -198,10 +198,12 @@
   </xs:complexType>
 </xs:element>
 
-<!-- Not imposing any HTMLBook specific constraints on form content; deferring to HTML5 spec -->
+<!-- Not imposing any HTMLBook specific constraints on map content; deferring to HTML5 spec -->
 <xs:element name="map" type="any_elems_attrs"/>
-  
-<xs:element name="menu"/>
+
+<!-- Not imposing any HTMLBook specific constraints on menu content; deferring to HTML5 spec -->
+<xs:element name="menu" type="any_elems_attrs"/>
+
 <xs:element name="nav"/>
 <xs:element name="object"/>
 <xs:element name="ol"/>
