@@ -115,13 +115,21 @@
       <xs:element ref="dd" minOccurs="1" maxOccurs="unbounded"/>
     </xs:sequence>
     <xs:attribute name="id" type="xs:ID"/>
+    <!-- Deferring to HTML5 spec for all other attribute validation -->
     <xs:anyAttribute processContents="lax"/>
   </xs:complexType>
 </xs:element>
   
 <xs:element name="dt" type="inline_children_only"/>
 
-<xs:element name="embed"/>
+<xs:element name="embed">
+  <xs:complexType>
+    <xs:attribute name="id" type="xs:ID"/>
+    <!-- Deferring to HTML5 spec for all other attribute validation -->
+    <xs:anyAttribute processContents="lax"/>
+  </xs:complexType>
+</xs:element>
+  
 <xs:element name="fieldset"/>
 <xs:element name="figure"/>
 <xs:element name="form"/>
