@@ -192,13 +192,21 @@
   <xs:complexType mixed="true">
     <xs:group ref="inlineelements" minOccurs="0" maxOccurs="unbounded"/>
     <!-- Differing from HTML5 spec in that we're requiring a @src attribute here -->
-    <xs:attribute name="src" use="required"/>
+    <xs:attribute name="src" use="required" type="xs:anyURI"/>
     <!-- Deferring to HTML5 spec for all other attribute validation -->
     <xs:anyAttribute processContents="lax"/>
   </xs:complexType>
 </xs:element>
   
-<xs:element name="img"/>
+<xs:element name="img">
+  <xs:complexType>
+    <xs:attribute name="id" type="xs:ID"/>
+    <xs:attribute name="src" use="required" type="xs:anyURI"/>
+    <!-- Deferring to HTML5 spec for all other attribute validation -->
+    <xs:anyAttribute processContents="lax"/>
+  </xs:complexType>
+</xs:element>
+  
 <xs:element name="map"/>
 <xs:element name="menu"/>
 <xs:element name="nav"/>
