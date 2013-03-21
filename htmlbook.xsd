@@ -90,8 +90,6 @@
 <xs:element name="blockquote" type="block_xor_inline_children"/>
 
 <xs:element name="canvas" type="block_xor_inline_children"/>
-
-<xs:element name="dd" type="block_xor_inline_children"/>
   
 <xs:element name="details">
   <xs:complexType mixed="true">
@@ -122,8 +120,6 @@
     <xs:anyAttribute processContents="lax"/>
   </xs:complexType>
 </xs:element>
-  
-<xs:element name="dt" type="inline_children_only"/>
 
 <xs:element name="embed">
   <xs:complexType>
@@ -222,8 +218,37 @@
   </xs:complexType>
 </xs:element>
 
-
-<xs:element name="ol"/>
+<xs:element name="ol">
+  <xs:complexType>
+    <xs:sequence>
+      <xs:element ref="li" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <!-- Deferring to HTML5 spec for all other attribute validation -->
+    <xs:attribute name="reversed">
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <!-- Must be a case-insensitive match for "reversed" -->
+          <xs:pattern value="[Rr][Ee][Vv][Ee][Rr][Ss][Ee][Dd]"/>            
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="start" type="xs:integer"/>
+    <xs:attribute name="type">
+      <xs:simpleType>
+        <xs:restriction base="xs:token">
+          <xs:enumeration value="decimal"/>
+          <xs:enumeration value="lower-alpha"/>
+          <xs:enumeration value="upper-alpha"/>
+          <xs:enumeration value="lower-roman"/>
+          <xs:enumeration value="upper-roman"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="id" type="xs:ID"/>
+    <xs:anyAttribute processContents="lax"/>
+  </xs:complexType>
+</xs:element>
+  
 <xs:element name="output"/>
 <xs:element name="p"/>
 <xs:element name="pre"/>
@@ -272,8 +297,11 @@
 <xs:element name="wbr"/>
   
 <!-- Miscellaneous elements -->
+<xs:element name="dd" type="block_xor_inline_children"/>
+<xs:element name="dt" type="inline_children_only"/>
 <xs:element name="figcaption"/>
 <xs:element name="legend"/>
+<xs:element name="li"/>
 <xs:element name="param"/>
 <xs:element name="source"/>
 <xs:element name="summary"/>
