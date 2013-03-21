@@ -166,8 +166,19 @@
     <xs:anyAttribute processContents="lax"/>    
   </xs:complexType>
 </xs:element>
+
+<xs:element name="form">
+  <xs:complexType mixed="true">
+    <xs:sequence minOccurs="0">
+      <!-- Not imposing any HTMLBook specific constraints on form content; deferring to HTML5 spec -->
+      <xs:any processContents="lax"/>
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:ID"/>
+    <!-- Deferring to HTML5 spec for all other attribute validation -->
+    <xs:anyAttribute processContents="lax"/>  
+  </xs:complexType>
+</xs:element>
   
-<xs:element name="form"/>
 <xs:element name="hr"/>
 <xs:element name="iframe"/>
 <xs:element name="img"/>
