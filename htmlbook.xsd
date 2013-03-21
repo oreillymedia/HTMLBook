@@ -147,7 +147,26 @@
   </xs:complexType>
 </xs:element>
 
-<xs:element name="figure"/>
+<!-- We're deviating from the HTML5 spec in that we're only allowing block elements inside figure,
+     and we're requiring a caption (which can come at either beginning or end) -->
+<xs:element name="figure">
+  <xs:complexType>
+    <xs:choice>
+      <xs:sequence>
+        <xs:element ref="figcaption"/>
+        <xs:group ref="blockelements" maxOccurs="unbounded"/>
+      </xs:sequence>
+      <xs:sequence>
+        <xs:group ref="blockelements" maxOccurs="unbounded"/>
+        <xs:element ref="figcaption"/>
+      </xs:sequence>
+    </xs:choice>
+    <xs:attribute name="id" type="xs:ID"/>
+    <!-- Deferring to HTML5 spec for all other attribute validation -->
+    <xs:anyAttribute processContents="lax"/>    
+  </xs:complexType>
+</xs:element>
+  
 <xs:element name="form"/>
 <xs:element name="hr"/>
 <xs:element name="iframe"/>
@@ -205,6 +224,7 @@
 <xs:element name="wbr"/>
   
 <!-- Miscellaneous elements -->
+<xs:element name="figcaption"/>
 <xs:element name="legend"/>
 <xs:element name="source"/>
 <xs:element name="summary"/>
