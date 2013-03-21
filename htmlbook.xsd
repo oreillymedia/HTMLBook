@@ -281,7 +281,17 @@
   </xs:complexType>
 </xs:element>
   
-<xs:element name="ul"/>
+<xs:element name="ul">
+  <xs:complexType>
+    <xs:sequence>
+      <xs:element ref="li" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:ID"/>
+    <!-- Deferring to HTML5 spec for all other attribute validation -->
+    <xs:anyAttribute processContents="lax"/>
+  </xs:complexType>
+</xs:element>
+  
 <xs:element name="video"/>
   
 <!-- Inline elements -->
