@@ -422,7 +422,9 @@
   
 <xs:element name="i" type="inline_children_only"/>
   
-<xs:element name="input"/>
+<!-- Not imposing any HTMLBook specific constraints on button content; deferring to HTML5 spec -->
+<xs:element name="input" type="any_elems_attrs"/>
+
 <xs:element name="ins"/>
 <xs:element name="kbd"/>
 <xs:element name="keygen"/>  
