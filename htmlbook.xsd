@@ -64,51 +64,323 @@
   
 <!-- Block elements -->
 <!-- ToDo: What restrictions to add? -->
-<xs:element name="address"/>
-<xs:element name="aside"/>
-<xs:element name="audio"/>
-<xs:element name="blockquote"/>
+  
+<!-- For now, limit "address" to support only inline element children -->
+<xs:element name="address" type="inline_children_only"/>
+
+<xs:element name="aside" type="sidebar"/>
+
+<!-- Note, per HTML5 spec, the actual requirements are a choice between:
+    * a @src attribute on <audio> elem and no <source> children
+    * no @src attribute on <audio> elem and 1 or more <source> children
+    But AFAICS this logic is impossible to capture in Schema, so not going to enforce -->
+<xs:element name="audio">
+  <xs:complexType>
+    <xs:sequence>
+      <xs:element ref="source" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element ref="track" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="generalmediaattributes"/>
+    <xs:attribute name="id" type="xs:ID"/>
+    <!-- Deferring to HTML5 spec for all other attribute validation -->
+    <xs:anyAttribute processContents="lax"/>
+  </xs:complexType>
+</xs:element>
+  
+<xs:element name="blockquote" type="block_xor_inline_children"/>
+
+<xs:element name="canvas" type="block_xor_inline_children"/>
+  
+<xs:element name="details">
+  <xs:complexType mixed="true">
+    <xs:sequence>
+      <xs:element ref="summary" minOccurs="0" maxOccurs="1"/>
+      <xs:choice>
+        <xs:group ref="blockelements" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:group ref="inlineelements" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:choice>
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:ID"/>
+    <!-- Deferring to HTML5 spec for all other attribute validation -->
+    <xs:anyAttribute processContents="lax"/>
+  </xs:complexType>
+</xs:element>
+
+<!--ToDo: Open question: Allow h1-h6 at beginning (or even middle) of divs? -->
+<xs:element name="div" type="block_xor_inline_children"/>
+    
+<xs:element name="dl">
+  <xs:complexType>
+    <xs:sequence maxOccurs="unbounded">
+      <xs:element ref="dt" minOccurs="1" maxOccurs="unbounded"/>
+      <xs:element ref="dd" minOccurs="1" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:ID"/>
+    <!-- Deferring to HTML5 spec for all other attribute validation -->
+    <xs:anyAttribute processContents="lax"/>
+  </xs:complexType>
+</xs:element>
+
+<xs:element name="embed">
+  <xs:complexType>
+    <xs:attribute name="id" type="xs:ID"/>
+    <!-- Deferring to HTML5 spec for all other attribute validation -->
+    <xs:anyAttribute processContents="lax"/>
+  </xs:complexType>
+</xs:element>
+  
+<xs:element name="fieldset">
+  <xs:complexType mixed="true">
+    <xs:sequence>
+      <xs:element ref="legend" minOccurs="0" maxOccurs="1"/>
+      <xs:choice>
+        <xs:group ref="blockelements" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:group ref="inlineelements" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:choice>
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:ID"/>
+    <!-- Deferring to HTML5 spec for all other attribute validation -->
+    <xs:anyAttribute processContents="lax"/>
+  </xs:complexType>
+</xs:element>
+
+<!-- We're deviating from the HTML5 spec in that we're only allowing block elements inside figure,
+     and we're requiring a caption (which can come at either beginning or end) -->
+<xs:element name="figure">
+  <xs:complexType>
+    <xs:choice>
+      <xs:sequence>
+        <xs:element ref="figcaption"/>
+        <xs:group ref="blockelements" maxOccurs="unbounded"/>
+      </xs:sequence>
+      <xs:sequence>
+        <xs:group ref="blockelements" maxOccurs="unbounded"/>
+        <xs:element ref="figcaption"/>
+      </xs:sequence>
+    </xs:choice>
+    <xs:attribute name="id" type="xs:ID"/>
+    <!-- Deferring to HTML5 spec for all other attribute validation -->
+    <xs:anyAttribute processContents="lax"/>    
+  </xs:complexType>
+</xs:element>
+
+<!-- Not imposing any HTMLBook specific constraints on form content; deferring to HTML5 spec -->
+<xs:element name="form" type="any_elems_attrs"/>
+  
+<xs:element name="hr">
+  <xs:complexType>
+    <xs:attribute name="id" type="xs:ID"/>
+    <!-- Deferring to HTML5 spec for all other attribute validation -->
+    <xs:anyAttribute processContents="lax"/>
+  </xs:complexType>
+</xs:element>
+  
+<xs:element name="iframe">
+  <xs:complexType mixed="true">
+    <xs:group ref="inlineelements" minOccurs="0" maxOccurs="unbounded"/>
+    <!-- Differing from HTML5 spec in that we're requiring a @src attribute here -->
+    <xs:attribute name="src" use="required" type="xs:anyURI"/>
+    <!-- Deferring to HTML5 spec for all other attribute validation -->
+    <xs:anyAttribute processContents="lax"/>
+  </xs:complexType>
+</xs:element>
+  
+<xs:element name="img">
+  <xs:complexType>
+    <xs:attribute name="id" type="xs:ID"/>
+    <xs:attribute name="src" use="required" type="xs:anyURI"/>
+    <!-- Deferring to HTML5 spec for all other attribute validation -->
+    <xs:anyAttribute processContents="lax"/>
+  </xs:complexType>
+</xs:element>
+
+<!-- Not imposing any HTMLBook specific constraints on map content; deferring to HTML5 spec -->
+<xs:element name="map" type="any_elems_attrs"/>
+
+<!-- Not imposing any HTMLBook specific constraints on menu content; deferring to HTML5 spec -->
+<xs:element name="menu" type="any_elems_attrs"/>
+  
+<!--ToDo: Open question: Allow h1-h6 at beginning (or even middle) of navs? -->
+<xs:element name="nav" type="block_xor_inline_children"/>
+  
+<xs:element name="object">
+  <xs:complexType mixed="true">
+    <xs:sequence>
+      <xs:element ref="param" minOccurs="0" maxOccurs="1"/>
+      <xs:choice>
+        <xs:group ref="blockelements" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:group ref="inlineelements" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:choice>
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:ID"/>
+    <!-- Deferring to HTML5 spec for all other attribute validation -->
+    <xs:anyAttribute processContents="lax"/>
+  </xs:complexType>
+</xs:element>
+
+<xs:element name="ol">
+  <xs:complexType>
+    <xs:sequence>
+      <xs:element ref="li" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="reversed">
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <!-- Must be a case-insensitive match for "reversed" -->
+          <xs:pattern value="[Rr][Ee][Vv][Ee][Rr][Ss][Ee][Dd]"/>            
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="start" type="xs:integer"/>
+    <xs:attribute name="type">
+      <xs:simpleType>
+        <xs:restriction base="xs:token">
+          <xs:enumeration value="decimal"/>
+          <xs:enumeration value="lower-alpha"/>
+          <xs:enumeration value="upper-alpha"/>
+          <xs:enumeration value="lower-roman"/>
+          <xs:enumeration value="upper-roman"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="id" type="xs:ID"/>
+    <!-- Deferring to HTML5 spec for all other attribute validation -->
+    <xs:anyAttribute processContents="lax"/>
+  </xs:complexType>
+</xs:element>
+  
+<xs:element name="p" type="inline_children_only"/>
+  
+<xs:element name="pre" type="inline_children_only"/>
+  
+<xs:element name="table">
+  <xs:complexType>
+    <xs:sequence>
+      <xs:element ref="caption" minOccurs="0"/>
+      <xs:element ref="colgroup" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element ref="thead" minOccurs="0"/>
+      <xs:choice>
+        <xs:element ref="tbody" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element ref="tr" maxOccurs="unbounded"/>
+      </xs:choice>
+      <!-- In order to simplify and ensure determinist content model, departing from the HTML5 spec
+           and requiring tfoot to come at end of table, which is more intuitive anyway -->
+      <xs:element ref="tfoot" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute name="border">
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <!-- Per HTML5 spec, we're accepting either the value 1 or an empty string here -->
+          <xs:pattern value="1?"></xs:pattern>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="id" type="xs:ID"/>
+    <!-- Deferring to HTML5 spec for all other attribute validation -->
+    <xs:anyAttribute processContents="lax"/>
+  </xs:complexType>
+</xs:element>
+  
+<xs:element name="ul">
+  <xs:complexType>
+    <xs:sequence>
+      <xs:element ref="li" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:ID"/>
+    <!-- Deferring to HTML5 spec for all other attribute validation -->
+    <xs:anyAttribute processContents="lax"/>
+  </xs:complexType>
+</xs:element>
+  
+<xs:element name="video">
+  <xs:complexType>
+    <xs:sequence>
+      <xs:element ref="source" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element ref="track" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="videomediaattributes"/>
+    <xs:attribute name="id" type="xs:ID"/>
+    <!-- Deferring to HTML5 spec for all other attribute validation -->
+    <xs:anyAttribute processContents="lax"/>
+  </xs:complexType>
+</xs:element>
+  
+<!-- Inline elements -->
+<xs:element name="a"/>
+<xs:element name="abbr"/>
+<xs:element name="area"/>
+<xs:element name="b"/>
+<xs:element name="bdi"/>
+<xs:element name="bdo"/>
 <xs:element name="br"/>
 <xs:element name="button"/>
-<xs:element name="canvas"/>
+<!-- Command as inline element? Also defined as part of meta block -->
+<xs:element name="cite"/>
+<xs:element name="code"/>
 <xs:element name="datalist"/>
-<xs:element name="details"/>
-<xs:element name="div"/>
-<xs:element name="dl"/>
-<xs:element name="embed"/>
-<xs:element name="fieldset"/>
-<xs:element name="figure"/>
-<xs:element name="form"/>
-<xs:element name="hr"/>
-<xs:element name="iframe"/>
-<xs:element name="img"/>
-<xs:element name="map"/>
-<xs:element name="menu"/>
-<xs:element name="nav"/>
-<xs:element name="object"/>
-<xs:element name="ol"/>
+<xs:element name="del"/>
+<xs:element name="dfn"/>
+<xs:element name="em"/>
+<xs:element name="i"/>
+<xs:element name="input"/>
+<xs:element name="ins"/>
+<xs:element name="kbd"/>
+<xs:element name="keygen"/>  
+<xs:element name="label"/>  
+<xs:element name="mark"/>  
+<xs:element name="meter"/>
 <xs:element name="output"/>
-<xs:element name="p"/>
-<xs:element name="pre"/>
-<xs:element name="table"/>
-<xs:element name="ul"/>
-<xs:element name="video"/>
+<xs:element name="progress"/>
+<xs:element name="q"/>
+<xs:element name="ruby"/>
+<xs:element name="s"/>
+<xs:element name="samp"/>
+<xs:element name="select"/>
+<xs:element name="small"/>
+<xs:element name="span"/>
+<xs:element name="strong"/>
+<xs:element name="sub"/>
+<xs:element name="sup"/>
+<xs:element name="textarea"/>
+<xs:element name="time"/>
+<xs:element name="u"/>
+<xs:element name="var"/>
+<xs:element name="wbr"/>
   
+<!-- Miscellaneous elements -->
+<xs:element name="caption"/>
+<xs:element name="colgroup"/>
+<xs:element name="dd" type="block_xor_inline_children"/>
+<xs:element name="dt" type="inline_children_only"/>
+<xs:element name="figcaption"/>
+<xs:element name="legend"/>
+<xs:element name="li" type="block_xor_inline_children"/>
+<xs:element name="param"/>
+<xs:element name="source"/>
+<xs:element name="summary"/>
+<xs:element name="tbody"/>
+<xs:element name="thead"/>
+<xs:element name="tfoot"/>
+<xs:element name="tr"/>
+<xs:element name="track"/>
+  
+<!-- ToDo: Separate out elements that can be either inline or block into a distinct list -->
+
 <!-- Heading elements -->
 <!-- ToDo: Mixed content model that supports inlines -->
 <!-- ToDo: Support hgroup to facilitate subheadings? -->
 <!-- ToDo: Should we require class="title" on all section heading titles? -->
-<xs:element name="h1" type="xs:token"/>
+<xs:element name="h1" type="inline_children_only"/>
 
-<xs:element name="h2" type="xs:token"/>
+<xs:element name="h2" type="inline_children_only"/>
 
-<xs:element name="h3" type="xs:token"/>
+<xs:element name="h3" type="inline_children_only"/>
   
-<xs:element name="h4" type="xs:token"/>
+<xs:element name="h4" type="inline_children_only"/>
   
-<xs:element name="h5" type="xs:token"/>
+<xs:element name="h5" type="inline_children_only"/>
   
-<xs:element name="h6" type="xs:token"/>
+<xs:element name="h6" type="inline_children_only"/>
   
 <!-- Global simple type definitions; see corresponding complex types -->
 
@@ -217,27 +489,69 @@
   <xs:attribute name="id" type="xs:ID"/>
 </xs:complexType>
   
-<!-- Sect5 -->
-<xs:complexType name="sect5">
+<!-- Sidebar; primarily for <aside> -->
+<xs:complexType name="sidebar">
   <xs:sequence>
-    <xs:element ref="h5"/>
-    <xs:element name="h6" minOccurs="0" maxOccurs="unbounded" type="subheading"/>
+    <xs:element ref="h5" minOccurs="0"/> <!-- Unlike other sections, sidebar titles are optional -->
     <xs:group ref="blockelements" minOccurs="0" maxOccurs="unbounded"/>
   </xs:sequence>
-  <xs:attribute name="class" use="required" fixed="sect5"/>
+  <xs:attribute name="class" use="required" fixed="sidebar"/>
   <xs:attribute name="id" type="xs:ID"/>  
 </xs:complexType>
   
+<!-- Sect5 -->
+<xs:complexType name="sect5">
+    <xs:sequence>
+      <xs:element ref="h5"/>
+      <xs:element name="h6" minOccurs="0" maxOccurs="unbounded" type="subheading"/>
+      <xs:group ref="blockelements" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="class" use="required" fixed="sect5"/>
+    <xs:attribute name="id" type="xs:ID"/>  
+  </xs:complexType>
+  
 <!-- Subheadings: support subtitles, author attributions, etc. -->
 <!-- ToDo: Continue to flesh out as necessary -->
-<xs:complexType name="subheading">
-  <xs:simpleContent>
-    <xs:extension base="xs:token">
-      <xs:attribute name="class" use="required" type="subheadingtype"/>
-    </xs:extension>
-  </xs:simpleContent>
+<xs:complexType name="subheading" mixed="true">
+  <xs:sequence>
+    <xs:group ref="inlineelements" minOccurs="0" maxOccurs="unbounded"/>
+  </xs:sequence>
+  <xs:attribute name="class" use="required" type="subheadingtype"/>
+</xs:complexType>
+  
+<!-- General handling for elements that can accept only inline children -->
+<xs:complexType name="inline_children_only" mixed="true">
+  <xs:sequence>
+    <xs:group ref="inlineelements" minOccurs="0" maxOccurs="unbounded"/>
+  </xs:sequence>
+  <!-- No HTMLBook-specific attribute rules for this set of elements other than id; deferring to HTML5 spec on attribute rules and not 
+       validating in this schema -->
+  <xs:attribute name="id" type="xs:ID"/>
+  <xs:anyAttribute processContents="lax"/>
+</xs:complexType>
+  
+<!-- General handling for elements that can accept either block children or inline children (not both)-->
+<xs:complexType name="block_xor_inline_children" mixed="true">
+  <xs:choice>
+    <xs:group ref="blockelements" minOccurs="0" maxOccurs="unbounded"/>
+    <xs:group ref="inlineelements" minOccurs="0" maxOccurs="unbounded"/>
+  </xs:choice>
+  <!-- No HTMLBook-specific attribute rules for this set of elements other than id; deferring to HTML5 spec on attribute rules and not 
+       validating in this schema -->
+  <xs:attribute name="id" type="xs:ID"/>
+  <xs:anyAttribute processContents="lax"/>
 </xs:complexType>
 
+<!-- Type for no restrictions on child content, except uniqueness for optional id attribute; used for deferral to HTML5 specs -->
+<xs:complexType name="any_elems_attrs" mixed="true">
+  <xs:sequence minOccurs="0">
+    <xs:any processContents="lax"/>
+  </xs:sequence>
+  <xs:attribute name="id" type="xs:ID"/>
+  <!-- Deferring to HTML5 spec for all other attribute validation -->
+  <xs:anyAttribute processContents="lax"/>  
+</xs:complexType>
+  
 <!-- Global groups -->
   
 <xs:group name="blockelements">
@@ -247,10 +561,7 @@
     <xs:element ref="aside"/>
     <xs:element ref="audio"/>
     <xs:element ref="blockquote"/>
-    <xs:element ref="br"/> <!-- Yucky? -->
-    <xs:element ref="button"/>
     <xs:element ref="canvas"/>
-    <xs:element ref="datalist"/>
     <xs:element ref="details"/>
     <xs:element ref="div"/>
     <xs:element ref="dl"/>
@@ -260,7 +571,7 @@
     <xs:element ref="form"/>
     <xs:element ref="hr"/>
     <xs:element ref="iframe"/>
-    <xs:element ref="img"/> <!-- Debatable? Require all block images to be nested in div/figure/etc? -->
+    <xs:element ref="img"/>
     <xs:element ref="map"/>
     <!-- ToDo: Add separate schema for MathML ref here? 
     <xs:element ref="mml:math"/> -->
@@ -269,7 +580,6 @@
     <xs:element ref="noscript"/>
     <xs:element ref="object"/>
     <xs:element ref="ol"/>
-    <xs:element ref="output"/>
     <xs:element ref="p"/>
     <xs:element ref="pre"/>
     <!-- ToDo: Add separate schema for SVG ref here? 
@@ -279,5 +589,74 @@
     <xs:element ref="video"/>
   </xs:choice>
 </xs:group>
-
+  
+<xs:group name="inlineelements">
+<!-- We're defining "inline elements" here as being generally equivalent to the set of HTML5 phrasing elements: 
+     those that can be children of a block element -->
+  <xs:choice>
+    <xs:element ref="a"/>
+    <xs:element ref="abbr"/>
+    <xs:element ref="area"/>
+    <xs:element ref="b"/>
+    <xs:element ref="bdi"/>
+    <xs:element ref="bdo"/>
+    <xs:element ref="br"/> <!-- Yucky? -->
+    <xs:element ref="button"/>
+    <xs:element ref="command"/>
+    <xs:element ref="cite"/>
+    <xs:element ref="code"/>
+    <xs:element ref="datalist"/>
+    <xs:element ref="del"/>
+    <xs:element ref="dfn"/>
+    <xs:element ref="em"/>
+    <xs:element ref="i"/>
+    <xs:element ref="input"/>
+    <xs:element ref="ins"/>
+    <xs:element ref="kbd"/>
+    <xs:element ref="keygen"/>  
+    <xs:element ref="label"/>  
+    <xs:element ref="mark"/>  
+    <xs:element ref="meter"/>
+    <xs:element ref="output"/>
+    <xs:element ref="progress"/>
+    <xs:element ref="q"/>
+    <xs:element ref="ruby"/>
+    <xs:element ref="s"/>
+    <xs:element ref="samp"/>
+    <xs:element ref="select"/>
+    <xs:element ref="small"/>
+    <xs:element ref="span"/>
+    <xs:element ref="strong"/>
+    <xs:element ref="sub"/>
+    <xs:element ref="sup"/>
+    <xs:element ref="textarea"/>
+    <xs:element ref="time"/>
+    <xs:element ref="u"/>
+    <xs:element ref="var"/>
+    <xs:element ref="wbr"/>
+  </xs:choice>
+</xs:group>
+  
+<!-- Global attribute groups -->
+<!-- ToDo: Go ahead and add group for global HTML5 attributes (with exception of data- attrs),
+      or just leave the xs:anyAttribute declarations to catch these? (If this is done, remove all the xs:attribute declarations for "id")-->
+  
+<!--ToDo: any further restrictions on these attributes? -->
+<xs:attributeGroup name="generalmediaattributes">
+  <xs:attribute name="src"/>
+  <xs:attribute name="preload"/>
+  <xs:attribute name="autoplay"/>
+  <xs:attribute name="mediagroup"/>
+  <xs:attribute name="loop"/>
+  <xs:attribute name="muted"/>
+  <xs:attribute name="controls"/>
+</xs:attributeGroup>
+  
+<!--ToDo: any further restrictions on these attributes? -->
+<xs:attributeGroup name="videomediaattributes">
+  <xs:attributeGroup ref="generalmediaattributes"/>
+  <xs:attribute name="poster"/>
+  <xs:attribute name="width"/>
+  <xs:attribute name="height"/>
+</xs:attributeGroup>
 </xs:schema>
