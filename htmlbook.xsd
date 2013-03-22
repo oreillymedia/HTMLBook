@@ -353,7 +353,19 @@
 
 <xs:element name="code" type="inline_children_only"/>
   
-<xs:element name="datalist"/>
+<xs:element name="datalist">
+  <xs:complexType>
+    <xs:choice>
+      <xs:group ref="inlineelements" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element ref="option" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:choice>
+    <!-- No HTMLBook-specific attribute rules for this set of elements other than id; deferring to HTML5 spec on attribute rules and not 
+       validating in this schema -->
+    <xs:attribute name="id" type="xs:ID"/>
+    <xs:anyAttribute processContents="lax"/>
+  </xs:complexType>
+</xs:element>
+  
 <xs:element name="del"/>
 <xs:element name="dfn"/>
 <xs:element name="em"/>
@@ -392,6 +404,7 @@
 <xs:element name="figcaption"/>
 <xs:element name="legend"/>
 <xs:element name="li" type="block_xor_inline_children"/>
+<xs:element name="option"/>
 <xs:element name="param"/>
 <xs:element name="source"/>
 <xs:element name="summary"/>
