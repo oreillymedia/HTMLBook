@@ -49,8 +49,6 @@
 <xs:element name="title"/>
   
 <xs:element name="base"/>
-
-<xs:element name="command"/>
     
 <xs:element name="link"/>
     
@@ -344,11 +342,15 @@
   
 <xs:element name="br" type="empty_elem_global_attrs"/>
 
-<!-- Not imposing any HTMLBook specific constraints on form content; deferring to HTML5 spec -->
+<!-- Not imposing any HTMLBook specific constraints on button content; deferring to HTML5 spec -->
 <xs:element name="button" type="any_elems_attrs"/>
   
-<!-- Command as inline element? Also defined as part of meta block -->
-<xs:element name="cite"/>
+<xs:element name="cite" type="inline_children_only"/>
+
+<!-- Can also be used in document head -->
+<!--  Not imposing any HTMLBook specific constraints on command content; deferring to HTML5 spec -->
+<xs:element name="command" type="any_elems_attrs"/>
+
 <xs:element name="code"/>
 <xs:element name="datalist"/>
 <xs:element name="del"/>
