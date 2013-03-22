@@ -343,8 +343,10 @@
 </xs:element>
   
 <xs:element name="br" type="empty_elem_global_attrs"/>
+
+<!-- Not imposing any HTMLBook specific constraints on form content; deferring to HTML5 spec -->
+<xs:element name="button" type="any_elems_attrs"/>
   
-<xs:element name="button"/>
 <!-- Command as inline element? Also defined as part of meta block -->
 <xs:element name="cite"/>
 <xs:element name="code"/>
