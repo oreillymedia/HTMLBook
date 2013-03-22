@@ -306,7 +306,25 @@
 </xs:element>
   
 <!-- Inline elements -->
-<xs:element name="a"/>
+
+<!-- Open question: allow block content within an <a>? Right now, restricting only to inline elements -->
+<!-- ToDo: Mandate further restrictions related to XREF vs. external hyperlinks -->   
+<xs:element name="a">
+  <xs:complexType>
+    <xs:complexContent>
+      <xs:extension base="inline_children_only">
+        <!-- ToDo: Any further attribute restrictions -->
+        <xs:attribute name="href" type="xs:anyURI"/>
+        <xs:attribute name="hreflang" type="xs:language"/>
+        <xs:attribute name="media"/>
+        <xs:attribute name="rel"/>
+        <xs:attribute name="target"/>
+        <xs:attribute name="type"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+</xs:element>
+  
 <xs:element name="abbr"/>
 <xs:element name="area"/>
 <xs:element name="b"/>
