@@ -418,7 +418,8 @@
   </xs:complexType>
 </xs:element>
   
-<xs:element name="em"/>
+<xs:element name="em" type="inline_children_only"/>
+  
 <xs:element name="i"/>
 <xs:element name="input"/>
 <xs:element name="ins"/>
