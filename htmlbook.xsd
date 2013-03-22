@@ -325,7 +325,7 @@
   </xs:complexType>
 </xs:element>
   
-<xs:element name="abbr"/>
+<xs:element name="abbr" type="inline_children_only"/>
 <xs:element name="area"/>
 <xs:element name="b"/>
 <xs:element name="bdi"/>
