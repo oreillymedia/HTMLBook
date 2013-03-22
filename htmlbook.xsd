@@ -167,13 +167,7 @@
 <!-- Not imposing any HTMLBook specific constraints on form content; deferring to HTML5 spec -->
 <xs:element name="form" type="any_elems_attrs"/>
   
-<xs:element name="hr">
-  <xs:complexType>
-    <xs:attribute name="id" type="xs:ID"/>
-    <!-- Deferring to HTML5 spec for all other attribute validation -->
-    <xs:anyAttribute processContents="lax"/>
-  </xs:complexType>
-</xs:element>
+<xs:element name="hr" type="empty_elem_global_attrs"/>
   
 <xs:element name="iframe">
   <xs:complexType mixed="true">
@@ -348,7 +342,8 @@
   </xs:complexType>
 </xs:element>
   
-<xs:element name="br"/>
+<xs:element name="br" type="empty_elem_global_attrs"/>
+  
 <xs:element name="button"/>
 <!-- Command as inline element? Also defined as part of meta block -->
 <xs:element name="cite"/>
@@ -587,6 +582,13 @@
   <xs:attribute name="id" type="xs:ID"/>
   <!-- Deferring to HTML5 spec for all other attribute validation -->
   <xs:anyAttribute processContents="lax"/>  
+</xs:complexType>
+  
+<!-- Type for empty element, with no specific attribute requirements -->
+<xs:complexType name="empty_elem_global_attrs">
+  <xs:attribute name="id" type="xs:ID"/>
+  <!-- Deferring to HTML5 spec for all other attribute validation -->
+  <xs:anyAttribute processContents="lax"/>
 </xs:complexType>
   
 <!-- Global groups -->
