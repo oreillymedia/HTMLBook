@@ -80,10 +80,10 @@
       <xs:element ref="source" minOccurs="0" maxOccurs="unbounded"/>
       <xs:element ref="track" minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>
-    <xs:attributeGroup ref="mediaattributes"/>
-    <!-- ToDo: Modularize class/id into separate attribute group -->
+    <xs:attributeGroup ref="generalmediaattributes"/>
     <xs:attribute name="id" type="xs:ID"/>
-    <xs:attribute name="class" type="xs:token"/>
+    <!-- Deferring to HTML5 spec for all other attribute validation -->
+    <xs:anyAttribute processContents="lax"/>
   </xs:complexType>
 </xs:element>
   
@@ -292,7 +292,18 @@
   </xs:complexType>
 </xs:element>
   
-<xs:element name="video"/>
+<xs:element name="video">
+  <xs:complexType>
+    <xs:sequence>
+      <xs:element ref="source" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element ref="track" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="videomediaattributes"/>
+    <xs:attribute name="id" type="xs:ID"/>
+    <!-- Deferring to HTML5 spec for all other attribute validation -->
+    <xs:anyAttribute processContents="lax"/>
+  </xs:complexType>
+</xs:element>
   
 <!-- Inline elements -->
 <xs:element name="a"/>
@@ -631,7 +642,7 @@
       or just leave the xs:anyAttribute declarations to catch these? (If this is done, remove all the xs:attribute declarations for "id")-->
   
 <!--ToDo: any further restrictions on these attributes? -->
-<xs:attributeGroup name="mediaattributes">
+<xs:attributeGroup name="generalmediaattributes">
   <xs:attribute name="src"/>
   <xs:attribute name="preload"/>
   <xs:attribute name="autoplay"/>
@@ -640,5 +651,12 @@
   <xs:attribute name="muted"/>
   <xs:attribute name="controls"/>
 </xs:attributeGroup>
-
+  
+<!--ToDo: any further restrictions on these attributes? -->
+<xs:attributeGroup name="videomediaattributes">
+  <xs:attributeGroup ref="generalmediaattributes"/>
+  <xs:attribute name="poster"/>
+  <xs:attribute name="width"/>
+  <xs:attribute name="height"/>
+</xs:attributeGroup>
 </xs:schema>
