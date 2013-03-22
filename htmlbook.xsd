@@ -327,7 +327,8 @@
   
 <xs:element name="abbr" type="inline_children_only"/>
 
-<xs:element name="b"/>
+<xs:element name="b" type="inline_children_only"/>
+  
 <xs:element name="bdi"/>
 <xs:element name="bdo"/>
 <xs:element name="br"/>
