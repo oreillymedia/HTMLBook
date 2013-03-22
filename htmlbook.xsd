@@ -425,8 +425,8 @@
 <!-- Not imposing any HTMLBook specific constraints on button content; deferring to HTML5 spec -->
 <xs:element name="input" type="any_elems_attrs"/>
 
-<xs:element name="ins"/>
-<xs:element name="kbd"/>
+<xs:element name="kbd" type="inline_children_only"/>
+  
 <xs:element name="keygen"/>  
 <xs:element name="label"/>  
 <xs:element name="mark"/>  
@@ -451,6 +451,7 @@
   
 <!-- Elements that can be block or inline -->
 <xs:element name="del"/>
+<xs:element name="ins"/>
   
 <!-- Miscellaneous elements -->
 <xs:element name="area"/>
