@@ -329,8 +329,25 @@
 
 <xs:element name="b" type="inline_children_only"/>
   
-<xs:element name="bdi"/>
-<xs:element name="bdo"/>
+<xs:element name="bdi" type="inline_children_only"/>
+  
+<xs:element name="bdo">
+  <xs:complexType>
+    <xs:complexContent>
+      <xs:extension base="inline_children_only">
+        <xs:attribute name="dir" use="required">
+          <xs:simpleType>
+            <xs:restriction base="xs:token">
+              <xs:enumeration value="ltr"/>
+              <xs:enumeration value="rtl"/>              
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+</xs:element>
+  
 <xs:element name="br"/>
 <xs:element name="button"/>
 <!-- Command as inline element? Also defined as part of meta block -->
