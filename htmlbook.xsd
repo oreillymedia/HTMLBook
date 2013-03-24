@@ -486,7 +486,8 @@
   </xs:complexType>
 </xs:element>
   
-<xs:element name="mark"/>  
+<xs:element name="mark" type="inline_children_only"/>
+  
 <xs:element name="meter"/>
 <xs:element name="output"/>
 <xs:element name="progress"/>
