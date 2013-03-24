@@ -542,7 +542,21 @@
   </xs:complexType>
 </xs:element>
   
-<xs:element name="output"/>
+<xs:element name="output">
+  <xs:complexType mixed="true">
+    <xs:sequence>
+      <xs:group ref="inlineelements" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <!-- output element has a few additional attributes -->
+    <xs:attribute name="for" type="xs:IDREF"/>
+    <xs:attribute name="form" type="xs:IDREF"/>
+    <xs:attribute name="name" type="nonemptystring"/>
+    <xs:attribute name="id" type="xs:ID"/>
+    <!-- Deferring to HTML5 spec for all other attribute validation -->
+    <xs:anyAttribute processContents="lax"/>
+  </xs:complexType>
+</xs:element>
+  
 <xs:element name="progress"/>
 <xs:element name="q"/>
 <xs:element name="ruby"/>
@@ -622,6 +636,13 @@
     <xs:enumeration value="preface"/>
     <xs:enumeration value="titlepage"/>
     <xs:enumeration value="toc"/>
+  </xs:restriction>
+</xs:simpleType>
+  
+<!-- Used for attributes that require a nonempty string (e.g., "name" attribute on <output> -->
+<xs:simpleType name="nonemptystring">
+  <xs:restriction base="xs:string">
+    <xs:pattern value=".+"/>
   </xs:restriction>
 </xs:simpleType>
   
