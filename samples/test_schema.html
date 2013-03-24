@@ -1,4 +1,7 @@
-<html xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.w3.org/1999/xhtml">
+<?xml-model href="../htmlbook.xsd" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<html xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://www.w3.org/1999/xhtml ../htmlbook.xsd"
+ xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <title></title>
     <meta />
@@ -84,7 +87,7 @@
             </table>
             
             <!-- Now here's a form and a map and a menu; we don't care what's inside -->
-            <form blah="blahblah">
+            <form blah="blahblah" id="coolform">
               Blahblahblah<fakeelement><em>Blah</em></fakeelement>
             </form>
             
@@ -146,7 +149,8 @@
             <p>The "b" tag does not represent bold, but <b id="notbold">"text to which attention is being drawn for <em>utilitarian</em> purposes..."</b></p>
             <p>A <bdi><u>Bidirectional</u> indication</bdi></p>
             <p>A <bdo dir="rtl"><u>Bidirectional</u> override</bdo></p>
-            <p>Here's a button: <button blah="blahblah">We don't care what's inside</button> Same with the following <command blahagain="blah"><bogus/>command</command></p>
+            <p>Here's a button: <button blah="blahblah" id="coolbutton">We don't care what's inside</button> Same with the following <command blahagain="blah"><bogus/>command</command>.
+            Ditto for <input fake="faker"><p/>Whatevs</input>, and for <keygen id="keygen" fine="ok">this shouldn't be empty but whatever</keygen></p>
             <p>I love <cite id="coolbook">DocBook: The <em>Definitiv<b>e</b></em> Guide</cite></p>
             <p>To go into the directory you'd enter <code id="cd_command">cd <em>yourdirectoryname</em></code></p>
             <p>If we ever use a datalist, it would look like this: 
@@ -155,6 +159,11 @@
             </p>
             <p><dfn id="definition"><em>SVG</em></dfn> stands for Scalable Vector Graphics</p>
             <p>The &lt;i&gt; does not stand for italic, but <i>a span of text in an alternate <a href="http://www.w3.org/TR/2011/WD-html5-20110525/text-level-semantics.html#the-i-element">voice</a> or mood</i>, per the W3C spec</p>
+            <p>Type <kbd id="keyboard_combo" class="boxed">Ctrl-<span>Alt</span>-Del</kbd> to restart that Windows machine</p>
+            <p>Here comes a label: <label id="a_label" class="coollabel" for="coolbutton" form="coolform"><em>Blah</em></label></p>
+            <p>Keep an eye on <mark id="a_mark">This part of the <em>text</em></mark></p>
+            <p>Neato, we're embedding a meter here: <meter id="a_meter" value="10.2" low="3" high="5.5" max="10000" optimum="3" form="coolform" min="10"><strong>This is cool stuff</strong> blah blah</meter></p>
+            <p>Did I hear a request for some output? <output id="some-output" for="coolbutton" form="coolform" name="hello_world">This is <u>excellent</u> output</output></p>
           </section>
         </section>
       </section>
