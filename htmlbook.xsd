@@ -426,8 +426,10 @@
 <xs:element name="input" type="any_elems_attrs"/>
 
 <xs:element name="kbd" type="inline_children_only"/>
+
+<!-- Not imposing any HTMLBook specific constraints on keygen content; deferring to HTML5 spec -->
+<xs:element name="keygen" type="any_elems_attrs"/> 
   
-<xs:element name="keygen"/>  
 <xs:element name="label"/>  
 <xs:element name="mark"/>  
 <xs:element name="meter"/>
