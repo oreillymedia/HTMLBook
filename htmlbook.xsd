@@ -544,16 +544,14 @@
   
 <xs:element name="output">
   <xs:complexType mixed="true">
-    <xs:sequence>
-      <xs:group ref="inlineelements" minOccurs="0" maxOccurs="unbounded"/>
-    </xs:sequence>
-    <!-- output element has a few additional attributes -->
-    <xs:attribute name="for" type="xs:IDREF"/>
-    <xs:attribute name="form" type="xs:IDREF"/>
-    <xs:attribute name="name" type="nonemptystring"/>
-    <xs:attribute name="id" type="xs:ID"/>
-    <!-- Deferring to HTML5 spec for all other attribute validation -->
-    <xs:anyAttribute processContents="lax"/>
+    <xs:complexContent>
+      <xs:extension base="inline_children_only">
+        <!-- output element has a few additional attributes -->
+        <xs:attribute name="for" type="xs:IDREF"/>
+        <xs:attribute name="form" type="xs:IDREF"/>
+        <xs:attribute name="name" type="nonemptystring"/>
+      </xs:extension>
+    </xs:complexContent>
   </xs:complexType>
 </xs:element>
   
@@ -611,7 +609,16 @@
   </xs:complexType>
 </xs:element>
 
-<xs:element name="q"/>
+<xs:element name="q">
+  <xs:complexType mixed="true">
+    <xs:complexContent>
+      <xs:extension base="inline_children_only">
+        <xs:attribute name="cite" type="xs:anyURI"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+</xs:element>
+  
 <xs:element name="ruby"/>
 <xs:element name="s"/>
 <xs:element name="samp"/>
