@@ -715,8 +715,10 @@
   </xs:complexType>
 </xs:element>
   
-<xs:element name="u"/>
-<xs:element name="var"/>
+<xs:element name="u" type="inline_children_only"/>
+  
+<xs:element name="var" type="inline_children_only"/>
+  
 <xs:element name="wbr"/>
   
 <!-- Elements that can be block or inline -->
