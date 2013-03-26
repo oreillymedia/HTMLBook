@@ -218,8 +218,8 @@
     <xs:attribute name="reversed">
       <xs:simpleType>
         <xs:restriction base="xs:string">
-          <!-- Must be a case-insensitive match for "reversed" -->
-          <xs:pattern value="[Rr][Ee][Vv][Ee][Rr][Ss][Ee][Dd]"/>            
+          <!-- Must be a case-insensitive match for "reversed" or empty string -->
+          <xs:pattern value="([Rr][Ee][Vv][Ee][Rr][Ss][Ee][Dd])?"/>            
         </xs:restriction>
       </xs:simpleType>
     </xs:attribute>
@@ -559,7 +559,7 @@
   <!-- progress elements can have any inline children, excluding another "progress" element -->
   <xs:complexType mixed="true">
     <xs:choice minOccurs="0" maxOccurs="unbounded">
-      <!-- Yeah we're enumerating all the inline options (from "inlineelements") here minus meter, as there's no way to exclude just one item for a group,
+      <!-- Yeah we're enumerating all the inline options (from "inlineelements") here minus progress, as there's no way to exclude just one item for a group,
            and I don't want to break up the "inlineelements" group below-->
       <xs:element ref="a"/>
       <xs:element ref="abbr"/>
@@ -656,7 +656,65 @@
 <!-- Not imposing any HTMLBook specific constraints on button content; deferring to HTML5 spec -->
 <xs:element name="textarea" type="any_elems_attrs"/>
   
-<xs:element name="time"/>
+<xs:element name="time">
+  <!-- time elements can have any inline children, excluding another "time" element -->
+  <xs:complexType mixed="true">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <!-- Yeah we're enumerating all the inline options (from "inlineelements") here minus time, as there's no way to exclude just one item for a group,
+           and I don't want to break up the "inlineelements" group below-->
+      <xs:element ref="a"/>
+      <xs:element ref="abbr"/>
+      <xs:element ref="b"/>
+      <xs:element ref="bdi"/>
+      <xs:element ref="bdo"/>
+      <xs:element ref="br"/>
+      <xs:element ref="button"/>
+      <xs:element ref="command"/>
+      <xs:element ref="cite"/>
+      <xs:element ref="code"/>
+      <xs:element ref="datalist"/>
+      <xs:element ref="del"/>
+      <xs:element ref="dfn"/>
+      <xs:element ref="em"/>
+      <xs:element ref="i"/>
+      <xs:element ref="input"/>
+      <xs:element ref="ins"/>
+      <xs:element ref="label"/>
+      <xs:element ref="kbd"/>
+      <xs:element ref="keygen"/>
+      <xs:element ref="mark"/>
+      <xs:element ref="meter"/>
+      <xs:element ref="output"/>
+      <xs:element ref="progress"/>
+      <xs:element ref="q"/>
+      <xs:element ref="ruby"/>
+      <xs:element ref="s"/>
+      <xs:element ref="samp"/>
+      <xs:element ref="select"/>
+      <xs:element ref="small"/>
+      <xs:element ref="span"/>
+      <xs:element ref="strong"/>
+      <xs:element ref="sub"/>
+      <xs:element ref="sup"/>
+      <xs:element ref="textarea"/>
+      <xs:element ref="u"/>
+      <xs:element ref="var"/>
+      <xs:element ref="wbr"/>
+    </xs:choice>
+    <xs:attribute name="pubdate">
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:pattern value="([Pp][Uu][Bb][Dd][Aa][Tt][Ee])?"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="datetime" type="xs:string"/>
+    <xs:attribute name="id" type="xs:ID"/>
+    <!-- Deferring to HTML5 spec for all other attribute validation -->
+    <xs:anyAttribute processContents="lax"/>
+  </xs:complexType>
+</xs:element>
+  
 <xs:element name="u"/>
 <xs:element name="var"/>
 <xs:element name="wbr"/>
