@@ -903,7 +903,18 @@
   
 <xs:element name="rt" type="inline_children_only"/>
   
-<xs:element name="source"/>
+<xs:element name="source">
+  <xs:complexType>
+    <xs:complexContent>
+      <xs:extension base="empty_elem_global_attrs">
+        <xs:attribute name="media" type="xs:string"/>
+        <xs:attribute name="src" type="xs:anyURI" use="required"/>
+        <xs:attribute name="type" type="xs:string"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>  
+</xs:element>
+
 <xs:element name="summary"/>
 <xs:element name="tbody"/>
 <xs:element name="thead"/>
