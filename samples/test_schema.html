@@ -37,9 +37,20 @@
           <h1>Te<em></em>st</h1>
           <h2 class="subtitle">Bl<em>a</em>h</h2>
           <address><a></a>blah<em></em>blah<s></s>blah</address>
-          <blockquote><em></em>Y<b>o</b></blockquote> <div class="testing">
+          <blockquote><em></em>Y<b>o</b></blockquote> 
+          
+          <!-- Two types of divs. Inline content only here... -->
+          <div id="firstdiv" class="testing">
             <em>He<b>bold</b>llo</em>
-          </div> <section class="sect2">
+          </div> 
+          
+          <!-- And block content here ... -->
+          <div id="second_div" class="second_test_block">
+            <h2>Any heading you choose</h2>
+            <p>Test 123</p>
+          </div>
+          
+          <section class="sect2">
             <h2>Test</h2>
             <h3 class="subtitle">Blah</h3>
             <aside class="sidebar">
@@ -180,6 +191,8 @@
             <p>This is a <u id="not_underline">annotated <em>section</em> of <u>text</u></u></p>
             <p>The variable <var id="variable"><code>foo</code></var> is set to 18.</p>
             <p>It's OK to insert a <wbr id="wordbreak" class="important"></wbr> word break in this line.</p>
+            <p><del id="insertion" cite="oreilly.com" datetime="2013-03-26">This content should be <em>deleted</em></del></p>
+            <p><ins id="deletion" cite="oreilly.com" datetime="2013-03-26">This content should be <em>added</em></ins></p>
           </section>
         </section>
       </section>

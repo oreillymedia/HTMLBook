@@ -382,6 +382,18 @@
   </xs:complexType>
 </xs:element>
   
+<!-- To simplify content model, "del" element is only allowed in inline contexts in HTMLBook -->
+<xs:element name="del">
+  <xs:complexType>
+    <xs:complexContent>
+      <xs:extension base="inline_children_only">
+        <xs:attribute name="cite" type="xs:anyURI"/>
+        <xs:attribute name="datetime" type="xs:string"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+</xs:element>
+  
 <xs:element name="dfn">
   <!-- dfn elements can have any inline children, excluding another "dfn" element -->
   <xs:complexType mixed="true">
@@ -439,6 +451,18 @@
   
 <!-- Not imposing any HTMLBook specific constraints on button content; deferring to HTML5 spec -->
 <xs:element name="input" type="any_elems_attrs"/>
+  
+<!-- To simplify content model, "ins" element is only allowed in inline contexts in HTMLBook -->
+<xs:element name="ins">
+  <xs:complexType>
+    <xs:complexContent>
+      <xs:extension base="inline_children_only">
+        <xs:attribute name="cite" type="xs:anyURI"/>
+        <xs:attribute name="datetime" type="xs:string"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+</xs:element>
 
 <xs:element name="kbd" type="inline_children_only"/>
 
@@ -736,11 +760,7 @@
 <xs:element name="var" type="inline_children_only"/>
   
 <xs:element name="wbr" type="empty_elem_global_attrs"/>
-  
-<!-- Elements that can be block or inline -->
-<xs:element name="del"/>
-<xs:element name="ins"/>
-  
+    
 <!-- Miscellaneous elements -->
 <xs:element name="area"/>
 <xs:element name="caption"/>
