@@ -104,8 +104,24 @@
   </xs:complexType>
 </xs:element>
 
-<!--ToDo: Open question: Allow h1-h6 at beginning (or even middle) of divs? -->
-<xs:element name="div" type="block_xor_inline_children"/>
+<!-- Two choices for div content model:
+     1. Block children only, with an optional h1-h6 to start
+     2. Inline children only, no heading
+-->
+<xs:element name="div">
+  <xs:complexType mixed="true">
+    <xs:choice>
+      <xs:sequence>
+        <xs:group ref="headings" minOccurs="0"/>
+        <xs:group ref="blockelements" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+      <xs:group ref="inlineelements" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:choice>
+    <xs:attribute name="id" type="xs:ID"/>
+    <!-- Deferring to HTML5 spec for all other attribute validation -->
+    <xs:anyAttribute processContents="lax"/>
+  </xs:complexType>
+</xs:element>
     
 <xs:element name="dl">
   <xs:complexType>
@@ -983,6 +999,17 @@
     <xs:element ref="table"/>
     <xs:element ref="ul"/>
     <xs:element ref="video"/>
+  </xs:choice>
+</xs:group>
+  
+<xs:group name="headings">
+  <xs:choice>
+    <xs:element ref="h1"/>
+    <xs:element ref="h2"/>
+    <xs:element ref="h3"/>
+    <xs:element ref="h4"/>
+    <xs:element ref="h5"/>
+    <xs:element ref="h6"/>
   </xs:choice>
 </xs:group>
   
