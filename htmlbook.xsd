@@ -643,11 +643,16 @@
 <!-- Not imposing any HTMLBook specific constraints on button content; deferring to HTML5 spec -->  
 <xs:element name="select" type="any_elems_attrs"/>
   
-<xs:element name="small"/>
-<xs:element name="span"/>
-<xs:element name="strong"/>
-<xs:element name="sub"/>
-<xs:element name="sup"/>
+<xs:element name="small" type="inline_children_only"/>
+  
+<xs:element name="span" type="inline_children_only"/>
+  
+<xs:element name="strong" type="inline_children_only"/>
+  
+<xs:element name="sub" type="inline_children_only"/>
+  
+<xs:element name="sup" type="inline_children_only"/>
+  
 <xs:element name="textarea"/>
 <xs:element name="time"/>
 <xs:element name="u"/>
