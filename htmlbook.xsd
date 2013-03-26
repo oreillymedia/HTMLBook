@@ -111,10 +111,17 @@
 <xs:element name="div">
   <xs:complexType mixed="true">
     <xs:choice>
+      <!-- Option 1: Optional heading(s) followed by block elements -->
       <xs:sequence>
         <xs:group ref="headings" minOccurs="0"/>
         <xs:group ref="blockelements" minOccurs="0" maxOccurs="unbounded"/>
       </xs:sequence>
+      <!-- Option 2: hgroup followed by block elements -->
+      <xs:sequence>        
+        <xs:element ref="hgroup"/>
+        <xs:group ref="blockelements" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+      <!-- Option 3: inlines and text only -->
       <xs:group ref="inlineelements" minOccurs="0" maxOccurs="unbounded"/>
     </xs:choice>
     <xs:attribute name="id" type="xs:ID"/>
@@ -841,7 +848,17 @@
 
 <xs:element name="figcaption" type="caption"/>
   
-<xs:element name="hgroup"/>
+<xs:element name="hgroup">
+  <xs:complexType>
+    <xs:sequence>
+      <xs:group ref="headings" minOccurs="1" maxOccurs="unbounded"/>
+    </xs:sequence> 
+    <xs:attribute name="id" type="xs:ID"/>
+    <!-- Deferring to HTML5 spec for all other attribute validation -->
+    <xs:anyAttribute processContents="lax"/>
+  </xs:complexType>
+</xs:element>
+  
 <xs:element name="legend"/>
 <xs:element name="li" type="block_xor_inline_children"/>
 <xs:element name="option"/>
@@ -859,7 +876,7 @@
 <!-- ToDo: Separate out elements that can be either inline or block into a distinct list -->
 
 <!-- Heading elements -->
-<!-- ToDo: Support hgroup to facilitate subheadings? -->
+<!-- ToDo: Support hgroup in <section> to facilitate subheadings? Already allowed in <div> -->
 <!-- ToDo: Should we require class="title" on all section heading titles? -->
 <xs:element name="h1" type="inline_children_only"/>
 
