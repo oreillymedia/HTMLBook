@@ -899,8 +899,10 @@
   </xs:complexType>
 </xs:element>
   
-<xs:element name="rp"/>
-<xs:element name="rt"/>  
+<xs:element name="rp" type="inline_children_only"/>
+  
+<xs:element name="rt" type="inline_children_only"/>
+  
 <xs:element name="source"/>
 <xs:element name="summary"/>
 <xs:element name="tbody"/>
