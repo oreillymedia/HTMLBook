@@ -762,7 +762,52 @@
 <xs:element name="wbr" type="empty_elem_global_attrs"/>
     
 <!-- Miscellaneous elements -->
-<xs:element name="area"/>
+<xs:element name="area">
+  <xs:complexType>
+    <xs:complexContent>
+      <xs:extension base="empty_elem_global_attrs">
+        <xs:attribute name="alt" type="xs:string"/>
+        <xs:attribute name="coords">
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <!-- Regex for string of comma-separated numbers -->
+              <!-- Yes, this'll match a string that ends in a comma,
+                   but close enough for validation purposes, given that XML Schema doesn't support lookaheads -->
+              <xs:pattern value="[0-9][0-9,]*"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="shape">
+          <xs:simpleType>
+            <xs:restriction base="xs:token">
+              <xs:enumeration value="circle"/>
+              <xs:enumeration value="circ"/>
+              <xs:enumeration value="default"/>
+              <xs:enumeration value="poly"/>
+              <xs:enumeration value="polygon"/>
+              <xs:enumeration value="rect"/>
+              <xs:enumeration value="rectangle"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="href" type="xs:anyURI"/>
+        <xs:attribute name="target" type="xs:string"/>
+        <xs:attribute name="rel">
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <!-- Ugly regex alert -->
+              <xs:pattern value="(alternate|author|bookmark|external|help|icon|license|next|nofollow|noreferrer|pingback|prefetch|prev|search|sidebar|stylesheet|tag)( (alternate|author|bookmark|external|help|icon|license|next|nofollow|noreferrer|pingback|prefetch|prev|search|sidebar|stylesheet|tag))*"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="media" type="xs:string"/>
+        <xs:attribute name="hreflang" type="xs:language"/>
+        <xs:attribute name="type" type="xs:string"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+</xs:element>
+  
 <xs:element name="caption"/>
 <xs:element name="colgroup"/>
 <xs:element name="dd" type="block_xor_inline_children"/>
@@ -785,7 +830,6 @@
 <!-- ToDo: Separate out elements that can be either inline or block into a distinct list -->
 
 <!-- Heading elements -->
-<!-- ToDo: Mixed content model that supports inlines -->
 <!-- ToDo: Support hgroup to facilitate subheadings? -->
 <!-- ToDo: Should we require class="title" on all section heading titles? -->
 <xs:element name="h1" type="inline_children_only"/>
