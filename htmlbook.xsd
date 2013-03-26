@@ -888,7 +888,17 @@
   </xs:complexType>
 </xs:element>
   
-<xs:element name="param"/>
+<xs:element name="param">
+  <xs:complexType>
+    <xs:complexContent>
+      <xs:extension base="empty_elem_global_attrs">
+        <xs:attribute name="name" type="xs:string" use="required"/>
+        <xs:attribute name="value" type="xs:string" use="required"/>        
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+</xs:element>
+  
 <xs:element name="rp"/>
 <xs:element name="rt"/>  
 <xs:element name="source"/>
