@@ -653,7 +653,9 @@
   
 <xs:element name="sup" type="inline_children_only"/>
   
-<xs:element name="textarea"/>
+<!-- Not imposing any HTMLBook specific constraints on button content; deferring to HTML5 spec -->
+<xs:element name="textarea" type="any_elems_attrs"/>
+  
 <xs:element name="time"/>
 <xs:element name="u"/>
 <xs:element name="var"/>
