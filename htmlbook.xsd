@@ -719,7 +719,7 @@
   
 <xs:element name="var" type="inline_children_only"/>
   
-<xs:element name="wbr"/>
+<xs:element name="wbr" type="empty_elem_global_attrs"/>
   
 <!-- Elements that can be block or inline -->
 <xs:element name="del"/>
