@@ -863,7 +863,31 @@
   
 <xs:element name="li" type="block_xor_inline_children"/>
   
-<xs:element name="option"/>
+<xs:element name="option">
+  <xs:complexType mixed="true">
+    <xs:complexContent>
+      <xs:extension base="empty_elem_global_attrs">
+        <xs:attribute name="disabled">
+          <xs:simpleType>
+            <xs:restriction base="xs:token">
+              <xs:pattern value="([Dd][Ii][Ss][Aa][Bb][Ll][Ee][Dd])?"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="label" type="xs:string"/>
+        <xs:attribute name="selected">
+          <xs:simpleType>
+            <xs:restriction base="xs:token">
+              <xs:pattern value="([Ss][Ee][Ll][Ee][Cc][Tt][Ee][Dd])?"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="value" type="xs:string"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+</xs:element>
+  
 <xs:element name="param"/>
 <xs:element name="rp"/>
 <xs:element name="rt"/>  
