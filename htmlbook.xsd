@@ -808,7 +808,23 @@
   </xs:complexType>
 </xs:element>
   
-<xs:element name="caption"/>
+<xs:element name="caption">
+  <!-- Subset of block elements (<p>s or <div>s) xor inline elements-->
+  <xs:complexType mixed="true">
+   <xs:choice>
+     <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="p"/>
+        <xs:element ref="div"/>
+     </xs:choice>
+      <xs:group ref="inlineelements" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:choice>
+    <!-- No HTMLBook-specific attribute rules for this set of elements other than id; deferring to HTML5 spec on attribute rules and not 
+         validating in this schema -->
+    <xs:attribute name="id" type="xs:ID"/>
+    <xs:anyAttribute processContents="lax"/>
+  </xs:complexType>
+</xs:element>
+  
 <xs:element name="colgroup"/>
 <xs:element name="dd" type="block_xor_inline_children"/>
 <xs:element name="dt" type="inline_children_only"/>
