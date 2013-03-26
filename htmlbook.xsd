@@ -636,8 +636,10 @@
   </xs:complexType>
 </xs:element>
   
-<xs:element name="s"/>
-<xs:element name="samp"/>
+<xs:element name="s" type="inline_children_only"/>
+  
+<xs:element name="samp" type="inline_children_only"/>
+  
 <xs:element name="select"/>
 <xs:element name="small"/>
 <xs:element name="span"/>
