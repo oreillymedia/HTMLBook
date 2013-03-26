@@ -859,8 +859,10 @@
   </xs:complexType>
 </xs:element>
   
-<xs:element name="legend"/>
+<xs:element name="legend" type="inline_children_only"/>
+  
 <xs:element name="li" type="block_xor_inline_children"/>
+  
 <xs:element name="option"/>
 <xs:element name="param"/>
 <xs:element name="rp"/>
