@@ -640,7 +640,9 @@
   
 <xs:element name="samp" type="inline_children_only"/>
   
-<xs:element name="select"/>
+<!-- Not imposing any HTMLBook specific constraints on button content; deferring to HTML5 spec -->  
+<xs:element name="select" type="any_elems_attrs"/>
+  
 <xs:element name="small"/>
 <xs:element name="span"/>
 <xs:element name="strong"/>
@@ -864,7 +866,7 @@
 
 <!-- Type for no restrictions on child content, except uniqueness for optional id attribute; used for deferral to HTML5 specs -->
 <xs:complexType name="any_elems_attrs" mixed="true">
-  <xs:sequence minOccurs="0">
+  <xs:sequence minOccurs="0" maxOccurs="unbounded">
     <xs:any processContents="lax"/>
   </xs:sequence>
   <xs:attribute name="id" type="xs:ID"/>
