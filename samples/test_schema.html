@@ -81,16 +81,19 @@
             <!-- Now it's time to test a figure -->
             
             <figure class="yo">
-              <figcaption/>
+              <figcaption id="thecaption"><p>We can have a two-para caption</p><p>Yes we can</p></figcaption>
               <p>Here comes a fig</p>
               <img src="image.png"/>
             </figure>
             
             <!-- Oh boy, let's do a table -->
             <table border="" id="skeleton_of_a_table">
-              <caption/>
-              <colgroup/>
-              <colgroup/>
+              <caption>A no-paragraph caption is <strong>allowed</strong></caption>
+              <colgroup id="col1" span="3">
+                <col span="2"/>
+                <col/>
+              </colgroup>
+              <colgroup id="col2"/>
               <thead/>
               <tr/>
               <tr/>
@@ -103,7 +106,7 @@
             </form>
             
             <map blah="blahblah">
-              Blahblahblah<secondfakeelement><em>Blah</em></secondfakeelement>
+              <area id="imagemaparea" alt="blah" coords="122" shape="circ" href="oreilly.com" target="blue" media="whatever" type="image/png" rel="pingback author" hreflang="en"/>
             </map>
             
             <menu ha="hahaha">
