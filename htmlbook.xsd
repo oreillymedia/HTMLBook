@@ -619,7 +619,23 @@
   </xs:complexType>
 </xs:element>
   
-<xs:element name="ruby"/>
+<xs:element name="ruby">
+  <xs:complexType mixed="true">
+    <xs:complexContent>
+      <xs:extension base="inline_children_only">
+          <xs:choice>
+            <xs:element ref="rt"/>
+            <xs:sequence>
+              <xs:element ref="rp"/>
+              <xs:element ref="rt"/>
+              <xs:element ref="rp"/>
+            </xs:sequence>
+          </xs:choice>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+</xs:element>
+  
 <xs:element name="s"/>
 <xs:element name="samp"/>
 <xs:element name="select"/>
@@ -649,6 +665,8 @@
 <xs:element name="li" type="block_xor_inline_children"/>
 <xs:element name="option"/>
 <xs:element name="param"/>
+<xs:element name="rp"/>
+<xs:element name="rt"/>  
 <xs:element name="source"/>
 <xs:element name="summary"/>
 <xs:element name="tbody"/>
