@@ -825,10 +825,35 @@
   </xs:complexType>
 </xs:element>
   
-<xs:element name="colgroup"/>
+<xs:element name="col">
+  <xs:complexType>
+    <xs:complexContent>
+      <xs:extension base="empty_elem_global_attrs">
+        <xs:attribute name="span" type="xs:int"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+</xs:element>
+  
+<xs:element name="colgroup">
+  <!-- Technically, colgroup requires an either/or situation, where if there is a span attribute, there should be no <col> children.
+       Not possible to represent this in XML Schema -->
+  <xs:complexType>
+    <xs:sequence>
+      <xs:element ref="col" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="span" type="xs:int"/>
+    <!-- No HTMLBook-specific attribute rules for this set of elements other than id; deferring to HTML5 spec on attribute rules and not 
+         validating in this schema -->
+    <xs:attribute name="id" type="xs:ID"/>
+    <xs:anyAttribute processContents="lax"/>
+  </xs:complexType>
+</xs:element>
+  
 <xs:element name="dd" type="block_xor_inline_children"/>
 <xs:element name="dt" type="inline_children_only"/>
 <xs:element name="figcaption"/>
+<xs:element name="hgroup"/>
 <xs:element name="legend"/>
 <xs:element name="li" type="block_xor_inline_children"/>
 <xs:element name="option"/>
