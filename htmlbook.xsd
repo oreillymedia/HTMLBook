@@ -49,8 +49,6 @@
 <xs:element name="title"/>
   
 <xs:element name="base"/>
-
-<xs:element name="command"/>
     
 <xs:element name="link"/>
     
@@ -167,13 +165,7 @@
 <!-- Not imposing any HTMLBook specific constraints on form content; deferring to HTML5 spec -->
 <xs:element name="form" type="any_elems_attrs"/>
   
-<xs:element name="hr">
-  <xs:complexType>
-    <xs:attribute name="id" type="xs:ID"/>
-    <!-- Deferring to HTML5 spec for all other attribute validation -->
-    <xs:anyAttribute processContents="lax"/>
-  </xs:complexType>
-</xs:element>
+<xs:element name="hr" type="empty_elem_global_attrs"/>
   
 <xs:element name="iframe">
   <xs:complexType mixed="true">
@@ -226,8 +218,8 @@
     <xs:attribute name="reversed">
       <xs:simpleType>
         <xs:restriction base="xs:string">
-          <!-- Must be a case-insensitive match for "reversed" -->
-          <xs:pattern value="[Rr][Ee][Vv][Ee][Rr][Ss][Ee][Dd]"/>            
+          <!-- Must be a case-insensitive match for "reversed" or empty string -->
+          <xs:pattern value="([Rr][Ee][Vv][Ee][Rr][Ss][Ee][Dd])?"/>            
         </xs:restriction>
       </xs:simpleType>
     </xs:attribute>
@@ -306,48 +298,435 @@
 </xs:element>
   
 <!-- Inline elements -->
-<xs:element name="a"/>
-<xs:element name="abbr"/>
-<xs:element name="area"/>
-<xs:element name="b"/>
-<xs:element name="bdi"/>
-<xs:element name="bdo"/>
-<xs:element name="br"/>
-<xs:element name="button"/>
-<!-- Command as inline element? Also defined as part of meta block -->
-<xs:element name="cite"/>
-<xs:element name="code"/>
-<xs:element name="datalist"/>
+
+<!-- Open question: allow block content within an <a>? Right now, restricting only to inline elements -->
+<!-- ToDo: Mandate further restrictions related to XREF vs. external hyperlinks -->   
+<xs:element name="a">
+  <xs:complexType>
+    <xs:complexContent>
+      <xs:extension base="inline_children_only">
+        <!-- ToDo: Any further attribute restrictions -->
+        <xs:attribute name="href" type="xs:anyURI"/>
+        <xs:attribute name="hreflang" type="xs:language"/>
+        <xs:attribute name="media"/>
+        <xs:attribute name="rel"/>
+        <xs:attribute name="target"/>
+        <xs:attribute name="type"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+</xs:element>
+  
+<xs:element name="abbr" type="inline_children_only"/>
+
+<xs:element name="b" type="inline_children_only"/>
+  
+<xs:element name="bdi" type="inline_children_only"/>
+  
+<xs:element name="bdo">
+  <xs:complexType>
+    <xs:complexContent>
+      <xs:extension base="inline_children_only">
+        <xs:attribute name="dir" use="required">
+          <xs:simpleType>
+            <xs:restriction base="xs:token">
+              <xs:enumeration value="ltr"/>
+              <xs:enumeration value="rtl"/>              
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+</xs:element>
+  
+<xs:element name="br" type="empty_elem_global_attrs"/>
+
+<!-- Not imposing any HTMLBook specific constraints on button content; deferring to HTML5 spec -->
+<xs:element name="button" type="any_elems_attrs"/>
+  
+<xs:element name="cite" type="inline_children_only"/>
+
+<!-- Can also be used in document head -->
+<!--  Not imposing any HTMLBook specific constraints on command content; deferring to HTML5 spec -->
+<xs:element name="command" type="any_elems_attrs"/>
+
+<xs:element name="code" type="inline_children_only"/>
+  
+<xs:element name="datalist">
+  <xs:complexType>
+    <xs:choice>
+      <xs:group ref="inlineelements" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element ref="option" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:choice>
+    <!-- No HTMLBook-specific attribute rules for this set of elements other than id; deferring to HTML5 spec on attribute rules and not 
+       validating in this schema -->
+    <xs:attribute name="id" type="xs:ID"/>
+    <xs:anyAttribute processContents="lax"/>
+  </xs:complexType>
+</xs:element>
+  
+<xs:element name="dfn">
+  <!-- dfn elements can have any inline children, excluding another "dfn" element -->
+  <xs:complexType mixed="true">
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <!-- Yeah we're enumerating all the inline options (from "inlineelements") here minus dfn, as there's no way to exclude just one item for a group,
+             and I don't want to break up the "inlineelements" group below-->
+        <xs:element ref="a"/>
+        <xs:element ref="abbr"/>
+        <xs:element ref="b"/>
+        <xs:element ref="bdi"/>
+        <xs:element ref="bdo"/>
+        <xs:element ref="br"/>
+        <xs:element ref="button"/>
+        <xs:element ref="command"/>
+        <xs:element ref="cite"/>
+        <xs:element ref="code"/>
+        <xs:element ref="datalist"/>
+        <xs:element ref="del"/>
+        <xs:element ref="em"/>
+        <xs:element ref="i"/>
+        <xs:element ref="input"/>
+        <xs:element ref="ins"/>
+        <xs:element ref="kbd"/>
+        <xs:element ref="keygen"/>  
+        <xs:element ref="label"/>  
+        <xs:element ref="mark"/>  
+        <xs:element ref="meter"/>
+        <xs:element ref="output"/>
+        <xs:element ref="progress"/>
+        <xs:element ref="q"/>
+        <xs:element ref="ruby"/>
+        <xs:element ref="s"/>
+        <xs:element ref="samp"/>
+        <xs:element ref="select"/>
+        <xs:element ref="small"/>
+        <xs:element ref="span"/>
+        <xs:element ref="strong"/>
+        <xs:element ref="sub"/>
+        <xs:element ref="sup"/>
+        <xs:element ref="textarea"/>
+        <xs:element ref="time"/>
+        <xs:element ref="u"/>
+        <xs:element ref="var"/>
+        <xs:element ref="wbr"/>
+      </xs:choice>
+      <xs:attribute name="id" type="xs:ID"/>
+      <!-- Deferring to HTML5 spec for all other attribute validation -->
+      <xs:anyAttribute processContents="lax"/>
+  </xs:complexType>
+</xs:element>
+  
+<xs:element name="em" type="inline_children_only"/>
+  
+<xs:element name="i" type="inline_children_only"/>
+  
+<!-- Not imposing any HTMLBook specific constraints on button content; deferring to HTML5 spec -->
+<xs:element name="input" type="any_elems_attrs"/>
+
+<xs:element name="kbd" type="inline_children_only"/>
+
+<!-- Not imposing any HTMLBook specific constraints on keygen content; deferring to HTML5 spec -->
+<xs:element name="keygen" type="any_elems_attrs"/> 
+  
+<xs:element name="label">
+  <!-- label elements can have any inline children, excluding another "label" element -->
+  <xs:complexType mixed="true">
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <!-- Yeah we're enumerating all the inline options (from "inlineelements") here minus label, as there's no way to exclude just one item for a group,
+             and I don't want to break up the "inlineelements" group below-->
+        <xs:element ref="a"/>
+        <xs:element ref="abbr"/>
+        <xs:element ref="b"/>
+        <xs:element ref="bdi"/>
+        <xs:element ref="bdo"/>
+        <xs:element ref="br"/>
+        <xs:element ref="button"/>
+        <xs:element ref="command"/>
+        <xs:element ref="cite"/>
+        <xs:element ref="code"/>
+        <xs:element ref="datalist"/>
+        <xs:element ref="del"/>
+        <xs:element ref="dfn"/>
+        <xs:element ref="em"/>
+        <xs:element ref="i"/>
+        <xs:element ref="input"/>
+        <xs:element ref="ins"/>
+        <xs:element ref="kbd"/>
+        <xs:element ref="keygen"/>
+        <xs:element ref="mark"/>  
+        <xs:element ref="meter"/>
+        <xs:element ref="output"/>
+        <xs:element ref="progress"/>
+        <xs:element ref="q"/>
+        <xs:element ref="ruby"/>
+        <xs:element ref="s"/>
+        <xs:element ref="samp"/>
+        <xs:element ref="select"/>
+        <xs:element ref="small"/>
+        <xs:element ref="span"/>
+        <xs:element ref="strong"/>
+        <xs:element ref="sub"/>
+        <xs:element ref="sup"/>
+        <xs:element ref="textarea"/>
+        <xs:element ref="time"/>
+        <xs:element ref="u"/>
+        <xs:element ref="var"/>
+        <xs:element ref="wbr"/>
+      </xs:choice>
+      <xs:attribute name="for" type="xs:IDREF"/>
+      <xs:attribute name="form" type="xs:IDREF"/>
+      <xs:attribute name="id" type="xs:ID"/>
+      <!-- Deferring to HTML5 spec for all other attribute validation -->
+      <xs:anyAttribute processContents="lax"/>
+  </xs:complexType>
+</xs:element>
+  
+<xs:element name="mark" type="inline_children_only"/>
+  
+<xs:element name="meter">
+  <!-- meter elements can have any inline children, excluding another "meter" element -->
+  <xs:complexType mixed="true">
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <!-- Yeah we're enumerating all the inline options (from "inlineelements") here minus meter, as there's no way to exclude just one item for a group,
+             and I don't want to break up the "inlineelements" group below-->
+        <xs:element ref="a"/>
+        <xs:element ref="abbr"/>
+        <xs:element ref="b"/>
+        <xs:element ref="bdi"/>
+        <xs:element ref="bdo"/>
+        <xs:element ref="br"/>
+        <xs:element ref="button"/>
+        <xs:element ref="command"/>
+        <xs:element ref="cite"/>
+        <xs:element ref="code"/>
+        <xs:element ref="datalist"/>
+        <xs:element ref="del"/>
+        <xs:element ref="dfn"/>
+        <xs:element ref="em"/>
+        <xs:element ref="i"/>
+        <xs:element ref="input"/>
+        <xs:element ref="ins"/>
+        <xs:element ref="label"/>
+        <xs:element ref="kbd"/>
+        <xs:element ref="keygen"/>
+        <xs:element ref="mark"/>
+        <xs:element ref="output"/>
+        <xs:element ref="progress"/>
+        <xs:element ref="q"/>
+        <xs:element ref="ruby"/>
+        <xs:element ref="s"/>
+        <xs:element ref="samp"/>
+        <xs:element ref="select"/>
+        <xs:element ref="small"/>
+        <xs:element ref="span"/>
+        <xs:element ref="strong"/>
+        <xs:element ref="sub"/>
+        <xs:element ref="sup"/>
+        <xs:element ref="textarea"/>
+        <xs:element ref="time"/>
+        <xs:element ref="u"/>
+        <xs:element ref="var"/>
+        <xs:element ref="wbr"/>
+      </xs:choice>
+      <xs:attribute name="form" type="xs:IDREF"/>
+      <xs:attribute name="high" type="xs:float"/>
+      <xs:attribute name="low" type="xs:float"/>
+      <xs:attribute name="max" type="xs:float"/>
+      <xs:attribute name="min" type="xs:float"/>
+      <xs:attribute name="optimum" type="xs:float"/>
+      <xs:attribute name="value" type="xs:float"/>
+      <xs:attribute name="id" type="xs:ID"/>
+      <!-- Deferring to HTML5 spec for all other attribute validation -->
+      <xs:anyAttribute processContents="lax"/>
+  </xs:complexType>
+</xs:element>
+  
+<xs:element name="output">
+  <xs:complexType mixed="true">
+    <xs:complexContent>
+      <xs:extension base="inline_children_only">
+        <!-- output element has a few additional attributes -->
+        <xs:attribute name="for" type="xs:IDREF"/>
+        <xs:attribute name="form" type="xs:IDREF"/>
+        <xs:attribute name="name" type="nonemptystring"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+</xs:element>
+  
+<xs:element name="progress">
+  <!-- progress elements can have any inline children, excluding another "progress" element -->
+  <xs:complexType mixed="true">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <!-- Yeah we're enumerating all the inline options (from "inlineelements") here minus progress, as there's no way to exclude just one item for a group,
+           and I don't want to break up the "inlineelements" group below-->
+      <xs:element ref="a"/>
+      <xs:element ref="abbr"/>
+      <xs:element ref="b"/>
+      <xs:element ref="bdi"/>
+      <xs:element ref="bdo"/>
+      <xs:element ref="br"/>
+      <xs:element ref="button"/>
+      <xs:element ref="command"/>
+      <xs:element ref="cite"/>
+      <xs:element ref="code"/>
+      <xs:element ref="datalist"/>
+      <xs:element ref="del"/>
+      <xs:element ref="dfn"/>
+      <xs:element ref="em"/>
+      <xs:element ref="i"/>
+      <xs:element ref="input"/>
+      <xs:element ref="ins"/>
+      <xs:element ref="label"/>
+      <xs:element ref="kbd"/>
+      <xs:element ref="keygen"/>
+      <xs:element ref="mark"/>
+      <xs:element ref="meter"/>
+      <xs:element ref="output"/>
+      <xs:element ref="q"/>
+      <xs:element ref="ruby"/>
+      <xs:element ref="s"/>
+      <xs:element ref="samp"/>
+      <xs:element ref="select"/>
+      <xs:element ref="small"/>
+      <xs:element ref="span"/>
+      <xs:element ref="strong"/>
+      <xs:element ref="sub"/>
+      <xs:element ref="sup"/>
+      <xs:element ref="textarea"/>
+      <xs:element ref="time"/>
+      <xs:element ref="u"/>
+      <xs:element ref="var"/>
+      <xs:element ref="wbr"/>
+    </xs:choice>
+    <xs:attribute name="form" type="xs:IDREF"/>
+    <xs:attribute name="max" type="xs:float"/>
+    <xs:attribute name="value" type="xs:float"/>
+    <xs:attribute name="id" type="xs:ID"/>
+    <!-- Deferring to HTML5 spec for all other attribute validation -->
+    <xs:anyAttribute processContents="lax"/>
+  </xs:complexType>
+</xs:element>
+
+<xs:element name="q">
+  <xs:complexType mixed="true">
+    <xs:complexContent>
+      <xs:extension base="inline_children_only">
+        <xs:attribute name="cite" type="xs:anyURI"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+</xs:element>
+  
+<xs:element name="ruby">
+  <xs:complexType mixed="true">
+    <xs:complexContent>
+      <xs:extension base="inline_children_only">
+          <xs:choice>
+            <xs:element ref="rt"/>
+            <xs:sequence>
+              <xs:element ref="rp"/>
+              <xs:element ref="rt"/>
+              <xs:element ref="rp"/>
+            </xs:sequence>
+          </xs:choice>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+</xs:element>
+  
+<xs:element name="s" type="inline_children_only"/>
+  
+<xs:element name="samp" type="inline_children_only"/>
+  
+<!-- Not imposing any HTMLBook specific constraints on button content; deferring to HTML5 spec -->  
+<xs:element name="select" type="any_elems_attrs"/>
+  
+<xs:element name="small" type="inline_children_only"/>
+  
+<xs:element name="span" type="inline_children_only"/>
+  
+<xs:element name="strong" type="inline_children_only"/>
+  
+<xs:element name="sub" type="inline_children_only"/>
+  
+<xs:element name="sup" type="inline_children_only"/>
+  
+<!-- Not imposing any HTMLBook specific constraints on button content; deferring to HTML5 spec -->
+<xs:element name="textarea" type="any_elems_attrs"/>
+  
+<xs:element name="time">
+  <!-- time elements can have any inline children, excluding another "time" element -->
+  <xs:complexType mixed="true">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <!-- Yeah we're enumerating all the inline options (from "inlineelements") here minus time, as there's no way to exclude just one item for a group,
+           and I don't want to break up the "inlineelements" group below-->
+      <xs:element ref="a"/>
+      <xs:element ref="abbr"/>
+      <xs:element ref="b"/>
+      <xs:element ref="bdi"/>
+      <xs:element ref="bdo"/>
+      <xs:element ref="br"/>
+      <xs:element ref="button"/>
+      <xs:element ref="command"/>
+      <xs:element ref="cite"/>
+      <xs:element ref="code"/>
+      <xs:element ref="datalist"/>
+      <xs:element ref="del"/>
+      <xs:element ref="dfn"/>
+      <xs:element ref="em"/>
+      <xs:element ref="i"/>
+      <xs:element ref="input"/>
+      <xs:element ref="ins"/>
+      <xs:element ref="label"/>
+      <xs:element ref="kbd"/>
+      <xs:element ref="keygen"/>
+      <xs:element ref="mark"/>
+      <xs:element ref="meter"/>
+      <xs:element ref="output"/>
+      <xs:element ref="progress"/>
+      <xs:element ref="q"/>
+      <xs:element ref="ruby"/>
+      <xs:element ref="s"/>
+      <xs:element ref="samp"/>
+      <xs:element ref="select"/>
+      <xs:element ref="small"/>
+      <xs:element ref="span"/>
+      <xs:element ref="strong"/>
+      <xs:element ref="sub"/>
+      <xs:element ref="sup"/>
+      <xs:element ref="textarea"/>
+      <xs:element ref="u"/>
+      <xs:element ref="var"/>
+      <xs:element ref="wbr"/>
+    </xs:choice>
+    <xs:attribute name="pubdate">
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:pattern value="([Pp][Uu][Bb][Dd][Aa][Tt][Ee])?"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="datetime" type="xs:string"/>
+    <xs:attribute name="id" type="xs:ID"/>
+    <!-- Deferring to HTML5 spec for all other attribute validation -->
+    <xs:anyAttribute processContents="lax"/>
+  </xs:complexType>
+</xs:element>
+  
+<xs:element name="u" type="inline_children_only"/>
+  
+<xs:element name="var" type="inline_children_only"/>
+  
+<xs:element name="wbr" type="empty_elem_global_attrs"/>
+  
+<!-- Elements that can be block or inline -->
 <xs:element name="del"/>
-<xs:element name="dfn"/>
-<xs:element name="em"/>
-<xs:element name="i"/>
-<xs:element name="input"/>
 <xs:element name="ins"/>
-<xs:element name="kbd"/>
-<xs:element name="keygen"/>  
-<xs:element name="label"/>  
-<xs:element name="mark"/>  
-<xs:element name="meter"/>
-<xs:element name="output"/>
-<xs:element name="progress"/>
-<xs:element name="q"/>
-<xs:element name="ruby"/>
-<xs:element name="s"/>
-<xs:element name="samp"/>
-<xs:element name="select"/>
-<xs:element name="small"/>
-<xs:element name="span"/>
-<xs:element name="strong"/>
-<xs:element name="sub"/>
-<xs:element name="sup"/>
-<xs:element name="textarea"/>
-<xs:element name="time"/>
-<xs:element name="u"/>
-<xs:element name="var"/>
-<xs:element name="wbr"/>
   
 <!-- Miscellaneous elements -->
+<xs:element name="area"/>
 <xs:element name="caption"/>
 <xs:element name="colgroup"/>
 <xs:element name="dd" type="block_xor_inline_children"/>
@@ -355,7 +734,10 @@
 <xs:element name="figcaption"/>
 <xs:element name="legend"/>
 <xs:element name="li" type="block_xor_inline_children"/>
+<xs:element name="option"/>
 <xs:element name="param"/>
+<xs:element name="rp"/>
+<xs:element name="rt"/>  
 <xs:element name="source"/>
 <xs:element name="summary"/>
 <xs:element name="tbody"/>
@@ -403,6 +785,13 @@
     <xs:enumeration value="preface"/>
     <xs:enumeration value="titlepage"/>
     <xs:enumeration value="toc"/>
+  </xs:restriction>
+</xs:simpleType>
+  
+<!-- Used for attributes that require a nonempty string (e.g., "name" attribute on <output> -->
+<xs:simpleType name="nonemptystring">
+  <xs:restriction base="xs:string">
+    <xs:pattern value=".+"/>
   </xs:restriction>
 </xs:simpleType>
   
@@ -544,12 +933,19 @@
 
 <!-- Type for no restrictions on child content, except uniqueness for optional id attribute; used for deferral to HTML5 specs -->
 <xs:complexType name="any_elems_attrs" mixed="true">
-  <xs:sequence minOccurs="0">
+  <xs:sequence minOccurs="0" maxOccurs="unbounded">
     <xs:any processContents="lax"/>
   </xs:sequence>
   <xs:attribute name="id" type="xs:ID"/>
   <!-- Deferring to HTML5 spec for all other attribute validation -->
   <xs:anyAttribute processContents="lax"/>  
+</xs:complexType>
+  
+<!-- Type for empty element, with no specific attribute requirements -->
+<xs:complexType name="empty_elem_global_attrs">
+  <xs:attribute name="id" type="xs:ID"/>
+  <!-- Deferring to HTML5 spec for all other attribute validation -->
+  <xs:anyAttribute processContents="lax"/>
 </xs:complexType>
   
 <!-- Global groups -->
@@ -596,11 +992,10 @@
   <xs:choice>
     <xs:element ref="a"/>
     <xs:element ref="abbr"/>
-    <xs:element ref="area"/>
     <xs:element ref="b"/>
     <xs:element ref="bdi"/>
     <xs:element ref="bdo"/>
-    <xs:element ref="br"/> <!-- Yucky? -->
+    <xs:element ref="br"/>
     <xs:element ref="button"/>
     <xs:element ref="command"/>
     <xs:element ref="cite"/>
