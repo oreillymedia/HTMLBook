@@ -116,7 +116,7 @@
             </nav>
             
             <!-- Don't forget an ordered list -->
-            <ol id="orderedlist" start="4" type="lower-roman" reversed="Reversed">
+            <ol id="orderedlist" start="4" type="lower-roman" reversed="ReVersed">
               <li><p>This list item</p><p>Has multiple paragraphs</p></li>
               <li>This one is has just <em>one paragraph</em>, so no need to use block elements</li>
             </ol>
@@ -150,7 +150,9 @@
             <p>A <bdi><u>Bidirectional</u> indication</bdi></p>
             <p>A <bdo dir="rtl"><u>Bidirectional</u> override</bdo></p>
             <p>Here's a button: <button blah="blahblah" id="coolbutton">We don't care what's inside</button> Same with the following <command blahagain="blah"><bogus/>command</command>.
-            Ditto for <input fake="faker"><p/>Whatevs</input>, and for <keygen id="keygen" fine="ok">this shouldn't be empty but whatever</keygen> and for <select id="select"><p/>whatevs again<p/></select></p>
+            Ditto for <input fake="faker"><p/>Whatevs</input>, and for <keygen id="keygen" fine="ok">this shouldn't be empty but whatever</keygen> and for <select id="select"><p/>whatevs again<p/></select>
+            Lastly, same for textarea like this: <textarea id="textareasarenice">there <bogusagain/> should not be any <em>child elems here</em>, but we don't really care</textarea>
+            </p>
             <p>I love <cite id="coolbook">DocBook: The <em>Definitiv<b>e</b></em> Guide</cite></p>
             <p>To go into the directory you'd enter <code id="cd_command">cd <em>yourdirectoryname</em></code></p>
             <p>If we ever use a datalist, it would look like this: 
@@ -174,6 +176,10 @@
             <p>I really love the <span id="spannyspan" class="colorful">flexibility of <em>HTML</em> markup</span></p>
             <p>The following text is <strong id="strongstrong">very <em>very</em></strong> important</p>
             <p>The formula for water is H<sub id="subscript"><em>2</em></sub>O, and the formula for energy is E = mc<sup id="superscript" class="poweroftwo"><strong>2</strong></sup></p>
+            <p>This document was edited on <time id="timetimetime" datetime="2013-03-23" pubdate="Pubdate"><em>Monda</em>y</time></p>
+            <p>This is a <u id="not_underline">annotated <em>section</em> of <u>text</u></u></p>
+            <p>The variable <var id="variable"><code>foo</code></var> is set to 18.</p>
+            <p>It's OK to insert a <wbr id="wordbreak" class="important"></wbr> word break in this line.</p>
           </section>
         </section>
       </section>
