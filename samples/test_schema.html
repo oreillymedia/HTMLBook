@@ -31,15 +31,35 @@
         <!-- Let's test an embed element -->
         <embed src="great_file"></embed>
         <!-- Let's test a fieldset element -->
-        <fieldset><legend/><b>Test</b>
+        <fieldset><legend class="a_legend" id="a_legend">The legend is <em>true</em></legend><b>Test</b>
         </fieldset>
         <section class="sect1">
           <h1>Te<em></em>st</h1>
           <h2 class="subtitle">Bl<em>a</em>h</h2>
           <address><a></a>blah<em></em>blah<s></s>blah</address>
-          <blockquote><em></em>Y<b>o</b></blockquote> <div class="testing">
+          <blockquote><em></em>Y<b>o</b></blockquote> 
+          
+          <!-- A few types of divs. Inline content only here... -->
+          <div id="firstdiv" class="testing">
             <em>He<b>bold</b>llo</em>
-          </div> <section class="sect2">
+          </div> 
+          
+          <!-- And block content here ... -->
+          <div id="second_div" class="second_test_block">
+            <h2>Any heading you choose</h2>
+            <p>Test 123</p>
+          </div>
+          
+          <!-- An hgroup here -->
+          <div id="third_div" class="third_test_block">
+            <hgroup id="heading_group" class="heading_group">
+              <h1>First heading</h1>
+              <h1>Second heading</h1>
+            </hgroup>
+            <p>Test 123</p>
+          </div>
+          
+          <section class="sect2">
             <h2>Test</h2>
             <h3 class="subtitle">Blah</h3>
             <aside class="sidebar">
@@ -50,14 +70,14 @@
             
             <!-- Details element -->
             <details class="details">
-              <summary></summary>
+              <summary id="a_summary">This is a <strong>summary</strong></summary>
               <p>Some text</p>
               <p>More text</p>
             </details>
             
             <!-- Object element -->
             <object data="tarsier.jpg">
-              <param/>
+              <param id="a_parameter" name="person" value="Bill Gates"/>
               <em>Some text</em>
               <em>More text</em>
               <em>Huh?</em>
@@ -70,20 +90,53 @@
             <!-- Now it's time to test a figure -->
             
             <figure class="yo">
-              <figcaption/>
+              <figcaption id="thecaption"><p>We can have a two-para caption</p><p>Yes we can</p></figcaption>
               <p>Here comes a fig</p>
               <img src="image.png"/>
             </figure>
             
-            <!-- Oh boy, let's do a table -->
+            <!-- Oh boy, let's do a couple tables -->
+            <!-- No <tbody> -->
             <table border="" id="skeleton_of_a_table">
-              <caption/>
-              <colgroup/>
-              <colgroup/>
-              <thead/>
+              <caption>A no-paragraph caption is <strong>allowed</strong></caption>
+              <colgroup id="col1" span="3">
+                <col span="2"/>
+                <col/>
+              </colgroup>
+              <colgroup id="col2"/>
+              <thead id="thead_elem">
+                <tr id="firstrow" class="odd_row">
+                   <td id="firstcell" colspan="2" rowspan="5" headers="blah blah2">No block <em>elems</em></td>
+                    <td class="even_cell" colspan="1"><p>This table cell <strong>has</strong> block elems</p></td></tr>
+                <tr><th><em>Blah</em></th></tr>
+                <tr><th/><th/></tr>
+                <tr/>
+              </thead>
               <tr/>
               <tr/>
               <tfoot/>
+            </table>
+            
+            <!-- Contains <tbody> -->
+            <table border="" id="second_skeleton_of_a_table">
+              <caption>A no-paragraph caption is <strong>allowed</strong></caption>
+              <colgroup id="col12" span="3">
+                <col span="2"/>
+                <col/>
+              </colgroup>
+              <colgroup id="col22"/>
+              <thead/>
+              <tbody id="tbody" class="a_tbody">
+                <tr>
+                    <th id="first_cell">Content no inlines</th>
+                    <th colspan="3" rowspan="6" headers="one two three" scope="colgroup"><em>Content</em> with inlines</th>
+                </tr>
+                <tr><td/><td/></tr>
+              </tbody>
+              <tfoot id="tfoot_elem" class="tfoot_elem">
+              <tr/>
+              <tr/>
+              </tfoot>
             </table>
             
             <!-- Now here's a form and a map and a menu; we don't care what's inside -->
@@ -92,7 +145,7 @@
             </form>
             
             <map blah="blahblah">
-              Blahblahblah<secondfakeelement><em>Blah</em></secondfakeelement>
+              <area id="imagemaparea" alt="blah" coords="122" shape="circ" href="oreilly.com" target="blue" media="whatever" type="image/png" rel="pingback author" hreflang="en"/>
             </map>
             
             <menu ha="hahaha">
@@ -128,16 +181,16 @@
             </ul>
             
             <audio id="music" src="music.wav">
-              <source></source>
-              <source></source>
-              <source></source>
-              <track></track>
+              <source src="test.mov" id="audio_source"/>
+              <source src="test2.mov"/>
+              <source src="test3.mpg"/>
+              <track id="a_track" label="ljsfksfj" default="default" kind="captions" src="http://oreilly.com" srclang="en"/>
             </audio>
             
             <video id="video" src="movie.mp4">
-              <source></source>
-              <source></source>
-              <source></source>
+              <source src="test.mov" id="first_source"/>
+              <source src="test2.mov"/>
+              <source src="test3.mpg"/>
               <track></track>
             </video>
           </section>
@@ -156,7 +209,7 @@
             <p>I love <cite id="coolbook">DocBook: The <em>Definitiv<b>e</b></em> Guide</cite></p>
             <p>To go into the directory you'd enter <code id="cd_command">cd <em>yourdirectoryname</em></code></p>
             <p>If we ever use a datalist, it would look like this: 
-              <datalist id="datalist1"><option/><option/></datalist>
+              <datalist id="datalist1"><option id="an_option" selected="Selected" disabled="DISABLED" label="label" value="value">You can put text here, but no child elements</option><option/></datalist>
               or maybe like this <datalist id="datalist2"><em>Another one:</em> <b>Yeah</b></datalist>
             </p>
             <p><dfn id="definition"><em>SVG</em></dfn> stands for Scalable Vector Graphics</p>
@@ -169,7 +222,7 @@
             <p>And how about a progress bar: <progress id="a_progress_bar" form="coolform" max="1" value="1">Yes! <em>Progress made!</em></progress></p>
             <p>Here's a great quote: <q cite="http://oreilly.com" id="a_quote">O'Reilly spreads the <em>knowledge</em> of innovators</q></p>
             
-            <p>We need to test ruby annotations, too <ruby id="ruby_anno"><em>blah</em> <rp>(</rp><rt>Blah</rt><rp>)</rp></ruby></p>
+            <p>We need to test ruby annotations, too <ruby id="ruby_anno"><em>blah</em> <rp id="rp"><em>(</em></rp><rt id="rt"><strong>Blah</strong></rt><rp>)</rp></ruby></p>
             <p>The capital of Nigeria is <s id="strike_it"><strong>Lagos</strong></s> Abuja</p>
             <p>The text <samp id="computeroutput">Hello <strong>World</strong></samp> was returned on the Terminal</p>
             <p><small id="smallprint">Disclaimer: the &lt;small&gt; element is used for <em>small print</em>, <strong>not</strong> text you want to appear small onscreen</small></p>
@@ -180,6 +233,8 @@
             <p>This is a <u id="not_underline">annotated <em>section</em> of <u>text</u></u></p>
             <p>The variable <var id="variable"><code>foo</code></var> is set to 18.</p>
             <p>It's OK to insert a <wbr id="wordbreak" class="important"></wbr> word break in this line.</p>
+            <p><del id="insertion" cite="oreilly.com" datetime="2013-03-26">This content should be <em>deleted</em></del></p>
+            <p><ins id="deletion" cite="oreilly.com" datetime="2013-03-26">This content should be <em>added</em></ins></p>
           </section>
         </section>
       </section>
