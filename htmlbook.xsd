@@ -915,7 +915,8 @@
   </xs:complexType>  
 </xs:element>
 
-<xs:element name="summary"/>
+<xs:element name="summary" type="inline_children_only"/>
+  
 <xs:element name="tbody"/>
 <xs:element name="thead"/>
 <xs:element name="tfoot"/>
