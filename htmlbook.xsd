@@ -923,17 +923,32 @@
   <xs:complexType>
     <xs:complexContent>
       <xs:extension base="block_xor_inline_children">
-        <xs:attribute name="colspan" type="positive_int"/>
-        <xs:attribute name="rowspan" type="positive_int"/>
-        <!-- Per HTML5 spec, each space-separated token in "headers" should be an idref pointing to
-             the id on a corresponding <th> in the same table, but not enforcing this in the Schema -->
-        <xs:attribute name="headers" type="xs:NMTOKENS"/>
+        <xs:attributeGroup ref="tablecellattributes"/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
 </xs:element>
   
-<xs:element name="th"/>
+<xs:element name="th">
+  <xs:complexType>
+    <xs:complexContent>
+      <xs:extension base="inline_children_only">
+        <xs:attributeGroup ref="tablecellattributes"/>
+        <xs:attribute name="scope">
+          <xs:simpleType>
+            <xs:restriction base="xs:token">
+              <xs:enumeration value="auto"/>
+              <xs:enumeration value="col"/>
+              <xs:enumeration value="colgroup"/>
+              <xs:enumeration value="row"/>
+              <xs:enumeration value="rowgroup"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+</xs:element>
 
 <xs:element name="thead" type="tablegrouping"/>
   
@@ -1304,4 +1319,15 @@
   <xs:attribute name="width"/>
   <xs:attribute name="height"/>
 </xs:attributeGroup>
+  
+<!-- Table cell attributes shared by both th and td (does not include th-specific element scope) -->
+<xs:attributeGroup name="tablecellattributes">
+  <xs:attribute name="colspan" type="positive_int"/>
+  <xs:attribute name="rowspan" type="positive_int"/>
+  <!-- Per HTML5 spec, each space-separated token in "headers" should be an idref pointing to
+       the id on a corresponding <th> in the same table, but not enforcing this in the Schema -->
+  <xs:attribute name="headers" type="xs:NMTOKENS"/>
+</xs:attributeGroup>
+  
 </xs:schema>
+

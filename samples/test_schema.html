@@ -108,7 +108,7 @@
                 <tr id="firstrow" class="odd_row">
                    <td id="firstcell" colspan="2" rowspan="5" headers="blah blah2">No block <em>elems</em></td>
                     <td class="even_cell" colspan="1"><p>This table cell <strong>has</strong> block elems</p></td></tr>
-                <tr><th/></tr>
+                <tr><th><em>Blah</em></th></tr>
                 <tr><th/><th/></tr>
                 <tr/>
               </thead>
@@ -127,7 +127,10 @@
               <colgroup id="col22"/>
               <thead/>
               <tbody id="tbody" class="a_tbody">
-                <tr><th/><th/></tr>
+                <tr>
+                    <th id="first_cell">Content no inlines</th>
+                    <th colspan="3" rowspan="6" headers="one two three" scope="colgroup"><em>Content</em> with inlines</th>
+                </tr>
                 <tr><td/><td/></tr>
               </tbody>
               <tfoot id="tfoot_elem" class="tfoot_elem">
