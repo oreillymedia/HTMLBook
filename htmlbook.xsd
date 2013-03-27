@@ -919,7 +919,19 @@
   
 <xs:element name="tbody" type="tablegrouping"/>
   
-<xs:element name="td"/>
+<xs:element name="td">
+  <xs:complexType>
+    <xs:complexContent>
+      <xs:extension base="block_xor_inline_children">
+        <xs:attribute name="colspan" type="positive_int"/>
+        <xs:attribute name="rowspan" type="positive_int"/>
+        <!-- Per HTML5 spec, each space-separated token in "headers" should be an idref pointing to
+             the id on a corresponding <th> in the same table, but not enforcing this in the Schema -->
+        <xs:attribute name="headers" type="xs:NMTOKENS"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+</xs:element>
   
 <xs:element name="th"/>
 
@@ -986,6 +998,13 @@
 <xs:simpleType name="nonemptystring">
   <xs:restriction base="xs:string">
     <xs:pattern value=".+"/>
+  </xs:restriction>
+</xs:simpleType>
+  
+<!-- Used for positive integers -->
+<xs:simpleType name="positive_int">
+  <xs:restriction base="xs:integer">
+    <xs:minExclusive value="0"/>
   </xs:restriction>
 </xs:simpleType>
   
