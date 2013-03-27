@@ -70,7 +70,7 @@
             
             <!-- Details element -->
             <details class="details">
-              <summary></summary>
+              <summary id="a_summary">This is a <strong>summary</strong></summary>
               <p>Some text</p>
               <p>More text</p>
             </details>
@@ -95,7 +95,8 @@
               <img src="image.png"/>
             </figure>
             
-            <!-- Oh boy, let's do a table -->
+            <!-- Oh boy, let's do a couple tables -->
+            <!-- No <tbody> -->
             <table border="" id="skeleton_of_a_table">
               <caption>A no-paragraph caption is <strong>allowed</strong></caption>
               <colgroup id="col1" span="3">
@@ -103,10 +104,34 @@
                 <col/>
               </colgroup>
               <colgroup id="col2"/>
-              <thead/>
+              <thead id="thead_elem">
+                <tr/>
+                <tr/>
+                <tr/>
+                <tr/>
+              </thead>
               <tr/>
               <tr/>
               <tfoot/>
+            </table>
+            
+            <!-- Contains <tbody> -->
+            <table border="" id="second_skeleton_of_a_table">
+              <caption>A no-paragraph caption is <strong>allowed</strong></caption>
+              <colgroup id="col12" span="3">
+                <col span="2"/>
+                <col/>
+              </colgroup>
+              <colgroup id="col22"/>
+              <thead/>
+              <tbody id="tbody" class="a_tbody">
+                <tr/>
+                <tr/>
+              </tbody>
+              <tfoot id="tfoot_elem" class="tfoot_elem">
+              <tr/>
+              <tr/>
+              </tfoot>
             </table>
             
             <!-- Now here's a form and a map and a menu; we don't care what's inside -->

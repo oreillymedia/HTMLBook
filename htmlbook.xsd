@@ -917,9 +917,12 @@
 
 <xs:element name="summary" type="inline_children_only"/>
   
-<xs:element name="tbody"/>
-<xs:element name="thead"/>
-<xs:element name="tfoot"/>
+<xs:element name="tbody" type="tablegrouping"/>
+
+<xs:element name="thead" type="tablegrouping"/>
+  
+<xs:element name="tfoot" type="tablegrouping"/>
+  
 <xs:element name="tr"/>
 <xs:element name="track"/>
   
@@ -1137,6 +1140,16 @@
   <!-- No HTMLBook-specific attribute rules for this set of elements other than id; deferring to HTML5 spec on attribute rules and not 
        validating in this schema -->
   <xs:attribute name="id" type="xs:ID"/>
+  <xs:anyAttribute processContents="lax"/>
+</xs:complexType>
+  
+<!-- Type for table group blocks: thead, tbody, and tfoot -->
+<xs:complexType name="tablegrouping">
+  <xs:sequence>
+    <xs:element ref="tr" minOccurs="0" maxOccurs="unbounded"/>
+  </xs:sequence>
+  <xs:attribute name="id" type="xs:ID"/>
+  <!-- Deferring to HTML5 spec for all other attribute validation -->
   <xs:anyAttribute processContents="lax"/>
 </xs:complexType>
   
