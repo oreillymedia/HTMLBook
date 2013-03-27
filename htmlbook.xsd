@@ -966,7 +966,35 @@
   </xs:complexType>
 </xs:element>
   
-<xs:element name="track"/>
+<xs:element name="track">
+  <xs:complexType>
+    <xs:complexContent>
+      <xs:extension base="empty_elem_global_attrs">
+        <xs:attribute name="default">
+          <xs:simpleType>
+            <xs:restriction base="xs:token">
+              <xs:pattern value="([Dd][Ee][Ff][Aa][Uu][Ll][Tt])?"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="kind">
+          <xs:simpleType>
+            <xs:restriction base="xs:token">
+              <xs:enumeration value="captions"/>
+              <xs:enumeration value="chapters"/>
+              <xs:enumeration value="descriptions"/>
+              <xs:enumeration value="metadata"/>
+              <xs:enumeration value="subtitles"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="label" type="xs:string"/>
+        <xs:attribute name="src" type="xs:anyURI"/>
+        <xs:attribute name="srclang" type="xs:language"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+</xs:element>
   
 <!-- ToDo: Separate out elements that can be either inline or block into a distinct list -->
 
