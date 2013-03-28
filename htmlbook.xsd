@@ -230,9 +230,14 @@
 
 <xs:element name="embed">
   <xs:complexType>
-    <xs:attribute name="id" type="xs:ID"/>
-    <!-- Deferring to HTML5 spec for all other attribute validation -->
-    <xs:anyAttribute processContents="lax"/>
+    <xs:complexContent>
+      <xs:extension base="empty_elem_global_attrs">
+        <xs:attribute name="src" type="xs:anyURI"/>
+        <xs:attribute name="type" type="xs:string"/>
+        <xs:attribute name="width" type="xs:string"/>
+        <xs:attribute name="height" type="xs:string"/>
+      </xs:extension>
+    </xs:complexContent>
   </xs:complexType>
 </xs:element>
   
@@ -245,9 +250,7 @@
         <xs:group ref="inlineelements" minOccurs="0" maxOccurs="unbounded"/>
       </xs:choice>
     </xs:sequence>
-    <xs:attribute name="id" type="xs:ID"/>
-    <!-- Deferring to HTML5 spec for all other attribute validation -->
-    <xs:anyAttribute processContents="lax"/>
+    <xs:attributeGroup ref="globals"/>
   </xs:complexType>
 </xs:element>
 
@@ -279,17 +282,19 @@
     <xs:group ref="inlineelements" minOccurs="0" maxOccurs="unbounded"/>
     <!-- Differing from HTML5 spec in that we're requiring a @src attribute here -->
     <xs:attribute name="src" use="required" type="xs:anyURI"/>
-    <!-- Deferring to HTML5 spec for all other attribute validation -->
-    <xs:anyAttribute processContents="lax"/>
+    <xs:attributeGroup ref="globals"/>
   </xs:complexType>
 </xs:element>
   
+<!-- ToDo: Logic to support img as an inline? -->
+<!-- Rewrite so that img is in inline elements, not block elements, but img can be a block child of the <figure> element -->
 <xs:element name="img">
   <xs:complexType>
-    <xs:attribute name="id" type="xs:ID"/>
-    <xs:attribute name="src" use="required" type="xs:anyURI"/>
-    <!-- Deferring to HTML5 spec for all other attribute validation -->
-    <xs:anyAttribute processContents="lax"/>
+    <xs:complexContent>
+      <xs:extension base="empty_elem_global_attrs">
+        <xs:attribute name="src" use="required" type="xs:anyURI"/>
+      </xs:extension>
+    </xs:complexContent>
   </xs:complexType>
 </xs:element>
 
@@ -311,9 +316,7 @@
         <xs:group ref="inlineelements" minOccurs="0" maxOccurs="unbounded"/>
       </xs:choice>
     </xs:sequence>
-    <xs:attribute name="id" type="xs:ID"/>
-    <!-- Deferring to HTML5 spec for all other attribute validation -->
-    <xs:anyAttribute processContents="lax"/>
+    <xs:attributeGroup ref="globals"/>
   </xs:complexType>
 </xs:element>
 
@@ -342,9 +345,7 @@
         </xs:restriction>
       </xs:simpleType>
     </xs:attribute>
-    <xs:attribute name="id" type="xs:ID"/>
-    <!-- Deferring to HTML5 spec for all other attribute validation -->
-    <xs:anyAttribute processContents="lax"/>
+    <xs:attributeGroup ref="globals"/>
   </xs:complexType>
 </xs:element>
   
@@ -379,9 +380,7 @@
         </xs:restriction>
       </xs:simpleType>
     </xs:attribute>
-    <xs:attribute name="id" type="xs:ID"/>
-    <!-- Deferring to HTML5 spec for all other attribute validation -->
-    <xs:anyAttribute processContents="lax"/>
+    <xs:attributeGroup ref="globals"/>
   </xs:complexType>
 </xs:element>
   
@@ -390,9 +389,7 @@
     <xs:sequence>
       <xs:element ref="li" minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>
-    <xs:attribute name="id" type="xs:ID"/>
-    <!-- Deferring to HTML5 spec for all other attribute validation -->
-    <xs:anyAttribute processContents="lax"/>
+    <xs:attributeGroup ref="globals"/>
   </xs:complexType>
 </xs:element>
   
@@ -403,9 +400,7 @@
       <xs:element ref="track" minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>
     <xs:attributeGroup ref="videomediaattributes"/>
-    <xs:attribute name="id" type="xs:ID"/>
-    <!-- Deferring to HTML5 spec for all other attribute validation -->
-    <xs:anyAttribute processContents="lax"/>
+    <xs:attributeGroup ref="globals"/>
   </xs:complexType>
 </xs:element>
   
@@ -471,10 +466,7 @@
       <xs:group ref="inlineelements" minOccurs="0" maxOccurs="unbounded"/>
       <xs:element ref="option" minOccurs="0" maxOccurs="unbounded"/>
     </xs:choice>
-    <!-- No HTMLBook-specific attribute rules for this set of elements other than id; deferring to HTML5 spec on attribute rules and not 
-       validating in this schema -->
-    <xs:attribute name="id" type="xs:ID"/>
-    <xs:anyAttribute processContents="lax"/>
+    <xs:attributeGroup ref="globals"/>
   </xs:complexType>
 </xs:element>
   
@@ -535,9 +527,7 @@
         <xs:element ref="var"/>
         <xs:element ref="wbr"/>
       </xs:choice>
-      <xs:attribute name="id" type="xs:ID"/>
-      <!-- Deferring to HTML5 spec for all other attribute validation -->
-      <xs:anyAttribute processContents="lax"/>
+      <xs:attributeGroup ref="globals"/>
   </xs:complexType>
 </xs:element>
   
@@ -612,9 +602,7 @@
       </xs:choice>
       <xs:attribute name="for" type="xs:IDREF"/>
       <xs:attribute name="form" type="xs:IDREF"/>
-      <xs:attribute name="id" type="xs:ID"/>
-      <!-- Deferring to HTML5 spec for all other attribute validation -->
-      <xs:anyAttribute processContents="lax"/>
+      <xs:attributeGroup ref="globals"/>
   </xs:complexType>
 </xs:element>
   
@@ -672,9 +660,7 @@
       <xs:attribute name="min" type="xs:float"/>
       <xs:attribute name="optimum" type="xs:float"/>
       <xs:attribute name="value" type="xs:float"/>
-      <xs:attribute name="id" type="xs:ID"/>
-      <!-- Deferring to HTML5 spec for all other attribute validation -->
-      <xs:anyAttribute processContents="lax"/>
+      <xs:attributeGroup ref="globals"/>
   </xs:complexType>
 </xs:element>
   
@@ -739,9 +725,7 @@
     <xs:attribute name="form" type="xs:IDREF"/>
     <xs:attribute name="max" type="xs:float"/>
     <xs:attribute name="value" type="xs:float"/>
-    <xs:attribute name="id" type="xs:ID"/>
-    <!-- Deferring to HTML5 spec for all other attribute validation -->
-    <xs:anyAttribute processContents="lax"/>
+    <xs:attributeGroup ref="globals"/>
   </xs:complexType>
 </xs:element>
 
@@ -845,9 +829,7 @@
       </xs:simpleType>
     </xs:attribute>
     <xs:attribute name="datetime" type="xs:string"/>
-    <xs:attribute name="id" type="xs:ID"/>
-    <!-- Deferring to HTML5 spec for all other attribute validation -->
-    <xs:anyAttribute processContents="lax"/>
+    <xs:attributeGroup ref="globals"/>
   </xs:complexType>
 </xs:element>
   
@@ -924,10 +906,7 @@
       <xs:element ref="col" minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>
     <xs:attribute name="span" type="xs:int"/>
-    <!-- No HTMLBook-specific attribute rules for this set of elements other than id; deferring to HTML5 spec on attribute rules and not 
-         validating in this schema -->
-    <xs:attribute name="id" type="xs:ID"/>
-    <xs:anyAttribute processContents="lax"/>
+    <xs:attributeGroup ref="globals"/>
   </xs:complexType>
 </xs:element>
   
@@ -942,9 +921,7 @@
     <xs:sequence>
       <xs:group ref="headings" minOccurs="1" maxOccurs="unbounded"/>
     </xs:sequence> 
-    <xs:attribute name="id" type="xs:ID"/>
-    <!-- Deferring to HTML5 spec for all other attribute validation -->
-    <xs:anyAttribute processContents="lax"/>
+    <xs:attributeGroup ref="globals"/>
   </xs:complexType>
 </xs:element>
   
@@ -1049,9 +1026,7 @@
       <xs:element ref="td" minOccurs="0" maxOccurs="unbounded"/>
       <xs:element ref="th" minOccurs="0" maxOccurs="unbounded"/>
     </xs:choice>
-    <xs:attribute name="id" type="xs:ID"/>
-    <!-- Deferring to HTML5 spec for all other attribute validation -->
-    <xs:anyAttribute processContents="lax"/>
+    <xs:attributeGroup ref="globals"/>
   </xs:complexType>
 </xs:element>
   
@@ -1297,8 +1272,7 @@
   
 <!-- Type for empty element, with no specific attribute requirements -->
 <xs:complexType name="empty_elem_global_attrs">
-  <xs:attribute name="id" type="xs:ID"/>
-  <!-- Deferring to HTML5 spec for all other attribute validation -->
+  <xs:attributeGroup ref="globals"/>
   <xs:anyAttribute processContents="lax"/>
 </xs:complexType>
 
