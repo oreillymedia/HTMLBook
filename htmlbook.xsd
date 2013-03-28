@@ -16,6 +16,7 @@
       <!-- Note that in order to produce a valid content model, title must be first -->
         <xs:element ref="title"/>
         <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element ref="base"/>
           <xs:element ref="command"/>
           <xs:element ref="link"/>
           <xs:element ref="meta"/>
@@ -46,9 +47,26 @@
 <!-- Metadata elements -->
 <!-- ToDo: What restrictions to add? -->
   
-<xs:element name="title"/>
+<xs:element name="title">
+  <xs:complexType mixed="true">
+    <xs:complexContent>
+      <xs:extension base="empty_elem_global_attrs"/>
+    </xs:complexContent>
+  </xs:complexType>
+</xs:element>
   
-<xs:element name="base"/>
+<!-- HTML5 spec requires either href attr, target attr, or both, (not possible to represent this in Schema).
+     In HTMLBook, we are formally requiring href -->
+<xs:element name="base">
+  <xs:complexType>
+    <xs:complexContent>
+      <xs:extension base="empty_elem_global_attrs">
+        <xs:attribute name="href" type="xs:anyURI" use="required"/>
+        <xs:attribute name="target" type="xs:string"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+</xs:element>
     
 <xs:element name="link"/>
     
