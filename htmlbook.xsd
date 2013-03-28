@@ -20,7 +20,6 @@
           <xs:element ref="command"/>
           <xs:element ref="link"/>
           <xs:element ref="meta"/>
-          <xs:element ref="noscript"/>
           <xs:element ref="script"/>
           <xs:element ref="style"/>
       </xs:choice>
@@ -108,10 +107,37 @@
     </xs:complexContent>
   </xs:complexType>
 </xs:element>
-    
-<xs:element name="noscript"/>
 
-<xs:element name="script"/>
+  <!-- Not supporting the "noscript" element in HTMLBook, as HTML5 spec states 
+    "it has no effect in the XHTML syntax" (http://www.w3.org/TR/2011/WD-html5-20110525/scripting-1.html#the-noscript-element) -->
+<!-- <xs:element name="noscript"> -->
+
+<!-- In HTMLBook, not allowing JS content to be embedded directly in script tag, and are requiring a @src attr -->
+<xs:element name="script">
+  <xs:complexType>
+    <xs:complexContent>
+      <xs:extension base="empty_elem_global_attrs">
+        <xs:attribute name="src" type="xs:anyURI" use="required"/>
+        <xs:attribute name="async">
+          <xs:simpleType>
+            <xs:restriction base="xs:token">
+              <xs:pattern value="([Aa][Ss][Yy][Nn][Cc])?"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="defer">
+          <xs:simpleType>
+            <xs:restriction base="xs:token">
+              <xs:pattern value="([Dd][Ee][Ff][Ee][Rr])?"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="type" type="xs:string"/>
+        <xs:attribute name="charset" type="xs:string"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+</xs:element>
     
 <xs:element name="style"/>
   
@@ -1315,7 +1341,6 @@
     <xs:element ref="mml:math"/> -->
     <xs:element ref="menu"/>
     <xs:element ref="nav"/>
-    <xs:element ref="noscript"/>
     <xs:element ref="object"/>
     <xs:element ref="ol"/>
     <xs:element ref="p"/>
