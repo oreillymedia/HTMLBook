@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.w3.org/1999/xhtml" elementFormDefault="qualified">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.w3.org/1999/xhtml" elementFormDefault="qualified" attributeFormDefault="unqualified">
 
 <xs:element name="html">
   <xs:complexType>
@@ -275,9 +275,7 @@
         <xs:element ref="figcaption"/>
       </xs:sequence>
     </xs:choice>
-    <xs:attribute name="id" type="xs:ID"/>
-    <!-- Deferring to HTML5 spec for all other attribute validation -->
-    <xs:anyAttribute processContents="lax"/>    
+    <xs:attributeGroup ref="globals"/>
   </xs:complexType>
 </xs:element>
 
@@ -1160,6 +1158,15 @@
     <xs:enumeration value="author"/>
   </xs:restriction>
 </xs:simpleType>
+  
+<!-- Restrict boolean type to only allow "true", "false", or empty string -->
+<xs:simpleType name="true_false">
+  <xs:restriction base="xs:token">
+    <xs:enumeration value="true"/>
+    <xs:enumeration value="false"/>
+    <xs:enumeration value=""/>
+  </xs:restriction>
+</xs:simpleType>
  
 <!-- Global complex type definitions; see corresponding simple types-->
 
@@ -1428,6 +1435,44 @@
 <!-- Global attribute groups -->
 <!-- ToDo: Go ahead and add group for global HTML5 attributes (with exception of data- attrs),
       or just leave the xs:anyAttribute declarations to catch these? (If this is done, remove all the xs:attribute declarations for "id")-->
+  
+<xs:attributeGroup name="globals">
+  <xs:attribute name="accesskey">
+    <xs:simpleType>
+      <xs:restriction base="xs:NMTOKENS">
+        <xs:pattern value="[^ ]( [^ ])*"></xs:pattern>
+      </xs:restriction>
+    </xs:simpleType>
+  </xs:attribute>
+  <xs:attribute name="class" type="xs:NMTOKENS"/>
+  <xs:attribute name="contenteditable" type="true_false"/>
+  <xs:attribute name="contextmenu" type="xs:IDREF"/>
+  <xs:attribute name="dir">
+    <xs:simpleType>
+      <xs:restriction base="xs:token">
+        <xs:enumeration value="ltr"/>
+        <xs:enumeration value="rtl"/>              
+      </xs:restriction>
+    </xs:simpleType>
+  </xs:attribute>
+  <xs:attribute name="draggable" type="true_false"/>
+  <xs:attribute name="dropzone" type="xs:NMTOKENS"/>
+  <xs:attribute name="hidden">
+    <xs:simpleType>
+      <xs:restriction base="xs:token">
+        <xs:pattern value="([Hh][Ii][Dd][Dd][Ee][Nn])?"/>
+      </xs:restriction>
+    </xs:simpleType>
+  </xs:attribute>
+  <xs:attribute name="id" type="xs:ID"/>
+  <xs:attribute name="lang" type="xs:language"/>
+  <xs:attribute name="spellcheck" type="true_false"/>
+  <xs:attribute name="style" type="xs:string"/>
+  <xs:attribute name="tabindex" type="xs:integer"/>
+  <xs:attribute name="title" type="xs:string"/>
+  <!-- To accommodate data- attrs -->
+  <xs:anyAttribute processContents="lax"/>
+</xs:attributeGroup>
   
 <!--ToDo: any further restrictions on these attributes? -->
 <xs:attributeGroup name="generalmediaattributes">
