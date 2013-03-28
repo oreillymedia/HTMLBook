@@ -139,7 +139,22 @@
   </xs:complexType>
 </xs:element>
     
-<xs:element name="style"/>
+<xs:element name="style">
+  <xs:complexType mixed="true">
+      <xs:attribute name="media" type="xs:string"/>
+      <xs:attribute name="type" type="xs:string"/>
+      <xs:attribute name="scoped">
+        <xs:simpleType>
+          <xs:restriction base="xs:token">
+            <xs:pattern value="([Ss][Cc][Oo][Pp][Ee][Dd])?"></xs:pattern>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+    <xs:attribute name="id" type="xs:ID"/>
+    <!-- Deferring to HTML5 spec for all other attribute validation -->
+    <xs:anyAttribute processContents="lax"/>    
+  </xs:complexType>
+</xs:element>
   
 <!-- Block elements -->
 <!-- ToDo: What restrictions to add? -->
