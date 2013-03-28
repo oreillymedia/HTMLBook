@@ -4,7 +4,7 @@
  xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <title id="the_title">Blah blah blah</title>
-    <base id="whatevs" href="/"/>
+    <base id="whatevs" target="_self" href="/" spellcheck=""/>
     <link href="style.css" hreflang="en" id="css" media="blah" type="application/css" ref="stylesheet" sizes="1 2 3"/>
     <meta name="isbn-13" content="9780596102340" id="isbn-13" class="isbn"></meta>
     <script src="script.js" id="script" async="ASYNC" defer="DEFER" charset="ascii" type="text/javascript"/>
@@ -12,11 +12,11 @@
   </head>
   <body class="book" id="hmm" title="The whole darn book" style="color: yellow;">
     <h1>Book title</h1>
-    <section class="chapter">
+    <section class="chapter" id="a_chapter" lang="en" dir="ltr">
       <h1>Chap title</h1>
       <p>Hello Blah</p>
     </section>
-    <div class="part">
+    <div class="part" id="a_part" dir="ltr" style="color: yellow;">
       <h1>Hello World</h1>
       <section class="chapter" id="stest">
         <h1>Hi Again</h1>
@@ -35,15 +35,15 @@
         <!-- Let's test a fieldset element -->
         <fieldset class="field" hidden="" tabindex="1" id="a_fieldset"><legend class="a_legend" id="a_legend">The legend is <em>true</em></legend><b>Test</b>
         </fieldset>
-        <section class="sect1">
+        <section class="sect1" id="good_section" hidden="HIDDen">
           <h1>Te<em></em>st</h1>
-          <h2 class="subtitle">Bl<em>a</em>h</h2>
+          <h2 class="subtitle" id="subtitle_id" dir="rtl">Bl<em>a</em>h</h2>
           <address><a></a>blah<em></em>blah<s></s>blah</address>
-          <blockquote><em></em>Y<b>o</b></blockquote> 
+          <blockquote lang="en" accesskey="A B C" id="a_blockquote"><em></em>Y<b>o</b></blockquote> 
           
           <!-- A few types of divs. Inline content only here... -->
           <div id="firstdiv" class="testing" hidden="hidden" data-whatever="whatever">
-            <em>He<b>bold</b>llo</em>
+            <em id="emphasis_yo" class="italic" spellcheck="true">He<b>bold</b>llo</em>
           </div> 
           
           <!-- And block content here ... -->
@@ -61,10 +61,10 @@
             <p>Test 123</p>
           </div>
           
-          <section class="sect2">
+          <section class="sect2" id="a_sect2" lang="en">
             <h2>Test</h2>
             <h3 class="subtitle">Blah</h3>
-            <aside class="sidebar">
+            <aside class="sidebar" dir="rtl" id="a_sidebar">
               <h5>Test</h5>
               <p>Hi everybody</p>
             </aside>
@@ -92,7 +92,7 @@
             <!-- Now it's time to test a figure -->
             
             <figure class="yoyoyo" id="the_figure" accesskey="A B C" contenteditable="" draggable="false" contextmenu="a_menu" dir="rtl" dropzone="a b c" hidden="hidden" lang="en" spellcheck="true" style="color: red;" tabindex="1" title="the figure">
-              <figcaption id="thecaption"><p>We can have a two-para caption</p><p>Yes we can</p></figcaption>
+              <figcaption id="thecaption" hidden="HIDDEN"><p>We can have a two-para caption</p><p>Yes we can</p></figcaption>
               <p>Here comes a fig</p>
               <img src="image.png" id="an_image" lang="en"/>
             </figure>
@@ -142,7 +142,7 @@
             </table>
             
             <!-- Now here's a form and a map and a menu; we don't care what's inside -->
-            <form blah="blahblah" id="coolform">
+            <form id="coolform" class="form" spellcheck="true">
               Blahblahblah<fakeelement><em>Blah</em></fakeelement>
             </form>
             
@@ -188,13 +188,26 @@
               <source src="test3.mpg"/>
               <track id="a_track" label="ljsfksfj" default="default" kind="captions" src="http://oreilly.com" srclang="en"/>
             </audio>
-            
+
             <video id="video" src="movie.mp4" poster="image.png" width="300" height="300" tabindex="6">
               <source src="test.mov" id="first_source"/>
               <source src="test2.mov"/>
               <source src="test3.mpg"/>
               <track></track>
             </video>
+
+            <section class="sect3" id="a_sect3" accesskey="X Y Z">
+              <h3>Sect3 heading</h3>
+              <p>No real content here. Sorry!</p>
+              <section class="sect4" lang="en" id="a_sect4">
+                <h4>A Sect4 heading</h4>
+                <section class="sect5" id="a_sect5" hidden="HiddEN">
+                  <h5>Sect5 Heading</h5>
+                  <p>Wish there were content here.</p>
+                </section>
+              </section>
+            </section>
+
           </section>
           <!-- Let's test our inlines -->
           <section class="sect2">
@@ -203,7 +216,7 @@
             <p><abbr id="abbrev"><strong>CSV</strong></abbr> is an abbreviation for comma separated <br id="break"/>values</p>
             <p>The "b" tag does not represent bold, but <b id="notbold">"text to which attention is being drawn for <em>utilitarian</em> purposes..."</b></p>
             <p>A <bdi><u>Bidirectional</u> indication</bdi></p>
-            <p>A <bdo dir="ltr"><u>Bidirectional</u> override</bdo></p>
+            <p>A <bdo dir="rtl" id="a_bdo_elem" spellcheck=""><u>Bidirectional</u> override</bdo></p>
             <p>Here's a button: <button blah="blahblah" id="coolbutton">We don't care what's inside</button> Same with the following <command blahagain="blah"><bogus/>command</command>.
             Ditto for <input fake="faker"><p/>Whatevs</input>, and for <keygen id="keygen" fine="ok">this shouldn't be empty but whatever</keygen> and for <select id="select"><p/>whatevs again<p/></select>
             Lastly, same for textarea like this: <textarea id="textareasarenice">there <bogusagain/> should not be any <em>child elems here</em>, but we don't really care</textarea>
@@ -220,7 +233,7 @@
             <p>Here comes a label: <label id="a_label" class="coollabel" tabindex="3" for="coolbutton" form="coolform"><em>Blah</em></label></p>
             <p>Keep an eye on <mark id="a_mark">This part of the <em>text</em></mark></p>
             <p>Neato, we're embedding a meter here: <meter id="a_meter" value="10.2" low="3" high="5.5" max="10000" optimum="3" form="coolform" min="10" hidden=""><strong>This is cool stuff</strong> blah blah</meter></p>
-            <p>Did I hear a request for some output? <output id="some-output" for="coolbutton" form="coolform" name="hello_world">This is <u>excellent</u> output</output></p>
+            <p id="this_para_has_an_id" accesskey="A e i o U">Did I hear a request for some output? <output id="some-output" for="coolbutton" form="coolform" name="hello_world">This is <u>excellent</u> output</output></p>
             <p>And how about a progress bar: <progress id="a_progress_bar" form="coolform" max="1" value="1" spellcheck="">Yes! <em>Progress made!</em></progress></p>
             <p>Here's a great quote: <q cite="http://oreilly.com" id="a_quote">O'Reilly spreads the <em>knowledge</em> of innovators</q></p>
             

@@ -431,19 +431,20 @@
 <xs:element name="bdi" type="inline_children_only"/>
   
 <xs:element name="bdo">
-  <xs:complexType>
-    <xs:complexContent>
-      <xs:extension base="inline_children_only">
-        <xs:attribute name="dir" use="required">
-          <xs:simpleType>
-            <xs:restriction base="xs:token">
-              <xs:enumeration value="ltr"/>
-              <xs:enumeration value="rtl"/>              
-            </xs:restriction>
-          </xs:simpleType>
-        </xs:attribute>
-      </xs:extension>
-    </xs:complexContent>
+  <xs:complexType  mixed="true">
+    <xs:sequence>
+      <xs:group ref="inlineelements" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="class" type="xs:NMTOKENS"/>
+    <xs:attribute name="dir" use="required">
+      <xs:simpleType>
+        <xs:restriction base="xs:token">
+          <xs:enumeration value="ltr"/>
+          <xs:enumeration value="rtl"/>              
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attributeGroup ref="globals_minus_class_and_dir"/>
   </xs:complexType>
 </xs:element>
   
@@ -1059,8 +1060,6 @@
     </xs:complexContent>
   </xs:complexType>
 </xs:element>
-  
-<!-- ToDo: Separate out elements that can be either inline or block into a distinct list -->
 
 <!-- Heading elements -->
 <!-- ToDo: Support hgroup in <section> to facilitate subheadings? Already allowed in <div> -->
@@ -1077,7 +1076,7 @@
   
 <xs:element name="h6" type="inline_children_only"/>
   
-<!-- Global simple type definitions; see corresponding complex types -->
+<!-- Global simple type definitions; see also global complex types section -->
 
 <!-- For class attribute on book division <sections>, except part -->
 <xs:simpleType name="bookmaindivtype">
@@ -1133,7 +1132,7 @@
   </xs:restriction>
 </xs:simpleType>
  
-<!-- Global complex type definitions; see corresponding simple types-->
+<!-- Global complex type definitions; see also global simple types section-->
 
 <!-- Chapter/Appendix/Preface/etc. -->
 <xs:complexType name="bookmaindiv">
@@ -1143,8 +1142,9 @@
     <xs:group ref="blockelements" minOccurs="0" maxOccurs="unbounded"/>
     <xs:element name="section" minOccurs="0" maxOccurs="unbounded" type="sect1"/>
   </xs:sequence>
+  <!-- Note: special class attr restrictions here -->
   <xs:attribute name="class" use="required" type="bookmaindivtype"/>
-  <xs:attribute name="id" type="xs:ID"/>
+  <xs:attributeGroup ref="globals_minus_class"/>
 </xs:complexType>
 
 <!-- Parts -->
@@ -1155,8 +1155,9 @@
     <xs:group ref="blockelements" minOccurs="0" maxOccurs="unbounded"/>
     <xs:element name="section" maxOccurs="unbounded" type="bookmaindiv"/>
   </xs:sequence>
+  <!-- Note: special class attr restrictions here -->
   <xs:attribute name="class" use="required" fixed="part"/>
-  <xs:attribute name="id" type="xs:ID"/>
+  <xs:attributeGroup ref="globals_minus_class"/>
 </xs:complexType>
   
 <!-- Sect1s -->
@@ -1167,8 +1168,9 @@
     <xs:group ref="blockelements" minOccurs="0" maxOccurs="unbounded"/>
     <xs:element name="section" minOccurs="0" maxOccurs="unbounded" type="sect2"/>
   </xs:sequence>
+  <!-- Note: special class attr restrictions here -->
   <xs:attribute name="class" use="required" fixed="sect1"/>
-  <xs:attribute name="id" type="xs:ID"/>
+  <xs:attributeGroup ref="globals_minus_class"/>
 </xs:complexType>
 
 <!-- Sect2s -->
@@ -1179,8 +1181,9 @@
     <xs:group ref="blockelements" minOccurs="0" maxOccurs="unbounded"/>
     <xs:element name="section" minOccurs="0" maxOccurs="unbounded" type="sect3"/>
   </xs:sequence>
+  <!-- Note: special class attr restrictions here -->
   <xs:attribute name="class" use="required" fixed="sect2"/>
-  <xs:attribute name="id" type="xs:ID"/>
+  <xs:attributeGroup ref="globals_minus_class"/>
 </xs:complexType>
   
 <!-- Sect3s -->
@@ -1191,8 +1194,9 @@
     <xs:group ref="blockelements" minOccurs="0" maxOccurs="unbounded"/>
     <xs:element name="section" minOccurs="0" maxOccurs="unbounded" type="sect4"/>
   </xs:sequence>
+  <!-- Note: special class attr restrictions here -->
   <xs:attribute name="class" use="required" fixed="sect3"/>
-  <xs:attribute name="id" type="xs:ID"/>
+  <xs:attributeGroup ref="globals_minus_class"/>
 </xs:complexType>
   
 <!-- Sect4s -->
@@ -1203,8 +1207,21 @@
     <xs:group ref="blockelements" minOccurs="0" maxOccurs="unbounded"/>
     <xs:element name="section" minOccurs="0" maxOccurs="unbounded" type="sect5"/>
   </xs:sequence>
+  <!-- Note: special class attr restrictions here -->
   <xs:attribute name="class" use="required" fixed="sect4"/>
-  <xs:attribute name="id" type="xs:ID"/>
+  <xs:attributeGroup ref="globals_minus_class"/>
+</xs:complexType>
+  
+<!-- Sect5 -->
+<xs:complexType name="sect5">
+  <xs:sequence>
+    <xs:element ref="h5"/>
+    <xs:element name="h6" minOccurs="0" maxOccurs="unbounded" type="subheading"/>
+    <xs:group ref="blockelements" minOccurs="0" maxOccurs="unbounded"/>
+  </xs:sequence>
+  <!-- Note: special class attr restrictions here -->
+  <xs:attribute name="class" use="required" fixed="sect5"/>
+  <xs:attributeGroup ref="globals_minus_class"/>
 </xs:complexType>
   
 <!-- Sidebar; primarily for <aside> -->
@@ -1213,20 +1230,10 @@
     <xs:element ref="h5" minOccurs="0"/> <!-- Unlike other sections, sidebar titles are optional -->
     <xs:group ref="blockelements" minOccurs="0" maxOccurs="unbounded"/>
   </xs:sequence>
+  <!-- Note: special class attr restrictions here -->
   <xs:attribute name="class" use="required" fixed="sidebar"/>
-  <xs:attribute name="id" type="xs:ID"/>  
+  <xs:attributeGroup ref="globals_minus_class"/>
 </xs:complexType>
-  
-<!-- Sect5 -->
-<xs:complexType name="sect5">
-    <xs:sequence>
-      <xs:element ref="h5"/>
-      <xs:element name="h6" minOccurs="0" maxOccurs="unbounded" type="subheading"/>
-      <xs:group ref="blockelements" minOccurs="0" maxOccurs="unbounded"/>
-    </xs:sequence>
-    <xs:attribute name="class" use="required" fixed="sect5"/>
-    <xs:attribute name="id" type="xs:ID"/>  
-  </xs:complexType>
   
 <!-- Subheadings: support subtitles, author attributions, etc. -->
 <!-- ToDo: Continue to flesh out as necessary -->
@@ -1234,7 +1241,9 @@
   <xs:sequence>
     <xs:group ref="inlineelements" minOccurs="0" maxOccurs="unbounded"/>
   </xs:sequence>
+  <!-- Note: special class attr restrictions here -->
   <xs:attribute name="class" use="required" type="subheadingtype"/>
+  <xs:attributeGroup ref="globals_minus_class"/>
 </xs:complexType>
   
 <!-- General handling for elements that can accept only inline children -->
@@ -1242,10 +1251,7 @@
   <xs:sequence>
     <xs:group ref="inlineelements" minOccurs="0" maxOccurs="unbounded"/>
   </xs:sequence>
-  <!-- No HTMLBook-specific attribute rules for this set of elements other than id; deferring to HTML5 spec on attribute rules and not 
-       validating in this schema -->
-  <xs:attribute name="id" type="xs:ID"/>
-  <xs:anyAttribute processContents="lax"/>
+  <xs:attributeGroup ref="globals"/>
 </xs:complexType>
   
 <!-- General handling for elements that can accept either block children or inline children (not both)-->
@@ -1254,26 +1260,20 @@
     <xs:group ref="blockelements" minOccurs="0" maxOccurs="unbounded"/>
     <xs:group ref="inlineelements" minOccurs="0" maxOccurs="unbounded"/>
   </xs:choice>
-  <!-- No HTMLBook-specific attribute rules for this set of elements other than id; deferring to HTML5 spec on attribute rules and not 
-       validating in this schema -->
-  <xs:attribute name="id" type="xs:ID"/>
-  <xs:anyAttribute processContents="lax"/>
+  <xs:attributeGroup ref="globals"/>
 </xs:complexType>
 
-<!-- Type for no restrictions on child content, except uniqueness for optional id attribute; used for deferral to HTML5 specs -->
+<!-- Type for no restrictions on child content, except rules on global HTML5 attributes; everything else defers to HTML5 spec-->
 <xs:complexType name="any_elems_attrs" mixed="true">
   <xs:sequence minOccurs="0" maxOccurs="unbounded">
     <xs:any processContents="lax"/>
   </xs:sequence>
-  <xs:attribute name="id" type="xs:ID"/>
-  <!-- Deferring to HTML5 spec for all other attribute validation -->
-  <xs:anyAttribute processContents="lax"/>  
+  <xs:attributeGroup ref="globals"/>
 </xs:complexType>
   
 <!-- Type for empty element, with no specific attribute requirements -->
 <xs:complexType name="empty_elem_global_attrs">
   <xs:attributeGroup ref="globals"/>
-  <xs:anyAttribute processContents="lax"/>
 </xs:complexType>
 
 <!-- Type for figure/table captions -->
@@ -1288,8 +1288,7 @@
   </xs:choice>
   <!-- No HTMLBook-specific attribute rules for this set of elements other than id; deferring to HTML5 spec on attribute rules and not 
        validating in this schema -->
-  <xs:attribute name="id" type="xs:ID"/>
-  <xs:anyAttribute processContents="lax"/>
+  <xs:attributeGroup ref="globals"/>
 </xs:complexType>
   
 <!-- Type for table group blocks: thead, tbody, and tfoot -->
@@ -1297,9 +1296,7 @@
   <xs:sequence>
     <xs:element ref="tr" minOccurs="0" maxOccurs="unbounded"/>
   </xs:sequence>
-  <xs:attribute name="id" type="xs:ID"/>
-  <!-- Deferring to HTML5 spec for all other attribute validation -->
-  <xs:anyAttribute processContents="lax"/>
+  <xs:attributeGroup ref="globals"/>
 </xs:complexType>
   
 <!-- Global groups -->
@@ -1400,8 +1397,8 @@
 <!-- ToDo: Go ahead and add group for global HTML5 attributes (with exception of data- attrs),
       or just leave the xs:anyAttribute declarations to catch these? (If this is done, remove all the xs:attribute declarations for "id")-->
 
-<!-- All globals except "class", which is separated out because many structural elements have their own "class' requirements -->
-<xs:attributeGroup name="globals_minus_class">
+<!-- All globals except "class" and "dir", which are separated out because other elements have their own 'class' and 'dir' requirements -->
+<xs:attributeGroup name="globals_minus_class_and_dir">
   <xs:attribute name="accesskey">
     <xs:simpleType>
       <xs:restriction base="xs:NMTOKENS">
@@ -1411,14 +1408,6 @@
   </xs:attribute>
   <xs:attribute name="contenteditable" type="true_false"/>
   <xs:attribute name="contextmenu" type="xs:IDREF"/>
-  <xs:attribute name="dir">
-    <xs:simpleType>
-      <xs:restriction base="xs:token">
-        <xs:enumeration value="ltr"/>
-        <xs:enumeration value="rtl"/>              
-      </xs:restriction>
-    </xs:simpleType>
-  </xs:attribute>
   <xs:attribute name="draggable" type="true_false"/>
   <xs:attribute name="dropzone" type="xs:NMTOKENS"/>
   <xs:attribute name="hidden">
@@ -1437,15 +1426,27 @@
   <!-- To accommodate data- attrs -->
   <xs:anyAttribute processContents="lax"/>
 </xs:attributeGroup>
-
-
+  
+<!-- All globals except "class", which is separated out because many structural elements have their own "class' requirements -->
+<xs:attributeGroup name="globals_minus_class">
+  <xs:attributeGroup ref="globals_minus_class_and_dir"/>
+  <xs:attribute name="dir">
+    <xs:simpleType>
+      <xs:restriction base="xs:token">
+        <xs:enumeration value="ltr"/>
+        <xs:enumeration value="rtl"/>              
+      </xs:restriction>
+    </xs:simpleType>
+  </xs:attribute>
+</xs:attributeGroup>
+  
 <!-- All globals, including class -->
 <xs:attributeGroup name="globals">
   <xs:attributeGroup ref="globals_minus_class"/>
   <xs:attribute name="class" type="xs:NMTOKENS"/>
 </xs:attributeGroup>
   
-<!--ToDo: any further restrictions on these attributes? -->
+<!-- Media attributes used by both <audio> and <video> elements -->
 <xs:attributeGroup name="generalmediaattributes">
   <xs:attribute name="src" type="xs:anyURI"/>
   <xs:attribute name="preload">
