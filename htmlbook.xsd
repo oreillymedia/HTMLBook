@@ -68,7 +68,20 @@
   </xs:complexType>
 </xs:element>
     
-<xs:element name="link"/>
+<xs:element name="link">
+  <xs:complexType>
+    <xs:complexContent>
+      <xs:extension base="empty_elem_global_attrs">
+        <xs:attribute name="href" type="xs:anyURI" use="required"/>
+        <xs:attribute name="hreflang" type="xs:language"/>
+        <xs:attribute name="media" type="xs:string"/>
+        <xs:attribute name="ref" type="xs:NMTOKENS"/>
+        <xs:attribute name="sizes" type="xs:NMTOKENS"/>
+        <xs:attribute name="type" type="xs:string"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+</xs:element>
     
 <xs:element name="meta"/>
     
