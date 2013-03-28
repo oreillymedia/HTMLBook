@@ -1336,21 +1336,53 @@
   
 <!--ToDo: any further restrictions on these attributes? -->
 <xs:attributeGroup name="generalmediaattributes">
-  <xs:attribute name="src"/>
-  <xs:attribute name="preload"/>
-  <xs:attribute name="autoplay"/>
-  <xs:attribute name="mediagroup"/>
-  <xs:attribute name="loop"/>
-  <xs:attribute name="muted"/>
-  <xs:attribute name="controls"/>
+  <xs:attribute name="src" type="xs:anyURI"/>
+  <xs:attribute name="preload">
+    <xs:simpleType>
+      <xs:restriction base="xs:token">
+        <xs:enumeration value="auto"/>
+        <xs:enumeration value="metadata"/>
+        <xs:enumeration value="none"/>
+      </xs:restriction>
+    </xs:simpleType>
+  </xs:attribute>
+  <xs:attribute name="autoplay">
+    <xs:simpleType>
+      <xs:restriction base="xs:token">
+        <xs:pattern value="([Aa][Uu][Tt][Oo][Pp][Ll][Aa][Yy])?"/>
+      </xs:restriction>
+    </xs:simpleType>
+  </xs:attribute>
+  <xs:attribute name="mediagroup" type="xs:string"/>
+  <xs:attribute name="loop">
+    <xs:simpleType>
+      <xs:restriction base="xs:token">
+        <xs:pattern value="([Ll][Oo][Oo][Pp])?"/>
+      </xs:restriction>
+    </xs:simpleType>
+  </xs:attribute>
+  <xs:attribute name="muted">
+    <xs:simpleType>
+      <xs:restriction base="xs:token">
+        <xs:pattern value="([Mm][Uu][Tt][Ee][Dd])?"/>
+      </xs:restriction>
+    </xs:simpleType>
+  </xs:attribute>
+  <xs:attribute name="controls">
+    <xs:simpleType>
+      <xs:restriction base="xs:token">
+        <xs:pattern value="([Cc][Oo][Nn][Tt][Rr][Oo][Ll][Ss])?"/>
+      </xs:restriction>
+    </xs:simpleType>
+  </xs:attribute>
 </xs:attributeGroup>
   
 <!--ToDo: any further restrictions on these attributes? -->
 <xs:attributeGroup name="videomediaattributes">
   <xs:attributeGroup ref="generalmediaattributes"/>
-  <xs:attribute name="poster"/>
-  <xs:attribute name="width"/>
-  <xs:attribute name="height"/>
+  <xs:attribute name="poster" type="xs:anyURI"/>
+  <xs:attribute name="width" type="xs:string"/>
+  <xs:attribute name="height" type="xs:string"/>
 </xs:attributeGroup>
   
 <!-- Table cell attributes shared by both th and td (does not include th-specific element scope) -->
