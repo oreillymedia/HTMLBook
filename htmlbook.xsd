@@ -150,9 +150,7 @@
           </xs:restriction>
         </xs:simpleType>
       </xs:attribute>
-    <xs:attribute name="id" type="xs:ID"/>
-    <!-- Deferring to HTML5 spec for all other attribute validation -->
-    <xs:anyAttribute processContents="lax"/>    
+      <xs:attributeGroup ref="globals"/>
   </xs:complexType>
 </xs:element>
   
@@ -175,9 +173,7 @@
       <xs:element ref="track" minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>
     <xs:attributeGroup ref="generalmediaattributes"/>
-    <xs:attribute name="id" type="xs:ID"/>
-    <!-- Deferring to HTML5 spec for all other attribute validation -->
-    <xs:anyAttribute processContents="lax"/>
+    <xs:attributeGroup ref="globals"/>
   </xs:complexType>
 </xs:element>
   
@@ -194,9 +190,7 @@
         <xs:group ref="inlineelements" minOccurs="0" maxOccurs="unbounded"/>
       </xs:choice>
     </xs:sequence>
-    <xs:attribute name="id" type="xs:ID"/>
-    <!-- Deferring to HTML5 spec for all other attribute validation -->
-    <xs:anyAttribute processContents="lax"/>
+    <xs:attributeGroup ref="globals"/>
   </xs:complexType>
 </xs:element>
 
@@ -220,9 +214,7 @@
       <!-- Option 3: inlines and text only -->
       <xs:group ref="inlineelements" minOccurs="0" maxOccurs="unbounded"/>
     </xs:choice>
-    <xs:attribute name="id" type="xs:ID"/>
-    <!-- Deferring to HTML5 spec for all other attribute validation -->
-    <xs:anyAttribute processContents="lax"/>
+    <xs:attributeGroup ref="globals"/>
   </xs:complexType>
 </xs:element>
     
@@ -232,9 +224,7 @@
       <xs:element ref="dt" minOccurs="1" maxOccurs="unbounded"/>
       <xs:element ref="dd" minOccurs="1" maxOccurs="unbounded"/>
     </xs:sequence>
-    <xs:attribute name="id" type="xs:ID"/>
-    <!-- Deferring to HTML5 spec for all other attribute validation -->
-    <xs:anyAttribute processContents="lax"/>
+    <xs:attributeGroup ref="globals"/>
   </xs:complexType>
 </xs:element>
 
