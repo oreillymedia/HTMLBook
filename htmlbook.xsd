@@ -82,8 +82,32 @@
     </xs:complexContent>
   </xs:complexType>
 </xs:element>
-    
-<xs:element name="meta"/>
+
+<!-- For HTMLBook, all book metadata should be encapsulated in name-value pairs using @name and @content attrs, respectively.
+     These two attrs are required on each element.
+-->
+<xs:element name="meta">
+  <xs:complexType>
+    <xs:complexContent mixed="true">
+      <xs:extension base="empty_elem_global_attrs">
+        <xs:attribute name="name" type="xs:string" use="required"/>
+        <xs:attribute name="content" type="xs:string" use="required"/>
+        <xs:attribute name="charset" type="xs:string"/>
+        <xs:attribute name="http-equiv">
+          <xs:simpleType>
+            <xs:restriction base="xs:token">
+              <xs:enumeration value="content-language"/>
+              <xs:enumeration value="content-type"/>
+              <xs:enumeration value="default-style"/>
+              <xs:enumeration value="refresh"/>
+              <xs:enumeration value="set-cookie"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+</xs:element>
     
 <xs:element name="noscript"/>
 
