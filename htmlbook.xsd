@@ -37,9 +37,9 @@
         <!-- Separate out parts, as they have specific child requirements -->
         <xs:element name="div" type="bookpart"/>
       </xs:choice>
-    </xs:sequence>  
+    </xs:sequence>
     <xs:attribute name="class" use="required" fixed="book"/>
-    <xs:attribute name="id" type="xs:ID"/>
+    <xs:attributeGroup ref="globals_minus_class"/>
   </xs:complexType>
 </xs:element>
 
@@ -1435,8 +1435,9 @@
 <!-- Global attribute groups -->
 <!-- ToDo: Go ahead and add group for global HTML5 attributes (with exception of data- attrs),
       or just leave the xs:anyAttribute declarations to catch these? (If this is done, remove all the xs:attribute declarations for "id")-->
-  
-<xs:attributeGroup name="globals">
+
+<!-- All globals except "class", which is separated out because many structural elements have their own "class' requirements -->
+<xs:attributeGroup name="globals_minus_class">
   <xs:attribute name="accesskey">
     <xs:simpleType>
       <xs:restriction base="xs:NMTOKENS">
@@ -1444,7 +1445,6 @@
       </xs:restriction>
     </xs:simpleType>
   </xs:attribute>
-  <xs:attribute name="class" type="xs:NMTOKENS"/>
   <xs:attribute name="contenteditable" type="true_false"/>
   <xs:attribute name="contextmenu" type="xs:IDREF"/>
   <xs:attribute name="dir">
@@ -1472,6 +1472,13 @@
   <xs:attribute name="title" type="xs:string"/>
   <!-- To accommodate data- attrs -->
   <xs:anyAttribute processContents="lax"/>
+</xs:attributeGroup>
+
+
+<!-- All globals, including class -->
+<xs:attributeGroup name="globals">
+  <xs:attributeGroup ref="globals_minus_class"/>
+  <xs:attribute name="class" type="xs:NMTOKENS"/>
 </xs:attributeGroup>
   
 <!--ToDo: any further restrictions on these attributes? -->
