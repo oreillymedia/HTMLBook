@@ -171,14 +171,23 @@
             
             <!-- And a nav -->
             <nav id="navigation">
-              <p id="first_para" class="first_para"><em>Hello</em></p>
-              <p>Hello again</p>
+              <h1>Table of Contents</h1>
+              <ol id="first_list">
+                <li><a href="blah"></a></li>
+                <li><span>This is allowed too</span></li>
+                <li id="subtoc" ><a href="blah2"/>
+                  <ol reversed="reverseD">
+                    <li><a href="ch02.html">Another link</a></li>
+                  </ol>
+                </li>
+              </ol>
             </nav>
             
             <!-- Don't forget an ordered list -->
-            <ol id="orderedlist" start="4" type="lower-roman" reversed="ReVersed" spellcheck="true">
+            <ol id="orderedlist" start="3" type="decimal" reversed="ReVersed" spellcheck="true">
               <li><p>This list item</p><p>Has multiple paragraphs</p></li>
               <li>This one is has just <em>one paragraph</em>, so no need to use block elements</li>
+              <li>Just plain text</li>
             </ol>
             
             <!-- And an unordered list -->

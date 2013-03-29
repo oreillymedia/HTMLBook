@@ -307,8 +307,16 @@
 <!-- Not imposing any HTMLBook specific constraints on menu content; deferring to HTML5 spec -->
 <xs:element name="menu" type="any_elems_attrs"/>
   
-<!--ToDo: Open question: Allow h1-h6 at beginning (or even middle) of navs? -->
-<xs:element name="nav" type="block_xor_inline_children"/>
+<!--Follows the EPUB 3 spec for nav elements; see http://www.idpf.org/epub/30/spec/epub30-contentdocs.html#sec-xhtml-nav -->
+<xs:element name="nav">
+  <xs:complexType>
+    <xs:sequence>
+      <xs:group ref="headings" minOccurs="0"/>
+      <xs:element name="ol" type="nav_doc_ol"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="globals"/>
+  </xs:complexType>
+</xs:element>
   
 <xs:element name="object">
   <xs:complexType mixed="true">
@@ -328,26 +336,7 @@
     <xs:sequence>
       <xs:element ref="li" minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>
-    <xs:attribute name="reversed">
-      <xs:simpleType>
-        <xs:restriction base="xs:string">
-          <!-- Must be a case-insensitive match for "reversed" or empty string -->
-          <xs:pattern value="([Rr][Ee][Vv][Ee][Rr][Ss][Ee][Dd])?"/>            
-        </xs:restriction>
-      </xs:simpleType>
-    </xs:attribute>
-    <xs:attribute name="start" type="xs:integer"/>
-    <xs:attribute name="type">
-      <xs:simpleType>
-        <xs:restriction base="xs:token">
-          <xs:enumeration value="decimal"/>
-          <xs:enumeration value="lower-alpha"/>
-          <xs:enumeration value="upper-alpha"/>
-          <xs:enumeration value="lower-roman"/>
-          <xs:enumeration value="upper-roman"/>
-        </xs:restriction>
-      </xs:simpleType>
-    </xs:attribute>
+    <xs:attributeGroup ref="ol_attrs"/>
     <xs:attributeGroup ref="globals"/>
   </xs:complexType>
 </xs:element>
@@ -1249,6 +1238,26 @@
   <xs:attribute name="class" use="required" type="subheadingtype"/>
   <xs:attributeGroup ref="globals_minus_class"/>
 </xs:complexType>
+ 
+<!-- Custom types for Nav Document (following EPUB 3 spec; see http://www.idpf.org/epub/30/spec/epub30-contentdocs.html#sec-xhtml-nav) -->
+<xs:complexType name="nav_doc_ol">
+  <xs:sequence>
+    <xs:element name="li" type="nav_doc_li" minOccurs="0" maxOccurs="unbounded"/>
+  </xs:sequence>
+  <xs:attributeGroup ref="ol_attrs"/>
+  <xs:attributeGroup ref="globals"/>
+</xs:complexType>
+  
+<xs:complexType name="nav_doc_li" mixed="true">
+  <xs:choice>
+    <xs:element ref="span"/>
+    <xs:sequence>
+      <xs:element ref="a"/>
+      <xs:element name="ol" minOccurs="0" type="nav_doc_ol"/>
+    </xs:sequence>
+  </xs:choice>
+  <xs:attributeGroup ref="globals"/>
+</xs:complexType>
   
 <!-- General handling for elements that can accept only inline children -->
 <xs:complexType name="inline_children_only" mixed="true">
@@ -1446,6 +1455,30 @@
 <xs:attributeGroup name="globals">
   <xs:attributeGroup ref="globals_minus_class"/>
   <xs:attribute name="class" type="xs:NMTOKENS"/>
+</xs:attributeGroup>
+  
+<!-- Attributes used by <ol> elements -->
+<xs:attributeGroup name="ol_attrs">
+  <xs:attribute name="reversed">
+    <xs:simpleType>
+      <xs:restriction base="xs:string">
+        <!-- Must be a case-insensitive match for "reversed" or empty string -->
+        <xs:pattern value="([Rr][Ee][Vv][Ee][Rr][Ss][Ee][Dd])?"/>            
+      </xs:restriction>
+    </xs:simpleType>
+  </xs:attribute>
+  <xs:attribute name="start" type="xs:integer"/>
+  <xs:attribute name="type">
+    <xs:simpleType>
+      <xs:restriction base="xs:token">
+        <xs:enumeration value="decimal"/>
+        <xs:enumeration value="lower-alpha"/>
+        <xs:enumeration value="upper-alpha"/>
+        <xs:enumeration value="lower-roman"/>
+        <xs:enumeration value="upper-roman"/>
+      </xs:restriction>
+    </xs:simpleType>
+  </xs:attribute>
 </xs:attributeGroup>
   
 <!-- Media attributes used by both <audio> and <video> elements -->
