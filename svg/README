@@ -1,0 +1,7 @@
+W3C SVG XML Schema, via http://www.w3.org/TR/2002/WD-SVG11-20020108/SVG.xsd
+(with local mods for validity by Sanders; see https://github.com/oreillymedia/HTMLBook for file history)
+
+Dependencies also included:
+
+xlink.xsd, via http://www.w3.org/1999/xlink.xsd
+xml.xsd, via http://www.w3.org/2001/xml.xsd
