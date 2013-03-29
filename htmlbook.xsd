@@ -1,5 +1,7 @@
 <?xml version="1.0"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.w3.org/1999/xhtml" targetNamespace="http://www.w3.org/1999/xhtml" elementFormDefault="qualified" attributeFormDefault="unqualified">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.w3.org/1999/xhtml" xmlns:mml="http://www.w3.org/1998/Math/MathML" targetNamespace="http://www.w3.org/1999/xhtml" elementFormDefault="qualified" attributeFormDefault="unqualified">
+
+<xs:import namespace="http://www.w3.org/1998/Math/MathML" schemaLocation="mathml3/mathml3.xsd"/>
 
 <xs:element name="html">
   <xs:complexType>
@@ -1076,6 +1078,7 @@
   
 <xs:element name="h6" type="inline_children_only"/>
   
+  
 <!-- Global simple type definitions; see also global complex types section -->
 
 <!-- For class attribute on book division <sections>, except part -->
@@ -1320,8 +1323,7 @@
     <xs:element ref="iframe"/>
     <xs:element ref="img"/>
     <xs:element ref="map"/>
-    <!-- ToDo: Add separate schema for MathML ref here? 
-    <xs:element ref="mml:math"/> -->
+    <xs:element ref="mml:math"/>
     <xs:element ref="menu"/>
     <xs:element ref="nav"/>
     <xs:element ref="object"/>
