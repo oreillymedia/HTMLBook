@@ -419,8 +419,24 @@
   </xs:complexType>
 </xs:element>
 
-<!-- Not imposing any HTMLBook specific constraints on map content; deferring to HTML5 spec -->
-<xs:element name="map" type="any_elems_attrs"/>
+<!-- Requiring block content model for "map" element for simplicity -->
+<xs:element name="map">
+  <xs:complexType>
+    <xs:group ref="map_elements" minOccurs="0" maxOccurs="unbounded"/>
+    <!-- Not enforcing two restrictions from HTML5 for name attribute: uniqueness against other name attributes on map, 
+         and requirement that it match id value, if present -->
+    <xs:attribute name="name" use="required">
+      <xs:simpleType>
+        <xs:restriction base="xs:token">
+          <!-- nonempty and no spaces -->
+          <xs:minLength value="1"/>
+          <xs:pattern value="[^ ]*"></xs:pattern>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attributeGroup ref="globals"/>
+  </xs:complexType>
+</xs:element>
 
 <!-- Not imposing any HTMLBook specific constraints on menu content; deferring to HTML5 spec -->
 <xs:element name="menu" type="any_elems_attrs"/>
@@ -1484,6 +1500,14 @@
   <xs:choice>
     <xs:group ref="blockelements"/>
     <xs:element ref="img"/>
+  </xs:choice>
+</xs:group>
+  
+<!-- Elements that can go in a map = block elements + area -->
+<xs:group name="map_elements">
+  <xs:choice>
+    <xs:group ref="blockelements"/>
+    <xs:element ref="area"/>
   </xs:choice>
 </xs:group>
     
