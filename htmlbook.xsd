@@ -304,7 +304,6 @@
   </xs:complexType>
 </xs:element>
 
-<!-- Not imposing any HTMLBook specific constraints on form content; deferring to HTML5 spec -->
 <xs:element name="form">
   <xs:complexType>
     <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -397,6 +396,25 @@
     <xs:group ref="inlineelements" minOccurs="0" maxOccurs="unbounded"/>
     <!-- Differing from HTML5 spec in that we're requiring a @src attribute here -->
     <xs:attribute name="src" use="required" type="xs:anyURI"/>
+    <xs:attribute name="srcdoc" type="xs:string"/>
+    <xs:attribute name="name" type="xs:string"/>
+    <xs:attribute name="sandbox">
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <!-- Ugly regex alert, because backreferences are not allowed in XML Schema -->
+          <xs:pattern value="allow-(same-origin|top-navigation|forms|scripts)( allow-(same-origin|top-navigation|forms|scripts))*"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="seamless">
+      <xs:simpleType>
+        <xs:restriction base="xs:token">
+          <xs:pattern value="([Ss][Ee][Aa][Mm][Ll][Ee][Ss][Ss])?"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="width" type="xs:string"/>
+    <xs:attribute name="height" type="xs:string"/>
     <xs:attributeGroup ref="globals"/>
   </xs:complexType>
 </xs:element>
