@@ -439,7 +439,27 @@
 </xs:element>
 
 <!-- Not imposing any HTMLBook specific constraints on menu content; deferring to HTML5 spec -->
-<xs:element name="menu" type="any_elems_attrs"/>
+<xs:element name="menu">
+  <xs:complexType>
+    <xs:choice>
+      <xs:element ref="li" maxOccurs="unbounded"/>
+      <xs:choice>
+        <xs:group ref="blockelements" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:group ref="inlineelements" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:choice>
+    </xs:choice>
+    <xs:attribute name="type">
+      <xs:simpleType>
+        <xs:restriction base="xs:token">
+          <xs:enumeration value="context"/>
+          <xs:enumeration value="toolbar"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="label" type="xs:string"/>
+    <xs:attributeGroup ref="globals"/>
+  </xs:complexType>
+</xs:element>
   
 <!--Follows the EPUB 3 spec for nav elements; see http://www.idpf.org/epub/30/spec/epub30-contentdocs.html#sec-xhtml-nav -->
 <xs:element name="nav">
