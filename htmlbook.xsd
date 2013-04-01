@@ -481,6 +481,28 @@
         <xs:group ref="inlineelements" minOccurs="0" maxOccurs="unbounded"/>
       </xs:choice>
     </xs:sequence>
+    <xs:attribute name="data">
+      <xs:simpleType>
+        <xs:restriction base="xs:anyURI">
+          <xs:minLength value="1"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="type" type="xs:string"/>
+    <xs:attribute name="name" type="xs:string"/>
+    <!-- usemap attribute must be in the format "#map_name" where map_name is the "name" attr of a corresponding map element,
+         but we're just checking that it starts with # -->
+    <xs:attribute name="usemap">
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:pattern value="#.+"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <!-- form attribute must refer to ID of a <form> element, but we're just checking that it's an IDREF -->
+    <xs:attribute name="form" type="xs:IDREF"/>
+    <xs:attribute name="width" type="xs:string"/>
+    <xs:attribute name="height" type="xs:string"/>
     <xs:attributeGroup ref="globals"/>
   </xs:complexType>
 </xs:element>
