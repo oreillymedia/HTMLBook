@@ -293,10 +293,10 @@
     <xs:choice>
       <xs:sequence>
         <xs:element ref="figcaption"/>
-        <xs:group ref="blockelements" maxOccurs="unbounded"/>
+        <xs:group ref="figure_elements" maxOccurs="unbounded"/>
       </xs:sequence>
       <xs:sequence>
-        <xs:group ref="blockelements" maxOccurs="unbounded"/>
+        <xs:group ref="figure_elements" maxOccurs="unbounded"/>
         <xs:element ref="figcaption"/>
       </xs:sequence>
     </xs:choice>
@@ -315,18 +315,6 @@
     <!-- Differing from HTML5 spec in that we're requiring a @src attribute here -->
     <xs:attribute name="src" use="required" type="xs:anyURI"/>
     <xs:attributeGroup ref="globals"/>
-  </xs:complexType>
-</xs:element>
-  
-<!-- ToDo: Logic to support img as an inline? -->
-<!-- Rewrite so that img is in inline elements, not block elements, but img can be a block child of the <figure> element -->
-<xs:element name="img">
-  <xs:complexType>
-    <xs:complexContent>
-      <xs:extension base="empty_elem_global_attrs">
-        <xs:attribute name="src" use="required" type="xs:anyURI"/>
-      </xs:extension>
-    </xs:complexContent>
   </xs:complexType>
 </xs:element>
 
@@ -556,6 +544,16 @@
 <xs:element name="em" type="inline_children_only"/>
   
 <xs:element name="i" type="inline_children_only"/>
+  
+<xs:element name="img">
+  <xs:complexType>
+    <xs:complexContent>
+      <xs:extension base="empty_elem_global_attrs">
+        <xs:attribute name="src" use="required" type="xs:anyURI"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+</xs:element>
   
 <!-- Not imposing any HTMLBook specific constraints on button content; deferring to HTML5 spec -->
 <xs:element name="input" type="any_elems_attrs"/>
@@ -1360,7 +1358,6 @@
     <xs:element ref="form"/>
     <xs:element ref="hr"/>
     <xs:element ref="iframe"/>
-    <xs:element ref="img"/>
     <xs:element ref="map"/>
     <xs:element ref="mml:math"/>
     <xs:element ref="menu"/>
@@ -1375,7 +1372,15 @@
     <xs:element ref="video"/>
   </xs:choice>
 </xs:group>
-  
+
+<!-- Elements that can go in a figure = block elements + img -->
+<xs:group name="figure_elements">
+  <xs:choice>
+    <xs:group ref="blockelements"/>
+    <xs:element ref="img"/>
+  </xs:choice>
+</xs:group>
+    
 <xs:group name="headings">
   <xs:choice>
     <xs:element ref="h1"/>
@@ -1407,6 +1412,7 @@
     <xs:element ref="em"/>
     <xs:element ref="i"/>
     <xs:element ref="input"/>
+    <xs:element ref="img"/>
     <xs:element ref="ins"/>
     <xs:element ref="kbd"/>
     <xs:element ref="keygen"/>  
