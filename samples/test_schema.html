@@ -32,13 +32,13 @@
         <!-- Let's test an embed element -->
         <embed src="file.html" width="1" height="3" hidden="hidden" id="embed_obj" type="image/png"/>
         <!-- Let's test a fieldset element -->
-        <fieldset class="field" hidden="" tabindex="1" id="a_fieldset"><legend class="a_legend" id="a_legend">The legend is <em>true</em></legend><b>Test</b>
+        <fieldset class="field" hidden="" tabindex="1" id="a_fieldset" name="the_name" disabled="disabled" form="coolform"><legend class="a_legend" id="a_legend">The legend is <em>true</em></legend><b>Test</b>
         </fieldset>
         <section class="sect1" id="good_section" hidden="HIDDen">
           <h1>Te<em></em>st</h1>
           <h2 class="subtitle" id="subtitle_id" dir="rtl">Bl<em>a</em>h</h2>
           <address><a></a>blah<em></em>blah<s></s>blah</address>
-          <blockquote lang="en" accesskey="A B C" id="a_blockquote"><em></em>Y<b>o</b></blockquote> 
+          <blockquote lang="en" accesskey="A B C" cite="http://oreilly.com" id="a_blockquote"><em></em>Y<b>o</b></blockquote> 
           
           <!-- A few types of divs. Inline content only here... -->
           <div id="firstdiv" class="testing" hidden="hidden" data-whatever="whatever">
@@ -48,6 +48,7 @@
           <!-- And block content here ... -->
           <div id="second_div" class="second_test_block">
             <h2>Any heading you choose</h2>
+            <h3>Another heading you choose</h3>
             <p>Test 123</p>
           </div>
           
@@ -67,10 +68,10 @@
               <h5>Test</h5>
               <p>Hi everybody</p>
             </aside>
-            <canvas><em></em><b></b>eee</canvas>
+            <canvas id="the_canvas" class="a_canvas" accesskey="a b c" width="300" height="400"><em></em><b></b>eee</canvas>
             
             <!-- Details element -->
-            <details class="details" id="some_details" spellcheck="true">
+            <details class="details" id="some_details" spellcheck="true" accesskey="1" open="OpEn">
               <summary id="a_summary">This is a <strong>summary</strong></summary>
               <p>Some text</p>
               <p>More text</p>

@@ -45,9 +45,6 @@
     <xs:attributeGroup ref="globals_minus_class"/>
   </xs:complexType>
 </xs:element>
-
-<!-- Metadata elements -->
-<!-- ToDo: What restrictions to add? -->
   
 <xs:element name="title">
   <xs:complexType mixed="true">
@@ -158,7 +155,6 @@
 </xs:element>
   
 <!-- Block elements -->
-<!-- ToDo: What restrictions to add? -->
   
 <!-- For now, limit "address" to support only inline element children -->
 <xs:element name="address" type="inline_children_only"/>
@@ -168,7 +164,7 @@
 <!-- Note, per HTML5 spec, the actual requirements are a choice between:
     * a @src attribute on <audio> elem and no <source> children
     * no @src attribute on <audio> elem and 1 or more <source> children
-    But AFAICS this logic is impossible to capture in Schema, so not going to enforce -->
+    But this logic is impossible to capture in Schema, so not going to enforce -->
 <xs:element name="audio">
   <xs:complexType>
     <xs:sequence>
@@ -180,9 +176,26 @@
   </xs:complexType>
 </xs:element>
   
-<xs:element name="blockquote" type="block_xor_inline_children"/>
+<xs:element name="blockquote">
+  <xs:complexType>
+    <xs:complexContent>
+      <xs:extension base="block_xor_inline_children">
+        <xs:attribute name="cite" type="xs:anyURI"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+</xs:element> 
 
-<xs:element name="canvas" type="block_xor_inline_children"/>
+<xs:element name="canvas">
+  <xs:complexType>
+    <xs:complexContent>
+      <xs:extension base="block_xor_inline_children">
+        <xs:attribute name="width" type="positive_int"/>
+        <xs:attribute name="height" type="positive_int"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+</xs:element>
   
 <xs:element name="details">
   <xs:complexType mixed="true">
@@ -193,6 +206,13 @@
         <xs:group ref="inlineelements" minOccurs="0" maxOccurs="unbounded"/>
       </xs:choice>
     </xs:sequence>
+    <xs:attribute name="open">
+      <xs:simpleType>
+        <xs:restriction base="xs:token">
+          <xs:pattern value="([Oo][Pp][Ee][Nn])?"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
     <xs:attributeGroup ref="globals"/>
   </xs:complexType>
 </xs:element>
@@ -206,7 +226,7 @@
     <xs:choice>
       <!-- Option 1: Optional heading(s) followed by block elements -->
       <xs:sequence>
-        <xs:group ref="headings" minOccurs="0"/>
+        <xs:group ref="headings" minOccurs="0" maxOccurs="unbounded"/>
         <xs:group ref="blockelements" minOccurs="0" maxOccurs="unbounded"/>
       </xs:sequence>
       <!-- Option 2: hgroup followed by block elements -->
@@ -253,6 +273,15 @@
         <xs:group ref="inlineelements" minOccurs="0" maxOccurs="unbounded"/>
       </xs:choice>
     </xs:sequence>
+    <xs:attribute name="disabled">
+      <xs:simpleType>
+        <xs:restriction base="xs:token">
+          <xs:pattern value="([Dd][Ii][Ss][Aa][Bb][Ll][Ee][Dd])?"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="name" type="xs:string"/>
+    <xs:attribute name="form" type="xs:IDREF"/>
     <xs:attributeGroup ref="globals"/>
   </xs:complexType>
 </xs:element>
