@@ -305,7 +305,90 @@
 </xs:element>
 
 <!-- Not imposing any HTMLBook specific constraints on form content; deferring to HTML5 spec -->
-<xs:element name="form" type="any_elems_attrs"/>
+<xs:element name="form">
+  <xs:complexType>
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <!-- All block elements, except "form"; yes, I'm reproducing the list here, rather than split up the
+           "blockelements" group -->
+      <xs:element ref="address"/>
+      <xs:element ref="aside"/>
+      <xs:element ref="audio"/>
+      <xs:element ref="blockquote"/>
+      <xs:element ref="canvas"/>
+      <xs:element ref="details"/>
+      <xs:element ref="div"/>
+      <xs:element ref="dl"/>
+      <xs:element ref="embed"/>
+      <xs:element ref="fieldset"/>
+      <xs:element ref="figure"/>
+      <xs:element ref="hr"/>
+      <xs:element ref="iframe"/>
+      <xs:element ref="map"/>
+      <xs:element ref="mml:math"/>
+      <xs:element ref="menu"/>
+      <xs:element ref="nav"/>
+      <xs:element ref="object"/>
+      <xs:element ref="ol"/>
+      <xs:element ref="p"/>
+      <xs:element ref="pre"/>
+      <xs:element ref="svg:svg"/>
+      <xs:element ref="table"/>
+      <xs:element ref="ul"/>
+      <xs:element ref="video"/>
+    </xs:choice>
+    <xs:attribute name="accept-charset" type="xs:NMTOKENS"/>
+    <xs:attribute name="action">
+      <xs:simpleType>
+        <xs:restriction base="xs:anyURI">
+          <xs:minLength value="1"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="autocomplete">
+      <xs:simpleType>
+        <xs:restriction base="xs:token">
+          <xs:enumeration value="on"/>
+          <xs:enumeration value="off"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="enctype">
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="application/x-www-form-urlencoded"/>
+          <xs:enumeration value="multipart/form-data"/>
+          <xs:enumeration value="text/plain"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="method">
+      <xs:simpleType>
+        <xs:restriction base="xs:token">
+          <xs:enumeration value="get"/>
+          <xs:enumeration value="post"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <!-- HTML5 also requires a form's name attribute to be unique among all other forms' name attributes,
+         but skipping that requirement here -->
+    <xs:attribute name="name">
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:minLength value="1"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="novalidate">
+      <xs:simpleType>
+        <xs:restriction base="xs:token">
+          <xs:pattern value="([Nn][Oo][Vv][Aa][Ll][Ii][Dd][Aa][Tt][Ee])?"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="target" type="xs:string"/>
+    <xs:attributeGroup ref="globals"/>
+  </xs:complexType>
+</xs:element>
   
 <xs:element name="hr" type="empty_elem_global_attrs"/>
   
