@@ -512,6 +512,7 @@
         <xs:element ref="del"/>
         <xs:element ref="em"/>
         <xs:element ref="i"/>
+        <xs:element ref="img"/>
         <xs:element ref="input"/>
         <xs:element ref="ins"/>
         <xs:element ref="kbd"/>
@@ -596,6 +597,7 @@
         <xs:element ref="dfn"/>
         <xs:element ref="em"/>
         <xs:element ref="i"/>
+        <xs:element ref="img"/>
         <xs:element ref="input"/>
         <xs:element ref="ins"/>
         <xs:element ref="kbd"/>
@@ -649,6 +651,7 @@
         <xs:element ref="dfn"/>
         <xs:element ref="em"/>
         <xs:element ref="i"/>
+        <xs:element ref="img"/>
         <xs:element ref="input"/>
         <xs:element ref="ins"/>
         <xs:element ref="label"/>
@@ -718,6 +721,7 @@
       <xs:element ref="dfn"/>
       <xs:element ref="em"/>
       <xs:element ref="i"/>
+      <xs:element ref="img"/>
       <xs:element ref="input"/>
       <xs:element ref="ins"/>
       <xs:element ref="label"/>
@@ -817,6 +821,7 @@
       <xs:element ref="dfn"/>
       <xs:element ref="em"/>
       <xs:element ref="i"/>
+      <xs:element ref="img"/>
       <xs:element ref="input"/>
       <xs:element ref="ins"/>
       <xs:element ref="label"/>
