@@ -148,8 +148,12 @@
             </table>
             
             <!-- Now here's a form and a map and a menu; we don't care what's inside -->
-            <form id="coolform" class="form" spellcheck="true" name="first_form" target="target" accept-charset="dd dd" action="submit.php" method="get" autocomplete="on" enctype="application/x-www-form-urlencoded" novalidate="novalidate">
-              <p/>
+            <form id="coolform" class="form" spellcheck="true" name="first_form" target="target" accept-charset="dd dd" action="submit.php" method="get" autocomplete="off" enctype="multipart/form-data" novalidate="novalidate">
+              <p>An input field: <input id="text_field" accept="abc" alt="your name goes here" hidden="Hidden" autocomplete="on" autofocus="" checked="CHECKED" disabled="disabled"
+              dirname="abc" form="coolform" formaction="submit.php" formenctype="multipart/form-data" formmethod="post" formnovalidate=""
+              formtarget="target" height="300" list="datalist" max="300" min="300" maxlength="3" multiple="multipLe"
+              name="input_name" pattern="\w+" placeholder="Helpful hint goes here" readonly="READONLY" required="REQUIREd" size="7"
+              src="image.png" step="0.5" type="text" value="John Doe" width="300"/></p>
             </form>
             
             <map id="a_map" name="oreilly" spellcheck="true">
@@ -245,11 +249,11 @@
             <p>The "b" tag does not represent bold, but <b id="notbold">"text to which attention is being drawn for <em>utilitarian</em> purposes..."</b></p>
             <p>A <bdi><u>Bidirectional</u> indication</bdi></p>
             <p>A <bdo dir="rtl" id="a_bdo_elem" spellcheck=""><u>Bidirectional</u> override</bdo></p>
-            <p>Here's a button: <button  id="coolbutton" form="coolform" class="a_button" autofocus="autofocuS" disabled="" formaction="submit.html" formenctype="application/x-www-form-urlencoded" formmethod="get" formnovalidate="formnovalidate" formtarget="targ" value="whatev"><em>A button!</em> Yay!</button></p>
+            <p>Here's a button: <button  id="coolbutton" form="coolform" class="a_button" autofocus="autofocUS" disabled="" formaction="submit.html" formenctype="application/x-www-form-urlencoded" formmethod="post" formnovalidate="formnovalidatE" formtarget="targ" value="whatev"><em>A button!</em> Yay!</button></p>
             
-            <p>Here is a command: <command id="a_command" label="labeled" icon="icon.png" disabled="disableD" checked="Checked" radiogroup="commands" title="Great command"/></p>
+            <p>Here is a command: <command id="a_command" label="labeled" icon="icon.png" disabled="DisableD" checked="CHecked" radiogroup="commands" title="Great command"/></p>
             
-            <p>Ditto for <input fake="faker"><p/>Whatevs</input>, and for <keygen id="keygen" fine="ok">this shouldn't be empty but whatever</keygen> and for <select id="select"><p/>whatevs again<p/></select>
+            <p>Ditto for, and for <keygen id="keygen" fine="ok">this shouldn't be empty but whatever</keygen> and for <select id="select"><p/>whatevs again<p/></select>
             Lastly, same for textarea like this: <textarea id="textareasarenice">there <bogusagain/> should not be any <em>child elems here</em>, but we don't really care</textarea>
             </p>
             <p>I love <cite id="coolbook">DocBook: The <em>Definitiv<b>e</b></em> Guide</cite></p>
