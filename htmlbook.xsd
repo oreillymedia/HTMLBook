@@ -898,8 +898,28 @@
 
 <xs:element name="kbd" type="inline_children_only"/>
 
-<!-- Not imposing any HTMLBook specific constraints on keygen content; deferring to HTML5 spec -->
-<xs:element name="keygen" type="any_elems_attrs"/> 
+<xs:element name="keygen">
+  <xs:complexType>
+    <xs:complexContent>
+      <xs:extension base="empty_elem_global_attrs">
+        <xs:attribute name="autofocus" type="autofocus_boolean"/>
+        <xs:attribute name="challenge" type="xs:string"/>
+        <xs:attribute name="disabled" type="disabled_boolean"/>
+        <!-- form attribute must refer to ID of a <form> element, but we're just checking that it's an IDREF -->
+        <xs:attribute name="form" type="xs:IDREF"/>
+        <xs:attribute name="keytype">
+          <xs:simpleType>
+            <xs:restriction base="xs:token">
+              <!-- HTML5 spec indicates just one enumerated value -->
+              <xs:enumeration value="rsa"/>
+            </xs:restriction>
+          </xs:simpleType>  
+        </xs:attribute>
+        <xs:attribute name="name" type="xs:string"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+</xs:element>
   
 <xs:element name="label">
   <!-- label elements can have any inline children, excluding another "label" element -->
