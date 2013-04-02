@@ -819,13 +819,7 @@
         </xs:attribute>
         <xs:attribute name="pattern" type="xs:string"/>
         <xs:attribute name="placeholder" type="xs:string"/>
-        <xs:attribute name="readonly">
-          <xs:simpleType>
-            <xs:restriction base="xs:token">
-              <xs:pattern value="([Rr][Ee][Aa][Dd][Oo][Nn][Ll][Yy])?"></xs:pattern>
-            </xs:restriction>
-          </xs:simpleType>
-        </xs:attribute>
+        <xs:attribute name="readonly" type="readonly_boolean"/>        
         <xs:attribute name="required" type="required_boolean"/>        
         <xs:attribute name="size" type="positive_int"/>
         <xs:attribute name="src" type="xs:anyURI"/>
@@ -1151,8 +1145,37 @@
   
 <xs:element name="sup" type="inline_children_only"/>
   
-<!-- Not imposing any HTMLBook specific constraints on button content; deferring to HTML5 spec -->
-<xs:element name="textarea" type="any_elems_attrs"/>
+<xs:element name="textarea">
+  <xs:complexType mixed="true">
+    <xs:attribute name="autofocus" type="autofocus_boolean"/>
+    <xs:attribute name="cols" type="positive_int"/>
+    <xs:attribute name="dirname" type="xs:string"/>
+    <xs:attribute name="disabled" type="disabled_boolean"/>
+    <!-- form attribute must refer to ID of a <form> element, but we're just checking that it's an IDREF -->
+    <xs:attribute name="form" type="xs:IDREF"/>
+    <xs:attribute name="maxlength" type="positive_int"/>
+    <xs:attribute name="name">
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:minLength value="1"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="placeholder" type="xs:string"/>
+    <xs:attribute name="readonly" type="readonly_boolean"/>
+    <xs:attribute name="required" type="required_boolean"/>
+    <xs:attribute name="rows" type="positive_int"/>
+    <xs:attribute name="wrap">
+      <xs:simpleType>
+        <xs:restriction base="xs:token">
+          <xs:enumeration value="soft"/>
+          <xs:enumeration value="hard"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attributeGroup ref="globals"/>
+  </xs:complexType>
+</xs:element>
   
 <xs:element name="time">
   <!-- time elements can have any inline children, excluding another "time" element -->
@@ -1556,6 +1579,13 @@
 <xs:simpleType name="multiple_boolean">
   <xs:restriction base="xs:token">
     <xs:pattern value="([Mm][Uu][Ll][Tt][Ii][Pp][Ll][Ee])?"></xs:pattern>
+  </xs:restriction>
+</xs:simpleType>
+ 
+<!-- readonly boolean -->
+<xs:simpleType name="readonly_boolean">
+  <xs:restriction base="xs:token">
+    <xs:pattern value="([Rr][Ee][Aa][Dd][Oo][Nn][Ll][Yy])?"></xs:pattern>
   </xs:restriction>
 </xs:simpleType>
   
