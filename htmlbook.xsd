@@ -603,6 +603,8 @@
     <xs:sequence>
       <xs:group ref="inlineelements" minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>
+    <!-- Adding the dir attribute here instead of specifying it in the "globals" attribute group
+         to modify to include use="required" --> 
     <xs:attribute name="class" type="xs:NMTOKENS"/>
     <xs:attribute name="dir" use="required">
       <xs:simpleType>
@@ -619,7 +621,105 @@
 <xs:element name="br" type="empty_elem_global_attrs"/>
 
 <!-- Not imposing any HTMLBook specific constraints on button content; deferring to HTML5 spec -->
-<xs:element name="button" type="any_elems_attrs"/>
+<xs:element name="button">
+  <!-- button elements can have any inline children, excluding other interactive elements -->
+  <xs:complexType mixed="true">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="a"/>
+      <xs:element ref="abbr"/>
+      <xs:element ref="b"/>
+      <xs:element ref="bdi"/>
+      <xs:element ref="bdo"/>
+      <xs:element ref="br"/>
+      <xs:element ref="cite"/>
+      <xs:element ref="code"/>
+      <xs:element ref="del"/>
+      <xs:element ref="dfn"/>
+      <xs:element ref="em"/>
+      <xs:element ref="i"/>
+      <xs:element ref="img"/>
+      <xs:element ref="ins"/>
+      <xs:element ref="kbd"/> 
+      <xs:element ref="mark"/>  
+      <xs:element ref="meter"/>
+      <xs:element ref="output"/>
+      <xs:element ref="progress"/>
+      <xs:element ref="q"/>
+      <xs:element ref="ruby"/>
+      <xs:element ref="s"/>
+      <xs:element ref="samp"/>
+      <xs:element ref="small"/>
+      <xs:element ref="span"/>
+      <xs:element ref="strong"/>
+      <xs:element ref="sub"/>
+      <xs:element ref="sup"/>
+      <xs:element ref="time"/>
+      <xs:element ref="u"/>
+      <xs:element ref="var"/>
+      <xs:element ref="wbr"/>
+    </xs:choice>
+    <xs:attribute name="autofocus">
+      <xs:simpleType>
+        <xs:restriction base="xs:token">
+          <xs:pattern value="([Aa][Uu][Tt][Oo][Ff][Oo][Cc][Uu][Ss])?"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="disabled">
+      <xs:simpleType>
+        <xs:restriction base="xs:token">
+          <xs:pattern value="([Dd][Ii][Ss][Aa][Bb][Ll][Ee][Dd])?"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <!-- form attribute must refer to ID of a <form> element, but we're just checking that it's an IDREF -->
+    <xs:attribute name="form" type="xs:IDREF"/>
+    <xs:attribute name="formaction">
+      <xs:simpleType>
+        <xs:restriction base="xs:anyURI">
+          <xs:minLength value="1"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="formenctype">
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="application/x-www-form-urlencoded"/>
+          <xs:enumeration value="multipart/form-data"/>
+          <xs:enumeration value="text/plain"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="formmethod">
+      <xs:simpleType>
+        <xs:restriction base="xs:token">
+          <xs:enumeration value="get"/>
+          <xs:enumeration value="post"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="formnovalidate">
+      <xs:simpleType>
+        <xs:restriction base="xs:token">
+          <xs:pattern value="([Ff][Oo][Rr][Mm][Nn][Oo][Vv][Aa][Ll][Ii][Dd][Aa][Tt][Ee])?"></xs:pattern>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="formtarget" type="xs:string"/>
+    <xs:attribute name="name" type="xs:string"/>
+    <xs:attribute name="type">
+      <xs:simpleType>
+        <xs:restriction base="xs:token">
+          <xs:enumeration value="submit"/>
+          <xs:enumeration value="reset"/>
+          <xs:enumeration value="button"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="value" type="xs:string"/>
+    <xs:attributeGroup ref="globals"/>
+  </xs:complexType>
+</xs:element>
   
 <xs:element name="cite" type="inline_children_only"/>
 
