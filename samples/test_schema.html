@@ -32,13 +32,13 @@
         <!-- Let's test an embed element -->
         <embed src="file.html" width="1" height="3" hidden="hidden" id="embed_obj" type="image/png"/>
         <!-- Let's test a fieldset element -->
-        <fieldset class="field" hidden="" tabindex="1" id="a_fieldset"><legend class="a_legend" id="a_legend">The legend is <em>true</em></legend><b>Test</b>
+        <fieldset class="field" hidden="" tabindex="1" id="a_fieldset" name="the_name" disabled="disabled" form="coolform"><legend class="a_legend" id="a_legend">The legend is <em>true</em></legend><b>Test</b>
         </fieldset>
         <section class="sect1" id="good_section" hidden="HIDDen">
           <h1>Te<em></em>st</h1>
           <h2 class="subtitle" id="subtitle_id" dir="rtl">Bl<em>a</em>h</h2>
           <address><a></a>blah<em></em>blah<s></s>blah</address>
-          <blockquote lang="en" accesskey="A B C" id="a_blockquote"><em></em>Y<b>o</b></blockquote> 
+          <blockquote lang="en" accesskey="A B C" cite="http://oreilly.com" id="a_blockquote"><em></em>Y<b>o</b></blockquote> 
           
           <!-- A few types of divs. Inline content only here... -->
           <div id="firstdiv" class="testing" hidden="hidden" data-whatever="whatever">
@@ -48,17 +48,10 @@
           <!-- And block content here ... -->
           <div id="second_div" class="second_test_block">
             <h2>Any heading you choose</h2>
+            <h3>Another heading you choose</h3>
             <p>Test 123</p>
           </div>
           
-          <!-- An hgroup here -->
-          <div id="third_div" class="third_test_block">
-            <hgroup id="heading_group" class="heading_group" lang="fr">
-              <h1>First heading</h1>
-              <h1>Second heading</h1>
-            </hgroup>
-            <p>Test 123</p>
-          </div>
           
           <section class="sect2" id="a_sect2" lang="en">
             <h2>Test</h2>
@@ -67,17 +60,17 @@
               <h5>Test</h5>
               <p>Hi everybody</p>
             </aside>
-            <canvas><em></em><b></b>eee</canvas>
+            <canvas id="the_canvas" class="a_canvas" accesskey="a b c" width="300" height="400"><em></em><b></b>eee</canvas>
             
             <!-- Details element -->
-            <details class="details" id="some_details" spellcheck="true">
+            <details class="details" id="some_details" spellcheck="true" accesskey="1" open="OpEn">
               <summary id="a_summary">This is a <strong>summary</strong></summary>
               <p>Some text</p>
               <p>More text</p>
             </details>
             
             <!-- Object element -->
-            <object data-semantics="tarsier.jpg" id="the_id" tabindex="1" spellcheck="true">
+            <object data-semantics="tarsier.jpg" data="http://oreilly.com" usemap="#abc" form="coolform" type="image/png" name="object_name" id="the_id" tabindex="1" spellcheck="true">
               <param id="a_parameter" name="person" value="Bill Gates"/>
               <em>Some text</em>
               <em>More text</em>
@@ -93,7 +86,7 @@
             <figure class="yoyoyo" id="the_figure" accesskey="A B C" contenteditable="" draggable="false" contextmenu="a_menu" dir="rtl" dropzone="a b c" hidden="hidden" lang="en" spellcheck="true" style="color: red;" tabindex="1" title="the figure">
               <figcaption id="thecaption" hidden="HIDDEN"><p>We can have a two-para caption</p><p>Yes we can</p></figcaption>
               <p>Here comes a fig</p>
-              <img src="image.png" id="an_image" lang="en"/>
+              <img src="image.png" id="an_image" hidden="hidden" usemap="#whatever" alt="Alt text" ismap="ISMAP" width="300" height="200" lang="en"/>
             </figure>
             
             <!-- Some embedded MML -->
@@ -147,16 +140,31 @@
             </table>
             
             <!-- Now here's a form and a map and a menu; we don't care what's inside -->
-            <form id="coolform" class="form" spellcheck="true">
-              Blahblahblah<fakeelement><em>Blah</em></fakeelement>
+            <form id="coolform" class="form" spellcheck="true" name="first_form" target="target" accept-charset="dd dd" action="submit.php" method="get" autocomplete="off" enctype="multipart/form-data" novalidate="novalidate">
+              <p>An input field: <input id="text_field" accept="abc" alt="your name goes here" hidden="Hidden" autocomplete="on" autofocus="" checked="CHECKED" disabled="disabled"
+              dirname="abc" form="coolform" formaction="submit.php" formenctype="multipart/form-data" formmethod="post" formnovalidate=""
+              formtarget="target" height="300" list="datalist" max="300" min="300" maxlength="3" multiple="multipLe"
+              name="input_name" pattern="\w+" placeholder="Helpful hint goes here" readonly="READONLY" required="REQUIREd" size="7"
+              src="image.png" step="0.5" type="text" value="John Doe" width="300"/></p>
             </form>
             
-            <map blah="blahblah">
+            <map id="a_map" name="oreilly" spellcheck="true">
+              <p/>
               <area id="imagemaparea" alt="blah" coords="122" shape="circ" href="oreilly.com" target="blue" media="whatever" type="image/png" rel="pingback author" hreflang="en"/>
             </map>
             
-            <menu id="a_menu" ha="hahaha">
-              Blahblahblah<thirdfakeelement><em>Blah</em></thirdfakeelement>
+            <menu id="a_menu" accesskey="a">
+              <li>Item 1</li>
+              <li><em>Item 2</em></li>
+            </menu>
+            
+            <menu id="another_menu" hidden="hiddEn" type="context">
+              <em>Inline version</em>
+            </menu>
+            
+            <menu id="third_menu" hidden="hiddEN" label="a_label">
+              <p>One item</p>
+              <p class="menuitem">Two items</p>
             </menu>
             
             <!-- How about an hr? -->
@@ -164,10 +172,12 @@
             <hr class="pretty"/>
             
             <!-- Now, an iframe -->
-            <iframe src="http://oreilly.com" id="abc123" hidden="hidden" lang="en">Fallback <em>text</em></iframe>
+            <iframe src="http://oreilly.com" id="abc123" hidden="hidden" name="the_name" lang="en" seamless="seamLess" srcdoc="ddd" sandbox="allow-top-navigation allow-same-origin allow-scripts">Fallback <em>text</em></iframe>
             
-            <!-- And then an image -->
+            <!-- And then an inline image -->
+            <p>
             <img class="animal" src="tarsier.png"/>
+            </p>
             
             <!-- And a nav -->
             <nav id="navigation">
@@ -186,7 +196,7 @@
             <!-- Don't forget an ordered list -->
             <ol id="orderedlist" start="3" type="decimal" reversed="ReVersed" spellcheck="true">
               <li><p>This list item</p><p>Has multiple paragraphs</p></li>
-              <li>This one is has just <em>one paragraph</em>, so no need to use block elements</li>
+              <li value="2">This one is has just <em>one paragraph</em>, so no need to use block elements</li>
               <li>Just plain text</li>
             </ol>
             
@@ -231,10 +241,18 @@
             <p>The "b" tag does not represent bold, but <b id="notbold">"text to which attention is being drawn for <em>utilitarian</em> purposes..."</b></p>
             <p>A <bdi><u>Bidirectional</u> indication</bdi></p>
             <p>A <bdo dir="rtl" id="a_bdo_elem" spellcheck=""><u>Bidirectional</u> override</bdo></p>
-            <p>Here's a button: <button blah="blahblah" id="coolbutton">We don't care what's inside</button> Same with the following <command blahagain="blah"><bogus/>command</command>.
-            Ditto for <input fake="faker"><p/>Whatevs</input>, and for <keygen id="keygen" fine="ok">this shouldn't be empty but whatever</keygen> and for <select id="select"><p/>whatevs again<p/></select>
-            Lastly, same for textarea like this: <textarea id="textareasarenice">there <bogusagain/> should not be any <em>child elems here</em>, but we don't really care</textarea>
-            </p>
+            <p>Here's a button: <button  id="coolbutton" form="coolform" class="a_button" autofocus="autofocUS" disabled="" formaction="submit.html" formenctype="application/x-www-form-urlencoded" formmethod="post" formnovalidate="formnovalidatE" formtarget="targ" value="whatev"><em>A button!</em> Yay!</button></p>
+            
+            <p>Here is a command: <command id="a_command" label="labeled" icon="icon.png" disabled="DisableD" checked="CHecked" radiogroup="commands" title="Great command"/></p>
+            <p>Here's a keygen element: <keygen id="keygen_elem" autofocus="autofocuS" challenge="challenge_val" disabled="dISABLED" form="coolform" keytype="rsa" name="keygen"/></p>
+            <p>Here's a select element: <select id="a_select" autofocus="autofocus" disabled="DISabled" form="coolform" multiple="MULTIPLE" name="a_name" required="" size="2">
+              <option disabled="disabled" label="lab" selected="selected" value="3">Option</option>
+            </select>. And another select with an optgroup instead:
+            <select id="select2"><optgroup label="optgroup" class="optgroup_class" id="optgroup_elem"><option disabled="disabled">Another option</option></optgroup></select></p>
+            <p>Lastly, same for textarea like this:
+              <textarea id="a_textarea_elem" autofocus="autofocuS" cols="3" dirname="dir" disabled="" form="coolform" maxlength="3" name="aname" placeholder="hmm"
+                readonly="READONLY" required="required" rows="30" wrap="soft">a textarea</textarea>
+            </p> 
             <p>I love <cite id="coolbook">DocBook: The <em>Definitiv<b>e</b></em> Guide</cite></p>
             <p>To go into the directory you'd enter <code id="cd_command">cd <em>yourdirectoryname</em></code></p>
             <p>If we ever use a datalist, it would look like this: 

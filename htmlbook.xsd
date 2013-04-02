@@ -45,9 +45,6 @@
     <xs:attributeGroup ref="globals_minus_class"/>
   </xs:complexType>
 </xs:element>
-
-<!-- Metadata elements -->
-<!-- ToDo: What restrictions to add? -->
   
 <xs:element name="title">
   <xs:complexType mixed="true">
@@ -158,7 +155,6 @@
 </xs:element>
   
 <!-- Block elements -->
-<!-- ToDo: What restrictions to add? -->
   
 <!-- For now, limit "address" to support only inline element children -->
 <xs:element name="address" type="inline_children_only"/>
@@ -168,7 +164,7 @@
 <!-- Note, per HTML5 spec, the actual requirements are a choice between:
     * a @src attribute on <audio> elem and no <source> children
     * no @src attribute on <audio> elem and 1 or more <source> children
-    But AFAICS this logic is impossible to capture in Schema, so not going to enforce -->
+    But this logic is impossible to capture in Schema, so not going to enforce -->
 <xs:element name="audio">
   <xs:complexType>
     <xs:sequence>
@@ -180,9 +176,26 @@
   </xs:complexType>
 </xs:element>
   
-<xs:element name="blockquote" type="block_xor_inline_children"/>
+<xs:element name="blockquote">
+  <xs:complexType>
+    <xs:complexContent>
+      <xs:extension base="block_xor_inline_children">
+        <xs:attribute name="cite" type="xs:anyURI"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+</xs:element> 
 
-<xs:element name="canvas" type="block_xor_inline_children"/>
+<xs:element name="canvas">
+  <xs:complexType>
+    <xs:complexContent>
+      <xs:extension base="block_xor_inline_children">
+        <xs:attribute name="width" type="positive_int"/>
+        <xs:attribute name="height" type="positive_int"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+</xs:element>
   
 <xs:element name="details">
   <xs:complexType mixed="true">
@@ -193,6 +206,13 @@
         <xs:group ref="inlineelements" minOccurs="0" maxOccurs="unbounded"/>
       </xs:choice>
     </xs:sequence>
+    <xs:attribute name="open">
+      <xs:simpleType>
+        <xs:restriction base="xs:token">
+          <xs:pattern value="([Oo][Pp][Ee][Nn])?"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
     <xs:attributeGroup ref="globals"/>
   </xs:complexType>
 </xs:element>
@@ -206,15 +226,10 @@
     <xs:choice>
       <!-- Option 1: Optional heading(s) followed by block elements -->
       <xs:sequence>
-        <xs:group ref="headings" minOccurs="0"/>
+        <xs:group ref="headings" minOccurs="0" maxOccurs="unbounded"/>
         <xs:group ref="blockelements" minOccurs="0" maxOccurs="unbounded"/>
       </xs:sequence>
-      <!-- Option 2: hgroup followed by block elements -->
-      <xs:sequence>        
-        <xs:element ref="hgroup"/>
-        <xs:group ref="blockelements" minOccurs="0" maxOccurs="unbounded"/>
-      </xs:sequence>
-      <!-- Option 3: inlines and text only -->
+      <!-- Option 2: inlines and text only -->
       <xs:group ref="inlineelements" minOccurs="0" maxOccurs="unbounded"/>
     </xs:choice>
     <xs:attributeGroup ref="globals"/>
@@ -253,6 +268,9 @@
         <xs:group ref="inlineelements" minOccurs="0" maxOccurs="unbounded"/>
       </xs:choice>
     </xs:sequence>
+    <xs:attribute name="disabled" type="disabled_boolean"/>    
+    <xs:attribute name="name" type="xs:string"/>
+    <xs:attribute name="form" type="xs:IDREF"/>
     <xs:attributeGroup ref="globals"/>
   </xs:complexType>
 </xs:element>
@@ -264,10 +282,10 @@
     <xs:choice>
       <xs:sequence>
         <xs:element ref="figcaption"/>
-        <xs:group ref="blockelements" maxOccurs="unbounded"/>
+        <xs:group ref="figure_elements" maxOccurs="unbounded"/>
       </xs:sequence>
       <xs:sequence>
-        <xs:group ref="blockelements" maxOccurs="unbounded"/>
+        <xs:group ref="figure_elements" maxOccurs="unbounded"/>
         <xs:element ref="figcaption"/>
       </xs:sequence>
     </xs:choice>
@@ -275,8 +293,68 @@
   </xs:complexType>
 </xs:element>
 
-<!-- Not imposing any HTMLBook specific constraints on form content; deferring to HTML5 spec -->
-<xs:element name="form" type="any_elems_attrs"/>
+<xs:element name="form">
+  <xs:complexType>
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <!-- All block elements, except "form"; yes, I'm reproducing the list here, rather than split up the
+           "blockelements" group -->
+      <xs:element ref="address"/>
+      <xs:element ref="aside"/>
+      <xs:element ref="audio"/>
+      <xs:element ref="blockquote"/>
+      <xs:element ref="canvas"/>
+      <xs:element ref="details"/>
+      <xs:element ref="div"/>
+      <xs:element ref="dl"/>
+      <xs:element ref="embed"/>
+      <xs:element ref="fieldset"/>
+      <xs:element ref="figure"/>
+      <xs:element ref="hr"/>
+      <xs:element ref="iframe"/>
+      <xs:element ref="map"/>
+      <xs:element ref="mml:math"/>
+      <xs:element ref="menu"/>
+      <xs:element ref="nav"/>
+      <xs:element ref="object"/>
+      <xs:element ref="ol"/>
+      <xs:element ref="p"/>
+      <xs:element ref="pre"/>
+      <xs:element ref="svg:svg"/>
+      <xs:element ref="table"/>
+      <xs:element ref="ul"/>
+      <xs:element ref="video"/>
+    </xs:choice>
+    <xs:attribute name="accept-charset" type="xs:NMTOKENS"/>
+    <xs:attribute name="action">
+      <xs:simpleType>
+        <xs:restriction base="xs:anyURI">
+          <xs:minLength value="1"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="autocomplete" type="on_off"/>
+    <xs:attribute name="enctype" type="enctype_formenctype"/>    
+    <xs:attribute name="method" type="method_formmethod"/>    
+    <!-- HTML5 also requires a form's name attribute to be unique among all other forms' name attributes,
+         but skipping that requirement here -->
+    <xs:attribute name="name">
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:minLength value="1"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="novalidate">
+      <xs:simpleType>
+        <xs:restriction base="xs:token">
+          <xs:pattern value="([Nn][Oo][Vv][Aa][Ll][Ii][Dd][Aa][Tt][Ee])?"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="target" type="xs:string"/>
+    <xs:attributeGroup ref="globals"/>
+  </xs:complexType>
+</xs:element>
   
 <xs:element name="hr" type="empty_elem_global_attrs"/>
   
@@ -285,27 +363,70 @@
     <xs:group ref="inlineelements" minOccurs="0" maxOccurs="unbounded"/>
     <!-- Differing from HTML5 spec in that we're requiring a @src attribute here -->
     <xs:attribute name="src" use="required" type="xs:anyURI"/>
+    <xs:attribute name="srcdoc" type="xs:string"/>
+    <xs:attribute name="name" type="xs:string"/>
+    <xs:attribute name="sandbox">
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <!-- Ugly regex alert, because backreferences are not allowed in XML Schema -->
+          <xs:pattern value="allow-(same-origin|top-navigation|forms|scripts)( allow-(same-origin|top-navigation|forms|scripts))*"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="seamless">
+      <xs:simpleType>
+        <xs:restriction base="xs:token">
+          <xs:pattern value="([Ss][Ee][Aa][Mm][Ll][Ee][Ss][Ss])?"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="width" type="xs:string"/>
+    <xs:attribute name="height" type="xs:string"/>
     <xs:attributeGroup ref="globals"/>
   </xs:complexType>
 </xs:element>
-  
-<!-- ToDo: Logic to support img as an inline? -->
-<!-- Rewrite so that img is in inline elements, not block elements, but img can be a block child of the <figure> element -->
-<xs:element name="img">
+
+<!-- Requiring block content model for "map" element for simplicity -->
+<xs:element name="map">
   <xs:complexType>
-    <xs:complexContent>
-      <xs:extension base="empty_elem_global_attrs">
-        <xs:attribute name="src" use="required" type="xs:anyURI"/>
-      </xs:extension>
-    </xs:complexContent>
+    <xs:group ref="map_elements" minOccurs="0" maxOccurs="unbounded"/>
+    <!-- Not enforcing two restrictions from HTML5 for name attribute: uniqueness against other name attributes on map, 
+         and requirement that it match id value, if present -->
+    <xs:attribute name="name" use="required">
+      <xs:simpleType>
+        <xs:restriction base="xs:token">
+          <!-- nonempty and no spaces -->
+          <xs:minLength value="1"/>
+          <xs:pattern value="[^ ]*"></xs:pattern>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attributeGroup ref="globals"/>
   </xs:complexType>
 </xs:element>
 
-<!-- Not imposing any HTMLBook specific constraints on map content; deferring to HTML5 spec -->
-<xs:element name="map" type="any_elems_attrs"/>
-
 <!-- Not imposing any HTMLBook specific constraints on menu content; deferring to HTML5 spec -->
-<xs:element name="menu" type="any_elems_attrs"/>
+<xs:element name="menu">
+  <xs:complexType>
+    <xs:choice>
+      <xs:element ref="li" maxOccurs="unbounded"/>
+      <xs:choice>
+        <xs:group ref="blockelements" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:group ref="inlineelements" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:choice>
+    </xs:choice>
+    <xs:attribute name="type">
+      <xs:simpleType>
+        <xs:restriction base="xs:token">
+          <xs:enumeration value="context"/>
+          <xs:enumeration value="toolbar"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="label" type="xs:string"/>
+    <xs:attributeGroup ref="globals"/>
+  </xs:complexType>
+</xs:element>
   
 <!--Follows the EPUB 3 spec for nav elements; see http://www.idpf.org/epub/30/spec/epub30-contentdocs.html#sec-xhtml-nav -->
 <xs:element name="nav">
@@ -327,6 +448,20 @@
         <xs:group ref="inlineelements" minOccurs="0" maxOccurs="unbounded"/>
       </xs:choice>
     </xs:sequence>
+    <xs:attribute name="data">
+      <xs:simpleType>
+        <xs:restriction base="xs:anyURI">
+          <xs:minLength value="1"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="type" type="xs:string"/>
+    <xs:attribute name="name" type="xs:string"/>
+    <xs:attribute name="usemap" type="hash_name"/>    
+    <!-- form attribute must refer to ID of a <form> element, but we're just checking that it's an IDREF -->
+    <xs:attribute name="form" type="xs:IDREF"/>
+    <xs:attribute name="width" type="xs:string"/>
+    <xs:attribute name="height" type="xs:string"/>
     <xs:attributeGroup ref="globals"/>
   </xs:complexType>
 </xs:element>
@@ -334,7 +469,16 @@
 <xs:element name="ol">
   <xs:complexType>
     <xs:sequence>
-      <xs:element ref="li" minOccurs="0" maxOccurs="unbounded"/>
+      <!-- "li"s in an "ol" can have a value attribute -->
+      <xs:element name="li" minOccurs="0" maxOccurs="unbounded">
+        <xs:complexType>
+          <xs:complexContent>
+            <xs:extension base="block_xor_inline_children">
+              <xs:attribute name="value" type="positive_int"/>
+            </xs:extension>
+          </xs:complexContent>
+        </xs:complexType>
+      </xs:element>
     </xs:sequence>
     <xs:attributeGroup ref="ol_attrs"/>
     <xs:attributeGroup ref="globals"/>
@@ -427,6 +571,8 @@
     <xs:sequence>
       <xs:group ref="inlineelements" minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>
+    <!-- Adding the dir attribute here instead of specifying it in the "globals" attribute group
+         to modify to include use="required" --> 
     <xs:attribute name="class" type="xs:NMTOKENS"/>
     <xs:attribute name="dir" use="required">
       <xs:simpleType>
@@ -443,13 +589,105 @@
 <xs:element name="br" type="empty_elem_global_attrs"/>
 
 <!-- Not imposing any HTMLBook specific constraints on button content; deferring to HTML5 spec -->
-<xs:element name="button" type="any_elems_attrs"/>
+<xs:element name="button">
+  <!-- button elements can have any inline children, excluding other interactive elements -->
+  <xs:complexType mixed="true">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="a"/>
+      <xs:element ref="abbr"/>
+      <xs:element ref="b"/>
+      <xs:element ref="bdi"/>
+      <xs:element ref="bdo"/>
+      <xs:element ref="br"/>
+      <xs:element ref="cite"/>
+      <xs:element ref="code"/>
+      <xs:element ref="del"/>
+      <xs:element ref="dfn"/>
+      <xs:element ref="em"/>
+      <xs:element ref="i"/>
+      <xs:element ref="img"/>
+      <xs:element ref="ins"/>
+      <xs:element ref="kbd"/> 
+      <xs:element ref="mark"/>  
+      <xs:element ref="meter"/>
+      <xs:element ref="output"/>
+      <xs:element ref="progress"/>
+      <xs:element ref="q"/>
+      <xs:element ref="ruby"/>
+      <xs:element ref="s"/>
+      <xs:element ref="samp"/>
+      <xs:element ref="small"/>
+      <xs:element ref="span"/>
+      <xs:element ref="strong"/>
+      <xs:element ref="sub"/>
+      <xs:element ref="sup"/>
+      <xs:element ref="time"/>
+      <xs:element ref="u"/>
+      <xs:element ref="var"/>
+      <xs:element ref="wbr"/>
+    </xs:choice>
+    <xs:attribute name="autofocus" type="autofocus_boolean"/>    
+    <xs:attribute name="disabled" type="disabled_boolean"/>    
+    <!-- form attribute must refer to ID of a <form> element, but we're just checking that it's an IDREF -->
+    <xs:attribute name="form" type="xs:IDREF"/>
+    <xs:attribute name="formaction">
+      <xs:simpleType>
+        <xs:restriction base="xs:anyURI">
+          <xs:minLength value="1"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="formenctype" type="enctype_formenctype"/>    
+    <xs:attribute name="formmethod" type="method_formmethod"/>    
+    <xs:attribute name="formnovalidate" type="formnovalidate_boolean"/>    
+    <xs:attribute name="formtarget" type="xs:string"/>
+    <xs:attribute name="name" type="xs:string"/>
+    <xs:attribute name="type">
+      <xs:simpleType>
+        <xs:restriction base="xs:token">
+          <xs:enumeration value="submit"/>
+          <xs:enumeration value="reset"/>
+          <xs:enumeration value="button"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="value" type="xs:string"/>
+    <xs:attributeGroup ref="globals"/>
+  </xs:complexType>
+</xs:element>
   
 <xs:element name="cite" type="inline_children_only"/>
 
 <!-- Can also be used in document head -->
-<!--  Not imposing any HTMLBook specific constraints on command content; deferring to HTML5 spec -->
-<xs:element name="command" type="any_elems_attrs"/>
+<xs:element name="command">
+  <xs:complexType>
+    <xs:complexContent>
+      <xs:extension base="empty_elem_global_attrs">
+        <xs:attribute name="type">
+          <xs:simpleType>
+            <xs:restriction base="xs:token">
+              <xs:enumeration value="command"/>
+              <xs:enumeration value="checkbox"/>
+              <xs:enumeration value="radio"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="label" use="required">
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:minLength value="1"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="icon" type="xs:anyURI"/>
+        <xs:attribute name="disabled" type="disabled_boolean"/>        
+        <xs:attribute name="checked" type="checked_boolean"/>        
+        <!-- In HTML5 spec, "radio" attribute can only be enabled for type="radio", but can't enforce that in Schema -->
+        <xs:attribute name="radiogroup" type="xs:string"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+</xs:element>
 
 <xs:element name="code" type="inline_children_only"/>
   
@@ -495,6 +733,7 @@
         <xs:element ref="del"/>
         <xs:element ref="em"/>
         <xs:element ref="i"/>
+        <xs:element ref="img"/>
         <xs:element ref="input"/>
         <xs:element ref="ins"/>
         <xs:element ref="kbd"/>
@@ -528,8 +767,108 @@
   
 <xs:element name="i" type="inline_children_only"/>
   
-<!-- Not imposing any HTMLBook specific constraints on button content; deferring to HTML5 spec -->
-<xs:element name="input" type="any_elems_attrs"/>
+<xs:element name="img">
+  <xs:complexType>
+    <xs:complexContent>
+      <xs:extension base="empty_elem_global_attrs">
+        <xs:attribute name="alt" type="xs:string"/>
+        <xs:attribute name="usemap" type="hash_name"/>
+        <!-- In HTML5 spec, "ismap" attr requires that img have an "a" ancestor with "href" attr, but we are not enforcing that restriction in Schema -->
+        <xs:attribute name="ismap">
+          <xs:simpleType>
+            <xs:restriction base="xs:token">
+              <xs:pattern value="([Ii][Ss][Mm][Aa][Pp])?"></xs:pattern>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="src" use="required" type="xs:anyURI"/>
+        <xs:attribute name="width" type="xs:string"/>
+        <xs:attribute name="height" type="xs:string"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+</xs:element>
+  
+<xs:element name="input">
+  <xs:complexType>
+    <xs:complexContent>
+      <xs:extension base="empty_elem_global_attrs">
+        <xs:attribute name="accept" type="xs:NMTOKENS"/>
+        <xs:attribute name="alt" type="xs:string"/>
+        <xs:attribute name="autocomplete" type="on_off"/>
+        <xs:attribute name="autofocus" type="autofocus_boolean"/>
+        <xs:attribute name="checked" type="checked_boolean"/>
+        <xs:attribute name="dirname" type="xs:string"/>
+        <xs:attribute name="disabled" type="disabled_boolean"/>
+        <!-- form attribute must refer to ID of a <form> element, but we're just checking that it's an IDREF -->
+        <xs:attribute name="form" type="xs:IDREF"/>
+        <xs:attribute name="formaction" type="xs:anyURI"/>
+        <xs:attribute name="formenctype" type="enctype_formenctype"/>
+        <xs:attribute name="formmethod" type="method_formmethod"/>
+        <xs:attribute name="formnovalidate" type="formnovalidate_boolean"/>
+        <xs:attribute name="formtarget" type="xs:string"/>
+        <xs:attribute name="height" type="xs:string"/>
+        <!-- "list" attr must refer to the id attr of a "datalist" element, but here we just check that it's an IDREF -->
+        <xs:attribute name="list" type="xs:IDREF"/>
+        <xs:attribute name="max" type="xs:string"/>
+        <xs:attribute name="maxlength" type="positive_int"/>
+        <xs:attribute name="min" type="xs:string"/>
+        <xs:attribute name="multiple" type="multiple_boolean"/>        
+        <xs:attribute name="name">
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:minLength value="1"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="pattern" type="xs:string"/>
+        <xs:attribute name="placeholder" type="xs:string"/>
+        <xs:attribute name="readonly" type="readonly_boolean"/>        
+        <xs:attribute name="required" type="required_boolean"/>        
+        <xs:attribute name="size" type="positive_int"/>
+        <xs:attribute name="src" type="xs:anyURI"/>
+        <xs:attribute name="step">
+          <xs:simpleType>
+            <xs:restriction base="xs:float">
+              <xs:minExclusive value="0"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="type">
+          <xs:simpleType>
+            <xs:restriction base="xs:token">
+              <xs:enumeration value="hidden"/>
+              <xs:enumeration value="text"/>
+              <xs:enumeration value="search"/>
+              <xs:enumeration value="tel"/>
+              <xs:enumeration value="url"/>
+              <xs:enumeration value="email"/>
+              <xs:enumeration value="password"/>
+              <xs:enumeration value="datetime"/>
+              <xs:enumeration value="date"/>
+              <xs:enumeration value="month"/>
+              <xs:enumeration value="week"/>
+              <xs:enumeration value="time"/>
+              <xs:enumeration value="datetime-local"/>
+              <xs:enumeration value="number"/>
+              <xs:enumeration value="range"/>
+              <xs:enumeration value="color"/>
+              <xs:enumeration value="checkbox"/>
+              <xs:enumeration value="radio"/>
+              <xs:enumeration value="file"/>
+              <xs:enumeration value="submit"/>
+              <xs:enumeration value="image"/>
+              <xs:enumeration value="reset"/>
+              <xs:enumeration value="button"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="value" type="xs:string"/>
+        <xs:attribute name="width" type="xs:string"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+</xs:element>
   
 <!-- To simplify content model, "ins" element is only allowed in inline contexts in HTMLBook -->
 <xs:element name="ins">
@@ -545,8 +884,28 @@
 
 <xs:element name="kbd" type="inline_children_only"/>
 
-<!-- Not imposing any HTMLBook specific constraints on keygen content; deferring to HTML5 spec -->
-<xs:element name="keygen" type="any_elems_attrs"/> 
+<xs:element name="keygen">
+  <xs:complexType>
+    <xs:complexContent>
+      <xs:extension base="empty_elem_global_attrs">
+        <xs:attribute name="autofocus" type="autofocus_boolean"/>
+        <xs:attribute name="challenge" type="xs:string"/>
+        <xs:attribute name="disabled" type="disabled_boolean"/>
+        <!-- form attribute must refer to ID of a <form> element, but we're just checking that it's an IDREF -->
+        <xs:attribute name="form" type="xs:IDREF"/>
+        <xs:attribute name="keytype">
+          <xs:simpleType>
+            <xs:restriction base="xs:token">
+              <!-- HTML5 spec indicates just one enumerated value -->
+              <xs:enumeration value="rsa"/>
+            </xs:restriction>
+          </xs:simpleType>  
+        </xs:attribute>
+        <xs:attribute name="name" type="xs:string"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+</xs:element>
   
 <xs:element name="label">
   <!-- label elements can have any inline children, excluding another "label" element -->
@@ -569,6 +928,7 @@
         <xs:element ref="dfn"/>
         <xs:element ref="em"/>
         <xs:element ref="i"/>
+        <xs:element ref="img"/>
         <xs:element ref="input"/>
         <xs:element ref="ins"/>
         <xs:element ref="kbd"/>
@@ -622,6 +982,7 @@
         <xs:element ref="dfn"/>
         <xs:element ref="em"/>
         <xs:element ref="i"/>
+        <xs:element ref="img"/>
         <xs:element ref="input"/>
         <xs:element ref="ins"/>
         <xs:element ref="label"/>
@@ -691,6 +1052,7 @@
       <xs:element ref="dfn"/>
       <xs:element ref="em"/>
       <xs:element ref="i"/>
+      <xs:element ref="img"/>
       <xs:element ref="input"/>
       <xs:element ref="ins"/>
       <xs:element ref="label"/>
@@ -752,9 +1114,30 @@
 <xs:element name="s" type="inline_children_only"/>
   
 <xs:element name="samp" type="inline_children_only"/>
-  
-<!-- Not imposing any HTMLBook specific constraints on button content; deferring to HTML5 spec -->  
-<xs:element name="select" type="any_elems_attrs"/>
+
+<xs:element name="select">
+  <xs:complexType>
+    <xs:choice>
+      <xs:element ref="option" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element ref="optgroup" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:choice>
+    <xs:attribute name="autofocus" type="autofocus_boolean"/>
+    <xs:attribute name="disabled" type="disabled_boolean"/>
+    <!-- form attribute must refer to ID of a <form> element, but we're just checking that it's an IDREF -->
+    <xs:attribute name="form" type="xs:IDREF"/>
+    <xs:attribute name="multiple" type="multiple_boolean"/>
+    <xs:attribute name="name">
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:minLength value="1"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="required" type="required_boolean"/>
+    <xs:attribute name="size" type="positive_int"/>
+    <xs:attributeGroup ref="globals"/>
+  </xs:complexType>
+</xs:element>
   
 <xs:element name="small" type="inline_children_only"/>
   
@@ -766,8 +1149,37 @@
   
 <xs:element name="sup" type="inline_children_only"/>
   
-<!-- Not imposing any HTMLBook specific constraints on button content; deferring to HTML5 spec -->
-<xs:element name="textarea" type="any_elems_attrs"/>
+<xs:element name="textarea">
+  <xs:complexType mixed="true">
+    <xs:attribute name="autofocus" type="autofocus_boolean"/>
+    <xs:attribute name="cols" type="positive_int"/>
+    <xs:attribute name="dirname" type="xs:string"/>
+    <xs:attribute name="disabled" type="disabled_boolean"/>
+    <!-- form attribute must refer to ID of a <form> element, but we're just checking that it's an IDREF -->
+    <xs:attribute name="form" type="xs:IDREF"/>
+    <xs:attribute name="maxlength" type="positive_int"/>
+    <xs:attribute name="name">
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:minLength value="1"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="placeholder" type="xs:string"/>
+    <xs:attribute name="readonly" type="readonly_boolean"/>
+    <xs:attribute name="required" type="required_boolean"/>
+    <xs:attribute name="rows" type="positive_int"/>
+    <xs:attribute name="wrap">
+      <xs:simpleType>
+        <xs:restriction base="xs:token">
+          <xs:enumeration value="soft"/>
+          <xs:enumeration value="hard"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attributeGroup ref="globals"/>
+  </xs:complexType>
+</xs:element>
   
 <xs:element name="time">
   <!-- time elements can have any inline children, excluding another "time" element -->
@@ -790,6 +1202,7 @@
       <xs:element ref="dfn"/>
       <xs:element ref="em"/>
       <xs:element ref="i"/>
+      <xs:element ref="img"/>
       <xs:element ref="input"/>
       <xs:element ref="ins"/>
       <xs:element ref="label"/>
@@ -909,30 +1322,26 @@
 
 <xs:element name="figcaption" type="caption"/>
   
-<xs:element name="hgroup">
-  <xs:complexType>
-    <xs:sequence>
-      <xs:group ref="headings" minOccurs="1" maxOccurs="unbounded"/>
-    </xs:sequence> 
-    <xs:attributeGroup ref="globals"/>
-  </xs:complexType>
-</xs:element>
-  
 <xs:element name="legend" type="inline_children_only"/>
   
 <xs:element name="li" type="block_xor_inline_children"/>
+  
+<xs:element name="optgroup">
+  <xs:complexType>
+    <xs:sequence>
+      <xs:element ref="option" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="disabled" type="disabled_boolean"/>
+    <xs:attribute name="label" type="xs:string" use="required"/>
+    <xs:attributeGroup ref="globals"/>
+  </xs:complexType>
+</xs:element>
   
 <xs:element name="option">
   <xs:complexType mixed="true">
     <xs:complexContent>
       <xs:extension base="empty_elem_global_attrs">
-        <xs:attribute name="disabled">
-          <xs:simpleType>
-            <xs:restriction base="xs:token">
-              <xs:pattern value="([Dd][Ii][Ss][Aa][Bb][Ll][Ee][Dd])?"/>
-            </xs:restriction>
-          </xs:simpleType>
-        </xs:attribute>
+        <xs:attribute name="disabled" type="disabled_boolean"/>        
         <xs:attribute name="label" type="xs:string"/>
         <xs:attribute name="selected">
           <xs:simpleType>
@@ -1054,8 +1463,6 @@
 </xs:element>
 
 <!-- Heading elements -->
-<!-- ToDo: Support hgroup in <section> to facilitate subheadings? Already allowed in <div> -->
-<!-- ToDo: Should we require class="title" on all section heading titles? -->
 <xs:element name="h1" type="inline_children_only"/>
 
 <xs:element name="h2" type="inline_children_only"/>
@@ -1122,6 +1529,87 @@
     <xs:enumeration value="true"/>
     <xs:enumeration value="false"/>
     <xs:enumeration value=""/>
+  </xs:restriction>
+</xs:simpleType>
+  
+<!-- For attributes enumerated as on/off (e.g., autocomplete) -->
+<xs:simpleType name="on_off">
+  <xs:restriction base="xs:token">
+    <xs:enumeration value="on"/>
+    <xs:enumeration value="off"/>
+  </xs:restriction>
+</xs:simpleType>
+  
+<!--- autofocus boolean -->
+<xs:simpleType name="autofocus_boolean">
+  <xs:restriction base="xs:token">
+    <xs:pattern value="([Aa][Uu][Tt][Oo][Ff][Oo][Cc][Uu][Ss])?"/>
+  </xs:restriction>
+</xs:simpleType>
+  
+<!-- checked boolean -->
+<xs:simpleType name="checked_boolean">
+  <xs:restriction base="xs:token">
+    <xs:pattern value="([Cc][Hh][Ee][Cc][Kk][Ee][Dd])?"/>
+  </xs:restriction>
+</xs:simpleType>
+  
+<!-- disabled boolean -->
+<xs:simpleType name="disabled_boolean">
+  <xs:restriction base="xs:token">
+    <xs:pattern value="([Dd][Ii][Ss][Aa][Bb][Ll][Ee][Dd])?"/>
+  </xs:restriction>
+</xs:simpleType>
+  
+<!-- formnovalidate boolean -->
+<xs:simpleType name="formnovalidate_boolean">
+  <xs:restriction base="xs:token">
+    <xs:pattern value="([Ff][Oo][Rr][Mm][Nn][Oo][Vv][Aa][Ll][Ii][Dd][Aa][Tt][Ee])?"></xs:pattern>
+  </xs:restriction>
+</xs:simpleType>
+  
+<!-- multiple boolean -->
+<xs:simpleType name="multiple_boolean">
+  <xs:restriction base="xs:token">
+    <xs:pattern value="([Mm][Uu][Ll][Tt][Ii][Pp][Ll][Ee])?"></xs:pattern>
+  </xs:restriction>
+</xs:simpleType>
+ 
+<!-- readonly boolean -->
+<xs:simpleType name="readonly_boolean">
+  <xs:restriction base="xs:token">
+    <xs:pattern value="([Rr][Ee][Aa][Dd][Oo][Nn][Ll][Yy])?"></xs:pattern>
+  </xs:restriction>
+</xs:simpleType>
+  
+<!-- required boolean -->
+<xs:simpleType name="required_boolean">
+  <xs:restriction base="xs:token">
+    <xs:pattern value="([Rr][Ee][Qq][Uu][Ii][Rr][Ee][Dd])?"/>
+  </xs:restriction>
+</xs:simpleType>  
+  
+<!-- for enctype/formenctype attributes used on form elements -->
+<xs:simpleType name="enctype_formenctype">
+  <xs:restriction base="xs:string">
+    <xs:enumeration value="application/x-www-form-urlencoded"/>
+    <xs:enumeration value="multipart/form-data"/>
+    <xs:enumeration value="text/plain"/>
+  </xs:restriction>
+</xs:simpleType>
+  
+<!-- for method/formmethod attributes used on form elements -->
+<xs:simpleType name="method_formmethod">
+  <xs:restriction base="xs:token">
+    <xs:enumeration value="get"/>
+    <xs:enumeration value="post"/>
+  </xs:restriction>
+</xs:simpleType>
+  
+<!-- For hash-name references; we're just checking that string starts with #, not that the reference is actually there -->
+<xs:simpleType name="hash_name">
+  <xs:restriction base="xs:string">
+    <xs:pattern value="#.+"/>
   </xs:restriction>
 </xs:simpleType>
  
@@ -1276,7 +1764,7 @@
   <xs:attributeGroup ref="globals"/>
 </xs:complexType>
 
-<!-- Type for no restrictions on child content, except rules on global HTML5 attributes; everything else defers to HTML5 spec-->
+<!-- Type for no restrictions on child content -->
 <xs:complexType name="any_elems_attrs" mixed="true">
   <xs:sequence minOccurs="0" maxOccurs="unbounded">
     <xs:any processContents="lax"/>
@@ -1299,8 +1787,6 @@
     </xs:choice>
     <xs:group ref="inlineelements" minOccurs="0" maxOccurs="unbounded"/>
   </xs:choice>
-  <!-- No HTMLBook-specific attribute rules for this set of elements other than id; deferring to HTML5 spec on attribute rules and not 
-       validating in this schema -->
   <xs:attributeGroup ref="globals"/>
 </xs:complexType>
   
@@ -1331,7 +1817,6 @@
     <xs:element ref="form"/>
     <xs:element ref="hr"/>
     <xs:element ref="iframe"/>
-    <xs:element ref="img"/>
     <xs:element ref="map"/>
     <xs:element ref="mml:math"/>
     <xs:element ref="menu"/>
@@ -1346,7 +1831,23 @@
     <xs:element ref="video"/>
   </xs:choice>
 </xs:group>
+
+<!-- Elements that can go in a figure = block elements + img -->
+<xs:group name="figure_elements">
+  <xs:choice>
+    <xs:group ref="blockelements"/>
+    <xs:element ref="img"/>
+  </xs:choice>
+</xs:group>
   
+<!-- Elements that can go in a map = block elements + area -->
+<xs:group name="map_elements">
+  <xs:choice>
+    <xs:group ref="blockelements"/>
+    <xs:element ref="area"/>
+  </xs:choice>
+</xs:group>
+    
 <xs:group name="headings">
   <xs:choice>
     <xs:element ref="h1"/>
@@ -1378,6 +1879,7 @@
     <xs:element ref="em"/>
     <xs:element ref="i"/>
     <xs:element ref="input"/>
+    <xs:element ref="img"/>
     <xs:element ref="ins"/>
     <xs:element ref="kbd"/>
     <xs:element ref="keygen"/>  
@@ -1524,7 +2026,6 @@
   </xs:attribute>
 </xs:attributeGroup>
   
-<!--ToDo: any further restrictions on these attributes? -->
 <xs:attributeGroup name="videomediaattributes">
   <xs:attributeGroup ref="generalmediaattributes"/>
   <xs:attribute name="poster" type="xs:anyURI"/>
