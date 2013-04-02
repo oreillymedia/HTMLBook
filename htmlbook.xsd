@@ -229,12 +229,7 @@
         <xs:group ref="headings" minOccurs="0" maxOccurs="unbounded"/>
         <xs:group ref="blockelements" minOccurs="0" maxOccurs="unbounded"/>
       </xs:sequence>
-      <!-- Option 2: hgroup followed by block elements -->
-      <xs:sequence>        
-        <xs:element ref="hgroup"/>
-        <xs:group ref="blockelements" minOccurs="0" maxOccurs="unbounded"/>
-      </xs:sequence>
-      <!-- Option 3: inlines and text only -->
+      <!-- Option 2: inlines and text only -->
       <xs:group ref="inlineelements" minOccurs="0" maxOccurs="unbounded"/>
     </xs:choice>
     <xs:attributeGroup ref="globals"/>
@@ -474,7 +469,16 @@
 <xs:element name="ol">
   <xs:complexType>
     <xs:sequence>
-      <xs:element ref="li" minOccurs="0" maxOccurs="unbounded"/>
+      <!-- "li"s in an "ol" can have a value attribute -->
+      <xs:element name="li" minOccurs="0" maxOccurs="unbounded">
+        <xs:complexType>
+          <xs:complexContent>
+            <xs:extension base="block_xor_inline_children">
+              <xs:attribute name="value" type="positive_int"/>
+            </xs:extension>
+          </xs:complexContent>
+        </xs:complexType>
+      </xs:element>
     </xs:sequence>
     <xs:attributeGroup ref="ol_attrs"/>
     <xs:attributeGroup ref="globals"/>
@@ -1318,15 +1322,6 @@
 
 <xs:element name="figcaption" type="caption"/>
   
-<xs:element name="hgroup">
-  <xs:complexType>
-    <xs:sequence>
-      <xs:group ref="headings" minOccurs="1" maxOccurs="unbounded"/>
-    </xs:sequence> 
-    <xs:attributeGroup ref="globals"/>
-  </xs:complexType>
-</xs:element>
-  
 <xs:element name="legend" type="inline_children_only"/>
   
 <xs:element name="li" type="block_xor_inline_children"/>
@@ -1468,7 +1463,6 @@
 </xs:element>
 
 <!-- Heading elements -->
-<!-- ToDo: Support hgroup in <section> to facilitate subheadings? Already allowed in <div> -->
 <!-- ToDo: Should we require class="title" on all section heading titles? -->
 <xs:element name="h1" type="inline_children_only"/>
 
