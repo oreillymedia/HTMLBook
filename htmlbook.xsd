@@ -490,15 +490,7 @@
     </xs:attribute>
     <xs:attribute name="type" type="xs:string"/>
     <xs:attribute name="name" type="xs:string"/>
-    <!-- usemap attribute must be in the format "#map_name" where map_name is the "name" attr of a corresponding map element,
-         but we're just checking that it starts with # -->
-    <xs:attribute name="usemap">
-      <xs:simpleType>
-        <xs:restriction base="xs:string">
-          <xs:pattern value="#.+"/>
-        </xs:restriction>
-      </xs:simpleType>
-    </xs:attribute>
+    <xs:attribute name="usemap" type="hash_name"/>    
     <!-- form attribute must refer to ID of a <form> element, but we're just checking that it's an IDREF -->
     <xs:attribute name="form" type="xs:IDREF"/>
     <xs:attribute name="width" type="xs:string"/>
@@ -848,7 +840,19 @@
   <xs:complexType>
     <xs:complexContent>
       <xs:extension base="empty_elem_global_attrs">
+        <xs:attribute name="alt" type="xs:string"/>
+        <xs:attribute name="usemap" type="hash_name"/>
+        <!-- In HTML5 spec, "ismap" attr requires that img have an "a" ancestor with "href" attr, but we are not enforcing that restriction in Schema -->
+        <xs:attribute name="ismap">
+          <xs:simpleType>
+            <xs:restriction base="xs:token">
+              <xs:pattern value="([Ii][Ss][Mm][Aa][Pp])?"></xs:pattern>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:attribute>
         <xs:attribute name="src" use="required" type="xs:anyURI"/>
+        <xs:attribute name="width" type="xs:string"/>
+        <xs:attribute name="height" type="xs:string"/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
@@ -1452,6 +1456,13 @@
     <xs:enumeration value="true"/>
     <xs:enumeration value="false"/>
     <xs:enumeration value=""/>
+  </xs:restriction>
+</xs:simpleType>
+  
+<!-- For hash-name references; we're just checking that string starts with #, not that the reference is actually there -->
+<xs:simpleType name="hash_name">
+  <xs:restriction base="xs:string">
+    <xs:pattern value="#.+"/>
   </xs:restriction>
 </xs:simpleType>
  
