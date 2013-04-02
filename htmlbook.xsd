@@ -1463,7 +1463,6 @@
 </xs:element>
 
 <!-- Heading elements -->
-<!-- ToDo: Should we require class="title" on all section heading titles? -->
 <xs:element name="h1" type="inline_children_only"/>
 
 <xs:element name="h2" type="inline_children_only"/>
@@ -1765,7 +1764,7 @@
   <xs:attributeGroup ref="globals"/>
 </xs:complexType>
 
-<!-- Type for no restrictions on child content, except rules on global HTML5 attributes; everything else defers to HTML5 spec-->
+<!-- Type for no restrictions on child content -->
 <xs:complexType name="any_elems_attrs" mixed="true">
   <xs:sequence minOccurs="0" maxOccurs="unbounded">
     <xs:any processContents="lax"/>
@@ -1788,8 +1787,6 @@
     </xs:choice>
     <xs:group ref="inlineelements" minOccurs="0" maxOccurs="unbounded"/>
   </xs:choice>
-  <!-- No HTMLBook-specific attribute rules for this set of elements other than id; deferring to HTML5 spec on attribute rules and not 
-       validating in this schema -->
   <xs:attributeGroup ref="globals"/>
 </xs:complexType>
   
@@ -2029,7 +2026,6 @@
   </xs:attribute>
 </xs:attributeGroup>
   
-<!--ToDo: any further restrictions on these attributes? -->
 <xs:attributeGroup name="videomediaattributes">
   <xs:attributeGroup ref="generalmediaattributes"/>
   <xs:attribute name="poster" type="xs:anyURI"/>
