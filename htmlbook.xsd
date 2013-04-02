@@ -724,8 +724,47 @@
 <xs:element name="cite" type="inline_children_only"/>
 
 <!-- Can also be used in document head -->
-<!--  Not imposing any HTMLBook specific constraints on command content; deferring to HTML5 spec -->
-<xs:element name="command" type="any_elems_attrs"/>
+<xs:element name="command">
+  <xs:complexType>
+    <xs:complexContent>
+      <xs:extension base="empty_elem_global_attrs">
+        <xs:attribute name="type">
+          <xs:simpleType>
+            <xs:restriction base="xs:token">
+              <xs:enumeration value="command"/>
+              <xs:enumeration value="checkbox"/>
+              <xs:enumeration value="radio"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="label" use="required">
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:minLength value="1"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="icon" type="xs:anyURI"/>
+        <xs:attribute name="disabled">
+          <xs:simpleType>
+            <xs:restriction base="xs:token">
+              <xs:pattern value="([Dd][Ii][Ss][Aa][Bb][Ll][Ee][Dd])?"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="checked">
+          <xs:simpleType>
+            <xs:restriction base="xs:token">
+              <xs:pattern value="([Cc][Hh][Ee][Cc][Kk][Ee][Dd])?"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:attribute>
+        <!-- In HTML5 spec, "radio" attribute can only be enabled for type="radio", but can't enforce that in Schema -->
+        <xs:attribute name="radiogroup" type="xs:string"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+</xs:element>
 
 <xs:element name="code" type="inline_children_only"/>
   
