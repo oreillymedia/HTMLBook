@@ -248,105 +248,82 @@ If no content model or attribute requirements are explicitly specified, then HTM
 </section>
 ----
 
-
-
-=== Block Elements
+=== Block elements
 
 ==== Paragraph
 
-
 *HTML element*: <p>
-
-*Special semantics*: in most cases, none--but we may define classes in specific circumstances; e.g., <p class="biblioentry">
 
 *Example*:
 
 ----
-<p>Nothing exciting here. Move on, yo!</p>
+<p>This is a standard paragraph with some <em>emphasized text</em></p>
 ----
 
 ==== Sidebar
 
-
 *HTML element*: <aside>
 
-*Special semantics*: class="sidebar"
+*Attribute requirements*: class="sidebar"
+
+*Content model*: Zero or one <h5> element that contains the sidebar title); then zero or more Block elements
 
 *Example*:
 
 ----
 <aside class="sidebar">
-  <!-- Optional h5 for sidebar title -->
-  <h5 class="title">Amusing Digression</h5>
+  <h5>Amusing Digression</h5>
   <p>Did you know that in Boston, they call it "soda", and in Chicago, they call it "pop"?</p>
 </aside>
 ----
 
 ==== Admonitions
 
-
 *HTML element*: <div>
 
-*Special semantics*: class="note" or class="warning" (these are the two admon values in the EPUB 3 Structural Semantics Vocabulary spec; we can always define more if note/warning do not suffice)
+*Attribute requirements*: class="note" or class="warning", depending on the content within
 
-*Note*: Given the current state of EPUB 3 support, we will likely need to transform back to <div> in EPUB output order to ensure backward compatibility in EPUB 2 readers
+*Content model*: Either of the following content models is acceptable:
 
-*Example*:
+* text and/or zero or more Inline elements
+* Zero or more <h1>-<h6> elements (for title and subtitles), followed by zero or more Block elements
+
+*Examples*:
 
 ----
 <div class="note">
-  <p>Type "hubot kitteh" to get a picture of an adorable cat</p>
+  <h1>Helpful Info</h1>
+  <p>Please take note of this important information</p>
 </div>
 ----
 
-==== Sections
-
-
-*HTML element*: <section>
-
-*Special semantics*: class="sect1", class="sect2", class="sect3", class="sect4", class="sect5"
-
-*Note*: EPUB 3 Structural Semantic Vocabulary only has the term "division" for sections, and has no semantics for different section levels, so the above semantics are pulled directly from DocBook (operating on the assumption that semantics for section level are valuable in CSS, such that we don't need to write selectors like:
-
 ----
-section section section section { font-size: 50% }
-----
-
-*Note 2*: Proposed use of HTML heading elements for sections is as follows:
-
-----
-sect1 -> h1
-sect2 -> h2
-sect3 -> h3
-sect4 -> h4
-sect5 -> h5
-----
-
-*Note 3*: Given the current state of EPUB 3 support, we will likely need to transform back to <div> in EPUB output order to ensure backward compatibility in EPUB 2 readers
-
-*Example*:
-
-----
-<section class="sect1">
-  <h1>A-Head</h1>
-  <p>If you httpparty, you must party hard</p>
-  <!-- Some more paragraphs -->
-  <section class="sect2">
-    <h2>B-Head</h2>
-    <p>What's the frequency, Kenneth?</p>
-    <!-- And so on... -->
-  </section>
-</section>
+<div class="warning">Make sure to get your AsciiDoc markup right!</div>
 ----
 
 ==== Tables
 
-
 *HTML element*: <table>
 
-*Special semantics*: None, but use child <caption> element for table title
+*Content model*: Zero or one <caption> elements (for titled/captioned tables); then zero or more <colgroup> elements; then zero or more <thead> elements; then a choice between either zero or more <tbody> elements, or zero or more <tr> elements; then zero or more <tfoot> elements
 
-*Example*:
+*Content model for <caption>*: Either of the following is acceptable:
+
+* Zero or more <p> and/or <div> elements
+* Text and/or zero or more Inline elements
+
+*Content model for <colgroup>*: Mirrors HTML5 Specification
+
+*Content models for <thead>, <tbody>, and <tfoot>*: Mirror HTML5 Specification
+
+*Content model for <tr>*: Mirrors HTML5 Specification, but see content model below for rules for child +<td>+ and +<th>+ elements
+
+*Content model for <td> and <th> elements*: Either of the following is acceptable:
+
+* text and/or zero or more Inline elements
+* Zero or more Block elements
+
+*Examples*:
 
 ----
 <table>
@@ -363,34 +340,54 @@ sect5 -> h5
 </table>
 ----
 
-==== Figures
+----
+<table>
+  <thead>
+    <tr>
+      <th>First</th>
+      <th>Middle Initial</th>  
+      <th>Last</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Alfred</td>
+      <td>E.</td>
+      <td>Newman</td>
+    </tr>
+    <!-- And so on -->
+  </tbody>
+</table>
+----
 
+==== Figures
 
 *HTML element*: <figure>
 
-*Special semantics*: None, but use child <figcaption> element for figure title
+*Content model*: Either of the following is acceptable:
 
-*Note*: May need to transform <figure> to a <div> for EPUB output for EPUB 2 backward compatibility
+* A <figcaption> element followed by zero or more Block elements and/or <img> elements
+* Zero or more Block elements and/or <img> elements, followed by a <figcaption> element
 
 *Example*:
 
 ----
 <figure>
-<figcaption>Project Unicorn Logo</figcaption>
-<img src="unicorn.gif" alt="Illustration of a unicorn running."/>
+<figcaption>Adorable cat</figcaption>
+<img src="cute_kitty.gif" alt="Photo of an adorable cat"/>
 </figure>
 ----
 
 ==== Examples
 
-
 *HTML element*: <div>
 
-*Special semantics*: class="example"footnote:[From DocBook; EPUB 3 Structural Semantics Vocabulary has no good match (closest is probably "practice")]
+*Attribute requirements*: class="example"
 
-*Note*: Examples are intended to be titled in DocBook model; Would suggest using <caption>, but HTML spec reserves it exclusively for table elements.
+*Content model*: Either of the following content models is acceptable:
 
-*Note*: Typically in our books, examples contain code listings, but this is not a requirement in the DocBook model, and occasionally, we'll include other block content instead (lists, paras, etc.)
+* text and/or zero or more Inline elements
+* Zero or more <h1>-<h6> elements (for title and subtitles), followed by zero or more Block elements
 
 *Example*:
 
@@ -403,43 +400,41 @@ sect5 -> h5
 
 ==== Code listings
 
-
 *HTML element*: <pre>
 
-*Special semantics*: class="programlisting" or class="screen"footnote:[From DocBook; EPUB 3 Structural Semantics Vocabulary has no semantics for code blocks)]
-
-Also, data-language to indicate programming language, e.g., +data-language="python"+
-
-*Note*: May not be worth supporting semantic distinction between "screen" and "programlisting", but I can see it being valuable, if we want distinct styling for command-line environments.
+*Optional HTMLBook-specific attribute*: +data-language+, used to indicate language of code listing (e.g., +data-language="python"+)
 
 *Example*:
 
 ----
-<pre class="programlisting">print "Hello World"</pre>
+<pre class="programlisting">print "<em>Hello World</em>"</pre>
 ----
-
 
 ==== Ordered lists
 
-
 *HTML element*: <ol>
 
-*Special semantics*: None
+*Content model*: Zero or more <li> children for each list item
 
-*Note*: Optionally, you could add <p>s for a <li> with multiple paragraphs.
+*Content model for <li> children*: Either of the following is acceptable:
+
+* text and/or zero or more Inline elements
+* Zero or more Block elements
 
 *Example*:
 
 ----
 <ol>
 <li>Step 1</li>
-<li>Step 2</li>
+<li>
+  <p>Step 2</p>
+  <p>Step 2 continued</p>
+</li>
 <!-- And so on -->
 </ol>
 ----
 
 ==== Itemized lists
-
 
 *HTML element*: <ul>
 
@@ -477,7 +472,6 @@ Also, data-language to indicate programming language, e.g., +data-language="pyth
 
 ==== Blockquote
 
-
 *HTML element*: <blockquote>
 
 *Special semantics*: class="epigraph", class="attribution"footnote:[From DocBook; no close match in EPUB 3 Structural Semantics Vocabulary] where appropriate
@@ -489,6 +483,45 @@ Also, data-language to indicate programming language, e.g., +data-language="pyth
   <p>When in the course of human events...</p>
   <p class="attribution">U.S. Declaration of Independence</p>
 </blockquote>
+----
+
+==== Sections
+
+*HTML element*: <section>
+
+*Special semantics*: class="sect1", class="sect2", class="sect3", class="sect4", class="sect5"
+
+*Note*: EPUB 3 Structural Semantic Vocabulary only has the term "division" for sections, and has no semantics for different section levels, so the above semantics are pulled directly from DocBook (operating on the assumption that semantics for section level are valuable in CSS, such that we don't need to write selectors like:
+
+----
+section section section section { font-size: 50% }
+----
+
+*Note 2*: Proposed use of HTML heading elements for sections is as follows:
+
+----
+sect1 -> h1
+sect2 -> h2
+sect3 -> h3
+sect4 -> h4
+sect5 -> h5
+----
+
+*Note 3*: Given the current state of EPUB 3 support, we will likely need to transform back to <div> in EPUB output order to ensure backward compatibility in EPUB 2 readers
+
+*Example*:
+
+----
+<section class="sect1">
+  <h1>A-Head</h1>
+  <p>If you httpparty, you must party hard</p>
+  <!-- Some more paragraphs -->
+  <section class="sect2">
+    <h2>B-Head</h2>
+    <p>What's the frequency, Kenneth?</p>
+    <!-- And so on... -->
+  </section>
+</section>
 ----
 
 ==== Headings
