@@ -36,6 +36,7 @@
       <xs:element ref="h1"/>
       <xs:element name="h2" minOccurs="0" type="subheading"/>
       <xs:choice maxOccurs="unbounded">
+        <xs:element ref="nav"/>
         <xs:element name="section" type="bookmaindiv"/>
         <!-- Separate out parts, as they have specific child requirements -->
         <xs:element name="div" type="bookpart"/>
@@ -314,7 +315,6 @@
       <xs:element ref="map"/>
       <xs:element ref="mml:math"/>
       <xs:element ref="menu"/>
-      <xs:element ref="nav"/>
       <xs:element ref="object"/>
       <xs:element ref="ol"/>
       <xs:element ref="p"/>
@@ -435,7 +435,8 @@
       <xs:group ref="headings" minOccurs="0"/>
       <xs:element name="ol" type="nav_doc_ol"/>
     </xs:sequence>
-    <xs:attributeGroup ref="globals"/>
+    <xs:attribute name="class" use="required" fixed="toc"/>
+    <xs:attributeGroup ref="globals_minus_class"/>
   </xs:complexType>
 </xs:element>
   
@@ -1492,6 +1493,7 @@
     <xs:enumeration value="dedication"/>
     <xs:enumeration value="foreword"/>
     <xs:enumeration value="glossary"/>
+    <xs:enumeration value="halftitlepage"/>
     <xs:enumeration value="index"/>
     <xs:enumeration value="introduction"/>
     <xs:enumeration value="preface"/>
@@ -1820,7 +1822,6 @@
     <xs:element ref="map"/>
     <xs:element ref="mml:math"/>
     <xs:element ref="menu"/>
-    <xs:element ref="nav"/>
     <xs:element ref="object"/>
     <xs:element ref="ol"/>
     <xs:element ref="p"/>
