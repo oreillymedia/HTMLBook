@@ -1,38 +1,78 @@
 @charset "UTF-8";
 
-/* ------------------ INDEX ------------------ */
-
-/* setting up an index using the target page numbers */
-/* NOT TESTED */
-
-section.index dd {
-	display: inline;
+@page { /* 7x9 trim size */
+  size: 7in 9.1875in;
+  margin: 0.75in 1in;
+  padding-bottom: 0.2in;
 }
 
-section.index dd:before {
-	content: ", ";
+body.book {
+  color: cmyk(0%,0%,0%,100%);
+  text-align: justify;
+  hyphens: auto;
+  font-family: "DejaVu-Serif";
 }
 
-section.index dd a {
-	content: target-counter(attr(href, url), page);
+/* (((((((((((((( TITLEPAGE )))))))))))))) */
+
+section.titlepage {
+  page: titlepage;
 }
 
-/* setting up an index using auto-generated counters */
-/* NOT TESTED */
-
-section.index dt {
-	counter-reset: indexterm;
+section.titlepage h1 {
+  text-align: center;
 }
 
-section.index dd {
-	display: inline;
+h2.author {
+  text-align: center;
+  font-style: italic;
 }
 
-section.index dd:before {
-	content: ", ";
+/* (((((((((((((( COPYRIGHT )))))))))))))) */
+
+section.titlepage {
+  page: copyright;
 }
 
-section.index dd a {
-	counter-increment: indexterm;
-	content:" " counter(indexterm);
+/* (((((((((((((( DEDICATION )))))))))))))) */
+
+
+section.dedication {
+  page: dedication;
 }
+
+section.dedication p {
+  font-style: italic;
+}
+
+section.dedication * { 
+  text-align: center; 
+}
+
+/* (((((((((((((( TOC )))))))))))))) */
+
+nav.toc {
+  page: toc;
+}
+
+nav.toc ol { list-style-type: none; }
+
+
+/* (((((((((((((( BLOCKS )))))))))))))) */
+
+h1, h2, h3, h4, h5 {
+  font-family: "DejaVu-Sans";
+  hyphens: none;
+  text-align: left;
+}
+
+p { margin: 10pt 0; }
+
+
+/* (((((((((((((( INLINES )))))))))))))) */
+
+code {
+  font-family: "DejaVu-SansMono";
+}
+
+
