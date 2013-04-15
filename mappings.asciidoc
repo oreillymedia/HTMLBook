@@ -1,4 +1,4 @@
-== HTMLBook Specification
+== HTMLBook Specification: Working Draft 19 April 2013
 
 Requirements for HTML5 elements in the HTMLBook specification are below. Special semantic inflections for +class+ attributes, unless otherwise noted, come from http://idpf.org/epub/vocab/structure/[EPUB 3 Structural Semantics Vocabulary]
 
@@ -248,6 +248,39 @@ If no content model or attribute requirements are explicitly specified, then HTM
 </section>
 ----
 
+==== Sections
+
+*HTML element*: <section>
+
+*Attribute requirements*: class="sect1", class="sect2", class="sect3", class="sect4", class="sect5"footnote:[From DocBook vocabulary], depending on hierarchy level. "sect1" is used for <section> elements nested directly in main Book components ("chapter", "appendix", etc.). "sect2" is used for <section> elements nested in a "sect1" <section>, "sect3" is used for <section> elements nested in a "sect2" <section>, and so on. 
+
+*Content model*: The first child must be a heading element corresponding to the hierarchy level indicated by "class" value, as follows:
+
+----
+"sect1" -> h1
+"sect2" -> h2
+"sect3" -> h3
+"sect4" -> h4
+"sect5" -> h5
+----
+
+The heading is followed by zero or more Block elements, followed by zero or more <section> elements with a class value one level lower in the hierarchy, as long as the parent section is a "sect4" or higher (e.g., <section class="sect4"> nested in <section class="sect3">)
+
+*Example*:
+
+----
+<section class="sect1">
+  <h1>A-Head</h1>
+  <p>If you httpparty, you must party hard</p>
+  <!-- Some more paragraphs -->
+  <section class="sect2">
+    <h2>B-Head</h2>
+    <p>What's the frequency, Kenneth?</p>
+    <!-- And so on... -->
+  </section>
+</section>
+----
+
 === Block elements
 
 ==== Paragraph
@@ -438,9 +471,12 @@ If no content model or attribute requirements are explicitly specified, then HTM
 
 *HTML element*: <ul>
 
-*Special semantics*: None
+*Content model*: Zero or more <li> children for each list item
 
-*Note*: Optionally, you could add <p>s for an <li> with multiple paragraphs.
+*Content model for <li> children*: Either of the following is acceptable:
+
+* text and/or zero or more Inline elements
+* Zero or more Block elements
 
 *Example*:
 
@@ -457,15 +493,20 @@ If no content model or attribute requirements are explicitly specified, then HTM
 
 *HTML element*: <dl>
 
-*Special semantics*: Generally none, but see <<glossary>> for an example of a special case
+*Content model*: Mirrors HTML5 Specification
 
-*Note*: Optionally, you could add <p>s to a <dd> with multiple paragraphs.
+*Content model for <dt> children*: text and/or zero or more Inline elements
+
+*Content model for <dd> children*: Either of the following is acceptable:
+
+* text and/or zero or more Inline elements
+* Zero or more Block elements
 
 *Example*:
 
 ----
 <dl>
-  <dt>Constant Width Bold</dt>
+  <dt>Constant Width Bold font</dt>
   <dd>Used to indicate user input</dd>
 </dl>
 ----
@@ -474,7 +515,10 @@ If no content model or attribute requirements are explicitly specified, then HTM
 
 *HTML element*: <blockquote>
 
-*Special semantics*: class="epigraph", class="attribution"footnote:[From DocBook; no close match in EPUB 3 Structural Semantics Vocabulary] where appropriate
+*Content model*: Either of the following is acceptable:
+
+* text and/or zero or more Inline elements
+* Zero or more Block elements
 
 *Example*:
 
@@ -485,53 +529,15 @@ If no content model or attribute requirements are explicitly specified, then HTM
 </blockquote>
 ----
 
-==== Sections
-
-*HTML element*: <section>
-
-*Special semantics*: class="sect1", class="sect2", class="sect3", class="sect4", class="sect5"
-
-*Note*: EPUB 3 Structural Semantic Vocabulary only has the term "division" for sections, and has no semantics for different section levels, so the above semantics are pulled directly from DocBook (operating on the assumption that semantics for section level are valuable in CSS, such that we don't need to write selectors like:
-
-----
-section section section section { font-size: 50% }
-----
-
-*Note 2*: Proposed use of HTML heading elements for sections is as follows:
-
-----
-sect1 -> h1
-sect2 -> h2
-sect3 -> h3
-sect4 -> h4
-sect5 -> h5
-----
-
-*Note 3*: Given the current state of EPUB 3 support, we will likely need to transform back to <div> in EPUB output order to ensure backward compatibility in EPUB 2 readers
-
-*Example*:
-
-----
-<section class="sect1">
-  <h1>A-Head</h1>
-  <p>If you httpparty, you must party hard</p>
-  <!-- Some more paragraphs -->
-  <section class="sect2">
-    <h2>B-Head</h2>
-    <p>What's the frequency, Kenneth?</p>
-    <!-- And so on... -->
-  </section>
-</section>
-----
-
 ==== Headings
 
+*HTML elements*: <h1>, <h2>, <h3>, <h4>, <h5>, or <h6>
 
-*HTML element*: <h1>, <h2>, <h3>, <h4>, <h5>, <h6>
+*Content Model*: text and/or zero or more Inline elements
 
-*Special semantics*: class="title"
-
-*Note*: In DocBook, <title> is used for all heading titles, regardless of "level", and context is used to determine formatting/styling. In HTML, best practice suggests that we associate each heading with a level from <h1> to <h6> that roughly indicates its rank. Here are my proposed mappings for each section type:
+*Notes*: Many main book components (e.g., chapters, parts, appendixes) require headings. The appropriate
+element from <h1>-<h6> is outlined below, as well as in the corresponding documentation for these
+components:
 
 ----
 book title -> h1
@@ -549,25 +555,15 @@ sect3 title -> h3
 sect4 title -> h4
 sect5 title -> h5
 sidebar title -> h5
-example title -> h5
-equation title -> h5
-admon title -> h5
 ----
-
-I'm advocating we use h1 for book title, part title, and chapter-level titles because I think it's important to have consistency across all books, regardless of whether they have Parts or not. I think it would be confusing and potentially problematic if in a book that had parts, <h1> was used for part titles and <h2> was used for chapter titles, and then in a book that had no parts, <h1> was used for chapter titles. 
-
-I also like the idea of having heading level match the section class semantics, such that sect1 = <h1>, sect2 = <h2>, etc. I think doing anything else would be confusing.
-
-Look forward to discussing all this further, though.
 
 ==== Equation
 
-
 *HTML element*: <div>
 
-*Special semantics*: class="equation"footnote:[From DocBook; no close match in EPUB 3 Structural Semantics Vocabulary]
+*Attribute requirements*: class="equation"footnote:[From DocBook; no close match in EPUB 3 Structural Semantics Vocabulary]
 
-*Note: Support embedded MathML or LaTex, as well as images
+*Note: HTMLBook supports embedded MathML in HTML content documents, which can be used here.
 
 *Example*:
 
@@ -586,61 +582,57 @@ Look forward to discussing all this further, though.
 
 === Inline Elements
 
-==== Emphasis (italic)
-
+==== Emphasis (generally for italic)
 
 *HTML element*: <em>
 
-*Special semantics*: class="roman" where appropriatefootnote:[From DocBook; no close match in EPUB 3 Structural Semantics Vocabulary]; potentially some other options
 
 Example:
 
 ----
-<p>I <em>love</em> Atlas!</p>
+<p>I <em>love</em> HTML!</p>
 ----
 
-==== Strong (generally bold)
+==== Strong (generally for bold)
 
 
 *HTML element*: <strong>
 
-*Special semantics*: class="bold" where appropriatefootnote:[From DocBook; no close match in EPUB 3 Structural Semantics Vocabulary]; potentially some other options
-
 Example:
 
 ----
-<p>I <strong>love</strong> Atlas!</p>
+<p>I <strong>love</strong> HTML!</p>
 ----
 
 ==== Literal (for inline code elements: variables, functions, etc.)
 
-
 *HTML element*: <code>
-
-*Special semantics*: class="userinput", class="replaceable", class="filename"  where appropriatefootnote:[From DocBook; no close match in EPUB 3 Structural Semantics Vocabulary]; potentially some other options
 
 Example:
 
 ----
-<p>Enter <code class="userinput">echo "Hello World"</code> on the command line</p>
+<p>Enter <code>echo "Hello World"</code> on the command line</p>
 ----
 
 ==== General-purpose phrase markup for other styling (underline, strikethrough, etc.)
 
-
-
 *HTML element*: <span>
 
-*Special semantics*: class="underline", class="strikethrough"footnote:[From DocBook; no close match in EPUB 3 Structural Semantics Vocabulary]; potentially some other options
+Example:
+
+----
+<p>Use your own classes for custom styling for formatting like <span class="strikethrough">strikethrough</span></p>
+----
 
 ==== Footnote, endnote
 
-
 *HTML element*: <a> (for marker); <div> for block of footnote/endnote content; <aside> for footnote or endnote
 
-*Special semantics*: class="noteref" (for marker); class="footnotes" or class="rearnotes" for block of footnotes/endnotes; class="footnote" or class="rearnote" for footnote or endnote
+*Attribute requirements*: class="noteref" (for marker); class="footnotes" or class="rearnotes" for block of footnotes/endnotes; class="footnote" or class="rearnote" for footnote or endnote
 
-*Note*: May need to transform <aside> to a <div> for EPUB output for EPUB 2 backward compatibility
+*Content model for marker (<a>)*: text and/or zero or more Inline elements
+
+*Content model for footnote (<aside>)*: zero or more Block elements
 
 Example:
 
@@ -657,7 +649,8 @@ Example:
 
 *HTML element*: <a>
 
-*Special semantics*: class="xref"footnote:[From DocBook; no close match in EPUB 3 Structural Semantics Vocabulary]
+*Attribute requirements*: class="xref"footnote:[From DocBook]; an href attribute that should point to the id of a
+local HTMLBook resource referenced
 
 Example:
 
@@ -671,12 +664,11 @@ Example:
 
 ==== Index Term
 
-
 *HTML element*: <a>
 
-*Special semantics*: class="indexterm"; data-primary="primary entry"; data-secondary="secondary entry"; data-tertiary="tertiary entry"; data-see="see term"; data-seealso="see also term"; data-sortas="alphabetization term"footnote:[From DocBook; no close match in EPUB 3 Structural Semantics Vocabulary]
+*Attribute requirements*: class="indexterm"; for primary index entry value, use +data-primary+; for secondary index entry value, use +data-secondary+; for tertiary index entry value, use +data-tertiary+; for a "see" index reference, use +data-see+; for a "see also" index reference, use +data-seealso+; for a "sort" value to indicate alphabetization, use +data-sortas+footnote:[Semantics from DocBook]
 
-*Note*: Use of HTML5 data-* attributes seemed best fit for nonrendererd indexterm data, but would like to discuss this further.
+*Content model*: Empty
 
 *Example*:
 
@@ -686,10 +678,7 @@ Example:
 
 ==== Superscripts
 
-
 *HTML element*: <sup>
-
-*Special semantics*: None
 
 *Example*:
 
@@ -699,10 +688,7 @@ Example:
 
 ==== Subscripts
 
-
 *HTML element*: <sub>
-
-*Special semantics*: None
 
 *Example*:
 
@@ -714,12 +700,11 @@ Example:
 
 ==== Video
 
-
 *HTML element*: <video>
 
-*Note*: Should include a fallback image via the +poster+ attribute and/or a link to the video online.
-
 *Example*:
+
+*Note*: Fallback content is _strongly recommended_ for output formats that do not support HTML5 interactive content
 
 ----
 <video id="asteroids_video" width="480" height="270" controls="controls" poster="images/fallback_image.png">
@@ -732,10 +717,9 @@ Example:
 
 ==== Audio
 
-
 *HTML element*: <audio>
 
-*Note*: Should include a fallback link to the audio online.
+*Note*: Fallback content is _strongly recommended_ for output formats that do not support HTML5 interactive content
 
 *Example*:
 
@@ -751,10 +735,9 @@ Example:
 
 ==== Canvas
 
-
 *HTML element*: <canvas>
 
-*Note*: Should include a fallback link.
+*Note*: Should include a fallback link to the audio online.
 
 *Examples*:
 
@@ -764,31 +747,100 @@ Example:
 </canvas>
 ----
 
-==== General Interactive
-
-
-*HTML element*: <div class="interactive">
-
-*Note*: Should include a fallback link.
-
-*Examples*: 
-
-----
-<div class="interactive">
-  <div class="fallback">
-    <p>See the interactive example at http://example.com.</p>
-    <img src="images/fallback_image.png" />
-  </div>
-  
-  <div class="content">
-   
-   <!--- code goes here -->
-  
-  </div>
-
-</div>
-----
-
 === Metadata
 
-All metadata should be captured in the <head> of the main book HTML file; consider following http://idpf.org/epub/30/spec/epub30-publications.html#sec-metadata-elem[metadata conventions specified in EPUB 3 specification]
+==== Metadata points
+
+*HTML element*: <meta>
+
+*Attribute requirements*: +name+ (for name of metadata point); +content+: (for value of metadata point)
+
+*Content model*: Empty
+
+*Note*: All <meta> elements must be children of the <head> element of the HTML file.
+
+*Example*:
+
+----
+<head>
+  <title>Title of the Book</title>
+  <meta name="isbn-13" content="9781449344856"/>
+</head>
+----
+
+=== Element Classification
+
+==== Block elements
+
+In HTMLBook, the majority of elements classified by the HTML5 specification as Flow content (minus elements also categorized as Heading Content, Phrasing Content, and Sectioning Content) are considered to be Block elements. Here is a complete list:
+
+* address
+* aside
+* audio
+* blockquote
+* canvas
+* details
+* div
+* dl
+* embed
+* fieldset
+* figure
+* form
+* hr
+* iframe
+* map
+* math (In MathML vocabulary; must be namespaced under http://www.w3.org/1998/Math/MathML)
+* menu
+* object
+* ol
+* p
+* pre
+* svg (In SVG vocabulary; must be namespaced under http://www.w3.org/2000/svg)
+* table
+* ul
+* video
+
+==== Block elements
+
+In HTMLBook, the majority of elements classified by the HTML5 specification as Phrasing Content are considered to be Inline elements. Here is a complete list:
+
+* a 
+* abbr
+* b
+* bdi
+* bdo
+* br
+* button
+* command
+* cite
+* code
+* datalist
+* del
+* dfn
+* em
+* i
+* input
+* img
+* ins
+* kbd
+* keygen  
+* label  
+* mark  
+* meter
+* output
+* progress
+* q
+* ruby
+* s
+* samp
+* select
+* small
+* span
+* strong
+* sub
+* sup
+* textarea
+* time
+* u
+* var
+* wbr
