@@ -19,12 +19,11 @@ section.titlepage {
   page: titlepage;
 }
 
-section.titlepage h1 {
+section.titlepage * {
   text-align: center;
 }
 
 h2.author {
-  text-align: center;
   font-style: italic;
 }
 
@@ -51,12 +50,11 @@ section.dedication * {
 
 /* (((((((((((((( TOC )))))))))))))) */
 
-nav.toc {
+section.toc {
   page: toc;
 }
 
 nav.toc ol { list-style-type: none; }
-
 
 /* (((((((((((((( BLOCKS )))))))))))))) */
 
