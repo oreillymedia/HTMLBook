@@ -2,17 +2,19 @@
 
 Requirements for HTML5 elements in the HTMLBook specification are below. Special semantic inflections for +class+ attributes, unless otherwise noted, come from http://idpf.org/epub/vocab/structure/[EPUB 3 Structural Semantics Vocabulary]
 
+Many content models refer to "Block elements" or "Inline elements"; please see <<block_elements, Block Elements>> and <<inline_elements, Inline Elements>> for the corresponding list of HTML5 elements that belong to each of these categories.
+
 If no content model or attribute requirements are explicitly specified, then HTMLBook adopts the corresponding requirements in the http://www.w3.org/html/wg/drafts/html/master/[HTML5 Specification]
 
 === Book Component elements
 
 ==== Book
 
-*HTML element*: <body>
+*HTML element*: +<body>+
 
 *Attribute requirements*: +class="book"+ footnote:[Not in EPUB 3 Structural Semantics Vocabulary; from DocBook]
 
-*Content model*: First child must be <h1> that contains book title; then zero or more <h2> elements for subtitle content; then one or more Book Component elements as children (<div> for Part elements, <nav> for Table of Contents, and <section> elements for all other book divisions)
+*Content model*: First child must be +<h1>+ that contains book title; then zero or more +<h2>+ elements for subtitle content; then one or more Book Component elements as children (+<div>+ for Part elements, +<nav>+ for Table of Contents, and +<section>+ elements for all other book divisions)
 
 *Example*
 
@@ -26,15 +28,15 @@ If no content model or attribute requirements are explicitly specified, then HTM
 </body>
 ----
 
-*Note*: Just as in standard HTML5, <body> is a child of the root <html> element.
+*Note*: Just as in standard HTML5, +<body>+ is a child of the root +<html>+ element.
 
 ==== Chapter
 
-*HTML element*: <section>
+*HTML element*: +<section>+
 
 *Attribute requirements*: +class="chapter"+ 
 
-*Content model*: First child must be <h1> that contains chapter title; then zero or more <h2> elements for subtitle content; then zero or more Block Elements; then zero or more Sect1 children (<section class="sect1">)
+*Content model*: First child must be +<h1>+ that contains chapter title; then zero or more +<h2>+ elements for subtitle content; then zero or more Block Elements; then zero or more Sect1 children (+<section class="sect1">+)
 
 *Example*
 
@@ -51,11 +53,11 @@ If no content model or attribute requirements are explicitly specified, then HTM
 
 ==== Appendix
 
-*HTML element*: <section>
+*HTML element*: +<section>+
 
-*Attribute requirements*: +class="appendix"+ or class="afterword", depending on content
+*Attribute requirements*: +class="appendix"+ or +class="afterword"+, depending on content
 
-*Content model*: First child must be <h1> that contains appendix title; then zero or more <h2> elements for subtitle content; then zero or more Block Elements; then zero or more Sect1 children (<section class="sect1">)
+*Content model*: First child must be +<h1>+ that contains appendix title; then zero or more +<h2>+ elements for subtitle content; then zero or more Block Elements; then zero or more Sect1 children (+<section class="sect1">+)
 
 *Example*
 
@@ -71,11 +73,11 @@ If no content model or attribute requirements are explicitly specified, then HTM
 
 ==== Bibliography
 
-*HTML element*: <section>
+*HTML element*: +<section>+
 
 *Attribute requirements*: +class="bibliography"+
 
-*Content model*: First child must be <h1> that contains bibliography title; then zero or more <h2> elements for subtitle content; then zero or more Block Elements; then zero or more Sect1 children (<section class="sect1">)
+*Content model*: First child must be +<h1>+ that contains bibliography title; then zero or more +<h2>+ elements for subtitle content; then zero or more Block Elements; then zero or more Sect1 children (+<section class="sect1">+)
 
 *Example*
 
@@ -92,13 +94,13 @@ If no content model or attribute requirements are explicitly specified, then HTM
 [[glossary]]
 ==== Glossary
 
-*HTML element*: <section>
+*HTML element*: +<section>+
 
 *Attribute requirements*: +class="glossary"+
 
-*Content model*: First child must be <h1> that contains glossary title; then zero or more <h2> elements for subtitle content; then zero or more Block Elements; then zero or more Sect1 children (<section class="sect1">)
+*Content model*: First child must be +<h1>+ that contains glossary title; then zero or more +<h2>+ elements for subtitle content; then zero or more Block Elements; then zero or more Sect1 children (+<section class="sect1">+)
 
-*Best practices*: List of glossary terms should be marked up using <dl> elements with a class of "glossary", with <dt> children with a class of "glossterm" and <dd> children with a class of "glossdef". Term text should be wrapped in a https://developer.mozilla.org/en-US/docs/HTML/Element/dfn[<dfn>]. However, none of this is formally required by the spec.
+*Best practices*: List of glossary terms should be marked up using +<dl>+ elements with a class of "glossary", with +<dt>+ children with a class of "glossterm" and +<dd>+ children with a class of "glossdef". Term text should be wrapped in a https://developer.mozilla.org/en-US/docs/HTML/Element/dfn[++<dfn>++]. However, none of this is formally required by the spec.
 
 *Example*
 
@@ -118,11 +120,11 @@ If no content model or attribute requirements are explicitly specified, then HTM
 
 ==== Preface
 
-*HTML element*: <section>
+*HTML element*: +<section>+
 
-*Attribute requirements*: +class="preface"+, class="foreword", or class="introduction", depending on content
+*Attribute requirements*: +class="preface"+, +class="foreword"+, or +class="introduction"+, depending on content
 
-*Content model*: First child must be <h1> that contains preface title; then zero or more <h2> elements for subtitle content; then zero or more Block Elements; then zero or more Sect1 children (<section class="sect1">)
+*Content model*: First child must be +<h1>+ that contains preface title; then zero or more +<h2>+ elements for subtitle content; then zero or more Block Elements; then zero or more Sect1 children (+<section class="sect1">+)
 
 *Example*
 
@@ -138,11 +140,11 @@ If no content model or attribute requirements are explicitly specified, then HTM
 
 ==== Frontmatter
 
-*HTML element*: <section>
+*HTML element*: +<section>+
 
-*Attribute requirements*: +class="halftitlepage"+, +class="titlepage"+, +class="copyright-page"+, or class="dedication", depending on content
+*Attribute requirements*: +class="halftitlepage"+, +class="titlepage"+, +class="copyright-page"+, or +class="dedication"+, depending on content
 
-*Content model*: First child must be <h1> that contains frontmatter section title; then zero or more <h2> elements for subtitle content; then zero or more Block Elements; then zero or more Sect1 children (<section class="sect1">)
+*Content model*: First child must be +<h1>+ that contains frontmatter section title; then zero or more +<h2>+ elements for subtitle content; then zero or more Block Elements; then zero or more Sect1 children (+<section class="sect1">+)
 
 *Example*
 
@@ -155,11 +157,11 @@ If no content model or attribute requirements are explicitly specified, then HTM
 
 ==== Backmatter
 
-*HTML element*: <section>
+*HTML element*: +<section>+
 
 *Attribute requirements*: +class="colophon"+, +class="acknowledgments"+, +class="afterword"+, or +class="conclusion"+, depending on content
 
-*Content model*: First child must be <h1> that contains backmatter section title; then zero or more <h2> elements for subtitle content; then zero or more Block Elements; then zero or more Sect1 children (<section class="sect1">)
+*Content model*: First child must be +<h1>+ that contains backmatter section title; then zero or more +<h2>+ elements for subtitle content; then zero or more Block Elements; then zero or more Sect1 children (+<section class="sect1">+)
 
 *Example*
 
@@ -175,11 +177,11 @@ If no content model or attribute requirements are explicitly specified, then HTM
 
 ==== Part
 
-*HTML element*: <div>
+*HTML element*: +<div>+
 
 *Atttribute requirements*: +class="part"+ 
 
-*Content model*: First child must be <h1> that contains part title; then zero or more <h2> elements for subtitle content; then zero or more Block Elements that compose the optional Part introduction; then one or more <section> elements representing Book Component children other than a Part
+*Content model*: First child must be +<h1>+ that contains part title; then zero or more +<h2>+ elements for subtitle content; then zero or more Block Elements that compose the optional Part introduction; then one or more +<section>+ elements representing Book Component children other than a Part
 
 *Example*
 
@@ -195,11 +197,11 @@ If no content model or attribute requirements are explicitly specified, then HTM
 
 ==== Table of Contents
 
-*HTML element*: <nav>
+*HTML element*: +<nav>+
 
 *Attribute requirements*: +class="toc"+
 
-*Content Model*: The TOC must be conformant to the specs for the http://www.idpf.org/epub/30/spec/epub30-contentdocs-20111011.html#sec-xhtml-nav[EPUB 3 Navigation document]. First child is zero or more heading elements (<h1>-<h6>), followed by an <ol> (with <li> children that can contain only <a> or <span> elements)
+*Content Model*: The TOC must be conformant to the specs for the http://www.idpf.org/epub/30/spec/epub30-contentdocs-20111011.html#sec-xhtml-nav[EPUB 3 Navigation document]. First child is zero or more heading elements (++<h1>-<h6>++), followed by an +<ol>+ (with +<li>+ children that can contain only a +<span>+ element or an +<a>+ element plus an optional +<ol>+ child)
 
 *Example*
 
@@ -221,13 +223,13 @@ If no content model or attribute requirements are explicitly specified, then HTM
 
 ==== Index
 
-*HTML element*: <section>
+*HTML element*: +<section>+
 
 *Attribute requirements*: +class="index"+
 
-*Content model*: First child must be <h1> that contains index title; then zero or more <h2> elements for subtitle content; then zero or more Block Elements; then zero or more Sect1 children (<section class="sect1">)
+*Content model*: First child must be +<h1>+ that contains index title; then zero or more +<h2>+ elements for subtitle content; then zero or more Block Elements; then zero or more Sect1 children (+<section class="sect1">+)
 
-*Best practices*: HTMLBook recommends following the http://www.idpf.org/epub/idx/[EPUB Indexes specification] and using <ol>/<li> elements for marking up index entries, with class attributes used for semantic inflection as appropriate, but none of this is a formal spec requirement
+*Best practices*: HTMLBook recommends following the http://www.idpf.org/epub/idx/[EPUB Indexes specification] and using ++<ol>++/++<li>++ elements for marking up index entries, with class attributes used for semantic inflection as appropriate, but none of this is a formal spec requirement
 
 *Example*
 
@@ -250,11 +252,11 @@ If no content model or attribute requirements are explicitly specified, then HTM
 
 ==== Sections
 
-*HTML element*: <section>
+*HTML element*: +<section>+
 
-*Attribute requirements*: class="sect1", class="sect2", class="sect3", class="sect4", class="sect5"footnote:[From DocBook vocabulary], depending on hierarchy level. "sect1" is used for <section> elements nested directly in main Book components ("chapter", "appendix", etc.). "sect2" is used for <section> elements nested in a "sect1" <section>, "sect3" is used for <section> elements nested in a "sect2" <section>, and so on. 
+*Attribute requirements*: ++class="sect1"++, ++class="sect2"++, ++class="sect3"++, ++class="sect4"++, ++class="sect5"++ footnote:[From DocBook vocabulary], depending on hierarchy level. +sect1+ is used for +<section>+ elements nested directly in main Book components ("chapter", "appendix", etc.). +sect2+ is used for ++<section>++ elements nested in a +sect1+ ++<section>++, +sect3+ is used for +<section>+ elements nested in a +sect2+ +<section>+, and so on. 
 
-*Content model*: The first child must be a heading element corresponding to the hierarchy level indicated by "class" value, as follows:
+*Content model*: The first child must be a main heading element corresponding to the hierarchy level indicated by +class+ value, as follows:
 
 ----
 "sect1" -> h1
@@ -264,7 +266,7 @@ If no content model or attribute requirements are explicitly specified, then HTM
 "sect5" -> h5
 ----
 
-The heading is followed by zero or more Block elements, followed by zero or more <section> elements with a class value one level lower in the hierarchy, as long as the parent section is a "sect4" or higher (e.g., <section class="sect4"> nested in <section class="sect3">)
+The heading is followed by zero or more subheading elements whose hierarchy level is one lower than the main heading (e.g., +<h2>+ for a ++sect1++), folloed by zero or more Block elements, followed by zero or more +<section>+ elements with a class value one level lower in the hierarchy, as long as the parent section is a "sect4" or higher (e.g., +<section class="sect4">+ nested in +<section class="sect3">+)
 
 *Example*:
 
@@ -285,7 +287,7 @@ The heading is followed by zero or more Block elements, followed by zero or more
 
 ==== Paragraph
 
-*HTML element*: <p>
+*HTML element*: +<p>+
 
 *Example*:
 
@@ -295,11 +297,11 @@ The heading is followed by zero or more Block elements, followed by zero or more
 
 ==== Sidebar
 
-*HTML element*: <aside>
+*HTML element*: +<aside>+
 
-*Attribute requirements*: class="sidebar"
+*Attribute requirements*: +class="sidebar"+
 
-*Content model*: Zero or one <h5> element that contains the sidebar title); then zero or more Block elements
+*Content model*: Zero or one +<h5>+ element that contains the sidebar title); then zero or more Block elements
 
 *Example*:
 
@@ -312,14 +314,14 @@ The heading is followed by zero or more Block elements, followed by zero or more
 
 ==== Admonitions
 
-*HTML element*: <div>
+*HTML element*: +<div>+
 
-*Attribute requirements*: class="note" or class="warning", depending on the content within
+*Attribute requirements*: +class="note"+ or +class="warning"+, depending on the content within
 
 *Content model*: Either of the following content models is acceptable:
 
 * text and/or zero or more Inline elements
-* Zero or more <h1>-<h6> elements (for title and subtitles), followed by zero or more Block elements
+* Zero or more ++<h1>++-++<h6>++ elements (for title and subtitles), followed by zero or more Block elements
 
 *Examples*:
 
@@ -336,13 +338,13 @@ The heading is followed by zero or more Block elements, followed by zero or more
 
 ==== Tables
 
-*HTML element*: <table>
+*HTML element*: +<table>+
 
-*Content model*: Zero or one <caption> elements (for titled/captioned tables); then zero or more <colgroup> elements; then zero or more <thead> elements; then a choice between either zero or more <tbody> elements, or zero or more <tr> elements; then zero or more <tfoot> elements
+*Content model*: Zero or one +<caption>+ elements (for titled/captioned tables); then zero or more +<colgroup>+ elements; then zero or more +<thead>+ elements; then a choice between either zero or more +<tbody>+ elements, or zero or more +<tr>+ elements; then zero or more +<tfoot>+ elements
 
 *Content model for <caption>*: Either of the following is acceptable:
 
-* Zero or more <p> and/or <div> elements
+* Zero or more +<p>+ and/or +<div>+ elements
 * Text and/or zero or more Inline elements
 
 *Content model for <colgroup>*: Mirrors HTML5 Specification
@@ -395,12 +397,12 @@ The heading is followed by zero or more Block elements, followed by zero or more
 
 ==== Figures
 
-*HTML element*: <figure>
+*HTML element*: +<figure>+
 
 *Content model*: Either of the following is acceptable:
 
-* A <figcaption> element followed by zero or more Block elements and/or <img> elements
-* Zero or more Block elements and/or <img> elements, followed by a <figcaption> element
+* A +<figcaption>+ element followed by zero or more Block elements and/or +<img>+ elements
+* Zero or more Block elements and/or +<img>+ elements, followed by a +<figcaption>+ element
 
 *Example*:
 
@@ -413,14 +415,14 @@ The heading is followed by zero or more Block elements, followed by zero or more
 
 ==== Examples
 
-*HTML element*: <div>
+*HTML element*: +<div>+
 
-*Attribute requirements*: class="example"
+*Attribute requirements*: +class="example"+
 
 *Content model*: Either of the following content models is acceptable:
 
 * text and/or zero or more Inline elements
-* Zero or more <h1>-<h6> elements (for title and subtitles), followed by zero or more Block elements
+* Zero or more ++<h1>++-++<h6>++ elements (for title and subtitles), followed by zero or more Block elements
 
 *Example*:
 
@@ -433,9 +435,9 @@ The heading is followed by zero or more Block elements, followed by zero or more
 
 ==== Code listings
 
-*HTML element*: <pre>
+*HTML element*: +<pre>+
 
-*Optional HTMLBook-specific attribute*: +data-language+, used to indicate language of code listing (e.g., +data-language="python"+)
+*Optional HTMLBook-specific attribute*: +data-code-language+, used to indicate language of code listing (e.g., +data-code-language="python"+)
 
 *Example*:
 
@@ -445,9 +447,9 @@ The heading is followed by zero or more Block elements, followed by zero or more
 
 ==== Ordered lists
 
-*HTML element*: <ol>
+*HTML element*: +<ol>+
 
-*Content model*: Zero or more <li> children for each list item
+*Content model*: Zero or more +<li>+ children for each list item
 
 *Content model for <li> children*: Either of the following is acceptable:
 
@@ -469,9 +471,9 @@ The heading is followed by zero or more Block elements, followed by zero or more
 
 ==== Itemized lists
 
-*HTML element*: <ul>
+*HTML element*: +<ul>+
 
-*Content model*: Zero or more <li> children for each list item
+*Content model*: Zero or more +<li>+ children for each list item
 
 *Content model for <li> children*: Either of the following is acceptable:
 
@@ -491,7 +493,7 @@ The heading is followed by zero or more Block elements, followed by zero or more
 ==== Definition lists
 
 
-*HTML element*: <dl>
+*HTML element*: +<dl>+
 
 *Content model*: Mirrors HTML5 Specification
 
@@ -513,7 +515,7 @@ The heading is followed by zero or more Block elements, followed by zero or more
 
 ==== Blockquote
 
-*HTML element*: <blockquote>
+*HTML element*: +<blockquote>+
 
 *Content model*: Either of the following is acceptable:
 
@@ -531,12 +533,12 @@ The heading is followed by zero or more Block elements, followed by zero or more
 
 ==== Headings
 
-*HTML elements*: <h1>, <h2>, <h3>, <h4>, <h5>, or <h6>
+*HTML elements*: ++<h1>++, ++<h2>++, ++<h3>++, ++<h4>++, ++<h5>++, or ++<h6>++
 
 *Content Model*: text and/or zero or more Inline elements
 
 *Notes*: Many main book components (e.g., chapters, parts, appendixes) require headings. The appropriate
-element from <h1>-<h6> is outlined below, as well as in the corresponding documentation for these
+element from ++<h1>++-++<h6>++ is outlined below, as well as in the corresponding documentation for these
 components:
 
 ----
@@ -559,9 +561,9 @@ sidebar title -> h5
 
 ==== Equation
 
-*HTML element*: <div>
+*HTML element*: +<div>++
 
-*Attribute requirements*: class="equation"footnote:[From DocBook; no close match in EPUB 3 Structural Semantics Vocabulary]
+*Attribute requirements*: +class="equation"+ footnote:[From DocBook; no close match in EPUB 3 Structural Semantics Vocabulary]
 
 *Note: HTMLBook supports embedded MathML in HTML content documents, which can be used here.
 
@@ -584,8 +586,7 @@ sidebar title -> h5
 
 ==== Emphasis (generally for italic)
 
-*HTML element*: <em>
-
+*HTML element*: +<em>+
 
 Example:
 
@@ -596,7 +597,7 @@ Example:
 ==== Strong (generally for bold)
 
 
-*HTML element*: <strong>
+*HTML element*: +<strong>+
 
 Example:
 
@@ -606,7 +607,7 @@ Example:
 
 ==== Literal (for inline code elements: variables, functions, etc.)
 
-*HTML element*: <code>
+*HTML element*: +<code>+
 
 Example:
 
@@ -616,7 +617,7 @@ Example:
 
 ==== General-purpose phrase markup for other styling (underline, strikethrough, etc.)
 
-*HTML element*: <span>
+*HTML element*: +<span>+
 
 Example:
 
@@ -626,9 +627,9 @@ Example:
 
 ==== Footnote, endnote
 
-*HTML element*: <a> (for marker); <div> for block of footnote/endnote content; <aside> for footnote or endnote
+*HTML element*: +<a>+ (for marker); +<div>+ for block of footnote/endnote content; +<aside>+ for footnote or endnote
 
-*Attribute requirements*: class="noteref" (for marker); class="footnotes" or class="rearnotes" for block of footnotes/endnotes; class="footnote" or class="rearnote" for footnote or endnote
+*Attribute requirements*: +class="noteref"+ (for marker); +class="footnotes"+ or +class="rearnotes"+ for block of footnotes/endnotes; +class="footnote"+ or +class="rearnote"+ for footnote or endnote
 
 *Content model for marker (<a>)*: text and/or zero or more Inline elements
 
@@ -647,9 +648,9 @@ Example:
 ==== Cross-references
 
 
-*HTML element*: <a>
+*HTML element*: +<a>+
 
-*Attribute requirements*: class="xref"footnote:[From DocBook]; an href attribute that should point to the id of a
+*Attribute requirements*: +class="xref"+ footnote:[From DocBook]; an href attribute that should point to the id of a
 local HTMLBook resource referenced
 
 Example:
@@ -664,9 +665,9 @@ Example:
 
 ==== Index Term
 
-*HTML element*: <a>
+*HTML element*: +<a>+
 
-*Attribute requirements*: class="indexterm"; for primary index entry value, use +data-primary+; for secondary index entry value, use +data-secondary+; for tertiary index entry value, use +data-tertiary+; for a "see" index reference, use +data-see+; for a "see also" index reference, use +data-seealso+; for a "sort" value to indicate alphabetization, use +data-sortas+footnote:[Semantics from DocBook]
+*Attribute requirements*: +class="indexterm"+; for primary index entry value, use +data-primary+; for secondary index entry value, use +data-secondary+; for tertiary index entry value, use +data-tertiary+; for a "see" index reference, use +data-see+; for a "see also" index reference, use +data-seealso+; for a "sort" value to indicate alphabetization, use +data-sortas+ footnote:[Semantics from DocBook]
 
 *Content model*: Empty
 
@@ -678,7 +679,7 @@ Example:
 
 ==== Superscripts
 
-*HTML element*: <sup>
+*HTML element*: +<sup>+
 
 *Example*:
 
@@ -688,7 +689,7 @@ Example:
 
 ==== Subscripts
 
-*HTML element*: <sub>
+*HTML element*: +<sub>+
 
 *Example*:
 
@@ -700,7 +701,7 @@ Example:
 
 ==== Video
 
-*HTML element*: <video>
+*HTML element*: +<video>+
 
 *Example*:
 
@@ -717,7 +718,7 @@ Example:
 
 ==== Audio
 
-*HTML element*: <audio>
+*HTML element*: +<audio>+
 
 *Note*: Fallback content is _strongly recommended_ for output formats that do not support HTML5 interactive content
 
@@ -735,7 +736,7 @@ Example:
 
 ==== Canvas
 
-*HTML element*: <canvas>
+*HTML element*: +<canvas>+
 
 *Note*: Should include a fallback link to the audio online.
 
@@ -751,13 +752,13 @@ Example:
 
 ==== Metadata points
 
-*HTML element*: <meta>
+*HTML element*: +<meta>+
 
 *Attribute requirements*: +name+ (for name of metadata point); +content+: (for value of metadata point)
 
 *Content model*: Empty
 
-*Note*: All <meta> elements must be children of the <head> element of the HTML file.
+*Note*: All +<meta>+ elements must be children of the +<head>+ element of the HTML file.
 
 *Example*:
 
@@ -770,77 +771,79 @@ Example:
 
 === Element Classification
 
+[[block_elements]]
 ==== Block elements
 
 In HTMLBook, the majority of elements classified by the HTML5 specification as Flow content (minus elements also categorized as Heading Content, Phrasing Content, and Sectioning Content) are considered to be Block elements. Here is a complete list:
 
-* address
-* aside
-* audio
-* blockquote
-* canvas
-* details
-* div
-* dl
-* embed
-* fieldset
-* figure
-* form
-* hr
-* iframe
-* map
-* math (In MathML vocabulary; must be namespaced under http://www.w3.org/1998/Math/MathML)
-* menu
-* object
-* ol
-* p
-* pre
-* svg (In SVG vocabulary; must be namespaced under http://www.w3.org/2000/svg)
-* table
-* ul
-* video
+* +<address>+
+* +<aside>+
+* +<audio>+
+* +<blockquote>+
+* +<canvas>+
+* +<details>+
+* +<div>+
+* +<dl>+
+* +<embed>+
+* +<fieldset>+
+* +<figure>+
+* +<form>+
+* +<hr>+
+* +<iframe>+
+* +<map>+
+* +<math>+ (In MathML vocabulary; must be namespaced under http://www.w3.org/1998/Math/MathML)
+* +<menu>+
+* +<object>+
+* +<ol>+
+* +<p>+
+* +<pre>+
+* +<svg>+ (In SVG vocabulary; must be namespaced under http://www.w3.org/2000/svg)
+* +<table>+
+* +<ul>+
+* +<video>+
 
-==== Block elements
+[[inline_elements]]
+==== Inline elements
 
 In HTMLBook, the majority of elements classified by the HTML5 specification as Phrasing Content are considered to be Inline elements. Here is a complete list:
 
-* a 
-* abbr
-* b
-* bdi
-* bdo
-* br
-* button
-* command
-* cite
-* code
-* datalist
-* del
-* dfn
-* em
-* i
-* input
-* img
-* ins
-* kbd
-* keygen  
-* label  
-* mark  
-* meter
-* output
-* progress
-* q
-* ruby
-* s
-* samp
-* select
-* small
-* span
-* strong
-* sub
-* sup
-* textarea
-* time
-* u
-* var
-* wbr
+* +<a>+
+* +<abbr>+
+* +<b>+
+* +<bdi>+
+* +<bdo>+
+* +<br>+
+* +<button>+
+* +<command>+
+* +<cite>+
+* +<code>+
+* +<datalist>+
+* +<del>+
+* +<dfn>+
+* +<em>+
+* +<i>+
+* +<input>+
+* +<img>+
+* +<ins>+
+* +<kbd>+
+* +<keygen>+
+* +<label>+
+* +<mark>+
+* +<meter>+
+* +<output>+
+* +<progress>+
+* +<q>+
+* +<ruby>+
+* +<s>+
+* +<samp>+
+* +<select>+
+* +<small>+
+* +<span>+
+* +<strong>+
+* +<sub>+
+* +<sup>+
+* +<textarea>+
+* +<time>+
+* +<u>+
+* +<var>+
+* +<wbr>+
