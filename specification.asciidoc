@@ -2,6 +2,8 @@
 
 Requirements for HTML5 elements in the HTMLBook specification are below. Special semantic inflections for +class+ attributes, unless otherwise noted, come from http://idpf.org/epub/vocab/structure/[EPUB 3 Structural Semantics Vocabulary]
 
+Many content models refer to "Block elements" or "Inline elements"; please see <<block_elements>> and <<inline_elements>> for the corresponding list of HTML5 elements that belong to each of these categories
+
 If no content model or attribute requirements are explicitly specified, then HTMLBook adopts the corresponding requirements in the http://www.w3.org/html/wg/drafts/html/master/[HTML5 Specification]
 
 === Book Component elements
@@ -769,6 +771,7 @@ Example:
 
 === Element Classification
 
+[[block_elements]]
 ==== Block elements
 
 In HTMLBook, the majority of elements classified by the HTML5 specification as Flow content (minus elements also categorized as Heading Content, Phrasing Content, and Sectioning Content) are considered to be Block elements. Here is a complete list:
@@ -799,7 +802,8 @@ In HTMLBook, the majority of elements classified by the HTML5 specification as F
 * +<ul>+
 * +<video>+
 
-==== Block elements
+[[inline_elements]]
+==== Inline elements
 
 In HTMLBook, the majority of elements classified by the HTML5 specification as Phrasing Content are considered to be Inline elements. Here is a complete list:
 
