@@ -10,7 +10,7 @@ If no content model or attribute requirements are explicitly specified, then HTM
 
 *HTML element*: <body>
 
-*Attribute requirements*: +class="book"+footnote:[Not in EPUB 3 Structural Semantics Vocabulary; from DocBook]
+*Attribute requirements*: +class="book"+ footnote:[Not in EPUB 3 Structural Semantics Vocabulary; from DocBook]
 
 *Content model*: First child must be <h1> that contains book title; then zero or more <h2> elements for subtitle content; then one or more Book Component elements as children (<div> for Part elements, <nav> for Table of Contents, and <section> elements for all other book divisions)
 
