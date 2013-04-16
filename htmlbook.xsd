@@ -566,6 +566,13 @@
         <xs:attribute name="rel"/>
         <xs:attribute name="target"/>
         <xs:attribute name="type"/>
+        <!-- The following attributes are for indexterms -->
+        <xs:attribute name="data-primary" type="xs:string"/>
+        <xs:attribute name="data-secondary" type="xs:string"/>
+        <xs:attribute name="data-tertiary" type="xs:string"/>
+        <xs:attribute name="data-see" type="xs:string"/>
+        <xs:attribute name="data-seealso" type="xs:string"/>
+        <xs:attribute name="data-sortas" type="xs:string"/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
