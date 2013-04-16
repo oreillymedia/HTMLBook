@@ -11,6 +11,19 @@
   </head>
   <body class="book" id="hmm" title="The whole darn book" style="color: yellow;">
     <h1>Book title</h1>
+    <!-- And a nav -->
+    <nav id="navigation" class="toc">
+      <h1>Table of Contents</h1>
+      <ol id="first_list">
+        <li><a href="blah"></a></li>
+        <li><span>This is allowed too</span></li>
+        <li id="subtoc" ><a href="blah2"/>
+          <ol reversed="reverseD">
+            <li><a href="ch02.html">Another link</a></li>
+          </ol>
+        </li>
+      </ol>
+    </nav>
     <section class="chapter" id="a_chapter" lang="en" dir="ltr">
       <h1>Chap title</h1>
       <p>Hello Blah</p>
@@ -179,19 +192,7 @@
             <img class="animal" src="tarsier.png"/>
             </p>
             
-            <!-- And a nav -->
-            <nav id="navigation">
-              <h1>Table of Contents</h1>
-              <ol id="first_list">
-                <li><a href="blah"></a></li>
-                <li><span>This is allowed too</span></li>
-                <li id="subtoc" ><a href="blah2"/>
-                  <ol reversed="reverseD">
-                    <li><a href="ch02.html">Another link</a></li>
-                  </ol>
-                </li>
-              </ol>
-            </nav>
+
             
             <!-- Don't forget an ordered list -->
             <ol id="orderedlist" start="3" type="decimal" reversed="ReVersed" spellcheck="true">

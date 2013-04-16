@@ -1,6 +1,8 @@
 <?xml version="1.0"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.w3.org/1999/xhtml" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:svg="http://www.w3.org/2000/svg" targetNamespace="http://www.w3.org/1999/xhtml" elementFormDefault="qualified" attributeFormDefault="unqualified">
 
+<!-- ToDos: Indexterm data attributes; special schema for footnotes (thinking <aside class="footnote">); enumerated class for admonitions/examples on div? -->
+
 <xs:import namespace="http://www.w3.org/1998/Math/MathML" schemaLocation="mathml3/mathml3.xsd"/>
 <xs:import namespace="http://www.w3.org/2000/svg" schemaLocation="svg/SVG.xsd"/>
 
@@ -36,6 +38,7 @@
       <xs:element ref="h1"/>
       <xs:element name="h2" minOccurs="0" type="subheading"/>
       <xs:choice maxOccurs="unbounded">
+        <xs:element ref="nav"/>
         <xs:element name="section" type="bookmaindiv"/>
         <!-- Separate out parts, as they have specific child requirements -->
         <xs:element name="div" type="bookpart"/>
@@ -314,7 +317,6 @@
       <xs:element ref="map"/>
       <xs:element ref="mml:math"/>
       <xs:element ref="menu"/>
-      <xs:element ref="nav"/>
       <xs:element ref="object"/>
       <xs:element ref="ol"/>
       <xs:element ref="p"/>
@@ -435,7 +437,8 @@
       <xs:group ref="headings" minOccurs="0"/>
       <xs:element name="ol" type="nav_doc_ol"/>
     </xs:sequence>
-    <xs:attributeGroup ref="globals"/>
+    <xs:attribute name="class" use="required" fixed="toc"/>
+    <xs:attributeGroup ref="globals_minus_class"/>
   </xs:complexType>
 </xs:element>
   
@@ -487,7 +490,15 @@
   
 <xs:element name="p" type="inline_children_only"/>
   
-<xs:element name="pre" type="inline_children_only"/>
+<xs:element name="pre">
+  <xs:complexType>
+    <xs:complexContent>
+      <xs:extension base="inline_children_only">
+        <xs:attribute name="data-language" type="xs:token"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+</xs:element>
   
 <!-- Default global version of "section" element is for chapter-level book divisions
      (allows for modularization of HTML files at the chapter level),
@@ -1492,6 +1503,7 @@
     <xs:enumeration value="dedication"/>
     <xs:enumeration value="foreword"/>
     <xs:enumeration value="glossary"/>
+    <xs:enumeration value="halftitlepage"/>
     <xs:enumeration value="index"/>
     <xs:enumeration value="introduction"/>
     <xs:enumeration value="preface"/>
@@ -1712,8 +1724,7 @@
     <xs:group ref="blockelements" minOccurs="0" maxOccurs="unbounded"/>
   </xs:sequence>
   <!-- Note: special class attr restrictions here -->
-  <xs:attribute name="class" use="required" fixed="sidebar"/>
-  <xs:attributeGroup ref="globals_minus_class"/>
+  <xs:attributeGroup ref="globals"/>
 </xs:complexType>
   
 <!-- Subheadings: support subtitles, author attributions, etc. -->
@@ -1820,7 +1831,6 @@
     <xs:element ref="map"/>
     <xs:element ref="mml:math"/>
     <xs:element ref="menu"/>
-    <xs:element ref="nav"/>
     <xs:element ref="object"/>
     <xs:element ref="ol"/>
     <xs:element ref="p"/>
