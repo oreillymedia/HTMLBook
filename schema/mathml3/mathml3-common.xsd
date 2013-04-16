@@ -41,13 +41,13 @@
    </xs:element>
    <xs:complexType name="annotation-xml.model">
       <xs:choice minOccurs="0" maxOccurs="unbounded">
-         <!-- ORM: removing ref="m:MathExpression", as it's redundant given the reference to m:anyElement, and violates determinist content model -->
+         <!-- HTMLBook Note: removing ref="m:MathExpression", as it's redundant given the reference to m:anyElement, and violates determinist content model -->
          <xs:group ref="m:anyElement"/>
       </xs:choice>
    </xs:complexType>
    <xs:group name="anyElement">
       <xs:choice>
-         <!-- ORM: switching namespace to "##any" to cover everything -->
+         <!-- HTMLBook Note: switching namespace to "##any" to cover everything -->
          <xs:any namespace="##any" processContents="skip"/>
       </xs:choice>
    </xs:group>
