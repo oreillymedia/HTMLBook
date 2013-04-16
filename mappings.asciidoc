@@ -1,106 +1,116 @@
-== Mappings
+== HTMLBook Specification: Working Draft 19 April 2013
 
-A list of mappings is below. Special semantics, unless otherwise noted, come from http://idpf.org/epub/vocab/structure/[EPUB 3 Structural Semantics Vocabulary]
+Requirements for HTML5 elements in the HTMLBook specification are below. Special semantic inflections for +class+ attributes, unless otherwise noted, come from http://idpf.org/epub/vocab/structure/[EPUB 3 Structural Semantics Vocabulary]
 
-=== Book Components
+If no content model or attribute requirements are explicitly specified, then HTMLBook adopts the corresponding requirements in the http://www.w3.org/html/wg/drafts/html/master/[HTML5 Specification]
+
+=== Book Component elements
 
 ==== Book
 
-*Legacy DB element*: <book>
+*HTML element*: <body>
 
-*New HTML element*: <body>
+*Attribute requirements*: +class="book"+footnote:[Not in EPUB 3 Structural Semantics Vocabulary; from DocBook]
 
-*Special semantics*: +class="book"+footnote:[Not in EPUB 3 Structural Semantics Vocabulary; from DocBook]
+*Content model*: First child must be <h1> that contains book title; then zero or more <h2> elements for subtitle content; then one or more Book Component elements as children (<div> for Part elements, <nav> for Table of Contents, and <section> elements for all other book divisions)
 
 *Example*
 
 [source, html]
 ----
 <body class="book">
-  <!-- Lots of book content here -->
+  <h1>jQuery Cookbook</h1>
+  <section class="chapter">
+    <!-- Chapter content here -->
+  </section>
 </body>
 ----
 
+*Note*: Just as in standard HTML5, <body> is a child of the root <html> element.
+
 ==== Chapter
 
-*Legacy DB element*: <chapter>
+*HTML element*: <section>
 
-*New HTML element*: <section>
+*Attribute requirements*: +class="chapter"+ 
 
-*Special semantics*: +class="chapter"+ 
+*Content model*: First child must be <h1> that contains chapter title; then zero or more <h2> elements for subtitle content; then zero or more Block Elements; then zero or more Sect1 children (<section class="sect1">)
 
 *Example*
 
 ----
 <section class="chapter">
   <!-- h1 used for all chapter titles -->
-  <h1 class="title">Chapter Title</h1>
-  <!-- Lots of chapter content here -->
+  <h1>Chapter Title</h1>
+  <p>Chapter content</p>
+  <section class="sect1">
+    <!-- Section content here... -->
+  </section>
 </section>
 ----
 
 ==== Appendix
 
-*Legacy DB element*: <appendix>
+*HTML element*: <section>
 
-*New HTML element*: <section>
+*Attribute requirements*: +class="appendix"+ or class="afterword", depending on content
 
-*Special semantics*: +class="appendix"+ or class="afterword", depending on content
+*Content model*: First child must be <h1> that contains appendix title; then zero or more <h2> elements for subtitle content; then zero or more Block Elements; then zero or more Sect1 children (<section class="sect1">)
 
 *Example*
 
 ----
 <section class="appendix">
-  <!-- h1 used for all appendix titles -->
-  <h1 class="title">Appendix Title</h1>
-  <!-- Lots of appendix content here -->
+  <h1>Appendix Title</h1>
+  <p>Appendix content</p>
+  <section class="sect1">
+    <!-- Section content here... -->
+  </section>
 </section>
 ----
 
 ==== Bibliography
 
-*Legacy DB element*: <bibliography>
+*HTML element*: <section>
 
-*New HTML element*: <section>
+*Attribute requirements*: +class="bibliography"+
 
-*Special semantics*: +class="bibliography"+ for main bibliography; class="biblioentry" for each biblioentry
+*Content model*: First child must be <h1> that contains bibliography title; then zero or more <h2> elements for subtitle content; then zero or more Block Elements; then zero or more Sect1 children (<section class="sect1">)
 
 *Example*
 
 ----
 <section class="bibliography">
-  <!-- optional h1 used for all bibliography titles -->
-  <h1 class="title">Bibliography Title</h1>
-  <p class="biblioentry"><!-- Biblioentry content --></p>
-  <!-- More biblioentries below -->
+  <h1>Bibliography Title</h1>
+  <p>Bibliography content</p>
+  <section class="sect1">
+    <!-- Section content here... -->
+  </section>
 </section>
 ----
-
-// OPEN QUESTION: Is <p> sufficient for biblioentries, or do we need more sophisticated tagging for proper CSS styling?
 
 [[glossary]]
 ==== Glossary
 
-*Legacy DB element*: <glossary>
+*HTML element*: <section>
 
-*New HTML element*: <section> for formal titled glossary; <dl> for the actual definition list
+*Attribute requirements*: +class="glossary"+
 
-*Special semantics*: +class="glossary"+ on <section> and <dl>; class="glossterm" on <dt>; class="glossdef" on <dd>
+*Content model*: First child must be <h1> that contains glossary title; then zero or more <h2> elements for subtitle content; then zero or more Block Elements; then zero or more Sect1 children (<section class="sect1">)
 
-*Accessibility Best Practices*: Wrap the term text in a https://developer.mozilla.org/en-US/docs/HTML/Element/dfn[<dfn>]
+*Best practices*: List of glossary terms should be marked up using <dl> elements with a class of "glossary", with <dt> children with a class of "glossterm" and <dd> children with a class of "glossdef". Term text should be wrapped in a https://developer.mozilla.org/en-US/docs/HTML/Element/dfn[<dfn>]. However, none of this is formally required by the spec.
 
 *Example*
 
 ----
 <section class="glossary">
-  <!-- h1 used for all glossary titles -->
-  <h1 class="title">Glossary Title</h1>
+  <h1>Glossary Title</h1>
   <dl class="glossary">
     <dt class="glossterm">
-      <dfn>Atlas</dfn>
+      <dfn>jQuery</dfn>
     </dt>
     <dd class="glossdef">
-      Best authoring platform ever
+      Widely used JavaScript library
     </dd>
    </dl>
 </section>
@@ -108,164 +118,94 @@ A list of mappings is below. Special semantics, unless otherwise noted, come fro
 
 ==== Preface
 
-*Legacy DB element*: <preface>
+*HTML element*: <section>
 
-*New HTML element*: <section>
+*Attribute requirements*: +class="preface"+, class="foreword", or class="introduction", depending on content
 
-*Special semantics*: +class="preface"+, class="foreword" or class="introduction", depending on content
+*Content model*: First child must be <h1> that contains preface title; then zero or more <h2> elements for subtitle content; then zero or more Block Elements; then zero or more Sect1 children (<section class="sect1">)
 
 *Example*
 
 ----
 <section class="preface">
-  <!-- h1 used for all preface titles -->
-  <h1 class="title">Preface Title</h1>
-  <!-- Lots of preface content here -->
+  <h1>Preface Title</h1>
+  <p>Preface content</p>
+  <section class="sect1">
+    <!-- Section content here... -->
+  </section>
 </section>
 ----
 
-==== Backmatter
+==== Frontmatter
 
-*Legacy DB element*: <colophon>
+*HTML element*: <section>
 
-*New HTML element*: <section>
+*Attribute requirements*: +class="halftitlepage"+, +class="titlepage"+, +class="copyright-page"+, or class="dedication", depending on content
 
-*Special semantics*: +class="colophon"+, +class="acknowledgments"+, +class="afterword"+, +class="conclusion"+
-
-*Example*
-
-----
-<section class="colophon">
-  <!-- optional h1 used for colophon titles -->
-  <h1 class="title">Colophon Title</h1>
-  <!-- Lots of colophon content here -->
-</section>
-----
-
-==== Part
-
-*Legacy DB element*: <part>
-
-*New HTML element*: <div>
-
-*Special semantics*: +class="part"+ 
-
-*Example*
-
-----
-<div class="part">
-  <!-- h1 used for all part titles -->
-  <h1 class="title">Part Title</h1>
-  <!-- Lots of part content here -->
-</div>
-----
-
-==== Dedication
-
-*Legacy DB element*: <dedication>
-
-*New HTML element*: <section>
-
-*Special semantics*: +class="dedication"+ 
-
-*Example*
-
-----
-<section class="dedication">
-  <!-- optional h1 used for dedication titles -->
-  <h1 class="title">Dedication Title</h1>
-  <p>I owe it all to Project Unicorn</p>
-</section>
-----
-
-==== Index
-
-*Legacy DB element*: <index>
-
-*New HTML element*: <section>
-
-*Special semantics*: +class="index"+ on <section>; class="indexdiv" on each term grouping; class="indexentry" on each indexentry; class="indexentry xref" on index hyperlinksfootnote:[Only "index" is from EPUB3 Structural Semantics Vocabulary; all the rest are DocBook semantics]
-
-// OPEN QUESTION: Not entirely sold on using a definition list to mark up index sections; yes, it provides a built-in mechanism for doing the necessary indentation for subentries, but shoehorning in the index results in icky empty <dd>s in places and semantically it's a bad fit. Wondering why not use an <ol> or <ul> instead? Either way, we'd suppress the markers in CSS (for Mobi, we'd need to transform to <div>/<blockquote> markup--sigh)
-
-// MAYBE, ADD ANOTHER EXAMPLE USING <ol>
-
-// OPEN QUESTION 2: What class to use on index hyperlinks? I'm not in love with "indexentry xref", but I wanted a way to indicate that it was an XREF and that it was in an indexentry
-
-// OPEN QUESTION 3: Special semantics for entry level (primary, secondary, tertiary)?
-
-*Example*
-
-----
-<section class="index">
-  <!-- optional h1 used for index titles -->
-  <h1 class="title">Index Title</h1>
-  <div class="indexdiv">
-    <h2 class="title">A</h2>
-    <dl>
-      <dt class="indexentry">Aardvark, <a class="indexentry xref" href="ch01#aardvark">All about Aardvark</a></dt>
-      <dd>
-	<dl>
-           <dt class="indexentry">precursor to Atlas, <a class="indexentry xref" href="ch01#atlasagain">Precursors to Atlas</a></dt>
-           <dd></dd>
-         </dl>
-      </dd>
-      <dt class="indexentry">Atlas, <a class="indexentry xref" href="ch01#atlas">All about Atlas</a>
-      <dd></dd>
-     </dl>
-  </div>
-</section>
-----
-
-==== Title Page
-
-*Legacy DB element*: No directly corresponding element; titlepage section is autogenerated from book metadata
-
-*New HTML element*: <section>
-
-*Special semantics*: +class="titlepage"+ 
+*Content model*: First child must be <h1> that contains frontmatter section title; then zero or more <h2> elements for subtitle content; then zero or more Block Elements; then zero or more Sect1 children (<section class="sect1">)
 
 *Example*
 
 ----
 <section class="titlepage">
-  <!-- h1 used for book title -->
-  <h1 class="title">Book Title</h1>
-  <!-- Whatever else goes on the title page: publishername, logo, etc. -->
+  <h1>Python in a Nutshell</h1>
+  <p>By Alex Martelli</p>
 </section>
 ----
 
-==== Copyright Page
+==== Backmatter
 
-*Legacy DB element*: No directly corresponding element; copyright page section is autogenerated from book metadata
+*HTML element*: <section>
 
-*New HTML element*: <section>
+*Attribute requirements*: +class="colophon"+, +class="acknowledgments"+, +class="afterword"+, or +class="conclusion"+, depending on content
 
-*Special semantics*: +class="copyright-page"+ 
+*Content model*: First child must be <h1> that contains backmatter section title; then zero or more <h2> elements for subtitle content; then zero or more Block Elements; then zero or more Sect1 children (<section class="sect1">)
 
 *Example*
 
 ----
-<section class="copyright-page">
-  <!-- Standard copyright page info marked up in headings, <div>s, <p>s, and lists -->
+<section class="colophon">
+  <h1>Colophon Title</h1>
+  <p>Colophon content</p>
+  <section class="sect1">
+    <!-- Section content here... -->
+  </section>
 </section>
+----
+
+==== Part
+
+*HTML element*: <div>
+
+*Atttribute requirements*: +class="part"+ 
+
+*Content model*: First child must be <h1> that contains part title; then zero or more <h2> elements for subtitle content; then zero or more Block Elements that compose the optional Part introduction; then one or more <section> elements representing Book Component children other than a Part
+
+*Example*
+
+----
+<div class="part">
+  <h1>Part One: Introduction to Backbone.js</h1>
+  <p>Part Introduction...</p>
+  <section class="chapter">
+    <!-- Chapter content here -->
+  </section>
+</div>
 ----
 
 ==== Table of Contents
 
-*Legacy DB element*: <toc> (which we never use, because we autogenerate our TOCs)
+*HTML element*: <nav>
 
-*New HTML element*: <nav>
+*Attribute requirements*: +class="toc"+
 
-*Special semantics*: +class="toc"+ (epub:type="toc" must be added for EPUB 3 output, if not in source)
-
-*Note*: The TOC should be conformant to the specs for the EPUB3 Navigation document (i.e., an <ol> within a <nav>)
+*Content Model*: The TOC must be conformant to the specs for the http://www.idpf.org/epub/30/spec/epub30-contentdocs-20111011.html#sec-xhtml-nav[EPUB 3 Navigation document]. First child is zero or more heading elements (<h1>-<h6>), followed by an <ol> (with <li> children that can contain only <a> or <span> elements)
 
 *Example*
 
 ----
-<nav class="toc" epub:type="toc">
-  <h1 class="title">Table of Contents</h1>
+<nav class="toc">
+  <h1>Table of Contents</h1>
    <ol>
      <li><a href="examples_page.html">A Note Regarding Supplemental Files</a></li>
      <li><a href="pr02.html">Foreword</a></li>
@@ -275,88 +215,56 @@ A list of mappings is below. Special semantics, unless otherwise noted, come fro
          <li><a href="pr03.html#I_sect1_d1e260">Tech Editors</a></li>
        </ol>
      </li>
-  <!-- And so on... -->
   </ol>
 </nav>
 ----
 
-=== Block Elements
+==== Index
 
-==== Paragraph
+*HTML element*: <section>
 
-*Legacy DB element*: <para> or <simpara>
+*Attribute requirements*: +class="index"+
 
-*New HTML element*: <p>
+*Content model*: First child must be <h1> that contains index title; then zero or more <h2> elements for subtitle content; then zero or more Block Elements; then zero or more Sect1 children (<section class="sect1">)
 
-*Special semantics*: in most cases, none--but we may define classes in specific circumstances; e.g., <p class="biblioentry">
+*Best practices*: HTMLBook recommends following the http://www.idpf.org/epub/idx/[EPUB Indexes specification] and using <ol>/<li> elements for marking up index entries, with class attributes used for semantic inflection as appropriate, but none of this is a formal spec requirement
 
-*Example*:
-
-----
-<p>Nothing exciting here. Move on, yo!</p>
-----
-
-==== Sidebar
-
-*Legacy DB element*: <sidebar>
-
-*New HTML element*: <aside>
-
-*Special semantics*: class="sidebar"
-
-*Example*:
+*Example*
 
 ----
-<aside class="sidebar">
-  <!-- Optional h5 for sidebar title -->
-  <h5 class="title">Amusing Digression</h5>
-  <p>Did you know that in Boston, they call it "soda", and in Chicago, they call it "pop"?</p>
-</aside>
-----
-
-==== Admonitions
-
-*Legacy DB element*: <note>, <tip>, <warning>, <caution>, <important>
-
-*New HTML element*: <div>
-
-*Special semantics*: class="note" or class="warning" (these are the two admon values in the EPUB 3 Structural Semantics Vocabulary spec; we can always define more if note/warning do not suffice)
-
-*Note*: Given the current state of EPUB 3 support, we will likely need to transform back to <div> in EPUB output order to ensure backward compatibility in EPUB 2 readers
-
-*Example*:
-
-----
-<div class="note">
-  <p>Type "hubot kitteh" to get a picture of an adorable cat</p>
-</div>
+<section class="index">
+  <h1>Index Title</h1>
+  <div class="index:group">
+    <h2>A</h2>
+    <ol>
+      <li class="index:term">AsciiDoc, <a href="ch01#asciidoc" class="index:locator">All about AsciiDoc</a>
+	<ol>
+           <li class="index:term">conversion to HTML, <a href="ch01#asctohtml" class="index:locator">AsciiDoc Output Formats</a></li>
+         </ol>
+      </li>
+      <li class="index:term">azalea, <a href="ch01#azalea" class="index:locator">Shrubbery</a></li>
+    </ol>
+  </div>
+</section>
 ----
 
 ==== Sections
 
-*Legacy DB element*: <section>, <sect1>, <sect2>, <sect3>, <sect4>, <sect5>
+*HTML element*: <section>
 
-*New HTML element*: <section>
+*Attribute requirements*: class="sect1", class="sect2", class="sect3", class="sect4", class="sect5"footnote:[From DocBook vocabulary], depending on hierarchy level. "sect1" is used for <section> elements nested directly in main Book components ("chapter", "appendix", etc.). "sect2" is used for <section> elements nested in a "sect1" <section>, "sect3" is used for <section> elements nested in a "sect2" <section>, and so on. 
 
-*Special semantics*: class="sect1", class="sect2", class="sect3", class="sect4", class="sect5"
-
-*Note*: EPUB 3 Structural Semantic Vocabulary only has the term "division" for sections, and has no semantics for different section levels, so the above semantics are pulled directly from DocBook (operating on the assumption that semantics for section level are valuable in CSS, such that we don't need to write selectors like:
+*Content model*: The first child must be a heading element corresponding to the hierarchy level indicated by "class" value, as follows:
 
 ----
-section section section section { font-size: 50% }
+"sect1" -> h1
+"sect2" -> h2
+"sect3" -> h3
+"sect4" -> h4
+"sect5" -> h5
 ----
 
-*Note 2*: Proposed use of HTML heading elements for sections is as follows:
-
-----
-sect1 -> h1
-sect2 -> h2
-sect3 -> h3
-sect4 -> h4
-sect5 -> h5
-----
-
-*Note 3*: Given the current state of EPUB 3 support, we will likely need to transform back to <div> in EPUB output order to ensure backward compatibility in EPUB 2 readers
+The heading is followed by zero or more Block elements, followed by zero or more <section> elements with a class value one level lower in the hierarchy, as long as the parent section is a "sect4" or higher (e.g., <section class="sect4"> nested in <section class="sect3">)
 
 *Example*:
 
@@ -373,15 +281,82 @@ sect5 -> h5
 </section>
 ----
 
-==== Tables
+=== Block elements
 
-*Legacy DB element*: <table>
+==== Paragraph
 
-*New HTML element*: <table>
-
-*Special semantics*: None, but use child <caption> element for table title
+*HTML element*: <p>
 
 *Example*:
+
+----
+<p>This is a standard paragraph with some <em>emphasized text</em></p>
+----
+
+==== Sidebar
+
+*HTML element*: <aside>
+
+*Attribute requirements*: class="sidebar"
+
+*Content model*: Zero or one <h5> element that contains the sidebar title); then zero or more Block elements
+
+*Example*:
+
+----
+<aside class="sidebar">
+  <h5>Amusing Digression</h5>
+  <p>Did you know that in Boston, they call it "soda", and in Chicago, they call it "pop"?</p>
+</aside>
+----
+
+==== Admonitions
+
+*HTML element*: <div>
+
+*Attribute requirements*: class="note" or class="warning", depending on the content within
+
+*Content model*: Either of the following content models is acceptable:
+
+* text and/or zero or more Inline elements
+* Zero or more <h1>-<h6> elements (for title and subtitles), followed by zero or more Block elements
+
+*Examples*:
+
+----
+<div class="note">
+  <h1>Helpful Info</h1>
+  <p>Please take note of this important information</p>
+</div>
+----
+
+----
+<div class="warning">Make sure to get your AsciiDoc markup right!</div>
+----
+
+==== Tables
+
+*HTML element*: <table>
+
+*Content model*: Zero or one <caption> elements (for titled/captioned tables); then zero or more <colgroup> elements; then zero or more <thead> elements; then a choice between either zero or more <tbody> elements, or zero or more <tr> elements; then zero or more <tfoot> elements
+
+*Content model for <caption>*: Either of the following is acceptable:
+
+* Zero or more <p> and/or <div> elements
+* Text and/or zero or more Inline elements
+
+*Content model for <colgroup>*: Mirrors HTML5 Specification
+
+*Content models for <thead>, <tbody>, and <tfoot>*: Mirror HTML5 Specification
+
+*Content model for <tr>*: Mirrors HTML5 Specification, but see content model below for rules for child +<td>+ and +<th>+ elements
+
+*Content model for <td> and <th> elements*: Either of the following is acceptable:
+
+* text and/or zero or more Inline elements
+* Zero or more Block elements
+
+*Examples*:
 
 ----
 <table>
@@ -398,36 +373,54 @@ sect5 -> h5
 </table>
 ----
 
+----
+<table>
+  <thead>
+    <tr>
+      <th>First</th>
+      <th>Middle Initial</th>  
+      <th>Last</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Alfred</td>
+      <td>E.</td>
+      <td>Newman</td>
+    </tr>
+    <!-- And so on -->
+  </tbody>
+</table>
+----
+
 ==== Figures
 
-*Legacy DB element*: <figure>
+*HTML element*: <figure>
 
-*New HTML element*: <figure>
+*Content model*: Either of the following is acceptable:
 
-*Special semantics*: None, but use child <figcaption> element for figure title
-
-*Note*: May need to transform <figure> to a <div> for EPUB output for EPUB 2 backward compatibility
+* A <figcaption> element followed by zero or more Block elements and/or <img> elements
+* Zero or more Block elements and/or <img> elements, followed by a <figcaption> element
 
 *Example*:
 
 ----
 <figure>
-<figcaption>Project Unicorn Logo</figcaption>
-<img src="unicorn.gif" alt="Illustration of a unicorn running."/>
+<figcaption>Adorable cat</figcaption>
+<img src="cute_kitty.gif" alt="Photo of an adorable cat"/>
 </figure>
 ----
 
 ==== Examples
 
-*Legacy DB element*: <example>
+*HTML element*: <div>
 
-*New HTML element*: <div>
+*Attribute requirements*: class="example"
 
-*Special semantics*: class="example"footnote:[From DocBook; EPUB 3 Structural Semantics Vocabulary has no good match (closest is probably "practice")]
+*Content model*: Either of the following content models is acceptable:
 
-*Note*: Examples are intended to be titled in DocBook model; Would suggest using <caption>, but HTML spec reserves it exclusively for table elements.
-
-*Note*: Typically in our books, examples contain code listings, but this is not a requirement in the DocBook model, and occasionally, we'll include other block content instead (lists, paras, etc.)
+* text and/or zero or more Inline elements
+* Zero or more <h1>-<h6> elements (for title and subtitles), followed by zero or more Block elements
 
 *Example*:
 
@@ -440,52 +433,50 @@ sect5 -> h5
 
 ==== Code listings
 
-*Legacy DB element*: <programlisting> or <screen>
+*HTML element*: <pre>
 
-*New HTML element*: <pre>
-
-*Special semantics*: class="programlisting" or class="screen"footnote:[From DocBook; EPUB 3 Structural Semantics Vocabulary has no semantics for code blocks)]
-
-Also, data-language to indicate programming language, e.g., +data-language="python"+
-
-*Note*: May not be worth supporting semantic distinction between "screen" and "programlisting", but I can see it being valuable, if we want distinct styling for command-line environments.
+*Optional HTMLBook-specific attribute*: +data-language+, used to indicate language of code listing (e.g., +data-language="python"+)
 
 *Example*:
 
 ----
-<pre class="programlisting">print "Hello World"</pre>
+<pre class="programlisting">print "<em>Hello World</em>"</pre>
 ----
-
 
 ==== Ordered lists
 
-*Legacy DB element*: <orderedlist>
+*HTML element*: <ol>
 
-*New HTML element*: <ol>
+*Content model*: Zero or more <li> children for each list item
 
-*Special semantics*: None
+*Content model for <li> children*: Either of the following is acceptable:
 
-*Note*: Optionally, you could add <p>s for a <li> with multiple paragraphs.
+* text and/or zero or more Inline elements
+* Zero or more Block elements
 
 *Example*:
 
 ----
 <ol>
 <li>Step 1</li>
-<li>Step 2</li>
+<li>
+  <p>Step 2</p>
+  <p>Step 2 continued</p>
+</li>
 <!-- And so on -->
 </ol>
 ----
 
 ==== Itemized lists
 
-*Legacy DB element*: <itemizedlist>
+*HTML element*: <ul>
 
-*New HTML element*: <ul>
+*Content model*: Zero or more <li> children for each list item
 
-*Special semantics*: None
+*Content model for <li> children*: Either of the following is acceptable:
 
-*Note*: Optionally, you could add <p>s for an <li> with multiple paragraphs.
+* text and/or zero or more Inline elements
+* Zero or more Block elements
 
 *Example*:
 
@@ -499,30 +490,35 @@ Also, data-language to indicate programming language, e.g., +data-language="pyth
 
 ==== Definition lists
 
-*Legacy DB element*: <variablelist>
 
-*New HTML element*: <dl>
+*HTML element*: <dl>
 
-*Special semantics*: Generally none, but see <<glossary>> for an example of a special case
+*Content model*: Mirrors HTML5 Specification
 
-*Note*: Optionally, you could add <p>s to a <dd> with multiple paragraphs.
+*Content model for <dt> children*: text and/or zero or more Inline elements
+
+*Content model for <dd> children*: Either of the following is acceptable:
+
+* text and/or zero or more Inline elements
+* Zero or more Block elements
 
 *Example*:
 
 ----
 <dl>
-  <dt>Constant Width Bold</dt>
+  <dt>Constant Width Bold font</dt>
   <dd>Used to indicate user input</dd>
 </dl>
 ----
 
 ==== Blockquote
 
-*Legacy DB element*: <blockquote>
+*HTML element*: <blockquote>
 
-*New HTML element*: <blockquote>
+*Content model*: Either of the following is acceptable:
 
-*Special semantics*: class="epigraph", class="attribution"footnote:[From DocBook; no close match in EPUB 3 Structural Semantics Vocabulary] where appropriate
+* text and/or zero or more Inline elements
+* Zero or more Block elements
 
 *Example*:
 
@@ -535,13 +531,13 @@ Also, data-language to indicate programming language, e.g., +data-language="pyth
 
 ==== Headings
 
-*Legacy DB element*: <title>
+*HTML elements*: <h1>, <h2>, <h3>, <h4>, <h5>, or <h6>
 
-*New HTML element*: <h1>, <h2>, <h3>, <h4>, <h5>, <h6>
+*Content Model*: text and/or zero or more Inline elements
 
-*Special semantics*: class="title"
-
-*Note*: In DocBook, <title> is used for all heading titles, regardless of "level", and context is used to determine formatting/styling. In HTML, best practice suggests that we associate each heading with a level from <h1> to <h6> that roughly indicates its rank. Here are my proposed mappings for each section type:
+*Notes*: Many main book components (e.g., chapters, parts, appendixes) require headings. The appropriate
+element from <h1>-<h6> is outlined below, as well as in the corresponding documentation for these
+components:
 
 ----
 book title -> h1
@@ -559,26 +555,15 @@ sect3 title -> h3
 sect4 title -> h4
 sect5 title -> h5
 sidebar title -> h5
-example title -> h5
-equation title -> h5
-admon title -> h5
 ----
-
-I'm advocating we use h1 for book title, part title, and chapter-level titles because I think it's important to have consistency across all books, regardless of whether they have Parts or not. I think it would be confusing and potentially problematic if in a book that had parts, <h1> was used for part titles and <h2> was used for chapter titles, and then in a book that had no parts, <h1> was used for chapter titles. 
-
-I also like the idea of having heading level match the section class semantics, such that sect1 = <h1>, sect2 = <h2>, etc. I think doing anything else would be confusing.
-
-Look forward to discussing all this further, though.
 
 ==== Equation
 
-*Legacy DB element*: <equation>
+*HTML element*: <div>
 
-*New HTML element*: <div>
+*Attribute requirements*: class="equation"footnote:[From DocBook; no close match in EPUB 3 Structural Semantics Vocabulary]
 
-*Special semantics*: class="equation"footnote:[From DocBook; no close match in EPUB 3 Structural Semantics Vocabulary]
-
-*Note: Support embedded MathML or LaTex, as well as images
+*Note: HTMLBook supports embedded MathML in HTML content documents, which can be used here.
 
 *Example*:
 
@@ -597,66 +582,57 @@ Look forward to discussing all this further, though.
 
 === Inline Elements
 
-==== Emphasis (italic)
+==== Emphasis (generally for italic)
 
-*Legacy DB element*: <emphasis>
+*HTML element*: <em>
 
-*New HTML element*: <em>
-
-*Special semantics*: class="roman" where appropriatefootnote:[From DocBook; no close match in EPUB 3 Structural Semantics Vocabulary]; potentially some other options
 
 Example:
 
 ----
-<p>I <em>love</em> Atlas!</p>
+<p>I <em>love</em> HTML!</p>
 ----
 
-==== Strong (generally bold)
+==== Strong (generally for bold)
 
-*Legacy DB element*: <emphasis>
 
-*New HTML element*: <strong>
-
-*Special semantics*: class="bold" where appropriatefootnote:[From DocBook; no close match in EPUB 3 Structural Semantics Vocabulary]; potentially some other options
+*HTML element*: <strong>
 
 Example:
 
 ----
-<p>I <strong>love</strong> Atlas!</p>
+<p>I <strong>love</strong> HTML!</p>
 ----
 
 ==== Literal (for inline code elements: variables, functions, etc.)
 
-*Legacy DB element*: <literal>, <userinput>, <replaceable>
-
-*New HTML element*: <code>
-
-*Special semantics*: class="userinput", class="replaceable", class="filename"  where appropriatefootnote:[From DocBook; no close match in EPUB 3 Structural Semantics Vocabulary]; potentially some other options
+*HTML element*: <code>
 
 Example:
 
 ----
-<p>Enter <code class="userinput">echo "Hello World"</code> on the command line</p>
+<p>Enter <code>echo "Hello World"</code> on the command line</p>
 ----
 
 ==== General-purpose phrase markup for other styling (underline, strikethrough, etc.)
 
+*HTML element*: <span>
 
-*Legacy DB element*: <phrase>
+Example:
 
-*New HTML element*: <span>
-
-*Special semantics*: class="underline", class="strikethrough"footnote:[From DocBook; no close match in EPUB 3 Structural Semantics Vocabulary]; potentially some other options
+----
+<p>Use your own classes for custom styling for formatting like <span class="strikethrough">strikethrough</span></p>
+----
 
 ==== Footnote, endnote
 
-*Legacy DB element*: <footnote>
+*HTML element*: <a> (for marker); <div> for block of footnote/endnote content; <aside> for footnote or endnote
 
-*New HTML element*: <a> (for marker); <div> for block of footnote/endnote content; <aside> for footnote or endnote
+*Attribute requirements*: class="noteref" (for marker); class="footnotes" or class="rearnotes" for block of footnotes/endnotes; class="footnote" or class="rearnote" for footnote or endnote
 
-*Special semantics*: class="noteref" (for marker); class="footnotes" or class="rearnotes" for block of footnotes/endnotes; class="footnote" or class="rearnote" for footnote or endnote
+*Content model for marker (<a>)*: text and/or zero or more Inline elements
 
-*Note*: May need to transform <aside> to a <div> for EPUB output for EPUB 2 backward compatibility
+*Content model for footnote (<aside>)*: zero or more Block elements
 
 Example:
 
@@ -670,11 +646,11 @@ Example:
 
 ==== Cross-references
 
-*Legacy DB element*: <xref> or <link>
 
-*New HTML element*: <a>
+*HTML element*: <a>
 
-*Special semantics*: class="xref"footnote:[From DocBook; no close match in EPUB 3 Structural Semantics Vocabulary]
+*Attribute requirements*: class="xref"footnote:[From DocBook]; an href attribute that should point to the id of a
+local HTMLBook resource referenced
 
 Example:
 
@@ -688,13 +664,11 @@ Example:
 
 ==== Index Term
 
-*Legacy DB element*: <indexterm>
+*HTML element*: <a>
 
-*New HTML element*: <a>
+*Attribute requirements*: class="indexterm"; for primary index entry value, use +data-primary+; for secondary index entry value, use +data-secondary+; for tertiary index entry value, use +data-tertiary+; for a "see" index reference, use +data-see+; for a "see also" index reference, use +data-seealso+; for a "sort" value to indicate alphabetization, use +data-sortas+footnote:[Semantics from DocBook]
 
-*Special semantics*: class="indexterm"; data-primary="primary entry"; data-secondary="secondary entry"; data-tertiary="tertiary entry"; data-see="see term"; data-seealso="see also term"; data-sortas="alphabetization term"footnote:[From DocBook; no close match in EPUB 3 Structural Semantics Vocabulary]
-
-*Note*: Use of HTML5 data-* attributes seemed best fit for nonrendererd indexterm data, but would like to discuss this further.
+*Content model*: Empty
 
 *Example*:
 
@@ -704,11 +678,7 @@ Example:
 
 ==== Superscripts
 
-*Legacy DB element*: <superscript>
-
-*New HTML element*: <sup>
-
-*Special semantics*: None
+*HTML element*: <sup>
 
 *Example*:
 
@@ -718,11 +688,7 @@ Example:
 
 ==== Subscripts
 
-*Legacy DB element*: <subscript>
-
-*New HTML element*: <sub>
-
-*Special semantics*: None
+*HTML element*: <sub>
 
 *Example*:
 
@@ -734,13 +700,11 @@ Example:
 
 ==== Video
 
-*Legacy DB element*: <videoobject>
-
-*New HTML element*: <video>
-
-*Note*: Should include a fallback image via the +poster+ attribute and/or a link to the video online.
+*HTML element*: <video>
 
 *Example*:
+
+*Note*: Fallback content is _strongly recommended_ for output formats that do not support HTML5 interactive content
 
 ----
 <video id="asteroids_video" width="480" height="270" controls="controls" poster="images/fallback_image.png">
@@ -753,11 +717,9 @@ Example:
 
 ==== Audio
 
-*Legacy DB element*: <audioobject>
+*HTML element*: <audio>
 
-*New HTML element*: <audio>
-
-*Note*: Should include a fallback link to the audio online.
+*Note*: Fallback content is _strongly recommended_ for output formats that do not support HTML5 interactive content
 
 *Example*:
 
@@ -773,11 +735,9 @@ Example:
 
 ==== Canvas
 
-*Legacy DB element*: No direct correlation 
+*HTML element*: <canvas>
 
-*New HTML element*: <canvas>
-
-*Note*: Should include a fallback link.
+*Note*: Should include a fallback link to the audio online.
 
 *Examples*:
 
@@ -787,32 +747,100 @@ Example:
 </canvas>
 ----
 
-==== General Interactive
-
-*Legacy DB element*: No direct correlation 
-
-*New HTML element*: <div class="interactive">
-
-*Note*: Should include a fallback link.
-
-*Examples*: 
-
-----
-<div class="interactive">
-  <div class="fallback">
-    <p>See the interactive example at http://example.com.</p>
-    <img src="images/fallback_image.png" />
-  </div>
-  
-  <div class="content">
-   
-   <!--- code goes here -->
-  
-  </div>
-
-</div>
-----
-
 === Metadata
 
-All metadata should be captured in the <head> of the main book HTML file; consider following http://idpf.org/epub/30/spec/epub30-publications.html#sec-metadata-elem[metadata conventions specified in EPUB 3 specification]
+==== Metadata points
+
+*HTML element*: <meta>
+
+*Attribute requirements*: +name+ (for name of metadata point); +content+: (for value of metadata point)
+
+*Content model*: Empty
+
+*Note*: All <meta> elements must be children of the <head> element of the HTML file.
+
+*Example*:
+
+----
+<head>
+  <title>Title of the Book</title>
+  <meta name="isbn-13" content="9781449344856"/>
+</head>
+----
+
+=== Element Classification
+
+==== Block elements
+
+In HTMLBook, the majority of elements classified by the HTML5 specification as Flow content (minus elements also categorized as Heading Content, Phrasing Content, and Sectioning Content) are considered to be Block elements. Here is a complete list:
+
+* address
+* aside
+* audio
+* blockquote
+* canvas
+* details
+* div
+* dl
+* embed
+* fieldset
+* figure
+* form
+* hr
+* iframe
+* map
+* math (In MathML vocabulary; must be namespaced under http://www.w3.org/1998/Math/MathML)
+* menu
+* object
+* ol
+* p
+* pre
+* svg (In SVG vocabulary; must be namespaced under http://www.w3.org/2000/svg)
+* table
+* ul
+* video
+
+==== Block elements
+
+In HTMLBook, the majority of elements classified by the HTML5 specification as Phrasing Content are considered to be Inline elements. Here is a complete list:
+
+* a 
+* abbr
+* b
+* bdi
+* bdo
+* br
+* button
+* command
+* cite
+* code
+* datalist
+* del
+* dfn
+* em
+* i
+* input
+* img
+* ins
+* kbd
+* keygen  
+* label  
+* mark  
+* meter
+* output
+* progress
+* q
+* ruby
+* s
+* samp
+* select
+* small
+* span
+* strong
+* sub
+* sup
+* textarea
+* time
+* u
+* var
+* wbr
