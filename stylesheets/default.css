@@ -56,6 +56,61 @@ section.toc {
 
 nav.toc ol { list-style-type: none; }
 
+/* (((((((((((((( FOREWORD )))))))))))))) */
+
+section.foreword {
+  page: foreword;
+}
+
+/* (((((((((((((( PREFACE )))))))))))))) */
+
+section.preface {
+  page: preface;
+}
+
+/* (((((((((((((( PART )))))))))))))) */
+
+div.part {
+  page: part;
+}
+
+/* (((((((((((((( CHAPTER )))))))))))))) */
+
+section.chapter {
+  page: chapter;
+  page-break-before: always;
+}
+
+/* (((((((((((((( APPENDIX )))))))))))))) */
+
+section.appendix {
+  page: appendix;
+}
+
+/* (((((((((((((( GLOSSARY )))))))))))))) */
+
+section.glossary {
+  page: glossary;
+}
+
+/* (((((((((((((( BIBLIOGRAPHY )))))))))))))) */
+
+section.bibliography {
+  page: bibliography;
+}
+
+/* (((((((((((((( INDEX )))))))))))))) */
+
+section.index {
+  page: index;
+}
+
+/* (((((((((((((( COLOPHON )))))))))))))) */
+
+section.colophon {
+  page: colophon;
+}
+
 /* (((((((((((((( BLOCKS )))))))))))))) */
 
 h1, h2, h3, h4, h5 {
@@ -64,13 +119,8 @@ h1, h2, h3, h4, h5 {
   text-align: left;
 }
 
-p { margin: 10pt 0; }
-
-
 /* (((((((((((((( INLINES )))))))))))))) */
 
 code {
   font-family: "DejaVu-SansMono";
 }
-
-
