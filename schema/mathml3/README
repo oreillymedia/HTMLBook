@@ -1,4 +1,4 @@
 W3C MathML XML Schema, via http://www.w3.org/Math/XMLSchema/
 
-ORM Note: Some tiny tweaks made to annotation-xml content model (in mathml3-common.xsd) to ensure it was determinist;
+Note: Some tiny tweaks made to annotation-xml content model (in mathml3-common.xsd) to ensure it was determinist;
 see https://github.com/oreillymedia/HTMLBook for file history

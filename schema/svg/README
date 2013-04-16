@@ -1,5 +1,5 @@
 W3C SVG XML Schema, via http://www.w3.org/TR/2002/WD-SVG11-20020108/SVG.xsd
-(with local mods for validity by Sanders; see https://github.com/oreillymedia/HTMLBook for file history)
+(with some local mods for validity; see https://github.com/oreillymedia/HTMLBook for file history)
 
 Dependencies also included:
 

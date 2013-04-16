@@ -254,7 +254,7 @@
       <documentation>'preserveAspectRatio' attribute specification</documentation>
     </annotation>
     <restriction base="string">
-      <!-- ORM: Revised pattern to be more accurate and match default values -->
+      <!-- HTMLBook Note: Revised pattern to be more accurate and match default values -->
       <pattern value="\s*x(Min|Mid|Max)Y(Min|Mid|Max)(\s+(meet|slice)\s*)?"/>
     </restriction>
   </simpleType>
@@ -333,7 +333,7 @@
       <documentation>All elements have an ID</documentation>
     </annotation>
     <attribute name="id" type="ID" use="optional"/>
-    <!-- ORM: dropped invalid type attr on below element -->
+    <!-- HTMLBook Note: dropped invalid type attr on below element -->
     <attribute ref="xml:base" use="optional"/>
   </attributeGroup>
   <attributeGroup name="langSpaceAttrs">
@@ -835,7 +835,7 @@
   </attributeGroup>
   <attributeGroup name="animElementAttrs">
     <attributeGroup ref="svg:xlinkRefAttrs"/>
-    <!-- ORM: Dropped invalid type attr on below element -->
+    <!-- HTMLBook Note: Dropped invalid type attr on below element -->
     <attribute ref="xlink:href" use="optional"/>
   </attributeGroup>
   <attributeGroup name="animAttributeAttrs">
@@ -911,7 +911,7 @@
   </attributeGroup>
   <group name="descTitleMetadata">
     <annotation>
-      <!-- ORM Note: switched here from invalid xs:all based content model (which can't be used for particles as was being done)
+      <!-- HTMLBook Note: switched here from invalid xs:all based content model (which can't be used for particles as was being done)
            to xs:choice-based content model, which allows for one or more desc/title/metadata elements at the beginning of all content models in which 
            descTitleMetadata is referenced -->
       <documentation>A bit simpler than the DTD, but see commented-out alternative</documentation>
