@@ -1,6 +1,6 @@
 === HTMLBook
 
-Let's write books in HTML! HTMLBook is an open HTML5-based XML standard for the authoring and production of both print and digital books. HTMLBook is built on the following premises::
+Let's write books in HTML! HTMLBook is an open HTML5-based XML standard for the authoring and production of both print and digital books. HTMLBook is built on the following premises:
 
 * Books are timeless. The basic "book" structure has persisted for hundreds of years and will continue to persist for our lifetimes, be it in digital or print form. 
 * HTML is the markup language of the world for the foreseeable future.
