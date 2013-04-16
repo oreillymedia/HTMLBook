@@ -494,7 +494,7 @@
   <xs:complexType>
     <xs:complexContent>
       <xs:extension base="inline_children_only">
-        <xs:attribute name="data-language" type="xs:token"/>
+        <xs:attribute name="data-code-language" type="xs:token"/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
