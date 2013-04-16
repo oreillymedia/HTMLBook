@@ -2,7 +2,7 @@
 
 Requirements for HTML5 elements in the HTMLBook specification are below. Special semantic inflections for +class+ attributes, unless otherwise noted, come from http://idpf.org/epub/vocab/structure/[EPUB 3 Structural Semantics Vocabulary]
 
-Many content models refer to "Block elements" or "Inline elements"; please see <<block_elements>> and <<inline_elements>> for the corresponding list of HTML5 elements that belong to each of these categories
+Many content models refer to "Block elements" or "Inline elements"; please see <<block_elements, Block Elements>> and <<inline_elements, Inline Elements>> for the corresponding list of HTML5 elements that belong to each of these categories
 
 If no content model or attribute requirements are explicitly specified, then HTMLBook adopts the corresponding requirements in the http://www.w3.org/html/wg/drafts/html/master/[HTML5 Specification]
 
