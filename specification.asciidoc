@@ -98,7 +98,7 @@ If no content model or attribute requirements are explicitly specified, then HTM
 
 *Content model*: First child must be +<h1>+ that contains glossary title; then zero or more +<h2>+ elements for subtitle content; then zero or more Block Elements; then zero or more Sect1 children (+<section class="sect1">+)
 
-*Best practices*: List of glossary terms should be marked up using +<dl>+ elements with a class of "glossary", with +<dt>+ children with a class of "glossterm" and +<dd>+ children with a class of "glossdef". Term text should be wrapped in a https://developer.mozilla.org/en-US/docs/HTML/Element/dfn[<dfn>]. However, none of this is formally required by the spec.
+*Best practices*: List of glossary terms should be marked up using +<dl>+ elements with a class of "glossary", with +<dt>+ children with a class of "glossterm" and +<dd>+ children with a class of "glossdef". Term text should be wrapped in a https://developer.mozilla.org/en-US/docs/HTML/Element/dfn[++<dfn>++]. However, none of this is formally required by the spec.
 
 *Example*
 
@@ -199,7 +199,7 @@ If no content model or attribute requirements are explicitly specified, then HTM
 
 *Attribute requirements*: +class="toc"+
 
-*Content Model*: The TOC must be conformant to the specs for the http://www.idpf.org/epub/30/spec/epub30-contentdocs-20111011.html#sec-xhtml-nav[EPUB 3 Navigation document]. First child is zero or more heading elements (++<h1>-<h6>++), followed by an +<ol>+ (with +<li>+ children that can contain only +<a>+ or +<span>+ elements)
+*Content Model*: The TOC must be conformant to the specs for the http://www.idpf.org/epub/30/spec/epub30-contentdocs-20111011.html#sec-xhtml-nav[EPUB 3 Navigation document]. First child is zero or more heading elements (++<h1>-<h6>++), followed by an +<ol>+ (with +<li>+ children that can contain only a +<span>+ element or an +<a>+ element plus an optional +<ol>+ child)
 
 *Example*
 
