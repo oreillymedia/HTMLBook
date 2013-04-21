@@ -12,6 +12,7 @@
       <xs:element ref="head"/>
       <xs:element ref="body"/>
     </xs:sequence>
+    <xs:attributeGroup ref="globals"/>
   </xs:complexType>
 </xs:element>
   
@@ -29,6 +30,7 @@
           <xs:element ref="style"/>
       </xs:choice>
     </xs:sequence>
+    <xs:attributeGroup ref="globals"/>
   </xs:complexType>
 </xs:element>
   
@@ -1990,11 +1992,11 @@
   <xs:attribute name="type">
     <xs:simpleType>
       <xs:restriction base="xs:token">
-        <xs:enumeration value="decimal"/>
-        <xs:enumeration value="lower-alpha"/>
-        <xs:enumeration value="upper-alpha"/>
-        <xs:enumeration value="lower-roman"/>
-        <xs:enumeration value="upper-roman"/>
+        <xs:enumeration value="1"/>
+        <xs:enumeration value="a"/>
+        <xs:enumeration value="A"/>
+        <xs:enumeration value="i"/>
+        <xs:enumeration value="I"/>
       </xs:restriction>
     </xs:simpleType>
   </xs:attribute>
