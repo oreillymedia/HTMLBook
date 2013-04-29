@@ -1,6 +1,6 @@
 === HTMLBook
 
-Let's write books in HTML! HTMLBook is an open HTML5-based XML standard for the authoring and production of both print and digital books. HTMLBook is built on the following premises:
+Let's write books in HTML! HTMLBook is an open, HTML5-based standard for the authoring and production of both print and digital books. HTMLBook is built on the following premises:
 
 * Books are timeless. The basic "book" structure has persisted for hundreds of years and will continue to persist for our lifetimes, be it in digital or print form. 
 * HTML is the markup language of the world for the foreseeable future.
@@ -10,17 +10,17 @@ As such, HTMLBook can be characterized in the following ways:
 
 * HTMLBook is a subset of XHTML5. All HTMLBook is HTML5, but not all HTML5 is HTMLBook.
 * HTMLBook contains no additional elements or attributes outside of the HTML5 specification.
-* HTMLBook is semantically tailored to the structure of a "book" (including more complex content used in technical and reference documents).
+* HTMLBook is semantically tailored to the structure of a book, including more complex content used in technical and reference documents.
 * HTMLBook is defined with and can be validated against an XML schema.
-* HTMLBook templates can be written in CSS.
+* HTMLBook stylesheets are written in CSS.
 
 === Getting Started with HTMLBook
 
-* Read the Working Draft of the HTMLBook Specification here:
+Read the Working Draft of the HTMLBook Specification here:
 
 https://github.com/oreillymedia/HTMLBook/blob/master/specification.asciidoc
 
-* Get the HTMLBook schema here:
+Get the HTMLBook schema here:
 
 https://github.com/oreillymedia/HTMLBook/tree/master/schema
 
@@ -44,7 +44,7 @@ Alternatively, to validate in a GUI XML editor like oXygen, add a +xsi:schemaLoc
 
 * The HTMLBook specification is currently in Working Draft status, and will continue to be developed and revised for the foreseeable future.
 
-* If you have any bugs or feature requests for HTMLBook, please submit them via the Issues tab in GitHub
+* If you have any bugs or feature requests for HTMLBook, please submit them via the Issues tab in GitHub.
 
 * In the coming months, we will be adding additional tools to the HTMLBook project for authoring and producing books with HTMLBook: CSS stylesheets, scripts for generating EPUB/Mobi, etc.
 
