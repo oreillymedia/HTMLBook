@@ -10,7 +10,21 @@ body.book {
   color: cmyk(0%,0%,0%,100%);
   text-align: justify;
   hyphens: auto;
-  font-family: "DejaVu-Serif";
+}
+
+/* page counters are tricky */
+
+body.book > div.part:first-of-type,
+body.book > section.chapter:first-of-type {
+  counter-reset: page 1;
+}
+
+body.book > section.chapter:first-of-type p {
+  color: red;
+}
+
+body.book > section.chapter+div.part {
+  counter-reset: none;
 }
 
 /* (((((((((((((( TITLEPAGE )))))))))))))) */
@@ -54,6 +68,18 @@ section.toc {
   page: toc;
 }
 
+@page toc:right {
+  @bottom-right-corner {
+    content: counter(page, lower-roman); 
+  }
+}
+
+@page toc:left {
+  @bottom-left-corner {
+    content: counter(page, lower-roman); 
+  }
+}
+
 nav.toc ol { list-style-type: none; }
 
 /* (((((((((((((( FOREWORD )))))))))))))) */
@@ -62,10 +88,36 @@ section.foreword {
   page: foreword;
 }
 
+@page forword:right {
+  @bottom-right-corner {
+    content: counter(page, lower-roman); 
+  }
+}
+
+@page foreword:left {
+  @bottom-left-corner {
+    content: counter(page, lower-roman); 
+  }
+}
+
+
 /* (((((((((((((( PREFACE )))))))))))))) */
 
 section.preface {
   page: preface;
+}
+
+@page preface:right {
+  @bottom-right-corner {
+    content: counter(page, lower-roman); 
+  }
+}
+
+@page preface:left {
+  @bottom-left-corner {
+    content: counter(page, lower-roman); 
+    font-family: "DejaVu-Sans";
+  }
 }
 
 /* (((((((((((((( PART )))))))))))))) */
@@ -81,10 +133,36 @@ section.chapter {
   page-break-before: always;
 }
 
+@page chapter:right {
+  @bottom-right-corner {
+    content: counter(page); 
+  }
+}
+
+@page chapter:left {
+  @bottom-left-corner {
+    content: counter(page); 
+  }
+}
+
+
 /* (((((((((((((( APPENDIX )))))))))))))) */
 
 section.appendix {
   page: appendix;
+  page-break-before: always;
+}
+
+@page appendix:right {
+  @bottom-right-corner {
+    content: counter(page); 
+  }
+}
+
+@page appendix:left {
+  @bottom-left-corner {
+    content: counter(page); 
+  }
 }
 
 /* (((((((((((((( GLOSSARY )))))))))))))) */
@@ -93,16 +171,52 @@ section.glossary {
   page: glossary;
 }
 
+@page glossary:right {
+  @bottom-right-corner {
+    content: counter(page); 
+  }
+}
+
+@page glossary:left {
+  @bottom-left-corner {
+    content: counter(page); 
+  }
+}
+
 /* (((((((((((((( BIBLIOGRAPHY )))))))))))))) */
 
 section.bibliography {
   page: bibliography;
 }
 
+@page bibliography:right {
+  @bottom-right-corner {
+    content: counter(page); 
+  }
+}
+
+@page bibliography:left {
+  @bottom-left-corner {
+    content: counter(page); 
+  }
+}
+
 /* (((((((((((((( INDEX )))))))))))))) */
 
 section.index {
   page: index;
+}
+
+@page index:right {
+  @bottom-right-corner {
+    content: counter(page); 
+  }
+}
+
+@page index:left {
+  @bottom-left-corner {
+    content: counter(page); 
+  }
 }
 
 /* (((((((((((((( COLOPHON )))))))))))))) */
@@ -114,13 +228,14 @@ section.colophon {
 /* (((((((((((((( BLOCKS )))))))))))))) */
 
 h1, h2, h3, h4, h5 {
-  font-family: "DejaVu-Sans";
   hyphens: none;
   text-align: left;
 }
 
+img { max-width: 100%; }
+
 /* (((((((((((((( INLINES )))))))))))))) */
 
 code {
-  font-family: "DejaVu-SansMono";
+  font-family: monospace;
 }
