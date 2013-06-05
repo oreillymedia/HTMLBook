@@ -18,7 +18,7 @@
   <xsl:param name="toc-include-title" select="0"/>
 
   <!-- Specify whether to include number labels in TOC entries -->
-  <xsl:param name="toc-include-labels" select="1"/>
+  <xsl:param name="toc-include-labels" select="0"/>
 
   <xsl:template match="/">
     <xsl:if test="$autogenerate-toc = 1 and count(//h:nav) = 0">
@@ -34,8 +34,11 @@
     <xsl:apply-templates select="*" mode="tocgen"/>
   </xsl:template>
 
-  <xsl:template match="h:section|h:div[@class='part']" mode="tocgen">
+  <xsl:template match="h:section[not(@class = 'dedication' or @class = 'titlepage' or @class = 'toc' or @class = 'colophon' or @class = 'copyright-page' or @class = 'halftitlepage')]|h:div[@class='part']" mode="tocgen">
     <xsl:element name="li">
+      <xsl:attribute name="class">
+	<xsl:value-of select="@class"/>
+      </xsl:attribute>
       <a>
 	<xsl:attribute name="href">
 	  <xsl:call-template name="href.target">
