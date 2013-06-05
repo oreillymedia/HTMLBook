@@ -54,6 +54,7 @@
 	  <xsl:apply-templates mode="tocgen"/>
 	</ol>
       </xsl:if>
+    </li>
   </xsl:template>
 
   <xsl:template match="*[local-name() = $toc-placeholder-element]">
