@@ -126,7 +126,7 @@ part:I
 
   <!-- Logic for generating titles; default handling is to grab the first <h1>-<h6> content -->
   <xsl:template match="*" mode="titlegen">
-    <xsl:apply-templates select="(h1|h2|h3|h4|h5|h6)[1]//node()"/>
+    <xsl:apply-templates select="(h:h1|h:h2|h:h3|h:h4|h:h5|h:h6)[1]//node()"/>
   </xsl:template>
 
 </xsl:stylesheet> 
