@@ -21,9 +21,14 @@
   <xsl:param name="toc-include-labels" select="0"/>
 
   <xsl:template match="/">
-    <xsl:if test="$autogenerate-toc = 1 and count(//h:nav) = 0">
-      <xsl:message>Unable to generate TOC: no "nav" element found.</xsl:message>
-    </xsl:if>
+    <xsl:choose>
+      <xsl:when test="$autogenerate-toc = 1 and count(//h:nav[@class='toc']) = 0">
+	<xsl:message>Unable to autogenerate TOC: no "nav" element found.</xsl:message>
+      </xsl:when>
+      <xsl:when test="$toc-placeholder-overwrite-contents != 1 and count(//h:nav[@class='toc'][1][not(node())]) = 0">
+	<xsl:message>Unable to autogenerate TOC: first "nav" is not empty, and $toc-placeholder-overwrite-contents param not enabled.</xsl:message>
+      </xsl:when>
+    </xsl:choose>
     <xsl:copy>
       <xsl:apply-templates select="@*|node()"/>
     </xsl:copy>
@@ -58,12 +63,12 @@
     </xsl:element>
   </xsl:template>
 
-  <xsl:template match="h:nav">
+  <xsl:template match="h:nav[@class='toc']">
     <xsl:choose>
       <!-- If autogenerate-toc is enabled, and it's the first toc-placeholder-element, and it's either empty or overwrite-contents is specified, then
 	   go ahead and generate the TOC here -->
       <xsl:when test="($autogenerate-toc = 1) and 
-		      (not(preceding::h:nav)) and
+		      (not(preceding::h:nav[@class='toc'])) and
 		      (not(node()) or $toc-placeholder-overwrite-contents != 0)">
 	<nav>
 	  <xsl:if test="$toc-include-title != 0">
