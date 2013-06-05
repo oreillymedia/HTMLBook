@@ -67,7 +67,7 @@ part:I
     <!-- Calculate numeration format -->
     <xsl:variable name="calculated-numeration-format">
       <xsl:choose>
-	<xsl:when test="$format != ''">
+	<xsl:when test="$numeration-format != ''">
 	  <xsl:value-of select="$numeration-format"/>
 	</xsl:when>
 	<xsl:otherwise>

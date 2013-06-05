@@ -60,7 +60,7 @@
       <!-- If autogenerate-toc is enabled, and it's the first toc-placeholder-element, and it's either empty or overwrite-contents is specified, then
 	   go ahead and generate the TOC here -->
       <xsl:when test="($autogenerate-toc = 1) and 
-		      (not(preceding::h:nav)) and 
+		      (not(preceding::h:nav)) and
 		      (not(node()) or $toc-placeholder-overwrite-contents != 0)">
 	<nav>
 	  <xsl:if test="$toc-include-title != 0">
