@@ -31,11 +31,11 @@
 
   <!-- Default rule for TOC generation -->
   <xsl:template match="*" mode="tocgen">
-    <xsl:apply-templates mode="tocgen"/>
+    <xsl:apply-templates select="*" mode="tocgen"/>
   </xsl:template>
 
   <xsl:template match="h:section|h:div[@class='part']" mode="tocgen">
-    <li>
+    <xsl:element name="li">
       <a>
 	<xsl:attribute name="href">
 	  <xsl:call-template name="href.target">
@@ -47,12 +47,12 @@
 	</xsl:if>
 	<xsl:apply-templates select="." mode="titlegen"/>
       </a>
-      <xsl:if test="descendant::section|descendant::div[@class='part']">
+      <xsl:if test="descendant::h:section|descendant::h:div[@class='part']">
 	<ol>
 	  <xsl:apply-templates mode="tocgen"/>
 	</ol>
       </xsl:if>
-    </li>
+    </xsl:element>
   </xsl:template>
 
   <xsl:template match="h:nav">
@@ -69,7 +69,7 @@
 	    </h1>
 	  </xsl:if>
 	  <ol>
-	    <xsl:apply-templates select="/" mode="tocgen"/>
+	    <xsl:apply-templates select="/*" mode="tocgen"/>
 	  </ol>
 	</nav>
       </xsl:when>
