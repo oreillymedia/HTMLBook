@@ -21,7 +21,7 @@ chapter:1
 part:I
   </xsl:param>
 
-  <!-- When labeling sections, also label their ancestors--e.g., 3.1 -->
+  <!-- When labeling sections, also label their ancestors, e.g., 3.1 -->
   <xsl:param name="label.section.and.ancestors"/>
 
   <!-- Stylesheet for utility templates common to other stylesheets -->
@@ -122,6 +122,11 @@ part:I
 	  <xsl:value-of select="$calculated-numeration-format"/>.</xsl:message>
       </xsl:otherwise>
     </xsl:choose>    	
+  </xsl:template>
+
+  <!-- Logic for generating titles; default handling is to grab the first <h1>-<h6> content -->
+  <xsl:template match="*" mode="titlegen">
+    <xsl:apply-templates select="(h1|h2|h3|h4|h5|h6)[1]//node()"/>
   </xsl:template>
 
 </xsl:stylesheet> 

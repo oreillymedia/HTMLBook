@@ -47,7 +47,7 @@
 	<xsl:if test="$toc-include-labels = 1">
 	  <xsl:apply-template select="." mode="label.value"/>
 	</xsl:if>
-	<xsl:apply-template select="." mode="title.value"/>
+	<xsl:apply-template select="." mode="titlegen"/>
       </a>
       <xsl:if test="descendant::section|descendant::div[@class='part']">
 	<ol>
