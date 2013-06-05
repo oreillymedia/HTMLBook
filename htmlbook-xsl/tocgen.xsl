@@ -3,6 +3,9 @@
 		xmlns:h="http://www.w3.org/1999/xhtml"
 		xmlns="http://www.w3.org/1999/xhtml">
 
+<!-- Functionality still ToDo: Support for multilevel labels (including label for ancestor element); see common.xsl -->
+<!-- Functionality still ToDo: Setting TOC section depth (e.g., how many levels of sections to include in TOC -->
+
   <xsl:import href="common.xsl"/>
 
   <xsl:output method="xml"
@@ -23,10 +26,10 @@
   <xsl:template match="/">
     <xsl:choose>
       <xsl:when test="$autogenerate-toc = 1 and count(//h:nav[@class='toc']) = 0">
-	<xsl:message>Unable to autogenerate TOC: no "nav" element found.</xsl:message>
+	<xsl:message>Unable to autogenerate TOC: no TOC "nav" element found.</xsl:message>
       </xsl:when>
       <xsl:when test="$toc-placeholder-overwrite-contents != 1 and count(//h:nav[@class='toc'][1][not(node())]) = 0">
-	<xsl:message>Unable to autogenerate TOC: first "nav" is not empty, and $toc-placeholder-overwrite-contents param not enabled.</xsl:message>
+	<xsl:message>Unable to autogenerate TOC: first TOC "nav" is not empty, and $toc-placeholder-overwrite-contents param not enabled.</xsl:message>
       </xsl:when>
     </xsl:choose>
     <xsl:copy>
