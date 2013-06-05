@@ -73,7 +73,7 @@ part:I
 	<xsl:otherwise>
 	  <xsl:variable name="label-numeration-excerpt-for-class">
 	    <!-- Gets the config line for numeration for the specified class...and everything beyond -->
-	    <xsl:value-of select="substring-after(normalize-space($label.numeration.by.class), concat($class, ':')"/>
+	    <xsl:value-of select="substring-after(normalize-space($label.numeration.by.class), concat($class, ':'))"/>
 	  </xsl:variable>
 	  <!-- Then we further narrow to the exact numeration format type -->
 	  <xsl:choose>

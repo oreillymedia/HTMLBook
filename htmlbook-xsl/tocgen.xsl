@@ -2,16 +2,14 @@
 		xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 		xmlns:h="http://www.w3.org/1999/xhtml"
 		xmlns="http://www.w3.org/1999/xhtml">
+
+  <xsl:import href="common.xsl"/>
+
   <xsl:output method="xml"
               encoding="UTF-8"/>
   <xsl:preserve-space elements="*"/>
 
-
   <xsl:param name="autogenerate-toc" select="1"/>
-
-  <!-- Placeholder element in which to generate the TOC; use <nav> by default.
-       TOC will be generated in *first* element of this type -->
-  <xsl:param name="toc-placeholder-element" select="'nav'"/>
 
   <!-- Specify whether or not to overwrite any content in the TOC placeholder element -->
   <xsl:param name="toc-placeholder-overwrite-contents" select="0"/>
@@ -23,8 +21,8 @@
   <xsl:param name="toc-include-labels" select="1"/>
 
   <xsl:template match="/">
-    <xsl:if test="$autogenerate-toc = 1 and count(//*[local-name() = $toc-placeholder-element]) = 0">
-      <xsl:message>Unable to generate TOC: no <xsl:value-of select="$toc-placeholder-element"/> element found.</xsl:message>
+    <xsl:if test="$autogenerate-toc = 1 and count(//h:nav) = 0">
+      <xsl:message>Unable to generate TOC: no "nav" element found.</xsl:message>
     </xsl:if>
     <xsl:copy>
       <xsl:apply-templates select="@*|node()"/>
@@ -45,9 +43,9 @@
 	  </xsl:call-template>
 	</xsl:attribute>
 	<xsl:if test="$toc-include-labels = 1">
-	  <xsl:apply-template select="." mode="label.value"/>
+	  <xsl:apply-templates select="." mode="label.value"/>
 	</xsl:if>
-	<xsl:apply-template select="." mode="titlegen"/>
+	<xsl:apply-templates select="." mode="titlegen"/>
       </a>
       <xsl:if test="descendant::section|descendant::div[@class='part']">
 	<ol>
@@ -57,12 +55,12 @@
     </li>
   </xsl:template>
 
-  <xsl:template match="*[local-name() = $toc-placeholder-element]">
+  <xsl:template match="h:nav">
     <xsl:choose>
       <!-- If autogenerate-toc is enabled, and it's the first toc-placeholder-element, and it's either empty or overwrite-contents is specified, then
 	   go ahead and generate the TOC here -->
       <xsl:when test="($autogenerate-toc = 1) and 
-		      (not(preceding::*[local-name() = $toc-placeholder-element])) and 
+		      (not(preceding::h:nav)) and 
 		      (not(node()) or $toc-placeholder-overwrite-contents != 0)">
 	<nav>
 	  <xsl:if test="$toc-include-title != 0">
