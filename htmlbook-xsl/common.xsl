@@ -13,12 +13,17 @@
   <xsl:param name="intralabel.separator" select="'.'"/>
 
 <!-- For any book division that you want to have numeration, specify the @class, followed by colon, 
-     and then a valid @format value for <xsl:number/>. If there is no entry in this list, corresponding division
+     and then a valid @format value for <xsl:number/>. If there is no entry in this list, or "none" is specified, corresponding division
      will not get labeled -->
   <xsl:param name="label.numeration.by.class">
 appendix:A
 chapter:1
 part:I
+sect1:none
+sect2:none
+sect3:none
+sect4:none
+sect5:none
   </xsl:param>
 
   <!-- When labeling sections, also label their ancestors, e.g., 3.1 -->
@@ -116,10 +121,17 @@ part:I
 	<xsl:number count="*[@class = $class]" format="I"/>
 	<xsl:value-of select="$label.and.title.separator"/>
       </xsl:when>
+      <xsl:when test="$calculated-numeration-format = 'none'"/>
       <xsl:otherwise>
-	<!-- If $calculated-numeration-format doesn't match above values, no label can be generated -->
-	<xsl:message>Unable to generate label for <xsl:value-of select="$class"/> with numeration format 
-	  <xsl:value-of select="$calculated-numeration-format"/>.</xsl:message>
+	<!-- If $calculated-numeration-format doesn't match above values or is blank, no label can be generated -->
+	<xsl:choose>
+	  <xsl:when test="normalize-space($calculated-numeration-format) = ''">
+	    <xsl:message>No label numeration format specified for <xsl:value-of select="$class"/>: skipping label</xsl:message>
+	  </xsl:when>
+	  <xsl:otherwise>
+	    <xsl:message>Unable to generate label for <xsl:value-of select="$class"/> with numeration format <xsl:value-of select="$calculated-numeration-format"/>.</xsl:message>
+	  </xsl:otherwise>
+	</xsl:choose>
       </xsl:otherwise>
     </xsl:choose>    	
   </xsl:template>
