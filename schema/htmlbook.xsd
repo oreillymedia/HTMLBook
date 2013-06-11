@@ -39,6 +39,7 @@
     <xs:sequence>
       <xs:element ref="h1"/>
       <xs:element name="h2" minOccurs="0" type="subheading"/>
+      <xs:element name="figure" minOccurs="0" type="coverfigure"/>
       <xs:choice maxOccurs="unbounded">
         <xs:element ref="nav"/>
         <xs:element name="section" type="bookmaindiv"/>
@@ -298,6 +299,12 @@
   </xs:complexType>
 </xs:element>
 
+<!-- Custom type for cover figures; no caption -->
+<xs:complexType name="coverfigure">
+  <xs:group ref="figure_elements" maxOccurs="unbounded"/>
+  <xs:attribute name="class" fixed="cover" use="required"/>
+</xs:complexType>
+
 <xs:element name="form">
   <xs:complexType>
     <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -437,7 +444,7 @@
   <xs:complexType>
     <xs:sequence>
       <xs:group ref="headings" minOccurs="0"/>
-      <xs:element name="ol" type="nav_doc_ol"/>
+      <xs:element name="ol" type="nav_doc_ol" minOccurs="0"/>
     </xs:sequence>
     <xs:attribute name="class" use="required" fixed="toc"/>
     <xs:attributeGroup ref="globals_minus_class"/>
