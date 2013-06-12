@@ -15,8 +15,6 @@
 
 <!-- ToDo: template for id generation for elements <a class="indexterm"> in book body -->
 
-<xsl:import href="common.xsl"/>
-
   <xsl:output method="xml"
               encoding="UTF-8"/>
 

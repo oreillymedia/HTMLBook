@@ -6,8 +6,6 @@
 <!-- Functionality still ToDo: Support for multilevel labels (including label for ancestor element); see common.xsl -->
 <!-- Functionality still ToDo: Setting TOC section depth (e.g., how many levels of sections to include in TOC -->
 
-  <xsl:import href="common.xsl"/>
-
   <xsl:output method="xml"
               encoding="UTF-8"/>
   <xsl:preserve-space elements="*"/>
