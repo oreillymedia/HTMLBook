@@ -23,6 +23,7 @@
   <!-- Specify whether to include number labels in TOC entries -->
   <xsl:param name="toc-include-labels" select="0"/>
 
+  <!-- ToDo: Move this logic into a master stylesheet that will import the tocgen, indexgen, and xrefgen stylesheets? -->
   <xsl:template match="/">
     <xsl:choose>
       <xsl:when test="$autogenerate-toc = 1 and count(//h:nav[@class='toc']) = 0">
@@ -93,14 +94,5 @@
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
-
-  <!-- Default Rule -->
-  <xsl:template match="@*|node()">
-    <xsl:copy>
-      <xsl:apply-templates select="@*|node()"/>
-    </xsl:copy>
-  </xsl:template>
-
-  <!-- By default, TOC will be generated in first empty -->
 
 </xsl:stylesheet> 

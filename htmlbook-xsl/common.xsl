@@ -12,6 +12,13 @@
   <!-- Separator to be used between parts of a label -->
   <xsl:param name="intralabel.separator" select="'.'"/>
 
+  <!-- Default Rule; when no other templates are specified, copy direct to output -->
+  <xsl:template match="@*|node()">
+    <xsl:copy>
+      <xsl:apply-templates select="@*|node()"/>
+    </xsl:copy>
+  </xsl:template>
+
 <!-- For any book division that you want to have numeration, specify the @class, followed by colon, 
      and then a valid @format value for <xsl:number/>. If there is no entry in this list, or "none" is specified, corresponding division
      will not get labeled -->
