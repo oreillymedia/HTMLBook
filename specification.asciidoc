@@ -667,7 +667,7 @@ Example:
 
 *HTML element*: +<a>+
 
-*Attribute requirements*: +class="indexterm"+; for primary index entry value, use +data-primary+; for secondary index entry value, use +data-secondary+; for tertiary index entry value, use +data-tertiary+; for a "see" index reference, use +data-see+; for a "see also" index reference, use +data-seealso+; for a "sort" value to indicate alphabetization, use +data-sortas+ footnote:[Semantics from DocBook]
+*Attribute requirements*: +class="indexterm"+; for primary index entry value, use +data-primary+; for secondary index entry value, use +data-secondary+; for tertiary index entry value, use +data-tertiary+; for a "see" index reference, use +data-see+; for a "see also" index reference, use +data-seealso+; for a "sort" value to indicate alphabetization, use +data-primary-sortas+, +data-secondary-sortas+, or +data-tertiary-sortas+; for an "end-of-range" tag that marks the end of an index range, use +data-startref="id_of_opening_index_marker"+footnote:[Semantics from DocBook]
 
 *Content model*: Empty
 
