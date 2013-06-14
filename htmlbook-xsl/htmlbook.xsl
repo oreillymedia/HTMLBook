@@ -32,7 +32,7 @@
     </xsl:choose>
   </xsl:param>
 
-  <xsl:param name="localizations-dir" select="localizations/"/>
+  <xsl:param name="localizations-dir" select="'localizations/'"/>
 
   <xsl:param name="localizations">
     <xsl:variable name="localizations-file">
@@ -40,12 +40,13 @@
     </xsl:variable>
     <xsl:choose>
       <!-- If $localizations-file is valid, use it... -->
-      <xsl:when test="document($localizations-file//l:l10n">
+      <xsl:when test="document($localizations-file)//l:l10n">
 	<xsl:copy-of select="document($localizations-file)"/>
       </xsl:when>
       <!-- Otherwise default to "en" (English) -->
       <xsl:otherwise>
 	<xsl:copy-of select="document($localizations-dir, 'en', '.xml')"/>
+	<xsl:message><xsl:value-of select="document($localizations-dir, 'en', '.xml')"/></xsl:message>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:param>

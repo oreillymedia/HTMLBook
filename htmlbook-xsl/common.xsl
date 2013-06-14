@@ -151,4 +151,10 @@ sect5:none
     <xsl:apply-templates select="(h:h1|h:h2|h:h3|h:h4|h:h5|h:h6)[1]//node()"/>
   </xsl:template>
 
+  <!-- Get localization value for a language using localizations in $localizations -->
+  <xsl:template name="get-localization-value">
+    <xsl:param name="gentext-key"/>
+    <xsl:value-of select="$localizations//l:l10n/l:gentext[@key = $gentext-key]/@text"/>
+  </xsl:template>
+
 </xsl:stylesheet> 
