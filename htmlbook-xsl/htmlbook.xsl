@@ -19,4 +19,19 @@
               encoding="UTF-8"/>
   <xsl:preserve-space elements="*"/>
 
+  <!-- Autogeneration checks -->
+  <xsl:template match="/">
+    <xsl:choose>
+      <xsl:when test="$autogenerate-toc = 1 and count(//h:nav[@class='toc']) = 0">
+	<xsl:message>Unable to autogenerate TOC: no TOC "nav" element found.</xsl:message>
+      </xsl:when>
+      <xsl:when test="$toc-placeholder-overwrite-contents != 1 and count(//h:nav[@class='toc'][1][not(node())]) = 0">
+	<xsl:message>Unable to autogenerate TOC: first TOC "nav" is not empty, and $toc-placeholder-overwrite-contents param not enabled.</xsl:message>
+      </xsl:when>
+    </xsl:choose>
+    <xsl:copy>
+      <xsl:apply-templates select="@*|node()"/>
+    </xsl:copy>
+  </xsl:template>
+
 </xsl:stylesheet> 
