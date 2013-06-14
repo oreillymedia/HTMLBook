@@ -14,6 +14,7 @@
 <!-- ==================================================================== -->
 
 <!-- ToDo: make sure there are no references to gentext templates or other docbook-xsl templates or parameters that are not part of htmlbook-xsl -->
+<!-- ToDo: Enable support for @zones, @role, and @type by adding corresponding attribute support in HTMLBook spec, or otherwise, strip out related XSL -->
 
   <xsl:output method="xml"
               encoding="UTF-8"/>
@@ -41,6 +42,40 @@
 <xsl:key name="see" match="h:a[@class='indexterm'][@data-see]" use="concat(normalize-space(concat(@data-primary-sortas, &quot; &quot;, @data-primary)), &quot; &quot;, normalize-space(concat(@data-secondary-sortas, &quot; &quot;, @data-secondary)), &quot; &quot;, normalize-space(concat(@data-tertiary-sortas, &quot; &quot;, @data-tertiary)), &quot; &quot;, @data-see)"/>
 
 <xsl:key name="sections" match="*[@id or @xml:id]" use="@id|@xml:id"/>
+
+<xsl:template match="h:section[@class='index']">
+  <xsl:choose>
+    <!-- If autogenerate-index is enabled, and it's the first index-placeholder-element, and it's either empty or overwrite-contents is specified, then
+	 go ahead and generate the Index here -->
+    <xsl:when test="($autogenerate-index = 1) and 
+		    (not(preceding::h:section[@class='index'])) and
+		    (not(node()) or $index-placeholder-overwrite-contents != 0)">
+      <xsl:copy>
+	<xsl:apply-templates select="@*[not(local-name() = 'id')]"/>
+	<xsl:attribute name="id">
+	  <xsl:call-template name="object.id"/>
+	</xsl:attribute>
+	<h1>
+	  <xsl:call-template name="get-localization-value">
+	    <xsl:with-param name="gentext-key" select="'index'"/>
+	  </xsl:call-template>
+	</h1>
+	<xsl:call-template name="generate-index"/>
+      </xsl:copy>
+    </xsl:when>
+    <xsl:otherwise>
+      <!-- Otherwise, just process as normal -->
+      <!-- ToDo: Consider using <xsl:apply-imports> here, depending on how we decide to do stylesheet layering for packaging for EPUB, etc. -->
+      <xsl:copy>
+	<xsl:apply-templates select="@*[not(local-name() = 'id')]"/>
+	<xsl:attribute name="id">
+	  <xsl:call-template name="object.id"/>
+	</xsl:attribute>
+	<xsl:apply-templates/>
+      </xsl:copy>
+    </xsl:otherwise>
+  </xsl:choose>
+</xsl:template>
 
 <xsl:template name="generate-index">
   <xsl:param name="scope" select="(ancestor::h:body[@class='book']|/)[last()]"/>
