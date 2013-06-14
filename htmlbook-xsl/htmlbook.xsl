@@ -19,16 +19,28 @@
               encoding="UTF-8"/>
   <xsl:preserve-space elements="*"/>
 
-  <!-- Autogeneration checks -->
   <xsl:template match="/">
+    <!-- Autogeneration checks to throw relevant messages before processing the book:-->
+
+    <!-- Was autogeneration of TOC specified, and is that possible? -->
     <xsl:choose>
       <xsl:when test="$autogenerate-toc = 1 and count(//h:nav[@class='toc']) = 0">
 	<xsl:message>Unable to autogenerate TOC: no TOC "nav" element found.</xsl:message>
       </xsl:when>
-      <xsl:when test="$toc-placeholder-overwrite-contents != 1 and count(//h:nav[@class='toc'][1][not(node())]) = 0">
+      <xsl:when test="$autogenerate-toc = 1 and $toc-placeholder-overwrite-contents != 1 and count(//h:nav[@class='toc'][1][not(node())]) = 0">
 	<xsl:message>Unable to autogenerate TOC: first TOC "nav" is not empty, and $toc-placeholder-overwrite-contents param not enabled.</xsl:message>
       </xsl:when>
     </xsl:choose>
+    <!-- Was autogeneration of Index specified, and is that possible? -->
+    <xsl:choose>
+      <xsl:when test="$autogenerate-index = 1 and count(//h:section[@class='index']) = 0">
+	<xsl:message>Unable to autogenerate Index: no Index "section" element found.</xsl:message>
+      </xsl:when>
+      <xsl:when test="$autogenerate-index = 1 and $index-placeholder-overwrite-contents != 1 and count(//h:section[@class='index'][1][not(node())]) = 0">
+	<xsl:message>Unable to autogenerate Index: first Index "section" is not empty, and $index-placeholder-overwrite-contents param not enabled.</xsl:message>
+      </xsl:when>
+    </xsl:choose>
+
     <xsl:copy>
       <xsl:apply-templates select="@*|node()"/>
     </xsl:copy>
