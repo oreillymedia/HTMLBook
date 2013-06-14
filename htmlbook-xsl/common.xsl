@@ -6,6 +6,8 @@
               encoding="UTF-8"/>
   <xsl:preserve-space elements="*"/>
 
+  <!-- ToDo: Make href.target more robust to deal with situations when stuff is chunked into different files -->
+
   <!-- Separator to be used between label and title -->
   <xsl:param name="label.and.title.separator" select="'. '"/>
 
@@ -41,6 +43,7 @@ sect5:none
   <!-- Generate target @href value pointing to given node -->
   <!-- Borrowed and adapted from xhtml/html.xsl in docbook-xsl stylesheets -->
   <xsl:template name="href.target">
+    <xsl:param name="context" select="."/>
     <xsl:param name="object" select="."/>
     <xsl:text>#</xsl:text>
     <xsl:call-template name="object.id">
