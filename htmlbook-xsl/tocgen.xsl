@@ -46,7 +46,11 @@
       <xsl:when test="($autogenerate-toc = 1) and 
 		      (not(preceding::h:nav[@class='toc'])) and
 		      (not(node()) or $toc-placeholder-overwrite-contents != 0)">
-	<nav>
+	<xsl:copy>
+	  <xsl:apply-templates select="@*[not(local-name() = 'id')]"/>
+	  <xsl:attribute name="id">
+	    <xsl:call-template name="object.id"/>
+	  </xsl:attribute>
 	  <xsl:if test="$toc-include-title != 0">
 	    <h1>
 	      <xsl:value-of select="//h:body/h1"/>
@@ -55,13 +59,17 @@
 	  <ol>
 	    <xsl:apply-templates select="/*" mode="tocgen"/>
 	  </ol>
-	</nav>
+	</xsl:copy>
       </xsl:when>
       <xsl:otherwise>
 	<!-- Otherwise, just process as normal -->
 	<!-- ToDo: Consider using <xsl:apply-imports> here, depending on how we decide to do stylesheet layering for packaging for EPUB, etc. -->
 	<xsl:copy>
-	  <xsl:apply-templates select="@*|node()"/>
+	  <xsl:apply-templates select="@*[not(local-name() = 'id')]"/>
+	  <xsl:attribute name="id">
+	    <xsl:call-template name="object.id"/>
+	  </xsl:attribute>
+	  <xsl:apply-templates/>
 	</xsl:copy>
       </xsl:otherwise>
     </xsl:choose>
