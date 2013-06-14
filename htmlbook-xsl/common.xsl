@@ -1,7 +1,11 @@
 <xsl:stylesheet version="1.0"
 		xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+		xmlns:exsl="http://exslt.org/common"
+		xmlns:l="http://docbook.sourceforge.net/xmlns/l10n/1.0"
 		xmlns:h="http://www.w3.org/1999/xhtml"
-		xmlns="http://www.w3.org/1999/xhtml">
+		xmlns="http://www.w3.org/1999/xhtml"
+		extension-element-prefixes="exsl"
+		exclude-result-prefixes="exsl">
   <xsl:output method="xml"
               encoding="UTF-8"/>
   <xsl:preserve-space elements="*"/>
@@ -154,7 +158,8 @@ sect5:none
   <!-- Get localization value for a language using localizations in $localizations -->
   <xsl:template name="get-localization-value">
     <xsl:param name="gentext-key"/>
-    <xsl:value-of select="$localizations//l:l10n/l:gentext[@key = $gentext-key]/@text"/>
+    <xsl:variable name="localizations-nodes" select="exsl:node-set($localizations)"/>
+    <xsl:value-of select="$localizations-nodes//l:l10n/l:gentext[@key = $gentext-key]/@text"/>
   </xsl:template>
 
 </xsl:stylesheet> 
