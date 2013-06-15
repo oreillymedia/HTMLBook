@@ -158,8 +158,17 @@ sect5:none
   <!-- Get localization value for a language using localizations in $localizations -->
   <xsl:template name="get-localization-value">
     <xsl:param name="gentext-key"/>
+    <xsl:param name="context"/>
+    <!-- Find value within specific context, if specified -->
     <xsl:variable name="localizations-nodes" select="exsl:node-set($localizations)"/>
-    <xsl:value-of select="$localizations-nodes//l:l10n/l:gentext[@key = $gentext-key]/@text"/>
+    <xsl:choose>
+      <xsl:when test="$context != ''">
+	<xsl:value-of select="$localizations-nodes//l:l10n/l:context[@name=$context]/l:template[@name = $gentext-key]/@text"/>
+      </xsl:when>
+      <xsl:otherwise>
+	<xsl:value-of select="$localizations-nodes//l:l10n/l:gentext[@key = $gentext-key]/@text"/>
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
 
 </xsl:stylesheet> 

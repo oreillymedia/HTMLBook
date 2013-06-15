@@ -218,7 +218,7 @@
   <xsl:variable name="key" select="normalize-space(concat(@data-primary-sortas, &quot; &quot;, @data-primary))"/>
   <xsl:variable name="refs" select="key('primary', $key)[count(ancestor::node()|$scope) = count(ancestor::node()) and ($role = @role or $type = @type or (string-length($role) = 0 and string-length($type) = 0))]"/>
   <dt>
-    <xsl:value-of select="primary"/>
+    <xsl:value-of select="@data-primary"/>
     <xsl:choose>
       <xsl:when test="$index.links.to.section = 1">
         <xsl:for-each select="$refs[@zone != '' or generate-id() = generate-id(key('primary-section', concat($key, &quot; &quot;, generate-id((ancestor-or-self::h:body|ancestor-or-self::h:nav|ancestor-or-self::h:div[@class='part']|ancestor-or-self::h:section)[last()])))[count(ancestor::node()|$scope) = count(ancestor::node()) and ($role = @role or $type = @type or (string-length($role) = 0 and string-length($type) = 0))][1])]">
@@ -358,7 +358,7 @@
   <xsl:variable name="key" select="concat(normalize-space(concat(@data-primary-sortas, &quot; &quot;, @data-primary)), &quot; &quot;, normalize-space(concat(@data-secondary-sortas, &quot; &quot;, @data-secondary)), &quot; &quot;, normalize-space(concat(@data-tertiary-sortas, &quot; &quot;, @data-tertiary)))"/>
   <xsl:variable name="refs" select="key('tertiary', $key)[count(ancestor::node()|$scope) = count(ancestor::node()) and ($role = @role or $type = @type or (string-length($role) = 0 and string-length($type) = 0))]"/>
   <dt>
-    <xsl:value-of select="tertiary"/>
+    <xsl:value-of select="@data-tertiary"/>
     <xsl:choose>
       <xsl:when test="$index.links.to.section = 1">
         <xsl:for-each select="$refs[@zone != '' or generate-id() = generate-id(key('tertiary-section', concat($key, &quot; &quot;, generate-id((ancestor-or-self::h:body|ancestor-or-self::h:nav|ancestor-or-self::h:div[@class='part']|ancestor-or-self::h:section)[last()])))[count(ancestor::node()|$scope) = count(ancestor::node()) and ($role = @role or $type = @type or (string-length($role) = 0 and string-length($type) = 0))][1])]">
@@ -594,9 +594,6 @@
 
 <xsl:template name="index.separator">
   <xsl:param name="key" select="''"/>
-  <xsl:param name="lang">
-    <xsl:call-template name="l10n.language"/>
-  </xsl:param>
 
   <xsl:choose>
     <xsl:when test="$key = 'index.term.separator'">
@@ -606,10 +603,9 @@
           <xsl:copy-of select="$index.term.separator"/>
         </xsl:when>
         <xsl:otherwise>
-          <xsl:call-template name="gentext.template">
-            <xsl:with-param name="lang" select="$lang"/>
+          <xsl:call-template name="get-localization-value">
             <xsl:with-param name="context">index</xsl:with-param>
-            <xsl:with-param name="name">term-separator</xsl:with-param>
+            <xsl:with-param name="gentext-key">term-separator</xsl:with-param>
           </xsl:call-template>
         </xsl:otherwise>
       </xsl:choose>
@@ -621,10 +617,9 @@
           <xsl:copy-of select="$index.number.separator"/>
         </xsl:when>
         <xsl:otherwise>
-          <xsl:call-template name="gentext.template">
-            <xsl:with-param name="lang" select="$lang"/>
+          <xsl:call-template name="get-localization-value">
             <xsl:with-param name="context">index</xsl:with-param>
-            <xsl:with-param name="name">number-separator</xsl:with-param>
+            <xsl:with-param name="gentext-key">number-separator</xsl:with-param>
           </xsl:call-template>
         </xsl:otherwise>
       </xsl:choose>
@@ -636,10 +631,9 @@
           <xsl:copy-of select="$index.range.separator"/>
         </xsl:when>
         <xsl:otherwise>
-          <xsl:call-template name="gentext.template">
-            <xsl:with-param name="lang" select="$lang"/>
+          <xsl:call-template name="get-localization-value">
             <xsl:with-param name="context">index</xsl:with-param>
-            <xsl:with-param name="name">range-separator</xsl:with-param>
+            <xsl:with-param name="gentext-key">range-separator</xsl:with-param>
           </xsl:call-template>
         </xsl:otherwise>
       </xsl:choose>
