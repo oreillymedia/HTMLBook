@@ -650,8 +650,8 @@ Example:
 
 *HTML element*: +<a>+
 
-*Attribute requirements*: +class="xref"+ footnote:[From DocBook]; an href attribute that should point to the id of a
-local HTMLBook resource referenced
+*Attribute requirements*: +class="xref"+footnote:[From DocBook]; an +href+ attribute that should point to the id of a
+local HTMLBook resource referenced; +data-xrefstyle+ (optional) for specifying the style of XREF
 
 Example:
 
