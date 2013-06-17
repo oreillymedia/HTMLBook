@@ -44,6 +44,31 @@
     </xsl:choose>
   </xsl:param>
 
+  <!-- Titling and labeling params -->
+
+  <!-- Separator to be used between label and title -->
+  <xsl:param name="label.and.title.separator" select="'. '"/>
+
+  <!-- Separator to be used between parts of a label -->
+  <xsl:param name="intralabel.separator" select="'.'"/>
+
+<!-- For any book division that you want to have numeration, specify the @class, followed by colon, 
+     and then a valid @format value for <xsl:number/>. If there is no entry in this list, or "none" is specified, corresponding division
+     will not get labeled -->
+  <xsl:param name="label.numeration.by.class">
+appendix:A
+chapter:1
+part:I
+sect1:none
+sect2:none
+sect3:none
+sect4:none
+sect5:none
+  </xsl:param>
+
+  <!-- When labeling sections, also label their ancestors, e.g., 3.1 -->
+  <xsl:param name="label.section.and.ancestors"/>
+
   <!-- Index-specific params -->
   <xsl:param name="autogenerate-index" select="1"/>
 
@@ -73,5 +98,11 @@
 
   <!-- Specify whether to include number labels in TOC entries -->
   <xsl:param name="toc-include-labels" select="0"/>
+
+  <!-- XREF-specific params -->
+  <xsl:param name="autogenerate-xrefs" select="1"/>
+  
+  <!-- Specify whether or not to overwrite any content in XREF <a> elements when doing XREF gentext -->
+  <xsl:param name="xref-placeholder-overwrite-contents" select="0"/>
 
 </xsl:stylesheet> 

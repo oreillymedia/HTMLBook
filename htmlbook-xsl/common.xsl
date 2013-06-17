@@ -12,35 +12,12 @@
 
   <!-- ToDo: Make href.target more robust to deal with situations when stuff is chunked into different files -->
 
-  <!-- Separator to be used between label and title -->
-  <xsl:param name="label.and.title.separator" select="'. '"/>
-
-  <!-- Separator to be used between parts of a label -->
-  <xsl:param name="intralabel.separator" select="'.'"/>
-
   <!-- Default Rule; when no other templates are specified, copy direct to output -->
   <xsl:template match="@*|node()">
     <xsl:copy>
       <xsl:apply-templates select="@*|node()"/>
     </xsl:copy>
   </xsl:template>
-
-<!-- For any book division that you want to have numeration, specify the @class, followed by colon, 
-     and then a valid @format value for <xsl:number/>. If there is no entry in this list, or "none" is specified, corresponding division
-     will not get labeled -->
-  <xsl:param name="label.numeration.by.class">
-appendix:A
-chapter:1
-part:I
-sect1:none
-sect2:none
-sect3:none
-sect4:none
-sect5:none
-  </xsl:param>
-
-  <!-- When labeling sections, also label their ancestors, e.g., 3.1 -->
-  <xsl:param name="label.section.and.ancestors"/>
 
   <!-- Stylesheet for utility templates common to other stylesheets -->
 

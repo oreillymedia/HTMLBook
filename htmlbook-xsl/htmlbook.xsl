@@ -5,6 +5,8 @@
 		xmlns="http://www.w3.org/1999/xhtml"
 		exclude-result-prefixes="l">
 
+  <!-- Global ToDo: switch logic from @class = whatever to contains(@class, 'whatever') -->
+
   <!-- Master template that should be called directly to do tocgen, indexgen, and xrefgen as specified via params -->
 
   <!-- Imports common.xsl for common utility templates --> 
