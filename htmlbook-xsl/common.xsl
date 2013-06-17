@@ -1,16 +1,29 @@
 <xsl:stylesheet version="1.0"
 		xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+		xmlns:exsl="http://exslt.org/common"
+		xmlns:l="http://docbook.sourceforge.net/xmlns/l10n/1.0"
 		xmlns:h="http://www.w3.org/1999/xhtml"
-		xmlns="http://www.w3.org/1999/xhtml">
+		xmlns="http://www.w3.org/1999/xhtml"
+		extension-element-prefixes="exsl"
+		exclude-result-prefixes="exsl">
   <xsl:output method="xml"
               encoding="UTF-8"/>
   <xsl:preserve-space elements="*"/>
+
+  <!-- ToDo: Make href.target more robust to deal with situations when stuff is chunked into different files -->
 
   <!-- Separator to be used between label and title -->
   <xsl:param name="label.and.title.separator" select="'. '"/>
 
   <!-- Separator to be used between parts of a label -->
   <xsl:param name="intralabel.separator" select="'.'"/>
+
+  <!-- Default Rule; when no other templates are specified, copy direct to output -->
+  <xsl:template match="@*|node()">
+    <xsl:copy>
+      <xsl:apply-templates select="@*|node()"/>
+    </xsl:copy>
+  </xsl:template>
 
 <!-- For any book division that you want to have numeration, specify the @class, followed by colon, 
      and then a valid @format value for <xsl:number/>. If there is no entry in this list, or "none" is specified, corresponding division
@@ -34,6 +47,7 @@ sect5:none
   <!-- Generate target @href value pointing to given node -->
   <!-- Borrowed and adapted from xhtml/html.xsl in docbook-xsl stylesheets -->
   <xsl:template name="href.target">
+    <xsl:param name="context" select="."/>
     <xsl:param name="object" select="."/>
     <xsl:text>#</xsl:text>
     <xsl:call-template name="object.id">
@@ -138,7 +152,32 @@ sect5:none
 
   <!-- Logic for generating titles; default handling is to grab the first <h1>-<h6> content -->
   <xsl:template match="*" mode="titlegen">
-    <xsl:apply-templates select="(h:h1|h:h2|h:h3|h:h4|h:h5|h:h6)[1]//node()"/>
+    <xsl:choose>
+      <xsl:when test="self::h:section[@class='index' and not(h:h1|h:h2|h:h3|h:h4|h:h5|h:h6)]">
+	<xsl:call-template name="get-localization-value">
+	  <xsl:with-param name="gentext-key" select="'index'"/>
+	</xsl:call-template>
+      </xsl:when>
+      <xsl:otherwise>
+	<xsl:apply-templates select="(h:h1|h:h2|h:h3|h:h4|h:h5|h:h6)[1]//node()"/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
+  <!-- Get localization value for a language using localizations in $localizations -->
+  <xsl:template name="get-localization-value">
+    <xsl:param name="gentext-key"/>
+    <xsl:param name="context"/>
+    <!-- Find value within specific context, if specified -->
+    <xsl:variable name="localizations-nodes" select="exsl:node-set($localizations)"/>
+    <xsl:choose>
+      <xsl:when test="$context != ''">
+	<xsl:value-of select="$localizations-nodes//l:l10n/l:context[@name=$context]/l:template[@name = $gentext-key]/@text"/>
+      </xsl:when>
+      <xsl:otherwise>
+	<xsl:value-of select="$localizations-nodes//l:l10n/l:gentext[@key = $gentext-key]/@text"/>
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
 
 </xsl:stylesheet> 
