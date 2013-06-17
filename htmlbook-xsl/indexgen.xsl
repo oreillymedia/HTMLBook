@@ -13,8 +13,9 @@
 <!-- At present, only supporting the "basic" method derived from Jeni Tennison's work. Not supporting "kosek" or "kimber" -->
 <!-- ==================================================================== -->
 
-<!-- ToDo: make sure there are no references to gentext templates or other docbook-xsl templates or parameters that are not part of htmlbook-xsl -->
 <!-- ToDo: Enable support for @zones, @role, and @type by adding corresponding attribute support in HTMLBook spec, or otherwise, strip out related XSL -->
+<!-- ToDo: EPUB 3 Index Spec conformant markup -->
+<!-- Wishlist: Make sees and seealsos into real XREFs -->
 
   <xsl:output method="xml"
               encoding="UTF-8"/>
@@ -112,7 +113,7 @@
         <xsl:when test="normalize-space($type) != '' and                          $others[@type = $type][count(.|key('primary', normalize-space(concat(@data-primary-sortas, &quot; &quot;, @data-primary)))[count(ancestor::node()|$scope) = count(ancestor::node()) and ($role = @role or $type = @type or (string-length($role) = 0 and string-length($type) = 0))][1]) = 1]">
           <div class="indexdiv">
             <h3>
-	      <!-- Use data-gentext to do a CSS override for localization, if not handling in CSS -->
+	      <!-- data-gentext provided so that you can do a CSS override for localization, if desired -->
 	      <span data-gentext="indexsymbols">
 		<xsl:call-template name="get-localization-value">
 		  <xsl:with-param name="gentext-key" select="'index symbols'"/>
@@ -136,7 +137,7 @@
         <xsl:otherwise>
           <div class="indexdiv">
             <h3>
-	      <!-- Use data-gentext to do a CSS override for localization, if not handling in CSS -->
+	      <!-- data-gentext provided so that you can do a CSS override for localization, if desired -->
 	      <span data-gentext="indexsymbols">
 		<xsl:call-template name="get-localization-value">
 		  <xsl:with-param name="gentext-key" select="'index symbols'"/>
@@ -560,9 +561,12 @@
   <xsl:param name="type" select="''"/>
 
   <xsl:text> (</xsl:text>
-  <xsl:call-template name="gentext">
-    <xsl:with-param name="key" select="'see'"/>
-  </xsl:call-template>
+  <!-- data-gentext provided so that you can do a CSS override for localization, if desired -->
+  <span data-gentext="see">
+    <xsl:call-template name="get-localization-value">
+      <xsl:with-param name="gentext-key" select="'see'"/>
+    </xsl:call-template>
+  </span>
   <xsl:text> </xsl:text>
   <xsl:value-of select="@data-see"/>
   <xsl:text>)</xsl:text>
@@ -574,14 +578,17 @@
   <xsl:param name="type" select="''"/>
     <dt>
     <xsl:text>(</xsl:text>
-    <xsl:call-template name="gentext">
-      <xsl:with-param name="key" select="'seealso'"/>
-    </xsl:call-template>
+    <!-- data-gentext provided so that you can do a CSS override for localization, if desired -->
+    <span data-gentext="see">
+      <xsl:call-template name="get-localization-value">
+	<xsl:with-param name="gentext-key" select="'seealso'"/>
+      </xsl:call-template>
+    </span>
     <xsl:text> </xsl:text>
     <xsl:value-of select="@data-seealso"/>
     <xsl:text>)</xsl:text>
     </dt>
-      <dd/>
+    <dd/>
 </xsl:template>
 
 <xsl:template match="*" mode="index-title-content">
