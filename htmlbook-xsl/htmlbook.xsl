@@ -41,6 +41,25 @@
       </xsl:when>
     </xsl:choose>
 
+    <!-- Was autogeneration of XREFs specified, and are there any XREFs with existing text content that would or would not be overwritten? -->
+    <xsl:if test="$autogenerate-xrefs = 1 and count(//h:a[@class='xref'][. != '']) > 0">
+      <!-- If autogeneration of XREFs was specified and overwriting of existing XREF content *was not* specified,
+	   report all XREFs that will not be overwritten -->
+      <xsl:choose>
+	<xsl:when test="$xref-placeholder-overwrite-contents != 1">
+      <xsl:message>Warning: the following XREFs already have content in their text nodes, which will not be overwritten (rerun stylesheets with $xref-placeholder-overwrite-contents = 1 if you want to overwrite):</xsl:message>
+	</xsl:when>
+	<xsl:otherwise>
+	  <xsl:message>Warning: the following XREFs already have content in their text nodes, which will overwritten (rerun stylesheets with $xref-placeholder-overwrite-contents = 0 if you don't want to overwrite):</xsl:message>
+	</xsl:otherwise>
+      </xsl:choose>
+      <xsl:message>
+	<xsl:for-each select="//h:a[@class='xref'][. != '']">
+	  XREF text: <xsl:value-of select="normalize-space(.)"/>; XREF target: <xsl:value-of select="@href"/>
+	</xsl:for-each>
+      </xsl:message>
+    </xsl:if>
+
     <xsl:copy>
       <xsl:apply-templates select="@*|node()"/>
     </xsl:copy>
