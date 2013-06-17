@@ -152,7 +152,16 @@ sect5:none
 
   <!-- Logic for generating titles; default handling is to grab the first <h1>-<h6> content -->
   <xsl:template match="*" mode="titlegen">
-    <xsl:apply-templates select="(h:h1|h:h2|h:h3|h:h4|h:h5|h:h6)[1]//node()"/>
+    <xsl:choose>
+      <xsl:when test="self::h:section[@class='index' and not(h:h1|h:h2|h:h3|h:h4|h:h5|h:h6)]">
+	<xsl:call-template name="get-localization-value">
+	  <xsl:with-param name="gentext-key" select="'index'"/>
+	</xsl:call-template>
+      </xsl:when>
+      <xsl:otherwise>
+	<xsl:apply-templates select="(h:h1|h:h2|h:h3|h:h4|h:h5|h:h6)[1]//node()"/>
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
 
   <!-- Get localization value for a language using localizations in $localizations -->
