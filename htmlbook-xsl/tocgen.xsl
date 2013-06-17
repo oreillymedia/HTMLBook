@@ -1,7 +1,8 @@
 <xsl:stylesheet version="1.0"
 		xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 		xmlns:h="http://www.w3.org/1999/xhtml"
-		xmlns="http://www.w3.org/1999/xhtml">
+		xmlns="http://www.w3.org/1999/xhtml"
+		exclude-result-prefixes="h">
 
 <!-- Functionality still ToDo: Support for multilevel labels (including label for ancestor element); see common.xsl -->
 <!-- Functionality still ToDo: Setting TOC section depth (e.g., how many levels of sections to include in TOC -->

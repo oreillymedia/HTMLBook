@@ -3,7 +3,7 @@
                 xmlns:l="http://docbook.sourceforge.net/xmlns/l10n/1.0"
 		xmlns:h="http://www.w3.org/1999/xhtml"
 		xmlns="http://www.w3.org/1999/xhtml"
-		exclude-result-prefixes="l">
+		exclude-result-prefixes="h l">
 
   <!-- Stylesheet containing all htmlbook-xsl params, and their default values -->
 

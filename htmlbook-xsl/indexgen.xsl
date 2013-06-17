@@ -7,7 +7,7 @@
 		xmlns:h="http://www.w3.org/1999/xhtml"
 		xmlns="http://www.w3.org/1999/xhtml" 
 		extension-element-prefixes="exslt" 
-		exclude-result-prefixes="exslt">
+		exclude-result-prefixes="exslt h">
 
 <!-- Adapted from DocBook-XSL project index generation: xhtml/autoidx.xsl -->
 <!-- At present, only supporting the "basic" method derived from Jeni Tennison's work. Not supporting "kosek" or "kimber" -->

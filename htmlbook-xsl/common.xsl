@@ -5,7 +5,7 @@
 		xmlns:h="http://www.w3.org/1999/xhtml"
 		xmlns="http://www.w3.org/1999/xhtml"
 		extension-element-prefixes="exsl"
-		exclude-result-prefixes="exsl">
+		exclude-result-prefixes="exsl h">
   <xsl:output method="xml"
               encoding="UTF-8"/>
   <xsl:preserve-space elements="*"/>
