@@ -11,9 +11,6 @@
               encoding="UTF-8"/>
   <xsl:preserve-space elements="*"/>
 
-  <xsl:param name="autogenerate-toc" select="1"/>
-  <xsl:param name="autogenerate-index" select="1"/>
-
   <xsl:param name="book-language">
     <xsl:choose>
       <xsl:when test="//h:html[@lang != '']|//h:body[@lang != '']">
@@ -104,5 +101,26 @@ sect5:none
   
   <!-- Specify whether or not to overwrite any content in XREF <a> elements when doing XREF gentext -->
   <xsl:param name="xref-placeholder-overwrite-contents" select="0"/>
+
+  <!-- Specifies whether or not to put XREF title in quotes -->
+  <xsl:param name="xref-title-in-quotes" select="1"/>
+
+  <!-- Specifies type of XREF to use for different kinds of sections -->
+  <!-- Choices are:
+       * xref-number-and-title
+       * xref-number
+       * xref
+    -->
+  <!-- If you don't specify a class here, or you specify an invalid value, HTMLBook will default to "xref" -->
+  <xsl:param name="xref.type.by.class">
+appendix:xref-number
+chapter:xref-number
+part:xref-number
+sect1:xref
+sect2:xref
+sect3:xref
+sect4:xref
+sect5:xref
+  </xsl:param>
 
 </xsl:stylesheet> 
