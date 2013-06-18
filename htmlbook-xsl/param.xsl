@@ -111,8 +111,7 @@ sect5:none
        * xref-number
        * xref
     -->
-  <!-- If you don't specify a class here, or you specify an invalid value, HTMLBook will default to "xref" -->
-  <xsl:param name="xref.type.by.class">
+  <xsl:param name="xref.type.for.section.by.class">
 appendix:xref-number
 chapter:xref-number
 part:xref-number
