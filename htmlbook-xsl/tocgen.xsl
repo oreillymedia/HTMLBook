@@ -30,7 +30,7 @@
 	<xsl:if test="$toc-include-labels = 1">
 	  <xsl:apply-templates select="." mode="label.value"/>
 	</xsl:if>
-	<xsl:apply-templates select="." mode="titlegen"/>
+	<xsl:apply-templates select="." mode="title.markup"/>
       </a>
       <xsl:if test="descendant::h:section|descendant::h:div[@class='part']">
 	<ol>

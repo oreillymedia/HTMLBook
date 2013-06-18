@@ -144,7 +144,7 @@
   </xsl:template>
 
   <!-- Logic for generating titles; default handling is to grab the first <h1>-<h6> content -->
-  <xsl:template match="*" mode="titlegen">
+  <xsl:template match="*" mode="title.markup">
     <xsl:choose>
       <xsl:when test="self::h:section[@class='index' and not(h:h1|h:h2|h:h3|h:h4|h:h5|h:h6)]">
 	<xsl:call-template name="get-localization-value">
