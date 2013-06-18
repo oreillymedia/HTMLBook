@@ -12,15 +12,38 @@
 
   <!-- All XREFs must be tagged with a @class containing XREF -->
   <xsl:template match="h:a[contains(@class, 'xref')]">
+    <xsl:variable name="href-anchor">
+      <xsl:choose>
+	<!-- If href contains an # (as it should), we're going to assume the subsequent text is the referent id -->
+	<xsl:when test="contains(., '#')">
+	  <xsl:value-of select="substring-after(@href, '#')"/>
+	</xsl:when>
+	<!-- Otherwise, we'll just assume the entire href is the referent id -->
+	<xsl:otherwise>
+	  <xsl:value-of select="@href"/>
+	</xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
     <xsl:copy>
       <xsl:apply-templates select="@*"/>
 	<xsl:choose>
 	  <!-- Generate XREF text node if <a> is either empty or $xref-placeholder-overwrite-contents = 1 -->
 	  <xsl:when test="$autogenerate-xrefs = 1 and (. = '' or $xref-placeholder-overwrite-contents = 1)">
-	    <xsl:apply-templates select="." mode="xref-to">
-	      <!-- ToDo: add handling for $referrer here -->
-	      <xsl:with-param name="xrefstyle" select="@data-xrefstyle"/>
-	    </xsl:apply-templates>
+	    <xsl:choose>
+	      <!-- If we can locate the target, process gentext with "xref-to" -->
+	      <xsl:when test="count(key('id', $href-anchor)) > 0">
+		<xsl:variable name="target" select="key('id', $href-anchor)[1]"/>
+		<xsl:apply-templates select="$target" mode="xref-to">
+		  <xsl:with-param name="referrer" select="."/>
+		  <xsl:with-param name="xrefstyle" select="@data-xrefstyle"/>
+		</xsl:apply-templates>
+	      </xsl:when>
+	      <!-- We can't locate the target; fall back on ??? -->
+	      <xsl:otherwise>
+		<xsl:message>Unable to locate target for XREF with @href value: <xsl:value-of select="@href"/></xsl:message>
+		<xsl:text>???</xsl:text>
+	      </xsl:otherwise>
+	    </xsl:choose>
 	  </xsl:when>
 	  <!-- Otherwise, just process node as is -->
 	  <xsl:otherwise>
