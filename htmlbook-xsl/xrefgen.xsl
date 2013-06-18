@@ -324,6 +324,36 @@
 
 <!-- ============================================================ -->
 
+<!-- insert.title.markup templates; adapted from docbook-xsl xhtml/xref.xsl stylesheet -->
+
+<xsl:template match="*" mode="insert.title.markup">
+  <xsl:param name="purpose"/>
+  <xsl:param name="xrefstyle"/>
+  <xsl:param name="title"/>
+
+  <xsl:copy-of select="$title"/>
+
+</xsl:template>
+
+<xsl:template match="chapter|appendix" mode="insert.title.markup">
+  <xsl:param name="purpose"/>
+  <xsl:param name="xrefstyle"/>
+  <xsl:param name="title"/>
+
+  <xsl:choose>
+    <xsl:when test="$purpose = 'xref'">
+      <em xmlns:xslo="http://www.w3.org/1999/XSL/Transform">
+        <xsl:copy-of select="$title"/>
+      </em>
+    </xsl:when>
+    <xsl:otherwise>
+      <xsl:copy-of select="$title"/>
+    </xsl:otherwise>
+  </xsl:choose>
+</xsl:template>
+
+<!-- ============================================================ -->
+
 <!-- Adapted from docbook-xsl common/l10.xsl stylesheet -->
 <xsl:template name="gentext.template.exists">
   <xsl:param name="context" select="'default'"/>
