@@ -70,7 +70,7 @@
   <!-- Adapted from docbook-xsl templates in common/gentext.xsl -->
   <!-- For simplicity, not folding in all the special 'select: ' logic (some of which is FO-specific, anyway) -->
 <xsl:template match="*" mode="object.xref.markup">
-  <xsl:param name="purpose"/>
+  <xsl:param name="purpose" select="'xref'"/>
   <xsl:param name="xrefstyle"/>
   <xsl:param name="referrer"/>
   <xsl:param name="verbose" select="1"/>
@@ -155,7 +155,10 @@
 	</xsl:choose>
       </xsl:when>
       <xsl:otherwise>
-	<xsl:apply-templates select="." mode="xref.type"/>
+	<xsl:apply-templates select="." mode="xref-type">
+	  <xsl:with-param name="number-and-title-template" select="$number-and-title-template"/>
+	  <xsl:with-param name="number-template" select="$number-template"/>
+	</xsl:apply-templates>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:variable>
@@ -178,16 +181,10 @@
 <!-- If returning 'xref-number-and-title' or 'xref-number', may want to first check if corresponding template exists -->
 
 <xsl:template match="h:table|h:figure|h:div[contains(@class, 'example')]" mode="xref-type">
-  <xsl:variable name="xref-number-available">
-    <xsl:call-template name="gentext.template.exists">
-      <xsl:with-param name="context" select="'xref-number'"/>
-      <xsl:with-param name="name">
-        <xsl:call-template name="xpath.location"/>
-      </xsl:with-param>
-    </xsl:call-template>
-  </xsl:variable>
+  <xsl:param name="number-and-title-template" select="0"/>
+  <xsl:param name="number-template" select="0"/>
   <xsl:choose>
-    <xsl:when test="$xref-number-available != 0">
+    <xsl:when test="$number-template != 0">
       <xsl:text>xref-number</xsl:text>
     </xsl:when>
     <xsl:otherwise>
@@ -198,6 +195,8 @@
 
 <!-- Default xref-type template -->
 <xsl:template match="*" mode="xref-type">
+  <xsl:param name="number-and-title-template"/>
+  <xsl:param name="number-template"/>
   <xsl:text>xref</xsl:text>
 </xsl:template>
 
@@ -381,9 +380,7 @@
   <xsl:param name="purpose"/>
   <xsl:param name="xrefstyle"/>
   <xsl:param name="referrer"/>
-  <xsl:param name="lang">
-    <xsl:call-template name="l10n.language"/>
-  </xsl:param>
+  <xsl:param name="lang" select="$book-language"/>
 
   <xsl:variable name="template">
     <xsl:call-template name="gentext.template">
@@ -414,9 +411,7 @@
   <xsl:param name="purpose"/>
   <xsl:param name="xrefstyle"/>
   <xsl:param name="referrer"/>
-  <xsl:param name="lang">
-    <xsl:call-template name="l10n.language"/>
-  </xsl:param>
+  <xsl:param name="lang" select="$book-language"/>
   <xsl:param name="verbose" select="1"/>
 
   <xsl:choose>
