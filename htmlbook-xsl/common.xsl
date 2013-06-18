@@ -56,6 +56,28 @@
     </xsl:call-template>
   </xsl:template>
 
+  <!-- Template that pulls a value from a key/value list in an <xsl:param> that looks like this: 
+       key1:value1
+       key2:value2
+    -->
+  <xsl:template name="get-param-value-from-key">
+    <xsl:param name="parameter"/>
+    <xsl:param name="key"/>
+    <xsl:variable name="entry-and-beyond-for-class">
+      <!-- Gets the config line for numeration for the specified class...and everything beyond -->
+      <xsl:value-of select="substring-after(normalize-space($parameter), concat($key, ':'))"/>
+    </xsl:variable>
+    <!-- Then we further narrow to the exact numeration format type -->
+    <xsl:choose>
+      <xsl:when test="contains($entry-and-beyond-for-class, ' ')">
+	<xsl:value-of select="substring-before($entry-and-beyond-for-class, ' ')"/>
+      </xsl:when>
+      <xsl:otherwise>
+	<xsl:value-of select="$entry-and-beyond-for-class"/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
   <xsl:template name="get-label-from-class">
     <xsl:param name="class"/>
     <xsl:param name="numeration-format"/>
@@ -67,19 +89,10 @@
 	  <xsl:value-of select="$numeration-format"/>
 	</xsl:when>
 	<xsl:otherwise>
-	  <xsl:variable name="label-numeration-excerpt-for-class">
-	    <!-- Gets the config line for numeration for the specified class...and everything beyond -->
-	    <xsl:value-of select="substring-after(normalize-space($label.numeration.by.class), concat($class, ':'))"/>
-	  </xsl:variable>
-	  <!-- Then we further narrow to the exact numeration format type -->
-	  <xsl:choose>
-	    <xsl:when test="contains($label-numeration-excerpt-for-class, ' ')">
-	      <xsl:value-of select="substring-before($label-numeration-excerpt-for-class, ' ')"/>
-	    </xsl:when>
-	    <xsl:otherwise>
-	      <xsl:value-of select="$label-numeration-excerpt-for-class"/>
-	    </xsl:otherwise>
-	  </xsl:choose>
+	  <xsl:call-template name="get-param-value-from-key">
+	    <xsl:with-param name="parameter" select="$label.numeration.by.class"/>
+	    <xsl:with-param name="key" select="$class"/>
+	  </xsl:call-template>
 	</xsl:otherwise>
       </xsl:choose>
     </xsl:variable>
