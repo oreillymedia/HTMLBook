@@ -377,7 +377,6 @@
 <xsl:template name="gentext.template.exists">
   <xsl:param name="context" select="'default'"/>
   <xsl:param name="name" select="'default'"/>
-  <xsl:param name="origname" select="$name"/>
   <xsl:param name="purpose"/>
   <xsl:param name="xrefstyle"/>
   <xsl:param name="referrer"/>
@@ -387,7 +386,6 @@
     <xsl:call-template name="gentext.template">
       <xsl:with-param name="context" select="$context"/>
       <xsl:with-param name="name" select="$name"/>
-      <xsl:with-param name="origname" select="$origname"/>
       <xsl:with-param name="purpose" select="$purpose"/>
       <xsl:with-param name="xrefstyle" select="$xrefstyle"/>
       <xsl:with-param name="referrer" select="$referrer"/>
@@ -409,7 +407,6 @@
 <xsl:template name="gentext.template">
   <xsl:param name="context" select="'default'"/>
   <xsl:param name="name" select="'default'"/>
-  <xsl:param name="origname" select="$name"/>
   <xsl:param name="purpose"/>
   <xsl:param name="xrefstyle"/>
   <xsl:param name="referrer"/>
