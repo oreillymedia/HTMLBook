@@ -1,6 +1,7 @@
 <xsl:stylesheet version="1.0"
 		xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 		xmlns:h="http://www.w3.org/1999/xhtml"
+		xmlns:l="http://docbook.sourceforge.net/xmlns/l10n/1.0"
 		xmlns="http://www.w3.org/1999/xhtml"
 		exclude-result-prefixes="h">
 
@@ -404,6 +405,7 @@
 <!-- ============================================================ -->
 
 <!-- Adapted from docbook-xsl common/l10.xsl stylesheet -->
+<!-- ENORMOUSLY simplifying the logic here -->
 <xsl:template name="gentext.template">
   <xsl:param name="context" select="'default'"/>
   <xsl:param name="name" select="'default'"/>
@@ -414,172 +416,44 @@
   <xsl:param name="lang" select="$book-language"/>
   <xsl:param name="verbose" select="1"/>
 
+  <xsl:variable name="localizations-nodes" select="exsl:node-set($localizations)"/>
+
+  <xsl:variable name="context.node"
+		select="$localizations-nodes//l:l10n/l:context[@name=$context][1]"/>
+
+  <xsl:if test="count($context.node) = 0
+		and $verbose != 0">
+    <xsl:message>
+      <xsl:text>No context named "</xsl:text>
+      <xsl:value-of select="$context"/>
+      <xsl:text>" exists in the "</xsl:text>
+      <xsl:value-of select="$lang"/>
+      <xsl:text>" localization.</xsl:text>
+    </xsl:message>
+  </xsl:if>
+
   <xsl:choose>
-    <xsl:when test="$empty.local.l10n.xml">
-      <xsl:for-each select="$l10n.xml">  <!-- We need to switch context in order to make key() work -->
-	<xsl:for-each select="document(key('l10n-lang', $lang)/@href)">
-
-	  <xsl:variable name="localization.node"
-			select="key('l10n-lang', $lang)[1]"/>
-
-	  <xsl:if test="count($localization.node) = 0
-			and $verbose != 0">
-	    <xsl:message>
-	      <xsl:text>No "</xsl:text>
-	      <xsl:value-of select="$lang"/>
-	      <xsl:text>" localization exists.</xsl:text>
-	    </xsl:message>
-	  </xsl:if>
-
-	  <xsl:variable name="context.node"
-			select="key('l10n-context', $context)[1]"/>
-
-	  <xsl:if test="count($context.node) = 0
-			and $verbose != 0">
-	    <xsl:message>
-	      <xsl:text>No context named "</xsl:text>
-	      <xsl:value-of select="$context"/>
-	      <xsl:text>" exists in the "</xsl:text>
-	      <xsl:value-of select="$lang"/>
-	      <xsl:text>" localization.</xsl:text>
-	    </xsl:message>
-	  </xsl:if>
-
-	  <xsl:for-each select="$context.node">
-	    <xsl:variable name="template.node"
-			  select="(key('l10n-template-style', concat($context, '#', $name, '#', $xrefstyle))
-				   |key('l10n-template', concat($context, '#', $name)))[1]"/>
-
-	    <xsl:choose>
-	      <xsl:when test="$template.node/@text">
-		<xsl:value-of select="$template.node/@text"/>
-	      </xsl:when>
-	      <xsl:otherwise>
-		<xsl:choose>
-		  <xsl:when test="contains($name, '/')">
-		    <xsl:call-template name="gentext.template">
-		      <xsl:with-param name="context" select="$context"/>
-		      <xsl:with-param name="name" select="substring-after($name, '/')"/>
-		      <xsl:with-param name="origname" select="$origname"/>
-		      <xsl:with-param name="purpose" select="$purpose"/>
-		      <xsl:with-param name="xrefstyle" select="$xrefstyle"/>
-		      <xsl:with-param name="referrer" select="$referrer"/>
-		      <xsl:with-param name="lang" select="$lang"/>
-		      <xsl:with-param name="verbose" select="$verbose"/>
-		    </xsl:call-template>
-		  </xsl:when>
-		  <xsl:when test="$verbose = 0">
-		    <!-- silence -->
-		  </xsl:when>
-		  <xsl:otherwise>
-		    <xsl:message>
-		      <xsl:text>No template for "</xsl:text>
-		      <xsl:value-of select="$origname"/>
-		      <xsl:text>" (or any of its leaves) exists in the context named "</xsl:text>
-		      <xsl:value-of select="$context"/>
-		      <xsl:text>" in the "</xsl:text>
-		      <xsl:value-of select="$lang"/>
-		      <xsl:text>" localization.</xsl:text>
-		    </xsl:message>
-		  </xsl:otherwise>
-		</xsl:choose>
-	      </xsl:otherwise>
-	    </xsl:choose>
-	  </xsl:for-each>
-	</xsl:for-each>
-      </xsl:for-each>
+    <!-- If there's an $xrefstyle specified, first check for matching template @name and @style -->
+    <xsl:when test="$xrefstyle != '' and $context.node/l:template[@name=$name and @style=$xrefstyle and @text]">
+      <xsl:value-of select="$context.node/l:template[@name=$name and @style=$xrefstyle and @text][1]/@text"/>
+    </xsl:when>
+    <!-- If no $xrefstyle, just chekc for matching template @name -->
+    <xsl:when test="$context.node/l:template[@name=$name and @text]">
+      <xsl:value-of select="$context.node/l:template[@name=$name and @text][1]/@text"/>
+    </xsl:when>
+    <xsl:when test="$verbose = 0">
+      <!-- silence -->
     </xsl:when>
     <xsl:otherwise>
-      <xsl:for-each select="$l10n.xml">  <!-- We need to switch context in order to make key() work -->
-	<xsl:for-each select="document(key('l10n-lang', $lang)/@href)">
-
-	  <xsl:variable name="local.localization.node"
-			select="($local.l10n.xml//l:i18n/l:l10n[@language=$lang])[1]"/>
-
-	  <xsl:variable name="localization.node"
-			select="key('l10n-lang', $lang)[1]"/>
-
-	  <xsl:if test="count($localization.node) = 0
-			and count($local.localization.node) = 0
-			and $verbose != 0">
-	    <xsl:message>
-	      <xsl:text>No "</xsl:text>
-	      <xsl:value-of select="$lang"/>
-	      <xsl:text>" localization exists.</xsl:text>
-	    </xsl:message>
-	  </xsl:if>
-
-	  <xsl:variable name="local.context.node"
-			select="$local.localization.node/l:context[@name=$context]"/>
-
-	  <xsl:variable name="context.node"
-			select="key('l10n-context', $context)[1]"/>
-
-	  <xsl:if test="count($context.node) = 0
-			and count($local.context.node) = 0
-			and $verbose != 0">
-	    <xsl:message>
-	      <xsl:text>No context named "</xsl:text>
-	      <xsl:value-of select="$context"/>
-	      <xsl:text>" exists in the "</xsl:text>
-	      <xsl:value-of select="$lang"/>
-	      <xsl:text>" localization.</xsl:text>
-	    </xsl:message>
-	  </xsl:if>
-
-	  <xsl:variable name="local.template.node"
-			select="($local.context.node/l:template[@name=$name
-								and @style
-								and @style=$xrefstyle]
-				|$local.context.node/l:template[@name=$name
-								and not(@style)])[1]"/>
-
-	  <xsl:for-each select="$context.node">
-	    <xsl:variable name="template.node"
-			  select="(key('l10n-template-style', concat($context, '#', $name, '#', $xrefstyle))
-				   |key('l10n-template', concat($context, '#', $name)))[1]"/>
-
-	    <xsl:choose>
-	      <xsl:when test="$local.template.node/@text">
-		<xsl:value-of select="$local.template.node/@text"/>
-	      </xsl:when>
-	      <xsl:when test="$template.node/@text">
-		<xsl:value-of select="$template.node/@text"/>
-	      </xsl:when>
-	      <xsl:otherwise>
-		<xsl:choose>
-		  <xsl:when test="contains($name, '/')">
-		    <xsl:call-template name="gentext.template">
-		      <xsl:with-param name="context" select="$context"/>
-		      <xsl:with-param name="name" select="substring-after($name, '/')"/>
-		      <xsl:with-param name="origname" select="$origname"/>
-		      <xsl:with-param name="purpose" select="$purpose"/>
-		      <xsl:with-param name="xrefstyle" select="$xrefstyle"/>
-		      <xsl:with-param name="referrer" select="$referrer"/>
-		      <xsl:with-param name="lang" select="$lang"/>
-		      <xsl:with-param name="verbose" select="$verbose"/>
-		    </xsl:call-template>
-		  </xsl:when>
-		  <xsl:when test="$verbose = 0">
-		    <!-- silence -->
-		  </xsl:when>
-		  <xsl:otherwise>
-		    <xsl:message>
-		      <xsl:text>No template for "</xsl:text>
-		      <xsl:value-of select="$origname"/>
-		      <xsl:text>" (or any of its leaves) exists in the context named "</xsl:text>
-		      <xsl:value-of select="$context"/>
-		      <xsl:text>" in the "</xsl:text>
-		      <xsl:value-of select="$lang"/>
-		      <xsl:text>" localization.</xsl:text>
-		    </xsl:message>
-		  </xsl:otherwise>
-		</xsl:choose>
-	      </xsl:otherwise>
-	    </xsl:choose>
-	  </xsl:for-each>
-	</xsl:for-each>
-      </xsl:for-each>
+      <xsl:message>
+	<xsl:text>No template for "</xsl:text>
+	<xsl:value-of select="$name"/>
+	<xsl:text>" (or any of its leaves) exists in the context named "</xsl:text>
+	<xsl:value-of select="$context"/>
+	<xsl:text>" in the "</xsl:text>
+	<xsl:value-of select="$lang"/>
+	<xsl:text>" localization.</xsl:text>
+      </xsl:message>
     </xsl:otherwise>
   </xsl:choose>
 </xsl:template>
