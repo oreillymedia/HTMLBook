@@ -173,4 +173,53 @@
     </xsl:choose>
   </xsl:template>
 
+  <!-- Get the "semantic" name for an HTML5 element (mirroring a DB element name, for mappings in the localizations),
+       usually pulled from the @class value when the HTML5 element is not semantic enough -->
+  <!-- There may be multiple class values present, e.g. (<section class="chapter purple">) so use XPath contains() to do checks,
+       for lack of better alternative. -->
+  <xsl:template name="semantic-name">
+    <xsl:param name="node" select="."/>
+    <xsl:choose>
+      <xsl:when test="$node[self::h:section and contains(@class, 'acknowledgments')]">acknowledgments</xsl:when>
+      <xsl:when test="$node[self::h:section and contains(@class, 'afterword')]">appendix</xsl:when>
+      <xsl:when test="$node[self::h:section and contains(@class, 'bibliography')]">bibliography</xsl:when>
+      <xsl:when test="$node[self::h:section and contains(@class, 'chapter')]">chapter</xsl:when>
+      <xsl:when test="$node[self::h:section and contains(@class, 'colophon')]">colophon</xsl:when>
+      <xsl:when test="$node[self::h:section and contains(@class, 'conclusion')]">appendix</xsl:when>
+      <xsl:when test="$node[self::h:section and contains(@class, 'copyright-page')]">preface</xsl:when>
+      <xsl:when test="$node[self::h:section and contains(@class, 'dedication')]">dedication</xsl:when>
+      <xsl:when test="$node[self::h:section and contains(@class, 'foreword')]">preface</xsl:when>
+      <xsl:when test="$node[self::h:section and contains(@class, 'glossary')]">glossary</xsl:when>
+      <xsl:when test="$node[self::h:section and contains(@class, 'halftitlepage')]">preface</xsl:when>
+      <xsl:when test="$node[self::h:section and contains(@class, 'index')]">index</xsl:when>
+      <xsl:when test="$node[self::h:section and contains(@class, 'introduction')]">preface</xsl:when>
+      <xsl:when test="$node[self::h:section and contains(@class, 'preface')]">preface</xsl:when>
+      <xsl:when test="$node[self::h:section and contains(@class, 'titlepage')]">preface</xsl:when>
+      <xsl:when test="$node[self::h:section and contains(@class, 'toc')]">toc</xsl:when>
+      <xsl:when test="$node[self::h:section and contains(@class, 'sect1')]">sect1</xsl:when>
+      <xsl:when test="$node[self::h:section and contains(@class, 'sect2')]">sect2</xsl:when>
+      <xsl:when test="$node[self::h:section and contains(@class, 'sect3')]">sect3</xsl:when>
+      <xsl:when test="$node[self::h:section and contains(@class, 'sect4')]">sect4</xsl:when>
+      <xsl:when test="$node[self::h:section and contains(@class, 'sect5')]">sect5</xsl:when>
+      <xsl:when test="$node[self::h:section]">section</xsl:when> <!-- for <section>, default to "section" -->
+      <xsl:when test="$node[self::h:div and contains(@class, 'caution')]">caution</xsl:when>
+      <xsl:when test="$node[self::h:div and contains(@class, 'equation')]">equation</xsl:when>
+      <xsl:when test="$node[self::h:div and contains(@class, 'example')]">example</xsl:when>
+      <xsl:when test="$node[self::h:div and contains(@class, 'footnote')]">footnote</xsl:when>
+      <xsl:when test="$node[self::h:div and contains(@class, 'important')]">important</xsl:when>
+      <xsl:when test="$node[self::h:div and contains(@class, 'note')]">note</xsl:when>
+      <xsl:when test="$node[self::h:div and contains(@class, 'tip')]">tip</xsl:when>
+      <xsl:when test="$node[self::h:div and contains(@class, 'part')]">part</xsl:when>
+      <xsl:when test="$node[self::h:div and contains(@class, 'rearnote')]">footnote</xsl:when>
+      <xsl:when test="$node[self::h:div and contains(@class, 'warning')]">warning</xsl:when>
+      <xsl:when test="$node[self::h:div and @class]">
+	<xsl:value-of select="$node/@class"/> <!-- for <div>, default to class value -->
+      </xsl:when>
+      <xsl:otherwise>
+	<!-- For all other elements besides <section> and <div>, just use the local-name -->
+	<xsl:value-of select="local-name($node)"/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
 </xsl:stylesheet> 

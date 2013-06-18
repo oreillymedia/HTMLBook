@@ -122,7 +122,7 @@
     <xsl:call-template name="gentext.template.exists">
       <xsl:with-param name="context" select="'xref-number-and-title'"/>
       <xsl:with-param name="name">
-        <xsl:call-template name="xpath.location"/>
+        <xsl:call-template name="semantic-name"/>
       </xsl:with-param>
     </xsl:call-template>
   </xsl:variable>
@@ -131,7 +131,7 @@
     <xsl:call-template name="gentext.template.exists">
       <xsl:with-param name="context" select="'xref-number'"/>
       <xsl:with-param name="name">
-        <xsl:call-template name="xpath.location"/>
+        <xsl:call-template name="semantic-name"/>
       </xsl:with-param>
     </xsl:call-template>
   </xsl:variable>
@@ -167,7 +167,7 @@
   <xsl:call-template name="gentext.template">
     <xsl:with-param name="context" select="$context"/>
     <xsl:with-param name="name">
-      <xsl:call-template name="xpath.location"/>
+      <xsl:call-template name="semantic-name"/>
     </xsl:with-param>
     <xsl:with-param name="purpose" select="$purpose"/>
     <xsl:with-param name="xrefstyle" select="$xrefstyle"/>
