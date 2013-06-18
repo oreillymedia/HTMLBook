@@ -203,6 +203,8 @@
 
 <!-- ============================================================ -->
 
+<!-- Adapted from docbook-xsl templates in common/gentext.xsl -->
+<!-- For reasons of simplicity and relevancy, only supporting %n, %t, and %d substitutions -->
 <xsl:template name="substitute-markup">
   <xsl:param name="template" select="''"/>
   <xsl:param name="allow-anchors" select="'0'"/>
@@ -241,24 +243,6 @@
             </xsl:with-param>
           </xsl:apply-templates>
         </xsl:when>
-        <xsl:when test="$candidate = 's'">
-          <xsl:apply-templates select="." mode="insert.subtitle.markup">
-            <xsl:with-param name="purpose" select="$purpose"/>
-            <xsl:with-param name="xrefstyle" select="$xrefstyle"/>
-            <xsl:with-param name="subtitle">
-              <xsl:choose>
-                <xsl:when test="$subtitle != ''">
-                  <xsl:copy-of select="$subtitle"/>
-                </xsl:when>
-                <xsl:otherwise>
-                  <xsl:apply-templates select="." mode="subtitle.markup">
-                    <xsl:with-param name="allow-anchors" select="$allow-anchors"/>
-                  </xsl:apply-templates>
-                </xsl:otherwise>
-              </xsl:choose>
-            </xsl:with-param>
-          </xsl:apply-templates>
-        </xsl:when>
         <xsl:when test="$candidate = 'n'">
           <xsl:apply-templates select="." mode="insert.label.markup">
             <xsl:with-param name="purpose" select="$purpose"/>
@@ -270,39 +254,6 @@
                 </xsl:when>
                 <xsl:otherwise>
                   <xsl:apply-templates select="." mode="label.markup"/>
-                </xsl:otherwise>
-              </xsl:choose>
-            </xsl:with-param>
-          </xsl:apply-templates>
-        </xsl:when>
-        <xsl:when test="$candidate = 'p'">
-          <xsl:apply-templates select="." mode="insert.pagenumber.markup">
-            <xsl:with-param name="purpose" select="$purpose"/>
-            <xsl:with-param name="xrefstyle" select="$xrefstyle"/>
-            <xsl:with-param name="pagenumber">
-              <xsl:choose>
-                <xsl:when test="$pagenumber != ''">
-                  <xsl:copy-of select="$pagenumber"/>
-                </xsl:when>
-                <xsl:otherwise>
-                  <xsl:apply-templates select="." mode="pagenumber.markup"/>
-                </xsl:otherwise>
-              </xsl:choose>
-            </xsl:with-param>
-          </xsl:apply-templates>
-        </xsl:when>
-        <xsl:when test="$candidate = 'o'">
-          <!-- olink target document title -->
-          <xsl:apply-templates select="." mode="insert.olink.docname.markup">
-            <xsl:with-param name="purpose" select="$purpose"/>
-            <xsl:with-param name="xrefstyle" select="$xrefstyle"/>
-            <xsl:with-param name="docname">
-              <xsl:choose>
-                <xsl:when test="$docname != ''">
-                  <xsl:copy-of select="$docname"/>
-                </xsl:when>
-                <xsl:otherwise>
-                  <xsl:apply-templates select="." mode="olink.docname.markup"/>
                 </xsl:otherwise>
               </xsl:choose>
             </xsl:with-param>
