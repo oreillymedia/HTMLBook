@@ -16,6 +16,7 @@
   <xsl:include href="idgen.xsl"/> <!-- Id decoration as needed for autogeneration of TOC/index -->
   <xsl:include href="tocgen.xsl"/> <!-- Autogeneration of TOC if specified in autogenerate-toc -->
   <xsl:include href="indexgen.xsl"/> <!-- Autogeneration of index if specified in autogenerate-index -->
+  <xsl:include href="xrefgen.xsl"/> <!-- Autogeneration of XREFs if specified in autogenerate-xrefs -->
 
   <xsl:output method="xml"
               encoding="UTF-8"/>
