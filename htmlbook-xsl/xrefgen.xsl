@@ -318,6 +318,9 @@
         <xsl:with-param name="verbose" select="$verbose"/>
       </xsl:call-template>
     </xsl:when>
+    <xsl:when test="normalize-space($template) = ''">
+      <xsl:text>???</xsl:text>
+    </xsl:when>
     <xsl:otherwise>
       <xsl:value-of select="$template"/>
     </xsl:otherwise>
