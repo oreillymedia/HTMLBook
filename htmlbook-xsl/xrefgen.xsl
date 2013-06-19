@@ -360,7 +360,7 @@
 
 </xsl:template>
 
-<xsl:template match="chapter|appendix" mode="insert.title.markup">
+<xsl:template match="h:section[contains(@class, 'chapter') or contains(@class, 'appendix')]" mode="insert.title.markup">
   <xsl:param name="purpose"/>
   <xsl:param name="xrefstyle"/>
   <xsl:param name="title"/>
