@@ -324,7 +324,15 @@
 
 <!-- ============================================================ -->
 
-<!-- insert.title.markup templates; adapted from docbook-xsl xhtml/xref.xsl stylesheet -->
+<!-- insert.title.markup, insert.label.markup, and insert.direction.markup templates; adapted from docbook-xsl xhtml/xref.xsl stylesheet -->
+
+<xsl:template match="*" mode="insert.label.markup">
+  <xsl:param name="purpose"/>
+  <xsl:param name="xrefstyle"/>
+  <xsl:param name="label"/>
+
+  <xsl:copy-of select="$label"/>
+</xsl:template>
 
 <xsl:template match="*" mode="insert.title.markup">
   <xsl:param name="purpose"/>
