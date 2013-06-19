@@ -267,20 +267,20 @@
               <xsl:choose>
                 <xsl:when test="$referrer">
                   <xsl:variable name="referent-is-below">
-                    <xsl:for-each select="preceding::xref">
+                    <xsl:for-each select="preceding::h:a[@class='xref']">
                       <xsl:if test="generate-id(.) = generate-id($referrer)">1</xsl:if>
                     </xsl:for-each>
                   </xsl:variable>
                   <xsl:choose>
                     <xsl:when test="$referent-is-below = ''">
-                      <xsl:call-template name="gentext">
-                        <xsl:with-param name="key" select="'above'"/>
-                      </xsl:call-template>
-                    </xsl:when>
+		      <xsl:call-template name="get-localization-value">
+			<xsl:with-param name="gentext-key" select="'above'"/>
+		      </xsl:call-template>
+		    </xsl:when>
                     <xsl:otherwise>
-                      <xsl:call-template name="gentext">
-                        <xsl:with-param name="key" select="'below'"/>
-                      </xsl:call-template>
+		      <xsl:call-template name="get-localization-value">
+			<xsl:with-param name="gentext-key" select="'below'"/>
+		      </xsl:call-template>
                     </xsl:otherwise>
                   </xsl:choose>
                 </xsl:when>
@@ -332,6 +332,14 @@
   <xsl:param name="label"/>
 
   <xsl:copy-of select="$label"/>
+</xsl:template>
+
+<xsl:template match="*" mode="insert.direction.markup">
+  <xsl:param name="purpose"/>
+  <xsl:param name="xrefstyle"/>
+  <xsl:param name="direction"/>
+
+  <xsl:copy-of select="$direction"/>
 </xsl:template>
 
 <xsl:template match="*" mode="insert.title.markup">
