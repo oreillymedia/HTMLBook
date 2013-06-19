@@ -105,9 +105,6 @@ sect5:none
   <!-- Specify whether or not to overwrite any content in XREF <a> elements when doing XREF gentext -->
   <xsl:param name="xref-placeholder-overwrite-contents" select="0"/>
 
-  <!-- Specifies whether or not to put XREF title in quotes -->
-  <xsl:param name="xref-title-in-quotes" select="1"/>
-
   <!-- Specifies type of XREF to use for different kinds of sections -->
   <!-- Choices are:
        * xref-number-and-title
@@ -116,7 +113,7 @@ sect5:none
     -->
   <xsl:param name="xref.type.for.section.by.class">
 appendix:xref-number
-chapter:xref-number
+chapter:xref-number-and-title
 part:xref-number
 sect1:xref
 sect2:xref
