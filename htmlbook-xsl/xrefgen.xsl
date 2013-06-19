@@ -1,9 +1,11 @@
 <xsl:stylesheet version="1.0"
 		xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+		xmlns:exsl="http://exslt.org/common"
 		xmlns:h="http://www.w3.org/1999/xhtml"
 		xmlns:l="http://docbook.sourceforge.net/xmlns/l10n/1.0"
 		xmlns="http://www.w3.org/1999/xhtml"
-		exclude-result-prefixes="h">
+		extension-element-prefixes="exsl"
+		exclude-result-prefixes="exsl h">
 
   <xsl:output method="xml"
               encoding="UTF-8"/>
@@ -16,7 +18,7 @@
     <xsl:variable name="href-anchor">
       <xsl:choose>
 	<!-- If href contains an # (as it should), we're going to assume the subsequent text is the referent id -->
-	<xsl:when test="contains(., '#')">
+	<xsl:when test="contains(@href, '#')">
 	  <xsl:value-of select="substring-after(@href, '#')"/>
 	</xsl:when>
 	<!-- Otherwise, we'll just assume the entire href is the referent id -->
