@@ -54,6 +54,15 @@
 
   <!-- Label handling -->
   <xsl:template match="h:div[contains(@class, part)]|h:section" mode="label.markup">
+    <xsl:variable name="current-node" select="."/>
+    <xsl:if test="$label.section.with.ancestors != 0">
+      <xsl:for-each select="ancestor::h:section|ancestor::h:div[contains(@class, part)]">
+	<xsl:call-template name="get-label-from-class">
+	  <xsl:with-param name="class" select="@class"/>
+	</xsl:call-template>
+	<xsl:apply-templates select="$current-node" mode="intralabel.punctuation"/>
+      </xsl:for-each>
+    </xsl:if>
     <xsl:call-template name="get-label-from-class">
       <xsl:with-param name="class" select="@class"/>
     </xsl:call-template>
