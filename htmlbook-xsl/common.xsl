@@ -60,72 +60,138 @@
   </xsl:template>
 
   <xsl:template match="h:table" mode="label.markup">
-    <xsl:if test="$label.formal.with.ancestor != 0">
-      <xsl:apply-templates select="ancestor::h:section[contains(@class, 'acknowledgments') or
-				   contains(@class, 'afterword') or
-				   contains(@class, 'appendix') or
-				   contains(@class, 'bibliography') or
-				   contains(@class, 'chapter') or
-				   contains(@class, 'colophon') or
-				   contains(@class, 'conclusion') or
-				   contains(@class, 'copyright-page') or
-				   contains(@class, 'dedication') or
-				   contains(@class, 'foreword') or
-				   contains(@class, 'glossary') or
-				   contains(@class, 'halftitlepage') or
-				   contains(@class, 'index') or
-				   contains(@class, 'introduction') or
-				   contains(@class, 'preface') or
-				   contains(@class, 'titlepage') or
-				   contains(@class, 'toc')][last()]" mode="label.markup"/>
-      <xsl:apply-templates select="." mode="intralabel.punctuation"/>
-      <xsl:number count="h:table" from="h:section" level="any" format="1"/>
+    <xsl:choose>
+      <xsl:when test="$label.formal.with.ancestor != 0">
+	<xsl:apply-templates select="ancestor::h:section[contains(@class, 'acknowledgments') or
+				     contains(@class, 'afterword') or
+				     contains(@class, 'appendix') or
+				     contains(@class, 'bibliography') or
+				     contains(@class, 'chapter') or
+				     contains(@class, 'colophon') or
+				     contains(@class, 'conclusion') or
+				     contains(@class, 'copyright-page') or
+				     contains(@class, 'dedication') or
+				     contains(@class, 'foreword') or
+				     contains(@class, 'glossary') or
+				     contains(@class, 'halftitlepage') or
+				     contains(@class, 'index') or
+				     contains(@class, 'introduction') or
+				     contains(@class, 'preface') or
+				     contains(@class, 'titlepage') or
+				     contains(@class, 'toc')][last()]" mode="label.markup"/>
+	<xsl:apply-templates select="." mode="intralabel.punctuation"/>
+	<xsl:number count="h:table" from="h:section[contains(@class, 'acknowledgments') or
+					  contains(@class, 'afterword') or
+					  contains(@class, 'appendix') or
+					  contains(@class, 'bibliography') or
+					  contains(@class, 'chapter') or
+					  contains(@class, 'colophon') or
+					  contains(@class, 'conclusion') or
+					  contains(@class, 'copyright-page') or
+					  contains(@class, 'dedication') or
+					  contains(@class, 'foreword') or
+					  contains(@class, 'glossary') or
+					  contains(@class, 'halftitlepage') or
+					  contains(@class, 'index') or
+					  contains(@class, 'introduction') or
+					  contains(@class, 'preface') or
+					  contains(@class, 'titlepage') or
+					  contains(@class, 'toc')" level="any" format="1"/>
+      </xsl:when>
+      <xsl:otherwise>
+	<xsl:number count="h:table" level="any" format="1"/>
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
 
   <xsl:template match="h:figure" mode="label.markup">
-    <xsl:if test="$label.formal.with.ancestor != 0">
-      <xsl:apply-templates select="ancestor::h:section[contains(@class, 'acknowledgments') or
-				   contains(@class, 'afterword') or
-				   contains(@class, 'appendix') or
-				   contains(@class, 'bibliography') or
-				   contains(@class, 'chapter') or
-				   contains(@class, 'colophon') or
-				   contains(@class, 'conclusion') or
-				   contains(@class, 'copyright-page') or
-				   contains(@class, 'dedication') or
-				   contains(@class, 'foreword') or
-				   contains(@class, 'glossary') or
-				   contains(@class, 'halftitlepage') or
-				   contains(@class, 'index') or
-				   contains(@class, 'introduction') or
-				   contains(@class, 'preface') or
-				   contains(@class, 'titlepage') or
-				   contains(@class, 'toc')][last()]" mode="label.markup"/>
-      <xsl:apply-templates select="." mode="intralabel.punctuation"/>
-      <xsl:number count="h:figure" from="h:section" level="any" format="1"/>
+    <xsl:choose>
+      <xsl:when test="$label.formal.with.ancestor != 0">
+	<xsl:apply-templates select="ancestor::h:section[contains(@class, 'acknowledgments') or
+				     contains(@class, 'afterword') or
+				     contains(@class, 'appendix') or
+				     contains(@class, 'bibliography') or
+				     contains(@class, 'chapter') or
+				     contains(@class, 'colophon') or
+				     contains(@class, 'conclusion') or
+				     contains(@class, 'copyright-page') or
+				     contains(@class, 'dedication') or
+				     contains(@class, 'foreword') or
+				     contains(@class, 'glossary') or
+				     contains(@class, 'halftitlepage') or
+				     contains(@class, 'index') or
+				     contains(@class, 'introduction') or
+				     contains(@class, 'preface') or
+				     contains(@class, 'titlepage') or
+				     contains(@class, 'toc')][last()]" mode="label.markup"/>
+	<xsl:apply-templates select="." mode="intralabel.punctuation"/>
+	<xsl:number count="h:figure" from="h:section[contains(@class, 'acknowledgments') or
+					   contains(@class, 'afterword') or
+					   contains(@class, 'appendix') or
+					   contains(@class, 'bibliography') or
+					   contains(@class, 'chapter') or
+					   contains(@class, 'colophon') or
+					   contains(@class, 'conclusion') or
+					   contains(@class, 'copyright-page') or
+					   contains(@class, 'dedication') or
+					   contains(@class, 'foreword') or
+					   contains(@class, 'glossary') or
+					   contains(@class, 'halftitlepage') or
+					   contains(@class, 'index') or
+					   contains(@class, 'introduction') or
+					   contains(@class, 'preface') or
+					   contains(@class, 'titlepage') or
+					   contains(@class, 'toc')" level="any" format="1"/>
+      </xsl:when>
+      <xsl:otherwise>
+	<xsl:number count="h:figure" level="any" format="1"/>
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
 
-  <xsl:template match="h:div[@class='example']" mode="label.markup">
-    <xsl:if test="$label.formal.with.ancestor != 0">
-      <xsl:apply-templates select="ancestor::h:section[contains(@class, 'acknowledgments') or
-				   contains(@class, 'afterword') or
-				   contains(@class, 'appendix') or
-				   contains(@class, 'bibliography') or
-				   contains(@class, 'chapter') or
-				   contains(@class, 'colophon') or
-				   contains(@class, 'conclusion') or
-				   contains(@class, 'copyright-page') or
-				   contains(@class, 'dedication') or
-				   contains(@class, 'foreword') or
-				   contains(@class, 'glossary') or
-				   contains(@class, 'halftitlepage') or
-				   contains(@class, 'index') or
-				   contains(@class, 'introduction') or
-				   contains(@class, 'preface') or
-				   contains(@class, 'titlepage') or
-				   contains(@class, 'toc')][last()]" mode="label.markup"/>
-      <xsl:apply-templates select="." mode="intralabel.punctuation"/>
-      <xsl:number count="h:div[@class='example']" from="h:section" level="any" format="1"/>
+  <xsl:template match="h:div[contains(@class, 'example')]" mode="label.markup">
+    <xsl:choose>
+      <xsl:when test="$label.formal.with.ancestor != 0">
+	<xsl:apply-templates select="ancestor::h:section[contains(@class, 'acknowledgments') or
+				     contains(@class, 'afterword') or
+				     contains(@class, 'appendix') or
+				     contains(@class, 'bibliography') or
+				     contains(@class, 'chapter') or
+				     contains(@class, 'colophon') or
+				     contains(@class, 'conclusion') or
+				     contains(@class, 'copyright-page') or
+				     contains(@class, 'dedication') or
+				     contains(@class, 'foreword') or
+				     contains(@class, 'glossary') or
+				     contains(@class, 'halftitlepage') or
+				     contains(@class, 'index') or
+				     contains(@class, 'introduction') or
+				     contains(@class, 'preface') or
+				     contains(@class, 'titlepage') or
+				     contains(@class, 'toc')][last()]" mode="label.markup"/>
+	<xsl:apply-templates select="." mode="intralabel.punctuation"/>
+	<xsl:number count="h:div[contains(@class, 'example')]" from="h:section[contains(@class, 'acknowledgments') or
+								     contains(@class, 'afterword') or
+								     contains(@class, 'appendix') or
+								     contains(@class, 'bibliography') or
+								     contains(@class, 'chapter') or
+								     contains(@class, 'colophon') or
+								     contains(@class, 'conclusion') or
+								     contains(@class, 'copyright-page') or
+								     contains(@class, 'dedication') or
+								     contains(@class, 'foreword') or
+								     contains(@class, 'glossary') or
+								     contains(@class, 'halftitlepage') or
+								     contains(@class, 'index') or
+								     contains(@class, 'introduction') or
+								     contains(@class, 'preface') or
+								     contains(@class, 'titlepage') or
+								     contains(@class, 'toc')" level="any" format="1"/>
+      </xsl:when>
+      <xsl:otherwise>
+	<xsl:number count="h:div[contains(@class, 'example')]" level="any" format="1"/>
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
 
   <xsl:template match="*" mode="label.markup"/>
