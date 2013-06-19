@@ -4,7 +4,6 @@
 		xmlns="http://www.w3.org/1999/xhtml"
 		exclude-result-prefixes="h">
 
-<!-- Functionality still ToDo: Support for multilevel labels (including label for ancestor element); see common.xsl -->
 <!-- Functionality still ToDo: Setting TOC section depth (e.g., how many levels of sections to include in TOC -->
 
   <xsl:output method="xml"
