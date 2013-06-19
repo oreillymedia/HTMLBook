@@ -255,27 +255,21 @@
       <!-- I wish XSL allowed variables in @format attribute -->
       <xsl:when test="$calculated-numeration-format = '1'">
 	<xsl:number count="*[@class = $class]" format="1"/>
-	<xsl:value-of select="$label.and.title.separator"/>
       </xsl:when>
       <xsl:when test="$calculated-numeration-format = '01'">
 	<xsl:number count="*[@class = $class]" format="01"/>
-	<xsl:value-of select="$label.and.title.separator"/>
       </xsl:when>
       <xsl:when test="$calculated-numeration-format = 'a'">
 	<xsl:number count="*[@class = $class]" format="a"/>
-	<xsl:value-of select="$label.and.title.separator"/>
       </xsl:when>
       <xsl:when test="$calculated-numeration-format = 'A'">
 	<xsl:number count="*[@class = $class]" format="A"/>
-	<xsl:value-of select="$label.and.title.separator"/>
       </xsl:when>
       <xsl:when test="$calculated-numeration-format = 'i'">
 	<xsl:number count="*[@class = $class]" format="i"/>
-	<xsl:value-of select="$label.and.title.separator"/>
       </xsl:when>
       <xsl:when test="$calculated-numeration-format = 'I'">
 	<xsl:number count="*[@class = $class]" format="I"/>
-	<xsl:value-of select="$label.and.title.separator"/>
       </xsl:when>
       <xsl:when test="$calculated-numeration-format = 'none'"/>
       <xsl:otherwise>
