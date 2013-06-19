@@ -96,7 +96,7 @@
 					  contains(@class, 'introduction') or
 					  contains(@class, 'preface') or
 					  contains(@class, 'titlepage') or
-					  contains(@class, 'toc')" level="any" format="1"/>
+					  contains(@class, 'toc')]" level="any" format="1"/>
       </xsl:when>
       <xsl:otherwise>
 	<xsl:number count="h:table" level="any" format="1"/>
@@ -125,7 +125,7 @@
 				     contains(@class, 'titlepage') or
 				     contains(@class, 'toc')][last()]" mode="label.markup"/>
 	<xsl:apply-templates select="." mode="intralabel.punctuation"/>
-	<xsl:number count="h:figure" from="h:section[contains(@class, 'acknowledgments') or
+	<xsl:number count="h:figure[not(contains(@class, 'cover'))]" from="h:section[contains(@class, 'acknowledgments') or
 					   contains(@class, 'afterword') or
 					   contains(@class, 'appendix') or
 					   contains(@class, 'bibliography') or
@@ -141,10 +141,10 @@
 					   contains(@class, 'introduction') or
 					   contains(@class, 'preface') or
 					   contains(@class, 'titlepage') or
-					   contains(@class, 'toc')" level="any" format="1"/>
+					   contains(@class, 'toc')]" level="any" format="1"/>
       </xsl:when>
       <xsl:otherwise>
-	<xsl:number count="h:figure" level="any" format="1"/>
+	<xsl:number count="h:figure[not(contains(@class, 'cover'))]" level="any" format="1"/>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
@@ -186,7 +186,7 @@
 								     contains(@class, 'introduction') or
 								     contains(@class, 'preface') or
 								     contains(@class, 'titlepage') or
-								     contains(@class, 'toc')" level="any" format="1"/>
+								     contains(@class, 'toc')]" level="any" format="1"/>
       </xsl:when>
       <xsl:otherwise>
 	<xsl:number count="h:div[contains(@class, 'example')]" level="any" format="1"/>
