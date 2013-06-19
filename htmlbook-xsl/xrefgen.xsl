@@ -104,13 +104,20 @@
     </xsl:message>
   </xsl:if>
 
-  <xsl:call-template name="substitute-markup">
-    <xsl:with-param name="purpose" select="$purpose"/>
-    <xsl:with-param name="xrefstyle" select="$xrefstyle"/>
-    <xsl:with-param name="referrer" select="$referrer"/>
-    <xsl:with-param name="template" select="$template"/>
-    <xsl:with-param name="verbose" select="$verbose"/>
-  </xsl:call-template>
+  <xsl:choose>
+    <xsl:when test="normalize-space($template) != ''">
+      <xsl:call-template name="substitute-markup">
+	<xsl:with-param name="purpose" select="$purpose"/>
+	<xsl:with-param name="xrefstyle" select="$xrefstyle"/>
+	<xsl:with-param name="referrer" select="$referrer"/>
+	<xsl:with-param name="template" select="$template"/>
+	<xsl:with-param name="verbose" select="$verbose"/>
+      </xsl:call-template>
+    </xsl:when>
+    <xsl:otherwise>
+      <xsl:text>???</xsl:text>
+    </xsl:otherwise>
+  </xsl:choose>
 </xsl:template>
 
 <!-- ============================================================ -->
@@ -317,9 +324,6 @@
         <xsl:with-param name="referrer" select="$referrer"/>
         <xsl:with-param name="verbose" select="$verbose"/>
       </xsl:call-template>
-    </xsl:when>
-    <xsl:when test="normalize-space($template) = ''">
-      <xsl:text>???</xsl:text>
     </xsl:when>
     <xsl:otherwise>
       <xsl:value-of select="$template"/>
