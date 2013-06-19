@@ -3,16 +3,13 @@
                 xmlns:l="http://docbook.sourceforge.net/xmlns/l10n/1.0"
 		xmlns:h="http://www.w3.org/1999/xhtml"
 		xmlns="http://www.w3.org/1999/xhtml"
-		exclude-result-prefixes="l">
+		exclude-result-prefixes="h l">
 
   <!-- Stylesheet containing all htmlbook-xsl params, and their default values -->
 
   <xsl:output method="xml"
               encoding="UTF-8"/>
   <xsl:preserve-space elements="*"/>
-
-  <xsl:param name="autogenerate-toc" select="1"/>
-  <xsl:param name="autogenerate-index" select="1"/>
 
   <xsl:param name="book-language">
     <xsl:choose>
@@ -44,6 +41,34 @@
     </xsl:choose>
   </xsl:param>
 
+  <!-- Titling and labeling params -->
+
+  <!-- Separator to be used between label and title -->
+  <xsl:param name="label.and.title.separator" select="'. '"/>
+
+  <!-- Separator to be used between parts of a label -->
+  <xsl:param name="intralabel.separator" select="'.'"/>
+
+<!-- For any book division that you want to have numeration, specify the @class, followed by colon, 
+     and then a valid @format value for <xsl:number/>. If there is no entry in this list, or "none" is specified, corresponding division
+     will not get labeled -->
+  <xsl:param name="label.numeration.by.class">
+appendix:A
+chapter:1
+part:I
+sect1:none
+sect2:none
+sect3:none
+sect4:none
+sect5:none
+  </xsl:param>
+
+  <!-- When labeling sections, also label their ancestors, e.g., 3.1, 3.2.1 -->
+  <xsl:param name="label.section.with.ancestors" select="0"/>
+
+  <!-- When labeling formal objects (figures, tables, examples), also label the chapter-level ancestor, e.g., 3-1 -->
+  <xsl:param name="label.formal.with.ancestor" select="1"/>
+
   <!-- Index-specific params -->
   <xsl:param name="autogenerate-index" select="1"/>
 
@@ -73,5 +98,28 @@
 
   <!-- Specify whether to include number labels in TOC entries -->
   <xsl:param name="toc-include-labels" select="0"/>
+
+  <!-- XREF-specific params -->
+  <xsl:param name="autogenerate-xrefs" select="1"/>
+  
+  <!-- Specify whether or not to overwrite any content in XREF <a> elements when doing XREF gentext -->
+  <xsl:param name="xref-placeholder-overwrite-contents" select="0"/>
+
+  <!-- Specifies type of XREF to use for different kinds of sections -->
+  <!-- Choices are:
+       * xref-number-and-title
+       * xref-number
+       * xref
+    -->
+  <xsl:param name="xref.type.for.section.by.class">
+appendix:xref-number
+chapter:xref-number-and-title
+part:xref-number
+sect1:xref
+sect2:xref
+sect3:xref
+sect4:xref
+sect5:xref
+  </xsl:param>
 
 </xsl:stylesheet> 

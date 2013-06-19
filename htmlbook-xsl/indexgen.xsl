@@ -7,7 +7,7 @@
 		xmlns:h="http://www.w3.org/1999/xhtml"
 		xmlns="http://www.w3.org/1999/xhtml" 
 		extension-element-prefixes="exslt" 
-		exclude-result-prefixes="exslt">
+		exclude-result-prefixes="exslt h">
 
 <!-- Adapted from DocBook-XSL project index generation: xhtml/autoidx.xsl -->
 <!-- At present, only supporting the "basic" method derived from Jeni Tennison's work. Not supporting "kosek" or "kimber" -->
@@ -471,7 +471,7 @@
     <xsl:otherwise>
       <a class="index:locator"> <!-- From EPUB Indexes Specification -->
         <xsl:variable name="title">
-          <xsl:apply-templates select="(ancestor-or-self::h:nav|ancestor-or-self::h:div[@class='part']|ancestor-or-self::h:section)[last()]" mode="titlegen"/>
+          <xsl:apply-templates select="(ancestor-or-self::h:nav|ancestor-or-self::h:div[@class='part']|ancestor-or-self::h:section)[last()]" mode="title.markup"/>
         </xsl:variable>
 
         <xsl:attribute name="href">
@@ -593,7 +593,7 @@
 
 <xsl:template match="*" mode="index-title-content">
   <xsl:variable name="title">
-    <xsl:apply-templates select="(ancestor-or-self::h:nav|ancestor-or-self::h:div[@class='part']|ancestor-or-self::h:section)[last()]" mode="titlegen"/>
+    <xsl:apply-templates select="(ancestor-or-self::h:nav|ancestor-or-self::h:div[@class='part']|ancestor-or-self::h:section)[last()]" mode="title.markup"/>
   </xsl:variable>
 
   <xsl:value-of select="$title"/>
