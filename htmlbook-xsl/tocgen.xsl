@@ -28,7 +28,7 @@
 	  </xsl:call-template>
 	</xsl:attribute>
 	<xsl:if test="$toc-include-labels = 1">
-	  <xsl:apply-templates select="." mode="label.value"/>
+	  <xsl:apply-templates select="." mode="label.markup"/>
 	</xsl:if>
 	<xsl:apply-templates select="." mode="title.markup"/>
       </a>

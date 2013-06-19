@@ -53,10 +53,93 @@
   </xsl:template>
 
   <!-- Label handling -->
-  <xsl:template match="*" mode="label.value">
+  <xsl:template match="h:div[contains(@class, part)]|h:section" mode="label.markup">
     <xsl:call-template name="get-label-from-class">
       <xsl:with-param name="class" select="@class"/>
     </xsl:call-template>
+  </xsl:template>
+
+  <xsl:template match="h:table" mode="label.markup">
+    <xsl:if test="$label.formal.with.ancestor != 0">
+      <xsl:apply-templates select="ancestor::h:section[contains(@class, 'acknowledgments') or
+				   contains(@class, 'afterword') or
+				   contains(@class, 'appendix') or
+				   contains(@class, 'bibliography') or
+				   contains(@class, 'chapter') or
+				   contains(@class, 'colophon') or
+				   contains(@class, 'conclusion') or
+				   contains(@class, 'copyright-page') or
+				   contains(@class, 'dedication') or
+				   contains(@class, 'foreword') or
+				   contains(@class, 'glossary') or
+				   contains(@class, 'halftitlepage') or
+				   contains(@class, 'index') or
+				   contains(@class, 'introduction') or
+				   contains(@class, 'preface') or
+				   contains(@class, 'titlepage') or
+				   contains(@class, 'toc')][last()]" mode="label.markup"/>
+      <xsl:apply-templates select="." mode="intralabel.punctuation"/>
+      <xsl:number count="h:table" from="h:section" level="any" format="1"/>
+  </xsl:template>
+
+  <xsl:template match="h:figure" mode="label.markup">
+    <xsl:if test="$label.formal.with.ancestor != 0">
+      <xsl:apply-templates select="ancestor::h:section[contains(@class, 'acknowledgments') or
+				   contains(@class, 'afterword') or
+				   contains(@class, 'appendix') or
+				   contains(@class, 'bibliography') or
+				   contains(@class, 'chapter') or
+				   contains(@class, 'colophon') or
+				   contains(@class, 'conclusion') or
+				   contains(@class, 'copyright-page') or
+				   contains(@class, 'dedication') or
+				   contains(@class, 'foreword') or
+				   contains(@class, 'glossary') or
+				   contains(@class, 'halftitlepage') or
+				   contains(@class, 'index') or
+				   contains(@class, 'introduction') or
+				   contains(@class, 'preface') or
+				   contains(@class, 'titlepage') or
+				   contains(@class, 'toc')][last()]" mode="label.markup"/>
+      <xsl:apply-templates select="." mode="intralabel.punctuation"/>
+      <xsl:number count="h:figure" from="h:section" level="any" format="1"/>
+  </xsl:template>
+
+  <xsl:template match="h:div[@class='example']" mode="label.markup">
+    <xsl:if test="$label.formal.with.ancestor != 0">
+      <xsl:apply-templates select="ancestor::h:section[contains(@class, 'acknowledgments') or
+				   contains(@class, 'afterword') or
+				   contains(@class, 'appendix') or
+				   contains(@class, 'bibliography') or
+				   contains(@class, 'chapter') or
+				   contains(@class, 'colophon') or
+				   contains(@class, 'conclusion') or
+				   contains(@class, 'copyright-page') or
+				   contains(@class, 'dedication') or
+				   contains(@class, 'foreword') or
+				   contains(@class, 'glossary') or
+				   contains(@class, 'halftitlepage') or
+				   contains(@class, 'index') or
+				   contains(@class, 'introduction') or
+				   contains(@class, 'preface') or
+				   contains(@class, 'titlepage') or
+				   contains(@class, 'toc')][last()]" mode="label.markup"/>
+      <xsl:apply-templates select="." mode="intralabel.punctuation"/>
+      <xsl:number count="h:div[@class='example']" from="h:section" level="any" format="1"/>
+  </xsl:template>
+
+  <xsl:template match="*" mode="label.markup"/>
+
+  <!-- Intralabel punctuation templates.
+       NOTE: These templates are based on the element being labeled (i.e., the last number in the label
+    -->
+  
+  <xsl:template match="*" mode="intralabel.punctuation">
+    <xsl:text>.</xsl:text>
+  </xsl:template>
+
+  <xsl:template match="h:figure|h:table|h:div[@class='example']" mode="intralabel.punctuation">
+    <xsl:text>-</xsl:text>
   </xsl:template>
 
   <!-- Template that pulls a value from a key/value list in an <xsl:param> that looks like this: 

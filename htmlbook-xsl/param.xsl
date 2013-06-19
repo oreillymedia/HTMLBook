@@ -63,8 +63,11 @@ sect4:none
 sect5:none
   </xsl:param>
 
-  <!-- When labeling sections, also label their ancestors, e.g., 3.1 -->
-  <xsl:param name="label.section.and.ancestors"/>
+  <!-- When labeling sections, also label their ancestors, e.g., 3.1, 3.2.1 -->
+  <xsl:param name="label.section.with.ancestors" select="0"/>
+
+  <!-- When labeling formal objects (figures, tables, examples), also label the chapter-level ancestor, e.g., 3-1 -->
+  <xsl:param name="label.formal.with.ancestor" select="0"/>
 
   <!-- Index-specific params -->
   <xsl:param name="autogenerate-index" select="1"/>
