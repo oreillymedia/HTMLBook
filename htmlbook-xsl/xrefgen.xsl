@@ -139,7 +139,7 @@
   <xsl:variable name="context">
     <xsl:choose>
       <!-- If we're XREFing a section or a part div, use the $xref.type.for.section.by.class variable -->
-      <xsl:when test="self::h:section or self::h:div[@contains(@class, 'part')">
+      <xsl:when test="self::h:section or self::h:div[contains(@class, 'part')]">
 	<xsl:variable name="xref-type">
 	  <xsl:call-template name="get-param-value-from-key">
 	    <xsl:with-param name="parameter" select="$xref.type.for.section.by.class"/>
