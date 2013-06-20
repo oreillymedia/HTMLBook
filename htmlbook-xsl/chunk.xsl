@@ -49,7 +49,6 @@ sect5:s
   <xsl:template match="h:body">
     <xsl:call-template name="write-chunk">
       <xsl:with-param name="output-filename" select="$root.chunk.filename"/>
-      <xsl:with-param name="node" select="."/>
     </xsl:call-template>
   </xsl:template>
        
@@ -88,17 +87,45 @@ sect5:s
   </xsl:template>
 
   <xsl:template name="write-chunk">
-    <xsl:param name="node" select="."/>
     <xsl:param name="output-filename"/>
     <xsl:variable name="full-output-filename">
       <xsl:call-template name="full-output-filename">
 	<xsl:with-param name="output-filename" select="$output-filename"/>
       </xsl:call-template>
     </xsl:variable>
+    <xsl:message><xsl:value-of select="$full-output-filename"/></xsl:message>
     <exsl:document href="{$full-output-filename}" method="xml">
-      <xsl:message><xsl:value-of select="$output-filename"/></xsl:message>
-      <!-- ToDo: Add DocType, <head>, <body>, any other postprocessing, etc., logic here -->
-      <xsl:apply-imports/>
+      <xsl:value-of select="'&lt;!DOCTYPE html&gt;'" disable-output-escaping="yes"/>
+      <!-- Only add the <html>/<head> if they don't already exist -->
+      <xsl:choose>
+	<xsl:when test="not(self::h:html)">
+	  <html>
+	    <!-- ToDo: What else do we want in the <head>? -->
+	    <head>
+	      <title>
+		<xsl:variable name="title-markup">
+		  <xsl:apply-templates select="." mode="title.markup"/>
+		</xsl:variable>
+		<xsl:value-of select="$title-markup"/>
+	      </title>
+	    </head>
+	    <xsl:choose>
+	      <!-- Only add the body tag if doesn't already exist -->
+	      <xsl:when test="not(self::h:body)">
+		<body class="book">
+		  <xsl:apply-imports/>
+		</body>
+	      </xsl:when>
+	      <xsl:otherwise>
+		<xsl:apply-imports/>
+	      </xsl:otherwise>
+	    </xsl:choose>
+	  </html>
+	</xsl:when>
+	<xsl:otherwise>
+	  <xsl:apply-imports/>
+	</xsl:otherwise>
+      </xsl:choose>
     </exsl:document>
   </xsl:template>
 
