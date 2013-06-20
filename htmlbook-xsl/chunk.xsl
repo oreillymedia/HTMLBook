@@ -1,11 +1,10 @@
 <xsl:stylesheet version="1.0"
 		xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-                xmlns:l="http://docbook.sourceforge.net/xmlns/l10n/1.0"
+		xmlns:exsl="http://exslt.org/common"
 		xmlns:h="http://www.w3.org/1999/xhtml"
 		xmlns="http://www.w3.org/1999/xhtml"
-		exclude-result-prefixes="l">
-
-  <!-- Global ToDo: switch logic from @class = whatever to contains(@class, 'whatever') -->
+		extension-element-prefixes="exsl"
+		exclude-result-prefixes="exsl h">
 
   <!-- Chunk template used to split content among multiple .html files -->
 
@@ -31,18 +30,40 @@ sect4:s
 sect5:s
   </xsl:param>
 
+  <!-- Specify an output directory for chunked files; otherwise defaults to current directory -->
+  <!-- Todo: deal with situation where nested exsl:document calls change context directory on which relative filepaths are based, resulting in nested outputdir/outputdir filenames for chunks within chunks -->
+  <!-- From the docs at http://www.exslt.org/exsl/elements/document/ -->
+  <!--  When the href attribute of a subsidiary document is a relative URI, the relative URI is resolved into an absolute URI only if and when the subsidiary document is output. The output URI of the document with which the subsidiary document is associated (ie the output URI of its parent in the tree of documents) is used as the base URI. The resulting absolute URI is used as the output URI of the subsidiary document. -->
+  <!-- Simplest solution might just be to prepend ".." as needed -->
+  <xsl:param name="outputdir"/>
+       
   <xsl:template match="h:section|h:div[contains(@class, 'part')]|h:nav[contains(@class, 'toc')]">
     <xsl:variable name="is.chunk">
       <xsl:call-template name="is-chunk"/>
     </xsl:variable>
     <!-- <xsl:message>Element name: <xsl:value-of select="local-name()"/>, Class name: <xsl:value-of select="@class"/>, Is chunk: <xsl:value-of select="$is.chunk"/></xsl:message> -->
-    <xsl:if test="$is.chunk = 1">
-      <xsl:variable name="output-filename">
-	<xsl:call-template name="output-filename-for-chunk"/>
-      </xsl:variable>
-      <!-- <xsl:message>Output filename: <xsl:value-of select="$output-filename"/></xsl:message> -->
-    </xsl:if>
-    <xsl:apply-imports/>
+    <xsl:choose>
+      <xsl:when test="$is.chunk = 1">
+	<xsl:variable name="output-filename">
+	  <xsl:call-template name="output-filename-for-chunk"/>
+	</xsl:variable>
+	<!-- <xsl:message>Output filename: <xsl:value-of select="$output-filename"/></xsl:message> -->
+	<xsl:variable name="full-output-filename">
+	  <xsl:if test="$outputdir != ''">
+	    <xsl:value-of select="concat($outputdir, '/')"/>
+	  </xsl:if>
+	  <xsl:value-of select="$output-filename"/>
+	</xsl:variable>
+	<xsl:message>Full output filename: <xsl:value-of select="$full-output-filename"/></xsl:message>
+	<exsl:document href="{$full-output-filename}" method="xml">
+	  <!-- ToDo: Add DocType, <head>, <body>, any other postprocessing, etc., logic here -->
+	  <xsl:apply-imports/>
+	</exsl:document>
+      </xsl:when>
+      <xsl:otherwise>
+	<xsl:apply-imports/>
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
 
   <xsl:template name="output-filename-for-chunk">
