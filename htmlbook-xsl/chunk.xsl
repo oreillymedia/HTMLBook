@@ -18,10 +18,14 @@
   <!-- Specify a number from 0 to 5, where 0 means chunk at top-level sections (part, chapter, appendix), and 1-5 means chunk at the corresponding sect level (sect1 - sect5) -->
   <xsl:param name="chunk.level" select="0"/>
 
+  <!-- Specify the filename for the root chunk -->
+  <xsl:param name="root.chunk.filename" select="'index.html'"/>
+
   <!-- Specify a prefix for output filename for a given class -->
   <xsl:param name="output.filename.prefix.by.class">
 appendix:app
 chapter:ch
+index:ix
 part:part
 sect1:s
 sect2:s
@@ -36,6 +40,18 @@ sect5:s
   <!--  When the href attribute of a subsidiary document is a relative URI, the relative URI is resolved into an absolute URI only if and when the subsidiary document is output. The output URI of the document with which the subsidiary document is associated (ie the output URI of its parent in the tree of documents) is used as the base URI. The resulting absolute URI is used as the output URI of the subsidiary document. -->
   <!-- Simplest solution might just be to prepend ".." as needed -->
   <xsl:param name="outputdir"/>
+
+  <xsl:template match="/h:html">
+    <xsl:apply-templates select="h:body"/>
+  </xsl:template>
+
+  <!-- Logic for root chunk -->
+  <xsl:template match="h:body">
+    <xsl:call-template name="write-chunk">
+      <xsl:with-param name="output-filename" select="$root.chunk.filename"/>
+      <xsl:with-param name="node" select="."/>
+    </xsl:call-template>
+  </xsl:template>
        
   <xsl:template match="h:section|h:div[contains(@class, 'part')]|h:nav[contains(@class, 'toc')]">
     <xsl:variable name="is.chunk">
@@ -48,22 +64,42 @@ sect5:s
 	  <xsl:call-template name="output-filename-for-chunk"/>
 	</xsl:variable>
 	<!-- <xsl:message>Output filename: <xsl:value-of select="$output-filename"/></xsl:message> -->
-	<xsl:variable name="full-output-filename">
-	  <xsl:if test="$outputdir != ''">
-	    <xsl:value-of select="concat($outputdir, '/')"/>
-	  </xsl:if>
-	  <xsl:value-of select="$output-filename"/>
-	</xsl:variable>
-	<xsl:message>Full output filename: <xsl:value-of select="$full-output-filename"/></xsl:message>
-	<exsl:document href="{$full-output-filename}" method="xml">
-	  <!-- ToDo: Add DocType, <head>, <body>, any other postprocessing, etc., logic here -->
-	  <xsl:apply-imports/>
-	</exsl:document>
+
+	<!-- <xsl:message>Full output filename: <xsl:value-of select="$full-output-filename"/></xsl:message> -->
+	<xsl:call-template name="write-chunk">
+	  <xsl:with-param name="output-filename" select="$output-filename"/>
+	</xsl:call-template>
       </xsl:when>
       <xsl:otherwise>
 	<xsl:apply-imports/>
       </xsl:otherwise>
     </xsl:choose>
+  </xsl:template>
+
+  <xsl:template name="full-output-filename">
+    <xsl:param name="output-filename"/>
+    <xsl:variable name="full-output-filename">
+      <xsl:if test="$outputdir != ''">
+	<xsl:value-of select="concat($outputdir, '/')"/>
+      </xsl:if>
+      <xsl:value-of select="$output-filename"/>
+    </xsl:variable>
+    <xsl:value-of select="$full-output-filename"/>
+  </xsl:template>
+
+  <xsl:template name="write-chunk">
+    <xsl:param name="node" select="."/>
+    <xsl:param name="output-filename"/>
+    <xsl:variable name="full-output-filename">
+      <xsl:call-template name="full-output-filename">
+	<xsl:with-param name="output-filename" select="$output-filename"/>
+      </xsl:call-template>
+    </xsl:variable>
+    <exsl:document href="{$full-output-filename}" method="xml">
+      <xsl:message><xsl:value-of select="$output-filename"/></xsl:message>
+      <!-- ToDo: Add DocType, <head>, <body>, any other postprocessing, etc., logic here -->
+      <xsl:apply-imports/>
+    </exsl:document>
   </xsl:template>
 
   <xsl:template name="output-filename-for-chunk">
@@ -111,6 +147,8 @@ sect5:s
     </xsl:if>
   </xsl:template>
 
+  <!-- ToDo: rewrite as EXSLT function?: http://www.exslt.org/func/elements/function/index.html -->
+  <!-- May potentially help streamline -->
   <xsl:template name="is-chunk">
     <xsl:param name="node" select="."/>
     <xsl:choose>
