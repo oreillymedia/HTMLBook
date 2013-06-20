@@ -8,6 +8,10 @@
 
   <!-- Chunk template used to split content among multiple .html files -->
 
+  <!-- ToDo: Need to add a override for the href-target template that will generate XREFs relative to the files output, 
+       e.g., part01ch01.html#chapter1 instead of #chapter1 -->
+  <!-- ToDo: Add "previous" and "next" links as in the docbook-xsl stylesheets? -->
+
   <!-- Imports htmlbook.xsl -->
   <xsl:import href="htmlbook.xsl"/>
 
