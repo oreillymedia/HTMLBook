@@ -2,8 +2,10 @@
 		xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 		xmlns:exsl="http://exslt.org/common"
 		xmlns:h="http://www.w3.org/1999/xhtml"
+		xmlns:htmlbook="https://github.com/oreillymedia/HTMLBook"
+		xmlns:func="http://exslt.org/functions"
 		xmlns="http://www.w3.org/1999/xhtml"
-		extension-element-prefixes="exsl"
+		extension-element-prefixes="exsl func"
 		exclude-result-prefixes="exsl h">
 
   <!-- Chunk template used to split content among multiple .html files -->
@@ -57,9 +59,7 @@ sect5:s
   </xsl:template>
        
   <xsl:template match="h:section|h:div[contains(@class, 'part')]|h:nav[contains(@class, 'toc')]">
-    <xsl:variable name="is.chunk">
-      <xsl:call-template name="is-chunk"/>
-    </xsl:variable>
+    <xsl:variable name="is.chunk" select="htmlbook:is-chunk(.)"/>
     <!-- <xsl:message>Element name: <xsl:value-of select="local-name()"/>, Class name: <xsl:value-of select="@class"/>, Is chunk: <xsl:value-of select="$is.chunk"/></xsl:message> -->
     <xsl:choose>
       <xsl:when test="$is.chunk = 1">
@@ -142,11 +142,7 @@ sect5:s
 
     <!-- Check to see if parent is also chunk, in which case, call template recursively -->
     <xsl:variable name="parent-node" select="$node/parent::*"/>
-    <xsl:variable name="parent-is-chunk">
-      <xsl:call-template name="is-chunk">
-	<xsl:with-param name="node" select="$parent-node"/>
-      </xsl:call-template>
-    </xsl:variable>
+    <xsl:variable name="parent-is-chunk" select="htmlbook:is-chunk($parent-node)"/>
     <xsl:if test="$parent-is-chunk = '1'">
       <xsl:call-template name="output-filename-for-chunk">
 	<xsl:with-param name="node" select="$parent-node"/>
@@ -178,13 +174,11 @@ sect5:s
     </xsl:if>
   </xsl:template>
 
-  <!-- ToDo: rewrite as EXSLT function?: http://www.exslt.org/func/elements/function/index.html -->
-  <!-- May potentially help streamline -->
-  <xsl:template name="is-chunk">
+  <func:function name="htmlbook:is-chunk">
     <xsl:param name="node" select="."/>
     <xsl:choose>
       <xsl:when test="$node[self::h:div[contains(@class, 'part')]]">
-	<xsl:text>1</xsl:text>
+	<func:result>1</func:result>
       </xsl:when>
       <xsl:when test="$node[self::h:section[contains(@class, 'acknowledgments') or
 		      contains(@class, 'afterword') or
@@ -203,10 +197,10 @@ sect5:s
 		      contains(@class, 'preface') or
 		      contains(@class, 'titlepage') or
 		      contains(@class, 'toc')]]">
-	<xsl:text>1</xsl:text>
+	<func:result>1</func:result>
       </xsl:when>
       <xsl:when test="$node[self::h:nav[contains(@class, 'toc')]]">
-	<xsl:text>1</xsl:text>
+	<func:result>1</func:result>
       </xsl:when>
       <xsl:when test="$node[self::h:section[contains(@class, 'sect')]]">
 	<xsl:variable name="sect-level">
@@ -214,10 +208,13 @@ sect5:s
 	</xsl:variable>
 	<xsl:if test="($sect-level = '1' or $sect-level = '2' or $sect-level = '3' or $sect-level = '4' or $sect-level = '5') and
 		      $sect-level &lt;= $chunk.level">
-	  <xsl:text>1</xsl:text>
+	  <func:result>1</func:result>
 	</xsl:if>	
       </xsl:when>
+      <xsl:otherwise>
+	<func:result/>
+      </xsl:otherwise>
     </xsl:choose>
-  </xsl:template>
+  </func:function>
 
 </xsl:stylesheet> 
