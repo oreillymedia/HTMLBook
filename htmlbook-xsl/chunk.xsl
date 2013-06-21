@@ -21,6 +21,8 @@
               encoding="UTF-8"/>
   <xsl:preserve-space elements="*"/>
 
+  <xsl:key name="chunks" match="h:section|h:div[@class='part']" use="htmlbook:is-chunk(.)"/>
+
   <!-- Specify a number from 0 to 5, where 0 means chunk at top-level sections (part, chapter, appendix), and 1-5 means chunk at the corresponding sect level (sect1 - sect5) -->
   <xsl:param name="chunk.level" select="0"/>
 
