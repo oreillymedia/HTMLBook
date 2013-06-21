@@ -140,41 +140,45 @@ sect5:s
     <xsl:param name="node" select="."/>
     <xsl:param name="original-call" select="1"/>
 
-    <xsl:variable name="node-name" select="local-name($node)"/>
-    <xsl:variable name="node-class" select="$node/@class"/>
+    <!-- Need to set the context node appropriately before doing xsl:number call later on -->
+    <xsl:for-each select="$node">
 
-    <!-- Check to see if parent is also chunk, in which case, call template recursively -->
-    <xsl:variable name="parent-node" select="$node/parent::*"/>
-    <xsl:variable name="parent-is-chunk" select="htmlbook:is-chunk($parent-node)"/>
-    <xsl:if test="$parent-is-chunk = '1'">
-      <xsl:call-template name="output-filename-for-chunk">
-	<xsl:with-param name="node" select="$parent-node"/>
-	<!-- Set $original-call to 0 for recursive calls of function -->
-	<xsl:with-param name="original-call" select="0"/>
-      </xsl:call-template>
-    </xsl:if>
-    <!-- We are assuming (in accordance with HTMLBook spec) that if an element is chunkable, it has a @class -->
-    <xsl:variable name="filename-prefix-from-class">
-      <xsl:call-template name="get-param-value-from-key">
-	<xsl:with-param name="parameter" select="$output.filename.prefix.by.class"/>
-	<xsl:with-param name="key" select="$node-class"/>
-      </xsl:call-template>
-    </xsl:variable>
-    <!-- If prefix is specified in $filename-prefix-from-class, then use that -->
-    <xsl:choose>
-      <xsl:when test="$filename-prefix-from-class != ''">
-	<xsl:value-of select="$filename-prefix-from-class"/>
-      </xsl:when>
-      <xsl:otherwise>
-	<!-- Otherwise, fall back to class name -->
-	<xsl:value-of select="$node-class"/>
-      </xsl:otherwise>
-    </xsl:choose>
-    <xsl:number count="*[local-name() = $node-name and @class = $node-class]" format="01"/>
-    <xsl:if test="$original-call = 1">
-      <!-- ToDo: Parameterize me to allow use of different filename extension? -->
-      <xsl:text>.html</xsl:text>
-    </xsl:if>
+      <xsl:variable name="node-name" select="local-name(.)"/>
+      <xsl:variable name="node-class" select="@class"/>
+
+      <!-- Check to see if parent is also chunk, in which case, call template recursively -->
+      <xsl:variable name="parent-node" select="parent::*"/>
+      <xsl:variable name="parent-is-chunk" select="htmlbook:is-chunk($parent-node)"/>
+      <xsl:if test="$parent-is-chunk = '1'">
+	<xsl:call-template name="output-filename-for-chunk">
+	  <xsl:with-param name="node" select="$parent-node"/>
+	  <!-- Set $original-call to 0 for recursive calls of function -->
+	  <xsl:with-param name="original-call" select="0"/>
+	</xsl:call-template>
+      </xsl:if>
+      <!-- We are assuming (in accordance with HTMLBook spec) that if an element is chunkable, it has a @class -->
+      <xsl:variable name="filename-prefix-from-class">
+	<xsl:call-template name="get-param-value-from-key">
+	  <xsl:with-param name="parameter" select="$output.filename.prefix.by.class"/>
+	  <xsl:with-param name="key" select="$node-class"/>
+	</xsl:call-template>
+      </xsl:variable>
+      <!-- If prefix is specified in $filename-prefix-from-class, then use that -->
+      <xsl:choose>
+	<xsl:when test="$filename-prefix-from-class != ''">
+	  <xsl:value-of select="$filename-prefix-from-class"/>
+	</xsl:when>
+	<xsl:otherwise>
+	  <!-- Otherwise, fall back to class name -->
+	  <xsl:value-of select="$node-class"/>
+	</xsl:otherwise>
+      </xsl:choose>
+      <xsl:number count="*[local-name() = $node-name and @class = $node-class]" format="01"/>
+      <xsl:if test="$original-call = 1">
+	<!-- ToDo: Parameterize me to allow use of different filename extension? -->
+	<xsl:text>.html</xsl:text>
+      </xsl:if>
+    </xsl:for-each>
   </xsl:template>
 
   <func:function name="htmlbook:is-chunk">
