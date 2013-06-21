@@ -100,7 +100,7 @@ sect5:s
       </xsl:call-template>
     </xsl:variable>
 <!--    <xsl:message><xsl:value-of select="$full-output-filename"/></xsl:message> -->
-    <exsl:document href="{$full-output-filename}" method="xml">
+    <exsl:document href="{$full-output-filename}" method="xml" encoding="UTF-8">
       <xsl:value-of select="'&lt;!DOCTYPE html&gt;'" disable-output-escaping="yes"/>
       <!-- Only add the <html>/<head> if they don't already exist -->
       <xsl:choose>
@@ -113,6 +113,11 @@ sect5:s
 		  <xsl:apply-templates select="." mode="title.markup"/>
 		</xsl:variable>
 		<xsl:value-of select="$title-markup"/>
+		<xsl:if test="$title-markup = ''">
+		  <!-- For lack of alternative, fall back on local-name -->
+		  <!-- ToDo: Something better here? -->
+		  <xsl:value-of select="local-name()"/>
+		</xsl:if>
 	      </title>
 	    </head>
 	    <xsl:choose>
