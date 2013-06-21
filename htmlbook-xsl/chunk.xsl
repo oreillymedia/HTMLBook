@@ -1,12 +1,13 @@
 <xsl:stylesheet version="1.0"
 		xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 		xmlns:exsl="http://exslt.org/common"
+		xmlns:set="http://exslt.org/sets"
 		xmlns:h="http://www.w3.org/1999/xhtml"
 		xmlns:htmlbook="https://github.com/oreillymedia/HTMLBook"
 		xmlns:func="http://exslt.org/functions"
 		xmlns="http://www.w3.org/1999/xhtml"
-		extension-element-prefixes="exsl func"
-		exclude-result-prefixes="exsl h">
+		extension-element-prefixes="exsl func set"
+		exclude-result-prefixes="exsl h func set">
 
   <!-- Chunk template used to split content among multiple .html files -->
 
@@ -99,7 +100,7 @@ sect5:s
 	<xsl:with-param name="output-filename" select="$output-filename"/>
       </xsl:call-template>
     </xsl:variable>
-    <xsl:message><xsl:value-of select="$full-output-filename"/></xsl:message>
+<!--    <xsl:message><xsl:value-of select="$full-output-filename"/></xsl:message> -->
     <exsl:document href="{$full-output-filename}" method="xml">
       <xsl:value-of select="'&lt;!DOCTYPE html&gt;'" disable-output-escaping="yes"/>
       <!-- Only add the <html>/<head> if they don't already exist -->
@@ -219,4 +220,46 @@ sect5:s
     </xsl:choose>
   </func:function>
 
+  <!-- Generate target @href value pointing to given node, in the appropriate chunk -->
+  <!-- Borrowed and adapted from xhtml/html.xsl and xhtml/chunk-common.xsl in docbook-xsl stylesheets -->
+  <xsl:template name="href.target">
+    <xsl:param name="context" select="."/>
+    <xsl:param name="object" select="."/>
+    <!-- Figure out which chunk this element belongs to: -->
+
+    <!-- 1. Get a nodeset of all chunks in this document -->
+    <xsl:variable name="chunks" select="key('chunks', '1')"/> <!-- All chunks have an is-chunk() value of 1 -->
+
+    <!-- 2. Get a nodeset of current element and all its ancestors, which could potentially be chunks -->
+    <xsl:variable name="self-and-ancestors" select="$object/ancestor-or-self::*"/>
+
+    <!-- 3. Find out which of these "self and ancestors" are also chunks -->
+    <xsl:variable name="self-and-ancestors-that-are-chunks" select="set:intersection($self-and-ancestors, $chunks)"/>
+
+    <!-- 4. Target chunk is the last (lowest in hierarchy) in this nodeset -->
+    <xsl:variable name="target.chunk" select="$self-and-ancestors-that-are-chunks[last()]"/>
+
+    <!-- Now get filename for chunk -->
+    <xsl:variable name="chunk-filename">
+      <xsl:choose>
+	<!-- When we do have a target chunk, get its filename -->
+	<xsl:when test="$target.chunk">
+	  <xsl:call-template name="output-filename-for-chunk">
+	    <xsl:with-param name="node" select="$target.chunk"/>
+	  </xsl:call-template>
+	</xsl:when>
+	<!-- Otherwise, root must be the chunk -->
+	<xsl:otherwise>
+	  <xsl:value-of select="$root.chunk.filename"/>
+	</xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
+
+    <xsl:value-of select="$chunk-filename"/>
+    <xsl:text>#</xsl:text>
+    <xsl:call-template name="object.id">
+      <xsl:with-param name="object" select="$object"/>
+    </xsl:call-template>
+  </xsl:template>
+  
 </xsl:stylesheet> 
