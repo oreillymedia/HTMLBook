@@ -53,7 +53,7 @@
       <xsl:message>Warning: the following XREFs already have content in their text nodes, which will not be overwritten (rerun stylesheets with $xref-placeholder-overwrite-contents = 1 if you want to overwrite):</xsl:message>
 	</xsl:when>
 	<xsl:otherwise>
-	  <xsl:message>Warning: the following XREFs already have content in their text nodes, which will overwritten (rerun stylesheets with $xref-placeholder-overwrite-contents = 0 if you don't want to overwrite):</xsl:message>
+	  <xsl:message>Warning: the following XREFs already have content in their text nodes, which will be overwritten (rerun stylesheets with $xref-placeholder-overwrite-contents = 0 if you don't want to overwrite):</xsl:message>
 	</xsl:otherwise>
       </xsl:choose>
       <xsl:message>

@@ -23,7 +23,7 @@
       <a>
 	<xsl:attribute name="href">
 	  <xsl:call-template name="href.target">
-	    <xsl:with-param name="target-node" select="."/>
+	    <xsl:with-param name="object" select="."/>
 	  </xsl:call-template>
 	</xsl:attribute>
 	<xsl:if test="$toc-include-labels = 1">

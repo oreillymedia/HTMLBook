@@ -13,8 +13,6 @@
   <!-- key for getting elements by id -->
   <xsl:key name="id" match="*" use="@id"/>
 
-  <!-- ToDo: Make href.target more robust to deal with situations when stuff is chunked into different files -->
-
   <!-- Default Rule; when no other templates are specified, copy direct to output -->
   <xsl:template match="@*|node()">
     <xsl:copy>
