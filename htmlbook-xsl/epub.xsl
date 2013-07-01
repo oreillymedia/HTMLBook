@@ -22,6 +22,8 @@
   <xsl:import href="chunk.xsl"/>
 
   <!-- EPUB-specific parameters -->
+  <xsl:param name="opf.namespace" select="'http://www.idpf.org/2007/opf'"/>
+
   <xsl:param name="metadata.unique-identifier">
     <!-- By default, try to pull from meta element in head -->
     <xsl:value-of select="//h:head/h:meta[contains(@name, 'identifier')][1]/@content"/>
@@ -116,10 +118,78 @@
 
   <xsl:template name="generate.opf">
     <exsl:document href="{$outputdir}/{$opf.filename}" method="xml" encoding="UTF-8">
-      <package>
+      <package namespace="{$opf.namespace}">
 	<xsl:for-each select="exsl:node-set($package.namespaces)//*/namespace::*">
 	  <xsl:copy-of select="."/>
 	</xsl:for-each>
+	<metadata>
+	  <xsl:if test="$metadata.unique-identifier != ''">
+	    <dc:identifier id="pub-identifier">
+	      <xsl:value-of select="$metadata.unique-identifier"/>
+	    </dc:identifier>
+	  </xsl:if>
+	  <dc:identifier id="pub-identifier">
+	    <xsl:value-of select="$metadata.unique-identifier"/>
+	  </dc:identifier>
+	  <meta id="meta-identifier" property="dcterms:identifier">
+	    <xsl:value-of select="$metadata.unique-identifier"/>
+	  </meta>
+	  <dc:title id="pub-title">
+	    <xsl:value-of select="$metadata.title"/>
+	  </dc:title>
+	  <meta property="dcterms:title" id="meta-title">
+	    <xsl:value-of select="$metadata.title"/>
+	  </meta>
+	  <dc:language id="pub-language">
+	    <xsl:value-of select="$metadata.language"/>
+	  </dc:language>
+	  <meta property="dcterms:language" id="meta-language">
+	    <xsl:value-of select="$metadata.language"/>
+	  </meta>
+	  <meta property="dcterms:modified">
+	    <xsl:value-of select="$metadata.modified"/>
+	  </meta>
+	  <xsl:if test="$metadata.rights != ''">
+	    <dc:rights>
+	      <xsl:value-of select="$metadata.rights"/>
+	    </dc:rights>
+	    <meta property="dcterms:rightsHolder">
+	      <xsl:value-of select="$metadata.rights"/>
+	    </meta>
+	  </xsl:if>
+	  <xsl:if test="$metadata.publisher != ''">
+	    <dc:publisher>
+	      <xsl:value-of select="$metadata.publisher"/>
+	    </dc:publisher>
+	    <meta property="dcterms:publisher">
+	      <xsl:value-of select="$metadata.publisher"/>
+	    </meta>
+	  </xsl:if>
+	  <xsl:if test="$metadata.subject != ''">
+	    <dc:subject>
+	      <xsl:value-of select="$metadata.subject"/>
+	    </dc:subject>
+	    <meta property="dcterms:subject">
+	      <xsl:value-of select="$metadata.subject"/>
+	    </meta>
+	  </xsl:if>
+	  <xsl:if test="$metadata.date != ''">
+	    <dc:date>
+	      <xsl:value-of select="$metadata.date"/>
+	    </dc:date>
+	    <meta property="dcterms:date">
+	      <xsl:value-of select="$metadata.date"/>
+	    </meta>
+	  </xsl:if>
+	  <xsl:if test="$metadata.description != ''">
+	    <dc:description>
+	      <xsl:value-of select="$metadata.description"/>
+	    </dc:description>
+	    <meta property="dcterms:description">
+	      <xsl:value-of select="$metadata.description"/>
+	    </meta>
+	  </xsl:if>
+	</metadata>
       </package>
     </exsl:document>
   </xsl:template>
