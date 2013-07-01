@@ -303,6 +303,7 @@
 <xs:complexType name="coverfigure">
   <xs:group ref="figure_elements" maxOccurs="unbounded"/>
   <xs:attribute name="class" fixed="cover" use="required"/>
+  <xs:attributeGroup ref="globals_minus_class"/>
 </xs:complexType>
 
 <xs:element name="form">
