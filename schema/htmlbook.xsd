@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.w3.org/1999/xhtml" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:svg="http://www.w3.org/2000/svg" targetNamespace="http://www.w3.org/1999/xhtml" elementFormDefault="qualified" attributeFormDefault="unqualified">
 
-<!-- ToDos: Indexterm data attributes; special schema for footnotes (thinking <aside class="footnote">); enumerated class for admonitions/examples on div? -->
+<!-- ToDos: Indexterm data attributes; special schema for footnotes (thinking <aside data-type="footnote">); enumerated data-type for admonitions/examples on div? -->
 
 <xs:import namespace="http://www.w3.org/1998/Math/MathML" schemaLocation="mathml3/mathml3.xsd"/>
 <xs:import namespace="http://www.w3.org/2000/svg" schemaLocation="svg/SVG.xsd"/>
@@ -47,8 +47,8 @@
         <xs:element name="div" type="bookpart"/>
       </xs:choice>
     </xs:sequence>
-    <xs:attribute name="class" use="required" fixed="book"/>
-    <xs:attributeGroup ref="globals_minus_class"/>
+    <xs:attribute name="data-type" use="required" fixed="book"/>
+    <xs:attributeGroup ref="globals"/>
   </xs:complexType>
 </xs:element>
   
@@ -302,8 +302,8 @@
 <!-- Custom type for cover figures; no caption -->
 <xs:complexType name="coverfigure">
   <xs:group ref="figure_elements" maxOccurs="unbounded"/>
-  <xs:attribute name="class" fixed="cover" use="required"/>
-  <xs:attributeGroup ref="globals_minus_class"/>
+  <xs:attribute name="data-type" fixed="cover" use="required"/>
+  <xs:attributeGroup ref="globals"/>
 </xs:complexType>
 
 <xs:element name="form">
@@ -447,8 +447,8 @@
       <xs:group ref="headings" minOccurs="0"/>
       <xs:element name="ol" type="nav_doc_ol" minOccurs="0"/>
     </xs:sequence>
-    <xs:attribute name="class" use="required" fixed="toc"/>
-    <xs:attributeGroup ref="globals_minus_class"/>
+    <xs:attribute name="data-type" use="required" fixed="toc"/>
+    <xs:attributeGroup ref="globals"/>
   </xs:complexType>
 </xs:element>
   
@@ -563,8 +563,7 @@
   
 <!-- Inline elements -->
 
-<!-- Open question: allow block content within an <a>? Right now, restricting only to inline elements -->
-<!-- ToDo: Mandate further restrictions related to XREF vs. external hyperlinks -->   
+<!-- Open question: allow block content within an <a>? Right now, restricting only to inline elements -->   
 <xs:element name="a">
   <xs:complexType>
     <xs:complexContent>
@@ -572,10 +571,9 @@
         <!-- ToDo: Any further attribute restrictions -->
         <xs:attribute name="href" type="xs:anyURI"/>
         <xs:attribute name="hreflang" type="xs:language"/>
-        <xs:attribute name="media"/>
-        <xs:attribute name="rel"/>
-        <xs:attribute name="target"/>
-        <xs:attribute name="type"/>
+        <xs:attribute name="rel" type="xs:NMTOKENS"/>
+        <xs:attribute name="target" type="xs:string"/>
+        <xs:attribute name="type" type="xs:string"/>
         <!-- The following attributes are for indexterms -->
         <xs:attribute name="data-primary" type="xs:string"/>
         <xs:attribute name="data-secondary" type="xs:string"/>
@@ -601,7 +599,6 @@
     </xs:sequence>
     <!-- Adding the dir attribute here instead of specifying it in the "globals" attribute group
          to modify to include use="required" --> 
-    <xs:attribute name="class" type="xs:NMTOKENS"/>
     <xs:attribute name="dir" use="required">
       <xs:simpleType>
         <xs:restriction base="xs:token">
@@ -610,13 +607,12 @@
         </xs:restriction>
       </xs:simpleType>
     </xs:attribute>
-    <xs:attributeGroup ref="globals_minus_class_and_dir"/>
+    <xs:attributeGroup ref="globals_minus_dir"/>
   </xs:complexType>
 </xs:element>
   
 <xs:element name="br" type="empty_elem_global_attrs"/>
 
-<!-- Not imposing any HTMLBook specific constraints on button content; deferring to HTML5 spec -->
 <xs:element name="button">
   <!-- button elements can have any inline children, excluding other interactive elements -->
   <xs:complexType mixed="true">
@@ -1506,7 +1502,7 @@
   
 <!-- Global simple type definitions; see also global complex types section -->
 
-<!-- For class attribute on book division <sections>, except part -->
+<!-- For data-type attribute on book division <sections>, except part -->
 <xs:simpleType name="bookmaindivtype">
   <xs:restriction base="xs:string">
     <xs:enumeration value="acknowledgments"/>
@@ -1652,9 +1648,9 @@
     <xs:group ref="blockelements" minOccurs="0" maxOccurs="unbounded"/>
     <xs:element name="section" minOccurs="0" maxOccurs="unbounded" type="sect1"/>
   </xs:sequence>
-  <!-- Note: special class attr restrictions here -->
-  <xs:attribute name="class" use="required" type="bookmaindivtype"/>
-  <xs:attributeGroup ref="globals_minus_class"/>
+  <!-- Note: special data-type attr restrictions here -->
+  <xs:attribute name="data-type" use="required" type="bookmaindivtype"/>
+  <xs:attributeGroup ref="globals"/>
 </xs:complexType>
 
 <!-- Parts -->
@@ -1665,9 +1661,9 @@
     <xs:group ref="blockelements" minOccurs="0" maxOccurs="unbounded"/>
     <xs:element name="section" maxOccurs="unbounded" type="bookmaindiv"/>
   </xs:sequence>
-  <!-- Note: special class attr restrictions here -->
-  <xs:attribute name="class" use="required" fixed="part"/>
-  <xs:attributeGroup ref="globals_minus_class"/>
+  <!-- Note: special data-type attr restrictions here -->
+  <xs:attribute name="data-type" use="required" fixed="part"/>
+  <xs:attributeGroup ref="globals"/>
 </xs:complexType>
   
 <!-- Sect1s -->
@@ -1678,9 +1674,9 @@
     <xs:group ref="blockelements" minOccurs="0" maxOccurs="unbounded"/>
     <xs:element name="section" minOccurs="0" maxOccurs="unbounded" type="sect2"/>
   </xs:sequence>
-  <!-- Note: special class attr restrictions here -->
-  <xs:attribute name="class" use="required" fixed="sect1"/>
-  <xs:attributeGroup ref="globals_minus_class"/>
+  <!-- Note: special data-type attr restrictions here -->
+  <xs:attribute name="data-type" use="required" fixed="sect1"/>
+  <xs:attributeGroup ref="globals"/>
 </xs:complexType>
 
 <!-- Sect2s -->
@@ -1691,9 +1687,9 @@
     <xs:group ref="blockelements" minOccurs="0" maxOccurs="unbounded"/>
     <xs:element name="section" minOccurs="0" maxOccurs="unbounded" type="sect3"/>
   </xs:sequence>
-  <!-- Note: special class attr restrictions here -->
-  <xs:attribute name="class" use="required" fixed="sect2"/>
-  <xs:attributeGroup ref="globals_minus_class"/>
+  <!-- Note: special data-type attr restrictions here -->
+  <xs:attribute name="data-type" use="required" fixed="sect2"/>
+  <xs:attributeGroup ref="globals"/>
 </xs:complexType>
   
 <!-- Sect3s -->
@@ -1704,9 +1700,9 @@
     <xs:group ref="blockelements" minOccurs="0" maxOccurs="unbounded"/>
     <xs:element name="section" minOccurs="0" maxOccurs="unbounded" type="sect4"/>
   </xs:sequence>
-  <!-- Note: special class attr restrictions here -->
-  <xs:attribute name="class" use="required" fixed="sect3"/>
-  <xs:attributeGroup ref="globals_minus_class"/>
+  <!-- Note: special data-type attr restrictions here -->
+  <xs:attribute name="data-type" use="required" fixed="sect3"/>
+  <xs:attributeGroup ref="globals"/>
 </xs:complexType>
   
 <!-- Sect4s -->
@@ -1717,9 +1713,9 @@
     <xs:group ref="blockelements" minOccurs="0" maxOccurs="unbounded"/>
     <xs:element name="section" minOccurs="0" maxOccurs="unbounded" type="sect5"/>
   </xs:sequence>
-  <!-- Note: special class attr restrictions here -->
-  <xs:attribute name="class" use="required" fixed="sect4"/>
-  <xs:attributeGroup ref="globals_minus_class"/>
+  <!-- Note: special data-type attr restrictions here -->
+  <xs:attribute name="data-type" use="required" fixed="sect4"/>
+  <xs:attributeGroup ref="globals"/>
 </xs:complexType>
   
 <!-- Sect5 -->
@@ -1729,9 +1725,9 @@
     <xs:element name="h6" minOccurs="0" maxOccurs="unbounded" type="subheading"/>
     <xs:group ref="blockelements" minOccurs="0" maxOccurs="unbounded"/>
   </xs:sequence>
-  <!-- Note: special class attr restrictions here -->
-  <xs:attribute name="class" use="required" fixed="sect5"/>
-  <xs:attributeGroup ref="globals_minus_class"/>
+  <!-- Note: special data-type attr restrictions here -->
+  <xs:attribute name="data-type" use="required" fixed="sect5"/>
+  <xs:attributeGroup ref="globals"/>
 </xs:complexType>
   
 <!-- Sidebar; primarily for <aside> -->
@@ -1740,7 +1736,7 @@
     <xs:element ref="h5" minOccurs="0"/> <!-- Unlike other sections, sidebar titles are optional -->
     <xs:group ref="blockelements" minOccurs="0" maxOccurs="unbounded"/>
   </xs:sequence>
-  <!-- Note: special class attr restrictions here -->
+  <!-- ToDo: require data-type attr restriction of "sidebar" here? -->
   <xs:attributeGroup ref="globals"/>
 </xs:complexType>
   
@@ -1750,9 +1746,9 @@
   <xs:sequence>
     <xs:group ref="inlineelements" minOccurs="0" maxOccurs="unbounded"/>
   </xs:sequence>
-  <!-- Note: special class attr restrictions here -->
-  <xs:attribute name="class" use="required" type="subheadingtype"/>
-  <xs:attributeGroup ref="globals_minus_class"/>
+  <!-- Note: special data-type attr restrictions here -->
+  <xs:attribute name="data-type" use="required" type="subheadingtype"/>
+  <xs:attributeGroup ref="globals"/>
 </xs:complexType>
  
 <!-- Custom types for Nav Document (following EPUB 3 spec; see http://www.idpf.org/epub/30/spec/epub30-contentdocs.html#sec-xhtml-nav) -->
@@ -1937,8 +1933,8 @@
 <!-- ToDo: Go ahead and add group for global HTML5 attributes (with exception of data- attrs),
       or just leave the xs:anyAttribute declarations to catch these? (If this is done, remove all the xs:attribute declarations for "id")-->
 
-<!-- All globals except "class" and "dir", which are separated out because other elements have their own 'class' and 'dir' requirements -->
-<xs:attributeGroup name="globals_minus_class_and_dir">
+<!-- All globals except "dir", which is separated out because other elements have their own 'dir' requirements -->
+<xs:attributeGroup name="globals_minus_dir">
   <xs:attribute name="accesskey">
     <xs:simpleType>
       <xs:restriction base="xs:NMTOKENS">
@@ -1946,6 +1942,7 @@
       </xs:restriction>
     </xs:simpleType>
   </xs:attribute>
+  <xs:attribute name="class" type="xs:NMTOKENS"/>
   <xs:attribute name="contenteditable" type="true_false"/>
   <xs:attribute name="contextmenu" type="xs:IDREF"/>
   <xs:attribute name="draggable" type="true_false"/>
@@ -1967,9 +1964,9 @@
   <xs:anyAttribute processContents="lax"/>
 </xs:attributeGroup>
   
-<!-- All globals except "class", which is separated out because many structural elements have their own "class' requirements -->
-<xs:attributeGroup name="globals_minus_class">
-  <xs:attributeGroup ref="globals_minus_class_and_dir"/>
+<!-- All globals, including dir -->
+<xs:attributeGroup name="globals">
+  <xs:attributeGroup ref="globals_minus_dir"/>
   <xs:attribute name="dir">
     <xs:simpleType>
       <xs:restriction base="xs:token">
@@ -1978,12 +1975,6 @@
       </xs:restriction>
     </xs:simpleType>
   </xs:attribute>
-</xs:attributeGroup>
-  
-<!-- All globals, including class -->
-<xs:attributeGroup name="globals">
-  <xs:attributeGroup ref="globals_minus_class"/>
-  <xs:attribute name="class" type="xs:NMTOKENS"/>
 </xs:attributeGroup>
   
 <!-- Attributes used by <ol> elements -->
