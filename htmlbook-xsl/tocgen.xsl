@@ -4,7 +4,7 @@
 		xmlns="http://www.w3.org/1999/xhtml"
 		exclude-result-prefixes="h">
 
-<!-- Functionality still ToDo: Setting TOC section depth (e.g., how many levels of sections to include in TOC -->
+<!-- Functionality still ToDo: Setting TOC section depth (e.g., how many levels of sections to include in TOC) -->
 
   <xsl:output method="xml"
               encoding="UTF-8"/>
@@ -15,10 +15,10 @@
     <xsl:apply-templates select="*" mode="tocgen"/>
   </xsl:template>
 
-  <xsl:template match="h:section[not(@class = 'dedication' or @class = 'titlepage' or @class = 'toc' or @class = 'colophon' or @class = 'copyright-page' or @class = 'halftitlepage')]|h:div[@class='part']" mode="tocgen">
+  <xsl:template match="h:section[not(@data-type = 'dedication' or @data-type = 'titlepage' or @data-type = 'toc' or @data-type = 'colophon' or @data-type = 'copyright-page' or @data-type = 'halftitlepage')]|h:div[@data-type='part']" mode="tocgen">
     <xsl:element name="li">
-      <xsl:attribute name="class">
-	<xsl:value-of select="@class"/>
+      <xsl:attribute name="data-type">
+	<xsl:value-of select="@data-type"/>
       </xsl:attribute>
       <a>
 	<xsl:attribute name="href">
@@ -32,7 +32,7 @@
 	</xsl:if>
 	<xsl:apply-templates select="." mode="title.markup"/>
       </a>
-      <xsl:if test="descendant::h:section|descendant::h:div[@class='part']">
+      <xsl:if test="descendant::h:section|descendant::h:div[@data-type='part']">
 	<ol>
 	  <xsl:apply-templates mode="tocgen"/>
 	</ol>
@@ -40,12 +40,12 @@
     </xsl:element>
   </xsl:template>
 
-  <xsl:template match="h:nav[@class='toc']">
+  <xsl:template match="h:nav[@data-type='toc']">
     <xsl:choose>
       <!-- If autogenerate-toc is enabled, and it's the first toc-placeholder-element, and it's either empty or overwrite-contents is specified, then
 	   go ahead and generate the TOC here -->
       <xsl:when test="($autogenerate-toc = 1) and 
-		      (not(preceding::h:nav[@class='toc'])) and
+		      (not(preceding::h:nav[@data-type='toc'])) and
 		      (not(node()) or $toc-placeholder-overwrite-contents != 0)">
 	<xsl:copy>
 	  <xsl:apply-templates select="@*[not(local-name() = 'id')]"/>
