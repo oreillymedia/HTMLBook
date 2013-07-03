@@ -113,7 +113,7 @@ sect5:none
     -->
   <xsl:param name="xref.type.for.section.by.data-type">
 appendix:xref-number
-chapter:xref-number-and-title
+chapter:xref-number
 part:xref-number
 sect1:xref
 sect2:xref
