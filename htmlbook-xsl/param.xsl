@@ -49,10 +49,10 @@
   <!-- Separator to be used between parts of a label -->
   <xsl:param name="intralabel.separator" select="'.'"/>
 
-<!-- For any book division that you want to have numeration, specify the @class, followed by colon, 
+<!-- For any book division that you want to have numeration, specify the @data-type, followed by colon, 
      and then a valid @format value for <xsl:number/>. If there is no entry in this list, or "none" is specified, corresponding division
      will not get labeled -->
-  <xsl:param name="label.numeration.by.class">
+  <xsl:param name="label.numeration.by.data.type">
 appendix:A
 chapter:1
 part:I

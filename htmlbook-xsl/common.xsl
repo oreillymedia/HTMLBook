@@ -51,59 +51,59 @@
   </xsl:template>
 
   <!-- Label handling -->
-  <xsl:template match="h:div[contains(@class, part)]|h:section" mode="label.markup">
+  <xsl:template match="h:div[contains(@data-type, part)]|h:section" mode="label.markup">
     <xsl:variable name="current-node" select="."/>
     <xsl:if test="$label.section.with.ancestors != 0">
       <xsl:for-each select="ancestor::h:section">
-	<xsl:call-template name="get-label-from-class">
-	  <xsl:with-param name="class" select="@class"/>
+	<xsl:call-template name="get-label-from-data-type">
+	  <xsl:with-param name="data-type" select="@data-type"/>
 	</xsl:call-template>
 	<xsl:apply-templates select="$current-node" mode="intralabel.punctuation"/>
       </xsl:for-each>
     </xsl:if>
-    <xsl:call-template name="get-label-from-class">
-      <xsl:with-param name="class" select="@class"/>
+    <xsl:call-template name="get-label-from-data-type">
+      <xsl:with-param name="data-type" select="@data-type"/>
     </xsl:call-template>
   </xsl:template>
 
   <xsl:template match="h:table" mode="label.markup">
     <xsl:choose>
       <xsl:when test="$label.formal.with.ancestor != 0">
-	<xsl:apply-templates select="ancestor::h:section[contains(@class, 'acknowledgments') or
-				     contains(@class, 'afterword') or
-				     contains(@class, 'appendix') or
-				     contains(@class, 'bibliography') or
-				     contains(@class, 'chapter') or
-				     contains(@class, 'colophon') or
-				     contains(@class, 'conclusion') or
-				     contains(@class, 'copyright-page') or
-				     contains(@class, 'dedication') or
-				     contains(@class, 'foreword') or
-				     contains(@class, 'glossary') or
-				     contains(@class, 'halftitlepage') or
-				     contains(@class, 'index') or
-				     contains(@class, 'introduction') or
-				     contains(@class, 'preface') or
-				     contains(@class, 'titlepage') or
-				     contains(@class, 'toc')][last()]" mode="label.markup"/>
+	<xsl:apply-templates select="ancestor::h:section[contains(@data-type, 'acknowledgments') or
+				     contains(@data-type, 'afterword') or
+				     contains(@data-type, 'appendix') or
+				     contains(@data-type, 'bibliography') or
+				     contains(@data-type, 'chapter') or
+				     contains(@data-type, 'colophon') or
+				     contains(@data-type, 'conclusion') or
+				     contains(@data-type, 'copyright-page') or
+				     contains(@data-type, 'dedication') or
+				     contains(@data-type, 'foreword') or
+				     contains(@data-type, 'glossary') or
+				     contains(@data-type, 'halftitlepage') or
+				     contains(@data-type, 'index') or
+				     contains(@data-type, 'introduction') or
+				     contains(@data-type, 'preface') or
+				     contains(@data-type, 'titlepage') or
+				     contains(@data-type, 'toc')][last()]" mode="label.markup"/>
 	<xsl:apply-templates select="." mode="intralabel.punctuation"/>
-	<xsl:number count="h:table" from="h:section[contains(@class, 'acknowledgments') or
-					  contains(@class, 'afterword') or
-					  contains(@class, 'appendix') or
-					  contains(@class, 'bibliography') or
-					  contains(@class, 'chapter') or
-					  contains(@class, 'colophon') or
-					  contains(@class, 'conclusion') or
-					  contains(@class, 'copyright-page') or
-					  contains(@class, 'dedication') or
-					  contains(@class, 'foreword') or
-					  contains(@class, 'glossary') or
-					  contains(@class, 'halftitlepage') or
-					  contains(@class, 'index') or
-					  contains(@class, 'introduction') or
-					  contains(@class, 'preface') or
-					  contains(@class, 'titlepage') or
-					  contains(@class, 'toc')]" level="any" format="1"/>
+	<xsl:number count="h:table" from="h:section[contains(@data-type, 'acknowledgments') or
+					  contains(@data-type, 'afterword') or
+					  contains(@data-type, 'appendix') or
+					  contains(@data-type, 'bibliography') or
+					  contains(@data-type, 'chapter') or
+					  contains(@data-type, 'colophon') or
+					  contains(@data-type, 'conclusion') or
+					  contains(@data-type, 'copyright-page') or
+					  contains(@data-type, 'dedication') or
+					  contains(@data-type, 'foreword') or
+					  contains(@data-type, 'glossary') or
+					  contains(@data-type, 'halftitlepage') or
+					  contains(@data-type, 'index') or
+					  contains(@data-type, 'introduction') or
+					  contains(@data-type, 'preface') or
+					  contains(@data-type, 'titlepage') or
+					  contains(@data-type, 'toc')]" level="any" format="1"/>
       </xsl:when>
       <xsl:otherwise>
 	<xsl:number count="h:table" level="any" format="1"/>
@@ -114,89 +114,89 @@
   <xsl:template match="h:figure" mode="label.markup">
     <xsl:choose>
       <xsl:when test="$label.formal.with.ancestor != 0">
-	<xsl:apply-templates select="ancestor::h:section[contains(@class, 'acknowledgments') or
-				     contains(@class, 'afterword') or
-				     contains(@class, 'appendix') or
-				     contains(@class, 'bibliography') or
-				     contains(@class, 'chapter') or
-				     contains(@class, 'colophon') or
-				     contains(@class, 'conclusion') or
-				     contains(@class, 'copyright-page') or
-				     contains(@class, 'dedication') or
-				     contains(@class, 'foreword') or
-				     contains(@class, 'glossary') or
-				     contains(@class, 'halftitlepage') or
-				     contains(@class, 'index') or
-				     contains(@class, 'introduction') or
-				     contains(@class, 'preface') or
-				     contains(@class, 'titlepage') or
-				     contains(@class, 'toc')][last()]" mode="label.markup"/>
+	<xsl:apply-templates select="ancestor::h:section[contains(@data-type, 'acknowledgments') or
+				     contains(@data-type, 'afterword') or
+				     contains(@data-type, 'appendix') or
+				     contains(@data-type, 'bibliography') or
+				     contains(@data-type, 'chapter') or
+				     contains(@data-type, 'colophon') or
+				     contains(@data-type, 'conclusion') or
+				     contains(@data-type, 'copyright-page') or
+				     contains(@data-type, 'dedication') or
+				     contains(@data-type, 'foreword') or
+				     contains(@data-type, 'glossary') or
+				     contains(@data-type, 'halftitlepage') or
+				     contains(@data-type, 'index') or
+				     contains(@data-type, 'introduction') or
+				     contains(@data-type, 'preface') or
+				     contains(@data-type, 'titlepage') or
+				     contains(@data-type, 'toc')][last()]" mode="label.markup"/>
 	<xsl:apply-templates select="." mode="intralabel.punctuation"/>
-	<xsl:number count="h:figure[not(contains(@class, 'cover'))]" from="h:section[contains(@class, 'acknowledgments') or
-					   contains(@class, 'afterword') or
-					   contains(@class, 'appendix') or
-					   contains(@class, 'bibliography') or
-					   contains(@class, 'chapter') or
-					   contains(@class, 'colophon') or
-					   contains(@class, 'conclusion') or
-					   contains(@class, 'copyright-page') or
-					   contains(@class, 'dedication') or
-					   contains(@class, 'foreword') or
-					   contains(@class, 'glossary') or
-					   contains(@class, 'halftitlepage') or
-					   contains(@class, 'index') or
-					   contains(@class, 'introduction') or
-					   contains(@class, 'preface') or
-					   contains(@class, 'titlepage') or
-					   contains(@class, 'toc')]" level="any" format="1"/>
+	<xsl:number count="h:figure[not(contains(@data-type, 'cover'))]" from="h:section[contains(@data-type, 'acknowledgments') or
+					   contains(@data-type, 'afterword') or
+					   contains(@data-type, 'appendix') or
+					   contains(@data-type, 'bibliography') or
+					   contains(@data-type, 'chapter') or
+					   contains(@data-type, 'colophon') or
+					   contains(@data-type, 'conclusion') or
+					   contains(@data-type, 'copyright-page') or
+					   contains(@data-type, 'dedication') or
+					   contains(@data-type, 'foreword') or
+					   contains(@data-type, 'glossary') or
+					   contains(@data-type, 'halftitlepage') or
+					   contains(@data-type, 'index') or
+					   contains(@data-type, 'introduction') or
+					   contains(@data-type, 'preface') or
+					   contains(@data-type, 'titlepage') or
+					   contains(@data-type, 'toc')]" level="any" format="1"/>
       </xsl:when>
       <xsl:otherwise>
-	<xsl:number count="h:figure[not(contains(@class, 'cover'))]" level="any" format="1"/>
+	<xsl:number count="h:figure[not(contains(@data-type, 'cover'))]" level="any" format="1"/>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
 
-  <xsl:template match="h:div[contains(@class, 'example')]" mode="label.markup">
+  <xsl:template match="h:div[contains(@data-type, 'example')]" mode="label.markup">
     <xsl:choose>
       <xsl:when test="$label.formal.with.ancestor != 0">
-	<xsl:apply-templates select="ancestor::h:section[contains(@class, 'acknowledgments') or
-				     contains(@class, 'afterword') or
-				     contains(@class, 'appendix') or
-				     contains(@class, 'bibliography') or
-				     contains(@class, 'chapter') or
-				     contains(@class, 'colophon') or
-				     contains(@class, 'conclusion') or
-				     contains(@class, 'copyright-page') or
-				     contains(@class, 'dedication') or
-				     contains(@class, 'foreword') or
-				     contains(@class, 'glossary') or
-				     contains(@class, 'halftitlepage') or
-				     contains(@class, 'index') or
-				     contains(@class, 'introduction') or
-				     contains(@class, 'preface') or
-				     contains(@class, 'titlepage') or
-				     contains(@class, 'toc')][last()]" mode="label.markup"/>
+	<xsl:apply-templates select="ancestor::h:section[contains(@data-type, 'acknowledgments') or
+				     contains(@data-type, 'afterword') or
+				     contains(@data-type, 'appendix') or
+				     contains(@data-type, 'bibliography') or
+				     contains(@data-type, 'chapter') or
+				     contains(@data-type, 'colophon') or
+				     contains(@data-type, 'conclusion') or
+				     contains(@data-type, 'copyright-page') or
+				     contains(@data-type, 'dedication') or
+				     contains(@data-type, 'foreword') or
+				     contains(@data-type, 'glossary') or
+				     contains(@data-type, 'halftitlepage') or
+				     contains(@data-type, 'index') or
+				     contains(@data-type, 'introduction') or
+				     contains(@data-type, 'preface') or
+				     contains(@data-type, 'titlepage') or
+				     contains(@data-type, 'toc')][last()]" mode="label.markup"/>
 	<xsl:apply-templates select="." mode="intralabel.punctuation"/>
-	<xsl:number count="h:div[contains(@class, 'example')]" from="h:section[contains(@class, 'acknowledgments') or
-								     contains(@class, 'afterword') or
-								     contains(@class, 'appendix') or
-								     contains(@class, 'bibliography') or
-								     contains(@class, 'chapter') or
-								     contains(@class, 'colophon') or
-								     contains(@class, 'conclusion') or
-								     contains(@class, 'copyright-page') or
-								     contains(@class, 'dedication') or
-								     contains(@class, 'foreword') or
-								     contains(@class, 'glossary') or
-								     contains(@class, 'halftitlepage') or
-								     contains(@class, 'index') or
-								     contains(@class, 'introduction') or
-								     contains(@class, 'preface') or
-								     contains(@class, 'titlepage') or
-								     contains(@class, 'toc')]" level="any" format="1"/>
+	<xsl:number count="h:div[contains(@data-type, 'example')]" from="h:section[contains(@data-type, 'acknowledgments') or
+								     contains(@data-type, 'afterword') or
+								     contains(@data-type, 'appendix') or
+								     contains(@data-type, 'bibliography') or
+								     contains(@data-type, 'chapter') or
+								     contains(@data-type, 'colophon') or
+								     contains(@data-type, 'conclusion') or
+								     contains(@data-type, 'copyright-page') or
+								     contains(@data-type, 'dedication') or
+								     contains(@data-type, 'foreword') or
+								     contains(@data-type, 'glossary') or
+								     contains(@data-type, 'halftitlepage') or
+								     contains(@data-type, 'index') or
+								     contains(@data-type, 'introduction') or
+								     contains(@data-type, 'preface') or
+								     contains(@data-type, 'titlepage') or
+								     contains(@data-type, 'toc')]" level="any" format="1"/>
       </xsl:when>
       <xsl:otherwise>
-	<xsl:number count="h:div[contains(@class, 'example')]" level="any" format="1"/>
+	<xsl:number count="h:div[contains(@data-type, 'example')]" level="any" format="1"/>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
@@ -211,7 +211,7 @@
     <xsl:text>.</xsl:text>
   </xsl:template>
 
-  <xsl:template match="h:figure|h:table|h:div[@class='example']" mode="intralabel.punctuation">
+  <xsl:template match="h:figure|h:table|h:div[@data-type='example']" mode="intralabel.punctuation">
     <xsl:text>-</xsl:text>
   </xsl:template>
 
@@ -222,23 +222,23 @@
   <xsl:template name="get-param-value-from-key">
     <xsl:param name="parameter"/>
     <xsl:param name="key"/>
-    <xsl:variable name="entry-and-beyond-for-class">
-      <!-- Gets the config line for numeration for the specified class...and everything beyond -->
+    <xsl:variable name="entry-and-beyond-for-data-type">
+      <!-- Gets the config line for numeration for the specified data-type...and everything beyond -->
       <xsl:value-of select="substring-after(normalize-space($parameter), concat($key, ':'))"/>
     </xsl:variable>
     <!-- Then we further narrow to the exact numeration format type -->
     <xsl:choose>
-      <xsl:when test="contains($entry-and-beyond-for-class, ' ')">
-	<xsl:value-of select="substring-before($entry-and-beyond-for-class, ' ')"/>
+      <xsl:when test="contains($entry-and-beyond-for-data-type, ' ')">
+	<xsl:value-of select="substring-before($entry-and-beyond-for-data-type, ' ')"/>
       </xsl:when>
       <xsl:otherwise>
-	<xsl:value-of select="$entry-and-beyond-for-class"/>
+	<xsl:value-of select="$entry-and-beyond-for-data-type"/>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
 
-  <xsl:template name="get-label-from-class">
-    <xsl:param name="class"/>
+  <xsl:template name="get-label-from-data-type">
+    <xsl:param name="data-type"/>
     <xsl:param name="numeration-format"/>
 
     <!-- Calculate numeration format -->
@@ -249,8 +249,8 @@
 	</xsl:when>
 	<xsl:otherwise>
 	  <xsl:call-template name="get-param-value-from-key">
-	    <xsl:with-param name="parameter" select="$label.numeration.by.class"/>
-	    <xsl:with-param name="key" select="$class"/>
+	    <xsl:with-param name="parameter" select="$label.numeration.by.data.type"/>
+	    <xsl:with-param name="key" select="$data-type"/>
 	  </xsl:call-template>
 	</xsl:otherwise>
       </xsl:choose>
@@ -261,32 +261,32 @@
     <xsl:choose>
       <!-- I wish XSL allowed variables in @format attribute -->
       <xsl:when test="$calculated-numeration-format = '1'">
-	<xsl:number count="*[@class = $class]" format="1"/>
+	<xsl:number count="*[@data-type = $data-type]" format="1"/>
       </xsl:when>
       <xsl:when test="$calculated-numeration-format = '01'">
-	<xsl:number count="*[@class = $class]" format="01"/>
+	<xsl:number count="*[@data-type = $data-type]" format="01"/>
       </xsl:when>
       <xsl:when test="$calculated-numeration-format = 'a'">
-	<xsl:number count="*[@class = $class]" format="a"/>
+	<xsl:number count="*[@data-type = $data-type]" format="a"/>
       </xsl:when>
       <xsl:when test="$calculated-numeration-format = 'A'">
-	<xsl:number count="*[@class = $class]" format="A"/>
+	<xsl:number count="*[@data-type = $data-type]" format="A"/>
       </xsl:when>
       <xsl:when test="$calculated-numeration-format = 'i'">
-	<xsl:number count="*[@class = $class]" format="i"/>
+	<xsl:number count="*[@data-type = $data-type]" format="i"/>
       </xsl:when>
       <xsl:when test="$calculated-numeration-format = 'I'">
-	<xsl:number count="*[@class = $class]" format="I"/>
+	<xsl:number count="*[@data-type = $data-type]" format="I"/>
       </xsl:when>
       <xsl:when test="$calculated-numeration-format = 'none'"/>
       <xsl:otherwise>
 	<!-- If $calculated-numeration-format doesn't match above values or is blank, no label can be generated -->
 	<xsl:choose>
 	  <xsl:when test="normalize-space($calculated-numeration-format) = ''">
-	    <xsl:message>No label numeration format specified for <xsl:value-of select="$class"/>: skipping label</xsl:message>
+	    <xsl:message>No label numeration format specified for <xsl:value-of select="$data-type"/>: skipping label</xsl:message>
 	  </xsl:when>
 	  <xsl:otherwise>
-	    <xsl:message>Unable to generate label for <xsl:value-of select="$class"/> with numeration format <xsl:value-of select="$calculated-numeration-format"/>.</xsl:message>
+	    <xsl:message>Unable to generate label for <xsl:value-of select="$data-type"/> with numeration format <xsl:value-of select="$calculated-numeration-format"/>.</xsl:message>
 	  </xsl:otherwise>
 	</xsl:choose>
       </xsl:otherwise>
@@ -296,7 +296,7 @@
   <!-- Logic for generating titles; default handling is to grab the first <h1>-<h6> content -->
   <xsl:template match="*" mode="title.markup">
     <xsl:choose>
-      <xsl:when test="self::h:section[@class='index' and not(h:h1|h:h2|h:h3|h:h4|h:h5|h:h6)]">
+      <xsl:when test="self::h:section[@data-type='index' and not(h:h1|h:h2|h:h3|h:h4|h:h5|h:h6)]">
 	<xsl:call-template name="get-localization-value">
 	  <xsl:with-param name="gentext-key" select="'index'"/>
 	</xsl:call-template>
@@ -324,46 +324,46 @@
   </xsl:template>
 
   <!-- Get the "semantic" name for an HTML5 element (mirroring a DB element name, for mappings in the localizations),
-       usually pulled from the @class value when the HTML5 element is not semantic enough -->
-  <!-- There may be multiple class values present, e.g. (<section class="chapter purple">) so use XPath contains() to do checks,
-       for lack of better alternative. -->
+       usually pulled from the @data-type value when the HTML5 element is not semantic enough -->
+  <!-- Uses XPath contains() function instead of a straight = comparison, to try to be more flexible in case @data-type
+       values are funky -->
   <xsl:template name="semantic-name">
     <xsl:param name="node" select="."/>
     <xsl:choose>
-      <xsl:when test="$node[self::h:section and contains(@class, 'acknowledgments')]">acknowledgments</xsl:when>
-      <xsl:when test="$node[self::h:section and contains(@class, 'afterword')]">appendix</xsl:when>
-      <xsl:when test="$node[self::h:section and contains(@class, 'bibliography')]">bibliography</xsl:when>
-      <xsl:when test="$node[self::h:section and contains(@class, 'chapter')]">chapter</xsl:when>
-      <xsl:when test="$node[self::h:section and contains(@class, 'colophon')]">colophon</xsl:when>
-      <xsl:when test="$node[self::h:section and contains(@class, 'conclusion')]">appendix</xsl:when>
-      <xsl:when test="$node[self::h:section and contains(@class, 'copyright-page')]">preface</xsl:when>
-      <xsl:when test="$node[self::h:section and contains(@class, 'dedication')]">dedication</xsl:when>
-      <xsl:when test="$node[self::h:section and contains(@class, 'foreword')]">preface</xsl:when>
-      <xsl:when test="$node[self::h:section and contains(@class, 'glossary')]">glossary</xsl:when>
-      <xsl:when test="$node[self::h:section and contains(@class, 'halftitlepage')]">preface</xsl:when>
-      <xsl:when test="$node[self::h:section and contains(@class, 'index')]">index</xsl:when>
-      <xsl:when test="$node[self::h:section and contains(@class, 'introduction')]">preface</xsl:when>
-      <xsl:when test="$node[self::h:section and contains(@class, 'preface')]">preface</xsl:when>
-      <xsl:when test="$node[self::h:section and contains(@class, 'titlepage')]">preface</xsl:when>
-      <xsl:when test="$node[self::h:section and contains(@class, 'toc')]">toc</xsl:when>
-      <xsl:when test="$node[self::h:section and contains(@class, 'sect1')]">sect1</xsl:when>
-      <xsl:when test="$node[self::h:section and contains(@class, 'sect2')]">sect2</xsl:when>
-      <xsl:when test="$node[self::h:section and contains(@class, 'sect3')]">sect3</xsl:when>
-      <xsl:when test="$node[self::h:section and contains(@class, 'sect4')]">sect4</xsl:when>
-      <xsl:when test="$node[self::h:section and contains(@class, 'sect5')]">sect5</xsl:when>
+      <xsl:when test="$node[self::h:section and contains(@data-type, 'acknowledgments')]">acknowledgments</xsl:when>
+      <xsl:when test="$node[self::h:section and contains(@data-type, 'afterword')]">appendix</xsl:when>
+      <xsl:when test="$node[self::h:section and contains(@data-type, 'bibliography')]">bibliography</xsl:when>
+      <xsl:when test="$node[self::h:section and contains(@data-type, 'chapter')]">chapter</xsl:when>
+      <xsl:when test="$node[self::h:section and contains(@data-type, 'colophon')]">colophon</xsl:when>
+      <xsl:when test="$node[self::h:section and contains(@data-type, 'conclusion')]">appendix</xsl:when>
+      <xsl:when test="$node[self::h:section and contains(@data-type, 'copyright-page')]">preface</xsl:when>
+      <xsl:when test="$node[self::h:section and contains(@data-type, 'dedication')]">dedication</xsl:when>
+      <xsl:when test="$node[self::h:section and contains(@data-type, 'foreword')]">preface</xsl:when>
+      <xsl:when test="$node[self::h:section and contains(@data-type, 'glossary')]">glossary</xsl:when>
+      <xsl:when test="$node[self::h:section and contains(@data-type, 'halftitlepage')]">preface</xsl:when>
+      <xsl:when test="$node[self::h:section and contains(@data-type, 'index')]">index</xsl:when>
+      <xsl:when test="$node[self::h:section and contains(@data-type, 'introduction')]">preface</xsl:when>
+      <xsl:when test="$node[self::h:section and contains(@data-type, 'preface')]">preface</xsl:when>
+      <xsl:when test="$node[self::h:section and contains(@data-type, 'titlepage')]">preface</xsl:when>
+      <xsl:when test="$node[self::h:section and contains(@data-type, 'toc')]">toc</xsl:when>
+      <xsl:when test="$node[self::h:section and contains(@data-type, 'sect1')]">sect1</xsl:when>
+      <xsl:when test="$node[self::h:section and contains(@data-type, 'sect2')]">sect2</xsl:when>
+      <xsl:when test="$node[self::h:section and contains(@data-type, 'sect3')]">sect3</xsl:when>
+      <xsl:when test="$node[self::h:section and contains(@data-type, 'sect4')]">sect4</xsl:when>
+      <xsl:when test="$node[self::h:section and contains(@data-type, 'sect5')]">sect5</xsl:when>
       <xsl:when test="$node[self::h:section]">section</xsl:when> <!-- for <section>, default to "section" -->
-      <xsl:when test="$node[self::h:div and contains(@class, 'caution')]">caution</xsl:when>
-      <xsl:when test="$node[self::h:div and contains(@class, 'equation')]">equation</xsl:when>
-      <xsl:when test="$node[self::h:div and contains(@class, 'example')]">example</xsl:when>
-      <xsl:when test="$node[self::h:div and contains(@class, 'footnote')]">footnote</xsl:when>
-      <xsl:when test="$node[self::h:div and contains(@class, 'important')]">important</xsl:when>
-      <xsl:when test="$node[self::h:div and contains(@class, 'note')]">note</xsl:when>
-      <xsl:when test="$node[self::h:div and contains(@class, 'tip')]">tip</xsl:when>
-      <xsl:when test="$node[self::h:div and contains(@class, 'part')]">part</xsl:when>
-      <xsl:when test="$node[self::h:div and contains(@class, 'rearnote')]">footnote</xsl:when>
-      <xsl:when test="$node[self::h:div and contains(@class, 'warning')]">warning</xsl:when>
-      <xsl:when test="$node[self::h:div and @class]">
-	<xsl:value-of select="$node/@class"/> <!-- for <div>, default to class value -->
+      <xsl:when test="$node[self::h:div and contains(@data-type, 'caution')]">caution</xsl:when>
+      <xsl:when test="$node[self::h:div and contains(@data-type, 'equation')]">equation</xsl:when>
+      <xsl:when test="$node[self::h:div and contains(@data-type, 'example')]">example</xsl:when>
+      <xsl:when test="$node[self::h:div and contains(@data-type, 'footnote')]">footnote</xsl:when>
+      <xsl:when test="$node[self::h:div and contains(@data-type, 'important')]">important</xsl:when>
+      <xsl:when test="$node[self::h:div and contains(@data-type, 'note')]">note</xsl:when>
+      <xsl:when test="$node[self::h:div and contains(@data-type, 'tip')]">tip</xsl:when>
+      <xsl:when test="$node[self::h:div and contains(@data-type, 'part')]">part</xsl:when>
+      <xsl:when test="$node[self::h:div and contains(@data-type, 'rearnote')]">footnote</xsl:when>
+      <xsl:when test="$node[self::h:div and contains(@data-type, 'warning')]">warning</xsl:when>
+      <xsl:when test="$node[self::h:div and @data-type]">
+	<xsl:value-of select="$node/@data-type"/> <!-- for <div>, default to @data-type value -->
       </xsl:when>
       <xsl:otherwise>
 	<!-- For all other elements besides <section> and <div>, just use the local-name -->
