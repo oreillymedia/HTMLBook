@@ -54,7 +54,7 @@
 	  </xsl:attribute>
 	  <xsl:if test="$toc-include-title != 0">
 	    <h1>
-	      <xsl:value-of select="//h:body/h1"/>
+	      <xsl:value-of select="//h:body/h:h1"/>
 	    </h1>
 	  </xsl:if>
 	  <ol>
