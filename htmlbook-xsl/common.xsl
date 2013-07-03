@@ -332,6 +332,7 @@
     <xsl:choose>
       <xsl:when test="$node[self::h:section and contains(@data-type, 'acknowledgments')]">acknowledgments</xsl:when>
       <xsl:when test="$node[self::h:section and contains(@data-type, 'afterword')]">appendix</xsl:when>
+      <xsl:when test="$node[self::h:section and contains(@data-type, 'appendix')]">appendix</xsl:when>
       <xsl:when test="$node[self::h:section and contains(@data-type, 'bibliography')]">bibliography</xsl:when>
       <xsl:when test="$node[self::h:section and contains(@data-type, 'chapter')]">chapter</xsl:when>
       <xsl:when test="$node[self::h:section and contains(@data-type, 'colophon')]">colophon</xsl:when>
