@@ -27,8 +27,13 @@
 	  </xsl:call-template>
 	</xsl:attribute>
 	<xsl:if test="$toc-include-labels = 1">
-	  <xsl:apply-templates select="." mode="label.markup"/>
-	  <xsl:value-of select="$label.and.title.separator"/>
+	  <xsl:variable name="toc-entry-label">
+	    <xsl:apply-templates select="." mode="label.markup"/>
+	  </xsl:variable>
+	  <xsl:value-of select="normalize-space($toc-entry-label)"/>
+	  <xsl:if test="$toc-entry-label != ''">
+	    <xsl:value-of select="$label.and.title.separator"/>
+	  </xsl:if>
 	</xsl:if>
 	<xsl:apply-templates select="." mode="title.markup"/>
       </a>
