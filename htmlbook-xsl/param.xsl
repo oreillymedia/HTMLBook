@@ -1,5 +1,5 @@
 <xsl:stylesheet version="1.0"
-		xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 xmlns:l="http://docbook.sourceforge.net/xmlns/l10n/1.0"
 		xmlns:h="http://www.w3.org/1999/xhtml"
 		xmlns="http://www.w3.org/1999/xhtml"
@@ -52,7 +52,7 @@
 <!-- For any book division that you want to have numeration, specify the @data-type, followed by colon, 
      and then a valid @format value for <xsl:number/>. If there is no entry in this list, or "none" is specified, corresponding division
      will not get labeled -->
-  <xsl:param name="label.numeration.by.data.type">
+  <xsl:param name="label.numeration.by.data-type">
 appendix:A
 chapter:1
 part:I
@@ -111,7 +111,7 @@ sect5:none
        * xref-number
        * xref
     -->
-  <xsl:param name="xref.type.for.section.by.class">
+  <xsl:param name="xref.type.for.section.by.data-type">
 appendix:xref-number
 chapter:xref-number-and-title
 part:xref-number

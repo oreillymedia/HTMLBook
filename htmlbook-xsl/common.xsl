@@ -249,7 +249,7 @@
 	</xsl:when>
 	<xsl:otherwise>
 	  <xsl:call-template name="get-param-value-from-key">
-	    <xsl:with-param name="parameter" select="$label.numeration.by.data.type"/>
+	    <xsl:with-param name="parameter" select="$label.numeration.by.data-type"/>
 	    <xsl:with-param name="key" select="$data-type"/>
 	  </xsl:call-template>
 	</xsl:otherwise>
