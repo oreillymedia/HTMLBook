@@ -93,10 +93,12 @@
   <!-- By default, try to pull from meta element in head -->
   <xsl:param name="metadata.contributors" select="//h:head/h:meta[contains(@name, 'contributor')]"/>
 
-  <xsl:param name="metadata.creator">
-    <!-- By default, try to pull from meta element in head -->
-    <xsl:call-template name="format.creators"/>
-  </xsl:param>
+  <xsl:param name="metadata.creators" select="//h:head/h:meta[contains(@name, 'creator')]"/>
+
+  <!-- Id to use to reference cover image -->
+  <xsl:param name="metadata.cover.id" select="'cover-image'"/>
+
+  <xsl:parma name="metadata.cover.filename" select="//h:figure[@data-type = 'cover'][1]/h:img[1]/@src"/>
 
   <xsl:param name="metadata.ibooks-specified-fonts" select="1"/>
 
@@ -116,6 +118,12 @@
 
   <!-- Mimetype to use in the manifest for the NCX TOC (if $generate.ncx.toc is enabled) -->
   <xsl:param name="ncx.toc.mimetype">application/x-dtbncx+xml</xsl:param>
+
+  <!-- Filename for custom CSS to be embedded in EPUB; leave blank if none -->
+  <xsl:param name="css.filename">epub.css</xsl:param>
+
+  <!-- ID to use in the manifest for the CSS (if $css.filename is nonempty) -->
+  <xsl:param name="css.id">epub-css</xsl:param>
 
   <!-- List fonts to be embedded here: place each font on a separate line -->
   <xsl:param name="embedded.fonts.list">DejaVuSerif.otf
@@ -260,16 +268,53 @@ UbuntuMono-Italic.otf
 	      <xsl:value-of select="$metadata.description"/>
 	    </meta>
 	  </xsl:if>
+	  <xsl:if test="count($metadata.contributors) &gt; 0">
+	    <xsl:for-each select="$metadata.contributors">
+	      <dc:contributor>
+		<xsl:value-of select="@content"/>
+	      </dc:contributor>
+	      <meta property="dcterms:contributor">
+		<xsl:value-of select="@content"/>
+	      </meta>
+	    </xsl:for-each>
+	  </xsl:if>
+	  <xsl:if test="count($metadata.creators) &gt; 0">
+	    <!-- Use just one dc:creator element for all authors, as that sadly gives better results in ereaders -->
+	    <dc:creator>	      
+	      <xsl:for-each select="$metadata.contributors">
+		<xsl:value-of select="@content"/>
+		<xsl:if test="count($metadata.contributors) &gt; 2 and position() != last()">, </xsl:if>
+		<xsl:if test="(count($metadata.contributors) = 2 and position() != last()) or 
+			      (count($metadata.contributors) &gt; 2 and (position() + 1 = position(last())))">and </xsl:if>
+	      </xsl:for-each>
+	    </dc:creator>
+	    <xsl:for-each select="$metadata.contributors">
+	      <meta property="dcterms:creator">
+		<xsl:value-of select="@content"/>
+	      </meta>
+	    </xsl:for-each>
+	  </xsl:if>
+	  <xsl:if test="normalize-space($metadata.cover.filename) != ''">
+	    <meta name="cover" content="{$metadata.cover.id}"/>
+	  </xsl:if>
+	  <xsl:if test="$metadata.ibooks-specified-fonts = 1">
+	    <meta property="ibooks:specified-fonts">true</meta>
+	  </xsl:if>
 	</metadata>
 	<manifest>
 	  <!-- Add NCX TOC to EPUB manifest, if it will be included in the EPUB package -->
 	  <xsl:if test="$generate.ncx.toc = 1">
 	    <item id="{$ncx.toc.id}" href="{$outputdir}/{$ncx.toc.filename}" media-type="{$ncx.toc.mimetype}"/>
 	  </xsl:if>
+	  <!-- Add custom CSS to manifest, if present -->
+	  <xsl:if test="$css.filename != ''">
+	    <item id="{$css.id}" href="{$css.filename}" media-type="text/css"/>
+	  </xsl:if>
 	  <!-- Add any embedded fonts to EPUB manifest, if they will be included in the EPUB package -->
 	  <xsl:for-each select="exsl:node-set($embedded.fonts.list.xml)//f:font">
 	    <item id="{concat('epub.embedded.font.', position())}" href="{@filename}" media-type="{@mimetype}"/>
 	  </xsl:for-each>
+	  
 	</manifest>
       </package>
     </exsl:document>
@@ -287,7 +332,5 @@ UbuntuMono-Italic.otf
 	 not the correct UTC time. -->
     <xsl:value-of select="concat(substring($date,1,19), 'Z')"/>
   </xsl:template>
-
-  <xsl:template name="format.creators"/>
   
 </xsl:stylesheet> 
