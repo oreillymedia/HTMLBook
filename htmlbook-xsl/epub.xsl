@@ -9,6 +9,7 @@
 		xmlns:date="http://exslt.org/dates-and-times"
 		xmlns:exsl="http://exslt.org/common"
 		xmlns:set="http://exslt.org/sets"
+		xmlns:f="http://github.com/oreillymedia/HTMLBook/fonts"
 		xmlns:h="http://www.w3.org/1999/xhtml"
 		xmlns:htmlbook="https://github.com/oreillymedia/HTMLBook"
 		xmlns:func="http://exslt.org/functions"
@@ -31,6 +32,7 @@
 
   <xsl:param name="opf.filename" select="'content.opf'"/>
 
+  <!-- Outputdir is the main content dir -->
   <xsl:param name="outputdir" select="'OEBPS'"/>
 
   <xsl:param name="metadata.title">
@@ -104,6 +106,75 @@
     <dcterms:foo/>
   </xsl:param>
 
+  <xsl:param name="generate.ncx.toc" select="1"/>
+
+  <!-- Filename to which to output the NCX TOC (if $generate.ncx.toc is enabled) -->
+  <xsl:param name="ncx.toc.filename">toc.ncx</xsl:param>
+
+  <!-- ID to use in the manifest for the NCX TOC (if $generate.ncx.toc is enabled) -->
+  <xsl:param name="ncx.toc.id">toc.ncx</xsl:param>
+
+  <!-- Mimetype to use in the manifest for the NCX TOC (if $generate.ncx.toc is enabled) -->
+  <xsl:param name="ncx.toc.mimetype">application/x-dtbncx+xml</xsl:param>
+
+  <!-- List fonts to be embedded here: place each font on a separate line -->
+  <xsl:param name="embedded.fonts.list">DejaVuSerif.otf
+DejaVuSans-Bold.otf
+UbuntuMono-Regular.otf
+UbuntuMono-Bold.otf
+UbuntuMono-BoldItalic.otf
+UbuntuMono-Italic.otf
+</xsl:param>
+      
+  <!-- Convert $embedded.fonts.list to XML for easier parsing -->
+  <xsl:variable name="embedded.fonts.list.xml">
+    <xsl:call-template name="get.fonts.xml"/>
+  </xsl:variable>
+
+  <!-- Reformat fonts list as XML that can be parsed -->
+  <xsl:template name="get.fonts.xml">
+    <xsl:param name="fonts.to.process" select="$embedded.fonts.list"/>
+    <xsl:param name="first.call" select="1"/>
+    <xsl:choose>
+      <xsl:when test="$first.call = 1">
+	<f:fonts>
+	  <xsl:call-template name="get.fonts.xml">
+	    <xsl:with-param name="fonts.to.process" select="$fonts.to.process"/>
+	    <xsl:with-param name="first.call" select="0"/>
+	  </xsl:call-template>
+	</f:fonts>
+      </xsl:when>
+      <xsl:otherwise>
+	<xsl:if test="normalize-space(substring-before($fonts.to.process, '&#x0A;')) != ''">
+	  <xsl:variable name="font-filename">
+	    <xsl:value-of select="normalize-space(substring-before($fonts.to.process, '&#x0A;'))"/>
+	  </xsl:variable>
+	  <xsl:message><xsl:value-of select="$font-filename"/></xsl:message>
+	  <xsl:variable name="font-extension">
+	    <xsl:value-of select="normalize-space(substring-after($font-filename, '.'))"/>
+	  </xsl:variable>
+	  <xsl:variable name="font-mimetype">
+	    <xsl:choose>
+	      <xsl:when test="$font-extension = 'otf'">application/vnd.ms-opentype</xsl:when>
+	      <xsl:when test="$font-extension = 'ttf'">font/truetype</xsl:when>
+	      <!-- Default to opentype font -->
+	      <xsl:otherwise>application/vnd.ms-opentype</xsl:otherwise>
+	    </xsl:choose>
+	  </xsl:variable>
+	  <f:font filename="{$font-filename}" mimetype="{$font-mimetype}"/>
+	  <xsl:if test="normalize-space(substring-after($fonts.to.process, '&#x0A;')) != ''">
+	    <xsl:call-template name="get.fonts.xml">
+	      <xsl:with-param name="fonts.to.process" select="substring-after($fonts.to.process, '&#x0A;')"/>
+	      <xsl:with-param name="first.call" select="0"/>
+	    </xsl:call-template>
+	  </xsl:if>
+	</xsl:if>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
+  <!-- Directory to place embedded fonts, relative to content directory; leave blank to put in root content dir (e.g., in "OEBPS" dir) -->
+  <xsl:param name="embedded.fonts.directory"/>
 
   <xsl:output method="xml"
               encoding="UTF-8"/>
@@ -190,6 +261,16 @@
 	    </meta>
 	  </xsl:if>
 	</metadata>
+	<manifest>
+	  <!-- Add NCX TOC to EPUB manifest, if it will be included in the EPUB package -->
+	  <xsl:if test="$generate.ncx.toc = 1">
+	    <item id="{$ncx.toc.id}" href="{$outputdir}/{$ncx.toc.filename}" media-type="{$ncx.toc.mimetype}"/>
+	  </xsl:if>
+	  <!-- Add any embedded fonts to EPUB manifest, if they will be included in the EPUB package -->
+	  <xsl:for-each select="exsl:node-set($embedded.fonts.list.xml)//f:font">
+	    <item id="{concat('epub.embedded.font.', position())}" href="{@filename}" media-type="{@mimetype}"/>
+	  </xsl:for-each>
+	</manifest>
       </package>
     </exsl:document>
   </xsl:template>
