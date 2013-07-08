@@ -21,7 +21,7 @@
               encoding="UTF-8"/>
   <xsl:preserve-space elements="*"/>
 
-  <xsl:key name="chunks" match="h:section|h:div[@class='part']" use="htmlbook:is-chunk(.)"/>
+  <xsl:key name="chunks" match="h:section|h:div[@data-type='part']" use="htmlbook:is-chunk(.)"/>
 
   <!-- Specify a number from 0 to 5, where 0 means chunk at top-level sections (part, chapter, appendix), and 1-5 means chunk at the corresponding sect level (sect1 - sect5) -->
   <xsl:param name="chunk.level" select="0"/>
@@ -29,8 +29,8 @@
   <!-- Specify the filename for the root chunk -->
   <xsl:param name="root.chunk.filename" select="'index.html'"/>
 
-  <!-- Specify a prefix for output filename for a given class -->
-  <xsl:param name="output.filename.prefix.by.class">
+  <!-- Specify a prefix for output filename for a given data-type -->
+  <xsl:param name="output.filename.prefix.by.data-type">
 appendix:app
 chapter:ch
 index:ix
@@ -60,9 +60,9 @@ sect5:s
     </xsl:call-template>
   </xsl:template>
        
-  <xsl:template match="h:section|h:div[contains(@class, 'part')]|h:nav[contains(@class, 'toc')]">
+  <xsl:template match="h:section|h:div[contains(@data-type, 'part')]|h:nav[contains(@data-type, 'toc')]">
     <xsl:variable name="is.chunk" select="htmlbook:is-chunk(.)"/>
-    <!-- <xsl:message>Element name: <xsl:value-of select="local-name()"/>, Class name: <xsl:value-of select="@class"/>, Is chunk: <xsl:value-of select="$is.chunk"/></xsl:message> -->
+    <!-- <xsl:message>Element name: <xsl:value-of select="local-name()"/>, data-type name: <xsl:value-of select="@data-type"/>, Is chunk: <xsl:value-of select="$is.chunk"/></xsl:message> -->
     <xsl:choose>
       <xsl:when test="$is.chunk = 1">
 	<xsl:variable name="output-filename">
@@ -123,7 +123,7 @@ sect5:s
 	    <xsl:choose>
 	      <!-- Only add the body tag if doesn't already exist -->
 	      <xsl:when test="not(self::h:body)">
-		<body class="book">
+		<body data-type="book">
 		  <xsl:apply-imports/>
 		</body>
 	      </xsl:when>
@@ -148,7 +148,7 @@ sect5:s
     <xsl:for-each select="$node">
 
       <xsl:variable name="node-name" select="local-name(.)"/>
-      <xsl:variable name="node-class" select="@class"/>
+      <xsl:variable name="node-data-type" select="@data-type"/>
 
       <!-- Check to see if parent is also chunk, in which case, call template recursively -->
       <xsl:variable name="parent-node" select="parent::*"/>
@@ -160,24 +160,24 @@ sect5:s
 	  <xsl:with-param name="original-call" select="0"/>
 	</xsl:call-template>
       </xsl:if>
-      <!-- We are assuming (in accordance with HTMLBook spec) that if an element is chunkable, it has a @class -->
-      <xsl:variable name="filename-prefix-from-class">
+      <!-- We are assuming (in accordance with HTMLBook spec) that if an element is chunkable, it has a @data-type -->
+      <xsl:variable name="filename-prefix-from-data-type">
 	<xsl:call-template name="get-param-value-from-key">
-	  <xsl:with-param name="parameter" select="$output.filename.prefix.by.class"/>
-	  <xsl:with-param name="key" select="$node-class"/>
+	  <xsl:with-param name="parameter" select="$output.filename.prefix.by.data-type"/>
+	  <xsl:with-param name="key" select="$node-data-type"/>
 	</xsl:call-template>
       </xsl:variable>
-      <!-- If prefix is specified in $filename-prefix-from-class, then use that -->
+      <!-- If prefix is specified in $filename-prefix-from-data-type, then use that -->
       <xsl:choose>
-	<xsl:when test="$filename-prefix-from-class != ''">
-	  <xsl:value-of select="$filename-prefix-from-class"/>
+	<xsl:when test="$filename-prefix-from-data-type != ''">
+	  <xsl:value-of select="$filename-prefix-from-data-type"/>
 	</xsl:when>
 	<xsl:otherwise>
-	  <!-- Otherwise, fall back to class name -->
-	  <xsl:value-of select="$node-class"/>
+	  <!-- Otherwise, fall back to data-type name -->
+	  <xsl:value-of select="$node-data-type"/>
 	</xsl:otherwise>
       </xsl:choose>
-      <xsl:number count="*[local-name() = $node-name and @class = $node-class]" format="01"/>
+      <xsl:number count="*[local-name() = $node-name and @data-type = $node-data-type]" format="01"/>
       <xsl:if test="$original-call = 1">
 	<!-- ToDo: Parameterize me to allow use of different filename extension? -->
 	<xsl:text>.html</xsl:text>
@@ -188,34 +188,34 @@ sect5:s
   <func:function name="htmlbook:is-chunk">
     <xsl:param name="node" select="."/>
     <xsl:choose>
-      <xsl:when test="$node[self::h:div[contains(@class, 'part')]]">
+      <xsl:when test="$node[self::h:div[contains(@data-type, 'part')]]">
 	<func:result>1</func:result>
       </xsl:when>
-      <xsl:when test="$node[self::h:section[contains(@class, 'acknowledgments') or
-		      contains(@class, 'afterword') or
-		      contains(@class, 'appendix') or
-		      contains(@class, 'bibliography') or
-		      contains(@class, 'chapter') or
-		      contains(@class, 'colophon') or
-		      contains(@class, 'conclusion') or
-		      contains(@class, 'copyright-page') or
-		      contains(@class, 'dedication') or
-		      contains(@class, 'foreword') or
-		      contains(@class, 'glossary') or
-		      contains(@class, 'halftitlepage') or
-		      contains(@class, 'index') or
-		      contains(@class, 'introduction') or
-		      contains(@class, 'preface') or
-		      contains(@class, 'titlepage') or
-		      contains(@class, 'toc')]]">
+      <xsl:when test="$node[self::h:section[contains(@data-type, 'acknowledgments') or
+		      contains(@data-type, 'afterword') or
+		      contains(@data-type, 'appendix') or
+		      contains(@data-type, 'bibliography') or
+		      contains(@data-type, 'chapter') or
+		      contains(@data-type, 'colophon') or
+		      contains(@data-type, 'conclusion') or
+		      contains(@data-type, 'copyright-page') or
+		      contains(@data-type, 'dedication') or
+		      contains(@data-type, 'foreword') or
+		      contains(@data-type, 'glossary') or
+		      contains(@data-type, 'halftitlepage') or
+		      contains(@data-type, 'index') or
+		      contains(@data-type, 'introduction') or
+		      contains(@data-type, 'preface') or
+		      contains(@data-type, 'titlepage') or
+		      contains(@data-type, 'toc')]]">
 	<func:result>1</func:result>
       </xsl:when>
-      <xsl:when test="$node[self::h:nav[contains(@class, 'toc')]]">
+      <xsl:when test="$node[self::h:nav[contains(@data-type, 'toc')]]">
 	<func:result>1</func:result>
       </xsl:when>
-      <xsl:when test="$node[self::h:section[contains(@class, 'sect')]]">
+      <xsl:when test="$node[self::h:section[contains(@data-type, 'sect')]]">
 	<xsl:variable name="sect-level">
-	  <xsl:value-of select="substring(substring-after($node/@class, 'sect'), 1, 1)"/>
+	  <xsl:value-of select="substring(substring-after($node/@data-type, 'sect'), 1, 1)"/>
 	</xsl:variable>
 	<xsl:if test="($sect-level = '1' or $sect-level = '2' or $sect-level = '3' or $sect-level = '4' or $sect-level = '5') and
 		      $sect-level &lt;= $chunk.level">
@@ -229,8 +229,8 @@ sect5:s
   </func:function>
 
   <!-- Custom XREF template in chunk.xsl, because we need to take chunk filename into account, and update hrefs. -->
-  <!-- All XREFs must be tagged with a @class containing XREF -->
-  <xsl:template match="h:a[contains(@class, 'xref')]">
+  <!-- All XREFs must be tagged with a @data-type containing XREF -->
+  <xsl:template match="h:a[contains(@data-type, 'xref')]">
     <xsl:variable name="href-anchor">
       <xsl:choose>
 	<!-- If href contains an # (as it should), we're going to assume the subsequent text is the referent id -->

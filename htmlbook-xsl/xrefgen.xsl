@@ -13,8 +13,8 @@
 
   <!-- Default rule for TOC generation -->
 
-  <!-- All XREFs must be tagged with a @class containing XREF -->
-  <xsl:template match="h:a[contains(@class, 'xref')]">
+  <!-- All XREFs must be tagged with a @data-type containing XREF -->
+  <xsl:template match="h:a[contains(@data-type, 'xref')]">
     <xsl:variable name="href-anchor">
       <xsl:choose>
 	<!-- If href contains an # (as it should), we're going to assume the subsequent text is the referent id -->
@@ -147,12 +147,12 @@
 
   <xsl:variable name="context">
     <xsl:choose>
-      <!-- If we're XREFing a section or a part div, use the $xref.type.for.section.by.class variable -->
-      <xsl:when test="self::h:section or self::h:div[contains(@class, 'part')]">
+      <!-- If we're XREFing a section or a part div, use the $xref.type.for.section.by.data-type variable -->
+      <xsl:when test="self::h:section or self::h:div[contains(@data-type, 'part')]">
 	<xsl:variable name="xref-type">
 	  <xsl:call-template name="get-param-value-from-key">
-	    <xsl:with-param name="parameter" select="$xref.type.for.section.by.class"/>
-	    <xsl:with-param name="key" select="@class"/>
+	    <xsl:with-param name="parameter" select="$xref.type.for.section.by.data-type"/>
+	    <xsl:with-param name="key" select="@data-type"/>
 	  </xsl:call-template>
 	</xsl:variable>
 	<xsl:choose>
@@ -190,7 +190,7 @@
 <!-- xref-type templates: should return a value of 'xref-number-and-title', 'xref-number', or 'xref' -->
 <!-- If returning 'xref-number-and-title' or 'xref-number', may want to first check if corresponding template exists -->
 
-<xsl:template match="h:table|h:figure|h:div[contains(@class, 'example')]" mode="xref-type">
+<xsl:template match="h:table|h:figure|h:div[contains(@data-type, 'example')]" mode="xref-type">
   <xsl:param name="number-and-title-template" select="0"/>
   <xsl:param name="number-template" select="0"/>
   <xsl:choose>
@@ -276,7 +276,7 @@
               <xsl:choose>
                 <xsl:when test="$referrer">
                   <xsl:variable name="referent-is-below">
-                    <xsl:for-each select="preceding::h:a[@class='xref']">
+                    <xsl:for-each select="preceding::h:a[@data-type='xref']">
                       <xsl:if test="generate-id(.) = generate-id($referrer)">1</xsl:if>
                     </xsl:for-each>
                   </xsl:variable>
@@ -360,7 +360,7 @@
 
 </xsl:template>
 
-<xsl:template match="h:section[contains(@class, 'chapter') or contains(@class, 'appendix')]" mode="insert.title.markup">
+<xsl:template match="h:section[contains(@data-type, 'chapter') or contains(@data-type, 'appendix')]" mode="insert.title.markup">
   <xsl:param name="purpose"/>
   <xsl:param name="xrefstyle"/>
   <xsl:param name="title"/>

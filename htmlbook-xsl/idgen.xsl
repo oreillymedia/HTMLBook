@@ -14,12 +14,12 @@
 
   <!-- Elements that require ids: 
        * All <sections>
-       * <div class="part">
-       * All <a class="indexterm"> tags
+       * <div data-type="part">
+       * All <a data-type="indexterm"> tags
     -->
   <!-- WARNING: If you need additional handling for these elements for other functionality,
        and you override this template elsewhere, make sure you add in id-decoration functionality -->
-  <xsl:template match="h:section|h:div[@class='part']|h:a[@class='indexterm']">
+  <xsl:template match="h:section|h:div[contains(@data-type, 'part')]|h:a[contains(@data-type, 'indexterm')]">
     <xsl:copy>
       <xsl:apply-templates select="@*[not(local-name() = 'id')]"/>
       <xsl:attribute name="id">
