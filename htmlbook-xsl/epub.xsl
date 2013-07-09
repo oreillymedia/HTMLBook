@@ -294,7 +294,7 @@ UbuntuMono-Italic.otf
 		<xsl:value-of select="@content"/>
 	      </xsl:for-each>
 	    </dc:creator>
-	    <xsl:for-each select="$metadata.contributors">
+	    <xsl:for-each select="$metadata.creators">
 	      <meta property="dcterms:creator">
 		<xsl:value-of select="@content"/>
 	      </meta>
