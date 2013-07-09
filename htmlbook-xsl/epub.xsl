@@ -9,7 +9,7 @@
 		xmlns:date="http://exslt.org/dates-and-times"
 		xmlns:exsl="http://exslt.org/common"
 		xmlns:set="http://exslt.org/sets"
-		xmlns:f="http://github.com/oreillymedia/HTMLBook/fonts"
+		xmlns:e="http://github.com/oreillymedia/epubrenderer"
 		xmlns:h="http://www.w3.org/1999/xhtml"
 		xmlns:htmlbook="https://github.com/oreillymedia/HTMLBook"
 		xmlns:func="http://exslt.org/functions"
@@ -18,12 +18,16 @@
 		exclude-result-prefixes="exsl h func set date">
 
   <!-- Generate an EPUB from HTMLBook source. -->
+  <!-- ToDo: Logic for generating cover.html -->
 
   <!-- Imports chunk.xsl -->
   <xsl:import href="chunk.xsl"/>
 
   <!-- EPUB-specific parameters -->
   <xsl:param name="opf.namespace" select="'http://www.idpf.org/2007/opf'"/>
+
+  <!-- mimetype mapping; feel free to modify existing mapping or point to different mapping document -->
+  <xsl:param name="mimetypes-by-file-extension-mapping" select="document('mimetypes-by-file-extension.xml')"/>
 
   <xsl:param name="metadata.unique-identifier">
     <!-- By default, try to pull from meta element in head -->
@@ -96,7 +100,7 @@
   <xsl:param name="metadata.creators" select="//h:head/h:meta[contains(@name, 'creator')]"/>
 
   <!-- Id to use to reference cover image -->
-  <xsl:param name="metadata.cover.id" select="'cover-image'"/>
+  <xsl:param name="epub.cover.image.id" select="'cover-image'"/>
 
   <xsl:param name="metadata.cover.filename" select="//h:figure[@data-type = 'cover'][1]/h:img[1]/@src"/>
 
@@ -107,6 +111,15 @@
     <dc:foo/>
     <dcterms:foo/>
   </xsl:param>
+
+  <!-- Param to specify whether or not to generate a separate HTML file for the cover -->
+  <xsl:param name="generate.cover.html" select="1"/>
+
+  <!-- Param to specify filename for cover HTML (only applicable if $generate.cover.html is enabled)-->
+  <xsl:param name="cover.html.filename" select="'cover.html'"/>
+
+  <!-- Param to specify whether or not to include the cover HTML file in the spine (only applicable if $generate.cover.html is enabled)-->
+  <xsl:param name="cover.in.spine" select="1"/>
 
   <xsl:param name="generate.ncx.toc" select="1"/>
 
@@ -145,19 +158,18 @@ UbuntuMono-Italic.otf
     <xsl:param name="first.call" select="1"/>
     <xsl:choose>
       <xsl:when test="$first.call = 1">
-	<f:fonts>
+	<e:fonts>
 	  <xsl:call-template name="get.fonts.xml">
 	    <xsl:with-param name="fonts.to.process" select="$fonts.to.process"/>
 	    <xsl:with-param name="first.call" select="0"/>
 	  </xsl:call-template>
-	</f:fonts>
+	</e:fonts>
       </xsl:when>
       <xsl:otherwise>
 	<xsl:if test="normalize-space(substring-before($fonts.to.process, '&#x0A;')) != ''">
 	  <xsl:variable name="font-filename">
 	    <xsl:value-of select="normalize-space(substring-before($fonts.to.process, '&#x0A;'))"/>
 	  </xsl:variable>
-	  <xsl:message><xsl:value-of select="$font-filename"/></xsl:message>
 	  <xsl:variable name="font-extension">
 	    <xsl:value-of select="normalize-space(substring-after($font-filename, '.'))"/>
 	  </xsl:variable>
@@ -169,7 +181,7 @@ UbuntuMono-Italic.otf
 	      <xsl:otherwise>application/vnd.ms-opentype</xsl:otherwise>
 	    </xsl:choose>
 	  </xsl:variable>
-	  <f:font filename="{$font-filename}" mimetype="{$font-mimetype}"/>
+	  <e:font filename="{$font-filename}" mimetype="{$font-mimetype}"/>
 	  <xsl:if test="normalize-space(substring-after($fonts.to.process, '&#x0A;')) != ''">
 	    <xsl:call-template name="get.fonts.xml">
 	      <xsl:with-param name="fonts.to.process" select="substring-after($fonts.to.process, '&#x0A;')"/>
@@ -283,13 +295,18 @@ UbuntuMono-Italic.otf
 	    <dc:creator>	      
 	      <xsl:for-each select="$metadata.creators">
 		<xsl:if test="count($metadata.creators) &gt; 2 and position() != 1">
-		  <xsl:text>,</xsl:text>
+		  <xsl:call-template name="get-localization-value">
+		    <xsl:with-param name="gentext-key" select="'listcomma'"/>
+		  </xsl:call-template>
 		</xsl:if>
 		<xsl:if test="count($metadata.creators) &gt; 1 and position() != 1">
 		  <xsl:text> </xsl:text>
 		</xsl:if>
 		<xsl:if test="count($metadata.creators) &gt; 1 and position() = last()">
-		  <xsl:text>and </xsl:text>
+		  <xsl:call-template name="get-localization-value">
+		    <xsl:with-param name="gentext-key" select="'and'"/>
+		  </xsl:call-template>
+		  <xsl:text> </xsl:text>
 		</xsl:if>
 		<xsl:value-of select="@content"/>
 	      </xsl:for-each>
@@ -301,7 +318,7 @@ UbuntuMono-Italic.otf
 	    </xsl:for-each>
 	  </xsl:if>
 	  <xsl:if test="normalize-space($metadata.cover.filename) != ''">
-	    <meta name="cover" content="{$metadata.cover.id}"/>
+	    <meta name="cover" content="{$epub.cover.image.id}"/>
 	  </xsl:if>
 	  <xsl:if test="$metadata.ibooks-specified-fonts = 1">
 	    <meta property="ibooks:specified-fonts">true</meta>
@@ -317,10 +334,26 @@ UbuntuMono-Italic.otf
 	    <item id="{$css.id}" href="{$css.filename}" media-type="text/css"/>
 	  </xsl:if>
 	  <!-- Add any embedded fonts to EPUB manifest, if they will be included in the EPUB package -->
-	  <xsl:for-each select="exsl:node-set($embedded.fonts.list.xml)//f:font">
+	  <xsl:for-each select="exsl:node-set($embedded.fonts.list.xml)//e:font">
 	    <item id="{concat('epub.embedded.font.', position())}" href="{@filename}" media-type="{@mimetype}"/>
 	  </xsl:for-each>
-	  
+	  <!-- Add cover to manifest, if present -->
+	  <xsl:if test="$generate.cover.html = 1">
+	    <item>
+	      <xsl:attribute name="id">
+		<xsl:value-of select="$epub.cover.image.id"/>
+	      </xsl:attribute>
+	      <xsl:attribute name="href">
+		<xsl:value-of select="$cover.html.filename"/>
+	      </xsl:attribute>
+	      <xsl:attribute name="media-type">
+		<xsl:call-template name="get-mimetype-from-file-extension">
+		  <xsl:with-param name="file-extension" select="'html'"/>
+		</xsl:call-template>
+	      </xsl:attribute>
+	    </item>
+	  <!-- Add images to manifest -->
+	  </xsl:if>
 	</manifest>
       </package>
     </exsl:document>
@@ -338,5 +371,18 @@ UbuntuMono-Italic.otf
 	 not the correct UTC time. -->
     <xsl:value-of select="concat(substring($date,1,19), 'Z')"/>
   </xsl:template>
-  
+
+  <xsl:template name="get-mimetype-from-file-extension">
+    <xsl:param name="file-extension"/>
+    <xsl:variable name="normalized-file-extension" select="normalize-space(translate($file-extension, $uppercase, $lowercase))"/>
+    <xsl:choose>
+      <xsl:when test="$mimetypes-by-file-extension-mapping//e:mimetype[@file-extension = $normalized-file-extension]">
+	<xsl:value-of select="$mimetypes-by-file-extension-mapping//e:mimetype[@file-extension = $normalized-file-extension][1]"/>
+      </xsl:when>
+      <xsl:otherwise>
+	<!-- No mimetype match found? Default to HTML mimetype :( -->
+	<xsl:text>application/xhtml+xml</xsl:text>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
 </xsl:stylesheet> 
