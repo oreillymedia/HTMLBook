@@ -98,7 +98,7 @@
   <!-- Id to use to reference cover image -->
   <xsl:param name="metadata.cover.id" select="'cover-image'"/>
 
-  <xsl:parma name="metadata.cover.filename" select="//h:figure[@data-type = 'cover'][1]/h:img[1]/@src"/>
+  <xsl:param name="metadata.cover.filename" select="//h:figure[@data-type = 'cover'][1]/h:img[1]/@src"/>
 
   <xsl:param name="metadata.ibooks-specified-fonts" select="1"/>
 
@@ -281,11 +281,17 @@ UbuntuMono-Italic.otf
 	  <xsl:if test="count($metadata.creators) &gt; 0">
 	    <!-- Use just one dc:creator element for all authors, as that sadly gives better results in ereaders -->
 	    <dc:creator>	      
-	      <xsl:for-each select="$metadata.contributors">
+	      <xsl:for-each select="$metadata.creators">
+		<xsl:if test="count($metadata.creators) &gt; 2 and position() != 1">
+		  <xsl:text>,</xsl:text>
+		</xsl:if>
+		<xsl:if test="count($metadata.creators) &gt; 1 and position() != 1">
+		  <xsl:text> </xsl:text>
+		</xsl:if>
+		<xsl:if test="count($metadata.creators) &gt; 1 and position() = last()">
+		  <xsl:text>and </xsl:text>
+		</xsl:if>
 		<xsl:value-of select="@content"/>
-		<xsl:if test="count($metadata.contributors) &gt; 2 and position() != last()">, </xsl:if>
-		<xsl:if test="(count($metadata.contributors) = 2 and position() != last()) or 
-			      (count($metadata.contributors) &gt; 2 and (position() + 1 = position(last())))">and </xsl:if>
 	      </xsl:for-each>
 	    </dc:creator>
 	    <xsl:for-each select="$metadata.contributors">
