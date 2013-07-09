@@ -23,6 +23,9 @@
   <!-- Imports chunk.xsl -->
   <xsl:import href="chunk.xsl"/>
 
+  <!-- Nodes by name -->
+  <xsl:key name="nodes-by-name" match="*" use="local-name()"/>
+
   <!-- EPUB-specific parameters -->
   <xsl:param name="opf.namespace" select="'http://www.idpf.org/2007/opf'"/>
 
@@ -101,6 +104,9 @@
 
   <!-- Id to use to reference cover image -->
   <xsl:param name="epub.cover.image.id" select="'cover-image'"/>
+
+  <!-- ID to use to reference cover filename -->
+  <xsl:param name="epub.cover.html.id" select="'cover'"/>
 
   <xsl:param name="metadata.cover.filename" select="//h:figure[@data-type = 'cover'][1]/h:img[1]/@src"/>
 
@@ -341,7 +347,7 @@ UbuntuMono-Italic.otf
 	  <xsl:if test="$generate.cover.html = 1">
 	    <item>
 	      <xsl:attribute name="id">
-		<xsl:value-of select="$epub.cover.image.id"/>
+		<xsl:value-of select="$epub.cover.html.id"/>
 	      </xsl:attribute>
 	      <xsl:attribute name="href">
 		<xsl:value-of select="$cover.html.filename"/>
@@ -353,10 +359,50 @@ UbuntuMono-Italic.otf
 	      </xsl:attribute>
 	    </item>
 	  <!-- Add images to manifest -->
+	  <xsl:call-template name="manifest-images"/>
 	  </xsl:if>
 	</manifest>
       </package>
     </exsl:document>
+  </xsl:template>
+
+  <xsl:template name="manifest-images">
+    <xsl:for-each select="key('nodes-by-name', 'img')">
+      <xsl:variable name="filename" select="@src"/>
+      <xsl:variable name="file-extension">
+	<xsl:call-template name="get-extension-from-filename">
+	  <xsl:with-param name="filename" select="$filename"/>
+	</xsl:call-template>
+      </xsl:variable>
+      <xsl:message>Extension: <xsl:value-of select="$file-extension"/></xsl:message>
+      <xsl:variable name="file-mimetype">
+	<xsl:call-template name="get-mimetype-from-file-extension">
+	  <xsl:with-param name="file-extension" select="$file-extension"/>
+	</xsl:call-template>
+      </xsl:variable>
+      <item>
+	<xsl:choose>
+	  <xsl:when test="ancestor::h:figure[@data-type='cover']">
+	    <!-- Custom id and properties values if we're doing the manifest <item> for the cover image -->
+	    <xsl:attribute name="id">
+	      <xsl:value-of select="$epub.cover.image.id"/>
+	    </xsl:attribute>
+	    <xsl:attribute name="properties">cover-image</xsl:attribute>
+	  </xsl:when>
+	  <xsl:otherwise>
+	    <xsl:attribute name="id">
+	      <xsl:value-of select="concat('img-', generate-id())"/>
+	    </xsl:attribute>
+	  </xsl:otherwise>
+	</xsl:choose>
+	<xsl:attribute name="href">
+	  <xsl:value-of select="$filename"/>
+	</xsl:attribute>
+	<xsl:attribute name="media-type">
+	  <xsl:value-of select="$file-mimetype"/>
+	</xsl:attribute>
+      </item>
+    </xsl:for-each>
   </xsl:template>
 
   <!-- borrowed from docbook-xsl epub3/epub3-element-mods.xsl -->
@@ -370,6 +416,24 @@ UbuntuMono-Italic.otf
     <!-- Currently it just converts the local time to this format, which is                                                                                                           
 	 not the correct UTC time. -->
     <xsl:value-of select="concat(substring($date,1,19), 'Z')"/>
+  </xsl:template>
+
+  <xsl:template name="get-extension-from-filename">
+    <xsl:param name="filename"/>
+    <xsl:choose>
+      <!-- No extension :( -->
+      <xsl:when test="not(contains($filename, '.'))"/>
+      <!-- Just one dot in filename; extension is whatever's after it -->
+      <xsl:when test="not(contains(substring-after($filename, '.'), '.'))">
+	<xsl:value-of select="substring-after($filename, '.')"/>
+      </xsl:when>
+      <xsl:otherwise>
+	<!-- Multiple dots; recurse to get last one -->
+	<xsl:call-template name="get-extension-from-filename">
+	  <xsl:with-param name="filename" select="substring-after($filename, '.')"/>
+	</xsl:call-template>
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
 
   <xsl:template name="get-mimetype-from-file-extension">
