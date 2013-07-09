@@ -360,6 +360,8 @@ UbuntuMono-Italic.otf
 	    </item>
 	  <!-- Add images to manifest -->
 	  <xsl:call-template name="manifest-images"/>
+	  <!-- Add HTML documents to manifest -->
+	  <xsl:call-template name="manifest-html"/>
 	  </xsl:if>
 	</manifest>
       </package>
@@ -374,7 +376,6 @@ UbuntuMono-Italic.otf
 	  <xsl:with-param name="filename" select="$filename"/>
 	</xsl:call-template>
       </xsl:variable>
-      <xsl:message>Extension: <xsl:value-of select="$file-extension"/></xsl:message>
       <xsl:variable name="file-mimetype">
 	<xsl:call-template name="get-mimetype-from-file-extension">
 	  <xsl:with-param name="file-extension" select="$file-extension"/>
@@ -404,6 +405,46 @@ UbuntuMono-Italic.otf
       </item>
     </xsl:for-each>
   </xsl:template>
+
+  <xsl:template name="manifest-html">
+    <xsl:for-each select="key('chunks', 1)">
+      <item>
+	<xsl:attribute name="id">
+	  <xsl:value-of select="concat(@data-type, '-', generate-id())"/>
+	</xsl:attribute>
+	<xsl:variable name="output-filename">
+	  <xsl:call-template name="output-filename-for-chunk"/>
+	</xsl:variable>
+	<xsl:variable name="full-output-filename">
+	  <xsl:call-template name="full-output-filename">
+	    <xsl:with-param name="output-filename" select="$output-filename"/>
+	  </xsl:call-template>
+	</xsl:variable>
+	<xsl:attribute name="href">
+	  <xsl:value-of select="$full-output-filename"/>
+	</xsl:attribute>
+	<xsl:attribute name="media-type">
+	  <xsl:call-template name="get-mimetype-from-file-extension">
+	    <xsl:with-param name="file-extension" select="'html'"/>
+	  </xsl:call-template>
+	</xsl:attribute>
+	<xsl:variable name="properties">
+	  <xsl:apply-templates select="." mode="opf.manifest.properties"/>
+	</xsl:variable>
+	<xsl:if test="$properties != ''">
+	  <xsl:attribute name="properties">
+	    <xsl:value-of select="$properties"/>
+	  </xsl:attribute>
+	</xsl:if>
+      </item>
+    </xsl:for-each>
+  </xsl:template>
+
+  <xsl:template match="h:nav[@data-type='toc' and not(preceding::h:nav[@data-type='toc'])]" mode="opf.manifest.properties">
+    <xsl:text>nav</xsl:text>
+  </xsl:template>
+
+  <xsl:template match="*" mode="opf.manifest.properties"/>
 
   <!-- borrowed from docbook-xsl epub3/epub3-element-mods.xsl -->
   <xsl:template name="convert.date.to.utc">
