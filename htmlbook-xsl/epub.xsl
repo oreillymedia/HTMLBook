@@ -393,7 +393,7 @@ UbuntuMono-Italic.otf
 	  </xsl:when>
 	  <xsl:otherwise>
 	    <xsl:attribute name="id">
-	      <xsl:value-of select="concat('img-', generate-id())"/>
+	      <xsl:apply-templates select="." mode="opf.id"/>
 	    </xsl:attribute>
 	  </xsl:otherwise>
 	</xsl:choose>
@@ -411,7 +411,7 @@ UbuntuMono-Italic.otf
     <xsl:for-each select="key('chunks', 1)">
       <item>
 	<xsl:attribute name="id">
-	  <xsl:value-of select="concat(@data-type, '-', generate-id())"/>
+	  <xsl:apply-templates select="." mode="opf.id"/>
 	</xsl:attribute>
 	<xsl:variable name="output-filename">
 	  <xsl:call-template name="output-filename-for-chunk"/>
@@ -439,6 +439,20 @@ UbuntuMono-Italic.otf
 	</xsl:if>
       </item>
     </xsl:for-each>
+  </xsl:template>
+
+  <xsl:template match="*" mode="opf.id">
+    <xsl:variable name="id-prefix">
+      <xsl:choose>
+	<xsl:when test="@data-type">
+	  <xsl:value-of select="@data-type"/>
+	</xsl:when>
+	<xsl:otherwise>
+	  <xsl:value-of select="local-name()"/>
+	</xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
+    <xsl:value-of select="concat($id-prefix, '-',  generate-id())"/>
   </xsl:template>
 
   <xsl:template match="h:nav[@data-type='toc' and not(preceding::h:nav[@data-type='toc'])]" mode="opf.manifest.properties">
