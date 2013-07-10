@@ -452,9 +452,20 @@ UbuntuMono-Italic.otf
 	<xsl:with-param name="element-name" select="'math'"/>
       </xsl:call-template>
     </xsl:variable>
-    <xsl:if test="$mathml-in-chunk = 1">
-      <xsl:text>mathml</xsl:text>
-    </xsl:if>
+    <xsl:variable name="svg-in-chunk">
+      <xsl:call-template name="has-element-in-chunk">
+	<xsl:with-param name="element-name" select="'svg'"/>
+      </xsl:call-template>
+    </xsl:variable>
+    <xsl:variable name="properties-list">
+      <xsl:if test="$mathml-in-chunk = 1">
+	<xsl:text> mathml</xsl:text>
+      </xsl:if>
+      <xsl:if test="$svg-in-chunk = 1">
+	<xsl:text> svg</xsl:text>
+      </xsl:if>
+    </xsl:variable>
+    <xsl:value-of select="normalize-space($properties-list)"/>
   </xsl:template>
 
   <xsl:template name="has-element-in-chunk">
