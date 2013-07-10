@@ -476,8 +476,8 @@ UbuntuMono-Italic.otf
     <xsl:param name="element-descendants" select="$chunk//*[local-name() = $element-name]"/>
     <xsl:for-each select="$element-descendants[1]">
       <xsl:choose>
-	<!-- Check if the element's  nearest chunk ancestor is the chunk in question... -->
-	<xsl:when test="ancestor::*[htmlbook:is-chunk(.) = 1 and not(descendant::*[htmlbook:is-chunk(.) = 1])][generate-id() = $chunk-id]">
+	<!-- Check if the element's nearest chunk ancestor is the chunk in question... -->
+	<xsl:when test="ancestor::*[htmlbook:is-chunk(.) = 1 and not(descendant::*[htmlbook:is-chunk(.) = 1][descendant::*[generate-id() = generate-id($element-descendants[1])]])][generate-id() = $chunk-id]">
 	  <!--...It is: We have $element-name in this chunk! -->
 	  <xsl:message><xsl:value-of select="$chunk/@id"/></xsl:message>
 	  <xsl:text>1</xsl:text>
