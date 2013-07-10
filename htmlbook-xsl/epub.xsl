@@ -19,6 +19,7 @@
 
   <!-- Generate an EPUB from HTMLBook source. -->
   <!-- ToDo: Logic for generating cover.html -->
+  <!-- ToDo: Refactor MathML/SVG in chunk logic as an exslt function? -->
 
   <!-- Imports chunk.xsl -->
   <xsl:import href="chunk.xsl"/>
@@ -444,7 +445,42 @@ UbuntuMono-Italic.otf
     <xsl:text>nav</xsl:text>
   </xsl:template>
 
-  <xsl:template match="*" mode="opf.manifest.properties"/>
+  <xsl:template match="*" mode="opf.manifest.properties">
+    <!-- Check to see if the chunk contains either MathML or SVG content, which requires additional properties to be specified -->
+    <xsl:variable name="mathml-in-chunk">
+      <xsl:call-template name="has-mathml-in-chunk"/>
+    </xsl:variable>
+    <xsl:if test="$mathml-in-chunk = 1">
+      <xsl:text>mathml</xsl:text>
+    </xsl:if>
+  </xsl:template>
+
+  <xsl:template name="has-mathml-in-chunk">
+    <xsl:param name="chunk" select="."/>
+    <xsl:param name="chunk-id" select="generate-id()"/>
+    <xsl:param name="mathml-descendants" select="$chunk//m:math"/>
+    <xsl:for-each select="$mathml-descendants[1]">
+      <xsl:choose>
+	<!-- Check if the MathML's nearest chunk ancestor is the chunk in question... -->
+	<xsl:when test="ancestor::*[htmlbook:is-chunk(.) = 1 and not(descendant::*[htmlbook:is-chunk(.) = 1])][generate-id() = $chunk-id]">
+	  <!--...It is: We have MathML in this chunk! -->
+	  <xsl:message><xsl:value-of select="$chunk/@id"/></xsl:message>
+	  <xsl:text>1</xsl:text>
+	</xsl:when>
+	<xsl:otherwise>
+	  <!--...It's not. Recurse to test the rest of MathML element descendants to see if they're in the chunk in question -->
+	  <xsl:if test="count($mathml-descendants) &gt; 1">
+	    <xsl:message><xsl:value-of select="$chunk/@id"/>: Recurse</xsl:message>
+	    <xsl:call-template name="has-mathml-in-chunk">
+	      <xsl:with-param name="chunk" select="$chunk"/>
+	      <xsl:with-param name="chunk-id" select="$chunk-id"/>
+	      <xsl:with-param name="mathml-descendants" select="$mathml-descendants[not(position() = 1)]"/>
+	    </xsl:call-template>
+	  </xsl:if>
+	</xsl:otherwise>
+      </xsl:choose>
+    </xsl:for-each>
+  </xsl:template>
 
   <!-- borrowed from docbook-xsl epub3/epub3-element-mods.xsl -->
   <xsl:template name="convert.date.to.utc">
