@@ -479,13 +479,11 @@ UbuntuMono-Italic.otf
 	<!-- Check if the element's nearest chunk ancestor is the chunk in question... -->
 	<xsl:when test="ancestor::*[htmlbook:is-chunk(.) = 1 and not(descendant::*[htmlbook:is-chunk(.) = 1][descendant::*[generate-id() = generate-id($element-descendants[1])]])][generate-id() = $chunk-id]">
 	  <!--...It is: We have $element-name in this chunk! -->
-	  <xsl:message><xsl:value-of select="$chunk/@id"/></xsl:message>
 	  <xsl:text>1</xsl:text>
 	</xsl:when>
 	<xsl:otherwise>
 	  <!--...It's not. Recurse to test the rest of element descendants to see if they're in the chunk in question -->
 	  <xsl:if test="count($element-descendants) &gt; 1">
-	    <xsl:message><xsl:value-of select="$chunk/@id"/>: Recurse</xsl:message>
 	    <xsl:call-template name="has-element-in-chunk">
 	      <xsl:with-param name="chunk" select="$chunk"/>
 	      <xsl:with-param name="chunk-id" select="$chunk-id"/>
