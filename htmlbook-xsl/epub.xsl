@@ -48,6 +48,12 @@
 
   <xsl:param name="opf.filename" select="'content.opf'"/>
 
+  <xsl:variable name="full.opf.filename">
+    <xsl:call-template name="full-output-filename">
+      <xsl:with-param name="output-filename" select="$opf.filename"/>
+    </xsl:call-template>
+  </xsl:variable>
+
   <!-- Outputdir is the main content dir -->
   <xsl:param name="outputdir" select="'OEBPS'"/>
 
@@ -147,9 +153,6 @@
   <!-- ID to use in the manifest for the NCX TOC (if $generate.ncx.toc is enabled) -->
   <xsl:param name="ncx.toc.id">toc.ncx</xsl:param>
 
-  <!-- Mimetype to use in the manifest for the NCX TOC (if $generate.ncx.toc is enabled) -->
-  <xsl:param name="ncx.toc.mimetype">application/x-dtbncx+xml</xsl:param>
-
   <!-- Filename for custom CSS to be embedded in EPUB; leave blank if none -->
   <xsl:param name="css.filename">epub.css</xsl:param>
 
@@ -233,12 +236,28 @@ UbuntuMono-Italic.otf
     </exsl:document>
   </xsl:template>
 
+  <xsl:template name="generate.meta-inf">
+    <!-- Outputs "META-INF" directory with container.xml file that meets EPUB 3.0 specifications: http://www.idpf.org/epub/30/spec/epub30-ocf.html#sec-container-metainf -->
+    <!-- Override this template if you want to customize "META-INF" output (no support for multiple <rootfile> elements at this time) -->
+    <exsl:document href="META-INF/container.xml" method="xml" encoding="UTF-8">
+      <container version="1.0" xmlns="urn:oasis:names:tc:opendocument:xmlns:container">
+	<rootfiles>
+	  <rootfile>
+	    <xsl:attribute name="full-path">
+	      <xsl:value-of select="$full.opf.filename"/>
+	    </xsl:attribute>
+	    <xsl:attribute name="media-type">
+	      <xsl:call-template name="get-mimetype-from-file-extension">
+		<xsl:with-param name="file-extension" select="'opf'"/>
+	      </xsl:call-template>
+	    </xsl:attribute>
+	  </rootfile>
+	</rootfiles>
+      </container>
+    </exsl:document>
+  </xsl:template>
+
   <xsl:template name="generate.opf">
-    <xsl:variable name="full.opf.filename">
-      <xsl:call-template name="full-output-filename">
-	<xsl:with-param name="output-filename" select="$opf.filename"/>
-      </xsl:call-template>
-    </xsl:variable>
     <exsl:document href="{$full.opf.filename}" method="xml" encoding="UTF-8">
       <package version="3.0" unique-identifier="{$metadata.unique-identifier.id}">
 	<xsl:if test="$metadata.ibooks-specified-fonts = 1">
@@ -358,7 +377,13 @@ UbuntuMono-Italic.otf
 	<manifest>
 	  <!-- Add NCX TOC to EPUB manifest, if it will be included in the EPUB package -->
 	  <xsl:if test="$generate.ncx.toc = 1">
-	    <item id="{$ncx.toc.id}" href="{$ncx.toc.filename}" media-type="{$ncx.toc.mimetype}"/>
+	    <item id="{$ncx.toc.id}" href="{$ncx.toc.filename}">
+	      <xsl:attribute name="media-type">
+		<xsl:call-template name="get-mimetype-from-file-extension">
+		  <xsl:with-param name="file-extension" select="'ncx'"/>
+		</xsl:call-template>
+	      </xsl:attribute>
+	    </item>
 	  </xsl:if>
 	  <!-- Add custom CSS to manifest, if present -->
 	  <xsl:if test="$css.filename != ''">
