@@ -13,9 +13,9 @@
 		xmlns:h="http://www.w3.org/1999/xhtml"
 		xmlns:htmlbook="https://github.com/oreillymedia/HTMLBook"
 		xmlns:func="http://exslt.org/functions"
-		xmlns="http://www.w3.org/1999/xhtml"
+		xmlns="http://www.idpf.org/2007/opf"
 		extension-element-prefixes="exsl func set date"
-		exclude-result-prefixes="exsl h func set date">
+		exclude-result-prefixes="date e exsl func h htmlbook m ncx opf set svg">
 
   <!-- Generate an EPUB from HTMLBook source. -->
   <!-- ToDo: Logic for generating cover.html -->
@@ -38,6 +38,9 @@
     <!-- By default, try to pull from meta element in head -->
     <xsl:value-of select="//h:head/h:meta[contains(@name, 'identifier')][1]/@content"/>
   </xsl:param>
+
+  <!-- ID to use on the dc:identifier element corresponding to the EPUB unique identifier -->
+  <xsl:param name="metadata.unique-identifier.id" select="'pub-identifier'"/>
 
   <xsl:param name="opf.filename" select="'content.opf'"/>
 
@@ -220,17 +223,17 @@ UbuntuMono-Italic.otf
 
   <xsl:template name="generate.opf">
     <exsl:document href="{$outputdir}/{$opf.filename}" method="xml" encoding="UTF-8">
-      <package namespace="{$opf.namespace}">
+      <package version="3.0" unique-identifier="{$metadata.unique-identifier.id}">
+	<xsl:if test="$metadata.ibooks-specified-fonts = 1">
+	  <xsl:attribute name="prefix">
+	    <xsl:text>ibooks: http://vocabulary.itunes.apple.com/rdf/ibooks/vocabulary-extensions-1.0/</xsl:text>
+	  </xsl:attribute>
+	</xsl:if>
 	<xsl:for-each select="exsl:node-set($package.namespaces)//*/namespace::*">
 	  <xsl:copy-of select="."/>
 	</xsl:for-each>
 	<metadata>
-	  <xsl:if test="$metadata.unique-identifier != ''">
-	    <dc:identifier id="pub-identifier">
-	      <xsl:value-of select="$metadata.unique-identifier"/>
-	    </dc:identifier>
-	  </xsl:if>
-	  <dc:identifier id="pub-identifier">
+	  <dc:identifier id="{$metadata.unique-identifier.id}">
 	    <xsl:value-of select="$metadata.unique-identifier"/>
 	  </dc:identifier>
 	  <meta id="meta-identifier" property="dcterms:identifier">
