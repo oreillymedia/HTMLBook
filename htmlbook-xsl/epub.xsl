@@ -29,6 +29,8 @@
   <!-- Imports chunk.xsl -->
   <xsl:import href="chunk.xsl"/>
 
+  <xsl:include href="ncx.xsl"/>
+
   <!-- Nodes by name -->
   <xsl:key name="nodes-by-name" match="*" use="local-name()"/>
 
@@ -220,6 +222,9 @@ UbuntuMono-Italic.otf
 
   <xsl:template match="/">
     <xsl:call-template name="generate.opf"/>
+    <xsl:if test="$generate.ncx.toc = 1">
+      <xsl:call-template name="generate.ncx.toc"/>
+    </xsl:if>
     <xsl:call-template name="generate.mimetype"/>
     <xsl:call-template name="generate.meta-inf"/>
     <xsl:apply-imports/>
