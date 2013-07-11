@@ -43,10 +43,6 @@ sect5:s
   </xsl:param>
 
   <!-- Specify an output directory for chunked files; otherwise defaults to current directory -->
-  <!-- Todo: deal with situation where nested exsl:document calls change context directory on which relative filepaths are based, resulting in nested outputdir/outputdir filenames for chunks within chunks -->
-  <!-- From the docs at http://www.exslt.org/exsl/elements/document/ -->
-  <!--  When the href attribute of a subsidiary document is a relative URI, the relative URI is resolved into an absolute URI only if and when the subsidiary document is output. The output URI of the document with which the subsidiary document is associated (ie the output URI of its parent in the tree of documents) is used as the base URI. The resulting absolute URI is used as the output URI of the subsidiary document. -->
-  <!-- Simplest solution might just be to prepend ".." as needed -->
   <xsl:param name="outputdir"/>
 
   <xsl:template match="/h:html">
@@ -68,9 +64,6 @@ sect5:s
 	<xsl:variable name="output-filename">
 	  <xsl:call-template name="output-filename-for-chunk"/>
 	</xsl:variable>
-	<!-- <xsl:message>Output filename: <xsl:value-of select="$output-filename"/></xsl:message> -->
-
-	<!-- <xsl:message>Full output filename: <xsl:value-of select="$full-output-filename"/></xsl:message> -->
 	<xsl:call-template name="write-chunk">
 	  <xsl:with-param name="output-filename" select="$output-filename"/>
 	</xsl:call-template>
@@ -82,11 +75,41 @@ sect5:s
   </xsl:template>
 
   <xsl:template name="full-output-filename">
+    <!-- NOTES ON LOGIC FOR THIS TEMPLATE -->
+    <!-- Nested exsl:document calls change context directory on which relative filepaths are based, 
+	 resulting in nested outputdir/outputdir filenames for chunks within chunks -->
+    <!-- From the docs at http://www.exslt.org/exsl/elements/document/ -->
+    <!-- When the href attribute of a subsidiary document is a relative URI, 
+	 the relative URI is resolved into an absolute URI only if and when the subsidiary document is output. 
+	 The output URI of the document with which the subsidiary document is associated (ie the output URI of 
+	 its parent in the tree of documents) is used as the base URI. The resulting absolute URI is used as the 
+	 output URI of the subsidiary document. -->
+    <!-- As a workaround, we just omit $outputdir from $full-output-filename for nested chunks
+	 to ensure that all chunk documents are in the same output directory -->
+    <xsl:param name="chunk" select="."/>
     <xsl:param name="output-filename"/>
-    <xsl:variable name="full-output-filename">
-      <xsl:if test="$outputdir != ''">
-	<xsl:value-of select="concat($outputdir, '/')"/>
+    
+    <xsl:variable name="chars-to-append-to-outputdir">
+      <xsl:if test="$outputdir != '' and substring($outputdir, string-length($outputdir), 1) != '/'">
+	<!-- Append a / if outputdir doesn't already end with one --> 
+	<xsl:text>/</xsl:text>
       </xsl:if>
+    </xsl:variable>
+      
+    <xsl:variable name="full-output-filename">
+      <!-- Check if we've got an absolute filepath in $outputdir, or if $outputdir is specified and we're *not* processing a nested chunk -->
+      <xsl:choose>
+	<!-- $outputdir is specified and is absolute filepath; we should include it -->
+	<xsl:when test="starts-with($outputdir, '/')">
+	  <xsl:value-of select="concat($outputdir, $chars-to-append-to-outputdir)"/>
+	</xsl:when>
+	<xsl:when test="$outputdir != '' and not($chunk[ancestor::*[htmlbook:is-chunk() = 1]])">
+	  <!-- $outputdir is specified, and *is not* absolute filepath, and *is not* a nested chunk -->
+	  <!-- Because this *is not* a nested chunk, we need to include $outputdir in full file path -->
+	  <xsl:value-of select="concat($outputdir, $chars-to-append-to-outputdir)"/>
+	</xsl:when>	
+	<!-- In all other cases (i.e., we're processing a nested chunk, or $outputdir was not specified), we can omit $outputdir from $full-output-filename -->
+      </xsl:choose>
       <xsl:value-of select="$output-filename"/>
     </xsl:variable>
     <xsl:value-of select="$full-output-filename"/>
@@ -99,7 +122,6 @@ sect5:s
 	<xsl:with-param name="output-filename" select="$output-filename"/>
       </xsl:call-template>
     </xsl:variable>
-<!--    <xsl:message><xsl:value-of select="$full-output-filename"/></xsl:message> -->
     <exsl:document href="{$full-output-filename}" method="xml" encoding="UTF-8">
       <xsl:value-of select="'&lt;!DOCTYPE html&gt;'" disable-output-escaping="yes"/>
       <!-- Only add the <html>/<head> if they don't already exist -->
