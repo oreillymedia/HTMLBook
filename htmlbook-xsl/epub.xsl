@@ -195,12 +195,9 @@ UbuntuMono-Italic.otf
 	    <xsl:value-of select="normalize-space(substring-after($font-filename, '.'))"/>
 	  </xsl:variable>
 	  <xsl:variable name="font-mimetype">
-	    <xsl:choose>
-	      <xsl:when test="$font-extension = 'otf'">application/vnd.ms-opentype</xsl:when>
-	      <xsl:when test="$font-extension = 'ttf'">font/truetype</xsl:when>
-	      <!-- Default to opentype font -->
-	      <xsl:otherwise>application/vnd.ms-opentype</xsl:otherwise>
-	    </xsl:choose>
+	    <xsl:call-template name="get-mimetype-from-file-extension">
+	      <xsl:with-param name="file-extension" select="$font-extension"/>
+	    </xsl:call-template>
 	  </xsl:variable>
 	  <e:font filename="{$font-filename}" mimetype="{$font-mimetype}"/>
 	  <xsl:if test="normalize-space(substring-after($fonts.to.process, '&#x0A;')) != ''">
@@ -387,7 +384,13 @@ UbuntuMono-Italic.otf
 	  </xsl:if>
 	  <!-- Add custom CSS to manifest, if present -->
 	  <xsl:if test="$css.filename != ''">
-	    <item id="{$css.id}" href="{$css.filename}" media-type="text/css"/>
+	    <item id="{$css.id}" href="{$css.filename}">
+	      <xsl:attribute name="media-type">
+		<xsl:call-template name="get-mimetype-from-file-extension">
+		  <xsl:with-param name="file-extension" select="'css'"/>
+		</xsl:call-template>
+	      </xsl:attribute>
+	    </item>
 	  </xsl:if>
 	  <!-- Add any embedded fonts to EPUB manifest, if they will be included in the EPUB package -->
 	  <xsl:for-each select="exsl:node-set($embedded.fonts.list.xml)//e:font">
