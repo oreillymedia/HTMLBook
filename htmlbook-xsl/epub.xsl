@@ -24,6 +24,7 @@
   <!-- ToDo: Convert @data-type to @epub:type -->
   <!-- ToDo: Logic to relativize absolute image filerefs for EPUB package? -->
   <!-- ToDo: Logic to copy over images and zip EPUB via extension -->
+  <!-- ToDo: Generate NCX TOC -->
 
   <!-- Imports chunk.xsl -->
   <xsl:import href="chunk.xsl"/>
@@ -233,7 +234,12 @@ UbuntuMono-Italic.otf
   </xsl:template>
 
   <xsl:template name="generate.opf">
-    <exsl:document href="{$outputdir}/{$opf.filename}" method="xml" encoding="UTF-8">
+    <xsl:variable name="full.opf.filename">
+      <xsl:call-template name="full-output-filename">
+	<xsl:with-param name="output-filename" select="$opf.filename"/>
+      </xsl:call-template>
+    </xsl:variable>
+    <exsl:document href="{$full.opf.filename}" method="xml" encoding="UTF-8">
       <package version="3.0" unique-identifier="{$metadata.unique-identifier.id}">
 	<xsl:if test="$metadata.ibooks-specified-fonts = 1">
 	  <xsl:attribute name="prefix">
@@ -352,7 +358,7 @@ UbuntuMono-Italic.otf
 	<manifest>
 	  <!-- Add NCX TOC to EPUB manifest, if it will be included in the EPUB package -->
 	  <xsl:if test="$generate.ncx.toc = 1">
-	    <item id="{$ncx.toc.id}" href="{$outputdir}/{$ncx.toc.filename}" media-type="{$ncx.toc.mimetype}"/>
+	    <item id="{$ncx.toc.id}" href="{$ncx.toc.filename}" media-type="{$ncx.toc.mimetype}"/>
 	  </xsl:if>
 	  <!-- Add custom CSS to manifest, if present -->
 	  <xsl:if test="$css.filename != ''">
