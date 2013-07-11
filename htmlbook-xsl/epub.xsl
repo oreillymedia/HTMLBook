@@ -20,6 +20,7 @@
   <!-- Generate an EPUB from HTMLBook source. -->
   <!-- ToDo: Logic for generating cover.html -->
   <!-- ToDo: Refactor MathML/SVG in chunk logic as an exslt function? -->
+  <!-- ToDo: Support for adding the "scripted" property in the manifest to content that contains JS -->
 
   <!-- Imports chunk.xsl -->
   <xsl:import href="chunk.xsl"/>
@@ -127,6 +128,9 @@
 
   <!-- Param to specify whether or not to include the cover HTML file in the spine (only applicable if $generate.cover.html is enabled)-->
   <xsl:param name="cover.in.spine" select="1"/>
+
+  <!-- Param to specify whether or not to include the Navigation Document (XHTML5 TOC) in the spine -->
+  <xsl:param name="nav.in.spine" select="1"/>
 
   <xsl:param name="generate.ncx.toc" select="1"/>
 
@@ -365,8 +369,38 @@ UbuntuMono-Italic.otf
 	  <xsl:call-template name="manifest-html"/>
 	  </xsl:if>
 	</manifest>
+	<xsl:call-template name="generate-spine"/>
       </package>
     </exsl:document>
+  </xsl:template>
+
+  <xsl:template name="generate-spine">
+    <spine>
+      <xsl:if test="$cover.in.spine = 1">
+	<itemref idref="{$epub.cover.html.id}"/>
+      </xsl:if>
+      <xsl:for-each select="key('chunks', 1)">
+	<xsl:apply-templates select="." mode="opf.spine.itemref"/>
+      </xsl:for-each>
+    </spine>
+  </xsl:template>
+
+  <xsl:template match="*" mode="opf.spine.itemref">
+    <itemref>
+      <xsl:attribute name="idref">
+	<xsl:apply-templates select="." mode="opf.id"/>
+      </xsl:attribute>
+    </itemref>
+  </xsl:template>
+
+  <xsl:template match="h:nav[@data-type='toc']">
+    <xsl:if test="$nav.in.spine = 1">
+      <itemref>
+	<xsl:attribute name="idref">
+	  <xsl:apply-templates select="." mode="opf.id"/>
+	</xsl:attribute>
+      </itemref>
+    </xsl:if>
   </xsl:template>
 
   <xsl:template name="manifest-images">
