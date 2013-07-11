@@ -21,6 +21,9 @@
   <!-- ToDo: Logic for generating cover.html -->
   <!-- ToDo: Refactor MathML/SVG in chunk logic as an exslt function? -->
   <!-- ToDo: Support for adding the "scripted" property in the manifest to content that contains JS -->
+  <!-- ToDo: Convert @data-type to @epub:type -->
+  <!-- ToDo: Logic to relativize absolute image filerefs for EPUB package? -->
+  <!-- ToDo: Logic to copy over images and zip EPUB via extension -->
 
   <!-- Imports chunk.xsl -->
   <xsl:import href="chunk.xsl"/>
@@ -219,6 +222,14 @@ UbuntuMono-Italic.otf
     <xsl:call-template name="generate.mimetype"/>
     <xsl:call-template name="generate.meta-inf"/>
     <xsl:apply-imports/>
+  </xsl:template>
+
+  <xsl:template name="generate.mimetype">
+    <!-- Outputs "mimetype" file that meets EPUB 3.0 specifications: http://www.idpf.org/epub/30/spec/epub30-ocf.html#physical-container-zip-->
+    <!-- Override this template if you want to customize mimetype output -->
+    <exsl:document href="mimetype" method="text">
+      <xsl:text>application/epub+zip</xsl:text>
+    </exsl:document>
   </xsl:template>
 
   <xsl:template name="generate.opf">
