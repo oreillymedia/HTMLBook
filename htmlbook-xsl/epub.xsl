@@ -144,9 +144,7 @@
   <!-- Param to specify whether or not to include the cover HTML file in the spine (only applicable if $generate.cover.html is enabled)-->
   <xsl:param name="cover.in.spine" select="1"/>
 
-  <!-- Param to specify whether or not to include the Navigation Document (XHTML5 TOC) in the spine -->
-  <xsl:param name="nav.in.spine" select="1"/>
-
+  <!-- Param to specify whether or not to generate an NCX TOC -->
   <xsl:param name="generate.ncx.toc" select="1"/>
 
   <!-- Filename to which to output the NCX TOC (if $generate.ncx.toc is enabled) -->
@@ -154,6 +152,15 @@
 
   <!-- ID to use in the manifest for the NCX TOC (if $generate.ncx.toc is enabled) -->
   <xsl:param name="ncx.toc.id">toc.ncx</xsl:param>
+
+  <!-- Include labels in NCX TOC? -->
+  <xsl:param name="ncx.toc.include.labels" select="1"/>
+
+  <!-- Param to specify whether or not to include the Navigation Document (XHTML5 TOC) in the spine -->
+  <xsl:param name="nav.in.spine" select="1"/>
+
+  <!-- Param to specify whether or not to include the Navigation Document (XHTML5 TOC) in the NCX TOC -->
+  <xsl:param name="nav.in.ncx" select="0"/>
 
   <!-- Filename for custom CSS to be embedded in EPUB; leave blank if none -->
   <xsl:param name="css.filename">epub.css</xsl:param>
@@ -446,7 +453,7 @@ UbuntuMono-Italic.otf
     </itemref>
   </xsl:template>
 
-  <xsl:template match="h:nav[@data-type='toc']">
+  <xsl:template match="h:nav[@data-type='toc']" mode="opf.spine.itemref">
     <xsl:if test="$nav.in.spine = 1">
       <itemref>
 	<xsl:attribute name="idref">
