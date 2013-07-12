@@ -44,6 +44,19 @@
 	  </text>
 	</docTitle>
 	<navMap>
+	  <!-- Only put root chunk in the NCX TOC if $ncx.include.root.chunk is enabled -->
+	  <xsl:if test="$ncx.include.root.chunk = 1">
+	    <navPoint>
+	      <xsl:attribute name="id">
+		<!-- Use OPF ids in NCX as well -->
+		<xsl:apply-templates select="/*" mode="opf.id"/>
+	      </xsl:attribute>
+	      <navLabel>
+		<xsl:value-of select="//h:body/h:h1"/>
+	      </navLabel>
+	      <content src="{$root.chunk.filename}"/>
+	    </navPoint>
+	  </xsl:if>
 	  <xsl:apply-templates select="/*" mode="ncx.toc.gen"/>
 	</navMap>
       </ncx>
@@ -55,36 +68,49 @@
     <xsl:apply-templates select="*" mode="ncx.toc.gen"/>
   </xsl:template>
 
-  <xsl:template match="h:section[not(@data-type = 'dedication' or @data-type = 'titlepage' or @data-type = 'toc' or @data-type = 'colophon' or @data-type = 'copyright-page' or @data-type = 'halftitlepage')]|h:div[@data-type='part']|h:nav[@data-type='toc']" mode="ncx.toc.gen">
-    <!-- Exclude nav elements from NCX if $nav.in.ncx != 1 -->
-    <xsl:for-each select="self::*[not(self::h:nav[$nav.in.ncx != 1])]">
-      <navPoint>
-	<xsl:attribute name="id">
-	  <!-- Use OPF ids in NCX as well -->
-	  <xsl:apply-templates select="." mode="opf.id"/>
-	</xsl:attribute>
-	<navLabel>
-	  <xsl:if test="$ncx.toc.include.labels = 1">
-	    <xsl:variable name="toc-entry-label">
-	      <xsl:apply-templates select="." mode="label.markup"/>
-	    </xsl:variable>
-	    <xsl:value-of select="normalize-space($toc-entry-label)"/>
-	    <xsl:if test="$toc-entry-label != ''">
-	      <xsl:value-of select="$label.and.title.separator"/>
-	    </xsl:if>
+  <xsl:template match="h:section[not(@data-type = 'dedication' or @data-type = 'titlepage' or @data-type = 'toc' or @data-type = 'colophon' or @data-type = 'copyright-page' or @data-type = 'halftitlepage')]|h:div[@data-type='part']" mode="ncx.toc.gen">
+    <xsl:call-template name="generate.navpoint"/>
+  </xsl:template>
+
+  <!-- Only put the Nav doc in the NCX TOC if $nav.in.ncx is enabled -->
+  <xsl:template match="h:nav[@data-type='toc']" mode="ncx.toc.gen">
+    <xsl:if test="$nav.in.ncx = 1">
+      <xsl:call-template name="generate.navpoint"/>
+    </xsl:if>
+  </xsl:template>
+
+  <xsl:template name="generate.navpoint">
+    <xsl:param name="node" select="."/>
+    <!-- Traverse down the tree and process descendant navpoints? Default is "yes" -->
+    <xsl:param name="process-descendants" select="1"/>
+    <navPoint>
+      <xsl:attribute name="id">
+	<!-- Use OPF ids in NCX as well -->
+	<xsl:apply-templates select="$node" mode="opf.id"/>
+      </xsl:attribute>
+      <navLabel>
+	<xsl:if test="$ncx.toc.include.labels = 1">
+	  <xsl:variable name="toc-entry-label">
+	    <xsl:apply-templates select="$node" mode="label.markup"/>
+	  </xsl:variable>
+	  <xsl:value-of select="normalize-space($toc-entry-label)"/>
+	  <xsl:if test="$toc-entry-label != ''">
+	    <xsl:value-of select="$label.and.title.separator"/>
 	  </xsl:if>
-	  <xsl:apply-templates select="." mode="title.markup"/>
-	</navLabel>
-	<content>
-	  <xsl:attribute name="src">
-	    <xsl:call-template name="href.target">
-	      <xsl:with-param name="object" select="."/>
-	    </xsl:call-template>
-	  </xsl:attribute>
-	</content>
-	<xsl:apply-templates select="*" mode="ncx.toc.gen"/>
-      </navPoint>
-    </xsl:for-each>
+	</xsl:if>
+	<xsl:apply-templates select="$node" mode="title.markup"/>
+      </navLabel>
+      <content>
+	<xsl:attribute name="src">
+	  <xsl:call-template name="href.target">
+	    <xsl:with-param name="object" select="$node"/>
+	  </xsl:call-template>
+	</xsl:attribute>
+      </content>
+      <xsl:if test="$process-descendants = 1">
+	<xsl:apply-templates select="$node/*" mode="ncx.toc.gen"/>
+      </xsl:if>
+    </navPoint>
   </xsl:template>
 
 </xsl:stylesheet> 
