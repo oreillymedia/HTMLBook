@@ -24,6 +24,7 @@
   <!-- ToDo: Convert @data-type to @epub:type -->
   <!-- ToDo: Logic to relativize absolute image filerefs for EPUB package? -->
   <!-- ToDo: Logic to copy over images and zip EPUB via extension -->
+  <!-- ToDo: Logic to copy over fonts; handle putting fonts in subdir? -->
   <!-- ToDo: Generate NCX TOC -->
 
   <!-- Imports chunk.xsl -->
@@ -155,6 +156,9 @@
 
   <!-- Include labels in NCX TOC? -->
   <xsl:param name="ncx.toc.include.labels" select="1"/>
+
+  <!-- Include root chunk (index.html) in NCX? -->
+  <xsl:param name="ncx.include.root.chunk" select="1"/>
 
   <!-- Param to specify whether or not to include the Navigation Document (XHTML5 TOC) in the spine -->
   <xsl:param name="nav.in.spine" select="1"/>
@@ -423,11 +427,25 @@ UbuntuMono-Italic.otf
 		</xsl:call-template>
 	      </xsl:attribute>
 	    </item>
+	  </xsl:if>
+	  <!-- Add index page to manifest -->
+	  <item>
+	    <xsl:attribute name="id">
+	      <xsl:apply-templates select="/*" mode="opf.id"/>
+	    </xsl:attribute>
+	    <xsl:attribute name="href">
+	      <xsl:value-of select="$root.chunk.filename"/>
+	    </xsl:attribute>
+	    <xsl:attribute name="media-type">
+	      <xsl:call-template name="get-mimetype-from-file-extension">
+		<xsl:with-param name="file-extension" select="'html'"/>
+	      </xsl:call-template>
+	    </xsl:attribute>
+	  </item>
 	  <!-- Add images to manifest -->
 	  <xsl:call-template name="manifest-images"/>
 	  <!-- Add HTML documents to manifest -->
 	  <xsl:call-template name="manifest-html"/>
-	  </xsl:if>
 	</manifest>
 	<xsl:call-template name="generate-spine"/>
       </package>
@@ -439,6 +457,12 @@ UbuntuMono-Italic.otf
       <xsl:if test="$cover.in.spine = 1">
 	<itemref idref="{$epub.cover.html.id}"/>
       </xsl:if>
+      <!-- Put index in spine -->
+      <itemref>
+	<xsl:attribute name="idref">
+	  <xsl:apply-templates select="/*" mode="opf.id"/>
+	</xsl:attribute>
+      </itemref>
       <xsl:for-each select="key('chunks', 1)">
 	<xsl:apply-templates select="." mode="opf.spine.itemref"/>
       </xsl:for-each>
