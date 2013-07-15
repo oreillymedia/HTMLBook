@@ -286,6 +286,11 @@
 
   <xsl:template name="generate-spine">
     <spine>
+      <xsl:if test="$generate.ncx.toc">
+	<xsl:attribute name="toc">
+	  <xsl:value-of select="$ncx.toc.id"/>
+	</xsl:attribute>
+      </xsl:if>
       <xsl:if test="$cover.in.spine = 1">
 	<itemref idref="{$epub.cover.html.id}"/>
       </xsl:if>
