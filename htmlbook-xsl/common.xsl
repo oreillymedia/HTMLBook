@@ -10,6 +10,9 @@
               encoding="UTF-8"/>
   <xsl:preserve-space elements="*"/>
 
+  <xsl:variable name="lowercase" select="'abcdefghijklmnopqrstuvwxyz'"/>
+  <xsl:variable name="uppercase" select="'ABCDEFGHIJKLMNOPQRSTUVWXYZ'"/>
+
   <!-- key for getting elements by id -->
   <xsl:key name="id" match="*" use="@id"/>
 

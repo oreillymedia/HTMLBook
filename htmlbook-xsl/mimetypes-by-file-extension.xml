@@ -1,0 +1,20 @@
+<mimetypes-by-file-extension xmlns="http://github.com/oreillymedia/epubrenderer">
+  <mimetype file-extension="html">application/xhtml+xml</mimetype>
+  <mimetype file-extension="css">text/css</mimetype>
+  <mimetype file-extension="xhtml">application/xhtml+xml</mimetype>
+  <mimetype file-extension="ncx">application/x-dtbncx+xml</mimetype>
+  <mimetype file-extension="opf">application/oebps-package+xml</mimetype>
+  <mimetype file-extension="otf">application/vnd.ms-opentype</mimetype>
+  <mimetype file-extension="ttf">font/truetype</mimetype>
+  <mimetype file-extension="svg">image/svg+xml</mimetype>
+  <mimetype file-extension="mml">application/mathml+xml</mimetype>
+  <mimetype file-extension="bmp">image/bmp</mimetype>
+  <mimetype file-extension="gif">image/gif</mimetype>
+  <mimetype file-extension="ps">application/postscript</mimetype>
+  <mimetype file-extension="pdf">application/pdf</mimetype>
+  <mimetype file-extension="png">image/png</mimetype>
+  <mimetype file-extension="jpg">image/jpeg</mimetype>
+  <mimetype file-extension="jpeg">image/jpeg</mimetype>
+  <mimetype file-extension="tif">image/tiff</mimetype>
+  <mimetype file-extension="tiff">image/tiff</mimetype>
+</mimetypes-by-file-extension>
