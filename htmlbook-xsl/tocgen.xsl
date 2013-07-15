@@ -7,8 +7,6 @@
 		extension-element-prefixes="func"
 		exclude-result-prefixes="h func">
 
-<!-- Functionality still ToDo: Setting TOC section depth (e.g., how many levels of sections to include in TOC) -->
-
   <xsl:output method="xml"
               encoding="UTF-8"/>
   <xsl:preserve-space elements="*"/>
