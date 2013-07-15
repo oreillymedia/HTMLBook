@@ -99,6 +99,13 @@ sect5:none
   <!-- Specify whether to include number labels in TOC entries -->
   <xsl:param name="toc-include-labels" select="0"/>
 
+  <!-- Specify how many levels of sections to include in TOC. 
+       A $toc.section.depth of 0 indicates only chapter-level headings and above to be included in TOC
+       A $toc.section depth of 1 indicates only sect1-level headings and above to be included in TOC
+       And so on...
+    -->
+  <xsl:param name="toc.section.depth" select="2"/>
+
   <!-- XREF-specific params -->
   <xsl:param name="autogenerate-xrefs" select="1"/>
   
