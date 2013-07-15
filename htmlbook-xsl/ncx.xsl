@@ -44,7 +44,9 @@
 		  <xsl:apply-templates select="/*" mode="opf.id"/>
 		</xsl:attribute>
 		<navLabel>
-		  <xsl:value-of select="//h:body/h:h1"/>
+		  <text>
+		    <xsl:value-of select="//h:body/h:h1"/>
+		  </text>
 		</navLabel>
 	      <content src="{$root.chunk.filename}"/>
 	      </navPoint>
@@ -99,16 +101,18 @@
 	<xsl:apply-templates select="$node" mode="opf.id"/>
       </xsl:attribute>
       <navLabel>
-	<xsl:if test="$ncx.toc.include.labels = 1">
-	  <xsl:variable name="toc-entry-label">
-	    <xsl:apply-templates select="$node" mode="label.markup"/>
-	  </xsl:variable>
-	  <xsl:value-of select="normalize-space($toc-entry-label)"/>
-	  <xsl:if test="$toc-entry-label != ''">
-	    <xsl:value-of select="$label.and.title.separator"/>
+	<text>
+	  <xsl:if test="$ncx.toc.include.labels = 1">
+	    <xsl:variable name="toc-entry-label">
+	      <xsl:apply-templates select="$node" mode="label.markup"/>
+	    </xsl:variable>
+	    <xsl:value-of select="normalize-space($toc-entry-label)"/>
+	    <xsl:if test="$toc-entry-label != ''">
+	      <xsl:value-of select="$label.and.title.separator"/>
+	    </xsl:if>
 	  </xsl:if>
-	</xsl:if>
-	<xsl:apply-templates select="$node" mode="title.markup"/>
+	  <xsl:apply-templates select="$node" mode="title.markup"/>
+	</text>
       </navLabel>
       <content>
 	<xsl:attribute name="src">
