@@ -124,7 +124,7 @@
 		</xsl:call-template>
 	      </span>
             </h3>
-            <dl>
+            <ul>
               <xsl:apply-templates select="$others[count(.|key('primary', normalize-space(concat(@data-primary-sortas, &quot; &quot;, @data-primary)))[count(ancestor::node()|$scope) = count(ancestor::node()) and ($role = @role or $type = @type or (string-length($role) = 0 and string-length($type) = 0))][1]) = 1]" mode="index-symbol-div">
                 <xsl:with-param name="position" select="position()"/>                                
                 <xsl:with-param name="scope" select="$scope"/>
@@ -132,7 +132,7 @@
                 <xsl:with-param name="type" select="$type"/>
                 <xsl:sort select="translate(normalize-space(concat(@data-primary-sortas, &quot; &quot;, @data-primary)), $index-letter-chars, $index-letter-chars-normalized)"/>
               </xsl:apply-templates>
-            </dl>
+            </ul>
           </div>
         </xsl:when>
         <xsl:when test="normalize-space($type) != ''"> 
@@ -148,7 +148,7 @@
 		</xsl:call-template>
 	      </span>
             </h3>
-            <dl>
+            <ul>
               <xsl:apply-templates select="$others[count(.|key('primary',                                           normalize-space(concat(@data-primary-sortas, &quot; &quot;, @data-primary)))[count(ancestor::node()|$scope) = count(ancestor::node()) and ($role = @role or $type = @type or (string-length($role) = 0 and string-length($type) = 0))][1]) = 1]" mode="index-symbol-div">
                 <xsl:with-param name="position" select="position()"/>                                
                 <xsl:with-param name="scope" select="$scope"/>
@@ -156,7 +156,7 @@
                 <xsl:with-param name="type" select="$type"/>
                 <xsl:sort select="translate(normalize-space(concat(@data-primary-sortas, &quot; &quot;, @data-primary)), $index-letter-chars, $index-letter-chars-normalized)"/>
               </xsl:apply-templates>
-            </dl>
+            </ul>
           </div>
         </xsl:otherwise>
       </xsl:choose>
@@ -186,7 +186,7 @@
           <xsl:value-of select="translate($key, $index-letter-chars, $index-letter-chars-normalized)"/>
         </h3>
       </xsl:if>
-      <dl>
+      <ul>
         <xsl:apply-templates select="key('letter', $key)[count(ancestor::node()|$scope) = count(ancestor::node()) and ($role = @role or $type = @type or (string-length($role) = 0 and string-length($type) = 0))]                                      [count(.|key('primary', normalize-space(concat(@data-primary-sortas, &quot; &quot;, @data-primary)))                                      [count(ancestor::node()|$scope) = count(ancestor::node()) and ($role = @role or $type = @type or (string-length($role) = 0 and string-length($type) = 0))][1])=1]" mode="index-primary">
           <xsl:with-param name="position" select="position()"/>
           <xsl:with-param name="scope" select="$scope"/>
@@ -194,7 +194,7 @@
           <xsl:with-param name="type" select="$type"/>
           <xsl:sort select="translate(normalize-space(concat(@data-primary-sortas, &quot; &quot;, @data-primary)), $index-letter-chars, $index-letter-chars-normalized)"/>
         </xsl:apply-templates>
-      </dl>
+      </ul>
     </div>
   </xsl:if>
 </xsl:template>
@@ -222,7 +222,7 @@
 
   <xsl:variable name="key" select="normalize-space(concat(@data-primary-sortas, &quot; &quot;, @data-primary))"/>
   <xsl:variable name="refs" select="key('primary', $key)[count(ancestor::node()|$scope) = count(ancestor::node()) and ($role = @role or $type = @type or (string-length($role) = 0 and string-length($type) = 0)) and not(@data-startref)]"/>
-  <dt>
+  <li>
     <xsl:value-of select="@data-primary"/>
     <xsl:choose>
       <xsl:when test="$index.links.to.section = 1">
@@ -256,33 +256,25 @@
         <xsl:sort select="translate(@data-see, $index-letter-chars, $index-letter-chars-normalized)"/>
       </xsl:apply-templates>
     </xsl:if>
-  </dt>
-  <xsl:choose>
-    <xsl:when test="$refs/@data-secondary or $refs[not(@data-secondary)]/@data-seealso">
-      <dd>
-        <dl>
-          <xsl:apply-templates select="$refs[generate-id() = generate-id(key('see-also', concat(normalize-space(concat(@data-primary-sortas, &quot; &quot;, @data-primary)), &quot; &quot;, &quot; &quot;, &quot; &quot;, @data-seealso))[count(ancestor::node()|$scope) = count(ancestor::node()) and ($role = @role or $type = @type or (string-length($role) = 0 and string-length($type) = 0))][1])]" mode="index-seealso">
-            <xsl:with-param name="position" select="position()"/>
-            <xsl:with-param name="scope" select="$scope"/>
-            <xsl:with-param name="role" select="$role"/>
-            <xsl:with-param name="type" select="$type"/>
-            <xsl:sort select="translate(@data-seealso, $index-letter-chars, $index-letter-chars-normalized)"/>
-          </xsl:apply-templates>
-          <xsl:apply-templates select="$refs[@data-secondary and count(.|key('secondary', concat($key, &quot; &quot;, normalize-space(concat(@data-secondary-sortas, &quot; &quot;, @data-secondary))))[count(ancestor::node()|$scope) = count(ancestor::node()) and ($role = @role or $type = @type or (string-length($role) = 0 and string-length($type) = 0))][1]) = 1]" mode="index-secondary">
-            <xsl:with-param name="position" select="position()"/>
-            <xsl:with-param name="scope" select="$scope"/>
-            <xsl:with-param name="role" select="$role"/>
-            <xsl:with-param name="type" select="$type"/>
-            <xsl:sort select="translate(normalize-space(concat(@data-secondary-sortas, &quot; &quot;, @data-secondary)), $index-letter-chars, $index-letter-chars-normalized)"/>
-          </xsl:apply-templates>
-        </dl>
-      </dd>
-    </xsl:when>
-    <!-- HTML5 requires dd for each dt -->
-    <xsl:otherwise>
-      <dd/>
-    </xsl:otherwise>
-  </xsl:choose>
+    <xsl:if test="$refs/@data-secondary or $refs[not(@data-secondary)]/@data-seealso">
+      <ul>
+        <xsl:apply-templates select="$refs[generate-id() = generate-id(key('see-also', concat(normalize-space(concat(@data-primary-sortas, &quot; &quot;, @data-primary)), &quot; &quot;, &quot; &quot;, &quot; &quot;, @data-seealso))[count(ancestor::node()|$scope) = count(ancestor::node()) and ($role = @role or $type = @type or (string-length($role) = 0 and string-length($type) = 0))][1])]" mode="index-seealso">
+          <xsl:with-param name="position" select="position()"/>
+          <xsl:with-param name="scope" select="$scope"/>
+          <xsl:with-param name="role" select="$role"/>
+          <xsl:with-param name="type" select="$type"/>
+          <xsl:sort select="translate(@data-seealso, $index-letter-chars, $index-letter-chars-normalized)"/>
+        </xsl:apply-templates>
+        <xsl:apply-templates select="$refs[@data-secondary and count(.|key('secondary', concat($key, &quot; &quot;, normalize-space(concat(@data-secondary-sortas, &quot; &quot;, @data-secondary))))[count(ancestor::node()|$scope) = count(ancestor::node()) and ($role = @role or $type = @type or (string-length($role) = 0 and string-length($type) = 0))][1]) = 1]" mode="index-secondary">
+          <xsl:with-param name="position" select="position()"/>
+          <xsl:with-param name="scope" select="$scope"/>
+          <xsl:with-param name="role" select="$role"/>
+          <xsl:with-param name="type" select="$type"/>
+          <xsl:sort select="translate(normalize-space(concat(@data-secondary-sortas, &quot; &quot;, @data-secondary)), $index-letter-chars, $index-letter-chars-normalized)"/>
+        </xsl:apply-templates>
+      </ul>
+    </xsl:if>
+  </li>
 </xsl:template>
 
 <xsl:template match="h:a[@data-type='indexterm']" mode="index-secondary">
@@ -292,7 +284,7 @@
 
   <xsl:variable name="key" select="concat(normalize-space(concat(@data-primary-sortas, &quot; &quot;, @data-primary)), &quot; &quot;, normalize-space(concat(@data-secondary-sortas, &quot; &quot;, @data-secondary)))"/>
   <xsl:variable name="refs" select="key('secondary', $key)[count(ancestor::node()|$scope) = count(ancestor::node()) and ($role = @role or $type = @type or (string-length($role) = 0 and string-length($type) = 0)) and not(@data-startref)]"/>
-  <dt>
+  <li>
     <xsl:value-of select="@data-secondary"/>
     <xsl:choose>
       <xsl:when test="$index.links.to.section = 1">
@@ -326,33 +318,25 @@
         <xsl:sort select="translate(@data-see, $index-letter-chars, $index-letter-chars-normalized)"/>
       </xsl:apply-templates>
     </xsl:if>
-  </dt>
-  <xsl:choose>
-    <xsl:when test="$refs/@data-tertiary or $refs[not(@data-tertiary)]/@data-seealso">
-      <dd>
-        <dl>
-          <xsl:apply-templates select="$refs[generate-id() = generate-id(key('see-also', concat(normalize-space(concat(@data-primary-sortas, &quot; &quot;, @data-primary)), &quot; &quot;, normalize-space(concat(@data-secondary-sortas, &quot; &quot;, @data-secondary)), &quot; &quot;, &quot; &quot;, @data-seealso))[count(ancestor::node()|$scope) = count(ancestor::node()) and ($role = @role or $type = @type or (string-length($role) = 0 and string-length($type) = 0))][1])]" mode="index-seealso">
-            <xsl:with-param name="position" select="position()"/>
-            <xsl:with-param name="scope" select="$scope"/>
-            <xsl:with-param name="role" select="$role"/>
-            <xsl:with-param name="type" select="$type"/>
-            <xsl:sort select="translate(@data-seealso, $index-letter-chars, $index-letter-chars-normalized)"/>
-          </xsl:apply-templates>
-          <xsl:apply-templates select="$refs[@data-tertiary and count(.|key('tertiary', concat($key, &quot; &quot;, normalize-space(concat(@data-tertiary-sortas, &quot; &quot;, @data-tertiary))))[count(ancestor::node()|$scope) = count(ancestor::node()) and ($role = @role or $type = @type or (string-length($role) = 0 and string-length($type) = 0))][1]) = 1]" mode="index-tertiary">
-            <xsl:with-param name="position" select="position()"/>
-            <xsl:with-param name="scope" select="$scope"/>
-            <xsl:with-param name="role" select="$role"/>
-            <xsl:with-param name="type" select="$type"/>
-            <xsl:sort select="translate(normalize-space(concat(@data-tertiary-sortas, &quot; &quot;, @data-tertiary)), $index-letter-chars, $index-letter-chars-normalized)"/>
-          </xsl:apply-templates>
-        </dl>
-      </dd>
-    </xsl:when>
-    <!-- HTML5 requires dd for each dt -->
-    <xsl:otherwise>
-      <dd/>
-    </xsl:otherwise>
-  </xsl:choose>
+    <xsl:if test="$refs/@data-tertiary or $refs[not(@data-tertiary)]/@data-seealso">
+      <ul>
+        <xsl:apply-templates select="$refs[generate-id() = generate-id(key('see-also', concat(normalize-space(concat(@data-primary-sortas, &quot; &quot;, @data-primary)), &quot; &quot;, normalize-space(concat(@data-secondary-sortas, &quot; &quot;, @data-secondary)), &quot; &quot;, &quot; &quot;, @data-seealso))[count(ancestor::node()|$scope) = count(ancestor::node()) and ($role = @role or $type = @type or (string-length($role) = 0 and string-length($type) = 0))][1])]" mode="index-seealso">
+          <xsl:with-param name="position" select="position()"/>
+          <xsl:with-param name="scope" select="$scope"/>
+          <xsl:with-param name="role" select="$role"/>
+          <xsl:with-param name="type" select="$type"/>
+          <xsl:sort select="translate(@data-seealso, $index-letter-chars, $index-letter-chars-normalized)"/>
+        </xsl:apply-templates>
+        <xsl:apply-templates select="$refs[@data-tertiary and count(.|key('tertiary', concat($key, &quot; &quot;, normalize-space(concat(@data-tertiary-sortas, &quot; &quot;, @data-tertiary))))[count(ancestor::node()|$scope) = count(ancestor::node()) and ($role = @role or $type = @type or (string-length($role) = 0 and string-length($type) = 0))][1]) = 1]" mode="index-tertiary">
+          <xsl:with-param name="position" select="position()"/>
+          <xsl:with-param name="scope" select="$scope"/>
+          <xsl:with-param name="role" select="$role"/>
+          <xsl:with-param name="type" select="$type"/>
+          <xsl:sort select="translate(normalize-space(concat(@data-tertiary-sortas, &quot; &quot;, @data-tertiary)), $index-letter-chars, $index-letter-chars-normalized)"/>
+        </xsl:apply-templates>
+      </ul>
+    </xsl:if>
+  </li>
 </xsl:template>
 
 <xsl:template match="h:a[@data-type='indexterm']" mode="index-tertiary">
@@ -362,7 +346,7 @@
 
   <xsl:variable name="key" select="concat(normalize-space(concat(@data-primary-sortas, &quot; &quot;, @data-primary)), &quot; &quot;, normalize-space(concat(@data-secondary-sortas, &quot; &quot;, @data-secondary)), &quot; &quot;, normalize-space(concat(@data-tertiary-sortas, &quot; &quot;, @data-tertiary)))"/>
   <xsl:variable name="refs" select="key('tertiary', $key)[count(ancestor::node()|$scope) = count(ancestor::node()) and ($role = @role or $type = @type or (string-length($role) = 0 and string-length($type) = 0)) and not(@data-startref)]"/>
-  <dt>
+  <li>
     <xsl:value-of select="@data-tertiary"/>
     <xsl:choose>
       <xsl:when test="$index.links.to.section = 1">
@@ -396,26 +380,18 @@
         <xsl:sort select="translate(@data-see, $index-letter-chars, $index-letter-chars-normalized)"/>
       </xsl:apply-templates>
     </xsl:if>
-  </dt>
-  <xsl:choose>
-    <xsl:when test="$refs/@data-seealso">
-      <dd>
-        <dl>
-          <xsl:apply-templates select="$refs[generate-id() = generate-id(key('see-also', concat(normalize-space(concat(@data-primary-sortas, &quot; &quot;, @data-primary)), &quot; &quot;, normalize-space(concat(@data-secondary-sortas, &quot; &quot;, @data-secondary)), &quot; &quot;, normalize-space(concat(@data-tertiary-sortas, &quot; &quot;, @data-tertiary)), &quot; &quot;, @data-seealso))[count(ancestor::node()|$scope) = count(ancestor::node()) and ($role = @role or $type = @type or (string-length($role) = 0 and string-length($type) = 0))][1])]" mode="index-seealso">
-            <xsl:with-param name="position" select="position()"/>
-            <xsl:with-param name="scope" select="$scope"/>
-            <xsl:with-param name="role" select="$role"/>
-            <xsl:with-param name="type" select="$type"/>
-            <xsl:sort select="translate(@data-seealso, $index-letter-chars, $index-letter-chars-normalized)"/>
-          </xsl:apply-templates>
-        </dl>
-      </dd>
-    </xsl:when>
-    <!-- HTML5 requires dd for each dt -->
-    <xsl:otherwise>
-      <dd/>
-    </xsl:otherwise>
-  </xsl:choose>
+    <xsl:if test="$refs/@data-seealso">
+      <ul>
+        <xsl:apply-templates select="$refs[generate-id() = generate-id(key('see-also', concat(normalize-space(concat(@data-primary-sortas, &quot; &quot;, @data-primary)), &quot; &quot;, normalize-space(concat(@data-secondary-sortas, &quot; &quot;, @data-secondary)), &quot; &quot;, normalize-space(concat(@data-tertiary-sortas, &quot; &quot;, @data-tertiary)), &quot; &quot;, @data-seealso))[count(ancestor::node()|$scope) = count(ancestor::node()) and ($role = @role or $type = @type or (string-length($role) = 0 and string-length($type) = 0))][1])]" mode="index-seealso">
+          <xsl:with-param name="position" select="position()"/>
+          <xsl:with-param name="scope" select="$scope"/>
+          <xsl:with-param name="role" select="$role"/>
+          <xsl:with-param name="type" select="$type"/>
+          <xsl:sort select="translate(@data-seealso, $index-letter-chars, $index-letter-chars-normalized)"/>
+        </xsl:apply-templates>
+      </ul>
+    </xsl:if>
+  </li>
 </xsl:template>
 
 <!-- Fixing apparent bugs in indexterm template that are preventing range separators from being generated properly --> 
@@ -580,7 +556,7 @@
   <xsl:param name="scope" select="."/>
   <xsl:param name="role" select="''"/>
   <xsl:param name="type" select="''"/>
-    <dt>
+    <li>
     <xsl:text>(</xsl:text>
     <!-- data-gentext provided so that you can do a CSS override for localization, if desired -->
     <span data-gentext="see">
@@ -591,8 +567,7 @@
     <xsl:text> </xsl:text>
     <xsl:value-of select="@data-seealso"/>
     <xsl:text>)</xsl:text>
-    </dt>
-    <dd/>
+    </li>
 </xsl:template>
 
 <xsl:template match="*" mode="index-title-content">
