@@ -274,6 +274,7 @@ sect5:s
 	  <xsl:attribute name="href">
 	    <xsl:call-template name="href.target">
 	      <xsl:with-param name="object" select="$target"/>
+	      <xsl:with-param name="source-link-node" select="."/>
 	    </xsl:call-template>
 	  </xsl:attribute>
 	</xsl:when>
@@ -314,27 +315,66 @@ sect5:s
   <xsl:template name="href.target">
     <xsl:param name="context" select="."/>
     <xsl:param name="object" select="."/>
-    <!-- Figure out which chunk this element belongs to: -->
+    <xsl:param name="source-link-node"/>
+
+    <!-- Get the filename for the target chunk -->
+    <xsl:variable name="target.chunk.filename">
+      <xsl:call-template name="filename-for-node">
+	<xsl:with-param name="node" select="$object"/>
+      </xsl:call-template>
+    </xsl:variable>
+
+    <!-- We only need to prepend filename if target is in different chunk than hyperlink, so... -->
+    <!-- Get the filename of the source hyperlink chunk, and then add it to the link if it's different than target chunk filename -->
+    <xsl:choose>
+      <!-- If we know the source link node, get its filename and check if it's the same as target chunk filename -->
+      <xsl:when test="$source-link-node">
+	<xsl:variable name="source.link.chunk.filename">
+	  <xsl:call-template name="filename-for-node">
+	    <xsl:with-param name="node" select="$source-link-node"/>
+	  </xsl:call-template>
+	</xsl:variable>
+	<!-- If source-link filename and target-chunk filename are different, we need to output the filename as part of the link href -->
+	<xsl:if test="$source.link.chunk.filename != $target.chunk.filename">
+	  <xsl:value-of select="$target.chunk.filename"/>
+	</xsl:if>
+      </xsl:when>
+      <xsl:otherwise>
+	<!-- We don't know the source link node; output the filename as part of the link href by default -->
+	<xsl:value-of select="$target.chunk.filename"/>
+      </xsl:otherwise>
+    </xsl:choose>
+    <xsl:text>#</xsl:text>
+    <xsl:call-template name="object.id">
+      <xsl:with-param name="object" select="$object"/>
+    </xsl:call-template>
+  </xsl:template>
+
+  <!-- Given a node, return the filename for the chunk it's in -->
+  <xsl:template name="filename-for-node">
+    <xsl:param name="node"/>
+
+    <!-- Figure out which chunk $node belongs to: -->
 
     <!-- 1. Get a nodeset of all chunks in this document -->
     <xsl:variable name="chunks" select="key('chunks', '1')"/> <!-- All chunks have an is-chunk() value of 1 -->
 
     <!-- 2. Get a nodeset of current element and all its ancestors, which could potentially be chunks -->
-    <xsl:variable name="self-and-ancestors" select="$object/ancestor-or-self::*"/>
+    <xsl:variable name="self-and-ancestors" select="$node/ancestor-or-self::*"/>
 
     <!-- 3. Find out which of these "self and ancestors" are also chunks -->
     <xsl:variable name="self-and-ancestors-that-are-chunks" select="set:intersection($self-and-ancestors, $chunks)"/>
 
-    <!-- 4. Target chunk is the last (lowest in hierarchy) in this nodeset -->
-    <xsl:variable name="target.chunk" select="$self-and-ancestors-that-are-chunks[last()]"/>
+    <!-- 4. Desired chunk is the last (lowest in hierarchy) in this nodeset -->
+    <xsl:variable name="chunk.node" select="$self-and-ancestors-that-are-chunks[last()]"/>
 
     <!-- Now get filename for chunk -->
     <xsl:variable name="chunk-filename">
       <xsl:choose>
-	<!-- When we do have a target chunk, get its filename -->
-	<xsl:when test="$target.chunk">
+	<!-- When we do have a chunk, get its filename -->
+	<xsl:when test="$chunk.node">
 	  <xsl:call-template name="output-filename-for-chunk">
-	    <xsl:with-param name="node" select="$target.chunk"/>
+	    <xsl:with-param name="node" select="$chunk.node"/>
 	  </xsl:call-template>
 	</xsl:when>
 	<!-- Otherwise, root must be the chunk -->
@@ -343,12 +383,7 @@ sect5:s
 	</xsl:otherwise>
       </xsl:choose>
     </xsl:variable>
-
     <xsl:value-of select="$chunk-filename"/>
-    <xsl:text>#</xsl:text>
-    <xsl:call-template name="object.id">
-      <xsl:with-param name="object" select="$object"/>
-    </xsl:call-template>
   </xsl:template>
-  
+
 </xsl:stylesheet> 

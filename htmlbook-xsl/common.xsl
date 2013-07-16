@@ -30,6 +30,7 @@
   <xsl:template name="href.target">
     <xsl:param name="context" select="."/>
     <xsl:param name="object" select="."/>
+    <xsl:param name="source-link-node"/>
     <xsl:text>#</xsl:text>
     <xsl:call-template name="object.id">
       <xsl:with-param name="object" select="$object"/>
