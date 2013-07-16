@@ -314,6 +314,7 @@ sect5:s
   <xsl:template name="href.target">
     <xsl:param name="context" select="."/>
     <xsl:param name="object" select="."/>
+    <xsl:param name="source-link-node"/>
 
     <!-- Get the filename for the target chunk -->
     <xsl:variable name="target.chunk.filename">
@@ -324,8 +325,24 @@ sect5:s
 
     <!-- We only need to prepend filename if target is in different chunk than hyperlink, so... -->
     <!-- Get the filename of the source hyperlink chunk, and then add it to the link if it's different than target chunk filename -->
-
-    <xsl:value-of select="$target.chunk.filename"/>
+    <xsl:choose>
+      <!-- If we know the source link node, get its filename and check if it's the same as target chunk filename -->
+      <xsl:when test="$source-link-node">
+	<xsl:variable name="source.link.chunk.filename">
+	  <xsl:call-template name="filename-for-node">
+	    <xsl:with-param name="node" select="$source-link-node"/>
+	  </xsl:call-template>
+	</xsl:variable>
+	<!-- If source-link filename and target-chunk filename are different, we need to output the filename as part of the link href -->
+	<xsl:if test="$source.link.chunk.filename != $target-chunk-filename">
+	  <xsl:value-of select="$target.chunk.filename"/>
+	</xsl:if>
+      </xsl:when>
+      <xsl:otherwise>
+	<!-- We don't know the source link node; output the filename as part of the link href by default -->
+	<xsl:value-of select="$target.chunk.filename"/>
+      </xsl:otherwise>
+    </xsl:choose>
     <xsl:text>#</xsl:text>
     <xsl:call-template name="object.id">
       <xsl:with-param name="object" select="$object"/>
