@@ -274,6 +274,7 @@ sect5:s
 	  <xsl:attribute name="href">
 	    <xsl:call-template name="href.target">
 	      <xsl:with-param name="object" select="$target"/>
+	      <xsl:with-param name="source-link-node" select="."/>
 	    </xsl:call-template>
 	  </xsl:attribute>
 	</xsl:when>
@@ -334,7 +335,7 @@ sect5:s
 	  </xsl:call-template>
 	</xsl:variable>
 	<!-- If source-link filename and target-chunk filename are different, we need to output the filename as part of the link href -->
-	<xsl:if test="$source.link.chunk.filename != $target-chunk-filename">
+	<xsl:if test="$source.link.chunk.filename != $target.chunk.filename">
 	  <xsl:value-of select="$target.chunk.filename"/>
 	</xsl:if>
       </xsl:when>
