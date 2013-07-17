@@ -3,7 +3,7 @@
 <schema targetNamespace="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" elementFormDefault="unqualified" attributeFormDefault="unqualified" xml:lang="en">
   <!-- don't declare the XML namespace; it is predeclared and redeclaring it upsets some software -->
   <import namespace="http://www.w3.org/1999/xlink" schemaLocation="xlink.xsd"/>
-  <import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="xml.xsd"/>
+  <import namespace="http://www.w3.org/XML/1998/namespace"/>
   <!-- simpleTypes -->
   <simpleType name="BaselineShiftValueType">
     <annotation>
