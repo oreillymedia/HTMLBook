@@ -14,7 +14,7 @@
   <xsl:param name="book-language">
     <xsl:choose>
       <xsl:when test="//h:html[@lang != '']|//h:body[@lang != '']">
-	<xsl:value-of select="(//h:html[@lang != '']|//h:body[@lang != ''])[1]"/>
+	<xsl:value-of select="(//h:html[@lang != '']|//h:body[@lang != ''])[1]/@lang"/>
       </xsl:when>
       <xsl:otherwise>
 	<xsl:text>en</xsl:text>
