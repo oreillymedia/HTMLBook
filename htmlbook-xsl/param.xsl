@@ -35,8 +35,7 @@
       </xsl:when>
       <!-- Otherwise default to "en" (English) -->
       <xsl:otherwise>
-	<xsl:copy-of select="document($localizations-dir, 'en', '.xml')"/>
-	<xsl:message><xsl:value-of select="document($localizations-dir, 'en', '.xml')"/></xsl:message>
+	<xsl:copy-of select="document(concat($localizations-dir, 'en', '.xml'))"/>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:param>
