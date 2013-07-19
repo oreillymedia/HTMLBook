@@ -14,7 +14,7 @@
   <xsl:param name="book-language">
     <xsl:choose>
       <xsl:when test="//h:html[@lang != '']|//h:body[@lang != '']">
-	<xsl:value-of select="(//h:html[@lang != '']|//h:body[@lang != ''])[1]"/>
+	<xsl:value-of select="(//h:html[@lang != '']|//h:body[@lang != ''])[1]/@lang"/>
       </xsl:when>
       <xsl:otherwise>
 	<xsl:text>en</xsl:text>
@@ -35,8 +35,7 @@
       </xsl:when>
       <!-- Otherwise default to "en" (English) -->
       <xsl:otherwise>
-	<xsl:copy-of select="document($localizations-dir, 'en', '.xml')"/>
-	<xsl:message><xsl:value-of select="document($localizations-dir, 'en', '.xml')"/></xsl:message>
+	<xsl:copy-of select="document(concat($localizations-dir, 'en', '.xml'))"/>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:param>
