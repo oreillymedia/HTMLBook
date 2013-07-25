@@ -49,26 +49,42 @@
 	</e:fonts>
       </xsl:when>
       <xsl:otherwise>
-	<xsl:if test="normalize-space(substring-before($fonts.to.process, '&#x0A;')) != ''">
-	  <xsl:variable name="font-filename">
-	    <xsl:value-of select="normalize-space(substring-before($fonts.to.process, '&#x0A;'))"/>
-	  </xsl:variable>
-	  <xsl:variable name="font-extension">
-	    <xsl:value-of select="normalize-space(substring-after($font-filename, '.'))"/>
-	  </xsl:variable>
-	  <xsl:variable name="font-mimetype">
-	    <xsl:call-template name="get-mimetype-from-file-extension">
-	      <xsl:with-param name="file-extension" select="$font-extension"/>
-	    </xsl:call-template>
-	  </xsl:variable>
-	  <e:font filename="{$font-filename}" mimetype="{$font-mimetype}"/>
-	  <xsl:if test="normalize-space(substring-after($fonts.to.process, '&#x0A;')) != ''">
-	    <xsl:call-template name="get.fonts.xml">
-	      <xsl:with-param name="fonts.to.process" select="substring-after($fonts.to.process, '&#x0A;')"/>
-	      <xsl:with-param name="first.call" select="0"/>
-	    </xsl:call-template>
-	  </xsl:if>
-	</xsl:if>
+	<xsl:choose>
+	  <xsl:when test="normalize-space(substring-before($fonts.to.process, '&#x0A;')) != ''">
+	    <xsl:variable name="font-filename">
+	      <xsl:value-of select="normalize-space(substring-before($fonts.to.process, '&#x0A;'))"/>
+	    </xsl:variable>
+	    <xsl:variable name="font-extension">
+	      <xsl:value-of select="normalize-space(substring-after($font-filename, '.'))"/>
+	    </xsl:variable>
+	    <xsl:variable name="font-mimetype">
+	      <xsl:call-template name="get-mimetype-from-file-extension">
+		<xsl:with-param name="file-extension" select="$font-extension"/>
+	      </xsl:call-template>
+	    </xsl:variable>
+	    <e:font filename="{$font-filename}" mimetype="{$font-mimetype}"/>
+	    <xsl:if test="normalize-space(substring-after($fonts.to.process, '&#x0A;')) != ''">
+	      <xsl:call-template name="get.fonts.xml">
+		<xsl:with-param name="fonts.to.process" select="substring-after($fonts.to.process, '&#x0A;')"/>
+		<xsl:with-param name="first.call" select="0"/>
+	      </xsl:call-template>
+	    </xsl:if>
+	  </xsl:when>
+	  <xsl:when test="normalize-space($fonts.to.process) != ''">
+	    <xsl:variable name="font-filename">
+	      <xsl:value-of select="normalize-space($fonts.to.process)"/>
+	    </xsl:variable>
+	    <xsl:variable name="font-extension">
+	      <xsl:value-of select="normalize-space(substring-after($font-filename, '.'))"/>
+	    </xsl:variable>
+	    <xsl:variable name="font-mimetype">
+	      <xsl:call-template name="get-mimetype-from-file-extension">
+		<xsl:with-param name="file-extension" select="$font-extension"/>
+	      </xsl:call-template>
+	    </xsl:variable>
+	    <e:font filename="{$font-filename}" mimetype="{$font-mimetype}"/>
+	  </xsl:when>
+	</xsl:choose>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>

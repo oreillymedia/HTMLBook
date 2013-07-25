@@ -175,8 +175,7 @@ DejaVuSans-Bold.otf
 UbuntuMono-Regular.otf
 UbuntuMono-Bold.otf
 UbuntuMono-BoldItalic.otf
-UbuntuMono-Italic.otf
-</xsl:param>
+UbuntuMono-Italic.otf</xsl:param>
 
   <!-- Directory to place embedded fonts, relative to content directory; leave blank to put in root content dir (e.g., in "OEBPS" dir) -->
   <xsl:param name="embedded.fonts.directory"/>
