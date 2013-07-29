@@ -13,6 +13,9 @@
 
   <!-- Default rule for TOC generation -->
 
+  <!-- ToDo: Add support for separate handling for data-type="link", where it's an internal cross-reference, but you definitely
+       do not want to override text node -->
+
   <!-- All XREFs must be tagged with a @data-type containing XREF -->
   <xsl:template match="h:a[contains(@data-type, 'xref')]">
     <xsl:variable name="href-anchor">
