@@ -113,8 +113,14 @@ sect5:s
 	<xsl:when test="starts-with($outputdir, '/')">
 	  <xsl:value-of select="concat($outputdir, $chars-to-append-to-outputdir)"/>
 	</xsl:when>
-	<xsl:when test="$outputdir != '' and not($chunk[ancestor::*[htmlbook:is-chunk() = 1]])">
-	  <!-- $outputdir is specified, and *is not* absolute filepath, and *is not* a nested chunk -->
+	<xsl:when test="self::h:body">
+	  <!-- Root Chunk! Needs $outputdir in full file path-->
+	  <xsl:value-of select="concat($outputdir, $chars-to-append-to-outputdir)"/>
+	</xsl:when>
+	<xsl:when test="$outputdir != '' and not($generate.root.chunk = 1) and not($chunk[ancestor::*[htmlbook:is-chunk(.) = 1]])">
+	  <!-- $outputdir is specified and *is not* absolute filepath, 
+	       and generate.root.chunk is not specified (if it is, then previous "when" will set the outputdir properly),
+	       and chunk *is not* a nested chunk -->
 	  <!-- Because this *is not* a nested chunk, we need to include $outputdir in full file path -->
 	  <xsl:value-of select="concat($outputdir, $chars-to-append-to-outputdir)"/>
 	</xsl:when>	
