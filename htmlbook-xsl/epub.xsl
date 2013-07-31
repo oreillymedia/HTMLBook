@@ -200,8 +200,6 @@ UbuntuMono-Italic.otf</xsl:param>
   <xsl:template match="/">
     <xsl:call-template name="generate.mimetype"/>
     <xsl:call-template name="generate.meta-inf"/>
-    <xsl:apply-imports/>
-    <!-- This EPUB-specific stuff needs to be last to ensure that contentdir is properly set  -->
     <xsl:call-template name="generate.opf"/>
     <xsl:if test="$generate.ncx.toc = 1">
       <xsl:call-template name="generate.ncx.toc"/>
@@ -209,6 +207,7 @@ UbuntuMono-Italic.otf</xsl:param>
     <xsl:if test="$generate.cover.html">
       <xsl:call-template name="generate-cover-html"/>
     </xsl:if>
+    <xsl:apply-imports/>
   </xsl:template>
 
   <!-- Output an HTML file for the book cover; override and customize as needed. Default output generally the same as epub3 docbook-xsl stylesheets -->
