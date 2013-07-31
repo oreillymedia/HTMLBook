@@ -25,9 +25,11 @@
   <xsl:key name="nodes-by-name" match="*" use="local-name()"/>
 
   <xsl:variable name="full.opf.filename">
-    <xsl:call-template name="full-output-filename">
-      <xsl:with-param name="output-filename" select="$opf.filename"/>
-    </xsl:call-template>
+    <xsl:value-of select="$outputdir"/>
+    <xsl:if test="substring($outputdir, string-length($outputdir), 1) != '/'">
+      <xsl:text>/</xsl:text>
+    </xsl:if>
+    <xsl:value-of select="$opf.filename"/>
   </xsl:variable>
       
   <!-- Convert $embedded.fonts.list to XML for easier parsing -->
@@ -277,19 +279,21 @@
 	    </item>
 	  </xsl:if>
 	  <!-- Add index page to manifest -->
-	  <item>
-	    <xsl:attribute name="id">
-	      <xsl:apply-templates select="/*" mode="opf.id"/>
-	    </xsl:attribute>
-	    <xsl:attribute name="href">
-	      <xsl:value-of select="$root.chunk.filename"/>
-	    </xsl:attribute>
-	    <xsl:attribute name="media-type">
-	      <xsl:call-template name="get-mimetype-from-file-extension">
-		<xsl:with-param name="file-extension" select="'html'"/>
-	      </xsl:call-template>
-	    </xsl:attribute>
-	  </item>
+	  <xsl:if test="$generate.root.chunk = 1">
+	    <item>
+	      <xsl:attribute name="id">
+		<xsl:apply-templates select="/*" mode="opf.id"/>
+	      </xsl:attribute>
+	      <xsl:attribute name="href">
+		<xsl:value-of select="$root.chunk.filename"/>
+	      </xsl:attribute>
+	      <xsl:attribute name="media-type">
+		<xsl:call-template name="get-mimetype-from-file-extension">
+		  <xsl:with-param name="file-extension" select="'html'"/>
+		</xsl:call-template>
+	      </xsl:attribute>
+	    </item>
+	  </xsl:if>
 	  <!-- Add images to manifest -->
 	  <xsl:call-template name="manifest-images"/>
 	  <!-- Add HTML documents to manifest -->
@@ -310,12 +314,14 @@
       <xsl:if test="$cover.in.spine = 1">
 	<itemref idref="{$epub.cover.html.id}"/>
       </xsl:if>
-      <!-- Put index in spine -->
-      <itemref>
-	<xsl:attribute name="idref">
-	  <xsl:apply-templates select="/*" mode="opf.id"/>
-	</xsl:attribute>
-      </itemref>
+      <xsl:if test="$generate.root.chunk = 1">
+	<!-- Put root chunk in spine -->
+	<itemref>
+	  <xsl:attribute name="idref">
+	    <xsl:apply-templates select="/*" mode="opf.id"/>
+	  </xsl:attribute>
+	</itemref>
+      </xsl:if>
       <xsl:for-each select="key('chunks', 1)">
 	<xsl:apply-templates select="." mode="opf.spine.itemref"/>
       </xsl:for-each>
@@ -387,13 +393,8 @@
 	<xsl:variable name="output-filename">
 	  <xsl:call-template name="output-filename-for-chunk"/>
 	</xsl:variable>
-	<xsl:variable name="full-output-filename">
-	  <xsl:call-template name="full-output-filename">
-	    <xsl:with-param name="output-filename" select="$output-filename"/>
-	  </xsl:call-template>
-	</xsl:variable>
 	<xsl:attribute name="href">
-	  <xsl:value-of select="$full-output-filename"/>
+	  <xsl:value-of select="$output-filename"/>
 	</xsl:attribute>
 	<xsl:attribute name="media-type">
 	  <xsl:call-template name="get-mimetype-from-file-extension">

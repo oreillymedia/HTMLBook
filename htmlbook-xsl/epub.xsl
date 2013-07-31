@@ -65,6 +65,14 @@
     <xsl:value-of select="$book-language"/>
   </xsl:param>
 
+  <!-- By default, don't generate a root chunk (index.html) if book has a titlepage already -->
+  <xsl:param name="generate.root.chunk">
+    <xsl:choose>
+      <xsl:when test="//h:section[@data-type='titlepage']">0</xsl:when>
+      <xsl:otherwise>1</xsl:otherwise>
+    </xsl:choose>
+  </xsl:param>
+
   <!-- borrowed from docbook-xsl epub3/epub3-element-mods.xsl -->
   <xsl:param name="metadata.modified">
     <xsl:variable name="local.datetime" select="date:date-time()"/>
@@ -155,7 +163,8 @@
   <xsl:param name="ncx.toc.include.labels" select="1"/>
 
   <!-- Include root chunk (index.html) in NCX? -->
-  <xsl:param name="ncx.include.root.chunk" select="1"/>
+  <!-- Don't turn this parameter on if you're not generating a root chunk -->
+  <xsl:param name="ncx.include.root.chunk" select="$generate.root.chunk"/>
 
   <!-- Param to specify whether or not to include the Navigation Document (XHTML5 TOC) in the spine -->
   <xsl:param name="nav.in.spine" select="1"/>
@@ -180,7 +189,19 @@ UbuntuMono-Italic.otf</xsl:param>
   <!-- Directory to place embedded fonts, relative to content directory; leave blank to put in root content dir (e.g., in "OEBPS" dir) -->
   <xsl:param name="embedded.fonts.directory"/>
 
+  <xsl:variable name="full.cover.filename">
+    <xsl:value-of select="$outputdir"/>
+    <xsl:if test="substring($outputdir, string-length($outputdir), 1) != '/'">
+      <xsl:text>/</xsl:text>
+    </xsl:if>
+    <xsl:value-of select="$cover.html.filename"/>
+  </xsl:variable>
+
   <xsl:template match="/">
+    <xsl:call-template name="generate.mimetype"/>
+    <xsl:call-template name="generate.meta-inf"/>
+    <xsl:apply-imports/>
+    <!-- This EPUB-specific stuff needs to be last to ensure that contentdir is properly set  -->
     <xsl:call-template name="generate.opf"/>
     <xsl:if test="$generate.ncx.toc = 1">
       <xsl:call-template name="generate.ncx.toc"/>
@@ -188,19 +209,11 @@ UbuntuMono-Italic.otf</xsl:param>
     <xsl:if test="$generate.cover.html">
       <xsl:call-template name="generate-cover-html"/>
     </xsl:if>
-    <xsl:call-template name="generate.mimetype"/>
-    <xsl:call-template name="generate.meta-inf"/>
-    <xsl:apply-imports/>
   </xsl:template>
 
   <!-- Output an HTML file for the book cover; override and customize as needed. Default output generally the same as epub3 docbook-xsl stylesheets -->
   <xsl:template name="generate-cover-html">
-    <xsl:variable name="cover.html.full.filename">
-      <xsl:call-template name="full-output-filename">
-	<xsl:with-param name="output-filename" select="$cover.html.filename"/>
-      </xsl:call-template>
-    </xsl:variable>
-    <exsl:document href="{$cover.html.full.filename}" method="xml" encoding="UTF-8">
+    <exsl:document href="{$full.cover.filename}" method="xml" encoding="UTF-8">
       <xsl:value-of select="'&lt;!DOCTYPE html&gt;'" disable-output-escaping="yes"/>
       <html>
 	<head>
