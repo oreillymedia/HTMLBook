@@ -128,4 +128,7 @@ sect4:xref
 sect5:xref
   </xsl:param>
 
+  <!-- When set to 1, convert HTML5 structural elements like <section> and <figure> to <div> -->
+  <xsl:param name="html4.structural.elements" select="0"/>
+
 </xsl:stylesheet> 

@@ -20,13 +20,38 @@
   <!-- WARNING: If you need additional handling for these elements for other functionality,
        and you override this template elsewhere, make sure you add in id-decoration functionality -->
   <xsl:template match="h:section|h:div[contains(@data-type, 'part')]|h:a[contains(@data-type, 'indexterm')]">
-    <xsl:copy>
+    <xsl:variable name="output-element-name">
+      <xsl:call-template name="html.output.element"/>
+    </xsl:variable>
+    <xsl:element name="{$output-element-name}" namespace="http://www.w3.org/1999/xhtml">
       <xsl:apply-templates select="@*[not(local-name() = 'id')]"/>
       <xsl:attribute name="id">
 	<xsl:call-template name="object.id"/>
       </xsl:attribute>
       <xsl:apply-templates/>      
-    </xsl:copy>
-  </xsl:template>    
+    </xsl:element>
+  </xsl:template>
 
+  <xsl:template match="h:figure">
+    <xsl:variable name="output-element-name">
+      <xsl:call-template name="html.output.element"/>
+    </xsl:variable>
+    <xsl:element name="{$output-element-name}" namespace="http://www.w3.org/1999/xhtml">
+      <xsl:apply-templates select="@*"/>
+      <!-- If there's no data-type already and $html4.structural.elements is enabled, plop in a data type of "figure" -->
+      <xsl:if test="not(@data-type) and $html4.structural.elements = 1">
+	<xsl:attribute name="data-type">figure</xsl:attribute>
+      </xsl:if>
+      <xsl:apply-templates/>      
+    </xsl:element>
+  </xsl:template>
+
+  <xsl:template match="h:figcaption">
+    <xsl:variable name="output-element-name">
+      <xsl:call-template name="html.output.element"/>
+    </xsl:variable>
+    <xsl:element name="{$output-element-name}" namespace="http://www.w3.org/1999/xhtml">
+      <xsl:apply-templates select="@*|node()"/>
+    </xsl:element>
+  </xsl:template>
 </xsl:stylesheet> 
