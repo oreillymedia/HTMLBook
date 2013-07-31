@@ -300,6 +300,9 @@
 	  <xsl:call-template name="manifest-html"/>
 	</manifest>
 	<xsl:call-template name="generate-spine"/>
+	<xsl:if test="$generate.guide = 1">
+	  <xsl:call-template name="generate-guide"/>
+	</xsl:if>
       </package>
     </exsl:document>
   </xsl:template>
@@ -326,6 +329,52 @@
 	<xsl:apply-templates select="." mode="opf.spine.itemref"/>
       </xsl:for-each>
     </spine>
+  </xsl:template>
+
+  <xsl:template name="generate-guide">
+    <guide>
+      <!-- Generating <reference> elements for cover, TOC, and start of text -->
+      <!-- Override and customize as appropriate, if desired -->
+
+      <!-- Generate cover <reference> if there is a cover HTML file -->
+      <xsl:if test="$generate.cover.html = 1">
+	<reference href="{$cover.html.filename}" type="cover" title="Cover"/>
+      </xsl:if>
+
+      <!-- Generate reference to HTML5 TOC (EPUB Nav Doc) if present (and it should be!)-->
+      <xsl:if test="//h:body/h:nav[@data-type='toc' and not(preceding::h:nav[@data-type='toc'])]">
+	<xsl:variable name="html5-toc-filename">
+	  <xsl:call-template name="output-filename-for-chunk">
+	    <xsl:with-param name="node" select="//h:body/h:nav[@data-type='toc' and not(preceding::h:nav[@data-type='toc'])][1]"/>
+	  </xsl:call-template>
+	</xsl:variable>
+	<reference href="{$html5-toc-filename}" type="toc" title="Table of Contents"/>
+      </xsl:if>
+      
+      <!-- Calculate <reference element for start-of-text -->
+      <!-- Override and customize for different handling, if desired -->
+      <xsl:variable name="start-of-text-filename">
+	<xsl:choose>
+	  <!-- If there's a titlepage, use that as start-of-text -->
+	  <xsl:when test="//h:body/h:section[@data-type='titlepage']">
+	    <xsl:call-template name="output-filename-for-chunk">
+	      <xsl:with-param name="node" select="//h:body/h:section[@data-type='titlepage'][1]"/>
+	    </xsl:call-template>
+	  </xsl:when>
+	  <!-- Otherwise, if there's a cover, use that as start-of-text -->
+	  <xsl:when test="$generate.cover.html = 1">
+	    <xsl:value-of select="$cover.html.filename"/>
+	  </xsl:when>
+	  <!-- Otherwise, just use the first <section> in the text -->
+	  <xsl:otherwise>
+	    <xsl:call-template name="output-filename-for-chunk">
+	      <xsl:with-param name="node" select="//h:section[1]"/>
+	    </xsl:call-template>
+	  </xsl:otherwise>
+	</xsl:choose>
+      </xsl:variable>
+      <reference href="{$start-of-text-filename}" type="text"/>      
+    </guide>
   </xsl:template>
 
   <xsl:template match="*" mode="opf.spine.itemref">
