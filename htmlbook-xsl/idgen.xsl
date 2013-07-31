@@ -16,17 +16,21 @@
        * All <sections>
        * <div data-type="part">
        * All <a data-type="indexterm"> tags
+
+       Also adding ids on figures, although those aren't strictly needed
     -->
   <!-- WARNING: If you need additional handling for these elements for other functionality,
        and you override this template elsewhere, make sure you add in id-decoration functionality -->
-  <xsl:template match="h:section|h:div[contains(@data-type, 'part')]|h:a[contains(@data-type, 'indexterm')]">
-    <xsl:copy>
+  <xsl:template match="h:section|h:div[contains(@data-type, 'part')]|h:a[contains(@data-type, 'indexterm')]|h:figure">
+    <xsl:variable name="output-element-name">
+      <xsl:call-template name="html.output.element"/>
+    </xsl:variable>
+    <xsl:element name="${output-element-name}" namespace="http://www.w3.org/1999/xhtml">
       <xsl:apply-templates select="@*[not(local-name() = 'id')]"/>
       <xsl:attribute name="id">
 	<xsl:call-template name="object.id"/>
       </xsl:attribute>
       <xsl:apply-templates/>      
-    </xsl:copy>
+    </xsl:element>
   </xsl:template>    
-
 </xsl:stylesheet> 
