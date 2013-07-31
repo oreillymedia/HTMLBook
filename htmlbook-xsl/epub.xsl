@@ -54,6 +54,9 @@
 
   <xsl:param name="opf.filename" select="'content.opf'"/>
 
+  <!-- Generate <guide> element in OPF file (for EPUB 2 compatibility -->
+  <xsl:param name="generate.guide" select="1"/>
+
   <!-- Outputdir is the main content dir -->
   <xsl:param name="outputdir" select="'OEBPS'"/>
 
