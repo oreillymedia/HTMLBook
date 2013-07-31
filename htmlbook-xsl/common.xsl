@@ -384,7 +384,7 @@
       <!-- If $html4.structural.elements is enabled, HTML5 <section> and <figure> elements are replaced with a <div> -->
       <xsl:when test="$html4.structural.elements = 1">
 	<xsl:choose>
-	  <xsl:when test="$node[self::h:figure or self::h:section">
+	  <xsl:when test="$node[self::h:figure or self::h:section]">
 	    <xsl:text>div</xsl:text>
 	  </xsl:when>
 	  <xsl:otherwise>
