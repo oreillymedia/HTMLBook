@@ -26,7 +26,10 @@
   <!-- Specify a number from 0 to 5, where 0 means chunk at top-level sections (part, chapter, appendix), and 1-5 means chunk at the corresponding sect level (sect1 - sect5) -->
   <xsl:param name="chunk.level" select="0"/>
 
-  <!-- Specify the filename for the root chunk -->
+  <!-- Specify whether to generate a root chunk -->
+  <xsl:param name="generate.root.chunk" select="1"/>
+
+  <!-- Specify the filename for the root chunk, if $generate.root.chunk is enabled -->
   <xsl:param name="root.chunk.filename" select="'index.html'"/>
 
   <!-- Specify a prefix for output filename for a given data-type -->
@@ -51,9 +54,16 @@ sect5:s
 
   <!-- Logic for root chunk -->
   <xsl:template match="h:body">
-    <xsl:call-template name="write-chunk">
-      <xsl:with-param name="output-filename" select="$root.chunk.filename"/>
-    </xsl:call-template>
+    <xsl:choose>
+      <xsl:when test="$generate.root.chunk = 1">
+	<xsl:call-template name="write-chunk">
+	  <xsl:with-param name="output-filename" select="$root.chunk.filename"/>
+	</xsl:call-template>
+      </xsl:when>
+      <xsl:otherwise>
+	<xsl:apply-templates select="h:section|h:div[contains(@data-type, 'part')]|h:nav[contains(@data-type, 'toc')]"/>
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
        
   <xsl:template match="h:section|h:div[contains(@data-type, 'part')]|h:nav[contains(@data-type, 'toc')]">
@@ -103,8 +113,14 @@ sect5:s
 	<xsl:when test="starts-with($outputdir, '/')">
 	  <xsl:value-of select="concat($outputdir, $chars-to-append-to-outputdir)"/>
 	</xsl:when>
-	<xsl:when test="$outputdir != '' and not($chunk[ancestor::*[htmlbook:is-chunk() = 1]])">
-	  <!-- $outputdir is specified, and *is not* absolute filepath, and *is not* a nested chunk -->
+	<xsl:when test="self::h:body">
+	  <!-- Root Chunk! Needs $outputdir in full file path-->
+	  <xsl:value-of select="concat($outputdir, $chars-to-append-to-outputdir)"/>
+	</xsl:when>
+	<xsl:when test="$outputdir != '' and not($generate.root.chunk = 1) and not($chunk[ancestor::*[htmlbook:is-chunk(.) = 1]])">
+	  <!-- $outputdir is specified and *is not* absolute filepath, 
+	       and generate.root.chunk is not specified (if it is, then previous "when" will set the outputdir properly),
+	       and chunk *is not* a nested chunk -->
 	  <!-- Because this *is not* a nested chunk, we need to include $outputdir in full file path -->
 	  <xsl:value-of select="concat($outputdir, $chars-to-append-to-outputdir)"/>
 	</xsl:when>	
@@ -324,6 +340,10 @@ sect5:s
       </xsl:call-template>
     </xsl:variable>
 
+    <xsl:if test="$target.chunk.filename = ''">
+      <xsl:message>Error: Chunker unable to locate output file containing target node <xsl:call-template name="object.id"><xsl:with-param name="object" select="$object"/></xsl:call-template>. Hyperlink may not generate properly</xsl:message>
+    </xsl:if>
+
     <!-- We only need to prepend filename if target is in different chunk than hyperlink, so... -->
     <!-- Get the filename of the source hyperlink chunk, and then add it to the link if it's different than target chunk filename -->
     <xsl:choose>
@@ -377,9 +397,11 @@ sect5:s
 	    <xsl:with-param name="node" select="$chunk.node"/>
 	  </xsl:call-template>
 	</xsl:when>
-	<!-- Otherwise, root must be the chunk -->
 	<xsl:otherwise>
-	  <xsl:value-of select="$root.chunk.filename"/>
+	  <xsl:if test="$generate.root.chunk = 1">
+	    <!-- Root must be the chunk -->
+	    <xsl:value-of select="$root.chunk.filename"/>
+	  </xsl:if>
 	</xsl:otherwise>
       </xsl:choose>
     </xsl:variable>

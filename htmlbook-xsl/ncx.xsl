@@ -14,14 +14,17 @@
   <!-- Param to specify whether or not to include the Navigation Document (XHTML5 TOC) in the NCX TOC -->
   <xsl:variable name="nav.in.ncx" select="0"/>
 
+  <xsl:variable name="full.ncx.filename">
+    <xsl:value-of select="$outputdir"/>
+    <xsl:if test="substring($outputdir, string-length($outputdir), 1) != '/'">
+      <xsl:text>/</xsl:text>
+    </xsl:if>
+    <xsl:value-of select="$ncx.toc.filename"/>
+  </xsl:variable>
+
   <!-- Generate an NCX file from HTMLBook source. -->
   <xsl:template name="generate.ncx.toc">
-    <xsl:variable name="full-ncx-filename">
-      <xsl:call-template name="full-output-filename">
-	<xsl:with-param name="output-filename" select="$ncx.toc.filename"/>
-      </xsl:call-template>
-    </xsl:variable>
-    <exsl:document href="{$full-ncx-filename}" method="xml" encoding="UTF-8">
+    <exsl:document href="{$full.ncx.filename}" method="xml" encoding="UTF-8">
       <ncx version="2005-1">
 	<head>
 	  <xsl:if test="$generate.cover.html = 1">
