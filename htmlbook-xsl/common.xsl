@@ -387,6 +387,9 @@
 	  <xsl:when test="$node[self::h:figure or self::h:section]">
 	    <xsl:text>div</xsl:text>
 	  </xsl:when>
+	  <xsl:when test="$node[self::h:figcaption]">
+	    <xsl:text>h5</xsl:text>
+	  </xsl:when>
 	  <xsl:otherwise>
 	    <!-- No change in element name for other elements -->
 	    <xsl:value-of select="local-name($node)"/>

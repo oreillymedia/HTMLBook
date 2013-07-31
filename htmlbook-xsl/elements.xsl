@@ -47,4 +47,13 @@
       <xsl:apply-templates/>      
     </xsl:element>
   </xsl:template>
+
+  <xsl:template match="h:figcaption">
+    <xsl:variable name="output-element-name">
+      <xsl:call-template name="html.output.element"/>
+    </xsl:variable>
+    <xsl:element name="{$output-element-name}" namespace="http://www.w3.org/1999/xhtml">
+      <xsl:apply-templates select="@*|node()"/>
+    </xsl:element>
+  </xsl:template>
 </xsl:stylesheet> 
