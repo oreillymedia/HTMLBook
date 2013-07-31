@@ -16,8 +16,6 @@
        * All <sections>
        * <div data-type="part">
        * All <a data-type="indexterm"> tags
-
-       Also adding ids on figures, although those aren't strictly needed
     -->
   <!-- WARNING: If you need additional handling for these elements for other functionality,
        and you override this template elsewhere, make sure you add in id-decoration functionality -->
