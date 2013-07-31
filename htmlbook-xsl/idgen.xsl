@@ -25,7 +25,7 @@
     <xsl:variable name="output-element-name">
       <xsl:call-template name="html.output.element"/>
     </xsl:variable>
-    <xsl:element name="${output-element-name}" namespace="http://www.w3.org/1999/xhtml">
+    <xsl:element name="{$output-element-name}" namespace="http://www.w3.org/1999/xhtml">
       <xsl:apply-templates select="@*[not(local-name() = 'id')]"/>
       <xsl:attribute name="id">
 	<xsl:call-template name="object.id"/>

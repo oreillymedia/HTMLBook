@@ -58,7 +58,7 @@
     <xsl:when test="($autogenerate-index = 1) and 
 		    (not(preceding::h:section[@data-type='index'])) and
 		    (not(node()) or $index-placeholder-overwrite-contents != 0)">
-      <xsl:element name="${output-element-name}" namespace="http://www.w3.org/1999/xhtml">
+      <xsl:element name="{$output-element-name}" namespace="http://www.w3.org/1999/xhtml">
 	<xsl:apply-templates select="@*[not(local-name() = 'id')]"/>
 	<xsl:attribute name="id">
 	  <xsl:call-template name="object.id"/>
@@ -74,7 +74,7 @@
     <xsl:otherwise>
       <!-- Otherwise, just process as normal -->
       <!-- ToDo: Consider using <xsl:apply-imports> here, depending on how we decide to do stylesheet layering for packaging for EPUB, etc. -->
-      <xsl:element name="${output-element-name}" namespace="http://www.w3.org/1999/xhtml">
+      <xsl:element name="{$output-element-name}" namespace="http://www.w3.org/1999/xhtml">
 	<xsl:apply-templates select="@*[not(local-name() = 'id')]"/>
 	<xsl:attribute name="id">
 	  <xsl:call-template name="object.id"/>
