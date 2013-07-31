@@ -377,4 +377,30 @@
     </xsl:choose>
   </xsl:template>
 
+  <xsl:template name="html.output.element">
+    <!-- Logic to decide which HTML element to output for a given source element. -->
+    <xsl:param name="node" select="."/>
+    <xsl:choose>
+      <!-- If $html4.structural.elements is enabled, HTML5 <section> and <figure> elements are replaced with a <div> -->
+      <xsl:when test="$html4.structural.elements = 1">
+	<xsl:choose>
+	  <xsl:when test="$node[self::h:figure or self::h:section]">
+	    <xsl:text>div</xsl:text>
+	  </xsl:when>
+	  <xsl:when test="$node[self::h:figcaption]">
+	    <xsl:text>h5</xsl:text>
+	  </xsl:when>
+	  <xsl:otherwise>
+	    <!-- No change in element name for other elements -->
+	    <xsl:value-of select="local-name($node)"/>
+	  </xsl:otherwise>
+	</xsl:choose>
+      </xsl:when>
+      <xsl:otherwise>
+	<!-- Otherwise, no change in element name -->
+	<xsl:value-of select="local-name($node)"/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
 </xsl:stylesheet> 
