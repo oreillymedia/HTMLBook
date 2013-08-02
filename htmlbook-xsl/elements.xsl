@@ -41,7 +41,7 @@
 	  <xsl:apply-templates select=".." mode="label.markup"/>
 	</xsl:variable>
 	<xsl:if test="$heading.label != ''">
-	  <span class="label">
+	  <span data-type="label">
 	    <xsl:variable name="element-labelname">
 	      <xsl:call-template name="get-localization-value">
 		<xsl:with-param name="gentext-key">
@@ -83,7 +83,7 @@
 	  <xsl:apply-templates select=".." mode="label.markup"/>
 	</xsl:variable>
 	<xsl:if test="$figure.label != ''">
-	  <span class="label">
+	  <span data-type="label">
 	    <xsl:variable name="element-labelname">
 	      <xsl:call-template name="get-localization-value">
 		<xsl:with-param name="gentext-key">
@@ -114,7 +114,7 @@
 	  <xsl:apply-templates select=".." mode="label.markup"/>
 	</xsl:variable>
 	<xsl:if test="$figure.label != ''">
-	  <span class="label">
+	  <span data-type="label">
 	    <xsl:variable name="element-labelname">
 	      <xsl:call-template name="get-localization-value">
 		<xsl:with-param name="gentext-key">
