@@ -33,7 +33,8 @@
   </xsl:template>
 
   <xsl:template match="h:section/*[self::h:h1 or self::h:h2 or self::h:h3 or self::h:h4 or self::h:h5 or self::h:h6]|
-		       h:div[@data-type = 'part' or @data-type = 'example']/*[self::h:h1 or self::h:h2 or self::h:h3 or self::h:h4 or self::h:h5 or self::h:h6]">
+		       h:div[@data-type = 'part' or @data-type = 'example']/*[self::h:h1 or self::h:h2 or self::h:h3 or self::h:h4 or self::h:h5 or self::h:h6]|
+		       h:caption">
     <xsl:copy>
       <xsl:apply-templates select="@*"/>
       <xsl:if test="$autogenerate.labels">
@@ -42,12 +43,12 @@
 	</xsl:variable>
 	<xsl:if test="$heading.label != ''">
 	  <span class="label">
-	    <xsl:value-of select="heading.label"/>
+	    <xsl:value-of select="$heading.label"/>
 	    <xsl:value-of select="$label.and.title.separator"/>
 	  </span>
 	</xsl:if>
-	<xsl:apply-templates/>
       </xsl:if>
+      <xsl:apply-templates/>
     </xsl:copy>	
   </xsl:template>
 
@@ -71,6 +72,18 @@
     </xsl:variable>
     <xsl:element name="{$output-element-name}" namespace="http://www.w3.org/1999/xhtml">
       <xsl:apply-templates select="@*"/>
+      <xsl:if test="$autogenerate.labels">
+	<xsl:variable name="figure.label">
+	  <xsl:apply-templates select=".." mode="label.markup"/>
+	</xsl:variable>
+	<xsl:if test="$figure.label != ''">
+	  <span class="label">
+	    <xsl:value-of select="$heading.label"/>
+	    <xsl:value-of select="$label.and.title.separator"/>
+	  </span>
+	</xsl:if>
+      </xsl:if>
+      <xsl:apply-templates/>
     </xsl:element>
   </xsl:template>
 </xsl:stylesheet> 
