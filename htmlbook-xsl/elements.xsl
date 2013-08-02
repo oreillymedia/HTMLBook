@@ -32,6 +32,35 @@
     </xsl:element>
   </xsl:template>
 
+  <xsl:template match="h:section[@data-type]/*[self::h:h1 or self::h:h2 or self::h:h3 or self::h:h4 or self::h:h5 or self::h:h6]|
+		       h:div[@data-type = 'part' or @data-type = 'example' or @data-type = 'equation']/*[self::h:h1 or self::h:h2 or self::h:h3 or self::h:h4 or self::h:h5 or self::h:h6]">
+    <xsl:copy>
+      <xsl:apply-templates select="@*"/>
+      <xsl:if test="$autogenerate.labels = 1">
+	<xsl:variable name="heading.label">
+	  <xsl:apply-templates select=".." mode="label.markup"/>
+	</xsl:variable>
+	<xsl:if test="$heading.label != ''">
+	  <span data-type="label">
+	    <xsl:variable name="element-labelname">
+	      <xsl:call-template name="get-localization-value">
+		<xsl:with-param name="gentext-key">
+		  <xsl:value-of select="../@data-type"/>
+		</xsl:with-param>
+	      </xsl:call-template>
+	    </xsl:variable>
+	    <xsl:if test="normalize-space($element-labelname) != ''">
+	      <xsl:value-of select="concat($element-labelname, ' ')"/>
+	    </xsl:if>
+	    <xsl:value-of select="$heading.label"/>
+	    <xsl:value-of select="$label.and.title.separator"/>
+	  </span>
+	</xsl:if>
+      </xsl:if>
+      <xsl:apply-templates/>
+    </xsl:copy>	
+  </xsl:template>
+
   <xsl:template match="h:figure">
     <xsl:variable name="output-element-name">
       <xsl:call-template name="html.output.element"/>
@@ -46,12 +75,62 @@
     </xsl:element>
   </xsl:template>
 
+  <xsl:template match="h:caption">
+    <xsl:copy>
+      <xsl:apply-templates select="@*"/>
+      <xsl:if test="$autogenerate.labels = 1">
+	<xsl:variable name="figure.label">
+	  <xsl:apply-templates select=".." mode="label.markup"/>
+	</xsl:variable>
+	<xsl:if test="$figure.label != ''">
+	  <span data-type="label">
+	    <xsl:variable name="element-labelname">
+	      <xsl:call-template name="get-localization-value">
+		<xsl:with-param name="gentext-key">
+		  <xsl:value-of select="'table'"/>
+		</xsl:with-param>
+	      </xsl:call-template>
+	    </xsl:variable>
+	    <xsl:if test="normalize-space($element-labelname) != ''">
+	      <xsl:value-of select="concat($element-labelname, ' ')"/>
+	    </xsl:if>
+	    <xsl:value-of select="$figure.label"/>
+	    <xsl:value-of select="$label.and.title.separator"/>
+	  </span>
+	</xsl:if>
+      </xsl:if>
+      <xsl:apply-templates/>
+    </xsl:copy>
+  </xsl:template>
+
   <xsl:template match="h:figcaption">
     <xsl:variable name="output-element-name">
       <xsl:call-template name="html.output.element"/>
     </xsl:variable>
     <xsl:element name="{$output-element-name}" namespace="http://www.w3.org/1999/xhtml">
-      <xsl:apply-templates select="@*|node()"/>
+      <xsl:apply-templates select="@*"/>
+      <xsl:if test="$autogenerate.labels = 1">
+	<xsl:variable name="figure.label">
+	  <xsl:apply-templates select=".." mode="label.markup"/>
+	</xsl:variable>
+	<xsl:if test="$figure.label != ''">
+	  <span data-type="label">
+	    <xsl:variable name="element-labelname">
+	      <xsl:call-template name="get-localization-value">
+		<xsl:with-param name="gentext-key">
+		  <xsl:value-of select="'figure'"/>
+		</xsl:with-param>
+	      </xsl:call-template>
+	    </xsl:variable>
+	    <xsl:if test="normalize-space($element-labelname) != ''">
+	      <xsl:value-of select="concat($element-labelname, ' ')"/>
+	    </xsl:if>
+	    <xsl:value-of select="$figure.label"/>
+	    <xsl:value-of select="$label.and.title.separator"/>
+	  </span>
+	</xsl:if>
+      </xsl:if>
+      <xsl:apply-templates/>
     </xsl:element>
   </xsl:template>
 </xsl:stylesheet> 
