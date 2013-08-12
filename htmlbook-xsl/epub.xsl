@@ -282,6 +282,9 @@ UbuntuMono-Italic.otf</xsl:param>
 		  <xsl:value-of select="local-name()"/>
 		</xsl:if>
 	      </title>
+	      <xsl:if test="$css.filename != ''">
+		<link rel="stylesheet" type="text/css" href="{$css.filename}" />
+	      </xsl:if>
 	    </head>
 	    <xsl:choose>
 	      <!-- Only add the body tag if doesn't already exist -->
