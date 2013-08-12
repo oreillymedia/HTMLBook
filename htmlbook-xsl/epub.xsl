@@ -126,7 +126,7 @@
   <!-- By default, try to pull from meta element in head -->
   <xsl:param name="metadata.contributors" select="//h:head/h:meta[contains(@name, 'contributor')]"/>
 
-  <xsl:param name="metadata.creators" select="//h:head/h:meta[contains(@name, 'creator')]"/>
+  <xsl:param name="metadata.creators" select="//h:head/h:meta[contains(@name, 'creator') or contains(@name, 'author')]"/>
 
   <!-- Id to use to reference cover image -->
   <xsl:param name="epub.cover.image.id" select="'cover-image'"/>
