@@ -131,6 +131,10 @@ sect4:xref
 sect5:xref
   </xsl:param>
 
+  <!-- Filename of CSS to be embedded in <link> in output in HTML <head> -->
+  <!-- Leave blank to omit CSS -->
+  <xsl:param name="css.filename"/>
+
   <!-- When set to 1, convert HTML5 structural elements like <section> and <figure> to <div> -->
   <xsl:param name="html4.structural.elements" select="0"/>
 
