@@ -172,7 +172,7 @@
     * no @src attribute on <audio> elem and 1 or more <source> children
     But this logic is impossible to capture in Schema, so not going to enforce -->
 <xs:element name="audio">
-  <xs:complexType>
+  <xs:complexType mixed="true">
     <xs:sequence>
       <xs:element ref="source" minOccurs="0" maxOccurs="unbounded"/>
       <xs:element ref="track" minOccurs="0" maxOccurs="unbounded"/>
@@ -551,7 +551,7 @@
 </xs:element>
   
 <xs:element name="video">
-  <xs:complexType>
+  <xs:complexType mixed="true">
     <xs:sequence>
       <xs:element ref="source" minOccurs="0" maxOccurs="unbounded"/>
       <xs:element ref="track" minOccurs="0" maxOccurs="unbounded"/>
