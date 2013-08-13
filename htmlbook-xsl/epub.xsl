@@ -126,7 +126,7 @@
   <!-- By default, try to pull from meta element in head -->
   <xsl:param name="metadata.contributors" select="//h:head/h:meta[contains(@name, 'contributor')]"/>
 
-  <xsl:param name="metadata.creators" select="//h:head/h:meta[contains(@name, 'creator')]"/>
+  <xsl:param name="metadata.creators" select="//h:head/h:meta[contains(@name, 'creator') or contains(@name, 'author')]"/>
 
   <!-- Id to use to reference cover image -->
   <xsl:param name="epub.cover.image.id" select="'cover-image'"/>
@@ -282,6 +282,9 @@ UbuntuMono-Italic.otf</xsl:param>
 		  <xsl:value-of select="local-name()"/>
 		</xsl:if>
 	      </title>
+	      <xsl:if test="$css.filename != ''">
+		<link rel="stylesheet" type="text/css" href="{$css.filename}" />
+	      </xsl:if>
 	    </head>
 	    <xsl:choose>
 	      <!-- Only add the body tag if doesn't already exist -->
