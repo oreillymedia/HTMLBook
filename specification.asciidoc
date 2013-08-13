@@ -1,4 +1,4 @@
-== HTMLBook Specification: Working Draft 3 July 2013
+== HTMLBook Specification: Working Draft 13 August 2013
 
 Requirements for HTML5 elements in the HTMLBook specification are below. Special semantic inflections for +data-type+ attributes, unless otherwise noted, come from http://idpf.org/epub/vocab/structure/[EPUB 3 Structural Semantics Vocabulary]
 
@@ -7,6 +7,10 @@ Many content models refer to "Block elements" or "Inline elements"; please see <
 If no content model or attribute requirements are explicitly specified, then HTMLBook adopts the corresponding requirements in the http://www.w3.org/html/wg/drafts/html/master/[HTML5 Specification]
 
 === Revision History and Notes
+
+13 August 2013: Third release of Working Draft
+
+* Revised specification for footnote markup
 
 3 July 2013: Second release of Working Draft
 
@@ -636,23 +640,27 @@ Example:
 
 ==== Footnote, endnote
 
-*HTML element*: +<a>+ (for marker); +<div>+ for block of footnote/endnote content; +<aside>+ for footnote or endnote
+*HTML element*: +<span>+
 
-*Attribute requirements*: +data-type="noteref"+ (for marker); +data-type="footnotes"+ or +data-type="rearnotes"+ for block of footnotes/endnotes; +data-type="footnote"+ or +data-type="rearnote"+ for footnote or endnote
+*Attribute requirements*: +data-type="footnote"+ 
 
-*Content model for marker (<a>)*: text and/or zero or more Inline elements
+*Content model for footnote: text and/or zero or more Inline elements
 
-*Content model for footnote (<aside>)*: zero or more Block elements
-
-Example:
+*Example*:
 
 ----
-<p>Five out of every six people who try AsciiDoc prefer it to Markdown<a href="#ftn1" id="ftnref1" data-type="noteref">1</a></p>
-<!-- Interceding text -->
-<div data-type="footnotes">
-<aside data-type="footnote"><sup><a href="#ftn1ref1">1</a></sup> Totally made-up statistic</aside>
-</div>
+<p>Five out of every six people who try AsciiDoc prefer it to Markdown<span data-type="footnote">Totally made-up statistic</span></p>
 ----
+
+*Notes*: 
+
+* The <span> element does not accept block element children (and as of 2013-08-13, nor does any other HTML5 element that can be used in an inline context and is an acceptable semantic fit for footnotes)). If you need to include multiple blocks of content in a footnote, use <br/> elements to delimit them, e.g.:
+
+----
+<p>This is a really short paragraph.<span data-type="footnote">Largely because I like to put lots and lots of content in footnotes.<br/><br/>For example, let me tell you a story about my dog...</span></p>
+----
+
+* Desired rendering of footnote content (i.e., floating/moving footnotes to the bottom of a page or end of a section, adding appropriate marker symbols/numeration) should be handled by XSL/CSS stylesheet processing.
 
 ==== Cross-references
 
