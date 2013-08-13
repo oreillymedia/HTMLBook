@@ -163,7 +163,7 @@
 <!-- Block elements -->
   
 <!-- For now, limit "address" to support only inline element children -->
-<xs:element name="address" type="inline_children_only"/>
+<xs:element name="address" type="inlines_mml_and_svg"/>
 
 <xs:element name="aside" type="sidebar"/>
 
@@ -498,12 +498,12 @@
   </xs:complexType>
 </xs:element>
   
-<xs:element name="p" type="inline_children_only"/>
+<xs:element name="p" type="inlines_mml_and_svg"/>
   
 <xs:element name="pre">
   <xs:complexType>
     <xs:complexContent>
-      <xs:extension base="inline_children_only">
+      <xs:extension base="inlines_mml_and_svg">
         <xs:attribute name="data-code-language" type="xs:token"/>
       </xs:extension>
     </xs:complexContent>
@@ -567,7 +567,7 @@
 <xs:element name="a">
   <xs:complexType>
     <xs:complexContent>
-      <xs:extension base="inline_children_only">
+      <xs:extension base="inlines_mml_and_svg">
         <!-- ToDo: Any further attribute restrictions -->
         <xs:attribute name="href" type="xs:anyURI"/>
         <xs:attribute name="hreflang" type="xs:language"/>
@@ -586,16 +586,16 @@
   </xs:complexType>
 </xs:element>
   
-<xs:element name="abbr" type="inline_children_only"/>
+<xs:element name="abbr" type="inlines_mml_and_svg"/>
 
-<xs:element name="b" type="inline_children_only"/>
+<xs:element name="b" type="inlines_mml_and_svg"/>
   
-<xs:element name="bdi" type="inline_children_only"/>
+<xs:element name="bdi" type="inlines_mml_and_svg"/>
   
 <xs:element name="bdo">
   <xs:complexType  mixed="true">
     <xs:sequence>
-      <xs:group ref="inlineelements" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:group ref="inlines_plus_mml_and_svg" minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>
     <!-- Adding the dir attribute here instead of specifying it in the "globals" attribute group
          to modify to include use="required" --> 
@@ -680,7 +680,7 @@
   </xs:complexType>
 </xs:element>
   
-<xs:element name="cite" type="inline_children_only"/>
+<xs:element name="cite" type="inlines_mml_and_svg"/>
 
 <!-- Can also be used in document head -->
 <xs:element name="command">
@@ -713,7 +713,7 @@
   </xs:complexType>
 </xs:element>
 
-<xs:element name="code" type="inline_children_only"/>
+<xs:element name="code" type="inlines_mml_and_svg"/>
   
 <xs:element name="datalist">
   <xs:complexType>
@@ -729,7 +729,7 @@
 <xs:element name="del">
   <xs:complexType>
     <xs:complexContent>
-      <xs:extension base="inline_children_only">
+      <xs:extension base="inlines_mml_and_svg">
         <xs:attribute name="cite" type="xs:anyURI"/>
         <xs:attribute name="datetime" type="xs:string"/>
       </xs:extension>
@@ -782,14 +782,16 @@
         <xs:element ref="u"/>
         <xs:element ref="var"/>
         <xs:element ref="wbr"/>
+        <xs:element ref="mml:math"/>
+        <xs:element ref="svg:svg"/>
       </xs:choice>
       <xs:attributeGroup ref="globals"/>
   </xs:complexType>
 </xs:element>
   
-<xs:element name="em" type="inline_children_only"/>
+<xs:element name="em" type="inlines_mml_and_svg"/>
   
-<xs:element name="i" type="inline_children_only"/>
+<xs:element name="i" type="inlines_mml_and_svg"/>
   
 <xs:element name="img">
   <xs:complexType>
@@ -898,7 +900,7 @@
 <xs:element name="ins">
   <xs:complexType>
     <xs:complexContent>
-      <xs:extension base="inline_children_only">
+      <xs:extension base="inlines_mml_and_svg">
         <xs:attribute name="cite" type="xs:anyURI"/>
         <xs:attribute name="datetime" type="xs:string"/>
       </xs:extension>
@@ -906,7 +908,7 @@
   </xs:complexType>
 </xs:element>
 
-<xs:element name="kbd" type="inline_children_only"/>
+<xs:element name="kbd" type="inlines_mml_and_svg"/>
 
 <xs:element name="keygen">
   <xs:complexType>
@@ -976,6 +978,8 @@
         <xs:element ref="u"/>
         <xs:element ref="var"/>
         <xs:element ref="wbr"/>
+        <xs:element ref="mml:math"/>
+        <xs:element ref="svg:svg"/>
       </xs:choice>
       <xs:attribute name="for" type="xs:IDREF"/>
       <xs:attribute name="form" type="xs:IDREF"/>
@@ -983,7 +987,7 @@
   </xs:complexType>
 </xs:element>
   
-<xs:element name="mark" type="inline_children_only"/>
+<xs:element name="mark" type="inlines_mml_and_svg"/>
   
 <xs:element name="meter">
   <!-- meter elements can have any inline children, excluding another "meter" element -->
@@ -1030,6 +1034,8 @@
         <xs:element ref="u"/>
         <xs:element ref="var"/>
         <xs:element ref="wbr"/>
+        <xs:element ref="mml:math"/>
+        <xs:element ref="svg:svg"/>
       </xs:choice>
       <xs:attribute name="form" type="xs:IDREF"/>
       <xs:attribute name="high" type="xs:float"/>
@@ -1045,7 +1051,7 @@
 <xs:element name="output">
   <xs:complexType mixed="true">
     <xs:complexContent>
-      <xs:extension base="inline_children_only">
+      <xs:extension base="inlines_mml_and_svg">
         <!-- output element has a few additional attributes -->
         <xs:attribute name="for" type="xs:IDREF"/>
         <xs:attribute name="form" type="xs:IDREF"/>
@@ -1100,6 +1106,8 @@
       <xs:element ref="u"/>
       <xs:element ref="var"/>
       <xs:element ref="wbr"/>
+      <xs:element ref="mml:math"/>
+      <xs:element ref="svg:svg"/>
     </xs:choice>
     <xs:attribute name="form" type="xs:IDREF"/>
     <xs:attribute name="max" type="xs:float"/>
@@ -1111,7 +1119,7 @@
 <xs:element name="q">
   <xs:complexType mixed="true">
     <xs:complexContent>
-      <xs:extension base="inline_children_only">
+      <xs:extension base="inlines_mml_and_svg">
         <xs:attribute name="cite" type="xs:anyURI"/>
       </xs:extension>
     </xs:complexContent>
@@ -1121,7 +1129,7 @@
 <xs:element name="ruby">
   <xs:complexType mixed="true">
     <xs:complexContent>
-      <xs:extension base="inline_children_only">
+      <xs:extension base="inlines_mml_and_svg">
           <xs:choice>
             <xs:element ref="rt"/>
             <xs:sequence>
@@ -1135,9 +1143,9 @@
   </xs:complexType>
 </xs:element>
   
-<xs:element name="s" type="inline_children_only"/>
+<xs:element name="s" type="inlines_mml_and_svg"/>
   
-<xs:element name="samp" type="inline_children_only"/>
+<xs:element name="samp" type="inlines_mml_and_svg"/>
 
 <xs:element name="select">
   <xs:complexType>
@@ -1163,15 +1171,15 @@
   </xs:complexType>
 </xs:element>
   
-<xs:element name="small" type="inline_children_only"/>
+<xs:element name="small" type="inlines_mml_and_svg"/>
   
-<xs:element name="span" type="inline_children_only"/>
+<xs:element name="span" type="inlines_mml_and_svg"/>
   
-<xs:element name="strong" type="inline_children_only"/>
+<xs:element name="strong" type="inlines_mml_and_svg"/>
   
-<xs:element name="sub" type="inline_children_only"/>
+<xs:element name="sub" type="inlines_mml_and_svg"/>
   
-<xs:element name="sup" type="inline_children_only"/>
+<xs:element name="sup" type="inlines_mml_and_svg"/>
   
 <xs:element name="textarea">
   <xs:complexType mixed="true">
@@ -1250,6 +1258,8 @@
       <xs:element ref="u"/>
       <xs:element ref="var"/>
       <xs:element ref="wbr"/>
+      <xs:element ref="mml:math"/>
+      <xs:element ref="svg:svg"/>
     </xs:choice>
     <xs:attribute name="pubdate">
       <xs:simpleType>
@@ -1263,9 +1273,9 @@
   </xs:complexType>
 </xs:element>
   
-<xs:element name="u" type="inline_children_only"/>
+<xs:element name="u" type="inlines_mml_and_svg"/>
   
-<xs:element name="var" type="inline_children_only"/>
+<xs:element name="var" type="inlines_mml_and_svg"/>
   
 <xs:element name="wbr" type="empty_elem_global_attrs"/>
     
@@ -1342,11 +1352,11 @@
   
 <xs:element name="dd" type="block_xor_inline_children"/>
 
-<xs:element name="dt" type="inline_children_only"/>
+<xs:element name="dt" type="inlines_mml_and_svg"/>
 
 <xs:element name="figcaption" type="caption"/>
   
-<xs:element name="legend" type="inline_children_only"/>
+<xs:element name="legend" type="inlines_mml_and_svg"/>
   
 <xs:element name="li" type="block_xor_inline_children"/>
   
@@ -1391,9 +1401,9 @@
   </xs:complexType>
 </xs:element>
   
-<xs:element name="rp" type="inline_children_only"/>
+<xs:element name="rp" type="inlines_mml_and_svg"/>
   
-<xs:element name="rt" type="inline_children_only"/>
+<xs:element name="rt" type="inlines_mml_and_svg"/>
   
 <xs:element name="source">
   <xs:complexType>
@@ -1407,7 +1417,7 @@
   </xs:complexType>  
 </xs:element>
 
-<xs:element name="summary" type="inline_children_only"/>
+<xs:element name="summary" type="inlines_mml_and_svg"/>
   
 <xs:element name="tbody" type="tablegrouping"/>
   
@@ -1424,7 +1434,7 @@
 <xs:element name="th">
   <xs:complexType>
     <xs:complexContent>
-      <xs:extension base="inline_children_only">
+      <xs:extension base="inlines_mml_and_svg">
         <xs:attributeGroup ref="tablecellattributes"/>
         <xs:attribute name="scope">
           <xs:simpleType>
@@ -1487,17 +1497,17 @@
 </xs:element>
 
 <!-- Heading elements -->
-<xs:element name="h1" type="inline_children_only"/>
+<xs:element name="h1" type="inlines_mml_and_svg"/>
 
-<xs:element name="h2" type="inline_children_only"/>
+<xs:element name="h2" type="inlines_mml_and_svg"/>
 
-<xs:element name="h3" type="inline_children_only"/>
+<xs:element name="h3" type="inlines_mml_and_svg"/>
   
-<xs:element name="h4" type="inline_children_only"/>
+<xs:element name="h4" type="inlines_mml_and_svg"/>
   
-<xs:element name="h5" type="inline_children_only"/>
+<xs:element name="h5" type="inlines_mml_and_svg"/>
   
-<xs:element name="h6" type="inline_children_only"/>
+<xs:element name="h6" type="inlines_mml_and_svg"/>
   
   
 <!-- Global simple type definitions; see also global complex types section -->
@@ -1744,7 +1754,7 @@
 <!-- ToDo: Continue to flesh out as necessary -->
 <xs:complexType name="subheading" mixed="true">
   <xs:sequence>
-    <xs:group ref="inlineelements" minOccurs="0" maxOccurs="unbounded"/>
+    <xs:group ref="inlines_plus_mml_and_svg" minOccurs="0" maxOccurs="unbounded"/>
   </xs:sequence>
   <!-- Note: special data-type attr restrictions here -->
   <xs:attribute name="data-type" use="required" type="subheadingtype"/>
@@ -1772,9 +1782,9 @@
 </xs:complexType>
   
 <!-- General handling for elements that can accept only inline children -->
-<xs:complexType name="inline_children_only" mixed="true">
+<xs:complexType name="inlines_mml_and_svg" mixed="true">
   <xs:sequence>
-    <xs:group ref="inlineelements" minOccurs="0" maxOccurs="unbounded"/>
+    <xs:group ref="inlines_plus_mml_and_svg" minOccurs="0" maxOccurs="unbounded"/>
   </xs:sequence>
   <xs:attributeGroup ref="globals"/>
 </xs:complexType>
@@ -1809,7 +1819,7 @@
       <xs:element ref="p"/>
       <xs:element ref="div"/>
     </xs:choice>
-    <xs:group ref="inlineelements" minOccurs="0" maxOccurs="unbounded"/>
+    <xs:group ref="inlines_plus_mml_and_svg" minOccurs="0" maxOccurs="unbounded"/>
   </xs:choice>
   <xs:attributeGroup ref="globals"/>
 </xs:complexType>
@@ -1842,16 +1852,23 @@
     <xs:element ref="hr"/>
     <xs:element ref="iframe"/>
     <xs:element ref="map"/>
-    <xs:element ref="mml:math"/>
     <xs:element ref="menu"/>
     <xs:element ref="object"/>
     <xs:element ref="ol"/>
     <xs:element ref="p"/>
     <xs:element ref="pre"/>
-    <xs:element ref="svg:svg"/>
     <xs:element ref="table"/>
     <xs:element ref="ul"/>
     <xs:element ref="video"/>
+    <xs:group ref="external_elements"/>
+  </xs:choice>
+</xs:group>
+
+<!-- Elements from other vocabularies that can be included in HTML5: MathML and SVG -->
+<xs:group name="external_elements">
+  <xs:choice>
+    <xs:element ref="mml:math"/>
+    <xs:element ref="svg:svg"/>
   </xs:choice>
 </xs:group>
 
@@ -1884,7 +1901,9 @@
   
 <xs:group name="inlineelements">
 <!-- We're defining "inline elements" here as being generally equivalent to the set of HTML5 phrasing elements: 
-     those that can be children of a block element -->
+     those that can be children of a block element.
+     These are elements that can be used *solely in an inline context* Elements that can be either inline or block 
+     (e.g., <math> and <svg>) are not covered) -->
   <xs:choice>
     <xs:element ref="a"/>
     <xs:element ref="abbr"/>
@@ -1926,6 +1945,13 @@
     <xs:element ref="u"/>
     <xs:element ref="var"/>
     <xs:element ref="wbr"/>
+  </xs:choice>
+</xs:group>
+  
+<xs:group name="inlines_plus_mml_and_svg">
+  <xs:choice>
+    <xs:group ref="inlineelements"/>
+    <xs:group ref="external_elements"/>
   </xs:choice>
 </xs:group>
   
