@@ -172,6 +172,8 @@
 
   <xsl:template name="generate-footnotes">
     <!-- For standard, one-chunk output, we put all the footnotes at the end of the last chapter or appendix -->
+    <!-- (Note that if there are no chapters or appendixes in the book, footnotes will not be generated properly. This can be changed
+	 if we determine that there are other main-book-div types that can hold footnotes at the end of a book) --> 
     <xsl:if test="self::h:section[@data-type='chapter' or @data-type='appendix'] and not(following::h:section[@data-type='chapter' or @data-type='appendix']) and count(//h:span[@data-type='footnote']) > 0">
       <!-- Footnotes should be put in an aside by default, but we call html.output.element to see if <aside> should be remapped to something else -->
       <!-- Kludge-y way to get an aside element -->
@@ -206,6 +208,7 @@
 	  <xsl:number count="h:span[@data-type='footnote']" level="any"/>
 	</sup>
       </a>
+      <xsl:text> </xsl:text>
       <xsl:apply-templates/>
     </p>
   </xsl:template>
