@@ -48,6 +48,9 @@ sect5:s
   <!-- Specify an output directory for chunked files; otherwise defaults to current directory -->
   <xsl:param name="outputdir"/>
 
+  <!-- By default for chunked output, turn on footnote processing into separate marker/hyperlink and footnote content -->
+  <xsl:param name="process.footnotes" select="1"/>
+
   <xsl:template match="/h:html">
     <xsl:apply-templates select="h:body"/>
   </xsl:template>

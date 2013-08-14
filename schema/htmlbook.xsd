@@ -1,8 +1,6 @@
 <?xml version="1.0"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.w3.org/1999/xhtml" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:svg="http://www.w3.org/2000/svg" targetNamespace="http://www.w3.org/1999/xhtml" elementFormDefault="qualified" attributeFormDefault="unqualified">
 
-<!-- ToDos: Indexterm data attributes; special schema for footnotes (thinking <aside data-type="footnote">); enumerated data-type for admonitions/examples on div? -->
-
 <xs:import namespace="http://www.w3.org/1998/Math/MathML" schemaLocation="mathml3/mathml3.xsd"/>
 <xs:import namespace="http://www.w3.org/2000/svg" schemaLocation="svg/SVG.xsd"/>
 

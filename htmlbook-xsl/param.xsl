@@ -114,7 +114,7 @@ sect5:none
   <!-- Footnote-specific params -->
 
   <!-- Process footnotes into separate marker/hyperlink and footnote content -->
-  <xsl:param name="process.footnotes" select="1"/>
+  <xsl:param name="process.footnotes" select="0"/>
   
   <!-- Specify whether or not to overwrite any content in XREF <a> elements when doing XREF gentext -->
   <xsl:param name="xref-placeholder-overwrite-contents" select="0"/>
