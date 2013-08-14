@@ -1,8 +1,10 @@
 <xsl:stylesheet version="1.0"
 		xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+		xmlns:exsl="http://exslt.org/common"
 		xmlns:h="http://www.w3.org/1999/xhtml"
 		xmlns="http://www.w3.org/1999/xhtml"
-		exclude-result-prefixes="h">
+		extension-element-prefixes="exsl"
+		exclude-result-prefixes="exsl h">
 
 <!-- Template for id decoration on elements that need it for TOC and/or index generation. 
      Should be at a lower import level than tocgen.xsl and indexgen.xsl, so that those
@@ -19,7 +21,7 @@
     -->
   <!-- WARNING: If you need additional handling for these elements for other functionality,
        and you override this template elsewhere, make sure you add in id-decoration functionality -->
-  <xsl:template match="h:section|h:div[contains(@data-type, 'part')]|h:a[contains(@data-type, 'indexterm')]">
+  <xsl:template match="h:section|h:div[contains(@data-type, 'part')]|h:aside|h:a[contains(@data-type, 'indexterm')]">
     <xsl:variable name="output-element-name">
       <xsl:call-template name="html.output.element"/>
     </xsl:variable>
@@ -28,7 +30,10 @@
       <xsl:attribute name="id">
 	<xsl:call-template name="object.id"/>
       </xsl:attribute>
-      <xsl:apply-templates/>      
+      <xsl:apply-templates/>
+      <xsl:if test="$process.footnotes = 1">
+	<xsl:call-template name="generate-footnotes"/>
+      </xsl:if>
     </xsl:element>
   </xsl:template>
 
@@ -133,4 +138,79 @@
       <xsl:apply-templates/>
     </xsl:element>
   </xsl:template>
+
+  <!-- Footnote handling -->
+  <xsl:template match="h:span[@data-type='footnote']">
+    <xsl:choose>
+      <xsl:when test="$process.footnotes = 1">
+	<xsl:call-template name="footnote-marker"/>
+      </xsl:when>
+      <xsl:otherwise>
+	<xsl:copy>
+	  <xsl:apply-templates select="@*|node()"/>
+	</xsl:copy>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
+  <xsl:template name="footnote-marker">
+    <a data-type="noteref">
+      <xsl:attribute name="id">
+	<xsl:call-template name="object.id"/>
+	<xsl:text>-marker</xsl:text>
+      </xsl:attribute>
+      <xsl:attribute name="href">
+	<xsl:call-template name="href.target"/>
+      </xsl:attribute>
+      <sup>
+	<!-- Use numbers for footnotes -->
+	<!-- ToDo: Parameterize for numeration type and/or symbols? -->
+	<xsl:number count="h:span[@data-type='footnote']" level="any"/>
+      </sup>
+    </a>
+  </xsl:template>
+
+  <xsl:template name="generate-footnotes">
+    <!-- For standard, one-chunk output, we put all the footnotes at the end of the last chapter or appendix -->
+    <!-- (Note that if there are no chapters or appendixes in the book, footnotes will not be generated properly. This can be changed
+	 if we determine that there are other main-book-div types that can hold footnotes at the end of a book) --> 
+    <xsl:if test="self::h:section[@data-type='chapter' or @data-type='appendix'] and not(following::h:section[@data-type='chapter' or @data-type='appendix']) and count(//h:span[@data-type='footnote']) > 0">
+      <!-- Footnotes should be put in an aside by default, but we call html.output.element to see if <aside> should be remapped to something else -->
+      <!-- Kludge-y way to get an aside element -->
+      <xsl:variable name="aside-element">
+	<aside/>
+      </xsl:variable>
+      <xsl:variable name="footnote-element-name">
+	<xsl:call-template name="html.output.element">
+	  <xsl:with-param name="node" select="exsl:node-set($aside-element)/*[1]"/>
+	</xsl:call-template>
+      </xsl:variable>
+      <xsl:element name="{$footnote-element-name}" namespace="http://www.w3.org/1999/xhtml">
+	<xsl:attribute name="data-type">footnotes</xsl:attribute>
+	<xsl:apply-templates select="//h:span[@data-type='footnote']" mode="generate.footnote"/>
+      </xsl:element>
+    </xsl:if>
+  </xsl:template>
+
+  <xsl:template match="h:span[@data-type='footnote']" mode="generate.footnote">
+    <p data-type="footnote">
+      <xsl:attribute name="id">
+	<xsl:call-template name="object.id"/>
+      </xsl:attribute>
+      <a>
+	<xsl:attribute name="href">
+	  <xsl:call-template name="href.target"/>
+	  <xsl:text>-marker</xsl:text>
+	</xsl:attribute>
+	<sup>
+	  <!-- Use numbers for footnotes -->
+	  <!-- ToDo: Parameterize for numeration type and/or symbols? -->
+	  <xsl:number count="h:span[@data-type='footnote']" level="any"/>
+	</sup>
+      </a>
+      <xsl:text> </xsl:text>
+      <xsl:apply-templates/>
+    </p>
+  </xsl:template>
+
 </xsl:stylesheet> 

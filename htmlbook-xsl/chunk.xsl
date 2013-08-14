@@ -48,6 +48,9 @@ sect5:s
   <!-- Specify an output directory for chunked files; otherwise defaults to current directory -->
   <xsl:param name="outputdir"/>
 
+  <!-- By default for chunked output, turn on footnote processing into separate marker/hyperlink and footnote content -->
+  <xsl:param name="process.footnotes" select="1"/>
+
   <xsl:template match="/h:html">
     <xsl:apply-templates select="h:body"/>
   </xsl:template>
@@ -409,6 +412,63 @@ sect5:s
       </xsl:choose>
     </xsl:variable>
     <xsl:value-of select="$chunk-filename"/>
+  </xsl:template>
+
+  <!-- For chunked output, we want to customize generate-footnotes to only generate the footnotes in a specific chunk, and to put them
+       at the end of that chunk -->
+  <xsl:template name="generate-footnotes">
+
+    <!-- Only generate footnotes if the current node is a chunk -->
+    <xsl:if test="htmlbook:is-chunk(.)">
+
+      <xsl:variable name="all-footnotes" select="//h:span[@data-type='footnote']"/>
+
+      <!-- Get a list of all chunk filenames corresponding to each footnote node -->
+      <xsl:variable name="filenames-for-footnotes">
+	<xsl:for-each select="$all-footnotes">	
+	  <xsl:call-template name="filename-for-node">
+	    <xsl:with-param name="node" select="."/>
+	  </xsl:call-template>
+	</xsl:for-each>
+      </xsl:variable>
+      
+      <!-- Get the filename of the current chunk -->
+      <xsl:variable name="this-chunk-filename">
+	<xsl:call-template name="filename-for-node">
+	  <xsl:with-param name="node" select="."/>
+	</xsl:call-template>
+      </xsl:variable>
+
+      <!-- We're in a chunk, but before we generate footnotes, confirm there are actually footnotes in the chunk -->
+      <!-- If this chunk's filename is in the list of footnote chunk filenames, then there are indeed footnotes in this chunk -->
+      <xsl:if test="contains($filenames-for-footnotes, $this-chunk-filename)">
+   
+	<!-- Footnotes should be put in an aside by default, but we call html.output.element to see if <aside> should be remapped to something else -->
+	<!-- Kludge-y way to get an aside element -->
+	<xsl:variable name="aside-element">
+	  <aside/>
+	</xsl:variable>
+
+	<xsl:variable name="footnote-element-name">
+	  <xsl:call-template name="html.output.element">
+	    <xsl:with-param name="node" select="exsl:node-set($aside-element)/*[1]"/>
+	  </xsl:call-template>
+	</xsl:variable>
+	<xsl:element name="{$footnote-element-name}" namespace="http://www.w3.org/1999/xhtml">
+	  <xsl:attribute name="data-type">footnotes</xsl:attribute>
+	  <xsl:for-each select="$all-footnotes">
+	    <xsl:variable name="footnote-chunk-filename">
+	      <xsl:call-template name="filename-for-node">
+		<xsl:with-param name="node" select="."/>
+	      </xsl:call-template>
+	    </xsl:variable>
+	    <xsl:if test="$footnote-chunk-filename = $this-chunk-filename">
+	      <xsl:apply-templates select="." mode="generate.footnote"/>
+	    </xsl:if>
+	  </xsl:for-each>
+	</xsl:element>
+      </xsl:if>
+    </xsl:if>
   </xsl:template>
 
 </xsl:stylesheet> 
