@@ -183,7 +183,7 @@
 	<xsl:variable name="referenced-footnote" select="key('footnote-nodes-by-id', $referenced-footnote-id)"/>
 	<xsl:choose>
 	  <xsl:when test="count($referenced-footnote) &gt; 0">
-	    <!-- Switch the context node to that of the reference footnote -->
+	    <!-- Switch the context node to that of the referenced footnote -->
 	    <xsl:for-each select="$referenced-footnote[1]">
 	      <!-- Same general handling as regular footnote markers, except footnoterefs don't get ids -->
 	      <a data-type="noteref">
