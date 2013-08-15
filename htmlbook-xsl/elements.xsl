@@ -14,6 +14,8 @@
               encoding="UTF-8"/>
   <xsl:preserve-space elements="*"/>
 
+  <xsl:key name="footnote-nodes-by-id" match="h:span[@data-type='footnote']" use="@id"/>
+
   <!-- Elements that require ids: 
        * All <sections>
        * <div data-type="part">
@@ -168,6 +170,46 @@
 	<xsl:number count="h:span[@data-type='footnote']" level="any"/>
       </sup>
     </a>
+  </xsl:template>
+
+  <!-- Handling for footnoterefs a la DocBook (cross-references to an existing footnote) -->
+  <xsl:template match="h:a[@data-type='footnoteref']">
+    <xsl:choose>
+      <xsl:when test="$process.footnotes = 1">
+	<xsl:variable name="referenced-footnote-id">
+	  <!-- Assuming that href is in the format href="#footnote_id" -->
+	  <xsl:value-of select="substring-after(@href, '#')"/>
+	</xsl:variable>
+	<xsl:variable name="referenced-footnote" select="key('footnote-nodes-by-id', $referenced-footnote-id)"/>
+	<xsl:choose>
+	  <xsl:when test="count($referenced-footnote) &gt; 0">
+	    <!-- Switch the context node to that of the referenced footnote -->
+	    <xsl:for-each select="$referenced-footnote[1]">
+	      <!-- Same general handling as regular footnote markers, except footnoterefs don't get ids -->
+	      <a data-type="noteref">
+		<xsl:attribute name="href">
+		  <xsl:call-template name="href.target"/>
+		</xsl:attribute>
+		<sup>
+		  <!-- Use numbers for footnotes -->
+		  <!-- ToDo: Parameterize for numeration type and/or symbols? -->
+		  <xsl:number count="h:span[@data-type='footnote']" level="any"/>
+		</sup>
+	  </a>
+	    </xsl:for-each>
+	  </xsl:when>
+	  <xsl:otherwise>
+	    <!-- Uh oh, couldn't find the corresponding footnote for the footnoteref -->
+	    <xsl:message>Error: Could not find footnote referenced by footnoteref link <xsl:value-of select="@href"/></xsl:message>
+	  </xsl:otherwise>
+	</xsl:choose>
+      </xsl:when>
+      <xsl:otherwise>
+	<xsl:copy>
+	  <xsl:apply-templates select="@*|node()"/>
+	</xsl:copy>
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
 
   <xsl:template name="generate-footnotes">
