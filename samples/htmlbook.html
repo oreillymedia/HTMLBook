@@ -133,7 +133,7 @@
             href="http://idpf.org/accessibility/guidelines/content/semantics/epub-type.php"
               ><code>epub:type</code></a> attribute. Where EPUB semantics come up short, HTMLBook
           falls back to <a href="http://www.docbook.org/">DocBook</a> semantics, e.g.,
-            <code>data-type="userinput"</code>, as described in <a data-type="xref" href="#sect0104">Inline
+            <code>data-type="userinput"</code>, as described in <a data-type="xref" href="#inlines">Inline
             Markup</a>.</p>
         <section data-type="sect1" class="sect1" id="ahead">
           <h1>This Is an A-Head</h1>
@@ -237,10 +237,10 @@
             </section>
             <section data-type="sect3" class="sect3" id="examples">
               <h3>Code Examples</h3>
-              <p>Code examples are just <code>pre</code>s with a title. <a href="example01">Example 1-1</a> includes some random Java code.</p>
-              <div class="example" data-type="example">
+              <p>Code examples are just <code>pre</code>s with a title. <a href="#example01">Example 1-1</a> includes some random Java code.</p>
+              <div class="example" data-type="example" id="example01">
                 <h5><span data-type="label">Example 1-1.</span> Random Java code</h5> 
-                <pre id="example01" data-code-language="java">import java.applet.*;
+                <pre data-code-language="java">import java.applet.*;
 import java.awt.*;
 
 public class Scribble extends Applet {
