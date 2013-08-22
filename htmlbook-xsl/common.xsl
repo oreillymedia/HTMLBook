@@ -29,11 +29,24 @@
   <xsl:template name="log-message">
     <xsl:param name="type" select="'INFO'"/>
     <xsl:param name="message"/>
+    <xsl:param name="terminate" select="'no'"/>
 
-    <!-- Don't bother outputting a message if $message is empty -->
-    <xsl:if test="normalize-space($message) != ''">
-      <xsl:message>----&#x0A;<xsl:value-of select="$type"/>: <xsl:value-of select="$message"/>&#x0A;----&#x0A;&#x0A;</xsl:message>
-    </xsl:if>
+    <xsl:variable name="log-output">----&#x0A;<xsl:value-of select="$type"/>: <xsl:value-of select="$message"/>&#x0A;----&#x0A;&#x0A;</xsl:variable>
+
+    <!-- In XSLT 2.0, we could parameterize the value of the "terminate" attr, but that doesn't fly in XSLT 1.0,
+	 hence kludge-y handling below -->
+    <xsl:choose>
+      <xsl:when test="$terminate = 'yes'">
+	<xsl:message terminate="yes">
+	  <xsl:value-of select="$log-output"/>
+	</xsl:message>
+      </xsl:when>
+      <xsl:otherwise>
+	<xsl:message>
+	  <xsl:value-of select="$log-output"/>
+	</xsl:message>
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
 								      <!-- Generate target @href value pointing to given node -->
   <!-- Borrowed and adapted from xhtml/html.xsl in docbook-xsl stylesheets -->
