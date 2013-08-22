@@ -28,19 +28,39 @@
     <!-- Was autogeneration of TOC specified, and is that possible? -->
     <xsl:choose>
       <xsl:when test="$autogenerate-toc = 1 and count(//h:nav[@data-type='toc']) = 0">
-	<xsl:message>Unable to autogenerate TOC: no TOC "nav" element found.</xsl:message>
+	<xsl:call-template name="log-message">
+	  <xsl:with-param name="type" select="'WARNING'"/>
+	  <xsl:with-param name="message">
+	    <xsl:text>WARNING: Unable to autogenerate TOC: no TOC "nav" element found.</xsl:text>
+	  </xsl:with-param>
+	</xsl:call-template>
       </xsl:when>
       <xsl:when test="$autogenerate-toc = 1 and $toc-placeholder-overwrite-contents != 1 and count(//h:nav[@data-type='toc'][1][not(node())]) = 0">
-	<xsl:message>Unable to autogenerate TOC: first TOC "nav" is not empty, and $toc-placeholder-overwrite-contents param not enabled.</xsl:message>
+	<xsl:call-template name="log-message">
+	  <xsl:with-param name="type" select="'WARNING'"/>
+	  <xsl:with-param name="message">
+	    <xsl:text>Unable to autogenerate TOC: first TOC "nav" is not empty, and $toc-placeholder-overwrite-contents param not enabled.</xsl:text>
+	  </xsl:with-param>
+	</xsl:call-template>
       </xsl:when>
     </xsl:choose>
     <!-- Was autogeneration of Index specified, and is that possible? -->
     <xsl:choose>
       <xsl:when test="$autogenerate-index = 1 and count(//h:section[@data-type='index']) = 0">
-	<xsl:message>Unable to autogenerate Index: no Index "section" element found.</xsl:message>
+	<xsl:call-template name="log-message">
+	  <xsl:with-param name="type" select="'WARNING'"/>
+	  <xsl:with-param name="message">
+	    <xsl:text>Unable to autogenerate Index: no Index "section" element found.</xsl:text>
+	  </xsl:with-param>
+	</xsl:call-template>
       </xsl:when>
       <xsl:when test="$autogenerate-index = 1 and $index-placeholder-overwrite-contents != 1 and count(//h:section[@data-type='index'][1][not(node())]) = 0">
-	<xsl:message>Unable to autogenerate Index: first Index "section" is not empty, and $index-placeholder-overwrite-contents param not enabled.</xsl:message>
+	<xsl:call-template name="log-message">
+	  <xsl:with-param name="type" select="'WARNING'"/>
+	  <xsl:with-param name="message">
+	    <xsl:text>Unable to autogenerate Index: first Index "section" is not empty, and $index-placeholder-overwrite-contents param not enabled.</xsl:text>
+	  </xsl:with-param>
+	</xsl:call-template>
       </xsl:when>
     </xsl:choose>
 
@@ -48,19 +68,22 @@
     <xsl:if test="$autogenerate-xrefs = 1 and count(//h:a[@data-type='xref'][. != '']) > 0">
       <!-- If autogeneration of XREFs was specified and overwriting of existing XREF content *was not* specified,
 	   report all XREFs that will not be overwritten -->
-      <xsl:choose>
-	<xsl:when test="$xref-placeholder-overwrite-contents != 1">
-      <xsl:message>Warning: the following XREFs already have content in their text nodes, which will not be overwritten (rerun stylesheets with $xref-placeholder-overwrite-contents = 1 if you want to overwrite):</xsl:message>
-	</xsl:when>
-	<xsl:otherwise>
-	  <xsl:message>Warning: the following XREFs already have content in their text nodes, which will be overwritten (rerun stylesheets with $xref-placeholder-overwrite-contents = 0 if you don't want to overwrite):</xsl:message>
-	</xsl:otherwise>
-      </xsl:choose>
-      <xsl:message>
-	<xsl:for-each select="//h:a[@data-type='xref'][. != '']">
-	  XREF text: <xsl:value-of select="normalize-space(.)"/>; XREF target: <xsl:value-of select="@href"/>
-	</xsl:for-each>
-      </xsl:message>
+      <xsl:call-template name="log-message">
+	<xsl:with-param name="type" select="'WARNING'"/>
+	<xsl:with-param name="message">
+	  <xsl:choose>
+	    <xsl:when test="$xref-placeholder-overwrite-contents != 1">
+	      <xsl:text>Warning: the following XREFs already have content in their text nodes, which will not be overwritten (rerun stylesheets with $xref-placeholder-overwrite-contents = 1 if you want to overwrite):</xsl:text>
+	    </xsl:when>
+	    <xsl:otherwise>
+	      <xsl:text>Warning: the following XREFs already have content in their text nodes, which will be overwritten (rerun stylesheets with $xref-placeholder-overwrite-contents = 0 if you don't want to overwrite):</xsl:text>
+	    </xsl:otherwise>
+	  </xsl:choose>
+	  <xsl:for-each select="//h:a[@data-type='xref'][. != '']">
+	    XREF text: <xsl:value-of select="normalize-space(.)"/>; XREF target: <xsl:value-of select="@href"/>
+	  </xsl:for-each>
+	</xsl:with-param>
+      </xsl:call-template>
     </xsl:if>
 
     <xsl:copy>

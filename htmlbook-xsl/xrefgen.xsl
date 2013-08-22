@@ -46,7 +46,13 @@
 	      </xsl:when>
 	      <!-- We can't locate the target; fall back on ??? -->
 	      <xsl:otherwise>
-		<xsl:message>Unable to locate target for XREF with @href value: <xsl:value-of select="@href"/></xsl:message>
+		<xsl:call-template name="log-message">
+		  <xsl:with-param name="type" select="'WARNING'"/>
+		  <xsl:with-param name="message">
+		    <xsl:text>Unable to locate target for XREF with @href value: </xsl:text>
+		    <xsl:value-of select="@href"/>
+		  </xsl:with-param>
+		</xsl:call-template>
 		<xsl:text>???</xsl:text>
 	      </xsl:otherwise>
 	    </xsl:choose>
@@ -97,14 +103,17 @@
   </xsl:variable>
 
   <xsl:if test="$template = '' and $verbose != 0">
-    <xsl:message>
-      <xsl:text>object.xref.markup: empty xref template</xsl:text>
-      <xsl:text> for linkend="</xsl:text>
-      <xsl:value-of select="@id|@xml:id"/>
-      <xsl:text>" and @xrefstyle="</xsl:text>
-      <xsl:value-of select="$xrefstyle"/>
-      <xsl:text>"</xsl:text>
-    </xsl:message>
+    <xsl:call-template name="log-message">
+      <xsl:with-param name="type" select="'DEBUG'"/>
+      <xsl:with-param name="message">
+	<xsl:text>object.xref.markup: empty xref template</xsl:text>
+	<xsl:text> for linkend="</xsl:text>
+	<xsl:value-of select="@id|@xml:id"/>
+	<xsl:text>" and @xrefstyle="</xsl:text>
+	<xsl:value-of select="$xrefstyle"/>
+	<xsl:text>"</xsl:text>
+      </xsl:with-param>
+    </xsl:call-template>
   </xsl:if>
 
   <xsl:choose>
@@ -297,7 +306,12 @@
                   </xsl:choose>
                 </xsl:when>
                 <xsl:otherwise>
-                  <xsl:message>Attempt to use %d in gentext with no referrer!</xsl:message>
+		  <xsl:call-template name="log-message">
+		    <xsl:with-param name="type" select="'WARNING'"/>
+		    <xsl:with-param name="message">
+                      <xsl:text>Attempt to use %d in gentext with no referrer!</xsl:text>
+		    </xsl:with-param>
+		  </xsl:call-template>
                 </xsl:otherwise>
               </xsl:choose>
             </xsl:with-param>
@@ -429,13 +443,16 @@
 
   <xsl:if test="count($context.node) = 0
 		and $verbose != 0">
-    <xsl:message>
-      <xsl:text>No context named "</xsl:text>
-      <xsl:value-of select="$context"/>
-      <xsl:text>" exists in the "</xsl:text>
-      <xsl:value-of select="$lang"/>
-      <xsl:text>" localization.</xsl:text>
-    </xsl:message>
+    <xsl:call-template name="log-message">
+      <xsl:with-param name="type" select="'DEBUG'"/>
+      <xsl:with-param name="message">
+	<xsl:text>No context named "</xsl:text>
+	<xsl:value-of select="$context"/>
+	<xsl:text>" exists in the "</xsl:text>
+	<xsl:value-of select="$lang"/>
+	<xsl:text>" localization.</xsl:text>    
+      </xsl:with-param>
+    </xsl:call-template>
   </xsl:if>
 
   <xsl:choose>
@@ -451,15 +468,18 @@
       <!-- silence -->
     </xsl:when>
     <xsl:otherwise>
-      <xsl:message>
-	<xsl:text>No template for "</xsl:text>
-	<xsl:value-of select="$name"/>
-	<xsl:text>" (or any of its leaves) exists in the context named "</xsl:text>
-	<xsl:value-of select="$context"/>
-	<xsl:text>" in the "</xsl:text>
-	<xsl:value-of select="$lang"/>
-	<xsl:text>" localization.</xsl:text>
-      </xsl:message>
+      <xsl:call-template name="log-message">
+	<xsl:with-param name="type" select="'DEBUG'"/>
+	<xsl:with-param name="message">
+	  <xsl:text>No template for "</xsl:text>
+	  <xsl:value-of select="$name"/>
+	  <xsl:text>" (or any of its leaves) exists in the context named "</xsl:text>
+	  <xsl:value-of select="$context"/>
+	  <xsl:text>" in the "</xsl:text>
+	  <xsl:value-of select="$lang"/>
+	  <xsl:text>" localization.</xsl:text>
+	</xsl:with-param>
+      </xsl:call-template>
     </xsl:otherwise>
   </xsl:choose>
 </xsl:template>

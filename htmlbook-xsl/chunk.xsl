@@ -301,7 +301,13 @@ sect5:s
 	  </xsl:attribute>
 	</xsl:when>
 	<xsl:otherwise>
-	  <xsl:message>Unable to locate target for XREF with @href value: <xsl:value-of select="@href"/></xsl:message>
+	  <xsl:call-template name="log-message">
+	    <xsl:with-param name="type" select="'WARNING'"/>
+	    <xsl:with-param name="message">
+	      <xsl:text>Unable to locate target for XREF with @href value:</xsl:text>
+	      <xsl:value-of select="@href"/>
+	    </xsl:with-param>
+	  </xsl:call-template>
 	  <!-- Oh well, just copy any existing href to output -->
 	  <xsl:apply-templates select="@href"/>
 	</xsl:otherwise>
@@ -347,7 +353,16 @@ sect5:s
     </xsl:variable>
 
     <xsl:if test="$target.chunk.filename = ''">
-      <xsl:message>Error: Chunker unable to locate output file containing target node <xsl:call-template name="object.id"><xsl:with-param name="object" select="$object"/></xsl:call-template>. Hyperlink may not generate properly</xsl:message>
+      <xsl:call-template name="log-message">
+	<xsl:with-param name="type" select="'WARNING'"/>
+	<xsl:with-param name="message">
+	  <xsl:text>Error: Chunker unable to locate output file containing target node </xsl:text>
+	  <xsl:call-template name="object.id">
+	    <xsl:with-param name="object" select="$object"/>
+	  </xsl:call-template>
+	  <xsl:text>. Hyperlink may not generate properly</xsl:text>
+	</xsl:with-param>
+      </xsl:call-template>
     </xsl:if>
 
     <!-- We only need to prepend filename if target is in different chunk than hyperlink, so... -->

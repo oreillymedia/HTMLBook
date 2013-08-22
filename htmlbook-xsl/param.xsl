@@ -11,6 +11,9 @@
               encoding="UTF-8"/>
   <xsl:preserve-space elements="*"/>
 
+  <!-- Verbose log output; off by default -->
+  <xsl:param name="verbose" select="0"/>
+
   <xsl:param name="book-language">
     <xsl:choose>
       <xsl:when test="//h:html[@lang != '']|//h:body[@lang != '']">

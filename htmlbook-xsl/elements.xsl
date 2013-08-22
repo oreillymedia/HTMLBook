@@ -200,7 +200,14 @@
 	  </xsl:when>
 	  <xsl:otherwise>
 	    <!-- Uh oh, couldn't find the corresponding footnote for the footnoteref -->
-	    <xsl:message>Error: Could not find footnote referenced by footnoteref link <xsl:value-of select="@href"/></xsl:message>
+	    <xsl:call-template name="log-message">
+	      <xsl:with-param name="type" select="'WARNING'"/>
+	      <xsl:with-param name="message">
+		<xsl:text>Error: Could not find footnote referenced by footnoteref link </xsl:text>
+		<xsl:value-of select="@href"/>
+		<xsl:text>. Footnote marker will not be generated.</xsl:text>
+	      </xsl:with-param>
+	    </xsl:call-template>
 	  </xsl:otherwise>
 	</xsl:choose>
       </xsl:when>

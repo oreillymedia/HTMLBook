@@ -89,11 +89,15 @@
         <xsl:value-of select="$utc.datetime"/>
       </xsl:when>
       <xsl:otherwise>
-	<xsl:message terminate="yes">
-          <xsl:text>ERROR: no last-modified date value could be determined, </xsl:text>
-          <xsl:text>so cannot output required meta element with </xsl:text>
-          <xsl:text>dcterms:modified attribute. Exiting.</xsl:text>
-	</xsl:message>
+	<xsl:call-template name="log-message">
+	  <xsl:with-param name="type" select="'ERROR'"/>
+	  <xsl:with-param name="terminate" select="'yes'"/>
+	  <xsl:with-param name="message">
+	    <xsl:text>No last-modified date value could be determined, </xsl:text>
+	    <xsl:text>so cannot output required meta element with </xsl:text>
+	    <xsl:text>dcterms:modified attribute. Exiting.</xsl:text>
+	  </xsl:with-param>
+	</xsl:call-template>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:param>
@@ -249,7 +253,14 @@ UbuntuMono-Italic.otf</xsl:param>
 	</xsl:attribute>
       </xsl:when>
       <xsl:otherwise>
-	<xsl:message>Warning: @data-type value <xsl:value-of select="."/> is not a valid epub:type value and no epub:type attribute will be added for it</xsl:message>
+	<xsl:call-template name="log-message">
+	  <xsl:with-param name="type" select="'DEBUG'"/>
+	  <xsl:with-param name="message">
+	    <xsl:text>Warning: @data-type value </xsl:text>
+	    <xsl:value-of select="."/> 
+	    <xsl:text> is not a valid epub:type value and no epub:type attribute will be added for it</xsl:text>
+	  </xsl:with-param>
+	</xsl:call-template>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
