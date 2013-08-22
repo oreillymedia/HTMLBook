@@ -31,22 +31,26 @@
     <xsl:param name="message"/>
     <xsl:param name="terminate" select="'no'"/>
 
-    <xsl:variable name="log-output">----&#x0A;<xsl:value-of select="$type"/>: <xsl:value-of select="$message"/>&#x0A;----&#x0A;&#x0A;</xsl:variable>
+    <!-- Only output DEBUG messages if $verbose is true -->
+    <xsl:if test="($type != 'DEBUG') or ($verbose = 1)">
 
-    <!-- In XSLT 2.0, we could parameterize the value of the "terminate" attr, but that doesn't fly in XSLT 1.0,
-	 hence kludge-y handling below -->
-    <xsl:choose>
-      <xsl:when test="$terminate = 'yes'">
-	<xsl:message terminate="yes">
-	  <xsl:value-of select="$log-output"/>
-	</xsl:message>
-      </xsl:when>
-      <xsl:otherwise>
-	<xsl:message>
-	  <xsl:value-of select="$log-output"/>
-	</xsl:message>
-      </xsl:otherwise>
-    </xsl:choose>
+      <xsl:variable name="log-output">----&#x0A;<xsl:value-of select="$type"/>: <xsl:value-of select="$message"/>&#x0A;----&#x0A;&#x0A;</xsl:variable>
+
+      <!-- In XSLT 2.0, we could parameterize the value of the "terminate" attr, but that doesn't fly in XSLT 1.0,
+	     hence kludge-y handling below -->
+      <xsl:choose>
+	<xsl:when test="$terminate = 'yes'">
+	  <xsl:message terminate="yes">
+	    <xsl:value-of select="$log-output"/>
+	  </xsl:message>
+	</xsl:when>
+	<xsl:otherwise>
+	  <xsl:message>
+	    <xsl:value-of select="$log-output"/>
+	  </xsl:message>
+	</xsl:otherwise>
+      </xsl:choose>
+    </xsl:if>
   </xsl:template>
 								      <!-- Generate target @href value pointing to given node -->
   <!-- Borrowed and adapted from xhtml/html.xsl in docbook-xsl stylesheets -->
