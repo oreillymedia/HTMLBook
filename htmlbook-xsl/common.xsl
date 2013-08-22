@@ -25,7 +25,17 @@
 
   <!-- Stylesheet for utility templates common to other stylesheets -->
 
-  <!-- Generate target @href value pointing to given node -->
+  <!-- Template for generating standardized log messages -->
+  <xsl:template name="log-message">
+    <xsl:param name="type" select="'INFO'"/>
+    <xsl:param name="message"/>
+
+    <!-- Don't bother outputting a message if $message is empty -->
+    <xsl:if test="normalize-space($message) != ''">
+      <xsl:message>----&#x0A;<xsl:value-of select="$type"/>: <xsl:value-of select="$message"/>&#x0A;----&#x0A;&#x0A;</xsl:message>
+    </xsl:if>
+  </xsl:template>
+								      <!-- Generate target @href value pointing to given node -->
   <!-- Borrowed and adapted from xhtml/html.xsl in docbook-xsl stylesheets -->
   <xsl:template name="href.target">
     <xsl:param name="context" select="."/>
