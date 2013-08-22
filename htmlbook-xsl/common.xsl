@@ -314,10 +314,26 @@
 	<!-- If $calculated-numeration-format doesn't match above values or is blank, no label can be generated -->
 	<xsl:choose>
 	  <xsl:when test="normalize-space($calculated-numeration-format) = ''">
-	    <xsl:message>No label numeration format specified for <xsl:value-of select="$data-type"/>: skipping label</xsl:message>
+	    <xsl:call-template name="log-message">
+	      <xsl:with-param name="type" select="'DEBUG'"/>
+	      <xsl:with-param name="message">
+		<xsl:text>No label numeration format specified for </xsl:text>
+		<xsl:value-of select="$data-type"/>
+		<xsl:text>: skipping label</xsl:text>
+	      </xsl:with-param>
+	    </xsl:call-template>
 	  </xsl:when>
 	  <xsl:otherwise>
-	    <xsl:message>Unable to generate label for <xsl:value-of select="$data-type"/> with numeration format <xsl:value-of select="$calculated-numeration-format"/>.</xsl:message>
+	    <xsl:call-template name="log-message">
+	      <xsl:with-param name="type" select="'WARNING'"/>
+	      <xsl:with-param name="message">
+		<xsl:text>Unable to generate label for </xsl:text>
+		<xsl:value-of select="$data-type"/> 
+		<xsl:text> with numeration format </xsl:text>
+		<xsl:value-of select="$calculated-numeration-format"/>
+		<xsl:text>.</xsl:text>
+	      </xsl:with-param>
+	    </xsl:call-template>
 	  </xsl:otherwise>
 	</xsl:choose>
       </xsl:otherwise>
