@@ -68,7 +68,7 @@
 	  </xsl:attribute>
 	  <xsl:if test="$toc-include-title != 0">
 	    <h1>
-	      <xsl:value-of select="//h:body/h:h1"/>
+	      <xsl:call-template name="toc-title"/>
 	    </h1>
 	  </xsl:if>
 	  <ol>
@@ -87,6 +87,13 @@
 	</xsl:copy>
       </xsl:otherwise>
     </xsl:choose>
+  </xsl:template>
+
+  <xsl:template name="toc-title">
+    <!-- Override if you want a different value for the title heading on the TOC (e.g., the book title) -->
+    <xsl:call-template name="get-localization-value">
+      <xsl:with-param name="gentext-key" select="'tableofcontents'"/>
+    </xsl:call-template>
   </xsl:template>
 
   <func:function name="htmlbook:section-depth">
