@@ -1653,7 +1653,8 @@
   <xs:sequence>
     <xs:element ref="h1"/>
     <xs:element name="h2" minOccurs="0" maxOccurs="unbounded" type="subheading"/>
-    <xs:group ref="blockelements" minOccurs="0" maxOccurs="unbounded"/>
+    <!-- Allow full set of block elements plus img elements in chapter-level sections -->
+    <xs:group ref="figure_elements" minOccurs="0" maxOccurs="unbounded"/>
     <xs:element name="section" minOccurs="0" maxOccurs="unbounded" type="sect1"/>
   </xs:sequence>
   <!-- Note: special data-type attr restrictions here -->
@@ -1666,7 +1667,8 @@
   <xs:sequence>
     <xs:element ref="h1"/>
     <xs:element name="h2" minOccurs="0" maxOccurs="unbounded" type="subheading"/>
-    <xs:group ref="blockelements" minOccurs="0" maxOccurs="unbounded"/>
+    <!-- Allow full set of block elements plus img elements in part divs -->
+    <xs:group ref="figure_elements" minOccurs="0" maxOccurs="unbounded"/>
     <xs:element name="section" maxOccurs="unbounded" type="bookmaindiv"/>
   </xs:sequence>
   <!-- Note: special data-type attr restrictions here -->
@@ -1679,7 +1681,8 @@
   <xs:sequence>
     <xs:element ref="h1"/>
     <xs:element name="h2" minOccurs="0" maxOccurs="unbounded" type="subheading"/>
-    <xs:group ref="blockelements" minOccurs="0" maxOccurs="unbounded"/>
+    <!-- Allow full set of block elements plus img elements in sect1s -->
+    <xs:group ref="figure_elements" minOccurs="0" maxOccurs="unbounded"/>
     <xs:element name="section" minOccurs="0" maxOccurs="unbounded" type="sect2"/>
   </xs:sequence>
   <!-- Note: special data-type attr restrictions here -->
@@ -1692,7 +1695,8 @@
   <xs:sequence>
     <xs:element ref="h2"/>
     <xs:element name="h3" minOccurs="0" maxOccurs="unbounded" type="subheading"/>
-    <xs:group ref="blockelements" minOccurs="0" maxOccurs="unbounded"/>
+    <!-- Allow full set of block elements plus img elements in sect2s -->
+    <xs:group ref="figure_elements" minOccurs="0" maxOccurs="unbounded"/>
     <xs:element name="section" minOccurs="0" maxOccurs="unbounded" type="sect3"/>
   </xs:sequence>
   <!-- Note: special data-type attr restrictions here -->
@@ -1705,7 +1709,8 @@
   <xs:sequence>
     <xs:element ref="h3"/>
     <xs:element name="h4" minOccurs="0" maxOccurs="unbounded" type="subheading"/>
-    <xs:group ref="blockelements" minOccurs="0" maxOccurs="unbounded"/>
+    <!-- Allow full set of block elements plus img elements in sect3s -->
+    <xs:group ref="figure_elements" minOccurs="0" maxOccurs="unbounded"/>
     <xs:element name="section" minOccurs="0" maxOccurs="unbounded" type="sect4"/>
   </xs:sequence>
   <!-- Note: special data-type attr restrictions here -->
@@ -1718,7 +1723,8 @@
   <xs:sequence>
     <xs:element ref="h4"/>
     <xs:element name="h5" minOccurs="0" maxOccurs="unbounded" type="subheading"/>
-    <xs:group ref="blockelements" minOccurs="0" maxOccurs="unbounded"/>
+    <!-- Allow full set of block elements plus img elements in sect4s -->
+    <xs:group ref="figure_elements" minOccurs="0" maxOccurs="unbounded"/>
     <xs:element name="section" minOccurs="0" maxOccurs="unbounded" type="sect5"/>
   </xs:sequence>
   <!-- Note: special data-type attr restrictions here -->
@@ -1731,7 +1737,8 @@
   <xs:sequence>
     <xs:element ref="h5"/>
     <xs:element name="h6" minOccurs="0" maxOccurs="unbounded" type="subheading"/>
-    <xs:group ref="blockelements" minOccurs="0" maxOccurs="unbounded"/>
+    <!-- Allow full set of block elements plus img elements in sect5s -->
+    <xs:group ref="figure_elements" minOccurs="0" maxOccurs="unbounded"/>
   </xs:sequence>
   <!-- Note: special data-type attr restrictions here -->
   <xs:attribute name="data-type" use="required" fixed="sect5"/>
