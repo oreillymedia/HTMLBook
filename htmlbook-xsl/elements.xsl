@@ -78,7 +78,41 @@
       <xsl:if test="not(@data-type) and $html4.structural.elements = 1">
 	<xsl:attribute name="data-type">figure</xsl:attribute>
       </xsl:if>
-      <xsl:apply-templates/>      
+      <!-- If the parameter $figure.border.div is enabled, and there is a figure caption, add a child div and put everything but the caption in it -->
+      <xsl:choose>
+	<xsl:when test="$figure.border.div = 1 and h:figcaption">
+	  <!-- figcaption must be first or last; handle accordingly -->
+	  <xsl:choose>
+	    <xsl:when test="*[1][self::h:figcaption]">
+	      <xsl:apply-templates select="h:figcaption"/>
+	      <div class="border-box">
+		<xsl:apply-templates select="*[not(self::h:figcaption)]"/>
+	      </div>
+	    </xsl:when>
+	    <xsl:when test="*[last()][self::h:figcaption]">
+	      <div class="border-box">
+		<xsl:apply-templates select="*[not(self::h:figcaption)]"/>
+	      </div>
+	      <xsl:apply-templates select="h:figcaption"/>
+	    </xsl:when>
+	    <xsl:otherwise>
+	      <!-- Uh oh, <figcaption> in an invalid location (not at beginning or end of <figure>) -->
+	      <xsl:call-template name="log-message">
+		<xsl:with-param name="type" select="'WARNING'"/>
+		<xsl:with-param name="message">
+		  <xsl:text>Error: figcaption for figure </xsl:text>
+		  <xsl:value-of select="@id"/> 
+		  <xsl:text> not at beginning or end of figure. Unable to add border box</xsl:text>
+		</xsl:with-param>
+	      </xsl:call-template>
+	      <xsl:apply-templates/>
+	    </xsl:otherwise>
+	  </xsl:choose>
+	</xsl:when>
+	<xsl:otherwise>
+	  <xsl:apply-templates/>
+	</xsl:otherwise>
+      </xsl:choose>
     </xsl:element>
   </xsl:template>
 
