@@ -48,7 +48,8 @@
 		</xsl:attribute>
 		<navLabel>
 		  <text>
-		    <xsl:value-of select="//h:body/h:h1"/>
+		    <!-- Look for title first in head, then as child of body -->
+		    <xsl:value-of select="(//h:head/h:title|//h:body/h:h1)[1]"/>
 		  </text>
 		</navLabel>
 	      <content src="{$root.chunk.filename}"/>
