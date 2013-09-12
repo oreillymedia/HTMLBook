@@ -35,7 +35,7 @@
 <xs:element name="body">
   <xs:complexType>
     <xs:sequence>
-      <xs:element ref="h1"/>
+      <xs:element ref="h1" minOccurs="0"/>
       <xs:element name="h2" minOccurs="0" type="subheading"/>
       <xs:element name="figure" minOccurs="0" type="coverfigure"/>
       <xs:choice maxOccurs="unbounded">
