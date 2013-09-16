@@ -423,11 +423,9 @@ sect5:s
     </xsl:call-template>
   </xsl:template>
 
-  <!-- Given a node, return the filename for the chunk it's in -->
-  <xsl:template name="filename-for-node">
-    <xsl:param name="node"/>
-
-    <!-- Figure out which chunk $node belongs to: -->
+  <!-- Given a node, return the root node of the chunk it's in -->
+  <func:function name="htmlbook:chunk-for-node">
+    <xsl:param name="node" select="."/>
 
     <!-- 1. Get a nodeset of all chunks in this document -->
     <xsl:variable name="chunks" select="key('chunks', '1')"/> <!-- All chunks have an is-chunk() value of 1 -->
@@ -440,6 +438,23 @@ sect5:s
 
     <!-- 4. Desired chunk is the last (lowest in hierarchy) in this nodeset -->
     <xsl:variable name="chunk.node" select="$self-and-ancestors-that-are-chunks[last()]"/>
+
+    <xsl:choose>
+      <xsl:when test="$chunk.node">
+	<func:result select="$chunk.node"/>
+      </xsl:when>
+      <xsl:otherwise>
+	<func:result/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </func:function>
+
+
+  <!-- Given a node, return the filename for the chunk it's in -->
+  <xsl:template name="filename-for-node">
+    <xsl:param name="node"/>
+
+    <xsl:variable name="chunk.node" select="htmlbook:chunk-for-node($node)"/>
 
     <!-- Now get filename for chunk -->
     <xsl:variable name="chunk-filename">
