@@ -23,6 +23,9 @@
 
   <xsl:key name="chunks" match="h:section|h:div[@data-type='part']|h:nav[@data-type='toc']" use="htmlbook:is-chunk(.)"/>
 
+  <!-- Nodeset of all chunks in this document -->
+  <xsl:variable name="chunks" select="key('chunks', '1')"/> <!-- All chunks have an is-chunk() value of 1 -->
+
   <!-- Specify a number from 0 to 5, where 0 means chunk at top-level sections (part, chapter, appendix), and 1-5 means chunk at the corresponding sect level (sect1 - sect5) -->
   <xsl:param name="chunk.level" select="0"/>
 
@@ -427,16 +430,13 @@ sect5:s
   <func:function name="htmlbook:chunk-for-node">
     <xsl:param name="node" select="."/>
 
-    <!-- 1. Get a nodeset of all chunks in this document -->
-    <xsl:variable name="chunks" select="key('chunks', '1')"/> <!-- All chunks have an is-chunk() value of 1 -->
-
-    <!-- 2. Get a nodeset of current element and all its ancestors, which could potentially be chunks -->
+    <!-- 1. Get a nodeset of current element and all its ancestors, which could potentially be chunks -->
     <xsl:variable name="self-and-ancestors" select="$node/ancestor-or-self::*"/>
 
-    <!-- 3. Find out which of these "self and ancestors" are also chunks -->
+    <!-- 2. Find out which of these "self and ancestors" are also chunks -->
     <xsl:variable name="self-and-ancestors-that-are-chunks" select="set:intersection($self-and-ancestors, $chunks)"/>
 
-    <!-- 4. Desired chunk is the last (lowest in hierarchy) in this nodeset -->
+    <!-- 3. Desired chunk is the last (lowest in hierarchy) in this nodeset -->
     <xsl:variable name="chunk.node" select="$self-and-ancestors-that-are-chunks[last()]"/>
 
     <xsl:choose>
