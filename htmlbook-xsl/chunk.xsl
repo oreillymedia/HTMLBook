@@ -27,7 +27,7 @@
   <xsl:param name="chunk.level" select="0"/>
 
   <!-- Specify whether to generate a root chunk -->
-  <xsl:param name="generate.root.chunk" select="1"/>
+  <xsl:param name="generate.root.chunk" select="0"/>
 
   <!-- Specify the filename for the root chunk, if $generate.root.chunk is enabled -->
   <xsl:param name="root.chunk.filename" select="'index.html'"/>

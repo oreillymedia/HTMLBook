@@ -296,4 +296,14 @@
     </p>
   </xsl:template>
 
+  <xsl:template match="h:iframe">
+    <xsl:copy>
+      <xsl:apply-templates select="@*|node()"/>
+      <!-- Don't want to allow self-closing <iframe/> tags, as many browsers don't like those -->
+      <xsl:if test="not(node())">
+	<xsl:text> </xsl:text>
+      </xsl:if>
+    </xsl:copy>
+  </xsl:template>
+
 </xsl:stylesheet> 
