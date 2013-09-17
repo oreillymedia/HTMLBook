@@ -148,6 +148,19 @@ sect5:s
     </xsl:copy>
   </xsl:template>
 
+  <xsl:template match="h:script" mode="process-chunk-wrapper">
+    <xsl:param name="chunk.content"/>
+    <!-- Special handling to ensure <script> tags are not self-closing (i.e., no <script/>), as that causes problems in many browsers -->
+    <xsl:copy>
+      <xsl:apply-templates select="@*|node()" mode="process-chunk-wrapper">
+	<xsl:with-param name="chunk.content" select="$chunk.content"/>
+      </xsl:apply-templates>
+      <xsl:if test="not(node())">
+	<xsl:text> </xsl:text>
+      </xsl:if>
+    </xsl:copy>
+  </xsl:template>
+
   <xsl:template match="processing-instruction('yield')" mode="process-chunk-wrapper">
     <xsl:param name="chunk.content"/>
     <!-- This is our <?yield?> PI, which is the chunk content placeholder -->
