@@ -142,17 +142,21 @@ sect5:s
   </xsl:template>
 
   <xsl:template match="@*|node()" mode="process-chunk-wrapper">
-    <xsl:param name="chunk.content"/>
+    <xsl:param name="chunk.node"/> <!-- Contains node that will serve as root of chunk -->
+    <xsl:param name="chunk.content"/> <!-- Contains node that will serve as root of chunk -->
     <!-- Copy to output everything in chunk wrapper that is not the <?yield?> PI -->
     <xsl:copy>
       <xsl:apply-templates select="@*|node()" mode="process-chunk-wrapper">
+	<xsl:with-param name="chunk.node" select="$chunk.node"/>
 	<xsl:with-param name="chunk.content" select="$chunk.content"/>
       </xsl:apply-templates>
     </xsl:copy>
   </xsl:template>
 
   <xsl:template match="processing-instruction('yield')" mode="process-chunk-wrapper">
-    <xsl:param name="chunk.content"/>
+    <xsl:param name="chunk.node"/> <!-- Contains node that will serve as root of chunk -->
+    <xsl:param name="chunk.content"/> <!-- Contains XSL-processed content of $chunk.node -->
+
     <!-- This is our <?yield?> PI, which is the chunk content placeholder -->
     <!-- Drop the content in here -->
     <xsl:copy-of select="exsl:node-set($chunk.content)"/>
@@ -176,7 +180,8 @@ sect5:s
 	  </xsl:variable>
 	  <xsl:variable name="chunk.wrapper" select="document($custom.chunk.wrapper)"/>
 	  <xsl:apply-templates select="exsl:node-set($chunk.wrapper)" mode="process-chunk-wrapper">
-	    <xsl:with-param name="chunk.content" select="$chunk.content"/>
+	    <xsl:with-param name="chunk.node" select="."/> <!-- Contains node that will serve as root of chunk -->
+	    <xsl:with-param name="chunk.content" select="$chunk.content"/> <!-- Contains XSL-processed content of $chunk.node -->
 	  </xsl:apply-templates>
 	</xsl:when>
 	<!-- Otherwise, go ahead and do the following default chunk processing -->
@@ -531,6 +536,47 @@ sect5:s
 	</xsl:element>
       </xsl:if>
     </xsl:if>
+  </xsl:template>
+
+  <!-- Special handling for the following navigation links:
+       1. Previous link (go to the previous chunk in the book sequence)
+       2. Next link (go to the next chunk in the book sequence)
+       3. TOC link (go to the TOC chunk)
+    -->
+
+  <!-- Support use of <?prev_link?> to insert link to previous chunk in book sequence -->
+  <xsl:template match="processing-instruction('prev_link')" name="prev_link" mode="process-chunk-wrapper">
+    <xsl:param name="chunk.node" select="parent::*"/>
+
+    <xsl:choose>
+      <xsl:when test="htmlbook:chunk-for-node($chunk.node)">
+	<xsl:variable name="current.chunk" select="htmlbook:chunk-for-node($chunk.node)"/>
+	<xsl:variable name="previous.chunk" select="$chunks[descendant::*[generate-id(.) = generate-id($current.chunk)]|
+						            following::*[generate-id(.) = generate-id($current.chunk)]][last()]"/>
+	<xsl:if test="$previous.chunk">
+<!--	  <xsl:message>Current chunk: <xsl:value-of select="$current.chunk/@id"/>; Previous chunk: <xsl:value-of select="$previous.chunk/@id"/>; Output filename: 	      <xsl:call-template name="output-filename-for-chunk">
+		<xsl:with-param name="node" select="$previous.chunk"/>
+              </xsl:call-template>
+</xsl:message> -->
+	  <a>
+	    <xsl:attribute name="href">
+	      <xsl:call-template name="output-filename-for-chunk">
+		<xsl:with-param name="node" select="$previous.chunk"/>
+              </xsl:call-template>
+	    </xsl:attribute>
+	    <xsl:text>Previous</xsl:text>
+	  </a>
+	</xsl:if>
+      </xsl:when>
+      <xsl:otherwise>
+	<xsl:call-template name="log-message">
+	  <xsl:with-param name="type" select="'ERROR'"/>
+	  <xsl:with-param name="message">
+	    <xsl:text>Unable to find proper context for previous-link placeholder. Link will not be generated</xsl:text>
+	  </xsl:with-param>
+	</xsl:call-template>	
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
 
 </xsl:stylesheet> 
