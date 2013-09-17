@@ -579,4 +579,71 @@ sect5:s
     </xsl:choose>
   </xsl:template>
 
+  <!-- Support use of <?next_link?> to insert link to previous chunk in book sequence -->
+  <xsl:template match="processing-instruction('next_link')" name="next_link" mode="process-chunk-wrapper">
+    <xsl:param name="chunk.node" select="parent::*"/>
+
+    <xsl:choose>
+      <xsl:when test="htmlbook:chunk-for-node($chunk.node)">
+	<xsl:variable name="current.chunk" select="htmlbook:chunk-for-node($chunk.node)"/>
+	<xsl:variable name="next.chunk" select="$chunks[ancestor::*[generate-id(.) = generate-id($current.chunk)]|
+						            preceding::*[generate-id(.) = generate-id($current.chunk)]][1]"/>
+	<xsl:if test="$next.chunk">
+<!--	  <xsl:message>Current chunk: <xsl:value-of select="$current.chunk/@id"/>; Next chunk: <xsl:value-of select="$next.chunk/@id"/>; Output filename: 	      <xsl:call-template name="output-filename-for-chunk">
+		<xsl:with-param name="node" select="$next.chunk"/>
+              </xsl:call-template>
+</xsl:message> -->
+	  <a>
+	    <xsl:attribute name="href">
+	      <xsl:call-template name="output-filename-for-chunk">
+		<xsl:with-param name="node" select="$next.chunk"/>
+              </xsl:call-template>
+	    </xsl:attribute>
+	    <xsl:text>Next</xsl:text>
+	  </a>
+	</xsl:if>
+      </xsl:when>
+      <xsl:otherwise>
+	<xsl:call-template name="log-message">
+	  <xsl:with-param name="type" select="'ERROR'"/>
+	  <xsl:with-param name="message">
+	    <xsl:text>Unable to find proper context for next-link placeholder. Link will not be generated</xsl:text>
+	  </xsl:with-param>
+	</xsl:call-template>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
+  <!-- Support use of <?toc_link?> to insert link to table of contents in book sequence -->
+  <xsl:template match="processing-instruction('toc_link')" name="toc_link" mode="process-chunk-wrapper">
+    <xsl:variable name="toc_chunks" select="$chunks[self::h:nav[@data-type='toc']]"/>
+    <xsl:if test="count($toc_chunks) &gt; 1">
+      <xsl:call-template name="log-message">
+	<xsl:with-param name="type" select="'WARNING'"/>
+	<xsl:with-param name="message">
+	  <xsl:text>More than one TOC in book. TOC navigation link will be generated for the *first* TOC.</xsl:text>
+	</xsl:with-param>
+      </xsl:call-template>
+    </xsl:if>
+    <xsl:choose>
+      <xsl:when test="count($toc_chunks) &gt; 0">
+	<a>
+	  <xsl:attribute name="href">
+	    <xsl:call-template name="output-filename-for-chunk">
+	      <xsl:with-param name="node" select="$toc_chunks[1]"/>
+            </xsl:call-template>
+	  </xsl:attribute>
+	  <xsl:text>Table of Contents</xsl:text>
+	</a>
+      </xsl:when>
+      <xsl:otherwise>
+	<xsl:call-template name="log-message">
+	  <xsl:with-param name="type" select="'WARNING'"/>
+	  <xsl:with-param name="message">
+	    <xsl:text>No TOC in book. No TOC navigation link will be generated.</xsl:text>
+	  </xsl:with-param>
+	</xsl:call-template>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
 </xsl:stylesheet> 
