@@ -231,10 +231,13 @@ UbuntuMono-Italic.otf</xsl:param>
   <xsl:template name="generate-cover-html">
     <exsl:document href="{$full.cover.filename}" method="xml" encoding="UTF-8">
       <xsl:value-of select="'&lt;!DOCTYPE html&gt;'" disable-output-escaping="yes"/>
-      <html>
+      <html xmlns:epub="http://www.idpf.org/2007/ops">
+	<!-- ToDo: What else do we want in the <head>? -->
 	<head>
 	  <title>Cover</title>
-	  <style type="text/css">img { max-width:100%; }</style>
+	  <xsl:if test="$css.filename != ''">
+	    <link rel="stylesheet" type="text/css" href="{$css.filename}" />
+	  </xsl:if>
 	</head>
 	<body>
 	  <div>
