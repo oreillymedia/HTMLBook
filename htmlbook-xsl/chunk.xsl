@@ -23,6 +23,9 @@
 
   <xsl:key name="chunks" match="h:section|h:div[@data-type='part']|h:nav[@data-type='toc']" use="htmlbook:is-chunk(.)"/>
 
+  <!-- Nodeset of all chunks in this document -->
+  <xsl:variable name="chunks" select="key('chunks', '1')"/> <!-- All chunks have an is-chunk() value of 1 -->
+
   <!-- Specify a number from 0 to 5, where 0 means chunk at top-level sections (part, chapter, appendix), and 1-5 means chunk at the corresponding sect level (sect1 - sect5) -->
   <xsl:param name="chunk.level" select="0"/>
 
@@ -139,10 +142,12 @@ sect5:s
   </xsl:template>
 
   <xsl:template match="@*|node()" mode="process-chunk-wrapper">
-    <xsl:param name="chunk.content"/>
+    <xsl:param name="chunk.node"/> <!-- Contains node that will serve as root of chunk -->
+    <xsl:param name="chunk.content"/> <!-- Contains node that will serve as root of chunk -->
     <!-- Copy to output everything in chunk wrapper that is not the <?yield?> PI -->
     <xsl:copy>
       <xsl:apply-templates select="@*|node()" mode="process-chunk-wrapper">
+	<xsl:with-param name="chunk.node" select="$chunk.node"/>
 	<xsl:with-param name="chunk.content" select="$chunk.content"/>
       </xsl:apply-templates>
     </xsl:copy>
@@ -162,7 +167,9 @@ sect5:s
   </xsl:template>
 
   <xsl:template match="processing-instruction('yield')" mode="process-chunk-wrapper">
-    <xsl:param name="chunk.content"/>
+    <xsl:param name="chunk.node"/> <!-- Contains node that will serve as root of chunk -->
+    <xsl:param name="chunk.content"/> <!-- Contains XSL-processed content of $chunk.node -->
+
     <!-- This is our <?yield?> PI, which is the chunk content placeholder -->
     <!-- Drop the content in here -->
     <xsl:copy-of select="exsl:node-set($chunk.content)"/>
@@ -186,7 +193,8 @@ sect5:s
 	  </xsl:variable>
 	  <xsl:variable name="chunk.wrapper" select="document($custom.chunk.wrapper)"/>
 	  <xsl:apply-templates select="exsl:node-set($chunk.wrapper)" mode="process-chunk-wrapper">
-	    <xsl:with-param name="chunk.content" select="$chunk.content"/>
+	    <xsl:with-param name="chunk.node" select="."/> <!-- Contains node that will serve as root of chunk -->
+	    <xsl:with-param name="chunk.content" select="$chunk.content"/> <!-- Contains XSL-processed content of $chunk.node -->
 	  </xsl:apply-templates>
 	</xsl:when>
 	<!-- Otherwise, go ahead and do the following default chunk processing -->
@@ -436,23 +444,35 @@ sect5:s
     </xsl:call-template>
   </xsl:template>
 
+  <!-- Given a node, return the root node of the chunk it's in -->
+  <func:function name="htmlbook:chunk-for-node">
+    <xsl:param name="node" select="."/>
+
+    <!-- 1. Get a nodeset of current element and all its ancestors, which could potentially be chunks -->
+    <xsl:variable name="self-and-ancestors" select="$node/ancestor-or-self::*"/>
+
+    <!-- 2. Find out which of these "self and ancestors" are also chunks -->
+    <xsl:variable name="self-and-ancestors-that-are-chunks" select="set:intersection($self-and-ancestors, $chunks)"/>
+
+    <!-- 3. Desired chunk is the last (lowest in hierarchy) in this nodeset -->
+    <xsl:variable name="chunk.node" select="$self-and-ancestors-that-are-chunks[last()]"/>
+
+    <xsl:choose>
+      <xsl:when test="$chunk.node">
+	<func:result select="$chunk.node"/>
+      </xsl:when>
+      <xsl:otherwise>
+	<func:result/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </func:function>
+
+
   <!-- Given a node, return the filename for the chunk it's in -->
   <xsl:template name="filename-for-node">
     <xsl:param name="node"/>
 
-    <!-- Figure out which chunk $node belongs to: -->
-
-    <!-- 1. Get a nodeset of all chunks in this document -->
-    <xsl:variable name="chunks" select="key('chunks', '1')"/> <!-- All chunks have an is-chunk() value of 1 -->
-
-    <!-- 2. Get a nodeset of current element and all its ancestors, which could potentially be chunks -->
-    <xsl:variable name="self-and-ancestors" select="$node/ancestor-or-self::*"/>
-
-    <!-- 3. Find out which of these "self and ancestors" are also chunks -->
-    <xsl:variable name="self-and-ancestors-that-are-chunks" select="set:intersection($self-and-ancestors, $chunks)"/>
-
-    <!-- 4. Desired chunk is the last (lowest in hierarchy) in this nodeset -->
-    <xsl:variable name="chunk.node" select="$self-and-ancestors-that-are-chunks[last()]"/>
+    <xsl:variable name="chunk.node" select="htmlbook:chunk-for-node($node)"/>
 
     <!-- Now get filename for chunk -->
     <xsl:variable name="chunk-filename">
@@ -531,4 +551,112 @@ sect5:s
     </xsl:if>
   </xsl:template>
 
+  <!-- Special handling for the following navigation links:
+       1. Previous link (go to the previous chunk in the book sequence)
+       2. Next link (go to the next chunk in the book sequence)
+       3. TOC link (go to the TOC chunk)
+    -->
+
+  <!-- Support use of <?prev_link?> to insert link to previous chunk in book sequence -->
+  <xsl:template match="processing-instruction('prev_link')" name="prev_link" mode="process-chunk-wrapper">
+    <xsl:param name="chunk.node" select="parent::*"/>
+
+    <xsl:choose>
+      <xsl:when test="htmlbook:chunk-for-node($chunk.node)">
+	<xsl:variable name="current.chunk" select="htmlbook:chunk-for-node($chunk.node)"/>
+	<xsl:variable name="previous.chunk" select="$chunks[descendant::*[generate-id(.) = generate-id($current.chunk)]|
+						            following::*[generate-id(.) = generate-id($current.chunk)]][last()]"/>
+	<xsl:if test="$previous.chunk">
+<!--	  <xsl:message>Current chunk: <xsl:value-of select="$current.chunk/@id"/>; Previous chunk: <xsl:value-of select="$previous.chunk/@id"/>; Output filename: 	      <xsl:call-template name="output-filename-for-chunk">
+		<xsl:with-param name="node" select="$previous.chunk"/>
+              </xsl:call-template>
+</xsl:message> -->
+	  <a>
+	    <xsl:attribute name="href">
+	      <xsl:call-template name="output-filename-for-chunk">
+		<xsl:with-param name="node" select="$previous.chunk"/>
+              </xsl:call-template>
+	    </xsl:attribute>
+	    <xsl:text>Previous</xsl:text>
+	  </a>
+	</xsl:if>
+      </xsl:when>
+      <xsl:otherwise>
+	<xsl:call-template name="log-message">
+	  <xsl:with-param name="type" select="'ERROR'"/>
+	  <xsl:with-param name="message">
+	    <xsl:text>Unable to find proper context for previous-link placeholder. Link will not be generated</xsl:text>
+	  </xsl:with-param>
+	</xsl:call-template>	
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
+  <!-- Support use of <?next_link?> to insert link to previous chunk in book sequence -->
+  <xsl:template match="processing-instruction('next_link')" name="next_link" mode="process-chunk-wrapper">
+    <xsl:param name="chunk.node" select="parent::*"/>
+
+    <xsl:choose>
+      <xsl:when test="htmlbook:chunk-for-node($chunk.node)">
+	<xsl:variable name="current.chunk" select="htmlbook:chunk-for-node($chunk.node)"/>
+	<xsl:variable name="next.chunk" select="$chunks[ancestor::*[generate-id(.) = generate-id($current.chunk)]|
+						            preceding::*[generate-id(.) = generate-id($current.chunk)]][1]"/>
+	<xsl:if test="$next.chunk">
+<!--	  <xsl:message>Current chunk: <xsl:value-of select="$current.chunk/@id"/>; Next chunk: <xsl:value-of select="$next.chunk/@id"/>; Output filename: 	      <xsl:call-template name="output-filename-for-chunk">
+		<xsl:with-param name="node" select="$next.chunk"/>
+              </xsl:call-template>
+</xsl:message> -->
+	  <a>
+	    <xsl:attribute name="href">
+	      <xsl:call-template name="output-filename-for-chunk">
+		<xsl:with-param name="node" select="$next.chunk"/>
+              </xsl:call-template>
+	    </xsl:attribute>
+	    <xsl:text>Next</xsl:text>
+	  </a>
+	</xsl:if>
+      </xsl:when>
+      <xsl:otherwise>
+	<xsl:call-template name="log-message">
+	  <xsl:with-param name="type" select="'ERROR'"/>
+	  <xsl:with-param name="message">
+	    <xsl:text>Unable to find proper context for next-link placeholder. Link will not be generated</xsl:text>
+	  </xsl:with-param>
+	</xsl:call-template>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
+  <!-- Support use of <?toc_link?> to insert link to table of contents in book sequence -->
+  <xsl:template match="processing-instruction('toc_link')" name="toc_link" mode="process-chunk-wrapper">
+    <xsl:variable name="toc_chunks" select="$chunks[self::h:nav[@data-type='toc']]"/>
+    <xsl:if test="count($toc_chunks) &gt; 1">
+      <xsl:call-template name="log-message">
+	<xsl:with-param name="type" select="'WARNING'"/>
+	<xsl:with-param name="message">
+	  <xsl:text>More than one TOC in book. TOC navigation link will be generated for the *first* TOC.</xsl:text>
+	</xsl:with-param>
+      </xsl:call-template>
+    </xsl:if>
+    <xsl:choose>
+      <xsl:when test="count($toc_chunks) &gt; 0">
+	<a>
+	  <xsl:attribute name="href">
+	    <xsl:call-template name="output-filename-for-chunk">
+	      <xsl:with-param name="node" select="$toc_chunks[1]"/>
+            </xsl:call-template>
+	  </xsl:attribute>
+	  <xsl:text>Table of Contents</xsl:text>
+	</a>
+      </xsl:when>
+      <xsl:otherwise>
+	<xsl:call-template name="log-message">
+	  <xsl:with-param name="type" select="'WARNING'"/>
+	  <xsl:with-param name="message">
+	    <xsl:text>No TOC in book. No TOC navigation link will be generated.</xsl:text>
+	  </xsl:with-param>
+	</xsl:call-template>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
 </xsl:stylesheet> 
