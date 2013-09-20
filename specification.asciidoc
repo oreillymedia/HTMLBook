@@ -755,7 +755,7 @@ Example:
 
 *HTML element*: +<canvas>+
 
-*Note*: Should include a fallback link to the audio online.
+*Note*: Should include fallbacks for environments that don't support HTML5 or JavaScript (e.g., link or image).
 
 *Examples*:
 
