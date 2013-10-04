@@ -139,8 +139,6 @@
   <!-- ID to use to reference cover filename -->
   <xsl:param name="epub.cover.html.id" select="'cover'"/>
 
-  <xsl:param name="metadata.cover.filename" select="//h:figure[@data-type = 'cover'][1]/h:img[1]/@src"/>
-
   <xsl:param name="metadata.ibooks-specified-fonts" select="1"/>
 
   <xsl:param name="package.namespaces">
@@ -150,7 +148,9 @@
   </xsl:param>
 
   <!-- Param to specify whether or not to generate a separate HTML file for the cover -->
-  <xsl:param name="generate.cover.html" select="1"/>
+  <xsl:param name="generate.cover.html">
+    <xsl:if test="//h:figure[@data-type='cover']//h:img[@src != '']">1</xsl:if>
+  </xsl:param>
 
   <!-- Param to specify filename for cover HTML (only applicable if $generate.cover.html is enabled)-->
   <xsl:param name="cover.html.filename" select="'cover.html'"/>
@@ -221,7 +221,7 @@ UbuntuMono-Italic.otf</xsl:param>
     <xsl:if test="$generate.ncx.toc = 1">
       <xsl:call-template name="generate.ncx.toc"/>
     </xsl:if>
-    <xsl:if test="$generate.cover.html">
+    <xsl:if test="$generate.cover.html = 1">
       <xsl:call-template name="generate-cover-html"/>
     </xsl:if>
     <xsl:apply-imports/>
@@ -240,9 +240,7 @@ UbuntuMono-Italic.otf</xsl:param>
 	  </xsl:if>
 	</head>
 	<body>
-	  <div>
-	    <img src="{$metadata.cover.filename}" alt="{$metadata.title}"/>
-	  </div>
+	  <xsl:copy-of select="//h:figure[@data-type='cover'][1]"/>
 	</body>
       </html>
     </exsl:document>
