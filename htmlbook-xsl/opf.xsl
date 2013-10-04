@@ -230,7 +230,7 @@
 	      </meta>
 	    </xsl:for-each>
 	  </xsl:if>
-	  <xsl:if test="normalize-space($metadata.cover.filename) != ''">
+	  <xsl:if test="$generate.cover.html = 1">
 	    <meta name="cover" content="{$epub.cover.image.id}"/>
 	  </xsl:if>
 	  <xsl:if test="$metadata.ibooks-specified-fonts = 1">
@@ -314,7 +314,7 @@
 	  <xsl:value-of select="$ncx.toc.id"/>
 	</xsl:attribute>
       </xsl:if>
-      <xsl:if test="$cover.in.spine = 1">
+      <xsl:if test="$cover.in.spine = 1 and $generate.cover.html = 1">
 	<itemref idref="{$epub.cover.html.id}"/>
       </xsl:if>
       <xsl:if test="$generate.root.chunk = 1">
