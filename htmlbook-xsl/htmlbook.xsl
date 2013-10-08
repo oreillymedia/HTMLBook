@@ -35,11 +35,11 @@
 	  </xsl:with-param>
 	</xsl:call-template>
       </xsl:when>
-      <xsl:when test="$autogenerate-toc = 1 and $toc-placeholder-overwrite-contents != 1 and count(//h:nav[@data-type='toc'][1][not(node())]) = 0">
+      <xsl:when test="$autogenerate-toc = 1 and $toc-placeholder-overwrite-contents != 1 and count(//h:nav[@data-type='toc'][not(node())]) = 0">
 	<xsl:call-template name="log-message">
 	  <xsl:with-param name="type" select="'WARNING'"/>
 	  <xsl:with-param name="message">
-	    <xsl:text>Unable to autogenerate TOC: first TOC "nav" is not empty, and $toc-placeholder-overwrite-contents param not enabled.</xsl:text>
+	    <xsl:text>Unable to autogenerate TOC: no nonempty TOC "nav"s, and $toc-placeholder-overwrite-contents param not enabled.</xsl:text>
 	  </xsl:with-param>
 	</xsl:call-template>
       </xsl:when>

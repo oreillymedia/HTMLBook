@@ -61,8 +61,7 @@
       <xsl:choose>
 	<!-- If autogenerate-toc is enabled, and it's the first toc-placeholder-element, and it's either empty or overwrite-contents is specified, then
 	     go ahead and generate the TOC here -->
-	<xsl:when test="($autogenerate-toc = 1) and 
-			(not(preceding::h:nav[@data-type='toc'])) and
+	<xsl:when test="($autogenerate-toc = 1) and
 			(not(node()) or $toc-placeholder-overwrite-contents != 0)">
 	  <xsl:copy>
 	    <xsl:apply-templates select="@*[not(local-name() = 'id')]"/>
