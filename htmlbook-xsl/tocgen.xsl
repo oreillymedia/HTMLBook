@@ -56,6 +56,7 @@
 
   <xsl:template match="h:nav[@data-type='toc']" name="generate-toc">
     <xsl:param name="toc.node" select="."/>
+    <xsl:param name="scope" select="/*"/>
     <!-- Just switch context to $toc.node, so we don't have to reference the variable in rest of template -->
     <xsl:for-each select="$toc.node">
       <xsl:choose>
@@ -74,7 +75,7 @@
 	      </h1>
 	    </xsl:if>
 	    <ol>
-	      <xsl:apply-templates select="/*" mode="tocgen"/>
+	      <xsl:apply-templates select="$scope" mode="tocgen"/>
 	    </ol>
 	  </xsl:copy>
 	</xsl:when>
