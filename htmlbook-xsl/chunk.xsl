@@ -143,7 +143,7 @@ sect5:s
 
   <xsl:template match="@*|node()" mode="process-chunk-wrapper">
     <xsl:param name="chunk.node"/> <!-- Contains node that will serve as root of chunk -->
-    <xsl:param name="chunk.content"/> <!-- Contains node that will serve as root of chunk -->
+    <xsl:param name="chunk.content"/> <!-- Contains XSL-processsed content of $chunk.node -->
     <!-- Copy to output everything in chunk wrapper that is not the <?yield?> PI -->
     <xsl:copy>
       <xsl:apply-templates select="@*|node()" mode="process-chunk-wrapper">
@@ -153,11 +153,27 @@ sect5:s
     </xsl:copy>
   </xsl:template>
 
+  <xsl:template match="h:nav[@data-type = 'toc']" mode="process-chunk-wrapper">
+    <xsl:param name="chunk.node"/>
+    <xsl:param name="chunk.content"/>
+    <!-- Only generate a TOC if we're not outputting the TOC chunk (don't want double TOCs in a file) -->
+    <xsl:if test="not($chunk.node[self::h:nav[@data-type = 'toc']])">
+      <xsl:call-template name="generate-toc">
+	<xsl:with-param name="toc.node" select="."/>
+	<!-- Use content root as scope. -->
+	<!-- ToDo: Further parameterization for mini-TOCs (e.g., chapter TOC, appendix TOC, etc.)? -->
+	<xsl:with-param name="scope" select="$chunk.node/ancestor::*[not(ancestor::*)]"/>
+      </xsl:call-template>
+    </xsl:if>
+  </xsl:template>
+
   <xsl:template match="h:script" mode="process-chunk-wrapper">
+    <xsl:param name="chunk.node"/>
     <xsl:param name="chunk.content"/>
     <!-- Special handling to ensure <script> tags are not self-closing (i.e., no <script/>), as that causes problems in many browsers -->
     <xsl:copy>
       <xsl:apply-templates select="@*|node()" mode="process-chunk-wrapper">
+	<xsl:with-param name="chunk.node" select="$chunk.node"/>
 	<xsl:with-param name="chunk.content" select="$chunk.content"/>
       </xsl:apply-templates>
       <xsl:if test="not(node())">
