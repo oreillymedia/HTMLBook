@@ -147,6 +147,6 @@ sect5:xref
   <xsl:param name="html4.structural.elements" select="0"/>
 
   <!-- When set to 1, add a <div> within a <figure> to encapsulate all the non-caption <figure> content (to facilitate styling) -->
-  <xsl:param name="figure.border.div" select="1"/>
+  <xsl:param name="figure.border.div" select="0"/>
 
 </xsl:stylesheet> 
