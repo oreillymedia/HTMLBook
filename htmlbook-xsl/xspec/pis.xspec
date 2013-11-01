@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               xmlns:functx="http://www.functx.com"
+	       xmlns="http://www.w3.org/1999/xhtml"
+               stylesheet="../htmlbook.xsl">
+
+  <!-- Test suite for pis.xsl -->
+  
+  <!--
+      This scenario demonstrates how to test a matching template.
+    -->
+  <x:scenario label="When encountering a 'pagebreak' Processing Instruction">
+    <!-- apply template rules to this element -->
+    <x:context>
+      <?hard-pagebreak?>
+    </x:context>
+    <!-- check the result -->
+    <x:expect label="Convert it to a pagebreak 'div'">
+      <div class="hard-pagebreak"/>
+    </x:expect>
+  </x:scenario>
+</x:description>
