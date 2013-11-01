@@ -1,0 +1,193 @@
+# XSpec = XSLT Specifications
+# This schema is for XSpec documents, which can be used to describe the behaviour
+# of an XSLT application. They are similar to the RSpec documents used in RoR
+# testing, but for XSLT
+default namespace = "http://www.jenitennison.com/xslt/xspec"
+datatypes xs = "http://www.w3.org/2001/XMLSchema-datatypes"
+
+start = description
+
+description = 
+	## A description is a description of a stylesheet application. 
+	## It must have a stylesheet and/or a query it's associated with.
+	## It may also have a version to aid development over time.
+	element description { 
+		common-attributes,
+		attribute stylesheet { xs:anyURI }?,
+		attribute query { xs:anyURI }?,
+		attribute xslt-version { xs:NMTOKEN }?,
+		attribute query-at { xs:anyURI }?,
+		attribute version { xs:NMTOKEN }?,		
+		attribute preserve-space { xs:NMTOKENS }?,
+		(global-param | import | scenario | pending)+ }
+
+import = 
+	## An import brings in all the scenarios from the referenced file (which must
+	## itself be an XSpec description). All the unshared scenarios in that imported
+	## XSpec will be run on the stylesheet that this XSpec document describes.
+	## Importing is recursive and may be circular (although only one copy of a given
+	## imported document will actually be imported).
+	element import { common-attributes, attribute href { xs:anyURI } }
+
+pending = 
+	## Anything that is within a <pending> element will remain untested, but will be
+	## reported as (eventual) desired behaviour. This is a good way of commenting out
+	## a set of behaviours that haven't been implemented yet, or scenarios whose
+	## desired behaviour hasn't been determined, or tests for code that you're not
+	## currently working on, to make the testing process faster.
+	##
+	## An optional label attribute can be used to describe why the scenario or
+	## assertion should not be tested.
+	element pending { common-attributes, label?, (scenario | assertion)* }
+
+scenario = 
+	## A scenario defines the environment in which a piece of processing takes place.
+	##
+	## Any parameters defined within a scenario equate to global (stylesheet)
+	## parameters.
+	##
+	## If a scenario has a pending attribute, this has the same semantics as
+	## wrapping the scenario in a <pending> element with a label equal to the value
+	## of the pending attribute.
+	##
+	## If any scenario has a focus attribute, any scenarios without a focus 
+	## attribute will be classed as pending.
+	element scenario { common-scenario-attributes, shared?,
+		label,
+		( matching-scenario |
+		  function-scenario |
+		  named-scenario ) }
+
+common-scenario-attributes = common-attributes,
+                             attribute pending { text }?,
+                             attribute focus { text }?
+
+label = 
+	## A scenario's label should describe the context that the scenario sets. Top-
+	## level scenarios' labels should be of the form "the square of a number" or 
+	## "the XHTML for a <P1> element". Nested scenario labels will usually start with 
+	## the word "with"; it should make sense if the labels of ancestor scenarios are 
+	## concatenated with this one. For example "with a Type attribute".
+	attribute label { text } |
+	element label { any-content }
+
+shared = 
+	## There are shared scenarios (shared="yes") and unshared scenarios (shared="no",
+	## the default). Shared scenarios can be referenced and reused by other scenarios
+	## with the <like> element. Unshared scenarios are simply run.
+	attribute shared { "yes" | "no" }
+
+like = 
+	## The <like> element pulls a shared scenario into this one (which may be shared
+	## or unshared). Any environment set within the shared scenario is merged with
+	## this one, and any tests in the shared scenario are run in addition to the
+	## ones in this scenario. This allows for modular, reusable sets of tests which
+	## can be applied in multiple contexts.
+	element like { common-attributes, label }
+
+## A matching scenario is one based on the application of templates to a
+## particular node. The <context> element defines <xsl:apply-templates> used to
+## process the node, and the <assertion> elements define the tests on that node.
+## Child scenarios can override the parameters in the context, and can provide
+## any missing values in the <context> (for example, if the context on the parent
+## scenario doesn't provide a mode, that could be provided by the child scenario).
+matching-scenario = context?,
+                    like*,
+                    (pending | assertion)*, 
+                    (pending | 
+                     element scenario { common-scenario-attributes, 
+                                        label, matching-scenario })*
+
+## A function scenario is one based on a call to a stylesheet function. The
+## <call> element defines the function call and the paraemeters passed to it
+## and the <assertion> elements test the result of the function. Child scenarios
+## can override the parameters in the function call.
+function-scenario = function-call?,
+                    like*,
+                    (pending | assertion)*,
+                    (pending | 
+                     element scenario { common-scenario-attributes,
+                                        label, function-scenario })*
+                      
+## A named scenario is one based on a call to a named template. The <call>
+## element defines the template call and the parameters passed to it and the
+## <assertion> elements test the result of the template call. Child scenarios
+## can override the parameters in the template call.
+named-scenario = template-call?, 
+                 like*,
+                 (pending | assertion)*,
+                 (pending | 
+                  element scenario { common-scenario-attributes,
+                                     label, named-scenario })*
+                   
+context = 
+	## The <context> element defines a context node, the mode in which templates
+	## are applied to it, and any parameters included in the apply templates.
+	element context { 
+		common-attributes,
+		attribute mode { xs:QName }?,
+		template-param*,
+		node-selection
+	}
+
+function-call = 
+	## A <call> element either defines a function call or a template call and the
+	## parameters passed to it. 
+	element call {
+		common-attributes,
+		attribute function { xs:QName }?,
+		function-param*
+	}
+
+template-call = 
+	## A <call> element either defines a function call or a template call and the
+	## parameters passed to it. 
+	element call {
+		common-attributes,
+		attribute template { xs:QName }?,
+		template-param*
+	}
+
+global-param = 
+	## Global parameters are set globally, for the entire unit test suite. There's
+	## no way to set global parameters within a particular scenario (due to
+	## constraints on implementation).
+	element param { name, selection }
+
+template-param = element param { common-attributes, 
+                                 name, as?, 
+                                 attribute tunnel { "yes" | "no" }?, selection }
+
+function-param = element param { common-attributes,
+                                 name?, as?, position?, selection }
+
+name = attribute name { xs:QName }
+
+position = attribute position { xs:integer }
+
+as = attribute as { text }
+
+selection = node-selection | value-selection
+
+node-selection = attribute href { xs:anyURI }?,
+                 attribute select { xpath }?, 
+                 any-content
+
+value-selection = attribute select { xpath }
+
+xpath = text
+
+assertion = 
+	## An assertion's test XPath can either return a boolean value, in which case the 
+	## assertion succeeds only if the test is true; or a node, in which case the
+	## assertion succeeds only if the node is equal to the one specified with the
+	## href and select attributes or content of the <expect> element.
+	element expect { common-attributes,
+		label, test?, selection }
+
+test = attribute test { xpath }
+
+common-attributes = attribute xml:* { text }*
+
+any-content = mixed { any-element* }
+any-element = element * { attribute * { text }*, any-content }

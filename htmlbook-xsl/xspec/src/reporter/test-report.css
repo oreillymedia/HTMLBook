@@ -1,0 +1,439 @@
+/****************************************************************************/
+/*  File:       test-report.css                                             */
+/*  Author:     Jeni Tennsion                                               */
+/*  URI:        http://xspec.googlecode.com/                                */
+/*  Tags:                                                                   */
+/*    Copyright (c) 2008, 2010 Jeni Tennsion (see end of file.)             */
+/* ------------------------------------------------------------------------ */
+
+
+/* test */
+
+/* box model */
+
+body {
+	margin-right: 1em;
+	margin-left: 10%;
+	}
+
+h1 {
+	padding: 0.3em 0.5em 0.3em 0.5em;
+	position: relative;
+	}
+
+h2 {
+	padding: 0.1em 0.5em 0.2em 0.5em;
+	}
+
+h3 {
+	padding-left: 0.6em;
+	}
+
+h4 {
+	padding-left: 0.8em;
+	}
+
+p, table {
+	margin-left: 5%;
+	}
+
+dd ul, dd ol {
+	margin-left: 0%;
+	}
+
+li ul, li ol {
+	margin-left: 5%;
+	}
+
+dl, ul, ol, blockquote {
+	margin-left: 10%;
+	}
+
+dt {
+  padding-top: 3px;
+  padding-bottom: 3px;
+	clear: both;
+	}
+
+dd p {
+	margin-left: -5px;
+	margin-top: 5px;
+	clear: both;
+	}
+
+p.link {
+	margin-top: 4px;
+	margin-bottom: 0px;
+	clear: both;
+	}
+
+tr td, td p, li, li p {
+	margin-left: 0%;
+	}
+
+td {
+	padding-right: 5%;
+	}
+
+.link img, dt img {
+	vertical-align: middle;
+	position: relative;
+	top: -5px;
+	}
+
+img {
+	position: relative;
+	}
+
+#xml-link {
+	position: absolute;
+	left: 5px;
+	top: 5px;
+	width: 10%;
+	margin-left: 0%;
+	}
+
+#link-up {
+	position: absolute;
+	left: 93%;
+	right: 2em;
+	top: 0.3em;
+	}
+
+#link-top {
+	position: absolute;
+	left: 89%;
+	right: 4em;
+	top: 0.3em;
+	}
+	
+.popup {
+	display: block;
+	visibility: hidden;
+	float: right;
+	position: absolute;
+	top: 5px;
+	left: -200px;
+	z-index: 1;
+	padding: 0.3em;
+	width: 220px;
+	}
+
+.note {
+	position: relative;
+	}
+
+.post {
+	margin-left: 5%;
+	padding-top: 1em;
+	}
+	
+.example, .sidebar {
+  margin-left: 5%;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  }
+
+pre {
+	padding-left: 5%;
+	margin-left: 5%;
+	}
+
+dd pre, li pre {
+	padding-left: 5%;
+	}
+
+/* fonts */
+body {
+	font-family: Verdana, arial, sans-serif;
+	font-size: small;
+	}
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: 'trebuchet MS', arial, sans-serif;
+	}
+
+h1 {
+	font-size: 173%;
+	font-weight: bold;
+	}
+
+h2 {
+	font-size: 144%;
+	font-weight: normal;
+	}
+
+h3 {
+	font-size: 120%;
+	font-weight: normal;
+	}
+
+h4 {
+  font-size: 100%;
+  font-weight: bold;
+}
+
+dt {
+	font-weight: bold;
+	}
+
+a:link, a:visited, a:active, a:hover {
+	font-weight: bold;
+	}
+
+a.offsite:link, a.offsite:visited, a.offsite:active, a.offsite:hover {
+	font-weight: normal;
+	}
+
+/* suppress the normal italics */
+address {
+	font-style: normal;
+	}
+
+div.example, .sidebar {
+  font-family: Verdana, arial, sans-serif;
+  font-size: 100%;
+  }
+
+
+.note, .link {
+	font-family: Verdana, arial, sans-serif;
+	font-size: 83%;
+	}
+
+.example, .string, .rtf, .code, pre, code {
+	font-family: "Lucida Console", "Courier New", monospace;
+  font-size: 83%;
+	}
+
+.boolean {
+	font-style: italic;
+	}
+
+#colophon, #xml-link {
+	font-size: 69%;
+	}
+
+.question, .title {
+	font-weight: bold;
+	}
+
+/* colours */
+body {
+	background-color: white;
+	color: black;
+	border: 0px none black;
+	}
+
+/* this is to make Navigator fill the entire line */
+h1, h2 {
+	border: 1px solid white;
+	width: auto;
+	}
+
+h1 {
+	background: #606;
+	color: #6F6;
+	}
+
+h2 {
+	color: #606;
+	background: #CFC;
+	}
+
+hr {
+	color: #606;
+	background: white;
+	}
+
+img, a:link img, a:visited img, a:hover img, a:active img, #link-up img, #link-top img {
+	border: 0px none white;
+	background: transparent;
+	}
+
+a:link {
+	color: #636;
+	background: transparent;
+	border: 0px none white;
+	}
+
+a:visited {
+	color: #606;
+	background: transparent;
+	border: 0px none white;
+	}
+
+a:active {
+	color: #6F6;
+	background: #606;
+	border: 0px none white;
+	}
+
+a:hover {
+	color: #636;
+	background: #9F9;
+	border: 0px none white;
+	}
+
+a.img:hover, a.img:active {
+	background: transparent;
+	}
+
+#colophon, #xml-link, .note {
+	color: #666;
+	}
+
+#colophon a:link, #colophon a:visited, #colophon a:hover,
+#xml-link a:link, #xml-link a:visited, #xml-link a:hover,
+.note a:link, .note a:visited, .note a:hover {
+	color: #969;
+	background: transparent;
+	}
+
+#colophon a:hover, #xml-link a:hover, .note a:hover {
+	background: #CFC;
+	color: #969;
+	}
+
+.popup {
+	background: white;
+	border: 1px solid #606;
+	}
+
+.post {
+	border-top: 2px solid #606;
+	}
+	
+.example {
+  border-top: 2px solid #606;
+  border-bottom: 2px solid #606;
+  }
+  
+.sidebar {
+  border-top: 2px solid #090;
+  border-bottom: 2px solid #090;
+  }
+  
+.rng {
+  border-left: 2px solid #666;
+  }
+
+.same {
+  background-color: #9F9;
+}
+
+.diff {
+  background-color: #F99;
+}
+
+.whitespace {
+	font-style: italic;
+	color: #999;
+	background: white;
+}
+
+.ignored {
+  font-style: italic;
+  color: #999;
+  background: white;
+}
+
+.hit {
+}
+
+.missed {
+  background-color: #A33;
+  color: white;
+}
+
+/* text */
+ol ol li {
+	list-style: lower-alpha;
+	}
+
+th {
+	text-align: left;
+	}
+
+td {
+	vertical-align: top;
+	}
+
+h1 {
+	text-transform: uppercase;
+	}
+
+h2, h3 {
+	text-transform: capitalize;
+	}
+
+.question {
+	text-indent: -33px;
+	}
+
+.byline {
+	text-align: right;
+	}
+
+#link-top, #link-up {
+	text-align: right;
+	}
+
+a {
+	text-decoration: none;
+	}
+
+table { width: 85%;
+        /* border: collapse; */ }
+
+th { text-align: left; }
+
+.xspec tbody th { font-weight: normal; font-size: 0.8em; border-top: 1px #666 solid; }
+.xspec tbody td { font-size: 0.8em; color: #666; }
+
+.successful { background-color: #CFC; }
+.pending { background-color: #EEE; color: #666; }
+.failed { background-color: #FCC; }
+
+.xspecResult { width: 95%; table-layout: fixed; }
+
+.xspecResult td,
+.xspecResult th { width: 50%; }
+
+.xspecResult pre { 
+  margin-left: 0; 
+  padding: 0.5em; 
+  overflow: auto; 
+  border: 1px #999 dotted;
+}
+
+span.scenario-totals {float: right; width: 22.5%; text-align: left}
+
+
+/* ------------------------------------------------------------------------ */
+/*  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS COMMENT.               */
+/*                                                                          */
+/*  Copyright (c) 2008, 2010 Jeni Tennsion                                  */
+/*                                                                          */
+/*  The contents of this file are subject to the MIT License (see the URI   */
+/*  http://www.opensource.org/licenses/mit-license.php for details).        */
+/*                                                                          */
+/*  Permission is hereby granted, free of charge, to any person obtaining   */
+/*  a copy of this software and associated documentation files (the         */
+/*  "Software"), to deal in the Software without restriction, including     */
+/*  without limitation the rights to use, copy, modify, merge, publish,     */
+/*  distribute, sublicense, and/or sell copies of the Software, and to      */
+/*  permit persons to whom the Software is furnished to do so, subject to   */
+/*  the following conditions:                                               */
+/*                                                                          */
+/*  The above copyright notice and this permission notice shall be          */
+/*  included in all copies or substantial portions of the Software.         */
+/*                                                                          */
+/*  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,         */
+/*  EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF      */
+/*  MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  */
+/*  IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY    */
+/*  CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,    */
+/*  TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE       */
+/*  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                  */
+/* ------------------------------------------------------------------------ */

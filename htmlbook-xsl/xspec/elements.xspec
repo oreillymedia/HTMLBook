@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               xmlns:functx="http://www.functx.com"
+	       xmlns="http://www.w3.org/1999/xhtml"
+	       xmlns:h="http://www.w3.org/1999/xhtml"
+               stylesheet="../htmlbook.xsl">
+
+  <!-- Test suite for elements.xsl -->
+
+  <!-- id generation tests -->
+  <x:scenario label="When encountering a section without an id">
+    <x:context>
+      <section/>
+    </x:context>
+    <!-- check the result -->
+    <x:expect label="Add an id" test="h:section[1]/@id != ''"/>
+  </x:scenario>
+
+  <x:scenario label="When encountering a section with an id">
+    <x:context>
+      <section id="cookies"/>
+    </x:context>
+    <!-- check the result -->
+    <x:expect label="Preserve the id" test="h:section[1]/@id = 'cookies'"/>
+  </x:scenario>
+
+  <x:scenario label="When encountering a Part div without an id">
+    <x:context>
+      <div data-type="part"/>
+    </x:context>
+    <!-- check the result -->
+    <x:expect label="Add an id" test="h:div[@data-type='part'][1]/@id != ''"/>
+  </x:scenario>
+
+  <x:scenario label="When encountering a Part div with an id">
+    <x:context>
+      <div data-type="part" id="pizza"/>
+    </x:context>
+    <!-- check the result -->
+    <x:expect label="Preserve the id" test="h:div[@data-type='part'][1]/@id = 'pizza'"/>
+  </x:scenario>
+
+  <x:scenario label="When encountering an aside without an id">
+    <x:context>
+      <aside/>
+    </x:context>
+    <!-- check the result -->
+    <x:expect label="Add an id" test="h:aside[1]/@id != ''"/>
+  </x:scenario>
+
+  <x:scenario label="When encountering an aside with an id">
+    <x:context>
+      <aside id="watermelon"/>
+    </x:context>
+    <!-- check the result -->
+    <x:expect label="Preserve the id" test="h:aside[1]/@id = 'watermelon'"/>
+  </x:scenario>
+
+  <x:scenario label="When encountering an indexterm without an id">
+    <x:context>
+      <a data-type="indexterm" data-primary="rubygems"/>
+    </x:context>
+    <!-- check the result -->
+    <x:expect label="Add an id" test="h:a[@data-type='indexterm'][1]/@id != ''"/>
+  </x:scenario>
+
+  <x:scenario label="When encountering an indexterm with an id">
+    <x:context>
+      <a data-type="indexterm" data-primary="rubygems" id="avocado"/>
+    </x:context>
+    <!-- check the result -->
+    <x:expect label="Preserve the id" test="h:a[@data-type='indexterm'][1]/@id = 'avocado'"/>
+  </x:scenario>
+
+  <!-- PDF bookmark attributes -->
+  <x:scenario label="When encountering a chapter-level section">
+    <x:context>
+      <section data-type="chapter">
+	<h1>This is the Chapter title</h1>
+	<p>Hello World!</p>
+      </section>
+    </x:context>
+    <!-- check the result -->
+    <x:expect label="Propagate the heading text to a data-pdf-bookmark attribute" test="h:section[1]/@data-pdf-bookmark = current()//h:h1"/>
+  </x:scenario>
+
+  <x:scenario label="When encountering a sect1-level section">
+    <x:context>
+      <section data-type="sect1">
+	<h1>This is the Section title</h1>
+	<p>Hello World!</p>
+      </section>
+    </x:context>
+    <!-- check the result -->
+    <x:expect label="Propagate the heading text to a data-pdf-bookmark attribute" test="h:section[1]/@data-pdf-bookmark = current()//h:h1"/>
+  </x:scenario>
+
+  <x:scenario label="When encountering a sect2-level section">
+    <x:context>
+      <section data-type="sect2">
+	<h2>This is the Section title</h2>
+	<p>Hello World!</p>
+      </section>
+    </x:context>
+    <!-- check the result -->
+    <x:expect label="Propagate the heading text to a data-pdf-bookmark attribute" test="h:section[1]/@data-pdf-bookmark = current()//h:h2"/>
+  </x:scenario>
+
+  <x:scenario label="When encountering a sect3-level section">
+    <x:context>
+      <section data-type="sect3">
+	<h3>This is the Section title</h3>
+	<p>Hello World!</p>
+      </section>
+    </x:context>
+    <!-- check the result -->
+    <x:expect label="Propagate the heading text to a data-pdf-bookmark attribute" test="h:section[1]/@data-pdf-bookmark = current()//h:h3"/>
+  </x:scenario>
+
+  <x:scenario label="When encountering a sect4-level section">
+    <x:context>
+      <section data-type="sect4">
+	<h4>This is the Section title</h4>
+	<p>Hello World!</p>
+      </section>
+    </x:context>
+    <!-- check the result -->
+    <x:expect label="Propagate the heading text to a data-pdf-bookmark attribute" test="h:section[1]/@data-pdf-bookmark = current()//h:h4"/>
+  </x:scenario>
+
+  <x:scenario label="When encountering a sect5-level section">
+    <x:context>
+      <section data-type="sect5">
+	<h5>This is the Section title</h5>
+	<p>Hello World!</p>
+      </section>
+    </x:context>
+    <!-- check the result -->
+    <x:expect label="Propagate the heading text to a data-pdf-bookmark attribute" test="h:section[1]/@data-pdf-bookmark = current()//h:h5"/>
+  </x:scenario>
+
+  <x:scenario label="When encountering a Part div">
+    <x:context>
+      <div data-type="part">
+	<h1>This is the Part title</h1>
+	<p>Hello World!</p>
+      </div>
+    </x:context>
+    <!-- check the result -->
+    <x:expect label="Propagate the heading text to a data-pdf-bookmark attribute" test="h:div[1]/@data-pdf-bookmark = current()//h:h1"/>
+  </x:scenario>
+
+  <x:scenario label="When encountering a headingless section/div"> <!-- Not valid HTMLBook -->
+    <x:context>
+      <div data-type="part">
+	<p>Hello World!</p>
+	<section data-type="chapter">
+	  <p>Hi again, World!</p>
+	</section>
+      </div>
+    </x:context>
+    <!-- check the result -->
+    <x:expect label="Don't generate a data-pdf-bookmark attribute" test="count(//@data-pdf-bookmark) = 0"/>
+  </x:scenario>
+
+</x:description>
