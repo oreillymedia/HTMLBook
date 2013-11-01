@@ -1,0 +1,91 @@
+# ========================================================================== #
+#   File:       find-examples.rnc                                            #
+#   Author:     Jeni Tennsion                                                #
+#   URI:        http://xspec.googlecode.com/                                 #
+#   Tags:                                                                    #
+#     Copyright (c) 2008, 2010 Jeni Tennsion (see end of file.)              #
+# -------------------------------------------------------------------------- #
+
+
+default namespace = "http://www.jenitennison.com/xslt/xspec"
+datatypes xs = "http://www.w3.org/2001/XMLSchema-datatypes"
+
+start = scan
+
+scan = 
+	## <scan> is the document element
+	element scan {
+		collection? & find? 
+		& global-id-atts? & local-id-atts? & enum-atts? 
+		& max-examples?
+	}
+
+collection = 
+	## <collection> provides the URL of a collection of documents that will be
+	## searched. This is passed to the collection() function. A typical value if
+	## you're using Saxon might be:
+	## ?select=*.xml&amp;recurse=yes&amp;strip-space=yes
+	element collection { xs:anyURI }
+
+find = 
+	## <find> provides an XPath that selects the kinds of nodes that should be
+	## scanned for. The default (if you don't specify the <find> element) is:
+	## //(* | processing-instruction())
+	element find { xs:string }
+
+global-id-atts = 
+	## <global-id-atts> is a space-separated list of the names of attributes that
+	## are globally unique within a particular document. This helps to produce
+	## readable XPath expressions in the generated test suite. The default is:
+	## id xml:id
+	element global-id-atts { list { xs:QName } }
+
+local-id-atts = 
+	## <local-id-atts> is a space-separated list of the names of attributes that
+	## are unique within a particular parent element. This helps to produce readable
+	## XPath expressions in the generated test suite. The default is empty.
+	element local-id-atts { list { xs:QName} }
+
+enum-atts = 
+	## <enum-atts> is a space-separated list of the names of attributes whose values
+	## are enumerated. This helps to produce distinct tests for distinct values of
+	## those attributes. The default is empty.
+	element enum-atts { list { xs:QName } }
+
+max-examples = 
+	## <max-examples> is the maximum number of examples that should be listed.
+	## Generally, when examples are listed only the first is actually given in full;
+	## the rest are commented out. However, if an element has text content and there
+	## are less than max-examples distinct values for that element, all the examples
+	## will be listed. If you have textual content that is marked up then you want
+	## to set this high; otherwise, set it low. The default is 10.
+	element max-examples { xs:integer }
+
+
+# -------------------------------------------------------------------------- #
+#   DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS COMMENT.                #
+#                                                                            #
+#   Copyright (c) 2008, 2010 Jeni Tennsion                                   #
+#                                                                            #
+#   The contents of this file are subject to the MIT License (see the URI    #
+#   http://www.opensource.org/licenses/mit-license.php for details).         #
+#                                                                            #
+#   Permission is hereby granted, free of charge, to any person obtaining    #
+#   a copy of this software and associated documentation files (the          #
+#   "Software"), to deal in the Software without restriction, including      #
+#   without limitation the rights to use, copy, modify, merge, publish,      #
+#   distribute, sublicense, and/or sell copies of the Software, and to       #
+#   permit persons to whom the Software is furnished to do so, subject to    #
+#   the following conditions:                                                #
+#                                                                            #
+#   The above copyright notice and this permission notice shall be           #
+#   included in all copies or substantial portions of the Software.          #
+#                                                                            #
+#   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,          #
+#   EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF       #
+#   MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.   #
+#   IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY     #
+#   CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,     #
+#   TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE        #
+#   SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                   #
+# -------------------------------------------------------------------------- #

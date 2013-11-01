@@ -32,6 +32,7 @@
       <xsl:attribute name="id">
 	<xsl:call-template name="object.id"/>
       </xsl:attribute>
+      <xsl:apply-templates select="." mode="pdf-bookmark"/>
       <xsl:apply-templates/>
       <xsl:if test="$process.footnotes = 1">
 	<xsl:call-template name="generate-footnotes"/>
