@@ -349,7 +349,7 @@
 	</xsl:call-template>
       </xsl:when>
       <xsl:otherwise>
-	<xsl:apply-templates select="(h:h1|h:h2|h:h3|h:h4|h:h5|h:h6)[1]//node()"/>
+	<xsl:apply-templates select="(h:h1|h:h2|h:h3|h:h4|h:h5|h:h6)[1]/node()"/>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
