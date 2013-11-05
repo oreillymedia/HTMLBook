@@ -117,6 +117,37 @@
     </xsl:element>
   </xsl:template>
 
+  <xsl:template match="*" mode="process-heading">
+    <!-- Labeled element is typically the parent element of the heading (e.g., <section> or <figure>) -->
+    <xsl:param name="labeled-element" select=".."/>
+    <!-- Labeled element semantic name is typically the parent element of the heading's @data-type -->
+    <xsl:param name="labeled-element-semantic-name" select="../@data-type"/>
+    <xsl:copy>
+      <xsl:if test="$autogenerate.labels = 1">
+	<xsl:variable name="heading.label">
+	  <xsl:apply-templates select="$labeled-element" mode="label.markup"/>
+	</xsl:variable>
+	<xsl:if test="$heading.label != ''">
+	  <span data-type="label">
+	    <xsl:variable name="element-labelname">
+	      <xsl:call-template name="get-localization-value">
+		<xsl:with-param name="gentext-key">
+		  <xsl:value-of select="$labeled-element-semantic-name"/>
+		</xsl:with-param>
+	      </xsl:call-template>
+	    </xsl:variable>
+	    <xsl:if test="normalize-space($element-labelname) != ''">
+	      <xsl:value-of select="concat($element-labelname, ' ')"/>
+	    </xsl:if>
+	    <xsl:value-of select="$heading.label"/>
+	    <xsl:value-of select="$label.and.title.separator"/>
+	  </span>
+	</xsl:if>
+      </xsl:if>
+      <xsl:apply-templates/>
+    </xsl:copy>
+  </xsl:template>
+
   <xsl:template match="h:caption">
     <xsl:copy>
       <xsl:apply-templates select="@*"/>

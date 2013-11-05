@@ -6,6 +6,8 @@
 	       xmlns:h="http://www.w3.org/1999/xhtml"
                stylesheet="../htmlbook.xsl">
 
+  <x:param name="book-language" select="'en'"/>
+
   <!-- Test suite for elements.xsl -->
 
   <!-- id generation tests -->
@@ -82,7 +84,7 @@
       </section>
     </x:context>
     <!-- check the result -->
-    <x:expect label="Propagate the heading text to a data-pdf-bookmark attribute" test="h:section[1]/@data-pdf-bookmark = current()//h:h1"/>
+    <x:expect label="Propagate the heading text to a data-pdf-bookmark attribute" test="exists(h:section[1]/@data-pdf-bookmark[contains(., current()//h:h1)])"/>
   </x:scenario>
 
   <x:scenario label="When encountering a sect1-level section">
@@ -93,7 +95,7 @@
       </section>
     </x:context>
     <!-- check the result -->
-    <x:expect label="Propagate the heading text to a data-pdf-bookmark attribute" test="h:section[1]/@data-pdf-bookmark = current()//h:h1"/>
+    <x:expect label="Propagate the heading text to a data-pdf-bookmark attribute" test="exists(h:section[1]/@data-pdf-bookmark[contains(., current()//h:h1)])"/>
   </x:scenario>
 
   <x:scenario label="When encountering a sect2-level section">
@@ -104,7 +106,7 @@
       </section>
     </x:context>
     <!-- check the result -->
-    <x:expect label="Propagate the heading text to a data-pdf-bookmark attribute" test="h:section[1]/@data-pdf-bookmark = current()//h:h2"/>
+    <x:expect label="Propagate the heading text to a data-pdf-bookmark attribute" test="exists(h:section[1]/@data-pdf-bookmark[contains(., current()//h:h2)])"/>
   </x:scenario>
 
   <x:scenario label="When encountering a sect3-level section">
@@ -115,7 +117,7 @@
       </section>
     </x:context>
     <!-- check the result -->
-    <x:expect label="Propagate the heading text to a data-pdf-bookmark attribute" test="h:section[1]/@data-pdf-bookmark = current()//h:h3"/>
+    <x:expect label="Propagate the heading text to a data-pdf-bookmark attribute" test="exists(h:section[1]/@data-pdf-bookmark[contains(., current()//h:h3)])"/>
   </x:scenario>
 
   <x:scenario label="When encountering a sect4-level section">
@@ -126,7 +128,7 @@
       </section>
     </x:context>
     <!-- check the result -->
-    <x:expect label="Propagate the heading text to a data-pdf-bookmark attribute" test="h:section[1]/@data-pdf-bookmark = current()//h:h4"/>
+    <x:expect label="Propagate the heading text to a data-pdf-bookmark attribute" test="exists(h:section[1]/@data-pdf-bookmark[contains(., current()//h:h4)])"/>
   </x:scenario>
 
   <x:scenario label="When encountering a sect5-level section">
@@ -137,7 +139,7 @@
       </section>
     </x:context>
     <!-- check the result -->
-    <x:expect label="Propagate the heading text to a data-pdf-bookmark attribute" test="h:section[1]/@data-pdf-bookmark = current()//h:h5"/>
+    <x:expect label="Propagate the heading text to a data-pdf-bookmark attribute" test="exists(h:section[1]/@data-pdf-bookmark[contains(., current()//h:h5)])"/>
   </x:scenario>
 
   <x:scenario label="When encountering a Part div">
@@ -148,7 +150,7 @@
       </div>
     </x:context>
     <!-- check the result -->
-    <x:expect label="Propagate the heading text to a data-pdf-bookmark attribute" test="h:div[1]/@data-pdf-bookmark = current()//h:h1"/>
+    <x:expect label="Propagate the heading text to a data-pdf-bookmark attribute" test="exists(h:div[1]/@data-pdf-bookmark[contains(., current()//h:h1)])"/>
   </x:scenario>
 
   <x:scenario label="When encountering a headingless section/div"> <!-- Not valid HTMLBook -->
