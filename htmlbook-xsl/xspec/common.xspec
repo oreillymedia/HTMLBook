@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               xmlns:functx="http://www.functx.com"
+	       xmlns="http://www.w3.org/1999/xhtml"
+	       xmlns:h="http://www.w3.org/1999/xhtml"
+               stylesheet="../htmlbook.xsl">
+
+  <!-- Test suite for common.xsl -->
+
+  <!-- Title markup tests -->
+  <x:scenario label="When generating a title for a section">
+    <x:context mode="title.markup">
+      <section data-type="sect1">
+	<h1>jQuery rocks!</h1>
+	<h2>Ignore the second heading!</h2>
+	<p>I like all the dollar signs</p>
+      </section>
+    </x:context>
+    <!-- check the result -->
+    <x:expect label="Copy the first h1-h6">jQuery rocks!</x:expect>
+  </x:scenario>
+
+  <x:scenario label="When encountering a title for a section that has a heading with child nodes">
+    <x:context mode="title.markup">
+      <section data-type="sect2">
+	<h2>XPath <em>is</em> <strong>the bestest</strong></h2>
+	<h1>Ignore the second heading!</h1>
+	<p>I like all the forward slashes (solidi)</p>
+      </section>
+    </x:context>
+    <x:expect label="Copy the child content of the first h1-h6 as is">XPath <em>is</em> <strong>the bestest</strong></x:expect>
+  </x:scenario>
+</x:description>
