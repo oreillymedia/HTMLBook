@@ -484,7 +484,7 @@
   <xsl:template match="h:div[@data-type='part']" mode="pdf-bookmark">
     <xsl:if test="h:h1">
       <xsl:attribute name="data-pdf-bookmark">
-	<xsl:value-of select="h:h1[1]"/>
+	<xsl:apply-templates select="h:h1[1]" mode="process-heading"/>
       </xsl:attribute>
     </xsl:if>
   </xsl:template>
@@ -492,7 +492,7 @@
   <xsl:template match="h:section[@data-type='sect2']" mode="pdf-bookmark">
     <xsl:if test="h:h2">
       <xsl:attribute name="data-pdf-bookmark">
-	<xsl:value-of select="h:h2[1]"/>
+	<xsl:apply-templates select="h:h2[1]" mode="process-heading"/>
       </xsl:attribute>
     </xsl:if>
   </xsl:template>
@@ -500,7 +500,7 @@
   <xsl:template match="h:section[@data-type='sect3']" mode="pdf-bookmark">
     <xsl:if test="h:h3">
       <xsl:attribute name="data-pdf-bookmark">
-	<xsl:value-of select="h:h3[1]"/>
+	<xsl:apply-templates select="h:h3[1]" mode="process-heading"/>
       </xsl:attribute>
     </xsl:if>
   </xsl:template>
@@ -508,7 +508,7 @@
   <xsl:template match="h:section[@data-type='sect4']" mode="pdf-bookmark">
     <xsl:if test="h:h4">
       <xsl:attribute name="data-pdf-bookmark">
-	<xsl:value-of select="h:h4[1]"/>
+	<xsl:apply-templates select="h:h4[1]" mode="process-heading"/>
       </xsl:attribute>
     </xsl:if>
   </xsl:template>
@@ -516,7 +516,7 @@
   <xsl:template match="h:section[@data-type='sect5']" mode="pdf-bookmark">
     <xsl:if test="h:h5">
       <xsl:attribute name="data-pdf-bookmark">
-	<xsl:value-of select="h:h5[1]"/>
+	<xsl:apply-templates select="h:h5[1]" mode="process-heading"/>
       </xsl:attribute>
     </xsl:if>
   </xsl:template>
@@ -524,7 +524,7 @@
   <xsl:template match="h:section" mode="pdf-bookmark">
     <xsl:if test="h:h1">
       <xsl:attribute name="data-pdf-bookmark">
-	<xsl:value-of select="h:h1[1]"/>
+	<xsl:apply-templates select="h:h1[1]" mode="process-heading"/>
       </xsl:attribute>
     </xsl:if>
   </xsl:template>
