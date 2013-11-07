@@ -47,6 +47,9 @@
 
   <!-- Specify whether to autogenerate labels on sectioning and formal elements in HTML output (as opposed to labeling with CSS); default is to not include labels (0) -->
   <xsl:param name="autogenerate.labels" select="0"/>
+  
+  <!-- Specify whether to autogenerate labels in bookmark attributes for PDF output (@data-pdf-bookmark)-->
+  <xsl:param name="autogenerate.pdf.bookmark.labels" select="1"/>
 
   <!-- Separator to be used between label and title -->
   <xsl:param name="label.and.title.separator" select="'. '"/>

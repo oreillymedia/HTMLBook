@@ -6,6 +6,8 @@
 	       xmlns:h="http://www.w3.org/1999/xhtml"
                stylesheet="../htmlbook.xsl">
 
+  <x:param name="book-language" select="'en'"/>
+
   <!-- Test suite for elements.xsl -->
 
   <!-- id generation tests -->
@@ -82,7 +84,17 @@
       </section>
     </x:context>
     <!-- check the result -->
-    <x:expect label="Propagate the heading text to a data-pdf-bookmark attribute" test="h:section[1]/@data-pdf-bookmark = current()//h:h1"/>
+    <x:expect label="Propagate the heading text to a data-pdf-bookmark attribute" test="exists(h:section[1]/@data-pdf-bookmark[contains(., current()//h:h1)])"/>
+  </x:scenario>
+
+  <x:scenario label="When a chapter-level section already has a PDF bookmark">
+    <x:context>
+      <section data-type="chapter" data-pdf-bookmark="Custom Bookmark">
+	<h1>This is the Chapter title</h1>
+	<p>Hello World!</p>
+      </section>
+    </x:context>
+    <x:expect label="Don't change the data-pdf-bookmark value" test="/h:section/@data-pdf-bookmark = 'Custom Bookmark'"/>
   </x:scenario>
 
   <x:scenario label="When encountering a sect1-level section">
@@ -93,7 +105,17 @@
       </section>
     </x:context>
     <!-- check the result -->
-    <x:expect label="Propagate the heading text to a data-pdf-bookmark attribute" test="h:section[1]/@data-pdf-bookmark = current()//h:h1"/>
+    <x:expect label="Propagate the heading text to a data-pdf-bookmark attribute" test="exists(h:section[1]/@data-pdf-bookmark[contains(., current()//h:h1)])"/>
+  </x:scenario>
+
+  <x:scenario label="When a sect1-level section already has a PDF bookmark">
+    <x:context>
+      <section data-type="sect1" data-pdf-bookmark="Custom Bookmark">
+	<h1>This is the Section title</h1>
+	<p>Hello World!</p>
+      </section>
+    </x:context>
+    <x:expect label="Don't change the data-pdf-bookmark value" test="/h:section/@data-pdf-bookmark = 'Custom Bookmark'"/>
   </x:scenario>
 
   <x:scenario label="When encountering a sect2-level section">
@@ -104,7 +126,17 @@
       </section>
     </x:context>
     <!-- check the result -->
-    <x:expect label="Propagate the heading text to a data-pdf-bookmark attribute" test="h:section[1]/@data-pdf-bookmark = current()//h:h2"/>
+    <x:expect label="Propagate the heading text to a data-pdf-bookmark attribute" test="exists(h:section[1]/@data-pdf-bookmark[contains(., current()//h:h2)])"/>
+  </x:scenario>
+
+  <x:scenario label="When a sect2-level section already has a PDF bookmark">
+    <x:context>
+      <section data-type="sect2" data-pdf-bookmark="Custom Bookmark">
+	<h1>This is the Section title</h1>
+	<p>Hello World!</p>
+      </section>
+    </x:context>
+    <x:expect label="Don't change the data-pdf-bookmark value" test="/h:section/@data-pdf-bookmark = 'Custom Bookmark'"/>
   </x:scenario>
 
   <x:scenario label="When encountering a sect3-level section">
@@ -115,7 +147,17 @@
       </section>
     </x:context>
     <!-- check the result -->
-    <x:expect label="Propagate the heading text to a data-pdf-bookmark attribute" test="h:section[1]/@data-pdf-bookmark = current()//h:h3"/>
+    <x:expect label="Propagate the heading text to a data-pdf-bookmark attribute" test="exists(h:section[1]/@data-pdf-bookmark[contains(., current()//h:h3)])"/>
+  </x:scenario>
+
+  <x:scenario label="When a sect3-level section already has a PDF bookmark">
+    <x:context>
+      <section data-type="sect3" data-pdf-bookmark="Custom Bookmark">
+	<h1>This is the Section title</h1>
+	<p>Hello World!</p>
+      </section>
+    </x:context>
+    <x:expect label="Don't change the data-pdf-bookmark value" test="/h:section/@data-pdf-bookmark = 'Custom Bookmark'"/>
   </x:scenario>
 
   <x:scenario label="When encountering a sect4-level section">
@@ -126,7 +168,17 @@
       </section>
     </x:context>
     <!-- check the result -->
-    <x:expect label="Propagate the heading text to a data-pdf-bookmark attribute" test="h:section[1]/@data-pdf-bookmark = current()//h:h4"/>
+    <x:expect label="Propagate the heading text to a data-pdf-bookmark attribute" test="exists(h:section[1]/@data-pdf-bookmark[contains(., current()//h:h4)])"/>
+  </x:scenario>
+
+  <x:scenario label="When a sect4-level section already has a PDF bookmark">
+    <x:context>
+      <section data-type="sect4" data-pdf-bookmark="Custom Bookmark">
+	<h1>This is the Section title</h1>
+	<p>Hello World!</p>
+      </section>
+    </x:context>
+    <x:expect label="Don't change the data-pdf-bookmark value" test="/h:section/@data-pdf-bookmark = 'Custom Bookmark'"/>
   </x:scenario>
 
   <x:scenario label="When encountering a sect5-level section">
@@ -137,7 +189,17 @@
       </section>
     </x:context>
     <!-- check the result -->
-    <x:expect label="Propagate the heading text to a data-pdf-bookmark attribute" test="h:section[1]/@data-pdf-bookmark = current()//h:h5"/>
+    <x:expect label="Propagate the heading text to a data-pdf-bookmark attribute" test="exists(h:section[1]/@data-pdf-bookmark[contains(., current()//h:h5)])"/>
+  </x:scenario>
+
+  <x:scenario label="When a sect5-level section already has a PDF bookmark">
+    <x:context>
+      <section data-type="sect5" data-pdf-bookmark="Custom Bookmark">
+	<h1>This is the Section title</h1>
+	<p>Hello World!</p>
+      </section>
+    </x:context>
+    <x:expect label="Don't change the data-pdf-bookmark value" test="/h:section/@data-pdf-bookmark = 'Custom Bookmark'"/>
   </x:scenario>
 
   <x:scenario label="When encountering a Part div">
@@ -148,7 +210,17 @@
       </div>
     </x:context>
     <!-- check the result -->
-    <x:expect label="Propagate the heading text to a data-pdf-bookmark attribute" test="h:div[1]/@data-pdf-bookmark = current()//h:h1"/>
+    <x:expect label="Propagate the heading text to a data-pdf-bookmark attribute" test="exists(h:div[1]/@data-pdf-bookmark[contains(., current()//h:h1)])"/>
+  </x:scenario>
+
+  <x:scenario label="When a Part already has a PDF bookmark">
+    <x:context>
+      <div data-type="part" data-pdf-bookmark="Custom Bookmark">
+	<h1>This is the Part title</h1>
+	<p>Hello World!</p>
+      </div>
+    </x:context>
+    <x:expect label="Don't change the data-pdf-bookmark value" test="/h:div/@data-pdf-bookmark = 'Custom Bookmark'"/>
   </x:scenario>
 
   <x:scenario label="When encountering a headingless section/div"> <!-- Not valid HTMLBook -->

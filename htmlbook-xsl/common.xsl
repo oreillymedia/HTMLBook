@@ -82,7 +82,7 @@
   </xsl:template>
 
   <!-- Label handling -->
-  <xsl:template match="h:div[contains(@data-type, part)]|h:section" mode="label.markup">
+  <xsl:template match="h:div[contains(@data-type, 'part')]|h:section" mode="label.markup">
     <xsl:variable name="current-node" select="."/>
     <xsl:if test="$label.section.with.ancestors != 0">
       <xsl:for-each select="ancestor::h:section">
@@ -354,6 +354,42 @@
     </xsl:choose>
   </xsl:template>
 
+  <!-- Logic for processing headings (e.g., h1-h6, caption, figcaption) -->
+  <xsl:template match="*" mode="process-heading">
+    <xsl:param name="autogenerate.labels" select="$autogenerate.labels"/>
+    <!-- Labeled element is typically the parent element of the heading (e.g., <section> or <figure>) -->
+    <xsl:param name="labeled-element" select=".."/>
+    <!-- Labeled element semantic name is typically the parent element of the heading's @data-type -->
+    <xsl:param name="labeled-element-semantic-name" select="../@data-type"/>
+    <!-- Name for output heading element; same as current node name by default -->
+    <xsl:param name="output-element-name" select="local-name(.)"/>
+    <xsl:element name="{$output-element-name}" namespace="http://www.w3.org/1999/xhtml">
+      <xsl:apply-templates select="@*"/>
+      <xsl:if test="$autogenerate.labels = 1">
+	<xsl:variable name="heading.label">
+	  <xsl:apply-templates select="$labeled-element" mode="label.markup"/>
+	</xsl:variable>
+	<xsl:if test="$heading.label != ''">
+	  <span class="label">
+	    <xsl:variable name="element-labelname">
+	      <xsl:call-template name="get-localization-value">
+		<xsl:with-param name="gentext-key">
+		  <xsl:value-of select="$labeled-element-semantic-name"/>
+		</xsl:with-param>
+	      </xsl:call-template>
+	    </xsl:variable>
+	    <xsl:if test="normalize-space($element-labelname) != ''">
+	      <xsl:value-of select="concat($element-labelname, ' ')"/>
+	    </xsl:if>
+	    <xsl:value-of select="$heading.label"/>
+	    <xsl:value-of select="$label.and.title.separator"/>
+	  </span>
+	</xsl:if>
+      </xsl:if>
+      <xsl:apply-templates/>
+    </xsl:element>
+  </xsl:template>
+
   <!-- Get localization value for a language using localizations in $localizations -->
   <xsl:template name="get-localization-value">
     <xsl:param name="gentext-key"/>
@@ -448,51 +484,111 @@
 
   <!-- Handling for PDF bookmark attribute generation (@data-pdf-bookmark) -->
   <xsl:template match="h:div[@data-type='part']" mode="pdf-bookmark">
-    <xsl:if test="h:h1">
-      <xsl:attribute name="data-pdf-bookmark">
-	<xsl:value-of select="h:h1[1]"/>
-      </xsl:attribute>
-    </xsl:if>
+    <xsl:choose>
+      <xsl:when test="@data-pdf-bookmark">
+	<xsl:attribute name="data-pdf-bookmark" select="@data-pdf-bookmark"/>
+      </xsl:when>
+      <xsl:when test="h:h1">
+	<xsl:variable name="processed-heading">
+	  <xsl:apply-templates select="h:h1[1]" mode="process-heading">
+	    <xsl:with-param name="autogenerate.labels" select="$autogenerate.pdf.bookmark.labels"/>
+	  </xsl:apply-templates>
+	</xsl:variable>
+	<xsl:attribute name="data-pdf-bookmark">
+	  <xsl:value-of select="$processed-heading"/>
+	</xsl:attribute>
+      </xsl:when>
+    </xsl:choose>
   </xsl:template>
 
   <xsl:template match="h:section[@data-type='sect2']" mode="pdf-bookmark">
-    <xsl:if test="h:h2">
-      <xsl:attribute name="data-pdf-bookmark">
-	<xsl:value-of select="h:h2[1]"/>
-      </xsl:attribute>
-    </xsl:if>
+    <xsl:choose>
+      <xsl:when test="@data-pdf-bookmark">
+	<xsl:attribute name="data-pdf-bookmark" select="@data-pdf-bookmark"/>
+      </xsl:when>
+      <xsl:when test="h:h2">
+	<xsl:variable name="processed-heading">
+	  <xsl:apply-templates select="h:h2[1]" mode="process-heading">
+	    <xsl:with-param name="autogenerate.labels" select="$autogenerate.pdf.bookmark.labels"/>
+	  </xsl:apply-templates>
+	</xsl:variable>
+	<xsl:attribute name="data-pdf-bookmark">
+	  <xsl:value-of select="$processed-heading"/>
+	</xsl:attribute>
+      </xsl:when>
+    </xsl:choose>
   </xsl:template>
 
   <xsl:template match="h:section[@data-type='sect3']" mode="pdf-bookmark">
-    <xsl:if test="h:h3">
-      <xsl:attribute name="data-pdf-bookmark">
-	<xsl:value-of select="h:h3[1]"/>
-      </xsl:attribute>
-    </xsl:if>
+    <xsl:choose>
+      <xsl:when test="@data-pdf-bookmark">
+	<xsl:attribute name="data-pdf-bookmark" select="@data-pdf-bookmark"/>
+      </xsl:when>
+      <xsl:when test="h:h3">
+	<xsl:variable name="processed-heading">
+	  <xsl:apply-templates select="h:h3[1]" mode="process-heading">
+	    <xsl:with-param name="autogenerate.labels" select="$autogenerate.pdf.bookmark.labels"/>
+	  </xsl:apply-templates>
+	</xsl:variable>
+	<xsl:attribute name="data-pdf-bookmark">
+	  <xsl:value-of select="$processed-heading"/>
+	</xsl:attribute>
+      </xsl:when>
+    </xsl:choose>
   </xsl:template>
 
   <xsl:template match="h:section[@data-type='sect4']" mode="pdf-bookmark">
-    <xsl:if test="h:h4">
-      <xsl:attribute name="data-pdf-bookmark">
-	<xsl:value-of select="h:h4[1]"/>
-      </xsl:attribute>
-    </xsl:if>
+    <xsl:choose>
+      <xsl:when test="@data-pdf-bookmark">
+	<xsl:attribute name="data-pdf-bookmark" select="@data-pdf-bookmark"/>
+      </xsl:when>
+      <xsl:when test="h:h4">
+	<xsl:variable name="processed-heading">
+	  <xsl:apply-templates select="h:h4[1]" mode="process-heading">
+	    <xsl:with-param name="autogenerate.labels" select="$autogenerate.pdf.bookmark.labels"/>
+	  </xsl:apply-templates>
+	</xsl:variable>
+	<xsl:attribute name="data-pdf-bookmark">
+	  <xsl:value-of select="$processed-heading"/>
+	</xsl:attribute>
+      </xsl:when>
+    </xsl:choose>
   </xsl:template>
 
   <xsl:template match="h:section[@data-type='sect5']" mode="pdf-bookmark">
-    <xsl:if test="h:h5">
-      <xsl:attribute name="data-pdf-bookmark">
-	<xsl:value-of select="h:h5[1]"/>
-      </xsl:attribute>
-    </xsl:if>
+    <xsl:choose>
+      <xsl:when test="@data-pdf-bookmark">
+	<xsl:attribute name="data-pdf-bookmark" select="@data-pdf-bookmark"/>
+      </xsl:when>
+      <xsl:when test="h:h5">
+	<xsl:variable name="processed-heading">
+	  <xsl:apply-templates select="h:h5[1]" mode="process-heading">
+	    <xsl:with-param name="autogenerate.labels" select="$autogenerate.pdf.bookmark.labels"/>
+	  </xsl:apply-templates>
+	</xsl:variable>
+	<xsl:attribute name="data-pdf-bookmark">
+	  <xsl:value-of select="$processed-heading"/>
+	</xsl:attribute>
+      </xsl:when>
+    </xsl:choose>
   </xsl:template>
 
   <xsl:template match="h:section" mode="pdf-bookmark">
-    <xsl:if test="h:h1">
-      <xsl:attribute name="data-pdf-bookmark">
-	<xsl:value-of select="h:h1[1]"/>
-      </xsl:attribute>
-    </xsl:if>
+    <xsl:choose>
+      <xsl:when test="@data-pdf-bookmark">
+	<xsl:attribute name="data-pdf-bookmark" select="@data-pdf-bookmark"/>
+      </xsl:when>
+      <xsl:when test="h:h1">
+	<xsl:variable name="processed-heading">
+	  <xsl:apply-templates select="h:h1[1]" mode="process-heading">
+	    <xsl:with-param name="autogenerate.labels" select="$autogenerate.pdf.bookmark.labels"/>
+	  </xsl:apply-templates>
+	</xsl:variable>
+	<xsl:attribute name="data-pdf-bookmark">
+	  <xsl:value-of select="$processed-heading"/>
+	</xsl:attribute>
+      </xsl:when>
+    </xsl:choose>
   </xsl:template>
 
   <!-- Default rule for PDF bookmarks; do nothing for elements that aren't sections or Part divs -->
