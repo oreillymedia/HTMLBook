@@ -82,4 +82,71 @@
     </x:context>
     <x:expect label="The heading content should contain a label" test="exists(//h:h1[h:span[@class='label' and contains(., 'Example 1')]]) and contains(//h:h1[1], 'Touch this heading!')"/>
   </x:scenario>
+
+  <x:scenario label="When process-headings is run on a table caption with $autogenerate.labels turned off">
+    <x:context mode="process-heading" select="/h:table/h:caption">
+      <x:param name="labeled-element-semantic-name" select="'table'"/>
+      <x:param name="autogenerate.labels" select="0"/>
+      <table>
+	<caption>Do not touch this caption</caption>
+	<tbody>
+	  <tr>
+	    <td>Cell 1</td>
+	    <td>Cell 2</td>
+	  </tr>
+	</tbody>
+      </table>
+    </x:context>
+    <x:expect label="The caption content should not change">
+      <caption>Do not touch this caption</caption>
+    </x:expect>
+  </x:scenario>
+
+  <x:scenario label="When process-headings is run on a table caption with $autogenerate.labels turned on">
+    <x:context mode="process-heading" select="/h:section/h:table/h:caption">
+      <x:param name="autogenerate.labels" select="1"/>
+      <x:param name="labeled-element-semantic-name" select="'table'"/>
+      <section data-type="chapter">
+	<table>
+	  <caption>Touch this caption!</caption>
+	  <tbody>
+	    <tr>
+	      <td>Cell 1</td>
+	      <td>Cell 2</td>
+	    </tr>
+	  </tbody>
+	</table>
+      </section>
+    </x:context>
+    <x:expect label="The caption content should contain a label" test="exists(//h:caption[h:span[@class='label' and contains(., 'Table 1')]]) and contains(//h:caption[1], 'Touch this caption!')"/>
+  </x:scenario>
+
+  <x:scenario label="When process-headings is run on a figure caption with $autogenerate.labels turned off">
+    <x:context mode="process-heading" select="/h:figure/h:figcaption">
+      <x:param name="labeled-element-semantic-name" select="'figure'"/>
+      <x:param name="autogenerate.labels" select="0"/>
+      <figure>
+	<figcaption>Do not touch this caption</figcaption>
+	<img src="adorable_puppy.png"/>
+      </figure>
+    </x:context>
+    <x:expect label="The caption content should not change">
+      <figcaption>Do not touch this caption</figcaption>
+    </x:expect>
+  </x:scenario>
+
+  <x:scenario label="When process-headings is run on a figure caption with $autogenerate.labels turned on">
+    <x:context mode="process-heading" select="/h:section/h:figure/h:figcaption">
+      <x:param name="autogenerate.labels" select="1"/>
+      <x:param name="labeled-element-semantic-name" select="'figure'"/>
+      <section data-type="chapter">
+	<figure>
+	  <figcaption>Touch this caption!</figcaption>
+	  <img src="adorable_puppy.png"/>
+	</figure>
+      </section>
+    </x:context>
+    <x:expect label="The caption content should contain a label" test="exists(//h:figcaption[h:span[@class='label' and contains(., 'Figure 1')]]) and contains(//h:figcaption[1], 'Touch this caption!')"/>
+  </x:scenario>
+
 </x:description>
