@@ -31,4 +31,55 @@
     </x:context>
     <x:expect label="Copy the child content of the first h1-h6 as is">XPath <em>is</em> <strong>the bestest</strong></x:expect>
   </x:scenario>
+
+  <!-- Heading processing templates -->
+  <x:scenario label="When process-headings is run on a section heading with $autogenerate.labels turned off">
+    <x:context mode="process-heading" select="/h:section/h:h1">
+      <x:param name="autogenerate.labels" select="0"/>
+      <section data-type="chapter">
+	<h1>Don't touch this heading!</h1>
+	<p>I said, don't touch it!</p>
+      </section>
+    </x:context>
+    <x:expect label="The heading content should not change">
+      <h1>Don't touch this heading!</h1>
+    </x:expect>
+  </x:scenario>
+
+  <x:scenario label="When process-headings is run on a section heading with $autogenerate.labels turned on">
+    <x:context mode="process-heading" select="/h:section/h:h1">
+      <x:param name="autogenerate.labels" select="1"/>
+      <section data-type="chapter">
+	<h1>Touch this heading!</h1>
+	<p>Add a label, pls</p>
+      </section>
+    </x:context>
+    <x:expect label="The heading content should contain a label" test="exists(//h:h1[h:span[@class='label' and contains(., 'Chapter 1')]]) and contains(//h:h1[1], 'Touch this heading!')"/>
+  </x:scenario>
+
+  <x:scenario label="When process-headings is run on a div heading with $autogenerate.labels turned off">
+    <x:context mode="process-heading" select="/h:div/h:h1">
+      <x:param name="autogenerate.labels" select="0"/>
+      <div data-type="example">
+	<h1>Don't touch this heading!</h1>
+	<p>I said, don't touch it!</p>
+      </div>
+    </x:context>
+    <x:expect label="The heading content should not change">
+      <h1>Don't touch this heading!</h1>
+    </x:expect>
+  </x:scenario>
+
+  <x:scenario label="When process-headings is run on a div heading with $autogenerate.labels turned on">
+    <x:context mode="process-heading" select="/h:section/h:div/h:h1">
+      <x:param name="autogenerate.labels" select="1"/>
+      <section data-type="chapter">
+	<div data-type="example">
+	  <h1>Touch this heading!</h1>
+	  <p>Add a label, pls</p>
+	</div>
+      </section>
+    </x:context>
+    <x:expect label="The heading content should contain a label" test="exists(//h:h1[h:span[@class='label' and contains(., 'Example 1')]]) and contains(//h:h1[1], 'Touch this heading!')"/>
+  </x:scenario>
 </x:description>
