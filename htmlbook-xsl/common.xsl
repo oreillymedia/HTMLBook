@@ -82,7 +82,7 @@
   </xsl:template>
 
   <!-- Label handling -->
-  <xsl:template match="h:div[contains(@data-type, part)]|h:section" mode="label.markup">
+  <xsl:template match="h:div[contains(@data-type, 'part')]|h:section" mode="label.markup">
     <xsl:variable name="current-node" select="."/>
     <xsl:if test="$label.section.with.ancestors != 0">
       <xsl:for-each select="ancestor::h:section">
@@ -352,6 +352,40 @@
 	<xsl:apply-templates select="(h:h1|h:h2|h:h3|h:h4|h:h5|h:h6)[1]/node()"/>
       </xsl:otherwise>
     </xsl:choose>
+  </xsl:template>
+
+  <!-- Logic for processing headings (e.g., h1-h6, caption, figcaption) -->
+  <xsl:template match="*" mode="process-heading">
+    <xsl:param name="autogenerate.labels" select="$autogenerate.labels"/>
+    <!-- Labeled element is typically the parent element of the heading (e.g., <section> or <figure>) -->
+    <xsl:param name="labeled-element" select=".."/>
+    <!-- Labeled element semantic name is typically the parent element of the heading's @data-type -->
+    <xsl:param name="labeled-element-semantic-name" select="../@data-type"/>
+    <xsl:copy>
+      <xsl:apply-templates select="@*"/>
+      <xsl:if test="$autogenerate.labels = 1">
+	<xsl:variable name="heading.label">
+	  <xsl:apply-templates select="$labeled-element" mode="label.markup"/>
+	</xsl:variable>
+	<xsl:if test="$heading.label != ''">
+	  <span class="label">
+	    <xsl:variable name="element-labelname">
+	      <xsl:call-template name="get-localization-value">
+		<xsl:with-param name="gentext-key">
+		  <xsl:value-of select="$labeled-element-semantic-name"/>
+		</xsl:with-param>
+	      </xsl:call-template>
+	    </xsl:variable>
+	    <xsl:if test="normalize-space($element-labelname) != ''">
+	      <xsl:value-of select="concat($element-labelname, ' ')"/>
+	    </xsl:if>
+	    <xsl:value-of select="$heading.label"/>
+	    <xsl:value-of select="$label.and.title.separator"/>
+	  </span>
+	</xsl:if>
+      </xsl:if>
+      <xsl:apply-templates/>
+    </xsl:copy>
   </xsl:template>
 
   <!-- Get localization value for a language using localizations in $localizations -->
