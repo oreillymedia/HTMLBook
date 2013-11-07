@@ -361,7 +361,9 @@
     <xsl:param name="labeled-element" select=".."/>
     <!-- Labeled element semantic name is typically the parent element of the heading's @data-type -->
     <xsl:param name="labeled-element-semantic-name" select="../@data-type"/>
-    <xsl:copy>
+    <!-- Name for output heading element; same as current node name by default -->
+    <xsl:param name="output-element-name" select="local-name(.)"/>
+    <xsl:element name="{$output-element-name}" namespace="http://www.w3.org/1999/xhtml">
       <xsl:apply-templates select="@*"/>
       <xsl:if test="$autogenerate.labels = 1">
 	<xsl:variable name="heading.label">
@@ -385,7 +387,7 @@
 	</xsl:if>
       </xsl:if>
       <xsl:apply-templates/>
-    </xsl:copy>
+    </xsl:element>
   </xsl:template>
 
   <!-- Get localization value for a language using localizations in $localizations -->

@@ -135,6 +135,21 @@
     </x:expect>
   </x:scenario>
 
+  <x:scenario label="When process-headings is run on a figure caption with a different output element name specified">
+    <x:context mode="process-heading" select="/h:figure/h:figcaption">
+      <x:param name="labeled-element-semantic-name" select="'figure'"/>
+      <x:param name="autogenerate.labels" select="0"/>
+      <x:param name="output-element-name" select="'h5'"/>
+      <figure>
+	<figcaption>Do not touch this caption</figcaption>
+	<img src="adorable_puppy.png"/>
+      </figure>
+    </x:context>
+    <x:expect label="Change the output element name">
+      <h5>Do not touch this caption</h5>
+    </x:expect>
+  </x:scenario>
+
   <x:scenario label="When process-headings is run on a figure caption with $autogenerate.labels turned on">
     <x:context mode="process-heading" select="/h:section/h:figure/h:figcaption">
       <x:param name="autogenerate.labels" select="1"/>
