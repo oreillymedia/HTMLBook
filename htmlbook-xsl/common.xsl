@@ -484,51 +484,81 @@
 
   <!-- Handling for PDF bookmark attribute generation (@data-pdf-bookmark) -->
   <xsl:template match="h:div[@data-type='part']" mode="pdf-bookmark">
-    <xsl:if test="h:h1">
-      <xsl:attribute name="data-pdf-bookmark">
-	<xsl:apply-templates select="h:h1[1]" mode="process-heading"/>
-      </xsl:attribute>
-    </xsl:if>
+    <xsl:choose>
+      <xsl:when test="@data-pdf-bookmark">
+	<xsl:attribute name="data-pdf-bookmark" select="@data-pdf-bookmark"/>
+      </xsl:when>
+      <xsl:when test="h:h1">
+	<xsl:attribute name="data-pdf-bookmark">
+	  <xsl:apply-templates select="h:h1[1]" mode="process-heading"/>
+	</xsl:attribute>
+      </xsl:when>
+    </xsl:choose>
   </xsl:template>
 
   <xsl:template match="h:section[@data-type='sect2']" mode="pdf-bookmark">
-    <xsl:if test="h:h2">
-      <xsl:attribute name="data-pdf-bookmark">
-	<xsl:apply-templates select="h:h2[1]" mode="process-heading"/>
-      </xsl:attribute>
-    </xsl:if>
+    <xsl:choose>
+      <xsl:when test="@data-pdf-bookmark">
+	<xsl:attribute name="data-pdf-bookmark" select="@data-pdf-bookmark"/>
+      </xsl:when>
+      <xsl:when test="h:h2">
+	<xsl:attribute name="data-pdf-bookmark">
+	  <xsl:apply-templates select="h:h2[1]" mode="process-heading"/>
+	</xsl:attribute>
+      </xsl:when>
+    </xsl:choose>
   </xsl:template>
 
   <xsl:template match="h:section[@data-type='sect3']" mode="pdf-bookmark">
-    <xsl:if test="h:h3">
-      <xsl:attribute name="data-pdf-bookmark">
-	<xsl:apply-templates select="h:h3[1]" mode="process-heading"/>
-      </xsl:attribute>
-    </xsl:if>
+    <xsl:choose>
+      <xsl:when test="@data-pdf-bookmark">
+	<xsl:attribute name="data-pdf-bookmark" select="@data-pdf-bookmark"/>
+      </xsl:when>
+      <xsl:when test="h:h3">
+	<xsl:attribute name="data-pdf-bookmark">
+	  <xsl:apply-templates select="h:h3[1]" mode="process-heading"/>
+	</xsl:attribute>
+      </xsl:when>
+    </xsl:choose>
   </xsl:template>
 
   <xsl:template match="h:section[@data-type='sect4']" mode="pdf-bookmark">
-    <xsl:if test="h:h4">
-      <xsl:attribute name="data-pdf-bookmark">
-	<xsl:apply-templates select="h:h4[1]" mode="process-heading"/>
-      </xsl:attribute>
-    </xsl:if>
+    <xsl:choose>
+      <xsl:when test="@data-pdf-bookmark">
+	<xsl:attribute name="data-pdf-bookmark" select="@data-pdf-bookmark"/>
+      </xsl:when>
+      <xsl:when test="h:h4">
+	<xsl:attribute name="data-pdf-bookmark">
+	  <xsl:apply-templates select="h:h4[1]" mode="process-heading"/>
+	</xsl:attribute>
+      </xsl:when>
+    </xsl:choose>
   </xsl:template>
 
   <xsl:template match="h:section[@data-type='sect5']" mode="pdf-bookmark">
-    <xsl:if test="h:h5">
-      <xsl:attribute name="data-pdf-bookmark">
-	<xsl:apply-templates select="h:h5[1]" mode="process-heading"/>
-      </xsl:attribute>
-    </xsl:if>
+    <xsl:choose>
+      <xsl:when test="@data-pdf-bookmark">
+	<xsl:attribute name="data-pdf-bookmark" select="@data-pdf-bookmark"/>
+      </xsl:when>
+      <xsl:when test="h:h5">
+	<xsl:attribute name="data-pdf-bookmark">
+	  <xsl:apply-templates select="h:h5[1]" mode="process-heading"/>
+	</xsl:attribute>
+      </xsl:when>
+    </xsl:choose>
   </xsl:template>
 
   <xsl:template match="h:section" mode="pdf-bookmark">
-    <xsl:if test="h:h1">
-      <xsl:attribute name="data-pdf-bookmark">
-	<xsl:apply-templates select="h:h1[1]" mode="process-heading"/>
-      </xsl:attribute>
-    </xsl:if>
+    <xsl:choose>
+      <xsl:when test="@data-pdf-bookmark">
+	<xsl:attribute name="data-pdf-bookmark" select="@data-pdf-bookmark"/>
+      </xsl:when>
+      <xsl:when test="h:h1">
+	<xsl:attribute name="data-pdf-bookmark">
+	  <xsl:apply-templates select="h:h1[1]" mode="process-heading"/>
+	</xsl:attribute>
+      </xsl:when>
+    </xsl:choose>
   </xsl:template>
 
   <!-- Default rule for PDF bookmarks; do nothing for elements that aren't sections or Part divs -->
