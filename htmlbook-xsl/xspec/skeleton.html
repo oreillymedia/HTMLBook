@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html [<!ENTITY hellip  "&#x2026;">]>
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <title>Book Skeleton</title>
@@ -7,6 +7,10 @@
     <meta name="creator" content="Sanders Kleinfeld"/>
   </head>
   <body>
+    <!-- cover image -->
+    <figure data-type="cover">
+      <img src="cover.jpg"/>
+    </figure>
     <!-- This is just a sample skeleton of a book, intended to be used for xspec tests around TOC generation, OPF generation, and NCX generation -->
     <section data-type="titlepage">
       <h1>Book Skeleton</h1>
@@ -16,6 +20,7 @@
     <section data-type="copyright-page">
       <h1>Copyright 2013 O'Reilly Media, Inc.</h1>
       <p>All Rights Reserved</p>
+      <img src="copyright-logo.png"/>
     </section>
     <nav data-type="toc"/>
     <section data-type="preface">
@@ -31,12 +36,22 @@
       <p>Here come a couple sect1s</p>
       <section data-type="sect1">
 	<h1>Sect1 Heading</h1>
+	<p>Here's an image</p>
+	<figure>
+	  <img src="smiley_face.png"/>
+	</figure>
 	<p>Here come a couple sect2s</p>
 	<section data-type="sect2">
 	  <h2>Sect2 Heading</h2>
+	  <p>Here's another image</p>
+	  <div class="informalfig">
+	    <img src="npm_screenshot.gif"/>
+	  </div>
 	  <p>Here come a couple sect3s</p>
 	  <section data-type="sect3">
 	    <h3>Sect3 Heading</h3>
+	    <p>Here's an image we used once before:</p>
+	    <img src="smiley_face.png"/>
 	    <p>Here come a couple sect4s</p>
 	    <section data-type="sect4">
 	      <h4>Sect4 Heading</h4>

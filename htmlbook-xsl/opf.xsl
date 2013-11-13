@@ -413,40 +413,44 @@
   </xsl:template>
 
   <xsl:template name="manifest-images">
-    <xsl:for-each select="key('nodes-by-name', 'img')">
-      <xsl:variable name="filename" select="@src"/>
-      <xsl:variable name="file-extension">
-	<xsl:call-template name="get-extension-from-filename">
-	  <xsl:with-param name="filename" select="$filename"/>
-	</xsl:call-template>
-      </xsl:variable>
-      <xsl:variable name="file-mimetype">
-	<xsl:call-template name="get-mimetype-from-file-extension">
-	  <xsl:with-param name="file-extension" select="$file-extension"/>
-	</xsl:call-template>
-      </xsl:variable>
-      <item>
-	<xsl:choose>
-	  <xsl:when test="ancestor::h:figure[@data-type='cover']">
-	    <!-- Custom id and properties values if we're doing the manifest <item> for the cover image -->
-	    <xsl:attribute name="id">
-	      <xsl:value-of select="$epub.cover.image.id"/>
-	    </xsl:attribute>
-	    <xsl:attribute name="properties">cover-image</xsl:attribute>
-	  </xsl:when>
-	  <xsl:otherwise>
-	    <xsl:attribute name="id">
-	      <xsl:apply-templates select="." mode="opf.id"/>
-	    </xsl:attribute>
-	  </xsl:otherwise>
-	</xsl:choose>
-	<xsl:attribute name="href">
-	  <xsl:value-of select="$filename"/>
-	</xsl:attribute>
-	<xsl:attribute name="media-type">
-	  <xsl:value-of select="$file-mimetype"/>
-	</xsl:attribute>
-      </item>
+    <xsl:param name="img-nodes" select="key('nodes-by-name', 'img')"/>
+    <xsl:for-each select="$img-nodes">
+      <!-- Generate an <item> for this img only if it is the first image with this @src attribute -->
+      <xsl:if test="not(@src = (preceding::h:img/@src|ancestor::h:img/@src))">
+	<xsl:variable name="filename" select="@src"/>
+	<xsl:variable name="file-extension">
+	  <xsl:call-template name="get-extension-from-filename">
+	    <xsl:with-param name="filename" select="$filename"/>
+	  </xsl:call-template>
+	</xsl:variable>
+	<xsl:variable name="file-mimetype">
+	  <xsl:call-template name="get-mimetype-from-file-extension">
+	    <xsl:with-param name="file-extension" select="$file-extension"/>
+	  </xsl:call-template>
+	</xsl:variable>
+	<item>
+	  <xsl:choose>
+	    <xsl:when test="ancestor::h:figure[@data-type='cover']">
+	      <!-- Custom id and properties values if we're doing the manifest <item> for the cover image -->
+	      <xsl:attribute name="id">
+		<xsl:value-of select="$epub.cover.image.id"/>
+	      </xsl:attribute>
+	      <xsl:attribute name="properties">cover-image</xsl:attribute>
+	    </xsl:when>
+	    <xsl:otherwise>
+	      <xsl:attribute name="id">
+		<xsl:apply-templates select="." mode="opf.id"/>
+	      </xsl:attribute>
+	    </xsl:otherwise>
+	  </xsl:choose>
+	  <xsl:attribute name="href">
+	    <xsl:value-of select="$filename"/>
+	  </xsl:attribute>
+	  <xsl:attribute name="media-type">
+	    <xsl:value-of select="$file-mimetype"/>
+	  </xsl:attribute>
+	</item>
+      </xsl:if>
     </xsl:for-each>
   </xsl:template>
 

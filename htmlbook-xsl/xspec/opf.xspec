@@ -28,6 +28,7 @@
   <x:param name="epub.cover.html.id" select="'bookcover'"/>
   <x:param name="cover.html.filename" select="'cover.html'"/>
   <x:param name="root.chunk.filename" select="'index.html'"/>
+  <x:param name="epub.cover.image.id" select="'bookcoverimage'"/>
 
   <x:param name="embedded.fonts.list">DejaVuSerif.otf
 DejaVuSans-Bold.otf
@@ -142,6 +143,36 @@ UbuntuMono-Regular.otf
 	<x:param name="generate.root.chunk" select="0"/>
       </x:call>
       <x:expect label="there *should not* be a manifest item for the root chunk" test="not(exists(/opf:manifest/opf:item[@href = 'index.html']))"/>
+    </x:scenario>
+  </x:scenario>
+
+  <x:scenario label="When manifest-images is called">
+    <x:call template="manifest-images">
+      <x:param name="img-nodes">
+	<img src="puppy.jpg"/>
+	<img src="kitty.png"/>
+	<img src="birdie.gif"/>
+	<img src="puppy.jpg"/>
+      </x:param>
+    </x:call>
+    <x:expect label="there should be an item for each img src in the source files"
+	      test="every $image in ('puppy.jpg', 'kitty.png', 'birdie.gif')
+		    satisfies (exists(//opf:item[@href=$image]))"/>
+    <x:expect label="image items should have the correct mimetype" test="(every $image in (//opf:item[substring-after(@href, '.') = 'gif']) 
+									 satisfies ($image[@media-type = 'image/gif'])) and
+									 (every $image in (//opf:item[substring-after(@href, '.') = 'jpg']) 
+									 satisfies ($image[@media-type = 'image/jpeg'])) and
+									 (every $image in (//opf:item[substring-after(@href, '.') = 'png']) 
+									 satisfies ($image[@media-type = 'image/png']))"/>
+    <x:expect label="and there should be only one item that references each image file" test="not(exists(//@href[(. = preceding::opf:item/@href) or (. = following::opf:item/@href)]))"/> 
+    <x:scenario label="on a cover image">
+      <x:call>
+	<!-- Test XSL is output to a subdir of the .xspec dir, which also contains skeleton, so relative path contains .. to go up a directory level -->
+	<x:param name="img-nodes" select="document('../skeleton.html')//h:figure[@data-type='cover']//h:img"/>
+      </x:call>
+      <x:expect label="the item should have the proper cover-image id and cover-image property set">
+	<opf:item id="bookcoverimage" href="..." media-type="..." properties="cover-image"/>
+      </x:expect>
     </x:scenario>
   </x:scenario>
 	  
