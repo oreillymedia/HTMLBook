@@ -122,189 +122,206 @@
 
   <xsl:template name="generate.opf">
     <exsl:document href="{$full.opf.filename}" method="xml" encoding="UTF-8">
-      <package version="3.0" unique-identifier="{$metadata.unique-identifier.id}">
-	<xsl:if test="$metadata.ibooks-specified-fonts = 1">
-	  <xsl:attribute name="prefix">
-	    <xsl:text>ibooks: http://vocabulary.itunes.apple.com/rdf/ibooks/vocabulary-extensions-1.0/</xsl:text>
-	  </xsl:attribute>
-	</xsl:if>
-	<xsl:for-each select="exsl:node-set($package.namespaces)//*/namespace::*">
-	  <xsl:copy-of select="."/>
-	</xsl:for-each>
-	<metadata>
-	  <dc:identifier id="{$metadata.unique-identifier.id}">
-	    <xsl:value-of select="$metadata.unique-identifier"/>
-	  </dc:identifier>
-	  <meta id="meta-identifier" property="dcterms:identifier">
-	    <xsl:value-of select="$metadata.unique-identifier"/>
-	  </meta>
-	  <dc:title id="pub-title">
-	    <xsl:value-of select="$metadata.title"/>
-	  </dc:title>
-	  <meta property="dcterms:title" id="meta-title">
-	    <xsl:value-of select="$metadata.title"/>
-	  </meta>
-	  <dc:language id="pub-language">
-	    <xsl:value-of select="$metadata.language"/>
-	  </dc:language>
-	  <meta property="dcterms:language" id="meta-language">
-	    <xsl:value-of select="$metadata.language"/>
-	  </meta>
-	  <meta property="dcterms:modified">
-	    <xsl:value-of select="$metadata.modified"/>
-	  </meta>
-	  <xsl:if test="$metadata.rights != ''">
-	    <dc:rights>
-	      <xsl:value-of select="$metadata.rights"/>
-	    </dc:rights>
-	    <meta property="dcterms:rightsHolder">
-	      <xsl:value-of select="$metadata.rights"/>
-	    </meta>
-	  </xsl:if>
-	  <xsl:if test="$metadata.publisher != ''">
-	    <dc:publisher>
-	      <xsl:value-of select="$metadata.publisher"/>
-	    </dc:publisher>
-	    <meta property="dcterms:publisher">
-	      <xsl:value-of select="$metadata.publisher"/>
-	    </meta>
-	  </xsl:if>
-	  <xsl:if test="$metadata.subject != ''">
-	    <dc:subject>
-	      <xsl:value-of select="$metadata.subject"/>
-	    </dc:subject>
-	    <meta property="dcterms:subject">
-	      <xsl:value-of select="$metadata.subject"/>
-	    </meta>
-	  </xsl:if>
-	  <xsl:if test="$metadata.date != ''">
-	    <dc:date>
-	      <xsl:value-of select="$metadata.date"/>
-	    </dc:date>
-	    <meta property="dcterms:date">
-	      <xsl:value-of select="$metadata.date"/>
-	    </meta>
-	  </xsl:if>
-	  <xsl:if test="$metadata.description != ''">
-	    <dc:description>
-	      <xsl:value-of select="$metadata.description"/>
-	    </dc:description>
-	    <meta property="dcterms:description">
-	      <xsl:value-of select="$metadata.description"/>
-	    </meta>
-	  </xsl:if>
-	  <xsl:if test="count($metadata.contributors) &gt; 0">
-	    <xsl:for-each select="$metadata.contributors">
-	      <dc:contributor>
-		<xsl:value-of select="@content"/>
-	      </dc:contributor>
-	      <meta property="dcterms:contributor">
-		<xsl:value-of select="@content"/>
-	      </meta>
-	    </xsl:for-each>
-	  </xsl:if>
-	  <xsl:if test="count($metadata.creators) &gt; 0">
-	    <!-- Use just one dc:creator element for all authors, as that sadly gives better results in ereaders -->
-	    <dc:creator>	      
-	      <xsl:for-each select="$metadata.creators">
-		<xsl:if test="count($metadata.creators) &gt; 2 and position() != 1">
-		  <xsl:call-template name="get-localization-value">
-		    <xsl:with-param name="gentext-key" select="'listcomma'"/>
-		  </xsl:call-template>
-		</xsl:if>
-		<xsl:if test="count($metadata.creators) &gt; 1 and position() != 1">
-		  <xsl:text> </xsl:text>
-		</xsl:if>
-		<xsl:if test="count($metadata.creators) &gt; 1 and position() = last()">
-		  <xsl:call-template name="get-localization-value">
-		    <xsl:with-param name="gentext-key" select="'and'"/>
-		  </xsl:call-template>
-		  <xsl:text> </xsl:text>
-		</xsl:if>
-		<xsl:value-of select="@content"/>
-	      </xsl:for-each>
-	    </dc:creator>
-	    <xsl:for-each select="$metadata.creators">
-	      <meta property="dcterms:creator">
-		<xsl:value-of select="@content"/>
-	      </meta>
-	    </xsl:for-each>
-	  </xsl:if>
-	  <xsl:if test="$generate.cover.html = 1">
-	    <meta name="cover" content="{$epub.cover.image.id}"/>
-	  </xsl:if>
-	  <xsl:if test="$metadata.ibooks-specified-fonts = 1">
-	    <meta property="ibooks:specified-fonts">true</meta>
-	  </xsl:if>
-	</metadata>
-	<manifest>
-	  <!-- Add NCX TOC to EPUB manifest, if it will be included in the EPUB package -->
-	  <xsl:if test="$generate.ncx.toc = 1">
-	    <item id="{$ncx.toc.id}" href="{$ncx.toc.filename}">
-	      <xsl:attribute name="media-type">
-		<xsl:call-template name="get-mimetype-from-file-extension">
-		  <xsl:with-param name="file-extension" select="'ncx'"/>
-		</xsl:call-template>
-	      </xsl:attribute>
-	    </item>
-	  </xsl:if>
-	  <!-- Add custom CSS to manifest, if present -->
-	  <xsl:if test="$css.filename != ''">
-	    <item id="{$css.id}" href="{$css.filename}">
-	      <xsl:attribute name="media-type">
-		<xsl:call-template name="get-mimetype-from-file-extension">
-		  <xsl:with-param name="file-extension" select="'css'"/>
-		</xsl:call-template>
-	      </xsl:attribute>
-	    </item>
-	  </xsl:if>
-	  <!-- Add any embedded fonts to EPUB manifest, if they will be included in the EPUB package -->
-	  <xsl:for-each select="exsl:node-set($embedded.fonts.list.xml)//e:font">
-	    <item id="{concat('epub.embedded.font.', position())}" href="{@filename}" media-type="{@mimetype}"/>
-	  </xsl:for-each>
-	  <!-- Add cover to manifest, if present -->
-	  <xsl:if test="$generate.cover.html = 1">
-	    <item>
-	      <xsl:attribute name="id">
-		<xsl:value-of select="$epub.cover.html.id"/>
-	      </xsl:attribute>
-	      <xsl:attribute name="href">
-		<xsl:value-of select="$cover.html.filename"/>
-	      </xsl:attribute>
-	      <xsl:attribute name="media-type">
-		<xsl:call-template name="get-mimetype-from-file-extension">
-		  <xsl:with-param name="file-extension" select="'html'"/>
-		</xsl:call-template>
-	      </xsl:attribute>
-	    </item>
-	  </xsl:if>
-	  <!-- Add index page to manifest -->
-	  <xsl:if test="$generate.root.chunk = 1">
-	    <item>
-	      <xsl:attribute name="id">
-		<xsl:apply-templates select="/*" mode="opf.id"/>
-	      </xsl:attribute>
-	      <xsl:attribute name="href">
-		<xsl:value-of select="$root.chunk.filename"/>
-	      </xsl:attribute>
-	      <xsl:attribute name="media-type">
-		<xsl:call-template name="get-mimetype-from-file-extension">
-		  <xsl:with-param name="file-extension" select="'html'"/>
-		</xsl:call-template>
-	      </xsl:attribute>
-	    </item>
-	  </xsl:if>
-	  <!-- Add images to manifest -->
-	  <xsl:call-template name="manifest-images"/>
-	  <!-- Add HTML documents to manifest -->
-	  <xsl:call-template name="manifest-html"/>
-	</manifest>
-	<xsl:call-template name="generate-spine"/>
-	<xsl:if test="$generate.guide = 1">
-	  <xsl:call-template name="generate-guide"/>
-	</xsl:if>
-      </package>
+      <xsl:call-template name="generate.opf.content"/>
     </exsl:document>
+  </xsl:template>
+
+  <xsl:template name="generate.opf.content">
+    <xsl:param name="generate.guide" select="$generate.guide"/>
+    <package version="3.0" unique-identifier="{$metadata.unique-identifier.id}">
+      <xsl:if test="$metadata.ibooks-specified-fonts = 1">
+	<xsl:attribute name="prefix">
+	  <xsl:text>ibooks: http://vocabulary.itunes.apple.com/rdf/ibooks/vocabulary-extensions-1.0/</xsl:text>
+	</xsl:attribute>
+      </xsl:if>
+      <xsl:for-each select="exsl:node-set($package.namespaces)//*/namespace::*">
+	<xsl:copy-of select="."/>
+      </xsl:for-each>
+      <xsl:call-template name="opf.metadata"/>
+      <xsl:call-template name="opf.manifest"/>
+      <xsl:call-template name="generate-spine"/>
+      <xsl:if test="$generate.guide = 1">
+	<xsl:call-template name="generate-guide"/>
+      </xsl:if>
+    </package>
+  </xsl:template>
+
+  <xsl:template name="opf.manifest">
+    <xsl:param name="generate.ncx.toc" select="$generate.ncx.toc"/>
+    <xsl:param name="css.filename" select="$css.filename"/>
+    <xsl:param name="generate.cover.html" select="$generate.cover.html"/>
+    <xsl:param name="generate.root.chunk" select="$generate.root.chunk"/>
+    <manifest>
+      <!-- Add NCX TOC to EPUB manifest, if it will be included in the EPUB package -->
+      <xsl:if test="$generate.ncx.toc = 1">
+	<item id="{$ncx.toc.id}" href="{$ncx.toc.filename}">
+	  <xsl:attribute name="media-type">
+	    <xsl:call-template name="get-mimetype-from-file-extension">
+	      <xsl:with-param name="file-extension" select="'ncx'"/>
+	    </xsl:call-template>
+	  </xsl:attribute>
+	</item>
+      </xsl:if>
+      <!-- Add custom CSS to manifest, if present -->
+      <xsl:if test="$css.filename != ''">
+	<item id="{$css.id}" href="{$css.filename}">
+	  <xsl:attribute name="media-type">
+	    <xsl:call-template name="get-mimetype-from-file-extension">
+	      <xsl:with-param name="file-extension" select="'css'"/>
+	    </xsl:call-template>
+	  </xsl:attribute>
+	</item>
+      </xsl:if>
+      <!-- Add any embedded fonts to EPUB manifest, if they will be included in the EPUB package -->
+      <xsl:for-each select="exsl:node-set($embedded.fonts.list.xml)//e:font">
+	<item id="{concat('epub.embedded.font.', position())}" href="{@filename}" media-type="{@mimetype}"/>
+      </xsl:for-each>
+      <!-- Add cover to manifest, if present -->
+      <xsl:if test="$generate.cover.html = 1">
+	<item>
+	  <xsl:attribute name="id">
+	    <xsl:value-of select="$epub.cover.html.id"/>
+	  </xsl:attribute>
+	  <xsl:attribute name="href">
+	    <xsl:value-of select="$cover.html.filename"/>
+	  </xsl:attribute>
+	  <xsl:attribute name="media-type">
+	    <xsl:call-template name="get-mimetype-from-file-extension">
+	      <xsl:with-param name="file-extension" select="'html'"/>
+	    </xsl:call-template>
+	  </xsl:attribute>
+	</item>
+      </xsl:if>
+      <!-- Add index page to manifest -->
+      <xsl:if test="$generate.root.chunk = 1">
+	<item>
+	  <xsl:attribute name="id">
+	    <xsl:apply-templates select="/*" mode="opf.id"/>
+	  </xsl:attribute>
+	  <xsl:attribute name="href">
+	    <xsl:value-of select="$root.chunk.filename"/>
+	  </xsl:attribute>
+	  <xsl:attribute name="media-type">
+	    <xsl:call-template name="get-mimetype-from-file-extension">
+	      <xsl:with-param name="file-extension" select="'html'"/>
+	    </xsl:call-template>
+	  </xsl:attribute>
+	</item>
+      </xsl:if>
+      <!-- Add images to manifest -->
+      <xsl:call-template name="manifest-images"/>
+      <!-- Add HTML documents to manifest -->
+      <xsl:call-template name="manifest-html"/>
+    </manifest>
+  </xsl:template>
+
+  <xsl:template name="opf.metadata">
+    <metadata>
+      <dc:identifier id="{$metadata.unique-identifier.id}">
+	<xsl:value-of select="$metadata.unique-identifier"/>
+      </dc:identifier>
+      <meta id="meta-identifier" property="dcterms:identifier">
+	<xsl:value-of select="$metadata.unique-identifier"/>
+      </meta>
+      <dc:title id="pub-title">
+	<xsl:value-of select="$metadata.title"/>
+      </dc:title>
+      <meta property="dcterms:title" id="meta-title">
+	<xsl:value-of select="$metadata.title"/>
+      </meta>
+      <dc:language id="pub-language">
+	<xsl:value-of select="$metadata.language"/>
+      </dc:language>
+      <meta property="dcterms:language" id="meta-language">
+	<xsl:value-of select="$metadata.language"/>
+      </meta>
+      <meta property="dcterms:modified">
+	<xsl:value-of select="$metadata.modified"/>
+      </meta>
+      <xsl:if test="$metadata.rights != ''">
+	<dc:rights>
+	  <xsl:value-of select="$metadata.rights"/>
+	</dc:rights>
+	<meta property="dcterms:rightsHolder">
+	  <xsl:value-of select="$metadata.rights"/>
+	</meta>
+      </xsl:if>
+      <xsl:if test="$metadata.publisher != ''">
+	<dc:publisher>
+	  <xsl:value-of select="$metadata.publisher"/>
+	</dc:publisher>
+	<meta property="dcterms:publisher">
+	  <xsl:value-of select="$metadata.publisher"/>
+	</meta>
+      </xsl:if>
+      <xsl:if test="$metadata.subject != ''">
+	<dc:subject>
+	  <xsl:value-of select="$metadata.subject"/>
+	</dc:subject>
+	<meta property="dcterms:subject">
+	  <xsl:value-of select="$metadata.subject"/>
+	</meta>
+      </xsl:if>
+      <xsl:if test="$metadata.date != ''">
+	<dc:date>
+	  <xsl:value-of select="$metadata.date"/>
+	</dc:date>
+	<meta property="dcterms:date">
+	  <xsl:value-of select="$metadata.date"/>
+	</meta>
+      </xsl:if>
+      <xsl:if test="$metadata.description != ''">
+	<dc:description>
+	  <xsl:value-of select="$metadata.description"/>
+	</dc:description>
+	<meta property="dcterms:description">
+	  <xsl:value-of select="$metadata.description"/>
+	</meta>
+      </xsl:if>
+      <xsl:if test="count($metadata.contributors) &gt; 0">
+	<xsl:for-each select="$metadata.contributors">
+	  <dc:contributor>
+	    <xsl:value-of select="@content"/>
+	  </dc:contributor>
+	  <meta property="dcterms:contributor">
+	    <xsl:value-of select="@content"/>
+	  </meta>
+	</xsl:for-each>
+      </xsl:if>
+      <xsl:if test="count($metadata.creators) &gt; 0">
+	<!-- Use just one dc:creator element for all authors, as that sadly gives better results in ereaders -->
+	<dc:creator>	      
+	  <xsl:for-each select="$metadata.creators">
+	    <xsl:if test="count($metadata.creators) &gt; 2 and position() != 1">
+	      <xsl:call-template name="get-localization-value">
+		<xsl:with-param name="gentext-key" select="'listcomma'"/>
+	      </xsl:call-template>
+	    </xsl:if>
+	    <xsl:if test="count($metadata.creators) &gt; 1 and position() != 1">
+	      <xsl:text> </xsl:text>
+	    </xsl:if>
+	    <xsl:if test="count($metadata.creators) &gt; 1 and position() = last()">
+	      <xsl:call-template name="get-localization-value">
+		<xsl:with-param name="gentext-key" select="'and'"/>
+	      </xsl:call-template>
+	      <xsl:text> </xsl:text>
+	    </xsl:if>
+	    <xsl:value-of select="@content"/>
+	  </xsl:for-each>
+	</dc:creator>
+	<xsl:for-each select="$metadata.creators">
+	  <meta property="dcterms:creator">
+	    <xsl:value-of select="@content"/>
+	  </meta>
+	</xsl:for-each>
+      </xsl:if>
+      <xsl:if test="$generate.cover.html = 1">
+	<meta name="cover" content="{$epub.cover.image.id}"/>
+      </xsl:if>
+      <xsl:if test="$metadata.ibooks-specified-fonts = 1">
+	<meta property="ibooks:specified-fonts">true</meta>
+      </xsl:if>
+    </metadata>
   </xsl:template>
 
   <xsl:template name="generate-spine">
