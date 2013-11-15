@@ -11,9 +11,6 @@
 
   <!-- ToDo: Section depth handling for NCX navPoints -->
 
-  <!-- Param to specify whether or not to include the Navigation Document (XHTML5 TOC) in the NCX TOC -->
-  <xsl:variable name="nav.in.ncx" select="0"/>
-
   <xsl:variable name="full.ncx.filename">
     <xsl:value-of select="$outputdir"/>
     <xsl:if test="substring($outputdir, string-length($outputdir), 1) != '/'">
