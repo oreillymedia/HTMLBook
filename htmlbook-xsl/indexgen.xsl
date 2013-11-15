@@ -497,6 +497,7 @@
   <xsl:param name="role" select="''"/>
   <xsl:param name="type" select="''"/>
   <xsl:param name="zones"/>
+  <xsl:param name="position"/>
 
   <xsl:choose>
     <xsl:when test="contains($zones, ' ')">

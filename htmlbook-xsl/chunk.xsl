@@ -299,7 +299,7 @@ sect5:s
   </xsl:template>
 
   <func:function name="htmlbook:is-chunk">
-    <xsl:param name="node" select="."/>
+    <xsl:param name="node"/>
     <xsl:choose>
       <xsl:when test="$node[self::h:div[contains(@data-type, 'part')]]">
 	<func:result>1</func:result>
@@ -462,7 +462,7 @@ sect5:s
 
   <!-- Given a node, return the root node of the chunk it's in -->
   <func:function name="htmlbook:chunk-for-node">
-    <xsl:param name="node" select="."/>
+    <xsl:param name="node"/>
 
     <!-- 1. Get a nodeset of current element and all its ancestors, which could potentially be chunks -->
     <xsl:variable name="self-and-ancestors" select="$node/ancestor-or-self::*"/>
