@@ -229,7 +229,7 @@ UbuntuMono-Italic.otf</xsl:param>
 
   <!-- Output an HTML file for the book cover; override and customize as needed. Default output generally the same as epub3 docbook-xsl stylesheets -->
   <xsl:template name="generate-cover-html">
-    <exsl:document href="{$full.cover.filename}" method="xml" encoding="UTF-8">
+    <xsl:variable name="cover.html.content">
       <xsl:value-of select="'&lt;!DOCTYPE html&gt;'" disable-output-escaping="yes"/>
       <html xmlns:epub="http://www.idpf.org/2007/ops">
 	<!-- ToDo: What else do we want in the <head>? -->
@@ -243,7 +243,16 @@ UbuntuMono-Italic.otf</xsl:param>
 	  <xsl:copy-of select="//h:figure[@data-type='cover'][1]"/>
 	</body>
       </html>
-    </exsl:document>
+    </xsl:variable>
+    <xsl:result-document href="{$full.cover.filename}" method="xml" encoding="UTF-8">
+      <xsl:copy-of select="$cover.html.content"/>
+      <xsl:fallback>
+	<!-- <xsl:message>Falling back to XSLT 1.0 processor extension handling for generating result documents</xsl:message> -->
+	<exsl:document href="{$full.cover.filename}" method="xml" encoding="UTF-8">
+	  <xsl:copy-of select="exsl:node-set($cover.html.content)"/>
+	</exsl:document>
+      </xsl:fallback>
+    </xsl:result-document>
   </xsl:template>
 
   <xsl:template match="@data-type">
@@ -276,47 +285,57 @@ UbuntuMono-Italic.otf</xsl:param>
 	<xsl:with-param name="output-filename" select="$output-filename"/>
       </xsl:call-template>
     </xsl:variable>
-    <exsl:document href="{$full-output-filename}" method="xml" encoding="UTF-8">
-      <xsl:value-of select="'&lt;!DOCTYPE html&gt;'" disable-output-escaping="yes"/>
-      <!-- Only add the <html>/<head> if they don't already exist -->
-      <xsl:choose>
-	<xsl:when test="not(self::h:html)">
-	  <html xmlns:epub="http://www.idpf.org/2007/ops">
-	    <!-- ToDo: What else do we want in the <head>? -->
-	    <head>
-	      <title>
-		<xsl:variable name="title-markup">
-		  <xsl:apply-templates select="." mode="title.markup"/>
-		</xsl:variable>
-		<xsl:value-of select="$title-markup"/>
-		<xsl:if test="$title-markup = ''">
-		  <!-- For lack of alternative, fall back on local-name -->
-		  <!-- ToDo: Something better here? -->
+    <xsl:result-document href="{$full-output-filename}" method="xml" encoding="UTF-8">
+      <xsl:call-template name="process-content-for-chunk"/>
+      <xsl:fallback>
+	<!-- <xsl:message>Falling back to XSLT 1.0 processor extension handling for generating result documents</xsl:message> -->
+	<exsl:document href="{$full-output-filename}" method="xml" encoding="UTF-8">
+	  <xsl:call-template name="process-content-for-chunk"/>
+	</exsl:document>
+      </xsl:fallback>
+    </xsl:result-document>
+  </xsl:template>
+
+  <xsl:template name="process-content-for-chunk">
+    <xsl:value-of select="'&lt;!DOCTYPE html&gt;'" disable-output-escaping="yes"/>
+    <!-- Only add the <html>/<head> if they don't already exist -->
+    <xsl:choose>
+      <xsl:when test="not(self::h:html)">
+	<html xmlns:epub="http://www.idpf.org/2007/ops">
+	  <!-- ToDo: What else do we want in the <head>? -->
+	  <head>
+	    <title>
+	      <xsl:variable name="title-markup">
+		<xsl:apply-templates select="." mode="title.markup"/>
+	      </xsl:variable>
+	      <xsl:value-of select="$title-markup"/>
+	      <xsl:if test="$title-markup = ''">
+		<!-- For lack of alternative, fall back on local-name -->
+		<!-- ToDo: Something better here? -->
 		  <xsl:value-of select="local-name()"/>
-		</xsl:if>
-	      </title>
-	      <xsl:if test="$css.filename != ''">
-		<link rel="stylesheet" type="text/css" href="{$css.filename}" />
 	      </xsl:if>
-	    </head>
-	    <xsl:choose>
-	      <!-- Only add the body tag if doesn't already exist -->
-	      <xsl:when test="not(self::h:body)">
-		<body data-type="book">
-		  <xsl:apply-imports/>
-		</body>
-	      </xsl:when>
-	      <xsl:otherwise>
+	    </title>
+	    <xsl:if test="$css.filename != ''">
+	      <link rel="stylesheet" type="text/css" href="{$css.filename}" />
+	    </xsl:if>
+	  </head>
+	  <xsl:choose>
+	    <!-- Only add the body tag if doesn't already exist -->
+	    <xsl:when test="not(self::h:body)">
+	      <body data-type="book">
 		<xsl:apply-imports/>
-	      </xsl:otherwise>
-	    </xsl:choose>
-	  </html>
+	      </body>
+	    </xsl:when>
+	    <xsl:otherwise>
+	      <xsl:apply-imports/>
+	    </xsl:otherwise>
+	  </xsl:choose>
+	</html>
 	</xsl:when>
-	<xsl:otherwise>
-	  <xsl:apply-imports/>
-	</xsl:otherwise>
-      </xsl:choose>
-    </exsl:document>
+      <xsl:otherwise>
+	<xsl:apply-imports/>
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
   
 </xsl:stylesheet> 

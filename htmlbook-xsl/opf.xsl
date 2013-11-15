@@ -94,15 +94,21 @@
   <xsl:template name="generate.mimetype">
     <!-- Outputs "mimetype" file that meets EPUB 3.0 specifications: http://www.idpf.org/epub/30/spec/epub30-ocf.html#physical-container-zip-->
     <!-- Override this template if you want to customize mimetype output -->
-    <exsl:document href="mimetype" method="text">
+    <xsl:result-document href="mimetype" method="text">
+      <xsl:fallback>
+	<!-- <xsl:message>Falling back to XSLT 1.0 processor extension handling for generating result documents</xsl:message> -->
+	<exsl:document href="mimetype" method="text">
+	  <xsl:text>application/epub+zip</xsl:text>
+	</exsl:document>
+      </xsl:fallback>
       <xsl:text>application/epub+zip</xsl:text>
-    </exsl:document>
+    </xsl:result-document>
   </xsl:template>
 
   <xsl:template name="generate.meta-inf">
     <!-- Outputs "META-INF" directory with container.xml file that meets EPUB 3.0 specifications: http://www.idpf.org/epub/30/spec/epub30-ocf.html#sec-container-metainf -->
     <!-- Override this template if you want to customize "META-INF" output (no support for multiple <rootfile> elements at this time) -->
-    <exsl:document href="META-INF/container.xml" method="xml" encoding="UTF-8">
+    <xsl:variable name="container-xml">
       <container version="1.0" xmlns="urn:oasis:names:tc:opendocument:xmlns:container">
 	<rootfiles>
 	  <rootfile>
@@ -117,13 +123,28 @@
 	  </rootfile>
 	</rootfiles>
       </container>
-    </exsl:document>
+    </xsl:variable>
+    <xsl:result-document href="META-INF/container.xml" method="xml" encoding="UTF-8">
+      <xsl:copy-of select="$container-xml"/>
+      <xsl:fallback>
+	<!-- <xsl:message>Falling back to XSLT 1.0 processor extension handling for generating result documents</xsl:message> -->
+	<exsl:document href="META-INF/container.xml" method="xml" encoding="UTF-8">
+	  <xsl:copy-of select="exsl:node-set($container-xml)"/>
+	</exsl:document>
+      </xsl:fallback>
+    </xsl:result-document>
   </xsl:template>
 
   <xsl:template name="generate.opf">
-    <exsl:document href="{$full.opf.filename}" method="xml" encoding="UTF-8">
+    <xsl:result-document href="{$full.opf.filename}" method="xml" encoding="UTF-8">
       <xsl:call-template name="generate.opf.content"/>
-    </exsl:document>
+      <xsl:fallback>
+	<!-- <xsl:message>Falling back to XSLT 1.0 processor extension handling for generating result documents</xsl:message> -->
+	<exsl:document href="{$full.opf.filename}" method="xml" encoding="UTF-8">
+	  <xsl:call-template name="generate.opf.content"/>
+	</exsl:document>
+      </xsl:fallback>
+    </xsl:result-document>
   </xsl:template>
 
   <xsl:template name="generate.opf.content">

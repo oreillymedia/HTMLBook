@@ -96,7 +96,8 @@ sect5:s
 
   <xsl:template name="full-output-filename">
     <!-- NOTES ON LOGIC FOR THIS TEMPLATE -->
-    <!-- Nested exsl:document calls change context directory on which relative filepaths are based, 
+    <!-- When using an XSLT 1.0 processor that relies on exsl:document, this template takes into account the fact that -->
+    <!-- nested exsl:document calls change context directory on which relative filepaths are based, 
 	 resulting in nested outputdir/outputdir filenames for chunks within chunks -->
     <!-- From the docs at http://www.exslt.org/exsl/elements/document/ -->
     <!-- When the href attribute of a subsidiary document is a relative URI, 
@@ -115,10 +116,25 @@ sect5:s
 	<xsl:text>/</xsl:text>
       </xsl:if>
     </xsl:variable>
-      
+
+    <xsl:variable name="xsl2support">
+      <xsl:sequence select="'1'">
+	<xsl:fallback><xsl:text>0</xsl:text></xsl:fallback>
+      </xsl:sequence>
+    </xsl:variable>
+
+    <xsl:if test="$xsl2support = '0'">
+      <xsl:message>Got it!</xsl:message>
+    </xsl:if>
+
     <xsl:variable name="full-output-filename">
       <!-- Check if we've got an absolute filepath in $outputdir, or if $outputdir is specified and we're *not* processing a nested chunk -->
       <xsl:choose>
+	<!-- We can safely include the $outputdir if we're using an XSLT 2.0 processor that will support result-document -->
+	<!-- xsl:sequence is acceptable proxy for xsl:result-document -->
+	<xsl:when test="$xsl2support = '1'">
+	  <xsl:value-of select="concat($outputdir, $chars-to-append-to-outputdir)"/>
+	</xsl:when>
 	<!-- $outputdir is specified and is absolute filepath; we should include it -->
 	<xsl:when test="starts-with($outputdir, '/')">
 	  <xsl:value-of select="concat($outputdir, $chars-to-append-to-outputdir)"/>
@@ -198,59 +214,69 @@ sect5:s
 	<xsl:with-param name="output-filename" select="$output-filename"/>
       </xsl:call-template>
     </xsl:variable>
-    <exsl:document href="{$full-output-filename}" method="xml" encoding="UTF-8">
-      <xsl:value-of select="'&lt;!DOCTYPE html&gt;'" disable-output-escaping="yes"/>
-      <!-- Only add the <html>/<head> if they don't already exist -->
-      <xsl:choose>
-	<!-- If there's a custom chunk wrapper, use that to wrap the output HTML -->
-	<xsl:when test="$custom.chunk.wrapper != ''">
-	  <xsl:variable name="chunk.content">
-	    <xsl:apply-imports/>
-	  </xsl:variable>
-	  <xsl:variable name="chunk.wrapper" select="document($custom.chunk.wrapper)"/>
-	  <xsl:apply-templates select="exsl:node-set($chunk.wrapper)" mode="process-chunk-wrapper">
-	    <xsl:with-param name="chunk.node" select="."/> <!-- Contains node that will serve as root of chunk -->
-	    <xsl:with-param name="chunk.content" select="$chunk.content"/> <!-- Contains XSL-processed content of $chunk.node -->
-	  </xsl:apply-templates>
-	</xsl:when>
-	<!-- Otherwise, go ahead and do the following default chunk processing -->
-	<xsl:when test="not(self::h:html)">
-	  <html>
-	    <!-- ToDo: What else do we want in the <head>? -->
-	    <head>
-	      <title>
-		<xsl:variable name="title-markup">
-		  <xsl:apply-templates select="." mode="title.markup"/>
-		</xsl:variable>
-		<xsl:value-of select="$title-markup"/>
-		<xsl:if test="$title-markup = ''">
-		  <!-- For lack of alternative, fall back on local-name -->
-		  <!-- ToDo: Something better here? -->
-		  <xsl:value-of select="local-name()"/>
-		</xsl:if>
-	      </title>
-	      <xsl:if test="$css.filename != ''">
-		<link rel="stylesheet" type="text/css" href="{$css.filename}" />
-	      </xsl:if>
-	    </head>
-	    <xsl:choose>
-	      <!-- Only add the body tag if doesn't already exist -->
-	      <xsl:when test="not(self::h:body)">
-		<body data-type="book">
-		  <xsl:apply-imports/>
-		</body>
-	      </xsl:when>
-	      <xsl:otherwise>
-		<xsl:apply-imports/>
-	      </xsl:otherwise>
-	    </xsl:choose>
-	  </html>
-	</xsl:when>
-	<xsl:otherwise>
+    <xsl:result-document href="{$full-output-filename}" method="xml" encoding="UTF-8">
+      <xsl:call-template name="process-content-for-chunk"/>
+      <xsl:fallback>
+	<!-- <xsl:message>Falling back to XSLT 1.0 processor extension handling for generating result documents</xsl:message> -->
+	<exsl:document href="{$full-output-filename}" method="xml" encoding="UTF-8">
+	  <xsl:call-template name="process-content-for-chunk"/>
+	</exsl:document>
+      </xsl:fallback>
+    </xsl:result-document>
+  </xsl:template>
+
+  <xsl:template name="process-content-for-chunk">
+    <xsl:value-of select="'&lt;!DOCTYPE html&gt;'" disable-output-escaping="yes"/>
+    <!-- Only add the <html>/<head> if they don't already exist -->
+    <xsl:choose>
+      <!-- If there's a custom chunk wrapper, use that to wrap the output HTML -->
+      <xsl:when test="$custom.chunk.wrapper != ''">
+	<xsl:variable name="chunk.content">
 	  <xsl:apply-imports/>
-	</xsl:otherwise>
-      </xsl:choose>
-    </exsl:document>
+	</xsl:variable>
+	<xsl:variable name="chunk.wrapper" select="document($custom.chunk.wrapper)"/>
+	<xsl:apply-templates select="exsl:node-set($chunk.wrapper)" mode="process-chunk-wrapper">
+	  <xsl:with-param name="chunk.node" select="."/> <!-- Contains node that will serve as root of chunk -->
+	  <xsl:with-param name="chunk.content" select="$chunk.content"/> <!-- Contains XSL-processed content of $chunk.node -->
+	</xsl:apply-templates>
+      </xsl:when>
+      <!-- Otherwise, go ahead and do the following default chunk processing -->
+      <xsl:when test="not(self::h:html)">
+	<html>
+	  <!-- ToDo: What else do we want in the <head>? -->
+	  <head>
+	    <title>
+	      <xsl:variable name="title-markup">
+		<xsl:apply-templates select="." mode="title.markup"/>
+	      </xsl:variable>
+	      <xsl:value-of select="$title-markup"/>
+	      <xsl:if test="$title-markup = ''">
+		<!-- For lack of alternative, fall back on local-name -->
+		<!-- ToDo: Something better here? -->
+		<xsl:value-of select="local-name()"/>
+	      </xsl:if>
+	    </title>
+	    <xsl:if test="$css.filename != ''">
+	      <link rel="stylesheet" type="text/css" href="{$css.filename}" />
+	    </xsl:if>
+	  </head>
+	  <xsl:choose>
+	    <!-- Only add the body tag if doesn't already exist -->
+	    <xsl:when test="not(self::h:body)">
+	      <body data-type="book">
+		<xsl:apply-imports/>
+	      </body>
+	    </xsl:when>
+	    <xsl:otherwise>
+	      <xsl:apply-imports/>
+	    </xsl:otherwise>
+	  </xsl:choose>
+	</html>
+	</xsl:when>
+      <xsl:otherwise>
+	<xsl:apply-imports/>
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
 
   <xsl:template name="output-filename-for-chunk">
