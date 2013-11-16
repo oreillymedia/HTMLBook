@@ -237,6 +237,19 @@
   </xsl:template>
 
   <xsl:template name="opf.metadata">
+    <xsl:param name="metadata.unique-identifier" select="$metadata.unique-identifier"/>
+    <xsl:param name="metadata.unique-identifier.id" select="$metadata.unique-identifier.id"/>
+    <xsl:param name="metadata.title" select="$metadata.title"/>
+    <xsl:param name="metadata.language" select="$metadata.language"/>
+    <xsl:param name="metadata.modified" select="$metadata.modified"/>
+    <xsl:param name="metadata.rights" select="$metadata.rights"/>
+    <xsl:param name="metadata.publisher" select="$metadata.publisher"/>
+    <xsl:param name="metadata.subject" select="$metadata.subject"/>
+    <xsl:param name="metadata.date" select="$metadata.date"/>
+    <xsl:param name="metadata.description" select="$metadata.description"/>
+    <xsl:param name="metadata.contributors" select="$metadata.contributors"/>
+    <xsl:param name="metadata.creators" select="$metadata.creators"/>
+    <xsl:param name="metadata.ibooks-specified-fonts" select="$metadata.ibooks-specified-fonts"/>
     <metadata>
       <dc:identifier id="{$metadata.unique-identifier.id}">
 	<xsl:value-of select="$metadata.unique-identifier"/>
@@ -476,7 +489,8 @@
   </xsl:template>
 
   <xsl:template name="manifest-html">
-    <xsl:for-each select="key('chunks', 1)">
+    <xsl:param name="chunk.nodes" select="key('chunks', 1)"/>
+    <xsl:for-each select="$chunk.nodes">
       <item>
 	<xsl:attribute name="id">
 	  <xsl:apply-templates select="." mode="opf.id"/>

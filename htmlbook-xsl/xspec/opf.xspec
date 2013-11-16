@@ -14,7 +14,24 @@
   <!-- Test suite for opf.xsl -->
 
   <!-- Global params for testing -->
+  <x:param name="metadata.unique-identifier.id" select="'pub-identifier'"/>
+  <x:param name="metadata.unique-identifier" select="'9780000000000'"/>
   <x:param name="metadata.ibooks-specified-fonts" select="1"/>
+  <x:param name="metadata.title" select="'Understanding Computation'"/>
+  <x:param name="metadata.language" select="'fr'"/>
+  <x:param name="metadata.modified" select="'2013-11-16'"/>
+  <x:param name="metadata.rights" select="'Copyrighted by Me'"/>
+  <x:param name="metadata.publisher" select="'Prestigious Press, Inc.'"/>
+  <x:param name="metadata.subject" select="'Computers / General'"/>
+  <x:param name="metadata.date" select="'1999-11-16'"/>
+  <x:param name="metadata.description" select="'MARKETING COPY HERE'"/>
+  <x:param name="metadata.contributors">
+    <meta name="contributor" content="Socrates"/>
+  </x:param>
+  <x:param name="metadata.creators">
+    <meta name="creator" content="Descartes"/>
+  </x:param>
+  <x:param name="generate.cover.html" select="1"/>
 
   <x:param name="package.namespaces">
     <opf.foo/>
@@ -176,12 +193,9 @@ UbuntuMono-Regular.otf
     </x:scenario>
   </x:scenario>
 
-<!--
-  <x:pending>
-
   <x:scenario label="When manifest-html is called (no embedded MathML or SVG in chunks)">
     <x:call template="manifest-html">
-      <x:param name="chunk-nodes">
+      <x:param name="chunk.nodes">
 	<section data-type="chapter">
 	  <h1>Chapter Title</h1>
 	  <p>Chapter text</p>
@@ -197,13 +211,13 @@ UbuntuMono-Regular.otf
       </x:param>
     </x:call>
     <x:expect label="there should be an item for each chunk node in the source files with an id, href, and the proper media-type"
-	      test="count(//opf:item[@href and @id and @media-type='application/xhtml+xml']) = 4"/>
+	      test="count(//opf:item[@href and @id and @media-type='application/xhtml+xml']) = 3"/>
     <x:expect label="there should be no special properties" test="count(//opf:item[@properties]) = 0"/>
   </x:scenario>
 
   <x:scenario label="When manifest-html is called for a chunk node that contains MathML">
     <x:call template="manifest-html">
-      <x:param name="chunk-nodes">
+      <x:param name="chunk.nodes">
 	<section data-type="chapter">
 	  <h1>Chapter Title</h1>
 	  <p>Chapter text</p>
@@ -218,7 +232,7 @@ UbuntuMono-Regular.otf
 
   <x:scenario label="When manifest-html is called for a chunk node that contains SVG">
     <x:call template="manifest-html">
-      <x:param name="chunk-nodes">
+      <x:param name="chunk.nodes">
 	<section data-type="chapter">
 	  <h1>Chapter Title</h1>
 	  <p>Chapter text</p>
@@ -233,7 +247,7 @@ UbuntuMono-Regular.otf
 
   <x:scenario label="When manifest-html is called for a chunk node that contains MathML *and* SVG">
     <x:call template="manifest-html">
-      <x:param name="chunk-nodes">
+      <x:param name="chunk.nodes">
 	<section data-type="chapter">
 	  <h1>Chapter Title</h1>
 	  <p>Chapter text</p>
@@ -248,32 +262,64 @@ UbuntuMono-Regular.otf
 	      test="exists(//opf:item[contains(@properties, 'math') and contains(@properties, 'svg')])"/>
   </x:scenario>
 
-    <x:scenario label="When generating OPF metadata">
-      <x:call template="opf.metadata"/>
-      <x:expect label="Identifier should be generated"/>
-      <x:expect label="Title should be geneated"/>
-      <x:expect label="Language should be generated"/>
-      <x:expect label="Modified date should be generated"/>
-      <x:expect label="Rights information should be generated if present"/>
-      <x:expect label="Rights information *should not* be generated if *not* present"/>
-      <x:expect label="Publisher information should be generated if present"/>
-      <x:expect label="Publisher information *should not* be generated if *not* present"/>
-      <x:expect label="Subject (category) information should be generated if present"/>
-      <x:expect label="Subject (category) information *should not* be generated if *not* present"/>
-      <x:expect label="Publication date information should be generated if present"/>
-      <x:expect label="Publication date information *should not* be generated if *not* present"/>
-      <x:expect label="Description information should be generated if present"/>
-      <x:expect label="Description information *should not* be generated if *not* present"/>
-      <x:expect label="Contributor information should be generated if present"/>
-      <x:expect label="Contributor information *should not* be generated if *not* present"/>
-      <x:expect label="Creator information should be generated properly (if present) for one author"/>
-      <x:expect label="Creator information should be generated properly (if present) for two authors"/>
-      <x:expect label="Creator information should be generated properly (if present) for more than two authors"/>
-      <x:expect label="Creator information *should not* be generated if *not* present"/>
-      <x:expect label="Cover metadata should be generated if book has a cover"/>
-      <x:expect label="Cover metadata *should not* be generated if book does not have a cover"/>
-      <x:expect label="iBooks metadata should be generated if specified"/>
-      <x:expect label="iBooks metadata *should not* be generated if *not* specified"/>
-    </x:scenario>
-  </x:pending> -->
+  <x:scenario label="When generating OPF metadata for book with a cover supplied and all metadata supplied">
+    <x:call template="opf.metadata"/>
+    <x:expect label="Identifiers should be generated" test="exists(/opf:metadata/dc:identifier[. = '9780000000000']) and 
+							    exists(/opf:metadata/opf:meta[@property='dcterms:identifier' and . = '9780000000000'])"/>
+    <x:expect label="Title should be generated" test="exists(/opf:metadata/dc:title[. = 'Understanding Computation']) and
+						      exists(/opf:metadata/opf:meta[@property='dcterms:title' and . = 'Understanding Computation'])"/>
+    <x:expect label="Language should be generated" test="exists(/opf:metadata/dc:language[. = 'fr']) and
+							 exists(/opf:metadata/opf:meta[@property = 'dcterms:language' and . = 'fr'])"/>
+    <x:expect label="Modified date should be generated" test="exists(/opf:metadata/opf:meta[@property = 'dcterms:modified' and . = '2013-11-16'])"/>
+    <x:expect label="Rights information should be generated" test="exists(/opf:metadata/dc:rights[. = 'Copyrighted by Me']) and
+								   exists(/opf:metadata/opf:meta[@property = 'dcterms:rightsHolder' and . = 'Copyrighted by Me'])"/>
+    <x:expect label="Publisher information should be generated" test="exists(/opf:metadata/dc:publisher[. = 'Prestigious Press, Inc.']) and
+								      exists(/opf:metadata/opf:meta[@property = 'dcterms:publisher' and . = 'Prestigious Press, Inc.'])"/>
+    <x:expect label="Subject (category) information should be generated" test="exists(/opf:metadata/dc:subject[. = 'Computers / General']) and
+									       exists(/opf:metadata/opf:meta[@property = 'dcterms:subject' and . = 'Computers / General'])"/>
+    <x:expect label="Publication date information should be generated" test="exists(/opf:metadata/dc:date[. = '1999-11-16']) and
+									     exists(/opf:metadata/opf:meta[@property='dcterms:date' and . = '1999-11-16'])"/>
+    <x:expect label="Description information should be generated" test="exists(/opf:metadata/dc:description[. = 'MARKETING COPY HERE']) and
+									exists(/opf:metadata/opf:meta[@property='dcterms:description' and . = 'MARKETING COPY HERE'])"/>
+    <x:expect label="Contributor information should be generated properly for one person" test="count(/opf:metadata/dc:contributor) = 1 and
+												exists(/opf:metadata/dc:contributor[. = 'Socrates']) and
+												count(/opf:metadata/opf:meta[@property = 'dcterms:contributor']) = 1 and
+												exists(/opf:metadata/opf:meta[@property = 'dcterms:contributor' and . = 'Socrates'])"/>
+    <x:expect label="Creator information should be generated properly for one author" test="count(/opf:metadata/dc:creator) = 1 and
+											    exists(/opf:metadata/dc:creator[. = 'Descartes']) and
+											    count(/opf:metadata/opf:meta[@property = 'dcterms:creator']) = 1 and
+											    exists(/opf:metadata/opf:meta[@property = 'dcterms:creator' and . = 'Descartes'])"/>
+    <x:expect label="Cover metadata should be generated" test="exists(/opf:metadata/opf:meta[@name='cover' and @content='bookcoverimage'])"/>
+    <x:expect label="iBooks metadata should be generated if specified" test="exists(/opf:metadata/opf:meta[@property='ibooks:specified-fonts' and . = 'true'])"/>
+    <x:pending>
+      <x:scenario label="When generating OPF metadata for book without any metadata supplied or a cover">
+	<x:expect label="Default value should be subbed in for book identifier to ensure EPUB validity"/>
+	<x:expect label="Default value should be subbed in for book title to ensure EPUB validity"/>
+	<x:expect label="Default value should be subbed in for book language to ensure EPUB validity"/>
+	<x:expect label="Default value should be subbed in for book modification date to ensure EPUB validity"/>
+	<x:expect label="Rights information *should not* be generated"/>
+	<x:expect label="Publisher information *should not* be generated"/>
+	<x:expect label="Subject (category) information *should not* be generated"/>
+	<x:expect label="Publication date information *should not* be generated"/>
+	<x:expect label="Description information *should not* be generated"/>
+	<x:expect label="Contributor information *should not* be generated"/>
+	<x:expect label="Creator information *should not* be generated"/>
+	<x:expect label="Cover metadata *should not* be generated if book does not have a cover"/>
+	<x:expect label="iBooks metadata *should not* be generated if *not* specified"/>
+      </x:scenario>
+      <x:scenario label="When generating OPF metadata for a book with two authors specified">
+	<x:expect label="Creator information should be generated properly (if present) for two authors"/>
+      </x:scenario>
+      <x:scenario label="When generating OPF metadata for a book with more than one contributor specified">
+	<x:expect label="Contributor information should be generated properly for multiple people"/>
+      </x:scenario>
+      <x:scenario label="When generating OPF metadata for a book with two authors specified">
+	<x:expect label="Creator information should be generated properly (if present) for two authors"/>
+      </x:scenario>
+      <x:scenario label="When generating OPF metadata for a book with more than two authors specified">
+	<x:expect label="Creator information should be generated properly (if present) for more than two authors"/>
+      </x:scenario>
+    </x:pending>
+  </x:scenario>
+
 </x:description>
