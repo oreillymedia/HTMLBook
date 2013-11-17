@@ -385,4 +385,78 @@ UbuntuMono-Regular.otf
 
   </x:scenario>
 
+  <x:pending>
+    <x:scenario label="When generate-spine is called">
+      <x:call/>
+      <x:expect label="There should be a 'toc' attribute on the spine element if NCX TOC generation is enabled"/>
+      <x:expect label="There *should not* be a 'toc' attribute on the spine element if NCX TOC generation is not enabled"/>
+      <x:expect label="There should be an itemref for the cover if cover.in.spine is enabled and cover HTML is being generated"/>
+      <x:expect label="There *should not* be an itemref for the cover if cover.in.spine is disabled"/>
+      <x:expect label="There should be an itemref for the root chunk if generate.root.chunk is enabled"/>
+      <x:expect label="There *should not* be an itemref for the root chunk if generate.root.chunk is disabled"/>
+      <x:expect label="There should be an itemref for every chunk in the book"/>
+    </x:scenario>
+
+    <x:scenario label="When generate-guide is called">
+      <x:call/>
+      <x:expect label="There should be a reference element for the cover if generate.cover.html is enabled"/>
+      <x:expect label="There *should not* be a reference element for the cover if generate.cover.html is disabled"/>
+      <x:expect label="There should be a reference element to the EPUB Nav doc"/>
+      <x:expect label="If there is no EPUB nav doc, stylesheet should throw a warning"/>
+      <x:expect label="There should be a reference element for 'start-of-text'"/>
+    </x:scenario>
+
+    <x:scenario label="When element is matched in opf.spine.itemref mode">
+      <x:call/>
+      <x:expect label="An itemref should be generated with an idref that matches the source element id"/>
+      <x:scenario label="When Nav doc is matched in opf.spine.itemref mode">
+	<x:expect label="An itemref should be generated when nav.in.spine is enabled"/>
+	<x:expect label="An itemref *should not* be generated when nav.in.spine is disabled"/>
+      </x:scenario>
+    </x:scenario>
+
+    <x:scenario label="When element is matched in opf.id mode">
+      <x:call/>
+      <x:expect label="An id value should be generated that contains the element data-type if it has one"/>
+      <x:expect label="An id value should be generated that contains the element local-name if it has no data-type"/>
+    </x:scenario>
+
+    <x:scenario label="When a navigation document is matched in opf.manifest properties mode">
+      <x:call/>
+      <x:expect label="It should return a value of 'nav'"/>
+    </x:scenario>
+    
+    <x:scenario label="When a general element is matched in opf.manifest.properties mode">
+      <!-- Ideally do some tests here that play with chunk level -->
+      <x:call/>
+      <x:expect label="It should return a result containing 'math' if the chunk contains MathML"/>
+      <x:expect label="It should return a result containing 'svg' if the chunk contains SVG"/>
+      <x:expect label="It should return nothing if the chunk contains neither MathML nor SVG"/>
+    </x:scenario>
+
+    <x:scenario label="When has-element-in-chunk is called">
+      <!-- Ideally do some tests here that play with chunk level -->
+      <x:call/>
+      <x:expect label="It should return 1 if an instance of the given element name can be found in the given chunk"/>
+      <x:expect label="It should return nothing if an instance of the given element name *cannot* be found in the given chunk"/>
+    </x:scenario>
+
+    <x:scenario label="When convert.date.to.utc is called">
+      <x:call/>
+      <x:expect label="It should return a date in UTC format"/>
+    </x:scenario>
+
+    <x:scenario label="When get-extension-from-filename is called">
+      <x:call/>
+      <x:expect label="It should return the filename extension if the file has one"/>
+      <x:expect label="It should return nothing if the filename has no extension"/>
+    </x:scenario>
+
+    <x:scenario label="When get-mimetype-from-file-extension is called">
+      <x:call/>
+      <x:expect label="It should return the proper mimetype for the given file type based on extension"/>
+      <x:expect label="It should default to the XHTML mimetype if no mimetype can be found for the file type based on extension"/>
+    </x:scenario>
+  </x:pending>
+
 </x:description>
