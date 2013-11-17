@@ -250,27 +250,56 @@
     <xsl:param name="metadata.contributors" select="$metadata.contributors"/>
     <xsl:param name="metadata.creators" select="$metadata.creators"/>
     <xsl:param name="metadata.ibooks-specified-fonts" select="$metadata.ibooks-specified-fonts"/>
+    <xsl:param name="generate.cover.html" select="$generate.cover.html"/>
     <metadata>
-      <dc:identifier id="{$metadata.unique-identifier.id}">
+      <xsl:variable name="computed.identifier">
 	<xsl:value-of select="$metadata.unique-identifier"/>
+	<!-- If no identifier supplied, add a default value to ensure validity -->
+	<xsl:if test="not($metadata.unique-identifier) or normalize-space($metadata.unique-identifier) = ''">
+	  <xsl:value-of select="concat('randomid-', generate-id())"/>
+	</xsl:if>
+      </xsl:variable>
+
+      <xsl:variable name="computed.title">
+	<xsl:value-of select="$metadata.title"/>
+	<!-- If no title supplied, add a default title to ensure validity -->
+	<xsl:if test="not($metadata.title) or normalize-space($metadata.title) = ''">
+	  <xsl:text>Untitled Book</xsl:text>
+	</xsl:if>
+      </xsl:variable>
+
+      <xsl:variable name="computed.language">
+	<xsl:value-of select="$metadata.language"/>
+	<!-- If no title supplied, add a default language of 'en' to ensure validity -->
+	<xsl:if test="not($metadata.language) or normalize-space($metadata.language) = ''">
+	  <xsl:text>en</xsl:text>
+	</xsl:if>
+      </xsl:variable>
+
+      <dc:identifier id="{$metadata.unique-identifier.id}">
+	<xsl:value-of select="$computed.identifier"/>
       </dc:identifier>
       <meta id="meta-identifier" property="dcterms:identifier">
-	<xsl:value-of select="$metadata.unique-identifier"/>
+	<xsl:value-of select="$computed.identifier"/>
       </meta>
       <dc:title id="pub-title">
-	<xsl:value-of select="$metadata.title"/>
+	<xsl:value-of select="$computed.title"/>
       </dc:title>
       <meta property="dcterms:title" id="meta-title">
-	<xsl:value-of select="$metadata.title"/>
+	<xsl:value-of select="$computed.title"/>
       </meta>
       <dc:language id="pub-language">
-	<xsl:value-of select="$metadata.language"/>
+	<xsl:value-of select="$computed.language"/>
       </dc:language>
       <meta property="dcterms:language" id="meta-language">
-	<xsl:value-of select="$metadata.language"/>
+	<xsl:value-of select="$computed.language"/>
       </meta>
       <meta property="dcterms:modified">
+	<!-- If no modified date supplied, add a default date to ensure validity -->
 	<xsl:value-of select="$metadata.modified"/>
+	<xsl:if test="not($metadata.modified) or normalize-space($metadata.modified) = ''">
+	  <xsl:text>2014-01-01</xsl:text>
+	</xsl:if>
       </meta>
       <xsl:if test="$metadata.rights != ''">
 	<dc:rights>

@@ -15,22 +15,7 @@
 
   <!-- Global params for testing -->
   <x:param name="metadata.unique-identifier.id" select="'pub-identifier'"/>
-  <x:param name="metadata.unique-identifier" select="'9780000000000'"/>
   <x:param name="metadata.ibooks-specified-fonts" select="1"/>
-  <x:param name="metadata.title" select="'Understanding Computation'"/>
-  <x:param name="metadata.language" select="'fr'"/>
-  <x:param name="metadata.modified" select="'2013-11-16'"/>
-  <x:param name="metadata.rights" select="'Copyrighted by Me'"/>
-  <x:param name="metadata.publisher" select="'Prestigious Press, Inc.'"/>
-  <x:param name="metadata.subject" select="'Computers / General'"/>
-  <x:param name="metadata.date" select="'1999-11-16'"/>
-  <x:param name="metadata.description" select="'MARKETING COPY HERE'"/>
-  <x:param name="metadata.contributors">
-    <meta name="contributor" content="Socrates"/>
-  </x:param>
-  <x:param name="metadata.creators">
-    <meta name="creator" content="Descartes"/>
-  </x:param>
   <x:param name="generate.cover.html" select="1"/>
 
   <x:param name="package.namespaces">
@@ -262,8 +247,26 @@ UbuntuMono-Regular.otf
 	      test="exists(//opf:item[contains(@properties, 'math') and contains(@properties, 'svg')])"/>
   </x:scenario>
 
-  <x:scenario label="When generating OPF metadata for book with a cover supplied and all metadata supplied">
-    <x:call template="opf.metadata"/>
+  <x:scenario label="When generating OPF metadata for a book (with all metadata supplied)">
+    <x:call template="opf.metadata">
+      <x:param name="metadata.unique-identifier" select="'9780000000000'"/>
+      <x:param name="metadata.ibooks-specified-fonts" select="1"/>
+      <x:param name="metadata.title" select="'Understanding Computation'"/>
+      <x:param name="metadata.language" select="'fr'"/>
+      <x:param name="metadata.modified" select="'2013-11-16'"/>
+      <x:param name="metadata.rights" select="'Copyrighted by Me'"/>
+      <x:param name="metadata.publisher" select="'Prestigious Press, Inc.'"/>
+      <x:param name="metadata.subject" select="'Computers / General'"/>
+      <x:param name="metadata.date" select="'1999-11-16'"/>
+      <x:param name="metadata.description" select="'MARKETING COPY HERE'"/>
+      <x:param name="metadata.contributors">
+	<meta name="contributor" content="Socrates"/>
+      </x:param>
+      <x:param name="metadata.creators">
+	<meta name="creator" content="Descartes"/>
+      </x:param>
+      <x:param name="generate.cover.html" select="1"/>
+    </x:call>
     <x:expect label="Identifiers should be generated" test="exists(/opf:metadata/dc:identifier[. = '9780000000000']) and 
 							    exists(/opf:metadata/opf:meta[@property='dcterms:identifier' and . = '9780000000000'])"/>
     <x:expect label="Title should be generated" test="exists(/opf:metadata/dc:title[. = 'Understanding Computation']) and
@@ -291,22 +294,48 @@ UbuntuMono-Regular.otf
 											    exists(/opf:metadata/opf:meta[@property = 'dcterms:creator' and . = 'Descartes'])"/>
     <x:expect label="Cover metadata should be generated" test="exists(/opf:metadata/opf:meta[@name='cover' and @content='bookcoverimage'])"/>
     <x:expect label="iBooks metadata should be generated if specified" test="exists(/opf:metadata/opf:meta[@property='ibooks:specified-fonts' and . = 'true'])"/>
+
+    <x:scenario label="When generating OPF metadata for book without any metadata supplied or a cover">
+      <x:call>
+	<x:param name="metadata.unique-identifier"/>
+	<x:param name="metadata.ibooks-specified-fonts"/>
+	<x:param name="metadata.title"/>
+	<x:param name="metadata.language"/>
+	<x:param name="metadata.modified"/>
+	<x:param name="metadata.rights"/>
+	<x:param name="metadata.publisher"/>
+	<x:param name="metadata.subject"/>
+	<x:param name="metadata.date"/>
+	<x:param name="metadata.description"/>
+	<x:param name="metadata.contributors"/>
+	<x:param name="metadata.creators"/>
+	<x:param name="generate.cover.html"/>
+      </x:call>
+      <x:expect label="Default value should be subbed in for book identifier to ensure EPUB validity" test="exists(/opf:metadata/dc:identifier[contains(., 'randomid')]) and
+													    exists(/opf:metadata/opf:meta[@property = 'dcterms:identifier' and contains(., 'randomid')])"/>
+      <x:expect label="Default value should be subbed in for book title to ensure EPUB validity" test="exists(/opf:metadata/dc:title[. = 'Untitled Book']) and
+												       exists(/opf:metadata/opf:meta[@property = 'dcterms:title' and . = 'Untitled Book'])"/>
+      <x:expect label="Default value should be subbed in for book language to ensure EPUB validity" test="exists(/opf:metadata/dc:language[. = 'en']) and
+													  exists(/opf:metadata/opf:meta[@property = 'dcterms:language' and . = 'en'])"/>
+      <x:expect label="Default value should be subbed in for book modification date to ensure EPUB validity" test="exists(/opf:metadata/opf:meta[@property = 'dcterms:modified' and . = '2014-01-01'])"/>
+      <x:expect label="Rights information *should not* be generated" test="not(exists(/opf:metadata/dc:rights)) and 
+									   not(exists(/opf:metadata/opf:meta[@property = 'dcterms:rightsHolder']))"/>
+      <x:expect label="Publisher information *should not* be generated" test="not(exists(/opf:metadata/dc:publisher)) and
+									      not(exists(/opf:metadata/opf:meta[@property = 'dcterms:publisher']))"/>
+      <x:expect label="Subject (category) information *should not* be generated" test="not(exists(/opf:metadata/dc:subject)) and
+										       not(exists(/opf:metadata/opf:meta[@property = 'dcterms:subject']))"/>
+      <x:expect label="Publication date information *should not* be generated" test="not(exists(/opf:metadata/dc:date)) and
+										     not(exists(/opf:metadata/opf:meta[@property = 'dcterms:date']))"/>
+      <x:expect label="Description information *should not* be generated" test="not(exists(/opf:metadata/dc:description)) and
+										not(exists(/opf:metadata/opf:meta[@property = 'dcterms:description']))"/>
+      <x:expect label="Contributor information *should not* be generated" test="not(exists(/opf:metadata/dc:contributor)) and
+										not(exists(/opf:metadata/opf:meta[@property = 'dcterms:contributor']))"/>
+      <x:expect label="Creator information *should not* be generated" test="not(exists(/opf:metadata/dc:creator)) and
+									    not(exists(/opf:metadata/opf:meta[@property = 'dcterms:creator']))"/>
+      <x:expect label="Cover metadata *should not* be generated if book does not have a cover" test="not(exists(/opf:metadata/opf:meta[@name = 'cover']))"/>
+      <x:expect label="iBooks metadata *should not* be generated if *not* specified" test="not(exists(/opf:metadata/opf:meta[@property='ibooks:specified-fonts']))"/>
+    </x:scenario>
     <x:pending>
-      <x:scenario label="When generating OPF metadata for book without any metadata supplied or a cover">
-	<x:expect label="Default value should be subbed in for book identifier to ensure EPUB validity"/>
-	<x:expect label="Default value should be subbed in for book title to ensure EPUB validity"/>
-	<x:expect label="Default value should be subbed in for book language to ensure EPUB validity"/>
-	<x:expect label="Default value should be subbed in for book modification date to ensure EPUB validity"/>
-	<x:expect label="Rights information *should not* be generated"/>
-	<x:expect label="Publisher information *should not* be generated"/>
-	<x:expect label="Subject (category) information *should not* be generated"/>
-	<x:expect label="Publication date information *should not* be generated"/>
-	<x:expect label="Description information *should not* be generated"/>
-	<x:expect label="Contributor information *should not* be generated"/>
-	<x:expect label="Creator information *should not* be generated"/>
-	<x:expect label="Cover metadata *should not* be generated if book does not have a cover"/>
-	<x:expect label="iBooks metadata *should not* be generated if *not* specified"/>
-      </x:scenario>
       <x:scenario label="When generating OPF metadata for a book with two authors specified">
 	<x:expect label="Creator information should be generated properly (if present) for two authors"/>
       </x:scenario>
