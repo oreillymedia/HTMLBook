@@ -335,20 +335,54 @@ UbuntuMono-Regular.otf
       <x:expect label="Cover metadata *should not* be generated if book does not have a cover" test="not(exists(/opf:metadata/opf:meta[@name = 'cover']))"/>
       <x:expect label="iBooks metadata *should not* be generated if *not* specified" test="not(exists(/opf:metadata/opf:meta[@property='ibooks:specified-fonts']))"/>
     </x:scenario>
-    <x:pending>
-      <x:scenario label="When generating OPF metadata for a book with two authors specified">
-	<x:expect label="Creator information should be generated properly (if present) for two authors"/>
-      </x:scenario>
-      <x:scenario label="When generating OPF metadata for a book with more than one contributor specified">
-	<x:expect label="Contributor information should be generated properly for multiple people"/>
-      </x:scenario>
-      <x:scenario label="When generating OPF metadata for a book with two authors specified">
-	<x:expect label="Creator information should be generated properly (if present) for two authors"/>
-      </x:scenario>
-      <x:scenario label="When generating OPF metadata for a book with more than two authors specified">
-	<x:expect label="Creator information should be generated properly (if present) for more than two authors"/>
-      </x:scenario>
-    </x:pending>
+    <x:scenario label="When generating OPF metadata for a book with two authors specified">
+      <x:call>
+	<x:param name="metadata.creators">
+	  <meta name="creator" content="Descartes"/>
+	  <meta name="creator" content="Kant"/>
+	</x:param>
+      </x:call>
+      <x:expect label="Creator information should be generated properly (if present) for two authors" test="count(/opf:metadata/dc:creator) = 1 and 
+													    exists(/opf:metadata/dc:creator[. = 'Descartes and Kant']) and
+													    count(/opf:metadata/opf:meta[@property = 'dcterms:creator']) = 2 and
+													    exists(/opf:metadata/opf:meta[@property = 'dcterms:creator' and . = 'Descartes']) and
+													    exists(/opf:metadata/opf:meta[@property = 'dcterms:creator' and . = 'Kant'])"/>
+    </x:scenario>    
+
+    <x:scenario label="When generating OPF metadata for a book with more than two authors specified">
+      <x:call>
+	<x:param name="metadata.creators">
+	  <meta name="creator" content="Descartes"/>
+	  <meta name="creator" content="Kant"/>
+	  <meta name="creator" content="Rawls"/>
+	</x:param>
+      </x:call>
+      <x:expect label="Creator information should be generated properly (if present) for more than two authors" test="count(/opf:metadata/dc:creator) = 1 and
+														      exists(/opf:metadata/dc:creator[. = 'Descartes, Kant, and Rawls']) and
+														      count(/opf:metadata/opf:meta[@property = 'dcterms:creator']) = 3 and
+														      exists(/opf:metadata/opf:meta[@property = 'dcterms:creator' and . = 'Descartes']) and
+														      exists(/opf:metadata/opf:meta[@property = 'dcterms:creator' and . = 'Kant']) and 
+														      exists(/opf:metadata/opf:meta[@property = 'dcterms:creator' and . = 'Rawls'])"/>
+    </x:scenario>
+
+    <x:scenario label="When generating OPF metadata for a book with more than one contributor specified">
+      <x:call>
+	<x:param name="metadata.contributors">
+	  <meta name="contributor" content="Socrates"/>
+	  <meta name="contributor" content="Plato"/>
+	  <meta name="contributor" content="Aristotle"/>
+	</x:param>
+      </x:call>
+      <x:expect label="Contributor information should be generated properly for multiple people" test="count(/opf:metadata/dc:contributor) = 3 and
+												       exists(/opf:metadata/dc:contributor[. = 'Socrates']) and
+												       exists(/opf:metadata/dc:contributor[. = 'Plato']) and
+												       exists(/opf:metadata/dc:contributor[. = 'Aristotle']) and
+												       count(/opf:metadata/opf:meta[@property = 'dcterms:contributor']) = 3 and
+												       exists(/opf:metadata/opf:meta[@property = 'dcterms:contributor' and . = 'Socrates']) and
+												       exists(/opf:metadata/opf:meta[@property = 'dcterms:contributor' and . = 'Plato']) and
+												       exists(/opf:metadata/opf:meta[@property = 'dcterms:contributor' and . = 'Aristotle'])"/>
+    </x:scenario>
+
   </x:scenario>
 
 </x:description>
