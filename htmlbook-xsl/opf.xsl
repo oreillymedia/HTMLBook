@@ -388,8 +388,12 @@
   </xsl:template>
 
   <xsl:template name="generate-spine">
+    <xsl:param name="chunk.nodes" select="key('chunks', 1)"/>
+    <xsl:param name="generate.ncx.toc" select="$generate.ncx.toc"/>
+    <xsl:param name="cover.in.spine" select="$cover.in.spine"/>
+    <xsl:param name="generate.cover.html" select="$generate.cover.html"/>
     <spine>
-      <xsl:if test="$generate.ncx.toc">
+      <xsl:if test="$generate.ncx.toc = 1">
 	<xsl:attribute name="toc">
 	  <xsl:value-of select="$ncx.toc.id"/>
 	</xsl:attribute>
@@ -405,13 +409,15 @@
 	  </xsl:attribute>
 	</itemref>
       </xsl:if>
-      <xsl:for-each select="key('chunks', 1)">
+      <xsl:for-each select="$chunk.nodes">
 	<xsl:apply-templates select="." mode="opf.spine.itemref"/>
       </xsl:for-each>
     </spine>
   </xsl:template>
 
   <xsl:template name="generate-guide">
+    <xsl:param name="generate.cover.html" select="$generate.cover.html"/>
+    <xsl:param name="html5.toc.node" select="//h:body/h:nav[@data-type='toc' and not(preceding::h:nav[@data-type='toc'])][1]"/>
     <guide>
       <!-- Generating <reference> elements for cover, TOC, and start of text -->
       <!-- Override and customize as appropriate, if desired -->
@@ -422,10 +428,10 @@
       </xsl:if>
 
       <!-- Generate reference to HTML5 TOC (EPUB Nav Doc) if present (and it should be!)-->
-      <xsl:if test="//h:body/h:nav[@data-type='toc' and not(preceding::h:nav[@data-type='toc'])]">
+      <xsl:if test="$html5.toc.node">
 	<xsl:variable name="html5-toc-filename">
 	  <xsl:call-template name="output-filename-for-chunk">
-	    <xsl:with-param name="node" select="//h:body/h:nav[@data-type='toc' and not(preceding::h:nav[@data-type='toc'])][1]"/>
+	    <xsl:with-param name="node" select="$html5.toc.node"/>
 	  </xsl:call-template>
 	</xsl:variable>
 	<reference href="{$html5-toc-filename}" type="toc" title="Table of Contents"/>
