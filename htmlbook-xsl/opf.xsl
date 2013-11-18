@@ -472,6 +472,7 @@
   </xsl:template>
 
   <xsl:template match="h:nav[@data-type='toc']" mode="opf.spine.itemref">
+    <xsl:param name="nav.in.spine" select="$nav.in.spine"/>
     <xsl:if test="$nav.in.spine = 1">
       <itemref>
 	<xsl:attribute name="idref">

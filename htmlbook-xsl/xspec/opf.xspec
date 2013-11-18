@@ -445,35 +445,99 @@ UbuntuMono-Regular.otf
       </x:scenario>
     </x:scenario>
 
-  <x:pending>
-
     <x:scenario label="When element is matched in opf.spine.itemref mode">
-      <x:call/>
-      <x:expect label="An itemref should be generated with an idref that matches the source element id"/>
-      <x:scenario label="When Nav doc is matched in opf.spine.itemref mode">
-	<x:expect label="An itemref should be generated when nav.in.spine is enabled"/>
-	<x:expect label="An itemref *should not* be generated when nav.in.spine is disabled"/>
+      <x:context mode="opf.spine.itemref">
+	<section data-type="sect1">
+	  <h1>Test Sect1</h1>
+	  <p>I love XML</p>
+	</section>
+      </x:context>
+      <!-- Can't test generate-id here, but we can test that the right data-type is in the itemref idref -->
+      <x:expect label="An itemref should be generated with a proper idref" test="count(/opf:itemref[contains(@idref, 'sect1')]) = 1"/>
+    </x:scenario>
+
+    <x:scenario label="When Nav doc is matched in opf.spine.itemref mode">
+      <x:context mode="opf.spine.itemref">
+	<nav data-type="toc"/>
+      </x:context>
+      <x:expect label="An itemref should be generated when nav.in.spine is enabled" test="count(/opf:itemref[contains(@idref, 'toc')]) = 1"/>
+      <x:scenario label="with nav.in.spine disabled">
+	<x:context>
+	  <x:param name="nav.in.spine"/>
+	</x:context>
+	<x:expect label="An itemref *should not* be generated" test="count(/opf:itemref) = 0"/>
       </x:scenario>
     </x:scenario>
 
     <x:scenario label="When element is matched in opf.id mode">
-      <x:call/>
-      <x:expect label="An id value should be generated that contains the element data-type if it has one"/>
-      <x:expect label="An id value should be generated that contains the element local-name if it has no data-type"/>
+      <x:context mode="opf.id">
+	<section data-type="glossary"/>
+      </x:context>
+      <x:expect label="An id value should be generated that contains the element data-type if it has one" test="contains(., 'glossary')"/>
+      <x:scenario label="that does not have a data-type">
+	<x:context mode="opf.id">
+	  <div/>
+	</x:context>
+	<x:expect label="An id value should be generated that contains the element local-name if it has no data-type" test="contains(., 'div')"/>
+      </x:scenario>
     </x:scenario>
 
     <x:scenario label="When a navigation document is matched in opf.manifest properties mode">
-      <x:call/>
-      <x:expect label="It should return a value of 'nav'"/>
+      <x:context select="/h:body/h:nav[1]" mode="opf.manifest.properties">
+	<body>
+	  <nav data-type="toc"/>
+	  <!-- Second TOC -->
+	  <nav data-type="toc"/>
+	</body>
+      </x:context>
+      <x:expect label="It should return a value of 'nav'">nav</x:expect>
+      <x:scenario label="that is not the first nav in the book">
+	<x:context select="/h:body/h:nav[2]" mode="opf.manifest.properties">
+	  <body>
+	    <nav data-type="toc"/>
+	    <!-- Second TOC -->
+	    <nav data-type="toc"/>
+	  </body>
+	</x:context>
+	<x:expect label="It should not return a value" test=". = ''"/>
+      </x:scenario>
     </x:scenario>
     
     <x:scenario label="When a general element is matched in opf.manifest.properties mode">
-      <!-- Ideally do some tests here that play with chunk level -->
-      <x:call/>
-      <x:expect label="It should return a result containing 'math' if the chunk contains MathML"/>
-      <x:expect label="It should return a result containing 'svg' if the chunk contains SVG"/>
-      <x:expect label="It should return nothing if the chunk contains neither MathML nor SVG"/>
+      <x:context mode="opf.manifest.properties" select="/h:section[@id='only_html']">
+	<section data-type="chapter" id="only_html">
+	  <p>Only HTML content...</p>
+	</section>
+	<section data-type="chapter" id="mml">
+	  <p>Here's a Math element</p>
+	  <math xmlns="http://www.w3.org/1998/Math/MathML"/>
+	</section>
+	<section data-type="chapter" id="svg">
+	  <p>Here's an SVG element</p>
+	  <svg xmlns="http://www.w3.org/2000/svg"/>
+	</section>
+	<section data-type="chapter" id="mml_and_svg">
+	  <p>Here's a MathML and an SVG element</p>
+	  <math xmlns="http://www.w3.org/1998/Math/MathML"/>
+	  <svg xmlns="http://www.w3.org/2000/svg"/>
+	</section>
+      </x:context>
+      <x:expect label="It should return nothing if the chunk contains neither MathML nor SVG" test=". = ''"/>
+      <x:scenario label="With MathML content in the same chunk">
+	<x:context mode="opf.manifest.properties" select="/h:section[@id='mml']"/>
+	<x:expect label="It should return a result containing 'math'">mathml</x:expect>
+      </x:scenario>
+      <x:scenario label="With SVG content in the same chunk">
+	<x:context mode="opf.manifest.properties" select="/h:section[@id='svg']"/>
+	<x:expect label="It should return a result containing 'svg'">svg</x:expect>
+      </x:scenario>
+      <x:scenario label="With *both* MathML and SVG content in the same chunk">
+	<x:context mode="opf.manifest.properties" select="/h:section[@id='mml_and_svg']"/>
+	<x:expect label="It should return a result containing both 'math' and 'svg'" test="contains(., 'mathml') and contains(., 'svg')"/>
+      </x:scenario>
     </x:scenario>
+
+    <x:pending>
 
     <x:scenario label="When has-element-in-chunk is called">
       <!-- Ideally do some tests here that play with chunk level -->
