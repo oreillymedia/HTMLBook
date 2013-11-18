@@ -499,7 +499,7 @@ UbuntuMono-Regular.otf
 	    <nav data-type="toc"/>
 	  </body>
 	</x:context>
-	<x:expect label="It should not return a value" test=". = ''"/>
+	<x:expect label="It should not return a value" test="$x:result = ''"/>
       </x:scenario>
     </x:scenario>
     
@@ -522,7 +522,7 @@ UbuntuMono-Regular.otf
 	  <svg xmlns="http://www.w3.org/2000/svg"/>
 	</section>
       </x:context>
-      <x:expect label="It should return nothing if the chunk contains neither MathML nor SVG" test=". = ''"/>
+      <x:expect label="It should return nothing if the chunk contains neither MathML nor SVG" test="$x:result = ''"/>
       <x:scenario label="With MathML content in the same chunk">
 	<x:context mode="opf.manifest.properties" select="/h:section[@id='mml']"/>
 	<x:expect label="It should return a result containing 'math'">mathml</x:expect>
@@ -537,31 +537,72 @@ UbuntuMono-Regular.otf
       </x:scenario>
     </x:scenario>
 
-    <x:pending>
+    <x:scenario label="When has-element-in-chunk is called">
+      <x:call template="has-element-in-chunk">
+	<x:param name="element-name" select="'svg'"/>
+	<x:param name="chunk" select="document('../skeleton.html')//h:section[@data-type =  'preface' and @id = 'svg_preface']"/>
+	<x:param name="chunk-id" select="generate-id($chunk)"/>
+      </x:call>
+      <x:expect label="It should return 1 if an instance of the given element name can be found in the given chunk">1</x:expect>
+    </x:scenario>
 
     <x:scenario label="When has-element-in-chunk is called">
-      <!-- Ideally do some tests here that play with chunk level -->
-      <x:call/>
-      <x:expect label="It should return 1 if an instance of the given element name can be found in the given chunk"/>
-      <x:expect label="It should return nothing if an instance of the given element name *cannot* be found in the given chunk"/>
+      <x:call template="has-element-in-chunk">
+	<x:param name="element-name" select="'math'"/>
+	<x:param name="chunk" select="document('../skeleton.html')//h:section[@id = 'child_of_mml_chunk']"/>
+	<x:param name="chunk-id" select="generate-id($chunk)"/>
+      </x:call>
+      <x:expect label="It should not return 1 if an instance of the given element name *cannot* be found in the given chunk (element in ancestor chunk)"
+		test="string-length($x:result) = 0"/>
+    </x:scenario>
+
+    <x:scenario label="When has-element-in-chunk is called">
+      <x:call template="has-element-in-chunk">
+	<x:param name="element-name" select="'svg'"/>
+	<x:param name="chunk" select="document('../skeleton.html')//h:section[@id = 'sibling_of_svg_chunk']"/>
+	<x:param name="chunk-id" select="generate-id($chunk)"/>
+      </x:call>
+      <x:expect label="It should not return 1 if an instance of the given element name *cannot* be found in the given chunk (element in sibling chunk)"
+		test="string-length($x:result) = 0"/>
     </x:scenario>
 
     <x:scenario label="When convert.date.to.utc is called">
-      <x:call/>
-      <x:expect label="It should return a date in UTC format"/>
+      <x:call template="convert.date.to.utc">
+	<x:param name="date" select="'2014-01-01T00:00:00.1234'"/>
+      </x:call>
+      <x:expect label="It should return a date in UTC format">2014-01-01T00:00:00Z</x:expect>
     </x:scenario>
 
     <x:scenario label="When get-extension-from-filename is called">
-      <x:call/>
-      <x:expect label="It should return the filename extension if the file has one"/>
-      <x:expect label="It should return nothing if the filename has no extension"/>
+      <x:call template="get-extension-from-filename">
+	<x:param name="filename" select="'document.xml'"/>
+      </x:call>
+      <x:expect label="It should return the filename extension if the file has one">xml</x:expect>
+      <x:scenario label=".">
+	<x:call>
+	  <x:param name="filename" select="'document.xml.html'"/>
+	</x:call>
+	<x:expect label="It should return the final filename extension if the file has more than one">html</x:expect>
+      </x:scenario>
+      <x:scenario label=".">
+	<x:call>
+	  <x:param name="filename" select="'no_extension_in_filename'"/>
+	</x:call>
+	<x:expect label="It should return nothing if the filename has no extension" test="string-length($x:result) = 0"/>
+      </x:scenario>
     </x:scenario>
 
     <x:scenario label="When get-mimetype-from-file-extension is called">
-      <x:call/>
-      <x:expect label="It should return the proper mimetype for the given file type based on extension"/>
-      <x:expect label="It should default to the XHTML mimetype if no mimetype can be found for the file type based on extension"/>
+      <x:call template="get-mimetype-from-file-extension">
+	<x:param name="file-extension" select="'svg'"/>
+      </x:call>
+      <x:expect label="It should return the proper mimetype for the given file type based on extension">image/svg+xml</x:expect>
+      <x:scenario label=".">
+	<x:call>
+	  <x:param name="file-extension" select="'bogus'"/>
+	</x:call>
+	<x:expect label="It should default to the XHTML mimetype if no mimetype can be found for the file type based on extension">application/xhtml+xml</x:expect>
+      </x:scenario>
     </x:scenario>
-  </x:pending>
 
 </x:description>
