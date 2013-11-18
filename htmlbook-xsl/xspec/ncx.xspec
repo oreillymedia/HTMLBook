@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               xmlns:functx="http://www.functx.com"
+	       xmlns="http://www.w3.org/1999/xhtml"
+	       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+	       xmlns:h="http://www.w3.org/1999/xhtml"
+	       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+               stylesheet="../epub.xsl">
+
+  <!-- Test suite for ncx.xsl -->
+
+  <!-- Global params for testing -->
+
+  <x:pending>
+    <x:scenario label="When generating full NCX TOC content">
+      <x:call template="generate.ncx.toc.content"/>
+      <x:expect label="It should have the standard ncx root element"/>
+      <x:expect label="It should have a meta element for the cover HTML if generate.cover.html is specified"/>
+      <x:expect label="It *should not* have a meta element for the cover HTML if generate.cover.html *is not* specified"/>
+      <x:expect label="It should have the book title in a docTitle element"/>
+      <x:expect label="It should have a navMap with navPoint children for TOC elements"/>
+      <x:expect label="NavPoints should have playOrder attributes in consecutive order"/>
+    </x:scenario>
+
+    <x:scenario label="When a book section/div is matched in ncx.toc.gen mode">
+      <x:context/>
+      <x:expect label="return a NavPoint"/>
+
+      <x:scenario label="When source TOC elements are at a lower level than specified NCX Level">
+	<x:expect label="Don't generate a NavPoint"/>
+      </x:scenario>
+    </x:scenario>
+
+    <x:scenario label="When a non-book section/div is matched in ncx.toc.gen mode that does not have a book section/div child">
+      <x:context/>
+      <x:expect label="Don't generate a NavPoint"/>
+    </x:scenario>
+
+    <x:scenario label="When a nav TOC is matched in ncx.toc.gen mode">
+      <x:context/>
+      <x:expect label="Generate a NavPoint if $nav.in.ncx is specified"/>
+      <x:expect label="*Do Not* generate a NavPoint if $nav.in.ncx *is not* specified"/>
+    </x:scenario>
+
+    <x:scenario label="When generate.navpoint is called">
+      <x:call/>
+      <x:expect label="A NavPoint element should be generated with proper id"/>
+      <x:expect label="A NavLabel element should be generated with properly formatted heading text"/>
+      <x:expect label="A NavLabel's text content should include labels if $ncx.toc.include.labels is specified"/>
+      <x:expect label="A NavLabel's text content *should not* include labels if $ncx.toc.include.labels *is not* specified"/>
+      <x:expect label="A NavLabel's text content *should not* contain any inline elements"/>
+      <x:expect label="A NavPoint element should contain a src attribute with the proper href"/>
+    </x:scenario>
+  </x:pending>
+
+</x:description>
