@@ -23,9 +23,11 @@
       <img src="copyright-logo.png"/>
     </section>
     <nav data-type="toc"/>
-    <section data-type="preface">
+    <section data-type="preface" id="svg_preface">
       <h1>Preface</h1>
       <p>This is the Preface</p>
+      <p>SVG element:</p>
+      <svg xmlns="http://www.w3.org/2000/svg"/>
       <section data-type="sect1">
 	<h1>Important Prerequisite Info</h1>
 	<p>You must know&hellip;</p>
@@ -40,8 +42,10 @@
 	<figure>
 	  <img src="smiley_face.png"/>
 	</figure>
+	<p>Here's a MathML element</p>
+	<math xmlns="http://www.w3.org/1998/Math/MathML"/>
 	<p>Here come a couple sect2s</p>
-	<section data-type="sect2">
+	<section data-type="sect2" id="child_of_mml_chunk">
 	  <h2>Sect2 Heading</h2>
 	  <p>Here's another image</p>
 	  <div class="informalfig">
@@ -52,6 +56,8 @@
 	    <h3>Sect3 Heading</h3>
 	    <p>Here's an image we used once before:</p>
 	    <img src="smiley_face.png"/>
+	    <p>SVG element:</p>
+	    <svg xmlns="http://www.w3.org/2000/svg"/>
 	    <p>Here come a couple sect4s</p>
 	    <section data-type="sect4">
 	      <h4>Sect4 Heading</h4>
@@ -89,7 +95,7 @@
 	</section>
       </section>
     </section>
-    <section data-type="chapter">
+    <section data-type="chapter" id="sibling_of_svg_chunk">
       <h1>Wow, another chapter</h1>
       <p>Throwing in another sect1 for fun</p>
       <section data-type="sect1">
@@ -100,6 +106,8 @@
     <section data-type="appendix">
       <h1>Here's an appendix</h1>
       <p>Important appendix material</p>
+      <p>Here's a MathML element</p>
+      <math xmlns="http://www.w3.org/1998/Math/MathML"/>
       <section data-type="sect1">
 	<h1>Subsection</h1>
 	<p>Subsection</p>

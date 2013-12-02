@@ -94,15 +94,21 @@
   <xsl:template name="generate.mimetype">
     <!-- Outputs "mimetype" file that meets EPUB 3.0 specifications: http://www.idpf.org/epub/30/spec/epub30-ocf.html#physical-container-zip-->
     <!-- Override this template if you want to customize mimetype output -->
-    <exsl:document href="mimetype" method="text">
+    <xsl:result-document href="mimetype" method="text">
+      <xsl:fallback>
+	<!-- <xsl:message>Falling back to XSLT 1.0 processor extension handling for generating result documents</xsl:message> -->
+	<exsl:document href="mimetype" method="text">
+	  <xsl:text>application/epub+zip</xsl:text>
+	</exsl:document>
+      </xsl:fallback>
       <xsl:text>application/epub+zip</xsl:text>
-    </exsl:document>
+    </xsl:result-document>
   </xsl:template>
 
   <xsl:template name="generate.meta-inf">
     <!-- Outputs "META-INF" directory with container.xml file that meets EPUB 3.0 specifications: http://www.idpf.org/epub/30/spec/epub30-ocf.html#sec-container-metainf -->
     <!-- Override this template if you want to customize "META-INF" output (no support for multiple <rootfile> elements at this time) -->
-    <exsl:document href="META-INF/container.xml" method="xml" encoding="UTF-8">
+    <xsl:variable name="container-xml">
       <container version="1.0" xmlns="urn:oasis:names:tc:opendocument:xmlns:container">
 	<rootfiles>
 	  <rootfile>
@@ -117,13 +123,28 @@
 	  </rootfile>
 	</rootfiles>
       </container>
-    </exsl:document>
+    </xsl:variable>
+    <xsl:result-document href="META-INF/container.xml" method="xml" encoding="UTF-8">
+      <xsl:copy-of select="$container-xml"/>
+      <xsl:fallback>
+	<!-- <xsl:message>Falling back to XSLT 1.0 processor extension handling for generating result documents</xsl:message> -->
+	<exsl:document href="META-INF/container.xml" method="xml" encoding="UTF-8">
+	  <xsl:copy-of select="exsl:node-set($container-xml)"/>
+	</exsl:document>
+      </xsl:fallback>
+    </xsl:result-document>
   </xsl:template>
 
   <xsl:template name="generate.opf">
-    <exsl:document href="{$full.opf.filename}" method="xml" encoding="UTF-8">
+    <xsl:result-document href="{$full.opf.filename}" method="xml" encoding="UTF-8">
       <xsl:call-template name="generate.opf.content"/>
-    </exsl:document>
+      <xsl:fallback>
+	<!-- <xsl:message>Falling back to XSLT 1.0 processor extension handling for generating result documents</xsl:message> -->
+	<exsl:document href="{$full.opf.filename}" method="xml" encoding="UTF-8">
+	  <xsl:call-template name="generate.opf.content"/>
+	</exsl:document>
+      </xsl:fallback>
+    </xsl:result-document>
   </xsl:template>
 
   <xsl:template name="generate.opf.content">
@@ -216,27 +237,69 @@
   </xsl:template>
 
   <xsl:template name="opf.metadata">
+    <xsl:param name="metadata.unique-identifier" select="$metadata.unique-identifier"/>
+    <xsl:param name="metadata.unique-identifier.id" select="$metadata.unique-identifier.id"/>
+    <xsl:param name="metadata.title" select="$metadata.title"/>
+    <xsl:param name="metadata.language" select="$metadata.language"/>
+    <xsl:param name="metadata.modified" select="$metadata.modified"/>
+    <xsl:param name="metadata.rights" select="$metadata.rights"/>
+    <xsl:param name="metadata.publisher" select="$metadata.publisher"/>
+    <xsl:param name="metadata.subject" select="$metadata.subject"/>
+    <xsl:param name="metadata.date" select="$metadata.date"/>
+    <xsl:param name="metadata.description" select="$metadata.description"/>
+    <xsl:param name="metadata.contributors" select="$metadata.contributors"/>
+    <xsl:param name="metadata.creators" select="$metadata.creators"/>
+    <xsl:param name="metadata.ibooks-specified-fonts" select="$metadata.ibooks-specified-fonts"/>
+    <xsl:param name="generate.cover.html" select="$generate.cover.html"/>
     <metadata>
-      <dc:identifier id="{$metadata.unique-identifier.id}">
+      <xsl:variable name="computed.identifier">
 	<xsl:value-of select="$metadata.unique-identifier"/>
+	<!-- If no identifier supplied, add a default value to ensure validity -->
+	<xsl:if test="not($metadata.unique-identifier) or normalize-space($metadata.unique-identifier) = ''">
+	  <xsl:value-of select="concat('randomid-', generate-id())"/>
+	</xsl:if>
+      </xsl:variable>
+
+      <xsl:variable name="computed.title">
+	<xsl:value-of select="$metadata.title"/>
+	<!-- If no title supplied, add a default title to ensure validity -->
+	<xsl:if test="not($metadata.title) or normalize-space($metadata.title) = ''">
+	  <xsl:text>Untitled Book</xsl:text>
+	</xsl:if>
+      </xsl:variable>
+
+      <xsl:variable name="computed.language">
+	<xsl:value-of select="$metadata.language"/>
+	<!-- If no title supplied, add a default language of 'en' to ensure validity -->
+	<xsl:if test="not($metadata.language) or normalize-space($metadata.language) = ''">
+	  <xsl:text>en</xsl:text>
+	</xsl:if>
+      </xsl:variable>
+
+      <dc:identifier id="{$metadata.unique-identifier.id}">
+	<xsl:value-of select="$computed.identifier"/>
       </dc:identifier>
       <meta id="meta-identifier" property="dcterms:identifier">
-	<xsl:value-of select="$metadata.unique-identifier"/>
+	<xsl:value-of select="$computed.identifier"/>
       </meta>
       <dc:title id="pub-title">
-	<xsl:value-of select="$metadata.title"/>
+	<xsl:value-of select="$computed.title"/>
       </dc:title>
       <meta property="dcterms:title" id="meta-title">
-	<xsl:value-of select="$metadata.title"/>
+	<xsl:value-of select="$computed.title"/>
       </meta>
       <dc:language id="pub-language">
-	<xsl:value-of select="$metadata.language"/>
+	<xsl:value-of select="$computed.language"/>
       </dc:language>
       <meta property="dcterms:language" id="meta-language">
-	<xsl:value-of select="$metadata.language"/>
+	<xsl:value-of select="$computed.language"/>
       </meta>
       <meta property="dcterms:modified">
+	<!-- If no modified date supplied, add a default date to ensure validity -->
 	<xsl:value-of select="$metadata.modified"/>
+	<xsl:if test="not($metadata.modified) or normalize-space($metadata.modified) = ''">
+	  <xsl:text>2014-01-01</xsl:text>
+	</xsl:if>
       </meta>
       <xsl:if test="$metadata.rights != ''">
 	<dc:rights>
@@ -325,8 +388,12 @@
   </xsl:template>
 
   <xsl:template name="generate-spine">
+    <xsl:param name="chunk.nodes" select="key('chunks', 1)"/>
+    <xsl:param name="generate.ncx.toc" select="$generate.ncx.toc"/>
+    <xsl:param name="cover.in.spine" select="$cover.in.spine"/>
+    <xsl:param name="generate.cover.html" select="$generate.cover.html"/>
     <spine>
-      <xsl:if test="$generate.ncx.toc">
+      <xsl:if test="$generate.ncx.toc = 1">
 	<xsl:attribute name="toc">
 	  <xsl:value-of select="$ncx.toc.id"/>
 	</xsl:attribute>
@@ -342,13 +409,15 @@
 	  </xsl:attribute>
 	</itemref>
       </xsl:if>
-      <xsl:for-each select="key('chunks', 1)">
+      <xsl:for-each select="$chunk.nodes">
 	<xsl:apply-templates select="." mode="opf.spine.itemref"/>
       </xsl:for-each>
     </spine>
   </xsl:template>
 
   <xsl:template name="generate-guide">
+    <xsl:param name="generate.cover.html" select="$generate.cover.html"/>
+    <xsl:param name="html5.toc.node" select="//h:body/h:nav[@data-type='toc' and not(preceding::h:nav[@data-type='toc'])][1]"/>
     <guide>
       <!-- Generating <reference> elements for cover, TOC, and start of text -->
       <!-- Override and customize as appropriate, if desired -->
@@ -359,10 +428,10 @@
       </xsl:if>
 
       <!-- Generate reference to HTML5 TOC (EPUB Nav Doc) if present (and it should be!)-->
-      <xsl:if test="//h:body/h:nav[@data-type='toc' and not(preceding::h:nav[@data-type='toc'])]">
+      <xsl:if test="$html5.toc.node">
 	<xsl:variable name="html5-toc-filename">
 	  <xsl:call-template name="output-filename-for-chunk">
-	    <xsl:with-param name="node" select="//h:body/h:nav[@data-type='toc' and not(preceding::h:nav[@data-type='toc'])][1]"/>
+	    <xsl:with-param name="node" select="$html5.toc.node"/>
 	  </xsl:call-template>
 	</xsl:variable>
 	<reference href="{$html5-toc-filename}" type="toc" title="Table of Contents"/>
@@ -403,6 +472,7 @@
   </xsl:template>
 
   <xsl:template match="h:nav[@data-type='toc']" mode="opf.spine.itemref">
+    <xsl:param name="nav.in.spine" select="$nav.in.spine"/>
     <xsl:if test="$nav.in.spine = 1">
       <itemref>
 	<xsl:attribute name="idref">
@@ -455,7 +525,8 @@
   </xsl:template>
 
   <xsl:template name="manifest-html">
-    <xsl:for-each select="key('chunks', 1)">
+    <xsl:param name="chunk.nodes" select="key('chunks', 1)"/>
+    <xsl:for-each select="$chunk.nodes">
       <item>
 	<xsl:attribute name="id">
 	  <xsl:apply-templates select="." mode="opf.id"/>

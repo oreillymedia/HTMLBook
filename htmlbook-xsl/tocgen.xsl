@@ -100,23 +100,4 @@
     </xsl:call-template>
   </xsl:template>
 
-  <func:function name="htmlbook:section-depth">
-    <xsl:param name="node"/>
-    <xsl:choose>
-      <xsl:when test="$node[self::h:section] and 
-		      $node/@data-type and
-		      (substring($node/@data-type, string-length($node/@data-type), 1) = '1' or
-		      substring($node/@data-type, string-length($node/@data-type), 1) = '2' or
-		      substring($node/@data-type, string-length($node/@data-type), 1) = '3' or
-		      substring($node/@data-type, string-length($node/@data-type), 1) = '4' or
-		      substring($node/@data-type, string-length($node/@data-type), 1) = '5')">
-	<func:result>
-	  <xsl:value-of select="substring($node/@data-type, string-length($node/@data-type), 1)"/>
-	</func:result>
-      </xsl:when>
-      <xsl:otherwise>
-	<func:result/>
-      </xsl:otherwise>
-    </xsl:choose>
-  </func:function>
 </xsl:stylesheet> 

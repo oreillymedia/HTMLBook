@@ -21,43 +21,53 @@
 
   <!-- Generate an NCX file from HTMLBook source. -->
   <xsl:template name="generate.ncx.toc">
-    <exsl:document href="{$full.ncx.filename}" method="xml" encoding="UTF-8">
-      <ncx version="2005-1">
-	<head>
-	  <xsl:if test="$generate.cover.html = 1">
-	    <meta name="cover" content="{$epub.cover.html.id}"/>
-	  </xsl:if>
-	  <meta name="dtb:uid" content="{$metadata.unique-identifier}"/>
-	</head>
-	<docTitle>
-	  <text>
-	    <xsl:value-of select="$metadata.title"/>
-	  </text>
-	</docTitle>
-	<xsl:variable name="navMap">
-	  <navMap>
-	    <!-- Only put root chunk in the NCX TOC if $ncx.include.root.chunk is enabled -->
-	    <xsl:if test="$ncx.include.root.chunk = 1">
-	      <navPoint>
-		<xsl:attribute name="id">
-		  <!-- Use OPF ids in NCX as well -->
-		  <xsl:apply-templates select="/*" mode="opf.id"/>
-		</xsl:attribute>
-		<navLabel>
-		  <text>
-		    <!-- Look for title first in head, then as child of body -->
-		    <xsl:value-of select="(//h:head/h:title|//h:body/h:h1)[1]"/>
-		  </text>
-		</navLabel>
+    <xsl:result-document href="{$full.ncx.filename}" method="xml" encoding="UTF-8">
+      <xsl:call-template name="generate.ncx.toc.content"/>
+      <xsl:fallback>
+	<!-- <xsl:message>Falling back to XSLT 1.0 processor extension handling for generating result documents</xsl:message> -->
+	<exsl:document href="{$full.ncx.filename}" method="xml" encoding="UTF-8">
+	  <xsl:call-template name="generate.ncx.toc.content"/>
+	</exsl:document>
+      </xsl:fallback>
+    </xsl:result-document>
+  </xsl:template>
+
+  <xsl:template name="generate.ncx.toc.content">
+    <ncx version="2005-1">
+      <head>
+	<xsl:if test="$generate.cover.html = 1">
+	  <meta name="cover" content="{$epub.cover.html.id}"/>
+	</xsl:if>
+	<meta name="dtb:uid" content="{$metadata.unique-identifier}"/>
+      </head>
+      <docTitle>
+	<text>
+	  <xsl:value-of select="$metadata.title"/>
+	</text>
+      </docTitle>
+      <xsl:variable name="navMap">
+	<navMap>
+	  <!-- Only put root chunk in the NCX TOC if $ncx.include.root.chunk is enabled -->
+	  <xsl:if test="$ncx.include.root.chunk = 1">
+	    <navPoint>
+	      <xsl:attribute name="id">
+		<!-- Use OPF ids in NCX as well -->
+		<xsl:apply-templates select="/*" mode="opf.id"/>
+	      </xsl:attribute>
+	      <navLabel>
+		<text>
+		  <!-- Look for title first in head, then as child of body -->
+		  <xsl:value-of select="(//h:head/h:title|//h:body/h:h1)[1]"/>
+		</text>
+	      </navLabel>
 	      <content src="{$root.chunk.filename}"/>
-	      </navPoint>
-	    </xsl:if>
-	    <xsl:apply-templates select="/*" mode="ncx.toc.gen"/>
-	  </navMap>
-	</xsl:variable>
-	<xsl:apply-templates select="exsl:node-set($navMap)" mode="output.navMap.with.playOrder"/>
-      </ncx>
-    </exsl:document>
+	    </navPoint>
+	  </xsl:if>
+	  <xsl:apply-templates select="/*" mode="ncx.toc.gen"/>
+	</navMap>
+      </xsl:variable>
+      <xsl:apply-templates select="exsl:node-set($navMap)" mode="output.navMap.with.playOrder"/>
+    </ncx>
   </xsl:template>
 
   <!-- Default rule for TOC generation -->
