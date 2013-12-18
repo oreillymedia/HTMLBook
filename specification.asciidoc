@@ -329,7 +329,7 @@ The heading is followed by zero or more subheading elements whose hierarchy leve
 
 *HTML element*: +<div>+
 
-*Attribute requirements*: +data-type="note"+ or +data-type="warning"+, depending on the content within
+*Attribute requirements*: +data-type="note"+, +data-type="warning"+, +data-type="tip"+, +data-type="caution"+, or +data-type="important"+, depending on the content within
 
 *Content model*: Either of the following content models is acceptable:
 
