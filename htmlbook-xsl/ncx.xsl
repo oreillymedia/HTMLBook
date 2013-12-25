@@ -33,6 +33,8 @@
   </xsl:template>
 
   <xsl:template name="generate.ncx.toc.content">
+    <xsl:param name="toc.node" select="/*"/>
+    <xsl:param name="generate.cover.html" select="$generate.cover.html"/>
     <ncx version="2005-1">
       <head>
 	<xsl:if test="$generate.cover.html = 1">
@@ -63,7 +65,7 @@
 	      <content src="{$root.chunk.filename}"/>
 	    </navPoint>
 	  </xsl:if>
-	  <xsl:apply-templates select="/*" mode="ncx.toc.gen"/>
+	  <xsl:apply-templates select="$toc.node" mode="ncx.toc.gen"/>
 	</navMap>
       </xsl:variable>
       <xsl:apply-templates select="exsl:node-set($navMap)" mode="output.navMap.with.playOrder"/>

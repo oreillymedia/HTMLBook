@@ -12,16 +12,42 @@
 
   <!-- Global params for testing -->
 
-  <x:pending>
-    <x:scenario label="When generating full NCX TOC content">
-      <x:call template="generate.ncx.toc.content"/>
-      <x:expect label="It should have the standard ncx root element"/>
-      <x:expect label="It should have a meta element for the cover HTML if generate.cover.html is specified"/>
-      <x:expect label="It *should not* have a meta element for the cover HTML if generate.cover.html *is not* specified"/>
-      <x:expect label="It should have the book title in a docTitle element"/>
-      <x:expect label="It should have a navMap with navPoint children for TOC elements"/>
-      <x:expect label="NavPoints should have playOrder attributes in consecutive order"/>
+  <x:param name="metadata.title" select="'Infinite Jest'"/>
+
+  <x:scenario label="When generating full NCX TOC content">
+    <x:call template="generate.ncx.toc.content">
+      <!-- Test XSL is output to a subdir of the .xspec dir, which also contains skeleton, so relative path contains .. to go up a directory level -->
+      <x:param name="toc.node" select="document('../skeleton.html')/*"/>
+    </x:call>
+    
+    <x:expect label="It should have the standard ncx root element">
+      <ncx xmlns="http://www.daisy.org/z3986/2005/ncx/" version="2005-1">...</ncx>
+    </x:expect>
+    
+    <x:scenario label="With generate.cover.html disabled">
+      <x:call>
+	<x:param name="generate.cover.html"/>
+      </x:call>
+      <x:expect label="It *should not* have a meta element for the cover HTML" test="not(exists(/ncx:ncx/ncx:head/ncx:meta[@name='cover']))"/>	
     </x:scenario>
+    
+    <x:scenario label="With generate.cover.html enabled">
+      <x:call>
+	<x:param name="generate.cover.html">1</x:param>
+      </x:call>
+      <x:expect label="It should have a meta element for the cover HTML" test="count(/ncx:ncx/ncx:head/ncx:meta[@name='cover']) = 1"/>
+    </x:scenario>
+    
+    <x:expect label="It should have the book title in a docTitle element" test="exists(/ncx:ncx/ncx:docTitle[. = 'Infinite Jest'])"/>
+    
+    <x:expect label="It should have a navMap with navPoint children for TOC elements" test="exists(/ncx:ncx/ncx:navMap[ncx:navPoint])"/>
+
+    <x:expect label="NavPoints should have playOrder attributes in consecutive order" 
+	      test="not(exists(//ncx:navPoint[not(@playOrder)])) and
+		    count((//ncx:navPoint)[position() = @playOrder]) = count((//ncx:navPoint))"/>
+  </x:scenario>
+  
+  <x:pending>
 
     <x:scenario label="When a book section/div is matched in ncx.toc.gen mode">
       <x:context/>
