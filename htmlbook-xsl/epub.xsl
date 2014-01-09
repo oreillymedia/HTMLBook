@@ -167,6 +167,13 @@
   <!-- ID to use in the manifest for the NCX TOC (if $generate.ncx.toc is enabled) -->
   <xsl:param name="ncx.toc.id">toc.ncx</xsl:param>
 
+  <!-- Specify how many levels of sections to include in NCX TOC. 
+       An $ncx.toc.section.depth of 0 indicates only chapter-level headings and above to be included in NCX TOC
+       An $ncx.toc.section depth of 1 indicates only sect1-level headings and above to be included in NCX TOC
+       And so on...
+    -->
+  <xsl:param name="ncx.toc.section.depth" select="4"/>
+
   <!-- Include labels in NCX TOC? -->
   <xsl:param name="ncx.toc.include.labels" select="1"/>
 

@@ -33,6 +33,8 @@
   </xsl:template>
 
   <xsl:template name="generate.ncx.toc.content">
+    <xsl:param name="toc.node" select="/*"/>
+    <xsl:param name="generate.cover.html" select="$generate.cover.html"/>
     <ncx version="2005-1">
       <head>
 	<xsl:if test="$generate.cover.html = 1">
@@ -63,7 +65,7 @@
 	      <content src="{$root.chunk.filename}"/>
 	    </navPoint>
 	  </xsl:if>
-	  <xsl:apply-templates select="/*" mode="ncx.toc.gen"/>
+	  <xsl:apply-templates select="$toc.node" mode="ncx.toc.gen"/>
 	</navMap>
       </xsl:variable>
       <xsl:apply-templates select="exsl:node-set($navMap)" mode="output.navMap.with.playOrder"/>
@@ -76,11 +78,14 @@
   </xsl:template>
 
   <xsl:template match="h:section[not(@data-type = 'dedication' or @data-type = 'titlepage' or @data-type = 'toc' or @data-type = 'colophon' or @data-type = 'copyright-page' or @data-type = 'halftitlepage')]|h:div[@data-type='part']" mode="ncx.toc.gen">
-    <xsl:call-template name="generate.navpoint"/>
+    <xsl:if test="not(self::h:section[contains(@data-type, 'sect') and htmlbook:section-depth(.) != '' and htmlbook:section-depth(.) &gt; $ncx.toc.section.depth])">
+      <xsl:call-template name="generate.navpoint"/>
+    </xsl:if>
   </xsl:template>
 
   <!-- Only put the Nav doc in the NCX TOC if $nav.in.ncx is enabled -->
   <xsl:template match="h:nav[@data-type='toc']" mode="ncx.toc.gen">
+    <xsl:param name="nav.in.ncx" select="$nav.in.ncx"/>
     <xsl:if test="$nav.in.ncx = 1">
       <xsl:call-template name="generate.navpoint"/>
     </xsl:if>
@@ -104,6 +109,10 @@
 
   <xsl:template name="generate.navpoint">
     <xsl:param name="node" select="."/>
+
+    <!-- Primarily included for xspec testing, but allows for the possibility of toggling labeling for individual navPoints -->
+    <xsl:param name="ncx.toc.include.labels" select="$ncx.toc.include.labels"/>
+
     <!-- Traverse down the tree and process descendant navpoints? Default is "yes" -->
     <xsl:param name="process-descendants" select="1"/>
     <navPoint>
@@ -122,7 +131,11 @@
 	      <xsl:value-of select="$label.and.title.separator"/>
 	    </xsl:if>
 	  </xsl:if>
-	  <xsl:apply-templates select="$node" mode="title.markup"/>
+	  <xsl:variable name="title.markup">
+	    <xsl:apply-templates select="$node" mode="title.markup"/>
+	  </xsl:variable>
+	  <!-- Convert to text, as NCX navLabels cannot contain any inline markup -->
+	  <xsl:value-of select="$title.markup"/>
 	</text>
       </navLabel>
       <content>
