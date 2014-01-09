@@ -14,6 +14,19 @@
 
   <x:param name="metadata.title" select="'Infinite Jest'"/>
 
+  <x:param name="label.and.title.separator" select="'. '"/>
+
+  <x:param name="label.numeration.by.data-type">
+appendix:A
+chapter:1
+part:I
+sect1:none
+sect2:none
+sect3:none
+sect4:none
+sect5:none
+  </x:param>
+
   <x:scenario label="When generating full NCX TOC content">
     <x:call template="generate.ncx.toc.content">
       <!-- Test XSL is output to a subdir of the .xspec dir, which also contains skeleton, so relative path contains .. to go up a directory level -->
@@ -52,42 +65,123 @@
     
     <x:expect label="It should have a navMap with navPoint children for TOC elements" test="exists(/ncx:ncx/ncx:navMap[ncx:navPoint])"/>
 
-    <x:expect label="NavPoints should have playOrder attributes in consecutive order" 
+    <x:expect label="navPoints should have playOrder attributes in consecutive order" 
 	      test="not(exists(//ncx:navPoint[not(@playOrder)])) and
 		    count((//ncx:navPoint)[position() = @playOrder]) = count((//ncx:navPoint))"/>
   </x:scenario>
-  
-  <x:pending>
 
     <x:scenario label="When a book section/div is matched in ncx.toc.gen mode">
-      <x:context/>
-      <x:expect label="return a NavPoint"/>
+      <x:context mode="ncx.toc.gen">
+	<section data-type="chapter">
+	  <h1>Test Chapter</h1>
+	  <p>It was the best of times!</p>
+	</section>
+      </x:context>
+      <x:expect label="return a navPoint">
+        <ncx:navPoint id="...">...</ncx:navPoint>
+      </x:expect>
 
-      <x:scenario label="When source TOC elements are at a lower level than specified NCX Level">
-	<x:expect label="Don't generate a NavPoint"/>
+      <x:scenario label="when source TOC elements are at a lower level than specified NCX Level">
+	<x:context mode="ncx.toc.gen" select="//h:section[@data-type='sect2'][1]">
+	  <section data-type="chapter">
+	    <h1>Test Chapter</h1>
+	    <p>It was the worst of times!</p>
+	    <section data-type="sect1">
+	      <h1>Test Sect1</h1>
+	      <p>Two roads diverged in a wood</p>
+	      <section data-type="sect2">
+		<h2>Test Sect2</h2>
+		<p>One fish, two fish, red fish, blue fish</p>
+	      </section>
+	    </section>
+	  </section>
+	</x:context>
+	<x:expect label="Don't generate a navPoint" test="not(exists(ncx:navPoint))"/>
       </x:scenario>
     </x:scenario>
 
     <x:scenario label="When a non-book section/div is matched in ncx.toc.gen mode that does not have a book section/div child">
-      <x:context/>
-      <x:expect label="Don't generate a NavPoint"/>
+      <x:context mode="ncx.toc.gen">
+	<div data-type="note">
+	  <p>Notes should not get navPoints!!!</p>
+	</div>
+      </x:context>
+      <x:expect label="Don't generate a navPoint" test="not(exists(ncx:navPoint))"/>
     </x:scenario>
 
-    <x:scenario label="When a nav TOC is matched in ncx.toc.gen mode">
-      <x:context/>
-      <x:expect label="Generate a NavPoint if $nav.in.ncx is specified"/>
-      <x:expect label="*Do Not* generate a NavPoint if $nav.in.ncx *is not* specified"/>
+    <x:scenario label="When a nav TOC is matched in ncx.toc.gen mode...">
+      <x:context mode="ncx.toc.gen">
+	<nav data-type="toc"/>
+      </x:context>
+
+      <x:scenario label="...with $nav.in.ncx enabled">
+	<x:context>
+	  <x:param name="nav.in.ncx" select="1"/>
+	</x:context>
+	<x:expect label="Generate a navPoint">
+	  <ncx:navPoint id="...">...</ncx:navPoint>
+	</x:expect>
+      </x:scenario>
+      
+      <x:scenario label="...with $nav.in.ncx disabled">
+	<x:context>
+	  <x:param name="nav.in.ncx" select="0"/>
+	</x:context>
+	<x:expect label="*Do not* generate a navPoint"
+		  test="not(exists(ncx:navPoint))"/>
+      </x:scenario>
     </x:scenario>
 
     <x:scenario label="When generate.navpoint is called">
-      <x:call/>
-      <x:expect label="A NavPoint element should be generated with proper id"/>
-      <x:expect label="A NavLabel element should be generated with properly formatted heading text"/>
-      <x:expect label="A NavLabel's text content should include labels if $ncx.toc.include.labels is specified"/>
-      <x:expect label="A NavLabel's text content *should not* include labels if $ncx.toc.include.labels *is not* specified"/>
-      <x:expect label="A NavLabel's text content *should not* contain any inline elements"/>
-      <x:expect label="A NavPoint element should contain a src attribute with the proper href"/>
+      <x:call template="generate.navpoint">
+	<x:param name="node">
+	  <section data-type="appendix">
+	    <h1>Tables of Crucial Data</h1>
+	    <p>Read me, please!</p>
+	  </section>
+	</x:param>
+      </x:call>
+      <x:expect label="A navPoint element should be generated with proper id" 
+		test="count(ncx:navPoint[contains(@id, 'appendix')]) = 1"/>
+
+      <x:expect label="A navLabel element should be generated with properly formatted heading text" 
+		test="count(ncx:navPoint/ncx:navLabel[contains(., 'Tables of Crucial Data')]) = 1"/>
+
+      <x:scenario label="with $ncx.toc.include.label enabled">
+	<x:call>
+	  <x:param name="ncx.toc.include.labels" select="1"/>
+	</x:call>
+	<!-- Note: the following value is dependent on the global param set in this xspec document -->
+	<!-- If test fails, double-check expected value is in sync with these params -->
+	<x:expect label="A navLabel's text content should include labels"
+		  test="count(ncx:navPoint/ncx:navLabel[contains(., 'A. ')]) = 1"/>
+      </x:scenario>
+
+      <x:scenario label="with $ncx.toc.include.label disabled">
+	<x:call>
+	  <x:param name="ncx.toc.include.labels" select="0"/>
+	</x:call>
+	<x:expect label="A navLabel's text content *should not* include labels"
+		  test="count(ncx:navPoint/ncx:navLabel[not(contains(., '. '))]) = 1"/>
+      </x:scenario>
+
+      <x:scenario label="On a section with a title that contains inlines">
+	<x:call>
+	  <x:param name="node">
+	    <section data-type="appendix">
+	      <h1>Tables of <em>Really</em> Crucial Data</h1>
+	      <p>Read me, please!</p>
+	    </section>
+	  </x:param>
+	</x:call>
+	<x:expect label="A navLabel's text content *should not* contain any inline elements"
+		  test="not(exists(ncx:navPoint/ncx:navLabel/ncx:text/*))"/>
+      </x:scenario>
+
+      <!-- More robust testing here for src attribute value might be nice. -->
+      <x:expect label="A navPoint element should contain a content element with a src attribute"
+		test="exists(ncx:navPoint/ncx:content[@src])"/>
+
     </x:scenario>
-  </x:pending>
 
 </x:description>
