@@ -27,6 +27,8 @@ sect4:none
 sect5:none
   </x:param>
 
+  <x:param name="ncx.toc.section.depth" select="2"/>
+
   <x:scenario label="When generating full NCX TOC content">
     <x:call template="generate.ncx.toc.content">
       <!-- Test XSL is output to a subdir of the .xspec dir, which also contains skeleton, so relative path contains .. to go up a directory level -->
@@ -81,8 +83,10 @@ sect5:none
         <ncx:navPoint id="...">...</ncx:navPoint>
       </x:expect>
 
+      <!-- Note: the following test is dependent on the global param set in this xspec document -->
+      <!-- If test fails, double-check expected value is in sync with these params -->
       <x:scenario label="when source TOC elements are at a lower level than specified NCX Level">
-	<x:context mode="ncx.toc.gen" select="//h:section[@data-type='sect2'][1]">
+	<x:context mode="ncx.toc.gen" select="//h:section[@data-type='sect3'][1]">
 	  <section data-type="chapter">
 	    <h1>Test Chapter</h1>
 	    <p>It was the worst of times!</p>
@@ -92,6 +96,10 @@ sect5:none
 	      <section data-type="sect2">
 		<h2>Test Sect2</h2>
 		<p>One fish, two fish, red fish, blue fish</p>
+		<section data-type="sect3">
+		  <h3>Test SEct3</h3>
+		  <p>It was a dark and stormy night</p>
+		</section>
 	      </section>
 	    </section>
 	  </section>
@@ -151,7 +159,7 @@ sect5:none
 	<x:call>
 	  <x:param name="ncx.toc.include.labels" select="1"/>
 	</x:call>
-	<!-- Note: the following value is dependent on the global param set in this xspec document -->
+	<!-- Note: the following value is dependent on the global params set in this xspec document -->
 	<!-- If test fails, double-check expected value is in sync with these params -->
 	<x:expect label="A navLabel's text content should include labels"
 		  test="count(ncx:navPoint/ncx:navLabel[contains(., 'A. ')]) = 1"/>
