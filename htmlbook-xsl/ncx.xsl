@@ -83,6 +83,7 @@
 
   <!-- Only put the Nav doc in the NCX TOC if $nav.in.ncx is enabled -->
   <xsl:template match="h:nav[@data-type='toc']" mode="ncx.toc.gen">
+    <xsl:param name="nav.in.ncx" select="$nav.in.ncx"/>
     <xsl:if test="$nav.in.ncx = 1">
       <xsl:call-template name="generate.navpoint"/>
     </xsl:if>
@@ -106,6 +107,10 @@
 
   <xsl:template name="generate.navpoint">
     <xsl:param name="node" select="."/>
+
+    <!-- Primarily included for xspec testing, but allows for the possibility of toggling labeling for individual navPoints -->
+    <xsl:param name="ncx.toc.include.labels" select="$ncx.toc.include.labels"/>
+
     <!-- Traverse down the tree and process descendant navpoints? Default is "yes" -->
     <xsl:param name="process-descendants" select="1"/>
     <navPoint>
@@ -124,7 +129,11 @@
 	      <xsl:value-of select="$label.and.title.separator"/>
 	    </xsl:if>
 	  </xsl:if>
-	  <xsl:apply-templates select="$node" mode="title.markup"/>
+	  <xsl:variable name="title.markup">
+	    <xsl:apply-templates select="$node" mode="title.markup"/>
+	  </xsl:variable>
+	  <!-- Convert to text, as NCX navLabels cannot contain any inline markup -->
+	  <xsl:value-of select="$title.markup"/>
 	</text>
       </navLabel>
       <content>
