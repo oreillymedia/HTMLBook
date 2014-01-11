@@ -10,6 +10,7 @@
 
   <xsl:function name="htmlbook:is-chunk">
     <xsl:param name="node"/>
+    <xsl:param name="chunk.level"/>
     <xsl:choose>
       <xsl:when test="$node[self::h:div[contains(@data-type, 'part')]]">1</xsl:when>
       <xsl:when test="$node[self::h:section[contains(@data-type, 'acknowledgments') or
@@ -43,6 +44,7 @@
   <!-- Given a node, return the root node of the chunk it's in -->
   <xsl:function name="htmlbook:chunk-for-node">
     <xsl:param name="node"/>
+    <xsl:param name="chunks"/>
 
     <!-- 1. Get a nodeset of current element and all its ancestors, which could potentially be chunks -->
     <xsl:variable name="self-and-ancestors" select="$node/ancestor-or-self::*"/>
