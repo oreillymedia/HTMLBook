@@ -8,29 +8,36 @@
 	       xmlns:e="http://github.com/oreillymedia/epubrenderer"
                stylesheet="../htmlbook.xsl">
 
-  <x:pending>
   <x:scenario label="When *empty* TOC nav element is matched">
-    <x:context>
+    <x:context select="//h:nav[1]">
       <body>
 	<nav data-type="toc"/>
-	<section data-type="chapter">
+	<section id="chapter" data-type="chapter">
 	  <h1>This chapter head should be in TOC</h1>
 	  <p>Go TOC!</p>
 	</section>
       </body>
-      <x:param name=""/>
     </x:context>
     
     <x:scenario label="And autogenerate-toc param is *enabled*">
-      <x:context/>
-      <x:expect label="TOC content should be generated"/>
+      <x:context>
+	<x:param name="autogenerate-toc" select="1"/>
+      </x:context>
+      <x:expect label="TOC content should be generated"
+		test="count(h:nav[.//h:li[contains(., 'This chapter head should be in TOC')]]) = 1"/>
     </x:scenario>
     
     <x:scenario label="And autogenerate-toc param is *disabled*">
-      <x:context/>
-      <x:expect label="TOC content *should not* be generated (nav should stay empty"/>
+      <x:context>
+	<x:param name="autogenerate-toc" select="0"/>
+      </x:context>
+      <x:expect label="TOC content *should not* be generated (nav should stay empty)">
+	<nav data-type="toc" id="..."/>
+      </x:expect>
     </x:scenario>
   </x:scenario>
+
+  <x:pending>
   
   <x:scenario label="When *nonempty* TOC nav element is matched">
     <x:context>
