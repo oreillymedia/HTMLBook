@@ -104,34 +104,52 @@
 		      not(exists(h:nav//h:h1[contains(., 'Manual TOC')]))"/>
     </x:scenario>
   </x:scenario>
-
-  <x:pending>
     
-  <!-- How many combinations of empty/nonempty nav, autogenerate-toc, and toc-placeholder-overwrite-contents do we need to do here? -->
-  <x:scenario label="When there are multiple TOC nav elements">
-    <x:context>
+  <x:scenario label="When there are multiple empty TOC nav elements">
+    <x:context select="//h:nav">
       <body>
 	<nav data-type="toc"/>
 	<nav data-type="toc"/>
       </body>
+      <section data-type="chapter">
+	<h1>This chapter head should be in TOC</h1>
+	<p>Go TOC!</p>
+      </section>
+      <x:param name="autogenerate-toc" select="1"/>
     </x:context>
-    <x:expect label="Process them all the same way"/>
+    <x:expect label="Process them all the same way"
+	      test="deep-equal(//h:nav[@data-type='toc'][1]/node(), //h:nav[@data-type='toc'][2]/node())"/>
   </x:scenario>
 
   <x:scenario label="When a TOC is generated with a scope specified">
-    <x:context/>
-    <x:expect label="Root of TOC list should be the scope root"/>
+    <x:context href="skeleton.html" select="//h:nav[@data-type='toc'][1]">
+      <x:param name="autogenerate-toc" select="1"/>
+      <x:param name="scope" select="(document('../skeleton.html')//h:section[@data-type='sect1'])[1]"/>
+    </x:context>
+    <x:expect label="Root of TOC list should be the scope root">
+      <nav data-type="toc" id="...">
+	<ol>
+	  <li data-type="sect1">...</li>
+	</ol>
+      </nav>
+    </x:expect>
   </x:scenario>
   
   <x:scenario label="When a standard book-level section (chapter) is matched in tocgen mode">
-    <x:context/>
-    <x:expect label="An entry 'li' should be generated"/>
+    <x:context href="skeleton.html" select="//h:section[@data-type='chapter'][1]" mode="tocgen"/>
+    <x:expect label="An entry 'li' should be generated">
+      <li data-type="chapter"><a href="...">...</a>...</li>
+    </x:expect>
   </x:scenario>
 
   <x:scenario label="When a standard book-level section (part) is matched in tocgen mode">
-    <x:context/>
-    <x:expect label="An entry 'li' should be generated"/>
+    <x:context href="skeleton.html" select="//h:section[@data-type='part'][1]" mode="tocgen"/>
+    <x:expect label="An entry 'li' should be generated">
+      <li data-type="part"><a href="...">...</a>...</li>
+    </x:expect>
   </x:scenario>
+
+  <x:pending>
   
   <x:scenario label="When a subsection within the toc.section.depth is matched in tocgen mode">
     <x:context/>

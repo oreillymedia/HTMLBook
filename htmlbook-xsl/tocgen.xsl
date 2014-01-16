@@ -57,6 +57,9 @@
   <xsl:template match="h:nav[@data-type='toc']" name="generate-toc">
     <xsl:param name="toc.node" select="."/>
     <xsl:param name="scope" select="/*"/>
+    <xsl:param name="autogenerate-toc" select="$autogenerate-toc"/>
+    <xsl:param name="toc-placeholder-overwrite-contents" select="$autogenerate-toc"/>
+
     <!-- Just switch context to $toc.node, so we don't have to reference the variable in rest of template -->
     <xsl:for-each select="$toc.node">
       <xsl:choose>
