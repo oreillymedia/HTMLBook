@@ -477,18 +477,18 @@
 <l:template name="pageabbrev" text="(p. %p)"/>
 <l:template name="Page" text="Page %p"/>
 <l:template name="topic" text="%t"/>
-<l:template name="bridgehead" text="the section called “%t”"/>
-<l:template name="refsection" text="the section called “%t”"/>
-<l:template name="refsect1" text="the section called “%t”"/>
-<l:template name="refsect2" text="the section called “%t”"/>
-<l:template name="refsect3" text="the section called “%t”"/>
-<l:template name="sect1" text="the section called “%t”"/>
-<l:template name="sect2" text="the section called “%t”"/>
-<l:template name="sect3" text="the section called “%t”"/>
-<l:template name="sect4" text="the section called “%t”"/>
-<l:template name="sect5" text="the section called “%t”"/>
-<l:template name="section" text="the section called “%t”"/>
-<l:template name="simplesect" text="the section called “%t”"/>
+<l:template name="bridgehead" text="“%t”"/>
+<l:template name="refsection" text="“%t”"/>
+<l:template name="refsect1" text="“%t”"/>
+<l:template name="refsect2" text="“%t”"/>
+<l:template name="refsect3" text="“%t”"/>
+<l:template name="sect1" text="“%t”"/>
+<l:template name="sect2" text="“%t”"/>
+<l:template name="sect3" text="“%t”"/>
+<l:template name="sect4" text="“%t”"/>
+<l:template name="sect5" text="“%t”"/>
+<l:template name="section" text="“%t”"/>
+<l:template name="simplesect" text="“%t”"/>
 </l:context>
 <l:context name="xref-number"><l:template name="answer" text="A: %n"/>
 <l:template name="appendix" text="Appendix %n"/>
@@ -521,17 +521,17 @@
 <l:template name="procedure" text="Procedure %n, “%t”"/>
 <l:template name="productionset" text="Production %n, “%t”"/>
 <l:template name="qandadiv" text="Q &amp; A %n, “%t”"/>
-<l:template name="refsect1" text="the section called “%t”"/>
-<l:template name="refsect2" text="the section called “%t”"/>
-<l:template name="refsect3" text="the section called “%t”"/>
-<l:template name="refsection" text="the section called “%t”"/>
+<l:template name="refsect1" text="“%t”"/>
+<l:template name="refsect2" text="“%t”"/>
+<l:template name="refsect3" text="“%t”"/>
+<l:template name="refsection" text="“%t”"/>
 <l:template name="sect1" text="Section %n, “%t”"/>
 <l:template name="sect2" text="Section %n, “%t”"/>
 <l:template name="sect3" text="Section %n, “%t”"/>
 <l:template name="sect4" text="Section %n, “%t”"/>
 <l:template name="sect5" text="Section %n, “%t”"/>
 <l:template name="section" text="Section %n, “%t”"/>
-<l:template name="simplesect" text="the section called “%t”"/>
+<l:template name="simplesect" text="“%t”"/>
 <l:template name="table" text="Table %n, “%t”"/>
 </l:context>
 <l:context name="authorgroup"><l:template name="sep" text=", "/>
