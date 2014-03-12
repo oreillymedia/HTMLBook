@@ -1,4 +1,4 @@
-== HTMLBook Specification: Working Draft 13 August 2013
+== HTMLBook Specification: Working Draft (last updated 29 December 2013)
 
 Requirements for HTML5 elements in the HTMLBook specification are below. Special semantic inflections for +data-type+ attributes, unless otherwise noted, come from http://idpf.org/epub/vocab/structure/[EPUB 3 Structural Semantics Vocabulary]
 
@@ -8,11 +8,15 @@ If no content model or attribute requirements are explicitly specified, then HTM
 
 === Revision History and Notes
 
-13 August 2013: Third release of Working Draft
+29 December 2013: 
+
+* Minor revisions for clarity
+
+13 August 2013:
 
 * Revised specification for footnote markup
 
-3 July 2013: Second release of Working Draft
+3 July 2013:
 
 * Changed spec to use the attribute "data-type" for specifying book-specific semantics instead of "class". The "class" attribute is 
 now free to be used for whatever user-defined semantics are desired, and there are no restrictions on "class" values. Users of the spec  may want to replicate "data-type" values in the "class" attribute to facilitate CSS styling, but this is completely optional.
@@ -755,7 +759,9 @@ Example:
 
 *HTML element*: +<canvas>+
 
-*Note*: Should include fallbacks for environments that don't support HTML5 or JavaScript (e.g., link or image).
+*Notes*: Should include fallbacks for environments that don't support HTML5 or JavaScript (e.g., link or image). 
+You may include +<script>+ elements in your HTMLBook document +<head>+ elements to include/reference JS code for
+Canvas handling.
 
 *Examples*:
 

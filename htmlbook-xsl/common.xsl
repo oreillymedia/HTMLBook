@@ -292,22 +292,22 @@
     <xsl:choose>
       <!-- I wish XSL allowed variables in @format attribute -->
       <xsl:when test="$calculated-numeration-format = '1'">
-	<xsl:number count="*[@data-type = $data-type]" format="1"/>
+	<xsl:number count="*[@data-type = $data-type]" format="1" level="any"/>
       </xsl:when>
       <xsl:when test="$calculated-numeration-format = '01'">
-	<xsl:number count="*[@data-type = $data-type]" format="01"/>
+	<xsl:number count="*[@data-type = $data-type]" format="01" level="any"/>
       </xsl:when>
       <xsl:when test="$calculated-numeration-format = 'a'">
-	<xsl:number count="*[@data-type = $data-type]" format="a"/>
+	<xsl:number count="*[@data-type = $data-type]" format="a" level="any"/>
       </xsl:when>
       <xsl:when test="$calculated-numeration-format = 'A'">
-	<xsl:number count="*[@data-type = $data-type]" format="A"/>
+	<xsl:number count="*[@data-type = $data-type]" format="A" level="any"/>
       </xsl:when>
       <xsl:when test="$calculated-numeration-format = 'i'">
-	<xsl:number count="*[@data-type = $data-type]" format="i"/>
+	<xsl:number count="*[@data-type = $data-type]" format="i" level="any"/>
       </xsl:when>
       <xsl:when test="$calculated-numeration-format = 'I'">
-	<xsl:number count="*[@data-type = $data-type]" format="I"/>
+	<xsl:number count="*[@data-type = $data-type]" format="I" level="any"/>
       </xsl:when>
       <xsl:when test="$calculated-numeration-format = 'none'"/>
       <xsl:otherwise>

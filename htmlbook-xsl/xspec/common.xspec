@@ -6,6 +6,17 @@
 	       xmlns:h="http://www.w3.org/1999/xhtml"
                stylesheet="../htmlbook.xsl">
 
+  <x:param name="label.numeration.by.data-type">
+appendix:A
+chapter:1
+part:I
+sect1:a
+sect2:none
+sect3:none
+sect4:none
+sect5:none
+  </x:param>
+
   <!-- Test suite for common.xsl -->
 
   <!-- Title markup tests -->
@@ -31,6 +42,191 @@
     </x:context>
     <x:expect label="Copy the child content of the first h1-h6 as is">XPath <em>is</em> <strong>the bestest</strong></x:expect>
   </x:scenario>
+
+  <!-- Label markup tests -->
+  <!-- This section's tests based on values in label.numeration.by.data-type global param -->
+  <x:scenario label="When generating a label for a section (chapter)">
+    <x:context mode="label.markup" select="/h:body/h:section[@data-type='chapter'][2]">
+      <body>
+	<section data-type="chapter">
+	  <h1>First one!</h1>
+	  <p>Yup!</p>
+	</section>
+	<section data-type="chapter">
+	  <h1>Second one!</h1>
+	  <p>Yeah!</p>
+	</section>
+	<section data-type="appendix">
+	  <h1>Appendix, yo!</h1>
+	  <p>You betcha!</p>
+	</section>
+      </body>
+    </x:context>
+    <!-- check the result -->
+    <x:expect label="The appropriate numeration value should be generated">2</x:expect>
+  </x:scenario>
+
+  <x:scenario label="When generating a label for a part div">
+    <x:context mode="label.markup" select="/h:body/h:div[@data-type='part'][3]">
+      <body>
+	<div data-type="part">
+	  <h1>Prefaces!</h1>
+	  <section data-type="preface">
+	    <h1>First one!</h1>
+	    <p>Yup!</p>
+	  </section>
+	</div>
+	<div data-type="part">
+	  <h1>Chapters!</h1>
+	  <section data-type="chapter">
+	    <h1>Love this sample markup!</h1>
+	    <p>Oh yeah!</p>
+	  </section>
+	</div>
+	<div data-type="part">
+	  <h1>Appendixes</h1>
+	  <section data-type="appendix">
+	    <h1>Why plural? There's only one here!</h1>
+	    <p>D'oh!</p>
+	  </section>
+	</div>
+      </body>
+    </x:context>
+    <!-- check the result -->
+    <x:expect label="The appropriate numeration value should be generated">III</x:expect>
+  </x:scenario>
+
+  <x:scenario label="When generating a label for a lower-level section">
+    <x:context mode="label.markup" select="/h:section[@data-type='chapter']/h:section[@data-type='sect1'][1]">
+      <section data-type="chapter">
+	<h1>Lots of sect1s in this one</h1>
+	<section data-type="sect1">
+	  <h1>First subheading</h1>
+	  <p>Un!</p>
+	</section>
+	<section data-type="sect1">
+	  <h1>Second subheading</h1>
+	  <p>Deux!</p>
+	</section>
+	<section data-type="sect1">
+	  <h1>Third subheading</h1>
+	  <p>Trois!</p>
+	</section>
+      </section>
+    </x:context>
+    <!-- check the result -->
+    <x:expect label="The appropriate numeration value should be generated">a</x:expect>
+  </x:scenario>
+
+  <x:scenario label="When generating a label for a section with no label specified in params">
+    <x:context mode="label.markup" select="/h:section[@data-type='chapter']/h:section[@data-type='sect1'][2]/h:section[@data-type='sect2'][1]">
+      <section data-type="chapter">
+	<h1>Lots of sect1s in this one</h1>
+	<section data-type="sect1">
+	  <h1>First subheading</h1>
+	  <p>Un!</p>
+	</section>
+	<section data-type="sect1">
+	  <h1>Second subheading</h1>
+	  <p>Deux!</p>
+	  <section data-type="sect2">
+	    <h2>Sub-subheading</h2>
+	    <p>Woohoo!</p>
+	  </section>
+	</section>
+	<section data-type="sect1">
+	  <h1>Third subheading</h1>
+	  <p>Trois!</p>
+	</section>
+      </section>
+    </x:context>
+    <!-- check the result -->
+    <x:expect label="The appropriate numeration value should be generated" select="()"/>
+  </x:scenario>
+
+  <x:scenario label="When generating a label for a section (chapter) in a part">
+    <x:context mode="label.markup" select="/h:body/h:div[@data-type='part'][2]/h:section[@data-type='chapter'][1]">
+      <body>
+	<div data-type="part">
+	  <h1>First set o chapters!</h1>
+	  <section data-type="chapter">
+	    <h1>First one!</h1>
+	    <p>Yup!</p>
+	  </section>
+	  <section data-type="chapter">
+	    <h1>Second one!</h1>
+	    <p>Oh yeah!</p>
+	  </section>
+	</div>
+	<div data-type="part">
+	  <h1>Second set o chapters</h1>
+	  <section data-type="chapter">
+	    <h1>Third one!</h1>
+	    <p>Hooray!</p>
+	  </section>
+	</div>
+      </body>
+    </x:context>
+    <x:expect label="The appropriate numeration value should be generated (absolute, not relative to part)">3</x:expect>
+  </x:scenario>
+
+  <x:pending>
+
+    <x:scenario label="When generating a label for a part div with label.section.with.ancestors enabled">
+      <x:context>
+      </x:context>
+      <x:expect label="The appropriate numeration value should be generated"/>
+    </x:scenario>
+
+    <x:scenario label="When generating a label for a section (chapter) with label.section.with.ancestors enabled">
+      <x:context>
+      </x:context>
+      <x:expect label="The appropriate numeration value should be generated"/>
+    </x:scenario>
+
+    <x:scenario label="When generating a label for a section (subsection) with label.section.with.ancestors enabled">
+      <x:context>
+      </x:context>
+      <x:expect label="The appropriate numeration value should be generated"/>
+    </x:scenario>
+
+    <x:scenario label="When generating a label for a figure">
+      <x:context>
+      </x:context>
+      <x:expect label="The appropriate numeration value should be generated"/>
+    </x:scenario>
+
+    <x:scenario label="When generating a label for a figure (label.formal.with.ancestor = false)">
+      <x:context>
+      </x:context>
+      <x:expect label="The appropriate numeration value should be generated"/>
+    </x:scenario>
+
+    <x:scenario label="When generating a label for a table">
+      <x:context>
+      </x:context>
+      <x:expect label="The appropriate numeration value should be generated"/>
+    </x:scenario>
+
+    <x:scenario label="When generating a label for a table (label.formal.with.ancestor = false)">
+      <x:context>
+      </x:context>
+      <x:expect label="The appropriate numeration value should be generated"/>
+    </x:scenario>
+
+    <x:scenario label="When generating a label for an example">
+      <x:context>
+      </x:context>
+      <x:expect label="The appropriate numeration value should be generated"/>
+    </x:scenario>
+
+    <x:scenario label="When generating a label for an example (label.formal.with.ancestor = false)">
+      <x:context>
+      </x:context>
+      <x:expect label="The appropriate numeration value should be generated"/>
+    </x:scenario>
+
+  </x:pending>
 
   <!-- Heading processing templates -->
   <x:scenario label="When process-headings is run on a section heading with $autogenerate.labels turned off">
