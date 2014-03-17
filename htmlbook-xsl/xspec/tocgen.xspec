@@ -12,7 +12,7 @@
   <x:param name="toc-placeholder-overwrite-contents" select="0"/>
 
   <x:scenario label="When *empty* TOC nav element is matched">
-    <x:context select="//h:nav[1]">
+    <x:context select="(//h:nav)[1]">
       <body>
 	<nav data-type="toc"/>
 	<section id="chapter" data-type="chapter">
@@ -42,7 +42,7 @@
   </x:scenario>
   
   <x:scenario label="When *nonempty* TOC nav element is matched">
-    <x:context select="//h:nav[1]">
+    <x:context select="(//h:nav)[1]">
       <body>
 	<nav data-type="toc">
 	  <h1>Manual TOC</h1>
@@ -122,7 +122,7 @@
   </x:scenario>
 
   <x:scenario label="When a TOC is generated with a scope specified">
-    <x:context href="skeleton.html" select="//h:nav[@data-type='toc'][1]">
+    <x:context href="skeleton.html" select="(//h:nav[@data-type='toc'])[1]">
       <x:param name="autogenerate-toc" select="1"/>
       <x:param name="scope" select="(document('../skeleton.html')//h:section[@data-type='sect1'])[1]"/>
     </x:context>
@@ -136,39 +136,50 @@
   </x:scenario>
   
   <x:scenario label="When a standard book-level section (chapter) is matched in tocgen mode">
-    <x:context href="skeleton.html" select="//h:section[@data-type='chapter'][1]" mode="tocgen"/>
+    <x:context href="skeleton.html" select="(//h:section[@data-type='chapter'])[1]" mode="tocgen"/>
     <x:expect label="An entry 'li' should be generated">
       <li data-type="chapter"><a href="...">...</a>...</li>
     </x:expect>
   </x:scenario>
 
   <x:scenario label="When a standard book-level section (part) is matched in tocgen mode">
-    <x:context href="skeleton.html" select="//h:section[@data-type='part'][1]" mode="tocgen"/>
+    <x:context href="skeleton.html" select="(//h:div[@data-type='part'])[1]" mode="tocgen"/>
     <x:expect label="An entry 'li' should be generated">
       <li data-type="part"><a href="...">...</a>...</li>
     </x:expect>
   </x:scenario>
-
-  <x:pending>
   
-  <x:scenario label="When a subsection within the toc.section.depth is matched in tocgen mode">
-    <x:context/>
-    <x:expect label="An entry 'li' should be generated"/>
+ <x:scenario label="When a subsection within the toc.section.depth is matched in tocgen mode">
+    <x:context href="skeleton.html" select="(//h:section[@data-type='sect1'])[1]" mode="tocgen">
+      <x:param name="toc.section.depth" select="1"/>
+    </x:context>
+    <x:expect label="An entry 'li' should be generated">
+      <li data-type="sect1"><a href="...">...</a></li>
+    </x:expect>
   </x:scenario>
 
   <x:scenario label="When a subsection at greater depth than the toc.section.depth is matched in tocgen mode">
-    <x:context/>
-    <x:expect label="An entry 'li' *should not* be generated"/>
+    <x:context href="skeleton.html" select="(//h:section[@data-type='sect2'])[1]" mode="tocgen">
+      <x:param name="toc.section.depth" select="1"/>
+    </x:context>
+    <x:expect label="An entry 'li' *should not* be generated" select="()"/>
   </x:scenario>
   
   <x:scenario label="When a nonsection is matched in tocgen mode">
-    <x:context/>
-    <x:expect label="An entry 'li' *should not* be generated"/>
+    <x:context href="skeleton.html" select="(//h:p)[1]" mode="tocgen"/>
+    <x:expect label="An entry 'li' *should not* be generated" select="()"/>
   </x:scenario>
 
-  <x:scenario label="When toc-title is called">
-    <x:call name="toc-title"/>
-    <x:expect label="it should return the proper TOC title"/>
-  </x:scenario>    
+  <x:scenario label="When toc-title is called for English-language content (default)">
+    <x:call template="toc-title"/>
+    <x:expect label="it should return the proper TOC title">Table of Contents</x:expect>
+  </x:scenario>
+
+  <x:pending>
+    <x:scenario label="When toc-title is called for non-English-language content">
+      <!-- For this test, would need to further parameterize get-localization-value so that you could grab a different localization for the test -->
+      <x:call template="toc-title"/>
+      <x:expect label="it should return the proper TOC title"/>
+    </x:scenario>
   </x:pending>
 </x:description>
