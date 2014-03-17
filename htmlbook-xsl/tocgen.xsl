@@ -13,10 +13,12 @@
 
   <!-- Default rule for TOC generation -->
   <xsl:template match="*" mode="tocgen">
+    <xsl:param name="toc.section.depth" select="$toc.section.depth"/>
     <xsl:apply-templates select="*" mode="tocgen"/>
   </xsl:template>
 
   <xsl:template match="h:section[not(@data-type = 'dedication' or @data-type = 'titlepage' or @data-type = 'toc' or @data-type = 'colophon' or @data-type = 'copyright-page' or @data-type = 'halftitlepage')]|h:div[@data-type='part']" mode="tocgen">
+    <xsl:param name="toc.section.depth" select="$toc.section.depth"/>
     <xsl:choose>
       <!-- Don't output entry for section elements at a level that is greater than specified $toc.section.depth -->
       <xsl:when test="self::h:section[contains(@data-type, 'sect') and htmlbook:section-depth(.) != '' and htmlbook:section-depth(.) &gt; $toc.section.depth]"/>
@@ -57,6 +59,9 @@
   <xsl:template match="h:nav[@data-type='toc']" name="generate-toc">
     <xsl:param name="toc.node" select="."/>
     <xsl:param name="scope" select="/*"/>
+    <xsl:param name="autogenerate-toc" select="$autogenerate-toc"/>
+    <xsl:param name="toc-placeholder-overwrite-contents" select="$toc-placeholder-overwrite-contents"/>
+
     <!-- Just switch context to $toc.node, so we don't have to reference the variable in rest of template -->
     <xsl:for-each select="$toc.node">
       <xsl:choose>

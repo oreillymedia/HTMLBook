@@ -604,7 +604,7 @@
     <xsl:for-each select="$element-descendants[1]">
       <xsl:choose>
 	<!-- Check if the element's nearest chunk ancestor is the chunk in question... -->
-	<xsl:when test="ancestor::*[htmlbook:is-chunk(.) = 1 and not(descendant::*[htmlbook:is-chunk(.) = 1][descendant::*[generate-id() = generate-id($element-descendants[1])]])][generate-id() = $chunk-id]">
+	<xsl:when test="ancestor::*[htmlbook:is-chunk(., $chunk.level) = 1 and not(descendant::*[htmlbook:is-chunk(., $chunk.level) = 1][descendant::*[generate-id() = generate-id($element-descendants[1])]])][generate-id() = $chunk-id]">
 	  <!--...It is: We have $element-name in this chunk! -->
 	  <xsl:text>1</xsl:text>
 	</xsl:when>

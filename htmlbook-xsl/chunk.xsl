@@ -20,7 +20,7 @@
               encoding="UTF-8"/>
   <xsl:preserve-space elements="*"/>
 
-  <xsl:key name="chunks" match="h:section|h:div[@data-type='part']|h:nav[@data-type='toc']" use="htmlbook:is-chunk(.)"/>
+  <xsl:key name="chunks" match="h:section|h:div[@data-type='part']|h:nav[@data-type='toc']" use="htmlbook:is-chunk(., $chunk.level)"/>
 
   <!-- Nodeset of all chunks in this document -->
   <xsl:variable name="chunks" select="key('chunks', '1')"/> <!-- All chunks have an is-chunk() value of 1 -->
@@ -76,7 +76,7 @@ sect5:s
   </xsl:template>
        
   <xsl:template match="h:section|h:div[contains(@data-type, 'part')]|h:nav[contains(@data-type, 'toc')]">
-    <xsl:variable name="is.chunk" select="htmlbook:is-chunk(.)"/>
+    <xsl:variable name="is.chunk" select="htmlbook:is-chunk(., $chunk.level)"/>
     <!-- <xsl:message>Element name: <xsl:value-of select="local-name()"/>, data-type name: <xsl:value-of select="@data-type"/>, Is chunk: <xsl:value-of select="$is.chunk"/></xsl:message> -->
     <xsl:choose>
       <xsl:when test="$is.chunk = 1">
@@ -138,7 +138,7 @@ sect5:s
 	  <!-- Root Chunk! Needs $outputdir in full file path-->
 	  <xsl:value-of select="concat($outputdir, $chars-to-append-to-outputdir)"/>
 	</xsl:when>
-	<xsl:when test="$outputdir != '' and not($generate.root.chunk = 1) and not($chunk[ancestor::*[htmlbook:is-chunk(.) = 1]])">
+	<xsl:when test="$outputdir != '' and not($generate.root.chunk = 1) and not($chunk[ancestor::*[htmlbook:is-chunk(., $chunk.level) = 1]])">
 	  <!-- $outputdir is specified and *is not* absolute filepath, 
 	       and generate.root.chunk is not specified (if it is, then previous "when" will set the outputdir properly),
 	       and chunk *is not* a nested chunk -->
@@ -286,7 +286,7 @@ sect5:s
 
       <!-- Check to see if parent is also chunk, in which case, call template recursively -->
       <xsl:variable name="parent-node" select="parent::*"/>
-      <xsl:variable name="parent-is-chunk" select="htmlbook:is-chunk($parent-node)"/>
+      <xsl:variable name="parent-is-chunk" select="htmlbook:is-chunk($parent-node, $chunk.level)"/>
       <xsl:if test="$parent-is-chunk = '1'">
 	<xsl:call-template name="output-filename-for-chunk">
 	  <xsl:with-param name="node" select="$parent-node"/>
@@ -445,7 +445,7 @@ sect5:s
   <xsl:template name="filename-for-node">
     <xsl:param name="node"/>
 
-    <xsl:variable name="chunk.node" select="htmlbook:chunk-for-node($node)"/>
+    <xsl:variable name="chunk.node" select="htmlbook:chunk-for-node($node, $chunks)"/>
 
     <!-- Now get filename for chunk -->
     <xsl:variable name="chunk-filename">
@@ -472,7 +472,7 @@ sect5:s
   <xsl:template name="generate-footnotes">
 
     <!-- Only generate footnotes if the current node is a chunk -->
-    <xsl:if test="htmlbook:is-chunk(.)">
+    <xsl:if test="htmlbook:is-chunk(., $chunk.level)">
 
       <xsl:variable name="all-footnotes" select="//h:span[@data-type='footnote']"/>
 
@@ -535,8 +535,8 @@ sect5:s
     <xsl:param name="chunk.node" select="parent::*"/>
 
     <xsl:choose>
-      <xsl:when test="htmlbook:chunk-for-node($chunk.node)">
-	<xsl:variable name="current.chunk" select="htmlbook:chunk-for-node($chunk.node)"/>
+      <xsl:when test="htmlbook:chunk-for-node($chunk.node, $chunks)">
+	<xsl:variable name="current.chunk" select="htmlbook:chunk-for-node($chunk.node, $chunks)"/>
 	<xsl:variable name="previous.chunk" select="$chunks[descendant::*[generate-id(.) = generate-id($current.chunk)]|
 						            following::*[generate-id(.) = generate-id($current.chunk)]][last()]"/>
 	<xsl:if test="$previous.chunk">
@@ -570,8 +570,8 @@ sect5:s
     <xsl:param name="chunk.node" select="parent::*"/>
 
     <xsl:choose>
-      <xsl:when test="htmlbook:chunk-for-node($chunk.node)">
-	<xsl:variable name="current.chunk" select="htmlbook:chunk-for-node($chunk.node)"/>
+      <xsl:when test="htmlbook:chunk-for-node($chunk.node, $chunks)">
+	<xsl:variable name="current.chunk" select="htmlbook:chunk-for-node($chunk.node, $chunks)"/>
 	<xsl:variable name="next.chunk" select="$chunks[ancestor::*[generate-id(.) = generate-id($current.chunk)]|
 						            preceding::*[generate-id(.) = generate-id($current.chunk)]][1]"/>
 	<xsl:if test="$next.chunk">

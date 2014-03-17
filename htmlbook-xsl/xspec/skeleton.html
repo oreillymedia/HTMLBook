@@ -6,7 +6,7 @@
     <meta name="publisher" content="O'Reilly Media"/>
     <meta name="creator" content="Sanders Kleinfeld"/>
   </head>
-  <body>
+  <body data-type="book">
     <!-- cover image -->
     <figure data-type="cover">
       <img src="cover.jpg"/>
@@ -27,7 +27,7 @@
       <h1>Preface</h1>
       <p>This is the Preface</p>
       <p>SVG element:</p>
-      <svg xmlns="http://www.w3.org/2000/svg"/>
+      <svg xmlns="http://www.w3.org/2000/svg" width="10" height="20"/>
       <section data-type="sect1">
 	<h1>Important Prerequisite Info</h1>
 	<p>You must know&hellip;</p>
@@ -121,13 +121,16 @@
 	</section>
       </section>
     </section>
-    <section data-type="glossary">
-      <h1>Glossary</h1>
-      <p>This would be a glossary, if it had any content!</p>
-    </section>
-    <section data-type="bibliography">
-      <h1>Bibliography</h1>
-      <p>This would be a bibliography, if it had any content!</p>
-    </section>
+    <div data-type="part">
+      <h1>Backmatter!!!</h1>
+      <section data-type="glossary">
+	<h1>Glossary</h1>
+	<p>This would be a glossary, if it had any content!</p>
+      </section>
+      <section data-type="bibliography">
+	<h1>Bibliography</h1>
+	<p>This would be a bibliography, if it had any content!</p>
+      </section>
+    </div>
   </body>
 </html>
