@@ -8,6 +8,7 @@
 	       xmlns:e="http://github.com/oreillymedia/epubrenderer"
                stylesheet="../htmlbook.xsl">
 
+  <!-- Tests around text nodes for formal XREF elements (those with data-type='xref') -->
   <x:scenario label="When *empty* XREF element is matched">
     <x:context select="(//h:section//h:a[@data-type='xref'])[1]">
       <section id="chapter1" data-type="chapter">
@@ -64,9 +65,98 @@
     </x:scenario>
   </x:scenario>
 
-    <!-- Tests for nonempty XREF element with autogenerate xrefs enabled and autogenerate xrefs disabled -->
+  <x:scenario label="When an XREF points to an id in another location">
+    <x:context>
+      <section id="chapter1" data-type="chapter">
+	<p>Here comes an XREF with an href pointing to another file: <a data-type="xref" id="empty_another_file" href="ch01.html#chapter1"/></p>
+	<p>Another XREF with an href pointing to another file: <a data-type="xref" id="nonempty_another_file" href="ch01.html#chapter1">PLACEHOLDER</a></p>
+	<p>XREF pointing to a URL <a data-type="xref" id="empty_web_url" href="http://oreilly.com/index.html#chapter1"/></p>
+	<p>Another XREF with an href pointing to another file: <a data-type="xref" id="nonempty_web_url" href="http://oreilly.com/index.html#chapter1">PLACEHOLDER</a></p>
+      </section>
+    </x:context>
+
+    <x:scenario label="Which is another local file (text node of XREF empty)">
+      <x:context select="//h:a[@id='empty_another_file']"/>
+      <!-- Content based on params set globally for this spec doc and localization gentext -->
+      <!-- If localizations change, test may produce false negative -->
+      <x:expect label="XREF text node should be generated with proper content">
+	<a data-type="xref" id="empty_another_file" href="...">Chapter 1</a>
+      </x:expect>
+    </x:scenario>
+
+    <x:scenario label="Which is another local file (text node of XREF nonempty)">
+      <x:context select="//h:a[@id='nonempty_another_file']"/>
+      <!-- Content based on params set globally for this spec doc and localization gentext -->
+      <!-- If localizations change, test may produce false negative -->
+      <x:expect label="XREF text node should be generated with proper content">
+	<a data-type="xref" id="nonempty_another_file" href="...">Chapter 1</a>
+      </x:expect>
+    </x:scenario>
+
+    <!-- For now, we're arguing that if the @href value is not a legit XREF, 
+	 that should override the fact that data-type="xref" is on the <a> -->
+    <x:scenario label="Which is a Web URL instead of a valid XREF (text node empty)">
+      <x:context select="//h:a[@id='empty_web_url']"/>
+      <x:expect label="XREF text node should be left untouched">
+	<a data-type="xref" id="empty_web_url" href="http://oreilly.com/index.html#chapter1"/>
+      </x:expect>
+    </x:scenario>
+
+    <x:scenario label="Which is a Web URL instead of a valid XREF (text node nonempty)">
+      <x:context select="//h:a[@id='nonempty_web_url']"/>
+      <x:expect label="XREF text node should be left untouched">
+	<a data-type="xref" id="nonempty_web_url" href="http://oreilly.com/index.html#chapter1">PLACEHOLDER</a>
+      </x:expect>
+    </x:scenario>
+
+  </x:scenario>
+
+
+  <x:scenario label="When an XREF has a bogus href">
+    <x:context>
+      <section id="chapter1" data-type="chapter">
+	<p>Here comes a bogus cross-reference: see <a data-type="xref" id="empty_bogus" href="#bogusbogus"/></p>
+	<p>Another bogus cross-referece: see <a data-type="xref" id="empty_file_bogus" href="ch01.html#bogus"/></p>
+	<p>Third bogus cross-reference: see <a data-type="xref" id="nonempty_bogus" href="#bogusbogus">I do believe this is bogus</a></p>
+	<p>Fourth bogus cross-reference: See <a data-type="xref" id="nonempty_file_bogus" href="ch01.html#bogus">I do believe this is bogus</a></p>
+      </section>
+    </x:context>
+    
+    <x:scenario label="And an empty text node">
+      <x:context select="//h:a[@id='empty_bogus']"/>
+      <x:expect label="Three question marks should be used for text node">
+	<a data-type="xref" id="empty_bogus" href="#bogusbogus">???</a>
+      </x:expect>
+    </x:scenario>
+
+    <x:scenario label="Referencing another file and has an empty text node">
+      <x:context select="//h:a[@id='empty_file_bogus']"/>
+      <x:expect label="Three question marks should be used for text node">
+	<a data-type="xref" id="empty_file_bogus" href="ch01.html#bogus">???</a>
+      </x:expect>
+    </x:scenario>
+
+    <x:scenario label="And a nonempty text node">
+      <x:context select="//h:a[@id='nonempty_bogus']"/>
+      <x:expect label="Three question marks should be used for text node">
+	<a data-type="xref" id="nonempty_bogus" href="#bogusbogus">???</a>
+      </x:expect>
+    </x:scenario>
+
+    <x:scenario label="Referencing another file and has a nonempty text node">
+      <x:context select="//h:a[@id='nonempty_file_bogus']"/>
+      <x:expect label="Three question marks should be used for text node">
+	<a data-type="xref" id="nonempty_file_bogus" href="ch01.html#bogus">???</a>
+      </x:expect>
+    </x:scenario>
+  </x:scenario>
+
+
+  <!-- Tests on text nodes for non data-type="xref" hrefs -->
+  <!-- Tests for hrefs on all types of a elems -->
+
     <!-- Tests for a element without data-type="xref" to ensure @href is updated as desired -->
-    <!-- Tests for XREF with bogus href -->
+
     <!-- Tests for a elements that have HREFs with a cross-reference (data-type="link" or href without a URL scheme and with a #) -->
 
 </x:description>
