@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               xmlns:functx="http://www.functx.com"
+	       xmlns="http://www.w3.org/1999/xhtml"
+	       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+	       xmlns:h="http://www.w3.org/1999/xhtml"
+	       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+               stylesheet="../htmlbook.xsl">
+
+  <x:scenario label="When *empty* XREF element is matched">
+    <x:context select="(//h:section//h:a[@data-type='xref'])[1]">
+      <section id="chapter1" data-type="chapter">
+	<p>Here comes a cross-reference: see <a data-type="xref" href="#chapter1"/></p>
+      </section>
+    </x:context>
+    
+    <x:scenario label="And autogenerate-xrefs param is disabled">
+      <x:context>
+	<x:param name="autogenerate-xrefs" select="0"/>
+      </x:context>
+      <x:expect label="No XREF text node should be generated">
+	<a data-type="xref" href="#chapter1"/>
+      </x:expect>
+    </x:scenario>
+    
+    <x:scenario label="And autogenerate-xrefs param is enabled">
+      <x:context>
+	<x:param name="autogenerate-xrefs" select="1"/>
+      </x:context>
+      <!-- Content based on params set globally for this spec doc and localization gentext -->
+      <!-- If localizations change, test may produce false negative -->
+      <x:expect label="XREF text node should be generated with proper content">
+	<a data-type="xref" href="#chapter1">Chapter 1</a>
+      </x:expect>
+    </x:scenario>    
+  </x:scenario>
+
+  <x:scenario label="When *nonempty* XREF element is matched">
+    <x:context select="(//h:section//h:a[@data-type='xref'])[1]">
+      <section id="chapter1" data-type="chapter">
+	<p>Here comes a cross-reference: see <a data-type="xref" href="#chapter1">PLACEHOLDER</a></p>
+      </section>
+    </x:context>
+    
+    <x:scenario label="And autogenerate-xrefs param is disabled">
+      <x:context>
+	<x:param name="autogenerate-xrefs" select="0"/>
+      </x:context>
+      <x:expect label="No XREF text node should be generated">
+	<a data-type="xref" href="#chapter1">PLACEHOLDER</a>
+      </x:expect>
+    </x:scenario>
+
+    <x:scenario label="And autogenerate-xrefs param is enabled">
+      <x:context>
+	<x:param name="autogenerate-xrefs" select="1"/>
+      </x:context>
+      <!-- Content based on params set globally for this spec doc and localization gentext -->
+      <!-- If localizations change, test may produce false negative -->
+      <x:expect label="XREF text node should be generated with proper content">
+	<a data-type="xref" href="#chapter1">Chapter 1</a>
+      </x:expect>
+    </x:scenario>
+  </x:scenario>
+
+    <!-- Tests for nonempty XREF element with autogenerate xrefs enabled and autogenerate xrefs disabled -->
+    <!-- Tests for a element without data-type="xref" to ensure @href is updated as desired -->
+    <!-- Tests for XREF with bogus href -->
+    <!-- Tests for a elements that have HREFs with a cross-reference (data-type="link" or href without a URL scheme and with a #) -->
+
+</x:description>
