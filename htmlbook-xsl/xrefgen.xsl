@@ -18,6 +18,7 @@
 
   <!-- All XREFs must be tagged with a @data-type containing XREF -->
   <xsl:template match="h:a[contains(@data-type, 'xref')]">
+    <xsl:param name="autogenerate-xrefs" select="$autogenerate-xrefs"/>
     <xsl:variable name="href-anchor">
       <xsl:choose>
 	<!-- If href contains an # (as it should), we're going to assume the subsequent text is the referent id -->
@@ -33,8 +34,8 @@
     <xsl:copy>
       <xsl:apply-templates select="@*"/>
 	<xsl:choose>
-	  <!-- Generate XREF text node if <a> is either empty or $xref-placeholder-overwrite-contents = 1 -->
-	  <xsl:when test="$autogenerate-xrefs = 1 and (. = '' or $xref-placeholder-overwrite-contents = 1)">
+	  <!-- Generate XREF text node if $autogenerate-xrefs is enabled -->
+	  <xsl:when test="$autogenerate-xrefs = 1">
 	    <xsl:choose>
 	      <!-- If we can locate the target, process gentext with "xref-to" -->
 	      <xsl:when test="count(key('id', $href-anchor)) > 0">
@@ -225,7 +226,7 @@
 <!-- ============================================================ -->
 
 <!-- Adapted from docbook-xsl templates in common/gentext.xsl -->
-<!-- For reasons of simplicity and relevancy, only supporting %n, %t, and %d substitutions -->
+<!-- For reasons of simplicity and relevance, only supporting %n, %t, and %d substitutions -->
 <xsl:template name="substitute-markup">
   <xsl:param name="template" select="''"/>
   <xsl:param name="allow-anchors" select="'0'"/>

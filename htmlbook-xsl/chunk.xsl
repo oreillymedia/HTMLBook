@@ -360,8 +360,8 @@ sect5:s
 	</xsl:otherwise>
       </xsl:choose>
       <xsl:choose>
-	<!-- Generate XREF text node if <a> is either empty or $xref-placeholder-overwrite-contents = 1 -->
-	<xsl:when test="$autogenerate-xrefs = 1 and (. = '' or $xref-placeholder-overwrite-contents = 1)">
+	<!-- Generate XREF text node if $autogenerate-xrefs is enabled -->
+	<xsl:when test="$autogenerate-xrefs = 1">
 	  <xsl:choose>
 	    <!-- If we can locate the target, process gentext with "xref-to" -->
 	    <xsl:when test="count(key('id', $href-anchor)) > 0">
