@@ -151,12 +151,66 @@
     </x:scenario>
   </x:scenario>
 
+  <!-- Tests for whether an HREF is considered to be an XREF (link within the same corpus) -->
+  <x:scenario label="If an href starts with a '#'">
+    <x:call template="href-is-xref">
+      <x:param name="href-value" select="'#whatever'"/>
+    </x:call>
+    <x:expect label="It is considered to be an XREF">1</x:expect>
+  </x:scenario>
+
+  <x:scenario label="If an href contains a '://' scheme (http://)">
+    <x:call template="href-is-xref">
+      <x:param name="href-value" select="'http://oreilly.com'"/>
+    </x:call>
+    <x:expect label="It *is not* considered to be an XREF">0</x:expect>
+  </x:scenario>
+
+  <x:scenario label="If an href contains a '://' scheme (https://)">
+    <x:call template="href-is-xref">
+      <x:param name="href-value" select="'https://github.com'"/>
+    </x:call>
+    <x:expect label="It *is not* considered to be an XREF">0</x:expect>
+  </x:scenario>
+
+  <x:scenario label="If an href contains a '://' scheme (ftp://)">
+    <x:call template="href-is-xref">
+      <x:param name="href-value" select="'ftp://ftp.ora.com'"/>
+    </x:call>
+    <x:expect label="It *is not* considered to be an XREF">0</x:expect>
+  </x:scenario>
+
+  <x:scenario label="If an href contains a mailto: link">
+    <x:call template="href-is-xref">
+      <x:param name="href-value" select="'mailto:atlas@oreilly.com'"/>
+    </x:call>
+    <x:expect label="It *is not* considered to be an XREF">0</x:expect>
+  </x:scenario>
+
+  <x:scenario label="If an href contains a local fileref+id ref">
+    <x:call template="href-is-xref">
+      <x:param name="href-value" select="'ch01.html#cookies'"/>
+    </x:call>
+    <x:expect label="It is considered to be an XREF">1</x:expect>
+  </x:scenario>
+
+  <x:scenario label="If an href contains a local fileref (no id ref)">
+    <x:call template="href-is-xref">
+      <x:param name="href-value" select="'ch01.html'"/>
+    </x:call>
+    <x:expect label="It is considered to be an XREF">1</x:expect>
+  </x:scenario>
+
+  <x:scenario label="If an href contains any-old text but no URL scheme">
+    <x:call template="href-is-xref">
+      <x:param name="href-value" select="'i_guess_this_is_an_xref'"/>
+    </x:call>
+    <x:expect label="It is considered to be an XREF">1</x:expect>
+  </x:scenario>
 
   <!-- Tests on text nodes for non data-type="xref" hrefs -->
   <!-- Tests for hrefs on all types of a elems -->
-
     <!-- Tests for a element without data-type="xref" to ensure @href is updated as desired -->
-
     <!-- Tests for a elements that have HREFs with a cross-reference (data-type="link" or href without a URL scheme and with a #) -->
 
 </x:description>

@@ -485,4 +485,17 @@
   </xsl:choose>
 </xsl:template>
 
+<!-- Utility template for determining whether an @href is a valid XREF -->
+<!-- Returns 1 if href is an XREF, and 0 if not -->
+<xsl:template name="href-is-xref">
+  <xsl:param name="href-value" select="@href"/>
+  <xsl:choose>
+    <xsl:when test="starts-with($href-value, '#')">1</xsl:when>
+    <xsl:when test="starts-with($href-value, 'mailto:')">0</xsl:when>
+    <!-- If we weren't worried about XSLT 1.0 compatibility, might be better to use a regex here -->
+    <xsl:when test="contains($href-value, '://')">0</xsl:when>
+    <xsl:otherwise>1</xsl:otherwise>
+  </xsl:choose>
+</xsl:template>
+
 </xsl:stylesheet> 
