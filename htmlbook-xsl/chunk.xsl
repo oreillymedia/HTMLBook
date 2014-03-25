@@ -322,6 +322,7 @@ sect5:s
   <!-- Custom XREF template in chunk.xsl, because we need to take chunk filename into account, and update hrefs. -->
   <!-- All XREFs must be tagged with a @data-type containing XREF -->
   <xsl:template match="h:a[contains(@data-type, 'xref')]">
+    <xsl:param name="autogenerate-xrefs" select="$autogenerate-xrefs"/>
     <xsl:variable name="href-anchor">
       <xsl:choose>
 	<!-- If href contains an # (as it should), we're going to assume the subsequent text is the referent id -->
@@ -333,6 +334,11 @@ sect5:s
 	  <xsl:value-of select="@href"/>
 	</xsl:otherwise>
       </xsl:choose>
+    </xsl:variable>
+    <xsl:variable name="is-xref">
+      <xsl:call-template name="href-is-xref">
+	<xsl:with-param name="href-value" select="@href"/>
+      </xsl:call-template>
     </xsl:variable>
     <xsl:copy>
       <xsl:apply-templates select="@*[not(local-name() = 'href')]"/>
@@ -361,7 +367,7 @@ sect5:s
       </xsl:choose>
       <xsl:choose>
 	<!-- Generate XREF text node if $autogenerate-xrefs is enabled -->
-	<xsl:when test="$autogenerate-xrefs = 1">
+	<xsl:when test="($autogenerate-xrefs = 1) and ($is-xref = 1)">
 	  <xsl:choose>
 	    <!-- If we can locate the target, process gentext with "xref-to" -->
 	    <xsl:when test="count(key('id', $href-anchor)) > 0">
