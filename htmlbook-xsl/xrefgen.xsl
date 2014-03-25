@@ -61,6 +61,21 @@
     </xsl:copy>
   </xsl:template>
 
+  <!-- href handling for a elements that are not indexterms, xrefs, or footnoterefs -->
+  <xsl:template match="h:a[not((contains(@data-type, 'xref')) or
+		               (contains(@data-type, 'footnoteref')) or
+			       (contains(@data-type, 'indexterm')))][@href]">
+    <xsl:copy>
+      <xsl:apply-templates select="@*[not(name(.) = 'href')]"/>
+      <xsl:attribute name="href">
+	<xsl:call-template name="calculate-output-href">
+	  <xsl:with-param name="source-href-value" select="@href"/>
+	</xsl:call-template>
+      </xsl:attribute>
+      <xsl:apply-templates/>
+    </xsl:copy>
+  </xsl:template>
+
   <!-- Adapted from docbook-xsl templates in xhtml/xref.xsl -->
   <xsl:template match="*" mode="xref-to">
     <xsl:param name="referrer"/>
