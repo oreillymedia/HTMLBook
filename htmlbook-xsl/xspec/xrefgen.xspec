@@ -227,6 +227,176 @@
     </x:scenario>
   </x:scenario>
 
+  <!-- Tests for hrefs on a elems with data-type="XREF"  -->
+  <x:scenario label="When an XREF element is matched that contains an href pointing to an id">
+    <x:context>
+      <section id="chapter1" data-type="chapter">
+	<p>Here comes a cross-reference: see <a id="no_text_node" data-type="xref" href="#chapter1"/></p>
+	<p>Here comes an XREF with a text node: see <a id="text_node" data-type="xref" href="#chapter1">PLACEHOLDER TEXT</a></p>
+      </section>
+    </x:context>
+    <x:scenario label="And the XREF contains no text node">
+      <x:context select="//h:a[@id='no_text_node']"/>
+      <x:expect label="href attribute should be processed as expected">
+	<a data-type="xref" id="no_text_node" href="#chapter1">...</a>
+      </x:expect>
+    </x:scenario>
+
+    <x:scenario label="And the XREF contains a text node">
+      <x:context select="//h:a[@id='text_node']"/>
+      <x:expect label="href attribute should be processed as expected">
+	<a id="text_node" data-type="xref" href="#chapter1">...</a>
+      </x:expect>
+    </x:scenario>
+  </x:scenario>
+
+  <x:scenario label="When an XREF element is matched that contains an href pointing to an id (no initial #)">
+    <x:context>
+      <section id="chapter1" data-type="chapter">
+	<p>Here comes a cross-reference: see <a id="no_text_node" data-type="xref" href="chapter1"/></p>
+	<p>Here comes an XREF with a text node: see <a id="text_node" data-type="xref" href="chapter1">PLACEHOLDER TEXT</a></p>
+      </section>
+    </x:context>
+    <x:scenario label="And the XREF contains no text node">
+      <x:context select="//h:a[@id='no_text_node']"/>
+      <x:expect label="href attribute should be processed as expected">
+	<a data-type="xref" id="no_text_node" href="#chapter1">...</a>
+      </x:expect>
+    </x:scenario>
+
+    <x:scenario label="And the XREF contains a text node">
+      <x:context select="//h:a[@id='text_node']"/>
+      <x:expect label="href attribute should be processed as expected">
+	<a id="text_node" data-type="xref" href="#chapter1">...</a>
+      </x:expect>
+    </x:scenario>
+  </x:scenario>
+
+  <x:scenario label="When an XREF element is matched that contains an href pointing to a file/id">
+    <x:context>
+      <section id="chapter1" data-type="chapter">
+	<p>Here comes a cross-reference: see <a id="no_text_node" data-type="xref" href="ch01.html#chapter1"/></p>
+	<p>Here comes an XREF with a text node: see <a id="text_node" data-type="xref" href="ch01.html#chapter1">PLACEHOLDER TEXT</a></p>
+      </section>
+    </x:context>
+    <x:scenario label="And the XREF contains no text node">
+      <x:context select="//h:a[@id='no_text_node']"/>
+      <x:expect label="href attribute should be processed as expected">
+	<a data-type="xref" id="no_text_node" href="#chapter1">...</a>
+      </x:expect>
+    </x:scenario>
+
+    <x:scenario label="And the XREF contains a text node">
+      <x:context select="//h:a[@id='text_node']"/>
+      <x:expect label="href attribute should be processed as expected">
+	<a id="text_node" data-type="xref" href="#chapter1">...</a>
+      </x:expect>
+    </x:scenario>
+  </x:scenario>
+
+  <x:scenario label="When an XREF element is matched that contains an href pointing to a Web URL (not a valid XREF)">
+    <x:context>
+      <section id="chapter1" data-type="chapter">
+	<p>Here comes a cross-reference: see <a id="no_text_node" data-type="xref" href="http://oreilly.com/whatever.html#chapter1"/></p>
+	<p>Here comes an XREF with a text node: see <a id="text_node" data-type="xref" href="http://oreilly.com/whatever.html#chapter1">PLACEHOLDER TEXT</a></p>
+      </section>
+    </x:context>
+    <x:scenario label="And the XREF contains no text node">
+      <x:context select="//h:a[@id='no_text_node']"/>
+      <x:expect label="href attribute should be left untouched">
+	<a data-type="xref" id="no_text_node" href="http://oreilly.com/whatever.html#chapter1">...</a>
+      </x:expect>
+    </x:scenario>
+
+    <x:scenario label="And the XREF contains a text node">
+      <x:context select="//h:a[@id='text_node']"/>
+      <x:expect label="href attribute should be left untouched">
+	<a id="text_node" data-type="xref" href="http://oreilly.com/whatever.html#chapter1">...</a>
+      </x:expect>
+    </x:scenario>
+  </x:scenario>
+
+  <x:scenario label="When an XREF element is matched that contains an href pointing to a mailto URL (not a valid XREF)">
+    <x:context>
+      <section id="chapter1" data-type="chapter">
+	<p>Here comes a cross-reference: see <a id="no_text_node" data-type="xref" href="mailto:tools@oreilly.com"/></p>
+	<p>Here comes an XREF with a text node: see <a id="text_node" data-type="xref" href="mailto:tools@oreilly.com">PLACEHOLDER TEXT</a></p>
+      </section>
+    </x:context>
+    <x:scenario label="And the XREF contains no text node">
+      <x:context select="//h:a[@id='no_text_node']"/>
+      <x:expect label="href attribute should be left untouched">
+	<a data-type="xref" id="no_text_node" href="mailto:tools@oreilly.com">...</a>
+      </x:expect>
+    </x:scenario>
+
+    <x:scenario label="And the XREF contains a text node">
+      <x:context select="//h:a[@id='text_node']"/>
+      <x:expect label="href attribute should be left untouched">
+	<a id="text_node" data-type="xref" href="mailto:tools@oreilly.com">...</a>
+      </x:expect>
+    </x:scenario>
+  </x:scenario>
+
+  <x:scenario label="When an XREF element is matched that contains an href pointing to a bogus id">
+    <x:context>
+      <section id="chapter1" data-type="chapter">
+	<p>Here comes a bogus cross-reference: see <a id="bogus_no_text_node" data-type="xref" href="#bogus"/></p>
+	<p>Here comes a bogus cross-reference with a text node: see <a id="bogus_text_node" data-type="xref" href="#bogus">PLACEHOLDER TEXT</a></p>
+	<p>Here comes a bogus cross-reference (random text): see <a id="random_bogus_no_text_node" data-type="xref" href="random_bogus_text"/></p>
+	<p>Here comes a bogus cross-reference (random text) with a text node: see <a id="random_bogus_text_node" data-type="xref" href="random_bogus_text">PLACEHOLDER TEXT</a></p>
+	<p>Here comes a bogus cross-reference (random text): see <a id="fileref_bogus_no_text_node" data-type="xref" href="ch01.html#bogus"/></p>
+	<p>Here comes a bogus cross-reference (random text) with a text node: see <a id="fileref_bogus_text_node" data-type="xref" href="ch01.html#bogus">PLACEHOLDER TEXT</a></p>
+      </section>
+    </x:context>
+    
+    <x:scenario label="Where id doesn't exist (no text node)">
+      <x:context select="//h:a[@id = 'bogus_no_text_node']"/>
+      <x:expect label="XSL should resolve to content after # sign">
+	<a id="bogus_no_text_node" data-type="xref" href="#bogus">...</a>
+      </x:expect>
+    </x:scenario>
+
+    <x:scenario label="Where id doesn't exist (text node)">
+      <x:context select="//h:a[@id = 'bogus_text_node']"/>
+      <x:expect label="href should resolve to content after # sign">
+	<a id="bogus_text_node" data-type="xref" href="#bogus">...</a>
+      </x:expect>
+    </x:scenario>
+
+    <x:scenario label="Where id doesn't exist and no # sign (no text node)">
+      <x:context select="//h:a[@id = 'random_bogus_no_text_node']"/>
+      <x:expect label="href should be left untouched">
+	<a id="random_bogus_no_text_node" data-type="xref" href="random_bogus_text">...</a>
+      </x:expect>
+    </x:scenario>
+
+    <x:scenario label="Where id doesn't exist and no # sign (text node)">
+      <x:context select="//h:a[@id = 'random_bogus_text_node']"/>
+      <x:expect label="href should be left untouched">
+	<a id="random_bogus_text_node" data-type="xref" href="random_bogus_text">...</a>
+      </x:expect>
+    </x:scenario>
+
+    <x:scenario label="Where href is a bogus file/id pair (no text node)">
+      <x:context select="//h:a[@id = 'fileref_bogus_no_text_node']"/>
+      <x:expect label="href should resolve to content after # sign">
+	<a id="fileref_bogus_no_text_node" data-type="xref" href="#bogus">...</a>
+      </x:expect>
+    </x:scenario>
+
+    <x:scenario label="Where href is a bogus file/id pair (text node)">
+      <x:context select="//h:a[@id = 'fileref_bogus_text_node']"/>
+      <x:expect label="href should resolve to content after # sign">
+	<a id="fileref_bogus_text_node" data-type="xref" href="#bogus">...</a>
+      </x:expect>
+    </x:scenario>
+  </x:scenario>
+    
+  <!-- Tests for hrefs on all types of a elems -->
+    <!-- Tests for a element without data-type="xref" to ensure @href is updated as desired -->
+
+
   <!-- Tests for whether an HREF is considered to be an XREF (link within the same corpus) -->
   <x:scenario label="If an href starts with a '#'">
     <x:call template="href-is-xref">
@@ -283,10 +453,5 @@
     </x:call>
     <x:expect label="It is considered to be an XREF">1</x:expect>
   </x:scenario>
-
-
-  <!-- Tests for hrefs on all types of a elems -->
-    <!-- Tests for a element without data-type="xref" to ensure @href is updated as desired -->
-    <!-- Tests for a elements that have HREFs with a cross-reference (data-type="link" or href without a URL scheme and with a #) -->
 
 </x:description>
