@@ -21,7 +21,7 @@
 	<x:param name="autogenerate-xrefs" select="0"/>
       </x:context>
       <x:expect label="No XREF text node should be generated">
-	<a data-type="xref" href="#chapter1"/>
+	<a data-type="xref" href="..."/>
       </x:expect>
     </x:scenario>
     
@@ -32,7 +32,7 @@
       <!-- Content based on params set globally for this spec doc and localization gentext -->
       <!-- If localizations change, test may produce false negative -->
       <x:expect label="XREF text node should be generated with proper content">
-	<a data-type="xref" href="#chapter1">Chapter 1</a>
+	<a data-type="xref" href="...">Chapter 1</a>
       </x:expect>
     </x:scenario>    
   </x:scenario>
@@ -49,7 +49,7 @@
 	<x:param name="autogenerate-xrefs" select="0"/>
       </x:context>
       <x:expect label="No XREF text node should be generated">
-	<a data-type="xref" href="#chapter1">PLACEHOLDER</a>
+	<a data-type="xref" href="...">PLACEHOLDER</a>
       </x:expect>
     </x:scenario>
 
@@ -60,7 +60,7 @@
       <!-- Content based on params set globally for this spec doc and localization gentext -->
       <!-- If localizations change, test may produce false negative -->
       <x:expect label="XREF text node should be generated with proper content">
-	<a data-type="xref" href="#chapter1">Chapter 1</a>
+	<a data-type="xref" href="...">Chapter 1</a>
       </x:expect>
     </x:scenario>
   </x:scenario>
@@ -98,14 +98,14 @@
     <x:scenario label="Which is a Web URL instead of a valid XREF (text node empty)">
       <x:context select="//h:a[@id='empty_web_url']"/>
       <x:expect label="XREF text node should be left untouched">
-	<a data-type="xref" id="empty_web_url" href="http://oreilly.com/index.html#chapter1"/>
+	<a data-type="xref" id="empty_web_url" href="..."/>
       </x:expect>
     </x:scenario>
 
     <x:scenario label="Which is a Web URL instead of a valid XREF (text node nonempty)">
       <x:context select="//h:a[@id='nonempty_web_url']"/>
       <x:expect label="XREF text node should be left untouched">
-	<a data-type="xref" id="nonempty_web_url" href="http://oreilly.com/index.html#chapter1">PLACEHOLDER</a>
+	<a data-type="xref" id="nonempty_web_url" href="...">PLACEHOLDER</a>
       </x:expect>
     </x:scenario>
 
@@ -125,28 +125,28 @@
     <x:scenario label="And an empty text node">
       <x:context select="//h:a[@id='empty_bogus']"/>
       <x:expect label="Three question marks should be used for text node">
-	<a data-type="xref" id="empty_bogus" href="#bogusbogus">???</a>
+	<a data-type="xref" id="empty_bogus" href="...">???</a>
       </x:expect>
     </x:scenario>
 
     <x:scenario label="Referencing another file and has an empty text node">
       <x:context select="//h:a[@id='empty_file_bogus']"/>
       <x:expect label="Three question marks should be used for text node">
-	<a data-type="xref" id="empty_file_bogus" href="ch01.html#bogus">???</a>
+	<a data-type="xref" id="empty_file_bogus" href="...">???</a>
       </x:expect>
     </x:scenario>
 
     <x:scenario label="And a nonempty text node">
       <x:context select="//h:a[@id='nonempty_bogus']"/>
       <x:expect label="Three question marks should be used for text node">
-	<a data-type="xref" id="nonempty_bogus" href="#bogusbogus">???</a>
+	<a data-type="xref" id="nonempty_bogus" href="...">???</a>
       </x:expect>
     </x:scenario>
 
     <x:scenario label="Referencing another file and has a nonempty text node">
       <x:context select="//h:a[@id='nonempty_file_bogus']"/>
       <x:expect label="Three question marks should be used for text node">
-	<a data-type="xref" id="nonempty_file_bogus" href="ch01.html#bogus">???</a>
+	<a data-type="xref" id="nonempty_file_bogus" href="...">???</a>
       </x:expect>
     </x:scenario>
   </x:scenario>
@@ -285,8 +285,6 @@
   </x:scenario>
 
 
-
-  <!-- Tests on text nodes for non data-type="xref" hrefs -->
   <!-- Tests for hrefs on all types of a elems -->
     <!-- Tests for a element without data-type="xref" to ensure @href is updated as desired -->
     <!-- Tests for a elements that have HREFs with a cross-reference (data-type="link" or href without a URL scheme and with a #) -->
