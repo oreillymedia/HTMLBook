@@ -13,11 +13,8 @@
 
   <!-- Default rule for TOC generation -->
 
-  <!-- ToDo: Add support for separate handling for data-type="link", where it's an internal cross-reference, but you definitely
-       do not want to override text node -->
-
   <!-- All XREFs must be tagged with a @data-type containing XREF -->
-  <xsl:template match="h:a[contains(@data-type, 'xref')]">
+  <xsl:template match="h:a[contains(@data-type, 'xref')]" name="process-as-xref">
     <xsl:param name="autogenerate-xrefs" select="$autogenerate-xrefs"/>
     <xsl:variable name="calculated-output-href">
       <xsl:call-template name="calculate-output-href">
@@ -25,12 +22,17 @@
       </xsl:call-template>
     </xsl:variable>
     <xsl:variable name="href-anchor" select="substring-after($calculated-output-href, '#')"/>
+    <xsl:variable name="is-xref">
+      <xsl:call-template name="href-is-xref">
+	<xsl:with-param name="href-value" select="@href"/>
+      </xsl:call-template>
+    </xsl:variable>
     <xsl:copy>
       <xsl:apply-templates select="@*[not(name(.) = 'href')]"/>
       <xsl:attribute name="href" select="$calculated-output-href"/>
         <xsl:choose>
 	  <!-- Generate XREF text node if $autogenerate-xrefs is enabled -->
-	  <xsl:when test="$autogenerate-xrefs = 1">
+	  <xsl:when test="($autogenerate-xrefs = 1) and ($is-xref = 1)">
 	    <xsl:choose>
 	      <!-- If we can locate the target, process gentext with "xref-to" -->
 	      <xsl:when test="count(key('id', $href-anchor)) > 0">
@@ -61,19 +63,35 @@
     </xsl:copy>
   </xsl:template>
 
-  <!-- href handling for a elements that are not indexterms, xrefs, or footnoterefs -->
+  <!-- href and content handling for a elements that are not indexterms, xrefs, or footnoterefs -->
   <xsl:template match="h:a[not((contains(@data-type, 'xref')) or
 		               (contains(@data-type, 'footnoteref')) or
 			       (contains(@data-type, 'indexterm')))][@href]">
-    <xsl:copy>
-      <xsl:apply-templates select="@*[not(name(.) = 'href')]"/>
-      <xsl:attribute name="href">
-	<xsl:call-template name="calculate-output-href">
-	  <xsl:with-param name="source-href-value" select="@href"/>
-	</xsl:call-template>
-      </xsl:attribute>
-      <xsl:apply-templates/>
-    </xsl:copy>
+    <!-- If the element is empty, does not have data-type="link", and  is a valid XREF, go ahead and treat it like an <a> element with data-type="xref" -->
+    <xsl:variable name="is-xref">
+      <xsl:call-template name="href-is-xref">
+	<xsl:with-param name="href-value" select="@href"/>
+      </xsl:call-template>
+    </xsl:variable>
+    <xsl:choose>
+      <xsl:when test="(not(node())) and 
+		      ($is-xref = 1) and
+		      not(@data-type='link')">
+	<xsl:call-template name="process-as-xref"/>
+      </xsl:when>
+      <!-- Otherwise just process href and apply-templates for everything else -->
+      <xsl:otherwise>
+	<xsl:copy>
+	  <xsl:apply-templates select="@*[not(name(.) = 'href')]"/>
+	  <xsl:attribute name="href">
+	    <xsl:call-template name="calculate-output-href">
+	      <xsl:with-param name="source-href-value" select="@href"/>
+	    </xsl:call-template>
+	  </xsl:attribute>
+	  <xsl:apply-templates/>
+	</xsl:copy>
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
 
   <!-- Adapted from docbook-xsl templates in xhtml/xref.xsl -->
@@ -542,9 +560,9 @@
 	<xsl:when test="contains($source-href-value, '#')">
 	  <xsl:value-of select="concat('#', substring-after($source-href-value, '#'))"/>
 	</xsl:when>
-	<!-- Otherwise, just use all the text as is-->
+	<!-- Otherwise, just use all the text as is, with a # sign prepended-->
 	<xsl:otherwise>
-	  <xsl:value-of select="$source-href-value"/>
+	  <xsl:value-of select="concat('#', $source-href-value)"/>
 	</xsl:otherwise>
       </xsl:choose>
     </xsl:when>
