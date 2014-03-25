@@ -151,6 +151,82 @@
     </x:scenario>
   </x:scenario>
 
+  <!-- Tests for text nodes of <a> elements that do not have data-type="xref" -->
+  <x:scenario label="If an 'a' element does not contain data-type='xref'">
+    <x:context>
+      <section id="chapter1" data-type="chapter">
+	<a id="no_data_type" href="#chapter1">DO NOT TOUCH ME</a> <!-- Don't update this one -->
+	<a id="link" data-type="link" href="#chapter1">DO NOT TOUCH ME</a> <!-- Don't update this one -->
+	<a id="no_data_type_no_text" href="#chapter1"/> <!-- Update this one -->
+	<a id="link_no_text" data-type="link" href="#chapter1"/> <!-- Don't update this one -->
+	<a id="no_data_type_no_text_bogus_href" href="#bogus"/> <!-- Update this one -->
+	<a id="link_no_text_bogus_href" data-type="link" href="#bogus"/> <!-- Don't update this one -->
+	<a id="no_data_type_no_text_href_not_xref" href="http://oreilly.com"/> <!-- Don't update this one -->
+	<a id="link_no_text_href_not_xref" data-type="link" href="http://oreilly.com"/> <!-- Don't update this one -->
+      </section>
+    </x:context>
+    
+    <x:scenario label="And has a text node already">
+      <x:context select="//h:a[@id='no_data_type']"/>
+      <x:expect label="Text node should not be modified">
+	<a id="no_data_type" href="...">DO NOT TOUCH ME</a>
+      </x:expect>
+    </x:scenario>
+
+    <x:scenario label="And has a text node already (link)">
+      <x:context select="//h:a[@id='link']"/>
+      <x:expect label="Text node should not be modified">
+	<a id="link" data-type="link" href="...">DO NOT TOUCH ME</a>
+      </x:expect>
+    </x:scenario>
+
+    <x:scenario label="And does not have a text node already, and has a valid XREF link">
+      <x:context select="//h:a[@id='no_data_type_no_text']"/>
+      <!-- Content based on params set globally for this spec doc and localization gentext -->
+      <!-- If localizations change, test may produce false negative -->
+      <x:expect label="Text node should be updated with proper gentext">
+	<a id="no_data_type_no_text" href="...">Chapter 1</a>
+      </x:expect>
+    </x:scenario>
+
+    <x:scenario label="And does not have a text node already, but is a link with a valid XREF link">
+      <x:context select="//h:a[@id='link_no_text']"/>
+      <x:expect label="Text node should not be modified">
+	<a id="link_no_text" data-type="link" href="..."/>
+      </x:expect>
+    </x:scenario>
+
+    <x:scenario label="And does not have a text node already, and has a bogus XREF link">
+      <x:context select="//h:a[@id='no_data_type_no_text_bogus_href']"/>
+      <!-- Content based on params set globally for this spec doc and localization gentext -->
+      <!-- If localizations change, test may produce false negative -->
+      <x:expect label="Text node should be updated with question marks">
+	<a id="no_data_type_no_text_bogus_href" href="...">???</a>
+      </x:expect>
+    </x:scenario>
+
+    <x:scenario label="And does not have a text node already, and is a link with a bogus XREF link">
+      <x:context select="//h:a[@id='link_no_text_bogus_href']"/>
+      <x:expect label="Text node should not be modified">
+	<a id="link_no_text_bogus_href" data-type="link" href="..."/>
+      </x:expect>
+    </x:scenario>
+
+    <x:scenario label="And does not have a text node already, and has an href that is not an XREF">
+      <x:context select="//h:a[@id='no_data_type_no_text_href_not_xref']"/>
+      <x:expect label="Text node should not be modified">
+	<a id="no_data_type_no_text_href_not_xref" href="..."/>
+      </x:expect>
+    </x:scenario>
+
+    <x:scenario label="And does not have a text node already, and is a link with an href that is not an XREF">
+      <x:context select="//h:a[@id='link_no_text_href_not_xref']"/>
+      <x:expect label="Text node should not be modified">
+	<a id="link_no_text_href_not_xref" data-type="link" href="..."/>
+      </x:expect>
+    </x:scenario>
+  </x:scenario>
+
   <!-- Tests for whether an HREF is considered to be an XREF (link within the same corpus) -->
   <x:scenario label="If an href starts with a '#'">
     <x:call template="href-is-xref">
@@ -207,6 +283,8 @@
     </x:call>
     <x:expect label="It is considered to be an XREF">1</x:expect>
   </x:scenario>
+
+
 
   <!-- Tests on text nodes for non data-type="xref" hrefs -->
   <!-- Tests for hrefs on all types of a elems -->
