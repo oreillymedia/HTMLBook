@@ -750,4 +750,47 @@
     <x:expect label="It is considered to be an XREF">1</x:expect>
   </x:scenario>
 
+  <!-- Tests for calculate-output-href for handling of href attributes on <a> elements -->
+  <x:scenario label="If an href is in the format #id">
+    <x:call template="calculate-output-href">
+      <x:param name="source-href-value" select="'#whatever'"/>
+    </x:call>
+    <x:expect label="It should be output as is">#whatever</x:expect>
+  </x:scenario>
+
+  <x:scenario label="If an href is in the format filename.html#id">
+    <x:call template="calculate-output-href">
+      <x:param name="source-href-value" select="'ch01.html#whatever'"/>
+    </x:call>
+    <x:expect label="Output just the id">#whatever</x:expect>
+  </x:scenario>
+
+  <x:scenario label="If an href contains a '://' scheme (http://)">
+    <x:call template="calculate-output-href">
+      <x:param name="source-href-value" select="'http://oreilly.com/whatever.html#whatever'"/>
+    </x:call>
+    <x:expect label="It should be output as is">http://oreilly.com/whatever.html#whatever</x:expect>
+  </x:scenario>
+
+  <x:scenario label="If an href contains a mailto: scheme">
+    <x:call template="calculate-output-href">
+      <x:param name="source-href-value" select="'whatever@oreilly.com'"/>
+    </x:call>
+    <x:expect label="It should be output as is">whatever@oreilly.com</x:expect>
+  </x:scenario>
+
+  <x:scenario label="If href text does not contain absolute URL or # sign">
+    <x:call template="calculate-output-href">
+      <x:param name="source-href-value" select="'ch01.html'"/>
+    </x:call>
+    <x:expect label="It should be output as is">ch01.html</x:expect>
+  </x:scenario>
+
+  <x:scenario label="If href text does not contain absolute URL and contains multiple # signs">
+    <x:call template="calculate-output-href">
+      <x:param name="source-href-value" select="'why_would_you#do_this#idonotknow'"/>
+    </x:call>
+    <x:expect label="Output the content from the *last* # sign to the end">#idonotknow</x:expect>
+  </x:scenario>
+
 </x:description>

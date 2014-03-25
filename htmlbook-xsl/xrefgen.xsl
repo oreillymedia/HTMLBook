@@ -498,4 +498,51 @@
   </xsl:choose>
 </xsl:template>
 
+<!-- Utility template for processing @href attributes on <a> elements -->
+<!-- For XREFs, grab either the text content after the last # sign, or all the content if there is no # sign -->
+<!-- For non-XREFs, don't touch at all -->
+<xsl:template name="calculate-output-href">
+  <xsl:param name="source-href-value" select="@href"/>
+  <xsl:param name="href-is-xref"/>
+
+  <xsl:variable name="is-xref">
+    <xsl:choose>
+      <xsl:when test="($href-is-xref = 0) or ($href-is-xref = 1)">
+	<xsl:value-of select="$href-is-xref"/>
+      </xsl:when>
+      <xsl:otherwise>
+	<xsl:call-template name="href-is-xref">
+	  <xsl:with-param name="href-value" select="$source-href-value"/>
+	</xsl:call-template>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:variable>
+
+  <xsl:choose>
+    <xsl:when test="$is-xref = 1">
+      <xsl:choose>
+	<!-- If there is more than one # sign in content, recursively call template to get content after first # -->
+	<xsl:when test="contains(substring-after($source-href-value, '#'), '#')">
+	  <xsl:call-template name="calculate-output-href">
+	    <xsl:with-param name="source-href-value" select="substring-after($source-href-value, '#')"/>
+	    <xsl:with-param name="href-is-xref" select="1"/>
+	  </xsl:call-template>
+	</xsl:when>
+	<!-- If there is a # sign in content, grab the # and all content thereafter -->
+	<xsl:when test="contains($source-href-value, '#')">
+	  <xsl:value-of select="concat('#', substring-after($source-href-value, '#'))"/>
+	</xsl:when>
+	<!-- Otherwise, just use all the text as is-->
+	<xsl:otherwise>
+	  <xsl:value-of select="$source-href-value"/>
+	</xsl:otherwise>
+      </xsl:choose>
+    </xsl:when>
+    <xsl:otherwise>
+      <!-- Just use the text as is -->
+      <xsl:value-of select="$source-href-value"/>
+    </xsl:otherwise>
+  </xsl:choose>
+</xsl:template>
+
 </xsl:stylesheet> 
