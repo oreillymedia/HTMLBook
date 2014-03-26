@@ -29,7 +29,9 @@
     </xsl:variable>
     <xsl:copy>
       <xsl:apply-templates select="@*[not(name(.) = 'href')]"/>
-      <xsl:attribute name="href" select="$calculated-output-href"/>
+      <xsl:attribute name="href">
+	<xsl:value-of select="$calculated-output-href"/>
+      </xsl:attribute>
         <xsl:choose>
 	  <!-- Generate XREF text node if $autogenerate-xrefs is enabled -->
 	  <xsl:when test="($autogenerate-xrefs = 1) and ($is-xref = 1)">
