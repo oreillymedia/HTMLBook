@@ -19,7 +19,7 @@
               encoding="UTF-8"/>
   <xsl:preserve-space elements="*"/>
 
-  <xsl:key name="chunks" match="h:section|h:div[@data-type='part']|h:nav[@data-type='toc']" use="htmlbook:is-chunk(., $chunk.level)"/>
+  <xsl:key name="chunks" match="h:section|h:div[@data-type='part']|h:nav[@data-type='toc']" use="htmlbook:is-chunk(.)"/>
 
   <!-- Nodeset of all chunks in this document -->
   <xsl:variable name="chunks" select="key('chunks', '1')"/> <!-- All chunks have an is-chunk() value of 1 -->
