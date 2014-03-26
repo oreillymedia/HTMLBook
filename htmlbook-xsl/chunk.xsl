@@ -408,8 +408,8 @@ sect5:s
 		      not(@data-type='link')">
 	<xsl:call-template name="process-as-xref"/>
       </xsl:when>
-      <!-- Otherwise just process href and apply-templates for everything else -->
-      <xsl:otherwise>
+      <!-- If href is an xref then process href -->
+      <xsl:when test="$is-xref = 1">
 	<xsl:copy>
 	  <xsl:apply-templates select="@*[not(name(.) = 'href')]"/>
 	  <xsl:attribute name="href">
@@ -438,6 +438,12 @@ sect5:s
 	    </xsl:choose>
 	  </xsl:attribute>
 	  <xsl:apply-templates/>
+	</xsl:copy>
+      </xsl:when>
+      <!-- Otherwise, no special processing -->
+      <xsl:otherwise>
+	<xsl:copy>
+	  <xsl:apply-templates select="@*|node()"/>
 	</xsl:copy>
       </xsl:otherwise>
     </xsl:choose>
