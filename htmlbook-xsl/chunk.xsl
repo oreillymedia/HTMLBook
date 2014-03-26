@@ -10,6 +10,8 @@
 
   <!-- Chunk template used to split content among multiple .html files -->
 
+  <!-- ToDo: Refactor to eliminate duplicate code around href generation for XREF vs. non-XREF <a> elems -->
+
   <!-- ToDo: Add "previous" and "next" links as in the docbook-xsl stylesheets? -->
 
   <!-- Imports htmlbook.xsl -->
@@ -320,7 +322,7 @@ sect5:s
 
   <!-- Custom XREF template in chunk.xsl, because we need to take chunk filename into account, and update hrefs. -->
   <!-- All XREFs must be tagged with a @data-type containing XREF -->
-  <xsl:template match="h:a[contains(@data-type, 'xref')]">
+  <xsl:template match="h:a[contains(@data-type, 'xref')]" name="process-as-xref">
     <xsl:param name="autogenerate-xrefs" select="$autogenerate-xrefs"/>
     <xsl:variable name="calculated-output-href">
       <xsl:call-template name="calculate-output-href">
@@ -334,9 +336,9 @@ sect5:s
       </xsl:call-template>
     </xsl:variable>
     <xsl:copy>
-      <xsl:apply-templates select="@*[not(local-name() = 'href')]"/>
+      <xsl:apply-templates select="@*[not(name() = 'href')]"/>
       <xsl:choose>
-	<xsl:when test="count(key('id', $href-anchor)) > 0">
+	<xsl:when test="(count(key('id', $href-anchor)) &gt; 0) and ($is-xref = 1)">
 	  <xsl:variable name="target" select="key('id', $href-anchor)[1]"/>
 	  <!-- Regenerate the href here, to ensure it accurately points to correct location, including chunk filename) -->
 	  <xsl:attribute name="href">
@@ -382,6 +384,63 @@ sect5:s
 	</xsl:otherwise>
       </xsl:choose>
     </xsl:copy>
+  </xsl:template>
+
+    <!-- href and content handling for a elements that are not indexterms, xrefs, or footnoterefs -->
+<xsl:template match="h:a[not((contains(@data-type, 'xref')) or
+		               (contains(@data-type, 'footnoteref')) or
+			       (contains(@data-type, 'indexterm')))][@href]">
+    <!-- If the element is empty, does not have data-type="link", and is a valid XREF, go ahead and treat it like an <a> element with data-type="xref" -->
+    <xsl:variable name="is-xref">
+      <xsl:call-template name="href-is-xref">
+	<xsl:with-param name="href-value" select="@href"/>
+      </xsl:call-template>
+    </xsl:variable>
+    <xsl:variable name="calculated-output-href">
+      <xsl:call-template name="calculate-output-href">
+	<xsl:with-param name="source-href-value" select="@href"/>
+      </xsl:call-template>
+    </xsl:variable>
+    <xsl:variable name="href-anchor" select="substring-after($calculated-output-href, '#')"/>
+    <xsl:choose>
+      <xsl:when test="(not(node())) and 
+		      ($is-xref = 1) and
+		      not(@data-type='link')">
+	<xsl:call-template name="process-as-xref"/>
+      </xsl:when>
+      <!-- Otherwise just process href and apply-templates for everything else -->
+      <xsl:otherwise>
+	<xsl:copy>
+	  <xsl:apply-templates select="@*[not(name(.) = 'href')]"/>
+	  <xsl:attribute name="href">
+	    <xsl:choose>
+	      <xsl:when test="(count(key('id', $href-anchor)) &gt; 0) and ($is-xref = 1)">
+		<xsl:variable name="target" select="key('id', $href-anchor)[1]"/>
+		<!-- Regenerate the href here, to ensure it accurately points to correct location, including chunk filename) -->
+		<xsl:call-template name="href.target">
+		  <xsl:with-param name="object" select="$target"/>
+		  <xsl:with-param name="source-link-node" select="."/>
+		</xsl:call-template>
+	      </xsl:when>
+	      <xsl:otherwise>
+		<xsl:if test="$is-xref = 1">
+		  <xsl:call-template name="log-message">
+		    <xsl:with-param name="type" select="'WARNING'"/>
+		    <xsl:with-param name="message">
+		      <xsl:text>Unable to locate target for a element with @href value:</xsl:text>
+		      <xsl:value-of select="@href"/>
+		    </xsl:with-param>
+		  </xsl:call-template>
+		</xsl:if>
+		<!-- Oh well, just copy any existing href to output -->
+		<xsl:apply-templates select="@href"/>
+	      </xsl:otherwise>
+	    </xsl:choose>
+	  </xsl:attribute>
+	  <xsl:apply-templates/>
+	</xsl:copy>
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
 
   <!-- Generate target @href value pointing to given node, in the appropriate chunk -->
