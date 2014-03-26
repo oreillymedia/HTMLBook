@@ -10,7 +10,6 @@
 
   <!-- Chunk template used to split content among multiple .html files -->
 
-  <!-- ToDo: For XREF hyperlinks to ids that are in the same chunk, no need to prepend filename to anchor (although it probably doesn't hurt) -->
   <!-- ToDo: Add "previous" and "next" links as in the docbook-xsl stylesheets? -->
 
   <!-- Imports htmlbook.xsl -->
@@ -323,18 +322,12 @@ sect5:s
   <!-- All XREFs must be tagged with a @data-type containing XREF -->
   <xsl:template match="h:a[contains(@data-type, 'xref')]">
     <xsl:param name="autogenerate-xrefs" select="$autogenerate-xrefs"/>
-    <xsl:variable name="href-anchor">
-      <xsl:choose>
-	<!-- If href contains an # (as it should), we're going to assume the subsequent text is the referent id -->
-	<xsl:when test="contains(@href, '#')">
-	  <xsl:value-of select="substring-after(@href, '#')"/>
-	</xsl:when>
-	<!-- Otherwise, we'll just assume the entire href is the referent id -->
-	<xsl:otherwise>
-	  <xsl:value-of select="@href"/>
-	</xsl:otherwise>
-      </xsl:choose>
+    <xsl:variable name="calculated-output-href">
+      <xsl:call-template name="calculate-output-href">
+	<xsl:with-param name="source-href-value" select="@href"/>
+      </xsl:call-template>
     </xsl:variable>
+    <xsl:variable name="href-anchor" select="substring-after($calculated-output-href, '#')"/>
     <xsl:variable name="is-xref">
       <xsl:call-template name="href-is-xref">
 	<xsl:with-param name="href-value" select="@href"/>
