@@ -431,7 +431,7 @@ sect5:s
 		    </xsl:with-param>
 		  </xsl:call-template>
 		<!-- Oh well, just copy any existing href to output -->
-		<xsl:apply-templates select="@href"/>
+		<xsl:value-of select="@href"/>
 	      </xsl:otherwise>
 	    </xsl:choose>
 	  </xsl:attribute>
