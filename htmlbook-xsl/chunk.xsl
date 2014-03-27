@@ -10,7 +10,8 @@
 
   <!-- Chunk template used to split content among multiple .html files -->
 
-  <!-- ToDo: For XREF hyperlinks to ids that are in the same chunk, no need to prepend filename to anchor (although it probably doesn't hurt) -->
+  <!-- ToDo: Refactor to eliminate duplicate code around href generation for XREF vs. non-XREF <a> elems -->
+
   <!-- ToDo: Add "previous" and "next" links as in the docbook-xsl stylesheets? -->
 
   <!-- Imports htmlbook.xsl -->
@@ -20,7 +21,7 @@
               encoding="UTF-8"/>
   <xsl:preserve-space elements="*"/>
 
-  <xsl:key name="chunks" match="h:section|h:div[@data-type='part']|h:nav[@data-type='toc']" use="htmlbook:is-chunk(., $chunk.level)"/>
+  <xsl:key name="chunks" match="h:section|h:div[@data-type='part']|h:nav[@data-type='toc']" use="htmlbook:is-chunk(.)"/>
 
   <!-- Nodeset of all chunks in this document -->
   <xsl:variable name="chunks" select="key('chunks', '1')"/> <!-- All chunks have an is-chunk() value of 1 -->
@@ -321,23 +322,23 @@ sect5:s
 
   <!-- Custom XREF template in chunk.xsl, because we need to take chunk filename into account, and update hrefs. -->
   <!-- All XREFs must be tagged with a @data-type containing XREF -->
-  <xsl:template match="h:a[contains(@data-type, 'xref')]">
-    <xsl:variable name="href-anchor">
-      <xsl:choose>
-	<!-- If href contains an # (as it should), we're going to assume the subsequent text is the referent id -->
-	<xsl:when test="contains(@href, '#')">
-	  <xsl:value-of select="substring-after(@href, '#')"/>
-	</xsl:when>
-	<!-- Otherwise, we'll just assume the entire href is the referent id -->
-	<xsl:otherwise>
-	  <xsl:value-of select="@href"/>
-	</xsl:otherwise>
-      </xsl:choose>
+  <xsl:template match="h:a[contains(@data-type, 'xref')]" name="process-as-xref">
+    <xsl:param name="autogenerate-xrefs" select="$autogenerate-xrefs"/>
+    <xsl:variable name="calculated-output-href">
+      <xsl:call-template name="calculate-output-href">
+	<xsl:with-param name="source-href-value" select="@href"/>
+      </xsl:call-template>
+    </xsl:variable>
+    <xsl:variable name="href-anchor" select="substring-after($calculated-output-href, '#')"/>
+    <xsl:variable name="is-xref">
+      <xsl:call-template name="href-is-xref">
+	<xsl:with-param name="href-value" select="@href"/>
+      </xsl:call-template>
     </xsl:variable>
     <xsl:copy>
-      <xsl:apply-templates select="@*[not(local-name() = 'href')]"/>
+      <xsl:apply-templates select="@*[not(name() = 'href')]"/>
       <xsl:choose>
-	<xsl:when test="count(key('id', $href-anchor)) > 0">
+	<xsl:when test="(count(key('id', $href-anchor)) &gt; 0) and ($is-xref = 1)">
 	  <xsl:variable name="target" select="key('id', $href-anchor)[1]"/>
 	  <!-- Regenerate the href here, to ensure it accurately points to correct location, including chunk filename) -->
 	  <xsl:attribute name="href">
@@ -360,8 +361,8 @@ sect5:s
 	</xsl:otherwise>
       </xsl:choose>
       <xsl:choose>
-	<!-- Generate XREF text node if <a> is either empty or $xref-placeholder-overwrite-contents = 1 -->
-	<xsl:when test="$autogenerate-xrefs = 1 and (. = '' or $xref-placeholder-overwrite-contents = 1)">
+	<!-- Generate XREF text node if $autogenerate-xrefs is enabled -->
+	<xsl:when test="($autogenerate-xrefs = 1) and ($is-xref = 1)">
 	  <xsl:choose>
 	    <!-- If we can locate the target, process gentext with "xref-to" -->
 	    <xsl:when test="count(key('id', $href-anchor)) > 0">
@@ -383,6 +384,67 @@ sect5:s
 	</xsl:otherwise>
       </xsl:choose>
     </xsl:copy>
+  </xsl:template>
+
+    <!-- href and content handling for a elements that are not indexterms, xrefs, or footnoterefs -->
+<xsl:template match="h:a[not((contains(@data-type, 'xref')) or
+		               (contains(@data-type, 'footnoteref')) or
+			       (contains(@data-type, 'indexterm')))][@href]">
+    <!-- If the element is empty, does not have data-type="link", and is a valid XREF, go ahead and treat it like an <a> element with data-type="xref" -->
+    <xsl:variable name="is-xref">
+      <xsl:call-template name="href-is-xref">
+	<xsl:with-param name="href-value" select="@href"/>
+      </xsl:call-template>
+    </xsl:variable>
+    <xsl:variable name="calculated-output-href">
+      <xsl:call-template name="calculate-output-href">
+	<xsl:with-param name="source-href-value" select="@href"/>
+      </xsl:call-template>
+    </xsl:variable>
+    <xsl:variable name="href-anchor" select="substring-after($calculated-output-href, '#')"/>
+    <xsl:choose>
+      <xsl:when test="(not(node())) and 
+		      ($is-xref = 1) and
+		      not(@data-type='link')">
+	<xsl:call-template name="process-as-xref"/>
+      </xsl:when>
+      <!-- If href is an xref then process href -->
+      <xsl:when test="$is-xref = 1">
+	<xsl:copy>
+	  <xsl:apply-templates select="@*[not(name(.) = 'href')]"/>
+	  <xsl:attribute name="href">
+	    <xsl:choose>
+	      <xsl:when test="(count(key('id', $href-anchor)) &gt; 0) and ($is-xref = 1)">
+		<xsl:variable name="target" select="key('id', $href-anchor)[1]"/>
+		<!-- Regenerate the href here, to ensure it accurately points to correct location, including chunk filename) -->
+		<xsl:call-template name="href.target">
+		  <xsl:with-param name="object" select="$target"/>
+		  <xsl:with-param name="source-link-node" select="."/>
+		</xsl:call-template>
+	      </xsl:when>
+	      <xsl:otherwise>
+		  <xsl:call-template name="log-message">
+		    <xsl:with-param name="type" select="'WARNING'"/>
+		    <xsl:with-param name="message">
+		      <xsl:text>Unable to locate target for a element with @href value:</xsl:text>
+		      <xsl:value-of select="@href"/>
+		    </xsl:with-param>
+		  </xsl:call-template>
+		<!-- Oh well, just copy any existing href to output -->
+		<xsl:apply-templates select="@href"/>
+	      </xsl:otherwise>
+	    </xsl:choose>
+	  </xsl:attribute>
+	  <xsl:apply-templates/>
+	</xsl:copy>
+      </xsl:when>
+      <!-- Otherwise, no special processing -->
+      <xsl:otherwise>
+	<xsl:copy>
+	  <xsl:apply-templates select="@*|node()"/>
+	</xsl:copy>
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
 
   <!-- Generate target @href value pointing to given node, in the appropriate chunk -->

@@ -11,7 +11,7 @@
 
   <func:function name="htmlbook:is-chunk">
     <xsl:param name="node"/>
-    <xsl:param name="chunk.level"/>
+    <xsl:param name="chunk.level" select="$chunk.level"/>
     <xsl:choose>
       <xsl:when test="$node[self::h:div[contains(@data-type, 'part')]]">
 	<func:result>1</func:result>

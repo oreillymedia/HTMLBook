@@ -76,14 +76,7 @@
       <xsl:call-template name="log-message">
 	<xsl:with-param name="type" select="'WARNING'"/>
 	<xsl:with-param name="message">
-	  <xsl:choose>
-	    <xsl:when test="$xref-placeholder-overwrite-contents != 1">
-	      <xsl:text>Warning: the following XREFs already have content in their text nodes, which will not be overwritten (rerun stylesheets with $xref-placeholder-overwrite-contents = 1 if you want to overwrite):</xsl:text>
-	    </xsl:when>
-	    <xsl:otherwise>
-	      <xsl:text>Warning: the following XREFs already have content in their text nodes, which will be overwritten (rerun stylesheets with $xref-placeholder-overwrite-contents = 0 if you don't want to overwrite):</xsl:text>
-	    </xsl:otherwise>
-	  </xsl:choose>
+	  <xsl:text>Warning: the following XREFs already have content in their text nodes, which will be overwritten (rerun stylesheets with $autogenerate-xrefs = 0 if you don't want to autogenerate XREFs):</xsl:text>
 	  <xsl:for-each select="//h:a[@data-type='xref'][. != '']">
 	    XREF text: <xsl:value-of select="normalize-space(.)"/>; XREF target: <xsl:value-of select="@href"/>
 	  </xsl:for-each>
