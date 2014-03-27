@@ -423,7 +423,6 @@ sect5:s
 		</xsl:call-template>
 	      </xsl:when>
 	      <xsl:otherwise>
-		<xsl:if test="$is-xref = 1">
 		  <xsl:call-template name="log-message">
 		    <xsl:with-param name="type" select="'WARNING'"/>
 		    <xsl:with-param name="message">
@@ -431,7 +430,6 @@ sect5:s
 		      <xsl:value-of select="@href"/>
 		    </xsl:with-param>
 		  </xsl:call-template>
-		</xsl:if>
 		<!-- Oh well, just copy any existing href to output -->
 		<xsl:apply-templates select="@href"/>
 	      </xsl:otherwise>
