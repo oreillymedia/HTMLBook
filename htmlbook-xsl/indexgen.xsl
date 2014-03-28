@@ -226,7 +226,9 @@
   <xsl:variable name="key" select="normalize-space(concat(@data-primary-sortas, &quot; &quot;, @data-primary))"/>
   <xsl:variable name="refs" select="key('primary', $key)[count(ancestor::node()|$scope) = count(ancestor::node()) and ($role = @role or $type = @type or (string-length($role) = 0 and string-length($type) = 0)) and not(@data-startref)]"/>
   <li>
-    <xsl:value-of select="@data-primary"/>
+    <span data-type="index-term">
+      <xsl:value-of select="@data-primary"/>
+    </span>
     <xsl:choose>
       <xsl:when test="$index.links.to.section = 1">
         <xsl:for-each select="$refs[@zone != '' or generate-id() = generate-id(key('primary-section', concat($key, &quot; &quot;, generate-id((ancestor-or-self::h:body|ancestor-or-self::h:nav|ancestor-or-self::h:div[@data-type='part']|ancestor-or-self::h:section)[last()])))[count(ancestor::node()|$scope) = count(ancestor::node()) and ($role = @role or $type = @type or (string-length($role) = 0 and string-length($type) = 0))][1])]">
@@ -288,7 +290,9 @@
   <xsl:variable name="key" select="concat(normalize-space(concat(@data-primary-sortas, &quot; &quot;, @data-primary)), &quot; &quot;, normalize-space(concat(@data-secondary-sortas, &quot; &quot;, @data-secondary)))"/>
   <xsl:variable name="refs" select="key('secondary', $key)[count(ancestor::node()|$scope) = count(ancestor::node()) and ($role = @role or $type = @type or (string-length($role) = 0 and string-length($type) = 0)) and not(@data-startref)]"/>
   <li>
-    <xsl:value-of select="@data-secondary"/>
+    <span data-type="index-term">
+      <xsl:value-of select="@data-secondary"/>
+    </span>
     <xsl:choose>
       <xsl:when test="$index.links.to.section = 1">
         <xsl:for-each select="$refs[@zone != '' or generate-id() = generate-id(key('secondary-section', concat($key, &quot; &quot;, generate-id((ancestor-or-self::h:body|ancestor-or-self::h:nav|ancestor-or-self::h:div[@data-type='part']|ancestor-or-self::h:section)[last()])))[count(ancestor::node()|$scope) = count(ancestor::node()) and ($role = @role or $type = @type or (string-length($role) = 0 and string-length($type) = 0))][1])]">
@@ -350,7 +354,9 @@
   <xsl:variable name="key" select="concat(normalize-space(concat(@data-primary-sortas, &quot; &quot;, @data-primary)), &quot; &quot;, normalize-space(concat(@data-secondary-sortas, &quot; &quot;, @data-secondary)), &quot; &quot;, normalize-space(concat(@data-tertiary-sortas, &quot; &quot;, @data-tertiary)))"/>
   <xsl:variable name="refs" select="key('tertiary', $key)[count(ancestor::node()|$scope) = count(ancestor::node()) and ($role = @role or $type = @type or (string-length($role) = 0 and string-length($type) = 0)) and not(@data-startref)]"/>
   <li>
-    <xsl:value-of select="@data-tertiary"/>
+    <span data-type="index-term">
+      <xsl:value-of select="@data-tertiary"/>
+    </span>
     <xsl:choose>
       <xsl:when test="$index.links.to.section = 1">
         <xsl:for-each select="$refs[@zone != '' or generate-id() = generate-id(key('tertiary-section', concat($key, &quot; &quot;, generate-id((ancestor-or-self::h:body|ancestor-or-self::h:nav|ancestor-or-self::h:div[@data-type='part']|ancestor-or-self::h:section)[last()])))[count(ancestor::node()|$scope) = count(ancestor::node()) and ($role = @role or $type = @type or (string-length($role) = 0 and string-length($type) = 0))][1])]">
