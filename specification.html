@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>HTMLBook</title>
+    <meta charset="utf-8">
+    <script src="http://www.w3.org/Tools/respec/respec-w3c-common" async class="remove"></script>
+    <script class="remove">
+      var respecConfig = {
+          additionalCopyrightHolders: "Copyright &copy; 2014 O&#x2019;Reilly Media, Inc",
+          specStatus: "unofficial",
+          shortName:  "htmlbook",
+          editors: [
+                {   name:       "Sanders Kleinfeld",
+                    url:        "http://oreilly.com",
+                    company:    "O&#x2019;Reilly Media, Inc",
+                    companyURL: "http://oreilly.com" }
+          ],
+          localBiblio: {
+             "DOCBOOK": { 
+                title: "The DocBook Document Type",
+                href: "http://www.docbook.org/specs/docbook-4.5-spec.html",
+                authors: ["Norman Walsh"],
+                publisher: "OASIS",
+             },
+             "EPUB3SSV" : {
+                title: "EPUB 3 Structural Semantics Vocabulary",
+                href: "http://www.idpf.org/epub/vocab/structure/",
+                publisher: "IDPF"
+             }
+          } 
+      };
+    </script>
+    <style type="text/css">
+span[data-type=footnote] {
+  background-color: #d3d3d3;
+  border: solid 1px black;
+  border-radius: 0.25em;
+  padding-left: 3px;
+  padding-right: 3px;
+  padding-top: 1px;
+  padding-bottom: 1px;
+  font-size: smaller;
+}
+</style>
+  </head>
+  <body>
+    <section id="abstract">
+      <p>Let&rsquo;s write books in HTML! HTMLBook is an open, XHTML5-based standard for the authoring and production of both print and digital books. HTMLBook is built on the following premises:</p>
+      <ul>
+        <li>Books are timeless. The basic &ldquo;book&rdquo; structure has persisted for hundreds of years and will continue to persist for our lifetimes, be it in digital or print form.</li>
+        <li>HTML is the markup language of the world for the foreseeable future.</li>
+        <li>Single-source document processing will remain valuable for the foreseeable future.</li>
+      </ul>
+      <p>As such, HTMLBook can be characterized in the following ways:</p>
+      <ul>
+        <li>HTMLBook is a subset of XHTML5. All HTMLBook is XHTML5, but not all XHTML5 is HTMLBook.</li>
+        <li>HTMLBook contains no additional elements or attributes outside of the XHTML5 specification.</li>
+        <li>HTMLBook is semantically tailored to the structure of a book, including more complex content used in technical and reference documents</li>
+        <li>HTMLBook is defined with and can be validated against an XML schema.</li>
+        <li>HTMLBook stylesheets are written in CSS.</li>
+      </ul>
+    </section>
+    <section id="sotd">
+    </section>
+    <section>
+      <h2>Notes on the HTMLBook Specification</h2>
+      <p>Requirements for HTML5 elements in the HTMLBook specification are below. Special semantic inflections for <code>data-type</code> attributes, unless otherwise noted, come from <a href="http://idpf.org/epub/vocab/structure/">EPUB 3 Structural Semantics Vocabulary</a></p>
+      <p>Many content models refer to &ldquo;Block elements&rdquo; or &ldquo;Inline elements&rdquo;; please see <a href="#block_elements">Block Elements</a> and <a href="#inline_elements">Inline Elements</a> for the corresponding list of HTML5 elements that belong to each of these categories.</p>
+      <p>If no content model or attribute requirements are explicitly specified, then HTMLBook adopts the corresponding requirements in the [[!HTML5]] Specification</a></p>
+    </section>
+    <section>
+      <h2>Revision History and Notes</h2>
+      <dl>
+        <dt>29 December 2013</dt>
+        <dd>Minor revisions for clarity</dd>
+        <dt>13 August 2013</dt>
+        <dd>Revised specification for footnote markup</dd>
+        <dt>3 July 2013</dt>
+        <dd>Changed spec to use the attribute <code>data-type</code> for specifying book-specific semantics instead of <code>class</code>. The <code>class</code> attribute is
+now free to be used for whatever user-defined semantics are desired, and there are no restrictions on <code>class</code> values. Users of the spec may want to replicate <code>data-type</code> values in the <code>class</code> attribute to facilitate CSS styling, but this is completely optional.</dd>
+        <dt>19 April 2013</dt>
+        <dd>First release of Working Draft</dd>
+      </dl>
+    </section>
+    <section data-type="sect1" id="_book_component_elements">
+      <h1>Book Component elements</h1>
+      <section data-type="sect2" id="_book">
+        <h2>Book</h2>
+        <p><strong>HTML element</strong>: <code>&lt;body&gt;</code></p>
+        <p><strong>Attribute requirements</strong>: <code>data-type="book"</code> <span data-type="footnote">(Not in [[EPUB3SSV]]; from [[DOCBOOK]])</span></p>
+        <p><strong>Content model</strong>: First child must be <code>&lt;h1&gt;</code> that contains book title; then zero or more <code>&lt;h2&gt;</code> elements for subtitle content; then one or more Book Component elements as children (<code>&lt;div&gt;</code> for Part elements, <code>&lt;nav&gt;</code> for Table of Contents, and <code>&lt;section&gt;</code> elements for all other book divisions)</p>
+        <p>
+          <strong>Example</strong>
+        </p>
+        <pre data-type="programlisting" data-code-language="html">&lt;body data-type="book"&gt;
+  &lt;h1&gt;jQuery Cookbook&lt;/h1&gt;
+  &lt;section data-type="chapter"&gt;
+    &lt;!-- Chapter content here --&gt;
+  &lt;/section&gt;
+&lt;/body&gt;</pre>
+        <p><strong>Note</strong>: Just as in standard HTML5, <code>&lt;body&gt;</code> is a child of the root <code>&lt;html&gt;</code> element.</p>
+      </section>
+      <section data-type="sect2" id="_chapter">
+        <h2>Chapter</h2>
+        <p><strong>HTML element</strong>: <code>&lt;section&gt;</code></p>
+        <p><strong>Attribute requirements</strong>: <code>data-type="chapter"</code></p>
+        <p><strong>Content model</strong>: First child must be <code>&lt;h1&gt;</code> that contains chapter title; then zero or more <code>&lt;h2&gt;</code> elements for subtitle content; then zero or more Block Elements; then zero or more Sect1 children (<code>&lt;section data-type="sect1"&gt;</code>)</p>
+        <p>
+          <strong>Example</strong>
+        </p>
+        <pre data-type="programlisting">&lt;section data-type="chapter"&gt;
+  &lt;!-- h1 used for all chapter titles --&gt;
+  &lt;h1&gt;Chapter Title&lt;/h1&gt;
+  &lt;p&gt;Chapter content&lt;/p&gt;
+  &lt;section data-type="sect1"&gt;
+    &lt;!-- Section content here... --&gt;
+  &lt;/section&gt;
+&lt;/section&gt;</pre>
+      </section>
+      <section data-type="sect2" id="_appendix">
+        <h2>Appendix</h2>
+        <p><strong>HTML element</strong>: <code>&lt;section&gt;</code></p>
+        <p><strong>Attribute requirements</strong>: <code>data-type="appendix"</code> or <code>data-type="afterword"</code>, depending on content</p>
+        <p><strong>Content model</strong>: First child must be <code>&lt;h1&gt;</code> that contains appendix title; then zero or more <code>&lt;h2&gt;</code> elements for subtitle content; then zero or more Block Elements; then zero or more Sect1 children (<code>&lt;section data-type="sect1"&gt;</code>)</p>
+        <p>
+          <strong>Example</strong>
+        </p>
+        <pre data-type="programlisting">&lt;section data-type="appendix"&gt;
+  &lt;h1&gt;Appendix Title&lt;/h1&gt;
+  &lt;p&gt;Appendix content&lt;/p&gt;
+  &lt;section data-type="sect1"&gt;
+    &lt;!-- Section content here... --&gt;
+  &lt;/section&gt;
+&lt;/section&gt;</pre>
+      </section>
+      <section data-type="sect2" id="_bibliography">
+        <h2>Bibliography</h2>
+        <p><strong>HTML element</strong>: <code>&lt;section&gt;</code></p>
+        <p><strong>Attribute requirements</strong>: <code>data-type="bibliography"</code></p>
+        <p><strong>Content model</strong>: First child must be <code>&lt;h1&gt;</code> that contains bibliography title; then zero or more <code>&lt;h2&gt;</code> elements for subtitle content; then zero or more Block Elements; then zero or more Sect1 children (<code>&lt;section data-type="sect1"&gt;</code>)</p>
+        <p>
+          <strong>Example</strong>
+        </p>
+        <pre data-type="programlisting">&lt;section data-type="bibliography"&gt;
+  &lt;h1&gt;Bibliography Title&lt;/h1&gt;
+  &lt;p&gt;Bibliography content&lt;/p&gt;
+  &lt;section data-type="sect1"&gt;
+    &lt;!-- Section content here... --&gt;
+  &lt;/section&gt;
+&lt;/section&gt;</pre>
+      </section>
+      <section data-type="sect2" id="glossary">
+        <h2>Glossary</h2>
+        <p><strong>HTML element</strong>: <code>&lt;section&gt;</code></p>
+        <p><strong>Attribute requirements</strong>: <code>data-type="glossary"</code></p>
+        <p><strong>Content model</strong>: First child must be <code>&lt;h1&gt;</code> that contains glossary title; then zero or more <code>&lt;h2&gt;</code> elements for subtitle content; then zero or more Block Elements; then zero or more Sect1 children (<code>&lt;section data-type="sect1"&gt;</code>)</p>
+        <p><strong>Best practices</strong>: List of glossary terms should be marked up using <code>&lt;dl&gt;</code> elements with a <code>data-type</code> of "glossary", with <code>&lt;dt&gt;</code> children with a <code>data-type</code> of "glossterm" and <code>&lt;dd&gt;</code> children with a <code>data-type</code> of "glossdef". Term text should be wrapped in a <code>&lt;dfn&gt;</code>. However, none of this is formally required by the spec.</p>
+        <p>
+          <strong>Example</strong>
+        </p>
+        <pre data-type="programlisting">&lt;section data-type="glossary"&gt;
+  &lt;h1&gt;Glossary Title&lt;/h1&gt;
+  &lt;dl data-type="glossary"&gt;
+    &lt;dt data-type="glossterm"&gt;
+      &lt;dfn&gt;jQuery&lt;/dfn&gt;
+    &lt;/dt&gt;
+    &lt;dd data-type="glossdef"&gt;
+      Widely used JavaScript library
+    &lt;/dd&gt;
+   &lt;/dl&gt;
+&lt;/section&gt;</pre>
+      </section>
+      <section data-type="sect2" id="_preface">
+        <h2>Preface</h2>
+        <p><strong>HTML element</strong>: <code>&lt;section&gt;</code></p>
+        <p><strong>Attribute requirements</strong>: <code>data-type="preface"</code>, <code>data-type="foreword"</code>, or <code>data-type="introduction"</code>, depending on content</p>
+        <p><strong>Content model</strong>: First child must be <code>&lt;h1&gt;</code> that contains preface title; then zero or more <code>&lt;h2&gt;</code> elements for subtitle content; then zero or more Block Elements; then zero or more Sect1 children (<code>&lt;section data-type="sect1"&gt;</code>)</p>
+        <p>
+          <strong>Example</strong>
+        </p>
+        <pre data-type="programlisting">&lt;section data-type="preface"&gt;
+  &lt;h1&gt;Preface Title&lt;/h1&gt;
+  &lt;p&gt;Preface content&lt;/p&gt;
+  &lt;section data-type="sect1"&gt;
+    &lt;!-- Section content here... --&gt;
+  &lt;/section&gt;
+&lt;/section&gt;</pre>
+      </section>
+      <section data-type="sect2" id="_frontmatter">
+        <h2>Frontmatter</h2>
+        <p><strong>HTML element</strong>: <code>&lt;section&gt;</code></p>
+        <p><strong>Attribute requirements</strong>: <code>data-type="halftitlepage"</code>, <code>data-type="titlepage"</code>, <code>data-type="copyright-page"</code>, or <code>data-type="dedication"</code>, depending on content</p>
+        <p><strong>Content model</strong>: First child must be <code>&lt;h1&gt;</code> that contains frontmatter section title; then zero or more <code>&lt;h2&gt;</code> elements for subtitle content; then zero or more Block Elements; then zero or more Sect1 children (<code>&lt;section data-type="sect1"&gt;</code>)</p>
+        <p>
+          <strong>Example</strong>
+        </p>
+        <pre data-type="programlisting">&lt;section data-type="titlepage"&gt;
+  &lt;h1&gt;Python in a Nutshell&lt;/h1&gt;
+  &lt;p&gt;By Alex Martelli&lt;/p&gt;
+&lt;/section&gt;</pre>
+      </section>
+      <section data-type="sect2" id="_backmatter">
+        <h2>Backmatter</h2>
+        <p><strong>HTML element</strong>: <code>&lt;section&gt;</code></p>
+        <p><strong>Attribute requirements</strong>: <code>data-type="colophon"</code>, <code>data-type="acknowledgments"</code>, <code>data-type="afterword"</code>, or <code>data-type="conclusion"</code>, depending on content</p>
+        <p><strong>Content model</strong>: First child must be <code>&lt;h1&gt;</code> that contains backmatter section title; then zero or more <code>&lt;h2&gt;</code> elements for subtitle content; then zero or more Block Elements; then zero or more Sect1 children (<code>&lt;section data-type="sect1"&gt;</code>)</p>
+        <p>
+          <strong>Example</strong>
+        </p>
+        <pre data-type="programlisting">&lt;section data-type="colophon"&gt;
+  &lt;h1&gt;Colophon Title&lt;/h1&gt;
+  &lt;p&gt;Colophon content&lt;/p&gt;
+  &lt;section data-type="sect1"&gt;
+    &lt;!-- Section content here... --&gt;
+  &lt;/section&gt;
+&lt;/section&gt;</pre>
+      </section>
+      <section data-type="sect2" id="_part">
+        <h2>Part</h2>
+        <p><strong>HTML element</strong>: <code>&lt;div&gt;</code></p>
+        <p><strong>Atttribute requirements</strong>: <code>data-type="part"</code></p>
+        <p><strong>Content model</strong>: First child must be <code>&lt;h1&gt;</code> that contains part title; then zero or more <code>&lt;h2&gt;</code> elements for subtitle content; then zero or more Block Elements that compose the optional Part introduction; then one or more <code>&lt;section&gt;</code> elements representing Book Component children other than a Part</p>
+        <p>
+          <strong>Example</strong>
+        </p>
+        <pre data-type="programlisting">&lt;div data-type="part"&gt;
+  &lt;h1&gt;Part One: Introduction to Backbone.js&lt;/h1&gt;
+  &lt;p&gt;Part Introduction...&lt;/p&gt;
+  &lt;section data-type="chapter"&gt;
+    &lt;!-- Chapter content here --&gt;
+  &lt;/section&gt;
+&lt;/div&gt;</pre>
+      </section>
+      <section data-type="sect2" id="_table_of_contents">
+        <h2>Table of Contents</h2>
+        <p><strong>HTML element</strong>: <code>&lt;nav&gt;</code></p>
+        <p><strong>Attribute requirements</strong>: <code>data-type="toc"</code></p>
+        <p><strong>Content Model</strong>: The TOC must be conformant to the specs for the <a href="http://www.idpf.org/epub/30/spec/epub30-contentdocs-20111011.html#sec-xhtml-nav">EPUB 3 Navigation document</a>. First child is zero or more heading elements (<code>&lt;h1&gt;-&lt;h6&gt;</code>), followed by an <code>&lt;ol&gt;</code> (with <code>&lt;li&gt;</code> children that can contain only a <code>&lt;span&gt;</code> element or an <code>&lt;a&gt;</code> element plus an optional <code>&lt;ol&gt;</code> child)</p>
+        <p>
+          <strong>Example</strong>
+        </p>
+        <pre data-type="programlisting">&lt;nav data-type="toc"&gt;
+  &lt;h1&gt;Table of Contents&lt;/h1&gt;
+   &lt;ol&gt;
+     &lt;li&gt;&lt;a href="examples_page.html"&gt;A Note Regarding Supplemental Files&lt;/a&gt;&lt;/li&gt;
+     &lt;li&gt;&lt;a href="pr02.html"&gt;Foreword&lt;/a&gt;&lt;/li&gt;
+     &lt;li&gt;&lt;a href="pr03.html"&gt;Contributors&lt;/a&gt;
+       &lt;ol&gt;
+         &lt;li&gt;&lt;a href="pr03.html#I_sect1_d1e154"&gt;Chapter Authors&lt;/a&gt;&lt;/li&gt;
+         &lt;li&gt;&lt;a href="pr03.html#I_sect1_d1e260"&gt;Tech Editors&lt;/a&gt;&lt;/li&gt;
+       &lt;/ol&gt;
+     &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/nav&gt;</pre>
+      </section>
+      <section data-type="sect2" id="_index">
+        <h2>Index</h2>
+        <p><strong>HTML element</strong>: <code>&lt;section&gt;</code></p>
+        <p><strong>Attribute requirements</strong>: <code>data-type="index"</code></p>
+        <p><strong>Content model</strong>: First child must be <code>&lt;h1&gt;</code> that contains index title; then zero or more <code>&lt;h2&gt;</code> elements for subtitle content; then zero or more Block Elements; then zero or more Sect1 children (<code>&lt;section data-type="sect1"&gt;</code>)</p>
+        <p><strong>Best practices</strong>: HTMLBook recommends following the <a href="http://www.idpf.org/epub/idx/">EPUB Indexes specification</a> and using <code>&lt;ol&gt;</code>/<code>&lt;li&gt;</code> elements for marking up index entries, with <code>data-type</code> attributes used for semantic inflection as appropriate, but none of this is a formal spec requirement</p>
+        <p>
+          <strong>Example</strong>
+        </p>
+        <pre data-type="programlisting">&lt;section data-type="index"&gt;
+  &lt;h1&gt;Index Title&lt;/h1&gt;
+  &lt;div data-type="index:group"&gt;
+    &lt;h2&gt;A&lt;/h2&gt;
+    &lt;ol&gt;
+      &lt;li data-type="index:term"&gt;AsciiDoc, &lt;a href="ch01#asciidoc" data-type="index:locator"&gt;All about AsciiDoc&lt;/a&gt;
+	&lt;ol&gt;
+           &lt;li data-type="index:term"&gt;conversion to HTML, &lt;a href="ch01#asctohtml" data-type="index:locator"&gt;AsciiDoc Output Formats&lt;/a&gt;&lt;/li&gt;
+         &lt;/ol&gt;
+      &lt;/li&gt;
+      &lt;li data-type="index:term"&gt;azalea, &lt;a href="ch01#azalea" data-type="index:locator"&gt;Shrubbery&lt;/a&gt;&lt;/li&gt;
+    &lt;/ol&gt;
+  &lt;/div&gt;
+&lt;/section&gt;</pre>
+      </section>
+      <section data-type="sect2" id="_sections">
+        <h2>Sections</h2>
+        <p><strong>HTML element</strong>: <code>&lt;section&gt;</code></p>
+        <p><strong>Attribute requirements</strong>: <code>data-type="sect1"</code>, <code>data-type="sect2"</code>, <code>data-type="sect3"</code>, <code>data-type="sect4"</code>, <code>data-type="sect5"</code> <span data-type="footnote">(From [[DOCBOOK]] vocabulary)</span>, depending on hierarchy level. <code>sect1</code> is used for <code>&lt;section&gt;</code> elements nested directly in main Book components ("chapter", "appendix", etc.). <code>sect2</code> is used for <code>&lt;section&gt;</code> elements nested in a <code>sect1</code> <code>&lt;section&gt;</code>, <code>sect3</code> is used for <code>&lt;section&gt;</code> elements nested in a <code>sect2</code> <code>&lt;section&gt;</code>, and so on.</p>
+        <p><strong>Content model</strong>: The first child must be a main heading element corresponding to the hierarchy level indicated by <code>data-type</code> value, as follows:</p>
+        <pre data-type="programlisting">"sect1" -&gt; h1
+"sect2" -&gt; h2
+"sect3" -&gt; h3
+"sect4" -&gt; h4
+"sect5" -&gt; h5</pre>
+        <p>The heading is followed by zero or more subheading elements whose hierarchy level is one lower than the main heading (e.g., <code>&lt;h2&gt;</code> for a <code>sect1</code>), folloed by zero or more Block elements, followed by zero or more <code>&lt;section&gt;</code> elements with a <code>data-type</code> value one level lower in the hierarchy, as long as the parent section is a "sect4" or higher (e.g., <code>&lt;section data-type="sect4"&gt;</code> nested in <code>&lt;section data-type="sect3"&gt;</code>)</p>
+        <p><strong>Example</strong>:</p>
+        <pre data-type="programlisting">&lt;section data-type="sect1"&gt;
+  &lt;h1&gt;A-Head&lt;/h1&gt;
+  &lt;p&gt;If you httpparty, you must party hard&lt;/p&gt;
+  &lt;!-- Some more paragraphs --&gt;
+  &lt;section data-type="sect2"&gt;
+    &lt;h2&gt;B-Head&lt;/h2&gt;
+    &lt;p&gt;What's the frequency, Kenneth?&lt;/p&gt;
+    &lt;!-- And so on... --&gt;
+  &lt;/section&gt;
+&lt;/section&gt;</pre>
+      </section>
+    </section>
+    <section data-type="sect1" id="_block_elements">
+      <h1>Block elements</h1>
+      <section data-type="sect2" id="_paragraph">
+        <h2>Paragraph</h2>
+        <p><strong>HTML element</strong>: <code>&lt;p&gt;</code></p>
+        <p><strong>Example</strong>:</p>
+        <pre data-type="programlisting">&lt;p&gt;This is a standard paragraph with some &lt;em&gt;emphasized text&lt;/em&gt;&lt;/p&gt;</pre>
+      </section>
+      <section data-type="sect2" id="_sidebar">
+        <h2>Sidebar</h2>
+        <p><strong>HTML element</strong>: <code>&lt;aside&gt;</code></p>
+        <p><strong>Attribute requirements</strong>: <code>data-type="sidebar"</code></p>
+        <p><strong>Content model</strong>: Zero or one <code>&lt;h5&gt;</code> element that contains the sidebar title); then zero or more Block elements</p>
+        <p><strong>Example</strong>:</p>
+        <pre data-type="programlisting">&lt;aside data-type="sidebar"&gt;
+  &lt;h5&gt;Amusing Digression&lt;/h5&gt;
+  &lt;p&gt;Did you know that in Boston, they call it "soda", and in Chicago, they call it "pop"?&lt;/p&gt;
+&lt;/aside&gt;</pre>
+      </section>
+      <section data-type="sect2" id="_admonitions">
+        <h2>Admonitions</h2>
+        <p><strong>HTML element</strong>: <code>&lt;div&gt;</code></p>
+        <p><strong>Attribute requirements</strong>: <code>data-type="note"</code>, <code>data-type="warning"</code>, <code>data-type="tip"</code>, <code>data-type="caution"</code>, or <code>data-type="important"</code>, depending on the content within</p>
+        <p><strong>Content model</strong>: Either of the following content models is acceptable:</p>
+        <ul>
+          <li>
+            <p>text and/or zero or more Inline elements</p>
+          </li>
+          <li>
+            <p>Zero or more <code>&lt;h1&gt;</code>-<code>&lt;h6&gt;</code> elements (for title and subtitles), followed by zero or more Block elements</p>
+          </li>
+        </ul>
+        <p><strong>Examples</strong>:</p>
+        <pre data-type="programlisting">&lt;div data-type="note"&gt;
+  &lt;h1&gt;Helpful Info&lt;/h1&gt;
+  &lt;p&gt;Please take note of this important information&lt;/p&gt;
+&lt;/div&gt;</pre>
+        <pre data-type="programlisting">&lt;div data-type="warning"&gt;Make sure to get your AsciiDoc markup right!&lt;/div&gt;</pre>
+      </section>
+      <section data-type="sect2" id="_tables">
+        <h2>Tables</h2>
+        <p><strong>HTML element</strong>: <code>&lt;table&gt;</code></p>
+        <p><strong>Content model</strong>: Zero or one <code>&lt;caption&gt;</code> elements (for titled/captioned tables); then zero or more <code>&lt;colgroup&gt;</code> elements; then zero or more <code>&lt;thead&gt;</code> elements; then a choice between either zero or more <code>&lt;tbody&gt;</code> elements, or zero or more <code>&lt;tr&gt;</code> elements; then zero or more <code>&lt;tfoot&gt;</code> elements</p>
+        <p><strong>Content model for <code>&lt;caption&gt;</code></strong>: Either of the following is acceptable:</p>
+        <ul>
+          <li>
+            <p>Zero or more <code>&lt;p&gt;</code> and/or <code>&lt;div&gt;</code> elements</p>
+          </li>
+          <li>
+            <p>Text and/or zero or more Inline elements</p>
+          </li>
+        </ul>
+        <p><strong>Content model for <code>&lt;colgroup&gt;</code></strong>: Mirrors HTML5 Specification</p>
+        <p><strong>Content models for <code>&lt;thead&gt;</code>, <code>&lt;tbody&gt;</code>, and <code>&lt;tfoot&gt;</code></strong>: Mirror HTML5 Specification</p>
+        <p><strong>Content model for <code>&lt;tr&gt;</code></strong>: Mirrors HTML5 Specification, but see content model below for rules for child <code>&lt;td&gt;</code> and <code>&lt;th&gt;</code> elements</p>
+        <p><strong>Content model for <code>&lt;td&gt;</code> and <code>&lt;th&gt;</code> elements</strong>: Either of the following is acceptable:</p>
+        <ul>
+          <li>
+            <p>text and/or zero or more Inline elements</p>
+          </li>
+          <li>
+            <p>Zero or more Block elements</p>
+          </li>
+        </ul>
+        <p><strong>Examples</strong>:</p>
+        <pre data-type="programlisting">&lt;table&gt;
+&lt;caption&gt;State capitals&lt;/caption&gt;
+&lt;tr&gt;
+  &lt;th&gt;State&lt;/th&gt;
+  &lt;th&gt;Capital&lt;/th&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+  &lt;td&gt;Massachusetts&lt;/td&gt;
+  &lt;td&gt;Boston&lt;/td&gt;
+&lt;/tr&gt;
+&lt;!-- And so on --&gt;
+&lt;/table&gt;</pre>
+        <pre data-type="programlisting">&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;First&lt;/th&gt;
+      &lt;th&gt;Middle Initial&lt;/th&gt;
+      &lt;th&gt;Last&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Alfred&lt;/td&gt;
+      &lt;td&gt;E.&lt;/td&gt;
+      &lt;td&gt;Newman&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;!-- And so on --&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;</pre>
+      </section>
+      <section data-type="sect2" id="_figures">
+        <h2>Figures</h2>
+        <p><strong>HTML element</strong>: <code>&lt;figure&gt;</code></p>
+        <p><strong>Content model</strong>: Either of the following is acceptable:</p>
+        <ul>
+          <li>
+            <p>A <code>&lt;figcaption&gt;</code> element followed by zero or more Block elements and/or <code>&lt;img&gt;</code> elements</p>
+          </li>
+          <li>
+            <p>Zero or more Block elements and/or <code>&lt;img&gt;</code> elements, followed by a <code>&lt;figcaption&gt;</code> element</p>
+          </li>
+        </ul>
+        <p><strong>Example</strong>:</p>
+        <pre data-type="programlisting">&lt;figure&gt;
+&lt;figcaption&gt;Adorable cat&lt;/figcaption&gt;
+&lt;img src="cute_kitty.gif" alt="Photo of an adorable cat"/&gt;
+&lt;/figure&gt;</pre>
+      </section>
+      <section data-type="sect2" id="_examples">
+        <h2>Examples</h2>
+        <p><strong>HTML element</strong>: <code>&lt;div&gt;</code></p>
+        <p><strong>Attribute requirements</strong>: <code>data-type="example"</code></p>
+        <p><strong>Content model</strong>: Either of the following content models is acceptable:</p>
+        <ul>
+          <li>
+            <p>text and/or zero or more Inline elements</p>
+          </li>
+          <li>
+            <p>Zero or more <code>&lt;h1&gt;</code>-<code>&lt;h6&gt;</code> elements (for title and subtitles), followed by zero or more Block elements</p>
+          </li>
+        </ul>
+        <p><strong>Example</strong>:</p>
+        <pre data-type="programlisting">&lt;div data-type="example"&gt;
+&lt;h5&gt;Hello World in Python&lt;/h5&gt;
+&lt;pre data-type="programlisting"&gt;print "Hello World"&lt;/pre&gt;
+&lt;/div&gt;</pre>
+      </section>
+      <section data-type="sect2" id="_code_listings">
+        <h2>Code listings</h2>
+        <p><strong>HTML element</strong>: <code>&lt;pre&gt;</code></p>
+        <p><strong>Optional HTMLBook-specific attribute</strong>: <code>data-code-language</code>, used to indicate language of code listing (e.g., <code>data-code-language="python"</code>)</p>
+        <p><strong>Example</strong>:</p>
+        <pre data-type="programlisting">&lt;pre data-type="programlisting"&gt;print "&lt;em&gt;Hello World&lt;/em&gt;"&lt;/pre&gt;</pre>
+      </section>
+      <section data-type="sect2" id="_ordered_lists">
+        <h2>Ordered lists</h2>
+        <p><strong>HTML element</strong>: <code>&lt;ol&gt;</code></p>
+        <p><strong>Content model</strong>: Zero or more <code>&lt;li&gt;</code> children for each list item</p>
+        <p><strong>Content model for <code>&lt;li&gt;</code> children</strong>: Either of the following is acceptable:</p>
+        <ul>
+          <li>
+            <p>text and/or zero or more Inline elements</p>
+          </li>
+          <li>
+            <p>Zero or more Block elements</p>
+          </li>
+        </ul>
+        <p><strong>Example</strong>:</p>
+        <pre data-type="programlisting">&lt;ol&gt;
+&lt;li&gt;Step 1&lt;/li&gt;
+&lt;li&gt;
+  &lt;p&gt;Step 2&lt;/p&gt;
+  &lt;p&gt;Step 2 continued&lt;/p&gt;
+&lt;/li&gt;
+&lt;!-- And so on --&gt;
+&lt;/ol&gt;</pre>
+      </section>
+      <section data-type="sect2" id="_itemized_lists">
+        <h2>Itemized lists</h2>
+        <p><strong>HTML element</strong>: <code>&lt;ul&gt;</code></p>
+        <p><strong>Content model</strong>: Zero or more <code>&lt;li&gt;</code> children for each list item</p>
+        <p><strong>Content model for <code>&lt;li&gt;</code> children</strong>: Either of the following is acceptable:</p>
+        <ul>
+          <li>
+            <p>text and/or zero or more Inline elements</p>
+          </li>
+          <li>
+            <p>Zero or more Block elements</p>
+          </li>
+        </ul>
+        <p><strong>Example</strong>:</p>
+        <pre data-type="programlisting">&lt;ul&gt;
+&lt;li&gt;Red&lt;/li&gt;
+&lt;li&gt;Orange&lt;/li&gt;
+&lt;!-- And so on --&gt;
+&lt;/ul&gt;</pre>
+      </section>
+      <section data-type="sect2" id="_definition_lists">
+        <h2>Definition lists</h2>
+        <p><strong>HTML element</strong>: <code>&lt;dl&gt;</code></p>
+        <p><strong>Content model</strong>: Mirrors HTML5 Specification</p>
+        <p><strong>Content model for <code>&lt;dt&gt;</code> children</strong>: text and/or zero or more Inline elements</p>
+        <p><strong>Content model for <code>&lt;dd&gt;</code> children</strong>: Either of the following is acceptable:</p>
+        <ul>
+          <li>
+            <p>text and/or zero or more Inline elements</p>
+          </li>
+          <li>
+            <p>Zero or more Block elements</p>
+          </li>
+        </ul>
+        <p><strong>Example</strong>:</p>
+        <pre data-type="programlisting">&lt;dl&gt;
+  &lt;dt&gt;Constant Width Bold font&lt;/dt&gt;
+  &lt;dd&gt;Used to indicate user input&lt;/dd&gt;
+&lt;/dl&gt;</pre>
+      </section>
+      <section data-type="sect2" id="_blockquote">
+        <h2>Blockquote</h2>
+        <p><strong>HTML element</strong>: <code>&lt;blockquote&gt;</code></p>
+        <p><strong>Content model</strong>: Either of the following is acceptable:</p>
+        <ul>
+          <li>
+            <p>text and/or zero or more Inline elements</p>
+          </li>
+          <li>
+            <p>Zero or more Block elements</p>
+          </li>
+        </ul>
+        <p><strong>Example</strong>:</p>
+        <pre data-type="programlisting">&lt;blockquote data-type="epigraph"&gt;
+  &lt;p&gt;When in the course of human events...&lt;/p&gt;
+  &lt;p data-type="attribution"&gt;U.S. Declaration of Independence&lt;/p&gt;
+&lt;/blockquote&gt;</pre>
+      </section>
+      <section data-type="sect2" id="_headings">
+        <h2>Headings</h2>
+        <p><strong>HTML elements</strong>: <code>&lt;h1&gt;</code>, <code>&lt;h2&gt;</code>, <code>&lt;h3&gt;</code>, <code>&lt;h4&gt;</code>, <code>&lt;h5&gt;</code>, or <code>&lt;h6&gt;</code></p>
+        <p><strong>Content Model</strong>: text and/or zero or more Inline elements</p>
+        <p><strong>Notes</strong>: Many main book components (e.g., chapters, parts, appendixes) require headings. The appropriate
+element from <code>&lt;h1&gt;</code>-<code>&lt;h6&gt;</code> is outlined below, as well as in the corresponding documentation for these
+components:</p>
+        <pre data-type="programlisting">book title -&gt; h1
+part title -&gt; h1
+chapter title -&gt; h1
+preface title -&gt; h1
+appendix title -&gt; h1
+colophon title -&gt; h1
+dedication title -&gt; h1
+glossary title -&gt; h1
+bibliography title -&gt; h1
+sect1 title -&gt; h1
+sect2 title -&gt; h2
+sect3 title -&gt; h3
+sect4 title -&gt; h4
+sect5 title -&gt; h5
+sidebar title -&gt; h5</pre>
+      </section>
+      <section data-type="sect2" id="_equation">
+        <h2>Equation</h2>
+        <p><strong>HTML element</strong>: <code>&lt;div&gt;</code></p>
+        <p><strong>Attribute requirements</strong>: <code>data-type="equation"</code> <span data-type="footnote">(From [[DOCBOOK]]; no close match in [[EPUB3SSV]])</span></p>
+        <p>*Note: HTMLBook supports embedded MathML in HTML content documents, which can be used here.</p>
+        <p><strong>Example</strong>:</p>
+        <pre data-type="programlisting">&lt;div data-type="equation"&gt;
+&lt;h5&gt;Pythagorean Theorem&lt;/h5&gt;
+&lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt;
+  &lt;msup&gt;&lt;mi&gt;a&lt;/mi&gt;&lt;mn&gt;2&lt;/mn&gt;&lt;/msup&gt;
+  &lt;mo&gt;+&lt;/mo&gt;
+  &lt;msup&gt;&lt;mi&gt;b&lt;/mi&gt;&lt;mn&gt;2&lt;/mn&gt;&lt;/msup&gt;
+  &lt;mo&gt;=&lt;/mo&gt;
+  &lt;msup&gt;&lt;mi&gt;c&lt;/mi&gt;&lt;mn&gt;2&lt;/mn&gt;&lt;/msup&gt;
+&lt;/math&gt;
+&lt;/div&gt;</pre>
+      </section>
+    </section>
+    <section data-type="sect1" id="_inline_elements">
+      <h1>Inline Elements</h1>
+      <section data-type="sect2" id="_emphasis_generally_for_italic">
+        <h2>Emphasis (generally for italic)</h2>
+        <p><strong>HTML element</strong>: <code>&lt;em&gt;</code></p>
+        <p>Example:</p>
+        <pre data-type="programlisting">&lt;p&gt;I &lt;em&gt;love&lt;/em&gt; HTML!&lt;/p&gt;</pre>
+      </section>
+      <section data-type="sect2" id="_strong_generally_for_bold">
+        <h2>Strong (generally for bold)</h2>
+        <p><strong>HTML element</strong>: <code>&lt;strong&gt;</code></p>
+        <p>Example:</p>
+        <pre data-type="programlisting">&lt;p&gt;I &lt;strong&gt;love&lt;/strong&gt; HTML!&lt;/p&gt;</pre>
+      </section>
+      <section data-type="sect2" id="_literal_for_inline_code_elements_variables_functions_etc">
+        <h2>Literal (for inline code elements: variables, functions, etc.)</h2>
+        <p><strong>HTML element</strong>: <code>&lt;code&gt;</code></p>
+        <p>Example:</p>
+        <pre data-type="programlisting">&lt;p&gt;Enter &lt;code&gt;echo "Hello World"&lt;/code&gt; on the command line&lt;/p&gt;</pre>
+      </section>
+      <section data-type="sect2" id="_general_purpose_phrase_markup_for_other_styling_underline_strikethrough_etc">
+        <h2>General-purpose phrase markup for other styling (underline, strikethrough, etc.)</h2>
+        <p><strong>HTML element</strong>: <code>&lt;span&gt;</code></p>
+        <p>Example:</p>
+        <pre data-type="programlisting">&lt;p&gt;Use your own data-type or class attributes for custom styling for formatting 
+like &lt;span data-type="strikethrough"&gt;strikethrough&lt;/span&gt;&lt;/p&gt;</pre>
+      </section>
+      <section data-type="sect2" id="_footnote_endnote">
+        <h2>Footnote, endnote</h2>
+        <p><strong>HTML element</strong>: <code>&lt;span&gt;</code></p>
+        <p><strong>Attribute requirements</strong>: <code>data-type="footnote"</code></p>
+        <p>*Content model for footnote: text and/or zero or more Inline elements</p>
+        <p><strong>Example</strong>:</p>
+        <pre data-type="programlisting">&lt;p&gt;Five out of every six people who try AsciiDoc prefer it to 
+Markdown&lt;span data-type="footnote"&gt;Totally made-up statistic&lt;/span&gt;&lt;/p&gt;</pre>
+        <p><strong>Notes</strong>:</p>
+        <ul>
+          <li>
+            <p>The <code>&lt;span&gt;</code> element does not accept block element children (and as of 2013-08-13, nor does any other HTML5 element that can be used in an inline context and is an acceptable semantic fit for footnotes)). If you need to include multiple blocks of content in a footnote, use <code>&lt;br/&gt;</code> elements to delimit them, e.g.:</p>
+          </li>
+        <pre data-type="programlisting">&lt;p&gt;This is a really short paragraph.&lt;span data-type="footnote"&gt;Largely because I like 
+to put lots and lots of content in footnotes.&lt;br/&gt;&lt;br/&gt;
+For example, let me tell you a story about my dog...&lt;/span&gt;&lt;/p&gt;</pre>
+          <li>
+            <p>Desired rendering of footnote content (i.e., floating/moving footnotes to the bottom of a page or end of a section, adding appropriate marker symbols/numeration) should be handled by XSL/CSS stylesheet processing.</p>
+          </li>
+        </ul>
+      </section>
+      <section data-type="sect2" id="_cross_references">
+        <h2>Cross-references</h2>
+        <p><strong>HTML element</strong>: <code>&lt;a&gt;</code></p>
+        <p><strong>Attribute requirements</strong>: <code>data-type="xref"</code> <span data-type="footnote">(From [[DOCBOOK]])</span>; an <code>href</code> attribute that should point to the id of a
+local HTMLBook resource referenced; <code>data-xrefstyle</code> (optional) for specifying the style of XREF</p>
+        <p>Example:</p>
+        <pre data-type="programlisting">&lt;section id="html5" data-type="chapter"&gt;
+  &lt;h1&gt;Intro to HTML5&lt;h1&gt;
+  &lt;p&gt;As I said at the beginning of &lt;a data-type="xref" href="#html5"&gt;Chapter 1&lt;/a&gt;, HTML5 is great...&lt;/p&gt;
+  &lt;!-- Blah blah blah --&gt;
+&lt;/section&gt;</pre>
+      </section>
+      <section data-type="sect2" id="_index_term">
+        <h2>Index Term</h2>
+        <p><strong>HTML element</strong>: <code>&lt;a&gt;</code></p>
+        <p><strong>Attribute requirements</strong>: <code>data-type="indexterm"</code>; for primary index entry value, use <code>data-primary</code>; for secondary index entry value, use <code>data-secondary</code>; for tertiary index entry value, use <code>data-tertiary</code>; for a "see" index reference, use <code>data-see</code>; for a "see also" index reference, use <code>data-seealso</code>; for a "sort" value to indicate alphabetization, use <code>data-primary-sortas</code>, <code>data-secondary-sortas</code>, or <code>data-tertiary-sortas</code>; for an "end-of-range" tag that marks the end of an index range, use <code>data-startref="id_of_opening_index_marker"</code> <span data-type="footnote">(Semantics from [[DOCBOOK]])</span></p>
+        <p><strong>Content model</strong>: Empty</p>
+        <p><strong>Example</strong>:</p>
+        <pre data-type="programlisting">&lt;p&gt;The Atlas build system&lt;a data-type="indexterm" data-primary="Atlas" data-secondary="build system"/&gt; lets 
+you build EPUB, Mobi, PDF, and HTML content&lt;/p&gt;</pre>
+      </section>
+      <section data-type="sect2" id="_superscripts">
+        <h2>Superscripts</h2>
+        <p><strong>HTML element</strong>: <code>&lt;sup&gt;</code></p>
+        <p><strong>Example</strong>:</p>
+        <pre data-type="programlisting">&lt;p&gt;The area of a circle is &#x3C0;r&lt;sup&gt;2&lt;/sup&gt;&lt;/p&gt;</pre>
+      </section>
+      <section data-type="sect2" id="_subscripts">
+        <h2>Subscripts</h2>
+        <p><strong>HTML element</strong>: <code>&lt;sub&gt;</code></p>
+        <p><strong>Example</strong>:</p>
+        <pre data-type="programlisting">&lt;p&gt;The formula for water is H&lt;sub&gt;2&lt;/sub&gt;O&lt;/p&gt;</pre>
+      </section>
+    </section>
+    <section data-type="sect1" id="_interactive_elements">
+      <h1>Interactive Elements</h1>
+      <section data-type="sect2" id="_video">
+        <h2>Video</h2>
+        <p><strong>HTML element</strong>: <code>&lt;video&gt;</code></p>
+        <p><strong>Example</strong>:</p>
+        <p><strong>Note</strong>: Fallback content is <em>strongly recommended</em> for output formats that do not support HTML5 interactive content</p>
+        <pre data-type="programlisting">&lt;video id="asteroids_video" width="480" height="270" controls="controls" poster="images/fallback_image.png"&gt;
+&lt;source src="video/html5_asteroids.mp4" type="video/mp4"/&gt;
+&lt;source src="video/html5_asteroids.ogg" type="video/ogg"/&gt;
+&lt;em&gt;Sorry, the &amp;lt;video&amp;gt; element not supported in your
+  reading system. View the video online at http://example.com.&lt;/em&gt;
+&lt;/video&gt;</pre>
+      </section>
+      <section data-type="sect2" id="_audio">
+        <h2>Audio</h2>
+        <p><strong>HTML element</strong>: <code>&lt;audio&gt;</code></p>
+        <p><strong>Note</strong>: Fallback content is <em>strongly recommended</em> for output formats that do not support HTML5 interactive content</p>
+        <p><strong>Example</strong>:</p>
+        <pre data-type="programlisting">&lt;audio id="new_slang"&gt;
+&lt;source src="audio/new_slang.wav" type="audio/wav"/&gt;
+&lt;source src="audio/new_slang.mp3" type="audio/mp3"/&gt;
+&lt;source src="audionew_slang.ogg" type="audio/ogg"/&gt;
+&lt;em&gt;Sorry, the &amp;lt;audio&amp;gt; element is not supported in your
+  reading system. Hear the audio online at http://example.com.&lt;/em&gt;
+&lt;/audio&gt;</pre>
+      </section>
+      <section data-type="sect2" id="_canvas">
+        <h2>Canvas</h2>
+        <p><strong>HTML element</strong>: <code>&lt;canvas&gt;</code></p>
+        <p><strong>Notes</strong>: Should include fallbacks for environments that don&#x2019;t support HTML5 or JavaScript (e.g., link or image).
+You may include <code>&lt;script&gt;</code> elements in your HTMLBook document <code>&lt;head&gt;</code> elements to include/reference JS code for
+Canvas handling.</p>
+        <p><strong>Examples</strong>:</p>
+        <pre data-type="programlisting">&lt;canvas id="canvas" width="400" height="400"&gt;
+ Your browser does not support the HTML 5 Canvas. See the interactive example at http://example.com.
+&lt;/canvas&gt;</pre>
+      </section>
+    </section>
+    <section data-type="sect1" id="_metadata">
+      <h1>Metadata</h1>
+      <section data-type="sect2" id="_metadata_points">
+        <h2>Metadata points</h2>
+        <p><strong>HTML element</strong>: <code>&lt;meta&gt;</code></p>
+        <p><strong>Attribute requirements</strong>: <code>name</code> (for name of metadata point); <code>content</code>: (for value of metadata point)</p>
+        <p><strong>Content model</strong>: Empty</p>
+        <p><strong>Note</strong>: All <code>&lt;meta&gt;</code> elements must be children of the <code>&lt;head&gt;</code> element of the HTML file.</p>
+        <p><strong>Example</strong>:</p>
+        <pre data-type="programlisting">&lt;head&gt;
+  &lt;title&gt;Title of the Book&lt;/title&gt;
+  &lt;meta name="isbn-13" content="9781449344856"/&gt;
+&lt;/head&gt;</pre>
+      </section>
+    </section>
+    <section data-type="sect1" id="_element_classification">
+      <h1>Element Classification</h1>
+      <section data-type="sect2" id="block_elements">
+        <h2>Block elements</h2>
+        <p>In HTMLBook, the majority of elements classified by the HTML5 specification as Flow content (minus elements also categorized as Heading Content, Phrasing Content, and Sectioning Content) are considered to be Block elements. Here is a complete list:</p>
+        <ul>
+          <li>
+            <p>
+              <code>&lt;address&gt;</code>
+            </p>
+          </li>
+          <li>
+            <p>
+              <code>&lt;aside&gt;</code>
+            </p>
+          </li>
+          <li>
+            <p>
+              <code>&lt;audio&gt;</code>
+            </p>
+          </li>
+          <li>
+            <p>
+              <code>&lt;blockquote&gt;</code>
+            </p>
+          </li>
+          <li>
+            <p>
+              <code>&lt;canvas&gt;</code>
+            </p>
+          </li>
+          <li>
+            <p>
+              <code>&lt;details&gt;</code>
+            </p>
+          </li>
+          <li>
+            <p>
+              <code>&lt;div&gt;</code>
+            </p>
+          </li>
+          <li>
+            <p>
+              <code>&lt;dl&gt;</code>
+            </p>
+          </li>
+          <li>
+            <p>
+              <code>&lt;embed&gt;</code>
+            </p>
+          </li>
+          <li>
+            <p>
+              <code>&lt;fieldset&gt;</code>
+            </p>
+          </li>
+          <li>
+            <p>
+              <code>&lt;figure&gt;</code>
+            </p>
+          </li>
+          <li>
+            <p>
+              <code>&lt;form&gt;</code>
+            </p>
+          </li>
+          <li>
+            <p>
+              <code>&lt;hr&gt;</code>
+            </p>
+          </li>
+          <li>
+            <p>
+              <code>&lt;iframe&gt;</code>
+            </p>
+          </li>
+          <li>
+            <p>
+              <code>&lt;map&gt;</code>
+            </p>
+          </li>
+          <li>
+            <p><code>&lt;math&gt;</code> (In MathML vocabulary; must be namespaced under <a href="http://www.w3.org/1998/Math/MathML)">http://www.w3.org/1998/Math/MathML)</a></p>
+          </li>
+          <li>
+            <p>
+              <code>&lt;menu&gt;</code>
+            </p>
+          </li>
+          <li>
+            <p>
+              <code>&lt;object&gt;</code>
+            </p>
+          </li>
+          <li>
+            <p>
+              <code>&lt;ol&gt;</code>
+            </p>
+          </li>
+          <li>
+            <p>
+              <code>&lt;p&gt;</code>
+            </p>
+          </li>
+          <li>
+            <p>
+              <code>&lt;pre&gt;</code>
+            </p>
+          </li>
+          <li>
+            <p><code>&lt;svg&gt;</code> (In SVG vocabulary; must be namespaced under <a href="http://www.w3.org/2000/svg)">http://www.w3.org/2000/svg)</a></p>
+          </li>
+          <li>
+            <p>
+              <code>&lt;table&gt;</code>
+            </p>
+          </li>
+          <li>
+            <p>
+              <code>&lt;ul&gt;</code>
+            </p>
+          </li>
+          <li>
+            <p>
+              <code>&lt;video&gt;</code>
+            </p>
+          </li>
+        </ul>
+      </section>
+      <section data-type="sect2" id="inline_elements">
+        <h2>Inline elements</h2>
+        <p>In HTMLBook, the majority of elements classified by the HTML5 specification as Phrasing Content are considered to be Inline elements. Here is a complete list:</p>
+        <ul>
+          <li>
+            <p>
+              <code>&lt;a&gt;</code>
+            </p>
+          </li>
+          <li>
+            <p>
+              <code>&lt;abbr&gt;</code>
+            </p>
+          </li>
+          <li>
+            <p>
+              <code>&lt;b&gt;</code>
+            </p>
+          </li>
+          <li>
+            <p>
+              <code>&lt;bdi&gt;</code>
+            </p>
+          </li>
+          <li>
+            <p>
+              <code>&lt;bdo&gt;</code>
+            </p>
+          </li>
+          <li>
+            <p>
+              <code>&lt;br&gt;</code>
+            </p>
+          </li>
+          <li>
+            <p>
+              <code>&lt;button&gt;</code>
+            </p>
+          </li>
+          <li>
+            <p>
+              <code>&lt;command&gt;</code>
+            </p>
+          </li>
+          <li>
+            <p>
+              <code>&lt;cite&gt;</code>
+            </p>
+          </li>
+          <li>
+            <p>
+              <code>&lt;code&gt;</code>
+            </p>
+          </li>
+          <li>
+            <p>
+              <code>&lt;datalist&gt;</code>
+            </p>
+          </li>
+          <li>
+            <p>
+              <code>&lt;del&gt;</code>
+            </p>
+          </li>
+          <li>
+            <p>
+              <code>&lt;dfn&gt;</code>
+            </p>
+          </li>
+          <li>
+            <p>
+              <code>&lt;em&gt;</code>
+            </p>
+          </li>
+          <li>
+            <p>
+              <code>&lt;i&gt;</code>
+            </p>
+          </li>
+          <li>
+            <p>
+              <code>&lt;input&gt;</code>
+            </p>
+          </li>
+          <li>
+            <p>
+              <code>&lt;img&gt;</code>
+            </p>
+          </li>
+          <li>
+            <p>
+              <code>&lt;ins&gt;</code>
+            </p>
+          </li>
+          <li>
+            <p>
+              <code>&lt;kbd&gt;</code>
+            </p>
+          </li>
+          <li>
+            <p>
+              <code>&lt;keygen&gt;</code>
+            </p>
+          </li>
+          <li>
+            <p>
+              <code>&lt;label&gt;</code>
+            </p>
+          </li>
+          <li>
+            <p>
+              <code>&lt;mark&gt;</code>
+            </p>
+          </li>
+          <li>
+            <p>
+              <code>&lt;meter&gt;</code>
+            </p>
+          </li>
+          <li>
+            <p>
+              <code>&lt;output&gt;</code>
+            </p>
+          </li>
+          <li>
+            <p>
+              <code>&lt;progress&gt;</code>
+            </p>
+          </li>
+          <li>
+            <p>
+              <code>&lt;q&gt;</code>
+            </p>
+          </li>
+          <li>
+            <p>
+              <code>&lt;ruby&gt;</code>
+            </p>
+          </li>
+          <li>
+            <p>
+              <code>&lt;s&gt;</code>
+            </p>
+          </li>
+          <li>
+            <p>
+              <code>&lt;samp&gt;</code>
+            </p>
+          </li>
+          <li>
+            <p>
+              <code>&lt;select&gt;</code>
+            </p>
+          </li>
+          <li>
+            <p>
+              <code>&lt;small&gt;</code>
+            </p>
+          </li>
+          <li>
+            <p>
+              <code>&lt;span&gt;</code>
+            </p>
+          </li>
+          <li>
+            <p>
+              <code>&lt;strong&gt;</code>
+            </p>
+          </li>
+          <li>
+            <p>
+              <code>&lt;sub&gt;</code>
+            </p>
+          </li>
+          <li>
+            <p>
+              <code>&lt;sup&gt;</code>
+            </p>
+          </li>
+          <li>
+            <p>
+              <code>&lt;textarea&gt;</code>
+            </p>
+          </li>
+          <li>
+            <p>
+              <code>&lt;time&gt;</code>
+            </p>
+          </li>
+          <li>
+            <p>
+              <code>&lt;u&gt;</code>
+            </p>
+          </li>
+          <li>
+            <p>
+              <code>&lt;var&gt;</code>
+            </p>
+          </li>
+          <li>
+            <p>
+              <code>&lt;wbr&gt;</code>
+            </p>
+          </li>
+        </ul>
+      </section>
+    </section>
+  </body>
+</html>
