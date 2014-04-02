@@ -18,7 +18,7 @@ As such, HTMLBook can be characterized in the following ways:
 
 Read the Working Draft of the HTMLBook Specification here:
 
-https://github.com/oreillymedia/HTMLBook/blob/master/specification.asciidoc
+http://oreillymedia.github.io/HTMLBook/
 
 Get the HTMLBook schema here:
 
