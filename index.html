@@ -6,7 +6,7 @@
     <script src="http://www.w3.org/Tools/respec/respec-w3c-common" async class="remove"></script>
     <script class="remove">
       var respecConfig = {
-          additionalCopyrightHolders: "Copyright &copy; 2014 O&#x2019;Reilly Media, Inc",
+          additionalCopyrightHolders: "Copyright &copy; 2014 O&#x2019;Reilly Media, Inc.",
           specStatus: "unofficial",
           shortName:  "htmlbook",
           editors: [
@@ -22,9 +22,19 @@
                 authors: ["Norman Walsh"],
                 publisher: "OASIS",
              },
+             "EPUB3": {
+                title: "EPUB 3 Overview",
+                href: "http://www.idpf.org/epub/30/spec/",
+                publisher: "IDPF"
+             },
              "EPUB3SSV" : {
                 title: "EPUB 3 Structural Semantics Vocabulary",
                 href: "http://www.idpf.org/epub/vocab/structure/",
+                publisher: "IDPF",
+             },
+             "EPUBINDEX": {
+                title: "EPUB Indexes 1.0",
+                href: "http://www.idpf.org/epub/idx/",
                 publisher: "IDPF"
              }
           } 
@@ -235,7 +245,7 @@ now free to be used for whatever user-defined semantics are desired, and there a
         <h2>Table of Contents</h2>
         <p><strong>HTML element</strong>: <code>&lt;nav&gt;</code></p>
         <p><strong>Attribute requirements</strong>: <code>data-type="toc"</code></p>
-        <p><strong>Content Model</strong>: The TOC must be conformant to the specs for the <a href="http://www.idpf.org/epub/30/spec/epub30-contentdocs-20111011.html#sec-xhtml-nav">EPUB 3 Navigation document</a>. First child is zero or more heading elements (<code>&lt;h1&gt;-&lt;h6&gt;</code>), followed by an <code>&lt;ol&gt;</code> (with <code>&lt;li&gt;</code> children that can contain only a <code>&lt;span&gt;</code> element or an <code>&lt;a&gt;</code> element plus an optional <code>&lt;ol&gt;</code> child)</p>
+        <p><strong>Content Model</strong>: The TOC must be conformant to the specs for the [[EPUB3]] <a href="http://www.idpf.org/epub/30/spec/epub30-contentdocs-20111011.html#sec-xhtml-nav">Navigation document</a>. First child is zero or more heading elements (<code>&lt;h1&gt;-&lt;h6&gt;</code>), followed by an <code>&lt;ol&gt;</code> (with <code>&lt;li&gt;</code> children that can contain only a <code>&lt;span&gt;</code> element or an <code>&lt;a&gt;</code> element plus an optional <code>&lt;ol&gt;</code> child)</p>
         <p>
           <strong>Example</strong>
         </p>
@@ -258,7 +268,7 @@ now free to be used for whatever user-defined semantics are desired, and there a
         <p><strong>HTML element</strong>: <code>&lt;section&gt;</code></p>
         <p><strong>Attribute requirements</strong>: <code>data-type="index"</code></p>
         <p><strong>Content model</strong>: First child must be <code>&lt;h1&gt;</code> that contains index title; then zero or more <code>&lt;h2&gt;</code> elements for subtitle content; then zero or more Block Elements; then zero or more Sect1 children (<code>&lt;section data-type="sect1"&gt;</code>)</p>
-        <p><strong>Best practices</strong>: HTMLBook recommends following the <a href="http://www.idpf.org/epub/idx/">EPUB Indexes specification</a> and using <code>&lt;ol&gt;</code>/<code>&lt;li&gt;</code> elements for marking up index entries, with <code>data-type</code> attributes used for semantic inflection as appropriate, but none of this is a formal spec requirement</p>
+        <p><strong>Best practices</strong>: HTMLBook recommends following the [[EPUBINDEX]] specification and using <code>&lt;ol&gt;</code>/<code>&lt;li&gt;</code> elements for marking up index entries, with <code>data-type</code> attributes used for semantic inflection as appropriate, but none of this is a formal spec requirement</p>
         <p>
           <strong>Example</strong>
         </p>
