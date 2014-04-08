@@ -358,9 +358,9 @@
   <xsl:template match="*" mode="process-heading">
     <xsl:param name="autogenerate.labels" select="$autogenerate.labels"/>
     <!-- Labeled element is typically the parent element of the heading (e.g., <section> or <figure>) -->
-    <xsl:param name="labeled-element" select=".."/>
+    <xsl:param name="labeled-element" select="(parent::h:header/..|..[not(self::h:header)])[1]"/>
     <!-- Labeled element semantic name is typically the parent element of the heading's @data-type -->
-    <xsl:param name="labeled-element-semantic-name" select="../@data-type"/>
+    <xsl:param name="labeled-element-semantic-name" select="(parent::h:header/..|..[not(self::h:header)])[1]/@data-type"/>
     <!-- Name for output heading element; same as current node name by default -->
     <xsl:param name="output-element-name" select="local-name(.)"/>
     <xsl:element name="{$output-element-name}" namespace="http://www.w3.org/1999/xhtml">
