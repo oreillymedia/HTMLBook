@@ -489,9 +489,9 @@
       <xsl:when test="@data-pdf-bookmark">
 	<xsl:attribute name="data-pdf-bookmark" select="@data-pdf-bookmark"/>
       </xsl:when>
-      <xsl:when test="h:h1">
+      <xsl:when test="h:h1 or h:header/h:h1">
 	<xsl:variable name="processed-heading">
-	  <xsl:apply-templates select="h:h1[1]" mode="process-heading">
+	  <xsl:apply-templates select="(h:h1|h:header/h:h1)[1]" mode="process-heading">
 	    <xsl:with-param name="autogenerate.labels" select="$autogenerate.pdf.bookmark.labels"/>
 	  </xsl:apply-templates>
 	</xsl:variable>
@@ -507,9 +507,9 @@
       <xsl:when test="@data-pdf-bookmark">
 	<xsl:attribute name="data-pdf-bookmark" select="@data-pdf-bookmark"/>
       </xsl:when>
-      <xsl:when test="h:h2">
+      <xsl:when test="h:h2 or h:header/h:h2">
 	<xsl:variable name="processed-heading">
-	  <xsl:apply-templates select="h:h2[1]" mode="process-heading">
+	  <xsl:apply-templates select="(h:h2|h:header/h:h2)[1]" mode="process-heading">
 	    <xsl:with-param name="autogenerate.labels" select="$autogenerate.pdf.bookmark.labels"/>
 	  </xsl:apply-templates>
 	</xsl:variable>
@@ -525,9 +525,9 @@
       <xsl:when test="@data-pdf-bookmark">
 	<xsl:attribute name="data-pdf-bookmark" select="@data-pdf-bookmark"/>
       </xsl:when>
-      <xsl:when test="h:h3">
+      <xsl:when test="h:h3 or h:header/h:h3">
 	<xsl:variable name="processed-heading">
-	  <xsl:apply-templates select="h:h3[1]" mode="process-heading">
+	  <xsl:apply-templates select="(h:h3|h:header/h:h3)[1]" mode="process-heading">
 	    <xsl:with-param name="autogenerate.labels" select="$autogenerate.pdf.bookmark.labels"/>
 	  </xsl:apply-templates>
 	</xsl:variable>
@@ -543,9 +543,9 @@
       <xsl:when test="@data-pdf-bookmark">
 	<xsl:attribute name="data-pdf-bookmark" select="@data-pdf-bookmark"/>
       </xsl:when>
-      <xsl:when test="h:h4">
+      <xsl:when test="h:h4 or h:header/h:h4">
 	<xsl:variable name="processed-heading">
-	  <xsl:apply-templates select="h:h4[1]" mode="process-heading">
+	  <xsl:apply-templates select="(h:h4|h:header/h:h4)[1]" mode="process-heading">
 	    <xsl:with-param name="autogenerate.labels" select="$autogenerate.pdf.bookmark.labels"/>
 	  </xsl:apply-templates>
 	</xsl:variable>
@@ -561,9 +561,9 @@
       <xsl:when test="@data-pdf-bookmark">
 	<xsl:attribute name="data-pdf-bookmark" select="@data-pdf-bookmark"/>
       </xsl:when>
-      <xsl:when test="h:h5">
+      <xsl:when test="h:h5 or h:header/h:h5">
 	<xsl:variable name="processed-heading">
-	  <xsl:apply-templates select="h:h5[1]" mode="process-heading">
+	  <xsl:apply-templates select="(h:h5|h:header/h:h5)[1]" mode="process-heading">
 	    <xsl:with-param name="autogenerate.labels" select="$autogenerate.pdf.bookmark.labels"/>
 	  </xsl:apply-templates>
 	</xsl:variable>
@@ -579,9 +579,9 @@
       <xsl:when test="@data-pdf-bookmark">
 	<xsl:attribute name="data-pdf-bookmark" select="@data-pdf-bookmark"/>
       </xsl:when>
-      <xsl:when test="h:h1">
+      <xsl:when test="h:h1 or h:header/h:h1">
 	<xsl:variable name="processed-heading">
-	  <xsl:apply-templates select="h:h1[1]" mode="process-heading">
+	  <xsl:apply-templates select="(h:h1|h:header/h:h1)[1]" mode="process-heading">
 	    <xsl:with-param name="autogenerate.labels" select="$autogenerate.pdf.bookmark.labels"/>
 	  </xsl:apply-templates>
 	</xsl:variable>

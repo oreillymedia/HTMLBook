@@ -100,6 +100,19 @@ sect5:1
     <x:expect label="Propagate the heading text to a data-pdf-bookmark attribute" test="exists(h:section[1]/@data-pdf-bookmark[contains(., current()//h:h1)])"/>
   </x:scenario>
 
+  <x:scenario label="When encountering a chapter-level section with heading in a header element">
+    <x:context>
+      <section data-type="chapter">
+	<header>
+	  <h1>This is the Chapter title</h1>
+	</header>
+	<p>Hello World!</p>
+      </section>
+    </x:context>
+    <!-- check the result -->
+    <x:expect label="Propagate the heading text to a data-pdf-bookmark attribute" test="exists(h:section[1]/@data-pdf-bookmark[contains(., current()//h:h1)])"/>
+  </x:scenario>
+
   <x:scenario label="When a chapter-level section already has a PDF bookmark">
     <x:context>
       <section data-type="chapter" data-pdf-bookmark="Custom Bookmark">
@@ -114,6 +127,19 @@ sect5:1
     <x:context>
       <section data-type="sect1">
 	<h1>This is the Section title</h1>
+	<p>Hello World!</p>
+      </section>
+    </x:context>
+    <!-- check the result -->
+    <x:expect label="Propagate the heading text to a data-pdf-bookmark attribute" test="exists(h:section[1]/@data-pdf-bookmark[contains(., current()//h:h1)])"/>
+  </x:scenario>
+
+  <x:scenario label="When encountering a sect1-level section with heading in a header element">
+    <x:context>
+      <section data-type="sect1">
+	<header>
+	  <h1>This is the Section title</h1>
+	</header>
 	<p>Hello World!</p>
       </section>
     </x:context>
@@ -142,6 +168,19 @@ sect5:1
     <x:expect label="Propagate the heading text to a data-pdf-bookmark attribute" test="exists(h:section[1]/@data-pdf-bookmark[contains(., current()//h:h2)])"/>
   </x:scenario>
 
+  <x:scenario label="When encountering a sect2-level section with heading in a header element">
+    <x:context>
+      <section data-type="sect2">
+	<header>
+	  <h2>This is the Section title</h2>
+	</header>
+	<p>Hello World!</p>
+      </section>
+    </x:context>
+    <!-- check the result -->
+    <x:expect label="Propagate the heading text to a data-pdf-bookmark attribute" test="exists(h:section[1]/@data-pdf-bookmark[contains(., current()//h:h2)])"/>
+  </x:scenario>
+
   <x:scenario label="When a sect2-level section already has a PDF bookmark">
     <x:context>
       <section data-type="sect2" data-pdf-bookmark="Custom Bookmark">
@@ -156,6 +195,19 @@ sect5:1
     <x:context>
       <section data-type="sect3">
 	<h3>This is the Section title</h3>
+	<p>Hello World!</p>
+      </section>
+    </x:context>
+    <!-- check the result -->
+    <x:expect label="Propagate the heading text to a data-pdf-bookmark attribute" test="exists(h:section[1]/@data-pdf-bookmark[contains(., current()//h:h3)])"/>
+  </x:scenario>
+
+  <x:scenario label="When encountering a sect3-level section with heading in a header element">
+    <x:context>
+      <section data-type="sect3">
+	<header>
+	  <h3>This is the Section title</h3>
+	</header>
 	<p>Hello World!</p>
       </section>
     </x:context>
@@ -184,6 +236,19 @@ sect5:1
     <x:expect label="Propagate the heading text to a data-pdf-bookmark attribute" test="exists(h:section[1]/@data-pdf-bookmark[contains(., current()//h:h4)])"/>
   </x:scenario>
 
+  <x:scenario label="When encountering a sect4-level section with heading in a header element">
+    <x:context>
+      <section data-type="sect4">
+	<header>
+	  <h4>This is the Section title</h4>
+	</header>
+	<p>Hello World!</p>
+      </section>
+    </x:context>
+    <!-- check the result -->
+    <x:expect label="Propagate the heading text to a data-pdf-bookmark attribute" test="exists(h:section[1]/@data-pdf-bookmark[contains(., current()//h:h4)])"/>
+  </x:scenario>
+
   <x:scenario label="When a sect4-level section already has a PDF bookmark">
     <x:context>
       <section data-type="sect4" data-pdf-bookmark="Custom Bookmark">
@@ -205,10 +270,25 @@ sect5:1
     <x:expect label="Propagate the heading text to a data-pdf-bookmark attribute" test="exists(h:section[1]/@data-pdf-bookmark[contains(., current()//h:h5)])"/>
   </x:scenario>
 
+  <x:scenario label="When encountering a sect5-level section with heading in a header element">
+    <x:context>
+      <section data-type="sect5">
+	<header>
+	  <h5>This is the Section title</h5>
+	</header>
+	<p>Hello World!</p>
+      </section>
+    </x:context>
+    <!-- check the result -->
+    <x:expect label="Propagate the heading text to a data-pdf-bookmark attribute" test="exists(h:section[1]/@data-pdf-bookmark[contains(., current()//h:h5)])"/>
+  </x:scenario>
+
   <x:scenario label="When a sect5-level section already has a PDF bookmark">
     <x:context>
       <section data-type="sect5" data-pdf-bookmark="Custom Bookmark">
-	<h1>This is the Section title</h1>
+	<header>
+	  <h5>This is the Section title</h5>
+	</header>
 	<p>Hello World!</p>
       </section>
     </x:context>
