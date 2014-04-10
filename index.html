@@ -76,11 +76,13 @@ span[data-type=footnote] {
       <h2>Notes on the HTMLBook Specification</h2>
       <p>Requirements for HTML5 elements in the HTMLBook specification are below. Special semantic inflections for <code>data-type</code> attributes, unless otherwise noted, come from <a href="http://idpf.org/epub/vocab/structure/">EPUB 3 Structural Semantics Vocabulary</a></p>
       <p>Many content models refer to &ldquo;Block elements&rdquo; or &ldquo;Inline elements&rdquo;; please see <a href="#block_elements">Block Elements</a> and <a href="#inline_elements">Inline Elements</a> for the corresponding list of HTML5 elements that belong to each of these categories.</p>
-      <p>If no content model or attribute requirements are explicitly specified, then HTMLBook adopts the corresponding requirements in the [[!HTML5]] Specification</a></p>
+      <p>If no content model or attribute requirements are explicitly specified, then HTMLBook adopts the corresponding requirements in the [[!HTML5]] Specification</p>
     </section>
     <section>
       <h2>Revision History and Notes</h2>
       <dl>
+	<dt>8 April 2014</dt>
+	<dd>Updated specifications for section subtitles to comply with best practices set forth in <a href="http://www.w3.org/TR/html5/common-idioms.html#common-idioms">&ldquo;Common idioms without dedicated elements&rdquo;</a> in [[!HTML5]] Specification.</dd>
         <dt>29 December 2013</dt>
         <dd>Minor revisions for clarity</dd>
         <dt>13 August 2013</dt>
@@ -98,7 +100,7 @@ now free to be used for whatever user-defined semantics are desired, and there a
         <h2>Book</h2>
         <p><strong>HTML element</strong>: <code>&lt;body&gt;</code></p>
         <p><strong>Attribute requirements</strong>: <code>data-type="book"</code> <span data-type="footnote">(Not in [[EPUB3SSV]]; from [[DOCBOOK]])</span></p>
-        <p><strong>Content model</strong>: First child must be <code>&lt;h1&gt;</code> that contains book title; then zero or more <code>&lt;h2&gt;</code> elements for subtitle content; then one or more Book Component elements as children (<code>&lt;div&gt;</code> for Part elements, <code>&lt;nav&gt;</code> for Table of Contents, and <code>&lt;section&gt;</code> elements for all other book divisions)</p>
+        <p><strong>Content model</strong>: Optional <code>&lt;h1&gt;</code> that contains book title or <a href="#header_block">Header block</a> that contains book title and optional subtitle content; then one or more Book Component elements as children (<code>&lt;div&gt;</code> for Part elements, <code>&lt;nav&gt;</code> for Table of Contents, and <code>&lt;section&gt;</code> elements for all other book divisions)</p>
         <p>
           <strong>Example</strong>
         </p>
@@ -114,7 +116,7 @@ now free to be used for whatever user-defined semantics are desired, and there a
         <h2>Chapter</h2>
         <p><strong>HTML element</strong>: <code>&lt;section&gt;</code></p>
         <p><strong>Attribute requirements</strong>: <code>data-type="chapter"</code></p>
-        <p><strong>Content model</strong>: First child must be <code>&lt;h1&gt;</code> that contains chapter title; then zero or more <code>&lt;h2&gt;</code> elements for subtitle content; then zero or more Block Elements; then zero or more Sect1 children (<code>&lt;section data-type="sect1"&gt;</code>)</p>
+        <p><strong>Content model</strong>: First child must be either <code>&lt;h1&gt;</code> that contains chapter title or <a href="#header_block">Header block</a> that contains chapter title and optional subtitle content; then zero or more Block Elements; then zero or more Sect1 children (<code>&lt;section data-type="sect1"&gt;</code>)</p>
         <p>
           <strong>Example</strong>
         </p>
@@ -131,7 +133,7 @@ now free to be used for whatever user-defined semantics are desired, and there a
         <h2>Appendix</h2>
         <p><strong>HTML element</strong>: <code>&lt;section&gt;</code></p>
         <p><strong>Attribute requirements</strong>: <code>data-type="appendix"</code> or <code>data-type="afterword"</code>, depending on content</p>
-        <p><strong>Content model</strong>: First child must be <code>&lt;h1&gt;</code> that contains appendix title; then zero or more <code>&lt;h2&gt;</code> elements for subtitle content; then zero or more Block Elements; then zero or more Sect1 children (<code>&lt;section data-type="sect1"&gt;</code>)</p>
+        <p><strong>Content model</strong>: First child must be either <code>&lt;h1&gt;</code> that contains appendix title or <a href="#header_block">Header block</a> that contains appendix title and optional subtitle content; then zero or more Block Elements; then zero or more Sect1 children (<code>&lt;section data-type="sect1"&gt;</code>)</p>
         <p>
           <strong>Example</strong>
         </p>
@@ -147,7 +149,7 @@ now free to be used for whatever user-defined semantics are desired, and there a
         <h2>Bibliography</h2>
         <p><strong>HTML element</strong>: <code>&lt;section&gt;</code></p>
         <p><strong>Attribute requirements</strong>: <code>data-type="bibliography"</code></p>
-        <p><strong>Content model</strong>: First child must be <code>&lt;h1&gt;</code> that contains bibliography title; then zero or more <code>&lt;h2&gt;</code> elements for subtitle content; then zero or more Block Elements; then zero or more Sect1 children (<code>&lt;section data-type="sect1"&gt;</code>)</p>
+        <p><strong>Content model</strong>: First child must be either <code>&lt;h1&gt;</code> that contains bibliography title or <a href="#header_block">Header block</a> that contains bibliography title and optional subtitle content; then zero or more Block Elements; then zero or more Sect1 children (<code>&lt;section data-type="sect1"&gt;</code>)</p>
         <p>
           <strong>Example</strong>
         </p>
@@ -163,7 +165,7 @@ now free to be used for whatever user-defined semantics are desired, and there a
         <h2>Glossary</h2>
         <p><strong>HTML element</strong>: <code>&lt;section&gt;</code></p>
         <p><strong>Attribute requirements</strong>: <code>data-type="glossary"</code></p>
-        <p><strong>Content model</strong>: First child must be <code>&lt;h1&gt;</code> that contains glossary title; then zero or more <code>&lt;h2&gt;</code> elements for subtitle content; then zero or more Block Elements; then zero or more Sect1 children (<code>&lt;section data-type="sect1"&gt;</code>)</p>
+        <p><strong>Content model</strong>: First child must be either <code>&lt;h1&gt;</code> that contains glossary title or <a href="#header_block">Header block</a> that contains glossary title and optional subtitle content; then zero or more Block Elements; then zero or more Sect1 children (<code>&lt;section data-type="sect1"&gt;</code>)</p>
         <p><strong>Best practices</strong>: List of glossary terms should be marked up using <code>&lt;dl&gt;</code> elements with a <code>data-type</code> of "glossary", with <code>&lt;dt&gt;</code> children with a <code>data-type</code> of "glossterm" and <code>&lt;dd&gt;</code> children with a <code>data-type</code> of "glossdef". Term text should be wrapped in a <code>&lt;dfn&gt;</code>. However, none of this is formally required by the spec.</p>
         <p>
           <strong>Example</strong>
@@ -184,7 +186,7 @@ now free to be used for whatever user-defined semantics are desired, and there a
         <h2>Preface</h2>
         <p><strong>HTML element</strong>: <code>&lt;section&gt;</code></p>
         <p><strong>Attribute requirements</strong>: <code>data-type="preface"</code>, <code>data-type="foreword"</code>, or <code>data-type="introduction"</code>, depending on content</p>
-        <p><strong>Content model</strong>: First child must be <code>&lt;h1&gt;</code> that contains preface title; then zero or more <code>&lt;h2&gt;</code> elements for subtitle content; then zero or more Block Elements; then zero or more Sect1 children (<code>&lt;section data-type="sect1"&gt;</code>)</p>
+        <p><strong>Content model</strong>: First child must be either <code>&lt;h1&gt;</code> that contains preface title or <a href="#header_block">Header block</a> that contains preface title and optional subtitle content; then zero or more Block Elements; then zero or more Sect1 children (<code>&lt;section data-type="sect1"&gt;</code>)</p>
         <p>
           <strong>Example</strong>
         </p>
@@ -200,7 +202,7 @@ now free to be used for whatever user-defined semantics are desired, and there a
         <h2>Frontmatter</h2>
         <p><strong>HTML element</strong>: <code>&lt;section&gt;</code></p>
         <p><strong>Attribute requirements</strong>: <code>data-type="halftitlepage"</code>, <code>data-type="titlepage"</code>, <code>data-type="copyright-page"</code>, or <code>data-type="dedication"</code>, depending on content</p>
-        <p><strong>Content model</strong>: First child must be <code>&lt;h1&gt;</code> that contains frontmatter section title; then zero or more <code>&lt;h2&gt;</code> elements for subtitle content; then zero or more Block Elements; then zero or more Sect1 children (<code>&lt;section data-type="sect1"&gt;</code>)</p>
+        <p><strong>Content model</strong>: First child must be either <code>&lt;h1&gt;</code> that contains frontmatter section title or <a href="#header_block">Header block</a> that contains frontmatter title and optional subtitle content; then zero or more Block Elements; then zero or more Sect1 children (<code>&lt;section data-type="sect1"&gt;</code>)</p>
         <p>
           <strong>Example</strong>
         </p>
@@ -213,7 +215,7 @@ now free to be used for whatever user-defined semantics are desired, and there a
         <h2>Backmatter</h2>
         <p><strong>HTML element</strong>: <code>&lt;section&gt;</code></p>
         <p><strong>Attribute requirements</strong>: <code>data-type="colophon"</code>, <code>data-type="acknowledgments"</code>, <code>data-type="afterword"</code>, or <code>data-type="conclusion"</code>, depending on content</p>
-        <p><strong>Content model</strong>: First child must be <code>&lt;h1&gt;</code> that contains backmatter section title; then zero or more <code>&lt;h2&gt;</code> elements for subtitle content; then zero or more Block Elements; then zero or more Sect1 children (<code>&lt;section data-type="sect1"&gt;</code>)</p>
+        <p><strong>Content model</strong>: First child must be either <code>&lt;h1&gt;</code> that contains backmatter section title or <a href="#header_block">Header block</a> that contains backmatter title and optional subtitle content; then zero or more Block Elements; then zero or more Sect1 children (<code>&lt;section data-type="sect1"&gt;</code>)</p>
         <p>
           <strong>Example</strong>
         </p>
@@ -229,7 +231,7 @@ now free to be used for whatever user-defined semantics are desired, and there a
         <h2>Part</h2>
         <p><strong>HTML element</strong>: <code>&lt;div&gt;</code></p>
         <p><strong>Atttribute requirements</strong>: <code>data-type="part"</code></p>
-        <p><strong>Content model</strong>: First child must be <code>&lt;h1&gt;</code> that contains part title; then zero or more <code>&lt;h2&gt;</code> elements for subtitle content; then zero or more Block Elements that compose the optional Part introduction; then one or more <code>&lt;section&gt;</code> elements representing Book Component children other than a Part</p>
+        <p><strong>Content model</strong>: First child must be either <code>&lt;h1&gt;</code> that contains part title or <a href="#header_block">Header block</a> that contains part title and optional subtitle content; then zero or more Block Elements that compose the optional Part introduction; then one or more <code>&lt;section&gt;</code> elements representing Book Component children other than a Part</p>
         <p>
           <strong>Example</strong>
         </p>
@@ -267,7 +269,7 @@ now free to be used for whatever user-defined semantics are desired, and there a
         <h2>Index</h2>
         <p><strong>HTML element</strong>: <code>&lt;section&gt;</code></p>
         <p><strong>Attribute requirements</strong>: <code>data-type="index"</code></p>
-        <p><strong>Content model</strong>: First child must be <code>&lt;h1&gt;</code> that contains index title; then zero or more <code>&lt;h2&gt;</code> elements for subtitle content; then zero or more Block Elements; then zero or more Sect1 children (<code>&lt;section data-type="sect1"&gt;</code>)</p>
+        <p><strong>Content model</strong>: First child must be either <code>&lt;h1&gt;</code> that contains index title or <a href="#header_block">Header block</a> that contains index title and optional subtitle content; then zero or more Block Elements; then zero or more Sect1 children (<code>&lt;section data-type="sect1"&gt;</code>)</p>
         <p><strong>Best practices</strong>: HTMLBook recommends following the [[EPUBINDEX]] specification and using <code>&lt;ol&gt;</code>/<code>&lt;li&gt;</code> elements for marking up index entries, with <code>data-type</code> attributes used for semantic inflection as appropriate, but none of this is a formal spec requirement</p>
         <p>
           <strong>Example</strong>
@@ -291,13 +293,13 @@ now free to be used for whatever user-defined semantics are desired, and there a
         <h2>Sections</h2>
         <p><strong>HTML element</strong>: <code>&lt;section&gt;</code></p>
         <p><strong>Attribute requirements</strong>: <code>data-type="sect1"</code>, <code>data-type="sect2"</code>, <code>data-type="sect3"</code>, <code>data-type="sect4"</code>, <code>data-type="sect5"</code> <span data-type="footnote">(From [[DOCBOOK]] vocabulary)</span>, depending on hierarchy level. <code>sect1</code> is used for <code>&lt;section&gt;</code> elements nested directly in main Book components ("chapter", "appendix", etc.). <code>sect2</code> is used for <code>&lt;section&gt;</code> elements nested in a <code>sect1</code> <code>&lt;section&gt;</code>, <code>sect3</code> is used for <code>&lt;section&gt;</code> elements nested in a <code>sect2</code> <code>&lt;section&gt;</code>, and so on.</p>
-        <p><strong>Content model</strong>: The first child must be a main heading element corresponding to the hierarchy level indicated by <code>data-type</code> value, as follows:</p>
+        <p><strong>Content model</strong>: The first child must either be a main heading element corresponding to the hierarchy level indicated by <code>data-type</code> value, as follows:</p>
         <pre data-type="programlisting">"sect1" -&gt; h1
 "sect2" -&gt; h2
 "sect3" -&gt; h3
 "sect4" -&gt; h4
 "sect5" -&gt; h5</pre>
-        <p>The heading is followed by zero or more subheading elements whose hierarchy level is one lower than the main heading (e.g., <code>&lt;h2&gt;</code> for a <code>sect1</code>), folloed by zero or more Block elements, followed by zero or more <code>&lt;section&gt;</code> elements with a <code>data-type</code> value one level lower in the hierarchy, as long as the parent section is a "sect4" or higher (e.g., <code>&lt;section data-type="sect4"&gt;</code> nested in <code>&lt;section data-type="sect3"&gt;</code>)</p>
+<p>or a <a href="#header_block">Header block</a> that contains section title and optional subtitle content. This is followed by zero or more Block elements, followed by zero or more <code>&lt;section&gt;</code> elements with a <code>data-type</code> value one level lower in the hierarchy, as long as the parent section is a "sect4" or higher (e.g., <code>&lt;section data-type="sect4"&gt;</code> nested in <code>&lt;section data-type="sect3"&gt;</code>)</p>
         <p><strong>Example</strong>:</p>
         <pre data-type="programlisting">&lt;section data-type="sect1"&gt;
   &lt;h1&gt;A-Head&lt;/h1&gt;
@@ -531,29 +533,6 @@ now free to be used for whatever user-defined semantics are desired, and there a
   &lt;p data-type="attribution"&gt;U.S. Declaration of Independence&lt;/p&gt;
 &lt;/blockquote&gt;</pre>
       </section>
-      <section data-type="sect2" id="_headings">
-        <h2>Headings</h2>
-        <p><strong>HTML elements</strong>: <code>&lt;h1&gt;</code>, <code>&lt;h2&gt;</code>, <code>&lt;h3&gt;</code>, <code>&lt;h4&gt;</code>, <code>&lt;h5&gt;</code>, or <code>&lt;h6&gt;</code></p>
-        <p><strong>Content Model</strong>: text and/or zero or more Inline elements</p>
-        <p><strong>Notes</strong>: Many main book components (e.g., chapters, parts, appendixes) require headings. The appropriate
-element from <code>&lt;h1&gt;</code>-<code>&lt;h6&gt;</code> is outlined below, as well as in the corresponding documentation for these
-components:</p>
-        <pre data-type="programlisting">book title -&gt; h1
-part title -&gt; h1
-chapter title -&gt; h1
-preface title -&gt; h1
-appendix title -&gt; h1
-colophon title -&gt; h1
-dedication title -&gt; h1
-glossary title -&gt; h1
-bibliography title -&gt; h1
-sect1 title -&gt; h1
-sect2 title -&gt; h2
-sect3 title -&gt; h3
-sect4 title -&gt; h4
-sect5 title -&gt; h5
-sidebar title -&gt; h5</pre>
-      </section>
       <section data-type="sect2" id="_equation">
         <h2>Equation</h2>
         <p><strong>HTML element</strong>: <code>&lt;div&gt;</code></p>
@@ -652,6 +631,46 @@ you build EPUB, Mobi, PDF, and HTML content&lt;/p&gt;</pre>
         <p><strong>HTML element</strong>: <code>&lt;sub&gt;</code></p>
         <p><strong>Example</strong>:</p>
         <pre data-type="programlisting">&lt;p&gt;The formula for water is H&lt;sub&gt;2&lt;/sub&gt;O&lt;/p&gt;</pre>
+      </section>
+    </section>
+    <section data-type="sect1" id="_heading_elements">
+      <h1>Heading Elements</h1>
+      <section data-type="sect2" id="_headings">
+        <h2>Headings</h2>
+        <p><strong>HTML elements</strong>: <code>&lt;h1&gt;</code>, <code>&lt;h2&gt;</code>, <code>&lt;h3&gt;</code>, <code>&lt;h4&gt;</code>, <code>&lt;h5&gt;</code>, or <code>&lt;h6&gt;</code></p>
+        <p><strong>Content Model</strong>: text and/or zero or more Inline elements</p>
+        <p><strong>Notes</strong>: Many main book components (e.g., chapters, parts, appendixes) require headings. The appropriate
+element from <code>&lt;h1&gt;</code>-<code>&lt;h6&gt;</code> is outlined below, as well as in the corresponding documentation for these
+components:</p>
+        <pre data-type="programlisting">book title -&gt; h1
+part title -&gt; h1
+chapter title -&gt; h1
+preface title -&gt; h1
+appendix title -&gt; h1
+colophon title -&gt; h1
+dedication title -&gt; h1
+glossary title -&gt; h1
+bibliography title -&gt; h1
+sect1 title -&gt; h1
+sect2 title -&gt; h2
+sect3 title -&gt; h3
+sect4 title -&gt; h4
+sect5 title -&gt; h5
+sidebar title -&gt; h5</pre>
+      </section>
+      <section data-type="sect1" id="header_block">
+	<h1>Header</h1>
+	<p><strong>HTML element</strong>: <code>&lt;header&gt;</code></p>
+	<p><strong>Content Model</strong>: A Heading element at the proper level designated (<code>h1</code>&ndash;<code>h5</code>) 
+	  for the parent Book Component, as outlined in the previous <a href="#_headings">Headings</a> section (e.g., an <code>&lt;h1&gt;</code> for a chapter <code>&lt;header&gt;</code>); then zero or more <code>&lt;p&gt;</code> elements for subtitles or author attributions, each of which must have a <code>data-type</code> of either <code>subtitle</code> or <code>author</code></p>
+	<p><strong>Example</strong>:</p>
+	<pre data-type="programlisting">&lt;section data-type="chapter"&gt;
+  &lt;header&gt;
+    &lt;h1&gt;Chapter title&lt;/h1&gt;
+    &lt;p data-type="subtitle"&gt;Chapter subtitle&lt;/p&gt;
+  &lt;/header&gt;
+  &lt;!-- Chapter content here... --&gt;
+&lt;/section&gt;</pre>
       </section>
     </section>
     <section data-type="sect1" id="_interactive_elements">
