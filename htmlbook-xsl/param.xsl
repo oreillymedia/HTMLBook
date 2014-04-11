@@ -43,6 +43,9 @@
     </xsl:choose>
   </xsl:param>
 
+  <!-- For chunking templates: specify a number from 0 to 5, where 0 means chunk at top-level sections (part, chapter, appendix), and 1-5 means chunk at the corresponding sect level (sect1 - sect5) -->
+  <xsl:param name="chunk.level" select="0"/>
+
   <!-- Titling and labeling params -->
 
   <!-- Specify whether to autogenerate labels on sectioning and formal elements in HTML output (as opposed to labeling with CSS); default is to not include labels (0) -->

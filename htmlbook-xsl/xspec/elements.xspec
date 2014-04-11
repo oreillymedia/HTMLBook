@@ -7,6 +7,19 @@
                stylesheet="../htmlbook.xsl">
 
   <x:param name="book-language" select="'en'"/>
+  
+  <!-- Use the following global label-generation params for testing of h1-h6 processing in the
+       heading-processing section below -->
+  <x:param name="label.numeration.by.data-type">
+appendix:A
+chapter:1
+part:I
+sect1:1
+sect2:1
+sect3:1
+sect4:1
+sect5:1
+  </x:param>
 
   <!-- Test suite for elements.xsl -->
 
@@ -87,6 +100,19 @@
     <x:expect label="Propagate the heading text to a data-pdf-bookmark attribute" test="exists(h:section[1]/@data-pdf-bookmark[contains(., current()//h:h1)])"/>
   </x:scenario>
 
+  <x:scenario label="When encountering a chapter-level section with heading in a header element">
+    <x:context>
+      <section data-type="chapter">
+	<header>
+	  <h1>This is the Chapter title</h1>
+	</header>
+	<p>Hello World!</p>
+      </section>
+    </x:context>
+    <!-- check the result -->
+    <x:expect label="Propagate the heading text to a data-pdf-bookmark attribute" test="exists(h:section[1]/@data-pdf-bookmark[contains(., current()//h:h1)])"/>
+  </x:scenario>
+
   <x:scenario label="When a chapter-level section already has a PDF bookmark">
     <x:context>
       <section data-type="chapter" data-pdf-bookmark="Custom Bookmark">
@@ -101,6 +127,19 @@
     <x:context>
       <section data-type="sect1">
 	<h1>This is the Section title</h1>
+	<p>Hello World!</p>
+      </section>
+    </x:context>
+    <!-- check the result -->
+    <x:expect label="Propagate the heading text to a data-pdf-bookmark attribute" test="exists(h:section[1]/@data-pdf-bookmark[contains(., current()//h:h1)])"/>
+  </x:scenario>
+
+  <x:scenario label="When encountering a sect1-level section with heading in a header element">
+    <x:context>
+      <section data-type="sect1">
+	<header>
+	  <h1>This is the Section title</h1>
+	</header>
 	<p>Hello World!</p>
       </section>
     </x:context>
@@ -129,6 +168,19 @@
     <x:expect label="Propagate the heading text to a data-pdf-bookmark attribute" test="exists(h:section[1]/@data-pdf-bookmark[contains(., current()//h:h2)])"/>
   </x:scenario>
 
+  <x:scenario label="When encountering a sect2-level section with heading in a header element">
+    <x:context>
+      <section data-type="sect2">
+	<header>
+	  <h2>This is the Section title</h2>
+	</header>
+	<p>Hello World!</p>
+      </section>
+    </x:context>
+    <!-- check the result -->
+    <x:expect label="Propagate the heading text to a data-pdf-bookmark attribute" test="exists(h:section[1]/@data-pdf-bookmark[contains(., current()//h:h2)])"/>
+  </x:scenario>
+
   <x:scenario label="When a sect2-level section already has a PDF bookmark">
     <x:context>
       <section data-type="sect2" data-pdf-bookmark="Custom Bookmark">
@@ -143,6 +195,19 @@
     <x:context>
       <section data-type="sect3">
 	<h3>This is the Section title</h3>
+	<p>Hello World!</p>
+      </section>
+    </x:context>
+    <!-- check the result -->
+    <x:expect label="Propagate the heading text to a data-pdf-bookmark attribute" test="exists(h:section[1]/@data-pdf-bookmark[contains(., current()//h:h3)])"/>
+  </x:scenario>
+
+  <x:scenario label="When encountering a sect3-level section with heading in a header element">
+    <x:context>
+      <section data-type="sect3">
+	<header>
+	  <h3>This is the Section title</h3>
+	</header>
 	<p>Hello World!</p>
       </section>
     </x:context>
@@ -171,6 +236,19 @@
     <x:expect label="Propagate the heading text to a data-pdf-bookmark attribute" test="exists(h:section[1]/@data-pdf-bookmark[contains(., current()//h:h4)])"/>
   </x:scenario>
 
+  <x:scenario label="When encountering a sect4-level section with heading in a header element">
+    <x:context>
+      <section data-type="sect4">
+	<header>
+	  <h4>This is the Section title</h4>
+	</header>
+	<p>Hello World!</p>
+      </section>
+    </x:context>
+    <!-- check the result -->
+    <x:expect label="Propagate the heading text to a data-pdf-bookmark attribute" test="exists(h:section[1]/@data-pdf-bookmark[contains(., current()//h:h4)])"/>
+  </x:scenario>
+
   <x:scenario label="When a sect4-level section already has a PDF bookmark">
     <x:context>
       <section data-type="sect4" data-pdf-bookmark="Custom Bookmark">
@@ -192,10 +270,25 @@
     <x:expect label="Propagate the heading text to a data-pdf-bookmark attribute" test="exists(h:section[1]/@data-pdf-bookmark[contains(., current()//h:h5)])"/>
   </x:scenario>
 
+  <x:scenario label="When encountering a sect5-level section with heading in a header element">
+    <x:context>
+      <section data-type="sect5">
+	<header>
+	  <h5>This is the Section title</h5>
+	</header>
+	<p>Hello World!</p>
+      </section>
+    </x:context>
+    <!-- check the result -->
+    <x:expect label="Propagate the heading text to a data-pdf-bookmark attribute" test="exists(h:section[1]/@data-pdf-bookmark[contains(., current()//h:h5)])"/>
+  </x:scenario>
+
   <x:scenario label="When a sect5-level section already has a PDF bookmark">
     <x:context>
       <section data-type="sect5" data-pdf-bookmark="Custom Bookmark">
-	<h1>This is the Section title</h1>
+	<header>
+	  <h5>This is the Section title</h5>
+	</header>
 	<p>Hello World!</p>
       </section>
     </x:context>
@@ -234,6 +327,496 @@
     </x:context>
     <!-- check the result -->
     <x:expect label="Don't generate a data-pdf-bookmark attribute" test="count(//@data-pdf-bookmark) = 0"/>
+  </x:scenario>
+
+  <!-- HEADING PROCESSING TESTS -->
+
+  <!-- Part -->
+  <x:scenario label="When encountering a heading element (h1-h5) in a Part (loose h1)">
+    <x:context select="(//h:h1)[1]">
+      <div data-type="part">
+	<h1>This is the heading</h1>
+	<p>Text Text Text!</p>
+      </div>
+    </x:context>
+
+    <x:scenario label="With autogenerate.labels turned on">
+      <x:context>
+	<x:param name="autogenerate.labels" select="1"/>
+      </x:context>
+      <x:expect label="Proper label should be prepended">
+	<h1><span class="label">Part I. </span>This is the heading</h1>
+      </x:expect>
+    </x:scenario>
+
+    <x:scenario label="With autogenerate.labels turned off">
+      <x:context>
+	<x:param name="autogenerate.labels" select="0"/>
+      </x:context>
+      <x:expect label="Content should be preserved as is">
+	<h1>This is the heading</h1>
+      </x:expect>
+    </x:scenario>
+  </x:scenario>
+
+  <x:scenario label="When encountering a heading element (h1-h5) in a Part (header block)">
+    <x:context select="(//h:h1)[1]">
+      <div data-type="part">
+	<header>
+	  <h1>This is the heading</h1>
+	  <p data-type="subtitle">Subtitle should always be left untouched</p>
+	</header>
+	<p>Text Text Text!</p>
+      </div>
+    </x:context>
+
+    <x:scenario label="With autogenerate.labels turned on">
+      <x:context>
+	<x:param name="autogenerate.labels" select="1"/>
+      </x:context>
+      <x:expect label="Proper label should be prepended">
+	<h1><span class="label">Part I. </span>This is the heading</h1>
+      </x:expect>
+    </x:scenario>
+
+    <x:scenario label="With autogenerate.labels turned on (subtitle handling)">
+      <x:context select="(//h:p[@data-type='subtitle'])[1]">
+	<x:param name="autogenerate.labels" select="1"/>
+      </x:context>
+      <x:expect label="Subtitle should be preserved as is">
+	<p data-type="subtitle">Subtitle should always be left untouched</p>
+      </x:expect>
+    </x:scenario>
+
+    <x:scenario label="With autogenerate.labels turned off">
+      <x:context>
+	<x:param name="autogenerate.labels" select="0"/>
+      </x:context>
+      <x:expect label="Content should be preserved as is">
+	<h1>This is the heading</h1>
+      </x:expect>
+    </x:scenario>
+
+    <x:scenario label="With autogenerate.labels turned off (subtitle handling)">
+      <x:context select="(//h:p[@data-type='subtitle'])[1]">
+	<x:param name="autogenerate.labels" select="0"/>
+      </x:context>
+      <x:expect label="Subtitle should be preserved as is">
+	<p data-type="subtitle">Subtitle should always be left untouched</p>
+      </x:expect>
+    </x:scenario>
+  </x:scenario>
+
+  <!-- Top-level (chapter) -->
+  <x:scenario label="When encountering a heading element (h1-h5) in a top level-section (loose h1)">
+    <x:context select="(//h:h1)[1]">
+      <section data-type="chapter">
+	<h1>This is the heading</h1>
+	<p>Text Text Text!</p>
+      </section>
+    </x:context>
+
+    <x:scenario label="With autogenerate.labels turned on">
+      <x:context>
+	<x:param name="autogenerate.labels" select="1"/>
+      </x:context>
+      <x:expect label="Proper label should be prepended">
+	<h1><span class="label">Chapter 1. </span>This is the heading</h1>
+      </x:expect>
+    </x:scenario>
+
+    <x:scenario label="With autogenerate.labels turned off">
+      <x:context>
+	<x:param name="autogenerate.labels" select="0"/>
+      </x:context>
+      <x:expect label="Content should be preserved as is">
+	<h1>This is the heading</h1>
+      </x:expect>
+    </x:scenario>
+  </x:scenario>
+
+  <x:scenario label="When encountering a heading element (h1-h5) in a top level-section (header block)">
+    <x:context select="(//h:h1)[1]">
+      <section data-type="chapter">
+	<header>
+	  <h1>This is the heading</h1>
+	  <p data-type="subtitle">Subtitle should always be left untouched</p>
+	</header>
+	<p>Text Text Text!</p>
+      </section>
+    </x:context>
+
+    <x:scenario label="With autogenerate.labels turned on">
+      <x:context>
+	<x:param name="autogenerate.labels" select="1"/>
+      </x:context>
+      <x:expect label="Proper label should be prepended">
+	<h1><span class="label">Chapter 1. </span>This is the heading</h1>
+      </x:expect>
+    </x:scenario>
+
+    <x:scenario label="With autogenerate.labels turned on (subtitle handling)">
+      <x:context select="(//h:p[@data-type='subtitle'])[1]">
+	<x:param name="autogenerate.labels" select="1"/>
+      </x:context>
+      <x:expect label="Subtitle should be preserved as is">
+	<p data-type="subtitle">Subtitle should always be left untouched</p>
+      </x:expect>
+    </x:scenario>
+
+    <x:scenario label="With autogenerate.labels turned off">
+      <x:context>
+	<x:param name="autogenerate.labels" select="0"/>
+      </x:context>
+      <x:expect label="Content should be preserved as is">
+	<h1>This is the heading</h1>
+      </x:expect>
+    </x:scenario>
+
+    <x:scenario label="With autogenerate.labels turned off (subtitle handling)">
+      <x:context select="(//h:p[@data-type='subtitle'])[1]">
+	<x:param name="autogenerate.labels" select="0"/>
+      </x:context>
+      <x:expect label="Subtitle should be preserved as is">
+	<p data-type="subtitle">Subtitle should always be left untouched</p>
+      </x:expect>
+    </x:scenario>
+  </x:scenario>
+
+  <!-- Sect2 -->
+
+  <x:scenario label="When encountering a heading element (h1-h5) in a sect2 (loose h2)">
+    <x:context select="(//h:h2)[1]">
+      <section data-type="sect2">
+	<h2>This is the heading</h2>
+	<p>Text Text Text!</p>
+      </section>
+    </x:context>
+
+    <x:scenario label="With autogenerate.labels turned on">
+      <x:context>
+	<x:param name="autogenerate.labels" select="1"/>
+      </x:context>
+      <x:expect label="Proper label should be prepended">
+	<h2><span class="label">Section 1. </span>This is the heading</h2>
+      </x:expect>
+    </x:scenario>
+
+    <x:scenario label="With autogenerate.labels turned off">
+      <x:context>
+	<x:param name="autogenerate.labels" select="0"/>
+      </x:context>
+      <x:expect label="Content should be preserved as is">
+	<h2>This is the heading</h2>
+      </x:expect>
+    </x:scenario>
+  </x:scenario>
+
+  <x:scenario label="When encountering a heading element (h1-h5) in a sect2 (header block)">
+    <x:context select="(//h:h2)[1]">
+      <section data-type="sect2">
+	<header>
+	  <h2>This is the heading</h2>
+	  <p data-type="subtitle">Subtitle should always be left untouched</p>
+	</header>
+	<p>Text Text Text!</p>
+      </section>
+    </x:context>
+
+    <x:scenario label="With autogenerate.labels turned on">
+      <x:context>
+	<x:param name="autogenerate.labels" select="1"/>
+      </x:context>
+      <x:expect label="Proper label should be prepended">
+	<h2><span class="label">Section 1. </span>This is the heading</h2>
+      </x:expect>
+    </x:scenario>
+
+    <x:scenario label="With autogenerate.labels turned on (subtitle handling)">
+      <x:context select="(//h:p[@data-type='subtitle'])[1]">
+	<x:param name="autogenerate.labels" select="1"/>
+      </x:context>
+      <x:expect label="Subtitle should be preserved as is">
+	<p data-type="subtitle">Subtitle should always be left untouched</p>
+      </x:expect>
+    </x:scenario>
+
+    <x:scenario label="With autogenerate.labels turned off">
+      <x:context>
+	<x:param name="autogenerate.labels" select="0"/>
+      </x:context>
+      <x:expect label="Content should be preserved as is">
+	<h2>This is the heading</h2>
+      </x:expect>
+    </x:scenario>
+
+    <x:scenario label="With autogenerate.labels turned off (subtitle handling)">
+      <x:context select="(//h:p[@data-type='subtitle'])[1]">
+	<x:param name="autogenerate.labels" select="0"/>
+      </x:context>
+      <x:expect label="Subtitle should be preserved as is">
+	<p data-type="subtitle">Subtitle should always be left untouched</p>
+      </x:expect>
+    </x:scenario>
+  </x:scenario>
+
+  <!-- Sect3 -->
+  <x:scenario label="When encountering a heading element (h1-h5) in a sect3 (loose h3)">
+    <x:context select="(//h:h3)[1]">
+      <section data-type="sect3">
+	<h3>This is the heading</h3>
+	<p>Text Text Text!</p>
+      </section>
+    </x:context>
+
+    <x:scenario label="With autogenerate.labels turned on">
+      <x:context>
+	<x:param name="autogenerate.labels" select="1"/>
+      </x:context>
+      <x:expect label="Proper label should be prepended">
+	<h3><span class="label">Section 1. </span>This is the heading</h3>
+      </x:expect>
+    </x:scenario>
+
+    <x:scenario label="With autogenerate.labels turned off">
+      <x:context>
+	<x:param name="autogenerate.labels" select="0"/>
+      </x:context>
+      <x:expect label="Content should be preserved as is">
+	<h3>This is the heading</h3>
+      </x:expect>
+    </x:scenario>
+  </x:scenario>
+
+  <x:scenario label="When encountering a heading element (h1-h5) in a sect3 (header block)">
+    <x:context select="(//h:h3)[1]">
+      <section data-type="sect3">
+	<header>
+	  <h3>This is the heading</h3>
+	  <p data-type="subtitle">Subtitle should always be left untouched</p>
+	</header>
+	<p>Text Text Text!</p>
+      </section>
+    </x:context>
+
+    <x:scenario label="With autogenerate.labels turned on">
+      <x:context>
+	<x:param name="autogenerate.labels" select="1"/>
+      </x:context>
+      <x:expect label="Proper label should be prepended">
+	<h3><span class="label">Section 1. </span>This is the heading</h3>
+      </x:expect>
+    </x:scenario>
+
+    <x:scenario label="With autogenerate.labels turned on (subtitle handling)">
+      <x:context select="(//h:p[@data-type='subtitle'])[1]">
+	<x:param name="autogenerate.labels" select="1"/>
+      </x:context>
+      <x:expect label="Subtitle should be preserved as is">
+	<p data-type="subtitle">Subtitle should always be left untouched</p>
+      </x:expect>
+    </x:scenario>
+
+    <x:scenario label="With autogenerate.labels turned off">
+      <x:context>
+	<x:param name="autogenerate.labels" select="0"/>
+      </x:context>
+      <x:expect label="Content should be preserved as is">
+	<h3>This is the heading</h3>
+      </x:expect>
+    </x:scenario>
+
+    <x:scenario label="With autogenerate.labels turned off (subtitle handling)">
+      <x:context select="(//h:p[@data-type='subtitle'])[1]">
+	<x:param name="autogenerate.labels" select="0"/>
+      </x:context>
+      <x:expect label="Subtitle should be preserved as is">
+	<p data-type="subtitle">Subtitle should always be left untouched</p>
+      </x:expect>
+    </x:scenario>
+  </x:scenario>
+
+  <!-- Sect4 -->
+  <x:scenario label="When encountering a heading element (h1-h5) in a sect4 (loose h4)">
+    <x:context select="(//h:h4)[1]">
+      <section data-type="sect4">
+	<h4>This is the heading</h4>
+	<p>Text Text Text!</p>
+      </section>
+    </x:context>
+
+    <x:scenario label="With autogenerate.labels turned on">
+      <x:context>
+	<x:param name="autogenerate.labels" select="1"/>
+      </x:context>
+      <x:expect label="Proper label should be prepended">
+	<h4><span class="label">Section 1. </span>This is the heading</h4>
+      </x:expect>
+    </x:scenario>
+
+    <x:scenario label="With autogenerate.labels turned off">
+      <x:context>
+	<x:param name="autogenerate.labels" select="0"/>
+      </x:context>
+      <x:expect label="Content should be preserved as is">
+	<h4>This is the heading</h4>
+      </x:expect>
+    </x:scenario>
+  </x:scenario>
+
+  <x:scenario label="When encountering a heading element (h1-h5) in a sect4 (header block)">
+    <x:context select="(//h:h4)[1]">
+      <section data-type="sect4">
+	<header>
+	  <h4>This is the heading</h4>
+	  <p data-type="subtitle">Subtitle should always be left untouched</p>
+	</header>
+	<p>Text Text Text!</p>
+      </section>
+    </x:context>
+
+    <x:scenario label="With autogenerate.labels turned on">
+      <x:context>
+	<x:param name="autogenerate.labels" select="1"/>
+      </x:context>
+      <x:expect label="Proper label should be prepended">
+	<h4><span class="label">Section 1. </span>This is the heading</h4>
+      </x:expect>
+    </x:scenario>
+
+    <x:scenario label="With autogenerate.labels turned on (subtitle handling)">
+      <x:context select="(//h:p[@data-type='subtitle'])[1]">
+	<x:param name="autogenerate.labels" select="1"/>
+      </x:context>
+      <x:expect label="Subtitle should be preserved as is">
+	<p data-type="subtitle">Subtitle should always be left untouched</p>
+      </x:expect>
+    </x:scenario>
+
+    <x:scenario label="With autogenerate.labels turned off">
+      <x:context>
+	<x:param name="autogenerate.labels" select="0"/>
+      </x:context>
+      <x:expect label="Content should be preserved as is">
+	<h4>This is the heading</h4>
+      </x:expect>
+    </x:scenario>
+
+    <x:scenario label="With autogenerate.labels turned off (subtitle handling)">
+      <x:context select="(//h:p[@data-type='subtitle'])[1]">
+	<x:param name="autogenerate.labels" select="0"/>
+      </x:context>
+      <x:expect label="Subtitle should be preserved as is">
+	<p data-type="subtitle">Subtitle should always be left untouched</p>
+      </x:expect>
+    </x:scenario>
+  </x:scenario>
+
+  <!-- Sect5 -->
+  <x:scenario label="When encountering a heading element (h1-h5) in a sect5 (loose h5)">
+    <x:context select="(//h:h5)[1]">
+      <section data-type="sect5">
+	<h5>This is the heading</h5>
+	<p>Text Text Text!</p>
+      </section>
+    </x:context>
+
+    <x:scenario label="With autogenerate.labels turned on">
+      <x:context>
+	<x:param name="autogenerate.labels" select="1"/>
+      </x:context>
+      <x:expect label="Proper label should be prepended">
+	<h5><span class="label">Section 1. </span>This is the heading</h5>
+      </x:expect>
+    </x:scenario>
+
+    <x:scenario label="With autogenerate.labels turned off">
+      <x:context>
+	<x:param name="autogenerate.labels" select="0"/>
+      </x:context>
+      <x:expect label="Content should be preserved as is">
+	<h5>This is the heading</h5>
+      </x:expect>
+    </x:scenario>
+  </x:scenario>
+
+  <x:scenario label="When encountering a heading element (h1-h5) in a sect5 (header block)">
+    <x:context select="(//h:h5)[1]">
+      <section data-type="sect5">
+	<header>
+	  <h5>This is the heading</h5>
+	  <p data-type="subtitle">Subtitle should always be left untouched</p>
+	</header>
+	<p>Text Text Text!</p>
+      </section>
+    </x:context>
+
+    <x:scenario label="With autogenerate.labels turned on">
+      <x:context>
+	<x:param name="autogenerate.labels" select="1"/>
+      </x:context>
+      <x:expect label="Proper label should be prepended">
+	<h5><span class="label">Section 1. </span>This is the heading</h5>
+      </x:expect>
+    </x:scenario>
+
+    <x:scenario label="With autogenerate.labels turned on (subtitle handling)">
+      <x:context select="(//h:p[@data-type='subtitle'])[1]">
+	<x:param name="autogenerate.labels" select="1"/>
+      </x:context>
+      <x:expect label="Subtitle should be preserved as is">
+	<p data-type="subtitle">Subtitle should always be left untouched</p>
+      </x:expect>
+    </x:scenario>
+
+    <x:scenario label="With autogenerate.labels turned off">
+      <x:context>
+	<x:param name="autogenerate.labels" select="0"/>
+      </x:context>
+      <x:expect label="Content should be preserved as is">
+	<h5>This is the heading</h5>
+      </x:expect>
+    </x:scenario>
+
+    <x:scenario label="With autogenerate.labels turned off (subtitle handling)">
+      <x:context select="(//h:p[@data-type='subtitle'])[1]">
+	<x:param name="autogenerate.labels" select="0"/>
+      </x:context>
+      <x:expect label="Subtitle should be preserved as is">
+	<p data-type="subtitle">Subtitle should always be left untouched</p>
+      </x:expect>
+    </x:scenario>
+  </x:scenario>
+
+  <!-- headings in divs -->
+  <x:scenario label="When encountering a heading element (h1-h5) in a div">
+    <x:context select="(//h:h5)[1]">
+      <section data-type="chapter">
+	<h1>Chapter heading</h1>
+	<div data-type="example">
+	  <h5>This is the example heading</h5>
+	  <pre data-type="programlisting">print "I'm an awesome Python coder"</pre>
+	</div>
+      </section>
+    </x:context>
+
+    <x:scenario label="With autogenerate.labels turned on">
+      <x:context>
+	<x:param name="autogenerate.labels" select="1"/>
+      </x:context>
+      <x:expect label="Proper label should be prepended">
+	<h5><span class="label">Example 1-1. </span>This is the example heading</h5>
+      </x:expect>
+    </x:scenario>
+
+    <x:scenario label="With autogenerate.labels turned off">
+      <x:context>
+	<x:param name="autogenerate.labels" select="0"/>
+      </x:context>
+      <x:expect label="Content should be preserved as is">
+	<h5>This is the example heading</h5>
+      </x:expect>
+    </x:scenario>
   </x:scenario>
 
 </x:description>

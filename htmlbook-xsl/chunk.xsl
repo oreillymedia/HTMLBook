@@ -26,9 +26,6 @@
   <!-- Nodeset of all chunks in this document -->
   <xsl:variable name="chunks" select="key('chunks', '1')"/> <!-- All chunks have an is-chunk() value of 1 -->
 
-  <!-- Specify a number from 0 to 5, where 0 means chunk at top-level sections (part, chapter, appendix), and 1-5 means chunk at the corresponding sect level (sect1 - sect5) -->
-  <xsl:param name="chunk.level" select="0"/>
-
   <!-- Specify whether to generate a root chunk -->
   <xsl:param name="generate.root.chunk" select="0"/>
 
@@ -77,7 +74,7 @@ sect5:s
   </xsl:template>
        
   <xsl:template match="h:section|h:div[contains(@data-type, 'part')]|h:nav[contains(@data-type, 'toc')]">
-    <xsl:variable name="is.chunk" select="htmlbook:is-chunk(., $chunk.level)"/>
+    <xsl:variable name="is.chunk" select="htmlbook:is-chunk(.)"/>
     <!-- <xsl:message>Element name: <xsl:value-of select="local-name()"/>, data-type name: <xsl:value-of select="@data-type"/>, Is chunk: <xsl:value-of select="$is.chunk"/></xsl:message> -->
     <xsl:choose>
       <xsl:when test="$is.chunk = 1">
@@ -139,7 +136,7 @@ sect5:s
 	  <!-- Root Chunk! Needs $outputdir in full file path-->
 	  <xsl:value-of select="concat($outputdir, $chars-to-append-to-outputdir)"/>
 	</xsl:when>
-	<xsl:when test="$outputdir != '' and not($generate.root.chunk = 1) and not($chunk[ancestor::*[htmlbook:is-chunk(., $chunk.level) = 1]])">
+	<xsl:when test="$outputdir != '' and not($generate.root.chunk = 1) and not($chunk[ancestor::*[htmlbook:is-chunk(.) = 1]])">
 	  <!-- $outputdir is specified and *is not* absolute filepath, 
 	       and generate.root.chunk is not specified (if it is, then previous "when" will set the outputdir properly),
 	       and chunk *is not* a nested chunk -->
@@ -287,7 +284,7 @@ sect5:s
 
       <!-- Check to see if parent is also chunk, in which case, call template recursively -->
       <xsl:variable name="parent-node" select="parent::*"/>
-      <xsl:variable name="parent-is-chunk" select="htmlbook:is-chunk($parent-node, $chunk.level)"/>
+      <xsl:variable name="parent-is-chunk" select="htmlbook:is-chunk($parent-node)"/>
       <xsl:if test="$parent-is-chunk = '1'">
 	<xsl:call-template name="output-filename-for-chunk">
 	  <xsl:with-param name="node" select="$parent-node"/>
@@ -534,7 +531,7 @@ sect5:s
   <xsl:template name="generate-footnotes">
 
     <!-- Only generate footnotes if the current node is a chunk -->
-    <xsl:if test="htmlbook:is-chunk(., $chunk.level)">
+    <xsl:if test="htmlbook:is-chunk(.)">
 
       <xsl:variable name="all-footnotes" select="//h:span[@data-type='footnote']"/>
 

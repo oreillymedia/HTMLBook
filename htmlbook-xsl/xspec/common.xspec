@@ -43,6 +43,19 @@ sect5:none
     <x:expect label="Copy the child content of the first h1-h6 as is">XPath <em>is</em> <strong>the bestest</strong></x:expect>
   </x:scenario>
 
+  <x:scenario label="When generating a title for a section that has heading info captured in a header element">
+    <x:context mode="title.markup">
+      <section data-type="chapter">
+	<header>
+	  <h1>Get this heading!</h1>
+	  <p data-type="subtitle">Ignore the second headling!</p>
+	</header>
+	<p>This is some boilerplate text</p>
+      </section>
+    </x:context>
+    <x:expect label="Copy the first h1 in the header element">Get this heading!</x:expect>
+  </x:scenario>
+
   <!-- Label markup tests -->
   <!-- This section's tests based on values in label.numeration.by.data-type global param -->
   <x:scenario label="When generating a label for a section (chapter)">

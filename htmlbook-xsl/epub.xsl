@@ -62,7 +62,7 @@
 
   <xsl:param name="metadata.title">
     <!-- Look for title first in head, then as child of body -->
-    <xsl:value-of select="(//h:head/h:title|//h:body/h:h1)[1]"/>
+    <xsl:value-of select="(//h:head/h:title|//h:body/h:h1|//h:body/h:header/h:h1)[1]"/>
   </xsl:param>
 
   <xsl:param name="metadata.language">
