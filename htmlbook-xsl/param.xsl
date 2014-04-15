@@ -120,6 +120,9 @@ sect5:none
   <!-- XREF-specific params -->
   <xsl:param name="autogenerate-xrefs" select="1"/>
 
+  <!-- Render @href text in parens following <a> element for external hyperlinks; useful for print outputs -->
+  <xsl:param name="url.in.parens" select="1"/>
+
   <!-- Footnote-specific params -->
 
   <!-- Process footnotes into separate marker/hyperlink and footnote content -->
