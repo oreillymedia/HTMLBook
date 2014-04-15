@@ -120,14 +120,6 @@ sect5:none
   <!-- XREF-specific params -->
   <xsl:param name="autogenerate-xrefs" select="1"/>
 
-  <!-- Render @href text in parens following <a> element for external hyperlinks; useful for print outputs -->
-  <xsl:param name="url.in.parens" select="1"/>
-
-  <!-- Footnote-specific params -->
-
-  <!-- Process footnotes into separate marker/hyperlink and footnote content -->
-  <xsl:param name="process.footnotes" select="0"/>
-
   <!-- Specifies type of XREF to use for different kinds of sections -->
   <!-- Choices are:
        * xref-number-and-title
@@ -144,6 +136,18 @@ sect3:xref
 sect4:xref
 sect5:xref
   </xsl:param>
+
+  <!-- Render @href text in parens following <a> element for external hyperlinks; useful for print outputs -->
+  <xsl:param name="url.in.parens" select="1"/>
+
+  <!-- Footnote-specific params -->
+
+  <!-- Process footnotes into separate marker/hyperlink and footnote content -->
+  <xsl:param name="process.footnotes" select="0"/>
+
+  <!-- Admonition-specific params -->
+  <!-- Add title heading elements for different admonition types that do not already have headings in markup -->
+  <xsl:param name="add.title.heading.for.admonitions" select="0"/>
 
   <!-- Filename of CSS to be embedded in <link> in output in HTML <head> -->
   <!-- Leave blank to omit CSS -->

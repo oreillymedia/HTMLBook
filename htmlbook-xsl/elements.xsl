@@ -113,6 +113,34 @@
     </xsl:apply-templates>
   </xsl:template>
 
+  <!-- Admonition handling -->
+  <xsl:template match="h:div[@data-type='note' or 
+		             @data-type='tip' or 
+			     @data-type='warning' or
+			     @data-type='caution' or
+			     @data-type='important']">
+    <xsl:param name="add.title.heading.for.admonitions" select="$add.title.heading.for.admonitions"/>
+    <xsl:copy>
+      <xsl:apply-templates select="@*"/>
+      <!-- Add admonition heading title if $add.title.heading.for.admonitions is enabled AND there is not a heading first child already -->
+      <xsl:if test="($add.title.heading.for.admonitions = 1) and
+		    not(*[1][self::h:h1|self::h:h2|self::h:h3|self::h:h4|self::h:h5|self::h:h6])">
+	<h6>
+	  <!-- For title, use proper admonition title gentext, based on localization -->
+	  <xsl:variable name="admon-semantic-name">
+	    <xsl:call-template name="semantic-name">
+	      <xsl:with-param name="node" select="."/>
+	    </xsl:call-template>
+	  </xsl:variable>
+	  <xsl:call-template name="get-localization-value">
+	    <xsl:with-param name="gentext-key" select="$admon-semantic-name"/>
+	  </xsl:call-template>
+	</h6>
+      </xsl:if>
+      <xsl:apply-templates/>
+    </xsl:copy>
+  </xsl:template>
+
   <!-- Footnote handling -->
   <xsl:template match="h:span[@data-type='footnote']">
     <xsl:choose>
