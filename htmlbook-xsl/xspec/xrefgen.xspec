@@ -7,6 +7,9 @@
 	       xmlns:h="http://www.w3.org/1999/xhtml"
 	       xmlns:e="http://github.com/oreillymedia/epubrenderer"
                stylesheet="../htmlbook.xsl">
+  
+  <!-- Globally setting url.in.parens to 0 here; tests for url.in.parens handling below modify param value on a oneoff basis -->
+  <x:param name="url.in.parens" select="0"/>
 
   <!-- Tests around text nodes for formal XREF elements (those with data-type='xref') -->
   <x:scenario label="When *empty* XREF element is matched">
@@ -692,6 +695,137 @@
     </x:scenario>
 
   </x:scenario>
+  
+  <!-- Handling for print URLs (url.in.parens) -->
+  <x:scenario label="If external hyperlink 'a' element is matched">
+    <x:context>
+      <section data-type="chapter">
+        <h1>Hyperlink Spree!</h1>
+        <p><a id="hyperlink_different_text_node" href="http://oreilly.com">O'Reilly Media</a></p>
+        <p><a id="hyperlink_same_text_node" href="http://oreilly.com">http://oreilly.com</a></p>
+        <p><a id="hyperlink_same_text_node_2" href="http://oreilly.com">oreilly.com</a></p>
+        <p><a id="hyperlink_same_text_node_3" href="http://www.oreilly.com">oreilly.com</a></p>
+        <p><a id="link" data-type="link" href="#some_id">some awesome location in the text</a></p>
+	<p><a href="#another_id" id="stealth_xref">XREF masquerading as an external hyperlink (no proper data-type)</a></p>
+        <p><a id="email_me" href="mailto:tools@oreilly.com">tools@oreilly.com</a></p>
+      </section>
+    </x:context>
+
+    <x:scenario label="with url.in.parens disabled (hyperlink different text node from href)">
+      <x:context select="//h:a[@id='hyperlink_different_text_node']">
+        <x:param name="url.in.parens" select="0"/>
+      </x:context>
+      
+      <x:expect label="No URL should be generated in parentheses after the 'a'" test="not(exists(//h:span[@class='print_url_in_parens']))"/>
+    </x:scenario> 
+    
+    <x:scenario label="with url.in.parens disabled (hyperlink same text node as href 1)">
+      <x:context select="//h:a[@id='hyperlink_same_text_node']">
+        <x:param name="url.in.parens" select="0"/>
+      </x:context>
+      
+      <x:expect label="No URL should be generated in parentheses after the 'a'" test="not(exists(//h:span[@class='print_url_in_parens']))"/>
+    </x:scenario>    
+    
+    <x:scenario label="with url.in.parens disabled (hyperlink same text node as href 2)">
+      <x:context select="//h:a[@id='hyperlink_same_text_node_2']">
+        <x:param name="url.in.parens" select="0"/>
+      </x:context>
+      
+      <x:expect label="No URL should be generated in parentheses after the 'a'" test="not(exists(//h:span[@class='print_url_in_parens']))"/>
+    </x:scenario>  
+    
+    <x:scenario label="with url.in.parens disabled (hyperlink same text node as href 3)">
+      <x:context select="//h:a[@id='hyperlink_same_text_node_3']">
+        <x:param name="url.in.parens" select="0"/>
+      </x:context>
+      
+      <x:expect label="No URL should be generated in parentheses after the 'a'" test="not(exists(//h:span[@class='print_url_in_parens']))"/>
+    </x:scenario> 
+    
+    <x:scenario label="with url.in.parens disabled (internal link)">
+      <x:context select="//h:a[@id='link']">
+        <x:param name="url.in.parens" select="0"/>
+      </x:context>
+      
+      <x:expect label="No URL should be generated in parentheses after the 'a'" test="not(exists(//h:span[@class='print_url_in_parens']))"/>
+    </x:scenario> 
+
+    <x:scenario label="with url.in.parens disabled (stealth XREF; XREF with no data-type)">
+      <x:context select="//h:a[@id='stealth_xref']">
+        <x:param name="url.in.parens" select="0"/>
+      </x:context>
+      
+      <x:expect label="No URL should be generated in parentheses after the 'a'" test="not(exists(//h:span[@class='print_url_in_parens']))"/>
+    </x:scenario> 
+    
+    <x:scenario label="with url.in.parens disabled (mailto)">
+      <x:context select="//h:a[@id='email_me']">
+        <x:param name="url.in.parens" select="0"/>
+      </x:context>
+      
+      <x:expect label="No URL should be generated in parentheses after the 'a'" test="not(exists(//h:span[@class='print_url_in_parens']))"/>
+    </x:scenario>
+    
+    <x:scenario label="with url.in.parens enabled (hyperlink different text node from href)">
+      <x:context select="//h:a[@id='hyperlink_different_text_node']">
+        <x:param name="url.in.parens" select="1"/>
+      </x:context>
+      
+      <x:expect label="URL should be generated in parentheses after the 'a'">
+        <a id="hyperlink_different_text_node" href="http://oreilly.com">O'Reilly Media</a><span class="print_url_in_parens"> (<span class="print_url">http://oreilly.com</span>)</span>
+      </x:expect>
+    </x:scenario> 
+    
+    <x:scenario label="with url.in.parens enabled (hyperlink same text node as href 1)">
+      <x:context select="//h:a[@id='hyperlink_same_text_node']">
+        <x:param name="url.in.parens" select="1"/>
+      </x:context>
+      
+      <x:expect label="No URL should be generated in parentheses after the 'a'" test="not(exists(//h:span[@class='print_url_in_parens']))"/>
+    </x:scenario>    
+    
+    <x:scenario label="with url.in.parens enabled (hyperlink same text node as href 2)">
+      <x:context select="//h:a[@id='hyperlink_same_text_node_2']">
+        <x:param name="url.in.parens" select="1"/>
+      </x:context>
+      
+      <x:expect label="No URL should be generated in parentheses after the 'a'" test="not(exists(//h:span[@class='print_url_in_parens']))"/>
+    </x:scenario>  
+    
+    <x:scenario label="with url.in.parens enabled (hyperlink same text node as href 3)">
+      <x:context select="//h:a[@id='hyperlink_same_text_node_3']">
+        <x:param name="url.in.parens" select="1"/>
+      </x:context>
+      
+      <x:expect label="No URL should be generated in parentheses after the 'a'" test="not(exists(//h:span[@class='print_url_in_parens']))"/>
+    </x:scenario> 
+    
+    <x:scenario label="with url.in.parens enabled (internal link)">
+      <x:context select="//h:a[@id='link']">
+        <x:param name="url.in.parens" select="1"/>
+      </x:context>
+      
+      <x:expect label="No URL should be generated in parentheses after the 'a'" test="not(exists(//h:span[@class='print_url_in_parens']))"/>
+    </x:scenario> 
+
+    <x:scenario label="with url.in.parens enabled (stealth XREF; XREF with no data-type)">
+      <x:context select="//h:a[@id='stealth_xref']">
+        <x:param name="url.in.parens" select="1"/>
+      </x:context>
+      
+      <x:expect label="No URL should be generated in parentheses after the 'a'" test="not(exists(//h:span[@class='print_url_in_parens']))"/>
+    </x:scenario> 
+    
+    <x:scenario label="with url.in.parens enabled (mailto)">
+      <x:context select="//h:a[@id='email_me']">
+        <x:param name="url.in.parens" select="1"/>
+      </x:context>
+      
+      <x:expect label="No URL should be generated in parentheses after the 'a'" test="not(exists(//h:span[@class='print_url_in_parens']))"/>
+    </x:scenario>
+
+  </x:scenario>
 
   <!-- Tests for whether an HREF is considered to be an XREF (link within the same corpus) -->
   <x:scenario label="If an href starts with a '#'">
@@ -792,5 +926,26 @@
     </x:call>
     <x:expect label="Output the content from the *last* # sign to the end">#idonotknow</x:expect>
   </x:scenario>
-
+  
+  <!-- Tests for trim url template -->
+  <x:scenario label="If trim-url is called on URL text starting with http://">
+    <x:call template="trim-url">
+      <x:param name="url-to-trim">http://oreilly.com</x:param>
+    </x:call>
+    <x:expect label="Trimmed URL should be returned without http://">oreilly.com</x:expect>
+  </x:scenario>
+  
+  <x:scenario label="If trim-url is called on URL text starting with http://www">
+    <x:call template="trim-url">
+      <x:param name="url-to-trim">http://www.oreilly.com</x:param>
+    </x:call>
+    <x:expect label="Trimmed URL should be returned without http://">oreilly.com</x:expect>
+  </x:scenario>
+  
+  <x:scenario label="If trim-url is called on URL text that does not start with http://">
+    <x:call template="trim-url">
+      <x:param name="url-to-trim">oreilly.com</x:param>
+    </x:call>
+    <x:expect label="Trimmed URL should be returned as is">oreilly.com</x:expect>
+  </x:scenario>
 </x:description>

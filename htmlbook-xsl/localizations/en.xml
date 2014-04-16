@@ -460,7 +460,7 @@
 <l:template name="segmentedlist" text="%t"/>
 <l:template name="set" text="%t"/>
 <l:template name="setindex" text="%t"/>
-<l:template name="sidebar" text="%t"/>
+<l:template name="sidebar" text="“%t”"/>
 <l:template name="table" text="%t"/>
 <l:template name="task" text="%t"/>
 <l:template name="tip" text="%t"/>
