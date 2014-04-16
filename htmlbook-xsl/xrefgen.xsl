@@ -109,6 +109,9 @@
 	      <xsl:with-param name="url-to-trim" select="."/>
 	    </xsl:call-template>
 	  </xsl:variable>
+	  <xsl:variable name="href-is-an-xref-not-a-hyperlink">
+	    <xsl:call-template name="href-is-xref"/>
+	  </xsl:variable>
 	  <xsl:variable name="render_url_in_parens">
 	    <xsl:choose>
 	      <xsl:when test="contains(@class, 'orm:hideurl')">0</xsl:when>
@@ -116,6 +119,7 @@
 	      <xsl:when test="@data-type = 'link'">0</xsl:when>
 	      <xsl:when test=". = @href">0</xsl:when>
 	      <xsl:when test="$trimmed_href_attr = $trimmed_anchor_text_node">0</xsl:when>
+	      <xsl:when test="$href-is-an-xref-not-a-hyperlink = 1">0</xsl:when>
 	      <xsl:otherwise>1</xsl:otherwise>
 	    </xsl:choose>
 	  </xsl:variable>
