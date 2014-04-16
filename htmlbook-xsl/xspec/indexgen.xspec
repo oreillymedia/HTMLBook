@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               xmlns:functx="http://www.functx.com"
+	       xmlns="http://www.w3.org/1999/xhtml"
+	       xmlns:h="http://www.w3.org/1999/xhtml"
+               stylesheet="../htmlbook.xsl">
+
+  <x:scenario label="When matching any Index 'section'">
+    <x:context>
+      <section data-type="index" id="indexid">
+	<h1>Index heading</h1>
+	<p>There should hopefully be some index entries to follow</p>
+      </section>
+    </x:context>
+
+    <x:scenario label="With html4.structural.elements turned off">
+      <x:context>
+        <x:param name="html4.structural.elements" select="0"/>
+      </x:context>
+      <x:expect label="Element tagging and attributes should be preserved as is">
+	<section data-type="index" id="indexid">
+	  <h1>Index heading</h1>
+	  <p>There should hopefully be some index entries to follow</p>
+	</section>
+      </x:expect>
+    </x:scenario>
+    
+    <x:scenario label="With html4.structural.elements turned on">
+      <x:context>
+        <x:param name="html4.structural.elements" select="1"/>
+      </x:context>
+      <x:expect label="An additional div for backward compatibility should be added, and id should be moved to div">
+	<section data-type="index">
+	  <div class="index" id="indexid">...</div>
+	</section>
+      </x:expect>
+    </x:scenario>
+  </x:scenario>
+
+</x:description>

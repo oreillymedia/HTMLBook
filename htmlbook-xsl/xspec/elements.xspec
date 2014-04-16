@@ -1142,4 +1142,157 @@ sect5:1
     </x:scenario>
   </x:scenario>
 
+  <!-- HTML4 structural elements test -->
+  <x:scenario label="When matching any 'section'">
+    <x:context>
+      <section data-type="chapter" id="chapterid">
+	<h1>Chapter heading</h1>
+	<p>This happens to be a chapter</p>
+      </section>
+    </x:context>
+
+    <x:scenario label="With html4.structural.elements turned off">
+      <x:context>
+        <x:param name="html4.structural.elements" select="0"/>
+      </x:context>
+      <x:expect label="Element tagging and attributes should be preserved as is">
+	<section data-type="chapter" id="chapterid" data-pdf-bookmark="...">
+	  <h1>Chapter heading</h1>
+	  <p>This happens to be a chapter</p>
+	</section>
+      </x:expect>
+    </x:scenario>
+    
+    <x:scenario label="With html4.structural.elements turned on">
+      <x:context>
+        <x:param name="html4.structural.elements" select="1"/>
+      </x:context>
+      <x:expect label="An additional div for backward compatibility should be added, and id should be moved to div">
+	<section data-type="chapter" data-pdf-bookmark="...">
+	  <div class="chapter" id="chapterid">...</div>
+	</section>
+      </x:expect>
+    </x:scenario>
+  </x:scenario>
+
+  <x:scenario label="When matching any Index 'section'">
+    <x:context>
+      <section data-type="index" id="indexid">
+	<h1>Index heading</h1>
+	<p>There should hopefully be some index entries to follow</p>
+      </section>
+    </x:context>
+
+    <x:scenario label="With html4.structural.elements turned off">
+      <x:context>
+        <x:param name="html4.structural.elements" select="0"/>
+      </x:context>
+      <x:expect label="Element tagging and attributes should be preserved as is">
+	<section data-type="index" id="indexid">
+	  <h1>Index heading</h1>
+	  <p>There should hopefully be some index entries to follow</p>
+	</section>
+      </x:expect>
+    </x:scenario>
+    
+    <x:scenario label="With html4.structural.elements turned on">
+      <x:context>
+        <x:param name="html4.structural.elements" select="1"/>
+      </x:context>
+      <x:expect label="An additional div for backward compatibility should be added, and id should be moved to div">
+	<section data-type="index">
+	  <div class="index" id="indexid">...</div>
+	</section>
+      </x:expect>
+    </x:scenario>
+  </x:scenario>
+
+  <x:scenario label="When matching any 'figure'">
+    <x:context>
+      <figure id="figureid">
+	<figcaption>Figure heading</figcaption>
+	<img src="burrito.png"/>
+      </figure>
+    </x:context>
+
+    <x:scenario label="With html4.structural.elements turned off">
+      <x:context>
+        <x:param name="html4.structural.elements" select="0"/>
+      </x:context>
+      <x:expect label="Element tagging and attributes should be preserved as is">
+	<figure id="figureid">
+	  <figcaption>Figure heading</figcaption>
+	  <img src="burrito.png"/>
+	</figure>
+      </x:expect>
+    </x:scenario>
+    
+    <x:scenario label="With html4.structural.elements turned on">
+      <x:context>
+        <x:param name="html4.structural.elements" select="1"/>
+      </x:context>
+      <x:expect label="An additional div for backward compatibility should be added, and id should be moved to div">
+	<figure>
+	  <div class="figure" id="figureid">...</div>
+	</figure>
+      </x:expect>
+    </x:scenario>
+  </x:scenario>
+
+  <x:scenario label="When matching any 'aside'">
+    <x:context>
+      <aside data-type="sidebar" id="sidebarid">
+	<h5>Sidebar heading</h5>
+	<p>This happens to be a sidebar</p>
+      </aside>
+    </x:context>
+
+    <x:scenario label="With html4.structural.elements turned off">
+      <x:context>
+        <x:param name="html4.structural.elements" select="0"/>
+      </x:context>
+      <x:expect label="Element tagging and attributes should be preserved as is">
+	<aside data-type="sidebar" id="sidebarid">
+	  <h5>Sidebar heading</h5>
+	  <p>This happens to be a sidebar</p>
+	</aside>
+      </x:expect>
+    </x:scenario>
+    
+    <x:scenario label="With html4.structural.elements turned on">
+      <x:context>
+        <x:param name="html4.structural.elements" select="1"/>
+      </x:context>
+      <x:expect label="An additional div for backward compatibility should be added, and id should be moved to div">
+	<aside data-type="sidebar">
+	  <div class="sidebar" id="sidebarid">...</div>
+	</aside>
+      </x:expect>
+    </x:scenario>
+  </x:scenario>
+
+  <x:scenario label="When matching any 'figcaption'">
+    <x:context>
+      <figcaption>Figure heading</figcaption>
+    </x:context>
+
+    <x:scenario label="With html4.structural.elements turned off">
+      <x:context>
+        <x:param name="html4.structural.elements" select="0"/>
+      </x:context>
+      <x:expect label="Element tagging and attributes should be preserved as is">
+	<figcaption>Figure heading</figcaption>
+      </x:expect>
+    </x:scenario>
+    
+    <x:scenario label="With html4.structural.elements turned on">
+      <x:context>
+        <x:param name="html4.structural.elements" select="1"/>
+      </x:context>
+      <x:expect label="Caption should be converted to h6">
+	<h6>Figure heading</h6>
+      </x:expect>
+    </x:scenario>
+  </x:scenario>
+
 </x:description>

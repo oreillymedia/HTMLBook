@@ -153,7 +153,8 @@ sect5:xref
   <!-- Leave blank to omit CSS -->
   <xsl:param name="css.filename"/>
 
-  <!-- When set to 1, convert HTML5 structural elements like <section> and <figure> to <div> -->
+  <!-- When set to 1, duplicate HTML5 structural elements like <section> and <figure> as <div>,
+       and convert <figcaption> to <h6> -->
   <xsl:param name="html4.structural.elements" select="0"/>
 
   <!-- When set to 1, add a <div> within a <figure> to encapsulate all the non-caption <figure> content (to facilitate styling) -->
