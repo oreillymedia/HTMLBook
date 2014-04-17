@@ -1207,6 +1207,81 @@ sect5:1
     </x:scenario>
   </x:scenario>
 
+  <x:scenario label="When matching any captioned 'figure'">
+    <x:context>
+      <figure id="figureid">
+	<figcaption>Figure heading</figcaption>
+	<img src="taco.png"/>
+      </figure>
+    </x:context>
+
+    <x:scenario label="With figure.border.div disabled">
+      <x:context>
+	<x:param name="figure.border.div" select="0"/>
+      </x:context>
+      <x:expect label="No border-box div should be generated" test="not(exists(//h:div[@class='border-box']))"/>
+    </x:scenario>
+
+    <x:scenario label="With figure.border.div enabled">
+      <x:context>
+	<x:param name="figure.border.div" select="1"/>
+      </x:context>
+      <x:expect label="A border-box div should be generated">
+	<figure id="figureid">
+	  <figcaption>Figure heading</figcaption>
+	  <div class="border-box">
+	    <img src="taco.png"/>
+	  </div>
+	</figure>
+      </x:expect>
+    </x:scenario>
+  </x:scenario>
+
+  <x:scenario label="When matching any uncaptioned 'figure' (no figcaption)">
+    <x:context>
+      <figure id="figureid">
+	<img src="pizza.png"/>
+      </figure>
+    </x:context>
+
+    <x:scenario label="With figure.border.div disabled">
+      <x:context>
+	<x:param name="figure.border.div" select="0"/>
+      </x:context>
+      <x:expect label="No border-box div should be generated" test="not(exists(//h:div[@class='border-box']))"/>
+    </x:scenario>
+
+    <x:scenario label="With figure.border.div enabled">
+      <x:context>
+	<x:param name="figure.border.div" select="1"/>
+      </x:context>
+      <x:expect label="No border-box div should be generated" test="not(exists(//h:div[@class='border-box']))"/>
+    </x:scenario>
+  </x:scenario>
+
+  <x:scenario label="When matching any uncaptioned 'figure' (empty figcaption)">
+    <x:context>
+      <figure id="figureid">
+	<figcaption/>
+	<img src="knish.png"/>
+      </figure>
+    </x:context>
+
+    <x:scenario label="With figure.border.div disabled">
+      <x:context>
+	<x:param name="figure.border.div" select="0"/>
+      </x:context>
+      <x:expect label="No border-box div should be generated" test="not(exists(//h:div[@class='border-box']))"/>
+    </x:scenario>
+
+    <x:scenario label="With figure.border.div enabled">
+      <x:context>
+	<x:param name="figure.border.div" select="1"/>
+      </x:context>
+      <x:expect label="No border-box div should be generated" test="not(exists(//h:div[@class='border-box']))"/>
+    </x:scenario>
+  </x:scenario>
+
   <x:scenario label="When matching any 'figure'">
     <x:context>
       <figure id="figureid">

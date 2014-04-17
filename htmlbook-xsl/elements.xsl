@@ -78,6 +78,7 @@
 
   <xsl:template match="h:figure">
     <xsl:param name="html4.structural.elements" select="$html4.structural.elements"/>
+    <xsl:param name="figure.border.div" select="$figure.border.div"/>
     <xsl:variable name="output-element-name">
       <xsl:call-template name="html.output.element">
 	<xsl:with-param name="html4.structural.elements" select="$html4.structural.elements"/>
@@ -89,7 +90,9 @@
 	<!-- If output element name matches local name (i.e., HTML4 fallback elements disabled), copy element as is and process descendant content -->
 	<xsl:when test="$output-element-name = local-name()">
 	  <xsl:apply-templates select="@id"/>
-	  <xsl:call-template name="process-figure-contents"/>
+	  <xsl:call-template name="process-figure-contents">
+	    <xsl:with-param name="figure.border.div" select="$figure.border.div"/>
+	  </xsl:call-template>
 	</xsl:when>
 	<!-- If output element name does not match local name (i.e., HTML4 fallback elements enabled), copy element, but add an HTML4
 	     fallback child wrapper to include descendant content -->
@@ -99,7 +102,9 @@
 	    <xsl:attribute name="class">
 	      <xsl:call-template name="semantic-name"/>
 	    </xsl:attribute>
-	    <xsl:call-template name="process-figure-contents"/>
+	    <xsl:call-template name="process-figure-contents">
+	      <xsl:with-param name="figure.border.div" select="$figure.border.div"/>
+	    </xsl:call-template>
 	  </xsl:element>
 	</xsl:otherwise>
       </xsl:choose>
@@ -116,7 +121,8 @@
 	<xsl:when test="$figure.border.div = 1 and h:figcaption">
 	  <!-- figcaption must be first or last; handle accordingly -->
 	  <xsl:choose>
-	    <xsl:when test="*[1][self::h:figcaption]">
+	    <!-- Only do border box when you've got a nonempty fig caption -->
+	    <xsl:when test="*[1][self::h:figcaption[. != '']]">
 	      <xsl:apply-templates select="h:figcaption"/>
 	      <div class="border-box">
 		<xsl:apply-templates select="*[not(self::h:figcaption)]"/>
