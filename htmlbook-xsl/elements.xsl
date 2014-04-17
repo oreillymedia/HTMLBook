@@ -122,7 +122,7 @@
 	  <!-- figcaption must be first or last; handle accordingly -->
 	  <xsl:choose>
 	    <!-- Only do border box when you've got a nonempty fig caption -->
-	    <xsl:when test="*[1][self::h:figcaption[. != '']]">
+	    <xsl:when test="*[1][self::h:figcaption[text()]]">
 	      <xsl:apply-templates select="h:figcaption"/>
 	      <div class="border-box">
 		<xsl:apply-templates select="*[not(self::h:figcaption)]"/>
@@ -139,9 +139,9 @@
 	      <xsl:call-template name="log-message">
 		<xsl:with-param name="type" select="'WARNING'"/>
 		<xsl:with-param name="message">
-		  <xsl:text>Error: figcaption for figure </xsl:text>
+		  <xsl:text>Warning: figcaption for figure </xsl:text>
 		  <xsl:value-of select="@id"/> 
-		  <xsl:text> not at beginning or end of figure. Unable to add border box</xsl:text>
+		  <xsl:text> either missing, empty, or not at beginning or end of figure. Unable to add border box</xsl:text>
 		</xsl:with-param>
 	      </xsl:call-template>
 	      <xsl:apply-templates/>
