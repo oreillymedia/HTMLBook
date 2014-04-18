@@ -118,11 +118,11 @@
     <!-- Switch to the appropriate context node -->
     <xsl:for-each select="$node[1]">
       <xsl:choose>
-	<xsl:when test="$figure.border.div = 1 and h:figcaption">
+	<xsl:when test="$figure.border.div = 1 and h:figcaption[text()]">
 	  <!-- figcaption must be first or last; handle accordingly -->
 	  <xsl:choose>
 	    <!-- Only do border box when you've got a nonempty fig caption -->
-	    <xsl:when test="*[1][self::h:figcaption[text()]]">
+	    <xsl:when test="*[1][self::h:figcaption]">
 	      <xsl:apply-templates select="h:figcaption"/>
 	      <div class="border-box">
 		<xsl:apply-templates select="*[not(self::h:figcaption)]"/>
@@ -141,7 +141,7 @@
 		<xsl:with-param name="message">
 		  <xsl:text>Warning: figcaption for figure </xsl:text>
 		  <xsl:value-of select="@id"/> 
-		  <xsl:text> either missing, empty, or not at beginning or end of figure. Unable to add border box</xsl:text>
+		  <xsl:text>not at beginning or end of figure. Unable to add border box</xsl:text>
 		</xsl:with-param>
 	      </xsl:call-template>
 	      <xsl:apply-templates/>
