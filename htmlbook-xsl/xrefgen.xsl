@@ -69,6 +69,7 @@
   <xsl:template match="h:a[not((contains(@data-type, 'xref')) or
 		               (contains(@data-type, 'footnoteref')) or
 			       (contains(@data-type, 'indexterm')))][@href]">
+    <xsl:param name="url.in.parens" select="$url.in.parens"/>
     <!-- If the element is empty, does not have data-type="link", and  is a valid XREF, go ahead and treat it like an <a> element with data-type="xref" -->
     <xsl:variable name="is-xref">
       <xsl:call-template name="href-is-xref">
@@ -92,6 +93,40 @@
 	  </xsl:attribute>
 	  <xsl:apply-templates/>
 	</xsl:copy>
+	<xsl:if test="$url.in.parens = 1">
+      	  <!-- Put the URL after the <a> element in parentheses, unless one of the following two cases is true:
+	       1. A @class attribute containing the text orm:hideurl was specified
+	       2. The href is a mailto link.
+	       3. The <a> has data-type="link"
+	       4. Text node is identical to @url attribute (or matches if http:// or http://www. is dropped) -->
+	  <xsl:variable name="trimmed_href_attr">
+	    <xsl:call-template name="trim-url">
+	      <xsl:with-param name="url-to-trim" select="@href"/>
+	    </xsl:call-template>
+	  </xsl:variable>
+	  <xsl:variable name="trimmed_anchor_text_node">
+	    <xsl:call-template name="trim-url">
+	      <xsl:with-param name="url-to-trim" select="."/>
+	    </xsl:call-template>
+	  </xsl:variable>
+	  <xsl:variable name="href-is-an-xref-not-a-hyperlink">
+	    <xsl:call-template name="href-is-xref"/>
+	  </xsl:variable>
+	  <xsl:variable name="render_url_in_parens">
+	    <xsl:choose>
+	      <xsl:when test="contains(@class, 'orm:hideurl')">0</xsl:when>
+	      <xsl:when test="contains(@href, 'mailto:')">0</xsl:when>
+	      <xsl:when test="@data-type = 'link'">0</xsl:when>
+	      <xsl:when test=". = @href">0</xsl:when>
+	      <xsl:when test="$trimmed_href_attr = $trimmed_anchor_text_node">0</xsl:when>
+	      <xsl:when test="$href-is-an-xref-not-a-hyperlink = 1">0</xsl:when>
+	      <xsl:otherwise>1</xsl:otherwise>
+	    </xsl:choose>
+	  </xsl:variable>
+	  <xsl:if test="$render_url_in_parens = 1">
+	    <span class="print_url_in_parens"> (<span class="print_url"><xsl:value-of select="@href"/></span>)</span>
+	  </xsl:if>
+	</xsl:if>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
@@ -574,5 +609,21 @@
     </xsl:otherwise>
   </xsl:choose>
 </xsl:template>
+
+  <!-- Template to trim http:// and http://www from URLs -->
+  <xsl:template name="trim-url">
+    <xsl:param name="url-to-trim"/>
+    <xsl:choose>
+      <xsl:when test="contains($url-to-trim, 'http://www.')">
+	<xsl:value-of select="substring-after($url-to-trim, 'http://www.')"/>
+      </xsl:when>
+      <xsl:when test="contains($url-to-trim, 'http://')">
+	<xsl:value-of select="substring-after($url-to-trim, 'http://')"/>
+      </xsl:when>
+      <xsl:otherwise>
+	<xsl:value-of select="$url-to-trim"/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
 
 </xsl:stylesheet> 

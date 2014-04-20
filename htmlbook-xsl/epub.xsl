@@ -207,11 +207,11 @@ UbuntuMono-Italic.otf</xsl:param>
   <!-- Directory to place embedded fonts, relative to content directory; leave blank to put in root content dir (e.g., in "OEBPS" dir) -->
   <xsl:param name="embedded.fonts.directory"/>
 
-  <!-- Off by default, but may be useful for EPUB 2 backward compatibility. Setting to 1 with turn on EPUB2-compatible elements, 
+  <!-- Useful for EPUB 2 backward compatibility. Setting to 1 will turn on EPUB2-compatible elements, 
        which means that HTML5 structural semantic elements
-       like <section> and <figure> will be converted to <div> to ensure compatibility in 
+       like <section> and <figure> will be replicated as <div> to help ensure compatibility for cross-referencing and CSS styling in
        non-EPUB3-compliant ereaders -->
-  <xsl:param name="html4.structural.elements" select="0"/>
+  <xsl:param name="html4.structural.elements" select="1"/>
 
   <!-- Do default to turning on autolabeling for EPUB, as some older ereaders may not support the necessary CSS -->
   <xsl:param name="autogenerate.labels" select="1"/>

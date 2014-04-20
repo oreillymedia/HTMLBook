@@ -818,5 +818,556 @@ sect5:1
       </x:expect>
     </x:scenario>
   </x:scenario>
+  
+  <!-- Admonition tests (heading handling) -->
+  <x:scenario label="When matching an titleless admonition (note)">
+    <x:context>
+      <div data-type="note">
+        <p>This is a note.</p>
+      </div>
+    </x:context>
+    <x:scenario label="With add.title.heading.for.admonitions turned off">
+      <x:context>
+        <x:param name="add.title.heading.for.admonitions" select="0"/>
+      </x:context>
+      <x:expect label="No admonition heading should be added">
+        <div data-type="note">
+          <p>This is a note.</p>
+        </div>
+      </x:expect>
+    </x:scenario>
+    
+    <x:scenario label="With add.title.heading.for.admonitions turned on">
+      <x:context>
+        <x:param name="add.title.heading.for.admonitions" select="1"/>
+      </x:context>
+      <x:expect label="An admonition heading should be added">
+        <div data-type="note">
+          <h6>Note</h6>
+          <p>This is a note.</p>
+        </div>
+      </x:expect>
+    </x:scenario>
+    
+    <x:scenario pending="No clean way to parameterize language at template level for unit tests yet" label="With add.title.heading.for.admonitions turned on (es language localization)">
+      <x:context>
+        <x:param name="add.title.heading.for.admonitions" select="1"/>
+      </x:context>
+      <x:expect label="An admonition heading should be added">
+        <div data-type="note">
+          <h6>Nota</h6>
+          <p>This is a note.</p>
+        </div>
+      </x:expect>
+    </x:scenario>
+  </x:scenario>
+    
+    <x:scenario label="When matching an titleless admonition (tip)">
+      <x:context>
+        <div data-type="tip">
+          <p>This is a tip.</p>
+        </div>
+      </x:context>
+      <x:scenario label="With add.title.heading.for.admonitions turned off">
+        <x:context>
+          <x:param name="add.title.heading.for.admonitions" select="0"/>
+        </x:context>
+        <x:expect label="No admonition heading should be added">
+          <div data-type="tip">
+            <p>This is a tip.</p>
+          </div>
+        </x:expect>
+      </x:scenario>
+      
+      <x:scenario label="With add.title.heading.for.admonitions turned on">
+        <x:context>
+          <x:param name="add.title.heading.for.admonitions" select="1"/>
+        </x:context>
+        <x:expect label="An admonition heading should be added">
+          <div data-type="tip">
+            <h6>Tip</h6>
+            <p>This is a tip.</p>
+          </div>
+        </x:expect>
+      </x:scenario>
+  </x:scenario>
+  
+  <x:scenario label="When matching an titleless admonition (warning)">
+    <x:context>
+      <div data-type="warning">
+        <p>This is a warning.</p>
+      </div>
+    </x:context>
+    <x:scenario label="With add.title.heading.for.admonitions turned off">
+      <x:context>
+        <x:param name="add.title.heading.for.admonitions" select="0"/>
+      </x:context>
+      <x:expect label="No admonition heading should be added">
+        <div data-type="warning">
+          <p>This is a warning.</p>
+        </div>
+      </x:expect>
+    </x:scenario>
+    
+    <x:scenario label="With add.title.heading.for.admonitions turned on">
+      <x:context>
+        <x:param name="add.title.heading.for.admonitions" select="1"/>
+      </x:context>
+      <x:expect label="An admonition heading should be added">
+        <div data-type="warning">
+          <h6>Warning</h6>
+          <p>This is a warning.</p>
+        </div>
+      </x:expect>
+    </x:scenario>
+  </x:scenario>
+  
+  <x:scenario label="When matching an titleless admonition (caution)">
+    <x:context>
+      <div data-type="caution">
+        <p>This is a caution.</p>
+      </div>
+    </x:context>
+    <x:scenario label="With add.title.heading.for.admonitions turned off">
+      <x:context>
+        <x:param name="add.title.heading.for.admonitions" select="0"/>
+      </x:context>
+      <x:expect label="No admonition heading should be added">
+        <div data-type="caution">
+          <p>This is a caution.</p>
+        </div>
+      </x:expect>
+    </x:scenario>
+    
+    <x:scenario label="With add.title.heading.for.admonitions turned on">
+      <x:context>
+        <x:param name="add.title.heading.for.admonitions" select="1"/>
+      </x:context>
+      <x:expect label="An admonition heading should be added">
+        <div data-type="caution">
+          <h6>Caution</h6>
+          <p>This is a caution.</p>
+        </div>
+      </x:expect>
+    </x:scenario>
+  </x:scenario>
+  
+  <x:scenario label="When matching an titleless admonition (important)">
+    <x:context>
+      <div data-type="important">
+        <p>This is an important admonition.</p>
+      </div>
+    </x:context>
+    <x:scenario label="With add.title.heading.for.admonitions turned off">
+      <x:context>
+        <x:param name="add.title.heading.for.admonitions" select="0"/>
+      </x:context>
+      <x:expect label="No admonition heading should be added">
+        <div data-type="important">
+          <p>This is an important admonition.</p>
+        </div>
+      </x:expect>
+    </x:scenario>
+    
+    <x:scenario label="With add.title.heading.for.admonitions turned on">
+      <x:context>
+        <x:param name="add.title.heading.for.admonitions" select="1"/>
+      </x:context>
+      <x:expect label="An admonition heading should be added">
+        <div data-type="important">
+          <h6>Important</h6>
+          <p>This is an important admonition.</p>
+        </div>
+      </x:expect>
+    </x:scenario>
+  </x:scenario>
+  
+  <x:scenario label="When matching an titled admonition (note)">
+    <x:context>
+      <div data-type="note">
+        <h6>Note Heading</h6>
+        <p>This is a note.</p>
+      </div>
+    </x:context>
+    <x:scenario label="With add.title.heading.for.admonitions turned off">
+      <x:context>
+        <x:param name="add.title.heading.for.admonitions" select="0"/>
+      </x:context>
+      <x:expect label="No additional admonition heading should be added">
+        <div data-type="note">
+          <h6>Note Heading</h6>
+          <p>This is a note.</p>
+        </div>
+      </x:expect>
+    </x:scenario>
+    
+    <x:scenario label="With add.title.heading.for.admonitions turned on">
+      <x:context>
+        <x:param name="add.title.heading.for.admonitions" select="1"/>
+      </x:context>
+      <x:expect label="An admonition heading should be added">
+        <div data-type="note">
+          <h6>Note Heading</h6>
+          <p>This is a note.</p>
+        </div>
+      </x:expect>
+    </x:scenario>
+  </x:scenario>
+  
+  <x:scenario label="When matching an titled admonition (tip)">
+    <x:context>
+      <div data-type="tip">
+        <h6>Tip Heading</h6>
+        <p>This is a tip.</p>
+      </div>
+    </x:context>
+    <x:scenario label="With add.title.heading.for.admonitions turned off">
+      <x:context>
+        <x:param name="add.title.heading.for.admonitions" select="0"/>
+      </x:context>
+      <x:expect label="No admonition heading should be added">
+        <div data-type="tip">
+          <h6>Tip Heading</h6>
+          <p>This is a tip.</p>
+        </div>
+      </x:expect>
+    </x:scenario>
+    
+    <x:scenario label="With add.title.heading.for.admonitions turned on">
+      <x:context>
+        <x:param name="add.title.heading.for.admonitions" select="1"/>
+      </x:context>
+      <x:expect label="An admonition heading should be added">
+        <div data-type="tip">
+          <h6>Tip Heading</h6>
+          <p>This is a tip.</p>
+        </div>
+      </x:expect>
+    </x:scenario>
+  </x:scenario>
+  
+  <x:scenario label="When matching an titled admonition (warning)">
+    <x:context>
+      <div data-type="warning">
+        <h6>Warning Heading</h6>
+        <p>This is a warning.</p>
+      </div>
+    </x:context>
+    <x:scenario label="With add.title.heading.for.admonitions turned off">
+      <x:context>
+        <x:param name="add.title.heading.for.admonitions" select="0"/>
+      </x:context>
+      <x:expect label="No admonition heading should be added">
+        <div data-type="warning">
+          <h6>Warning Heading</h6>
+          <p>This is a warning.</p>
+        </div>
+      </x:expect>
+    </x:scenario>
+    
+    <x:scenario label="With add.title.heading.for.admonitions turned on">
+      <x:context>
+        <x:param name="add.title.heading.for.admonitions" select="1"/>
+      </x:context>
+      <x:expect label="An admonition heading should be added">
+        <div data-type="warning">
+          <h6>Warning Heading</h6>
+          <p>This is a warning.</p>
+        </div>
+      </x:expect>
+    </x:scenario>
+  </x:scenario>
+  
+  <x:scenario label="When matching an titled admonition (caution)">
+    <x:context>
+      <div data-type="caution">
+        <h6>Caution Heading</h6>
+        <p>This is a caution.</p>
+      </div>
+    </x:context>
+    <x:scenario label="With add.title.heading.for.admonitions turned off">
+      <x:context>
+        <x:param name="add.title.heading.for.admonitions" select="0"/>
+      </x:context>
+      <x:expect label="No admonition heading should be added">
+        <div data-type="caution">
+          <h6>Caution Heading</h6>
+          <p>This is a caution.</p>
+        </div>
+      </x:expect>
+    </x:scenario>
+    
+    <x:scenario label="With add.title.heading.for.admonitions turned on">
+      <x:context>
+        <x:param name="add.title.heading.for.admonitions" select="1"/>
+      </x:context>
+      <x:expect label="An admonition heading should be added">
+        <div data-type="caution">
+          <h6>Caution Heading</h6>
+          <p>This is a caution.</p>
+        </div>
+      </x:expect>
+    </x:scenario>
+  </x:scenario>
+  
+  <x:scenario label="When matching an titleless admonition (important)">
+    <x:context>
+      <div data-type="important">
+        <h6>Important Heading</h6>
+        <p>This is an important admonition.</p>
+      </div>
+    </x:context>
+    <x:scenario label="With add.title.heading.for.admonitions turned off">
+      <x:context>
+        <x:param name="add.title.heading.for.admonitions" select="0"/>
+      </x:context>
+      <x:expect label="No admonition heading should be added">
+        <div data-type="important">
+          <h6>Important Heading</h6>
+          <p>This is an important admonition.</p>
+        </div>
+      </x:expect>
+    </x:scenario>
+    
+    <x:scenario label="With add.title.heading.for.admonitions turned on">
+      <x:context>
+        <x:param name="add.title.heading.for.admonitions" select="1"/>
+      </x:context>
+      <x:expect label="An admonition heading should be added">
+        <div data-type="important">
+          <h6>Important Heading</h6>
+          <p>This is an important admonition.</p>
+        </div>
+      </x:expect>
+    </x:scenario>
+  </x:scenario>
+
+  <!-- HTML4 structural elements test -->
+  <x:scenario label="When matching any 'section'">
+    <x:context>
+      <section data-type="chapter" id="chapterid">
+	<h1>Chapter heading</h1>
+	<p>This happens to be a chapter</p>
+      </section>
+    </x:context>
+
+    <x:scenario label="With html4.structural.elements turned off">
+      <x:context>
+        <x:param name="html4.structural.elements" select="0"/>
+      </x:context>
+      <x:expect label="Element tagging and attributes should be preserved as is">
+	<section data-type="chapter" id="chapterid" data-pdf-bookmark="...">
+	  <h1>Chapter heading</h1>
+	  <p>This happens to be a chapter</p>
+	</section>
+      </x:expect>
+    </x:scenario>
+    
+    <x:scenario label="With html4.structural.elements turned on">
+      <x:context>
+        <x:param name="html4.structural.elements" select="1"/>
+      </x:context>
+      <x:expect label="An additional div for backward compatibility should be added, and id should be moved to div">
+	<section data-type="chapter" data-pdf-bookmark="...">
+	  <div class="chapter" id="chapterid">...</div>
+	</section>
+      </x:expect>
+    </x:scenario>
+  </x:scenario>
+
+  <x:scenario label="When matching any Index 'section'">
+    <x:context>
+      <section data-type="index" id="indexid">
+	<h1>Index heading</h1>
+	<p>There should hopefully be some index entries to follow</p>
+      </section>
+    </x:context>
+
+    <x:scenario label="With html4.structural.elements turned off">
+      <x:context>
+        <x:param name="html4.structural.elements" select="0"/>
+      </x:context>
+      <x:expect label="Element tagging and attributes should be preserved as is">
+	<section data-type="index" id="indexid">
+	  <h1>Index heading</h1>
+	  <p>There should hopefully be some index entries to follow</p>
+	</section>
+      </x:expect>
+    </x:scenario>
+    
+    <x:scenario label="With html4.structural.elements turned on">
+      <x:context>
+        <x:param name="html4.structural.elements" select="1"/>
+      </x:context>
+      <x:expect label="An additional div for backward compatibility should be added, and id should be moved to div">
+	<section data-type="index">
+	  <div class="index" id="indexid">...</div>
+	</section>
+      </x:expect>
+    </x:scenario>
+  </x:scenario>
+
+  <x:scenario label="When matching any captioned 'figure'">
+    <x:context>
+      <figure id="figureid">
+	<figcaption>Figure heading</figcaption>
+	<img src="taco.png"/>
+      </figure>
+    </x:context>
+
+    <x:scenario label="With figure.border.div disabled">
+      <x:context>
+	<x:param name="figure.border.div" select="0"/>
+      </x:context>
+      <x:expect label="No border-box div should be generated" test="not(exists(//h:div[@class='border-box']))"/>
+    </x:scenario>
+
+    <x:scenario label="With figure.border.div enabled">
+      <x:context>
+	<x:param name="figure.border.div" select="1"/>
+      </x:context>
+      <x:expect label="A border-box div should be generated">
+	<figure id="figureid">
+	  <figcaption>Figure heading</figcaption>
+	  <div class="border-box">
+	    <img src="taco.png"/>
+	  </div>
+	</figure>
+      </x:expect>
+    </x:scenario>
+  </x:scenario>
+
+  <x:scenario label="When matching any uncaptioned 'figure' (no figcaption)">
+    <x:context>
+      <figure id="figureid">
+	<img src="pizza.png"/>
+      </figure>
+    </x:context>
+
+    <x:scenario label="With figure.border.div disabled">
+      <x:context>
+	<x:param name="figure.border.div" select="0"/>
+      </x:context>
+      <x:expect label="No border-box div should be generated" test="not(exists(//h:div[@class='border-box']))"/>
+    </x:scenario>
+
+    <x:scenario label="With figure.border.div enabled">
+      <x:context>
+	<x:param name="figure.border.div" select="1"/>
+      </x:context>
+      <x:expect label="No border-box div should be generated" test="not(exists(//h:div[@class='border-box']))"/>
+    </x:scenario>
+  </x:scenario>
+
+  <x:scenario label="When matching any uncaptioned 'figure' (empty figcaption)">
+    <x:context>
+      <figure id="figureid">
+	<figcaption/>
+	<img src="knish.png"/>
+      </figure>
+    </x:context>
+
+    <x:scenario label="With figure.border.div disabled">
+      <x:context>
+	<x:param name="figure.border.div" select="0"/>
+      </x:context>
+      <x:expect label="No border-box div should be generated" test="not(exists(//h:div[@class='border-box']))"/>
+    </x:scenario>
+
+    <x:scenario label="With figure.border.div enabled">
+      <x:context>
+	<x:param name="figure.border.div" select="1"/>
+      </x:context>
+      <x:expect label="No border-box div should be generated" test="not(exists(//h:div[@class='border-box']))"/>
+    </x:scenario>
+  </x:scenario>
+
+  <x:scenario label="When matching any 'figure'">
+    <x:context>
+      <figure id="figureid">
+	<figcaption>Figure heading</figcaption>
+	<img src="burrito.png"/>
+      </figure>
+    </x:context>
+
+    <x:scenario label="With html4.structural.elements turned off">
+      <x:context>
+        <x:param name="html4.structural.elements" select="0"/>
+      </x:context>
+      <x:expect label="Element tagging and attributes should be preserved as is">
+	<figure id="figureid">
+	  <figcaption>Figure heading</figcaption>
+	  <img src="burrito.png"/>
+	</figure>
+      </x:expect>
+    </x:scenario>
+    
+    <x:scenario label="With html4.structural.elements turned on">
+      <x:context>
+        <x:param name="html4.structural.elements" select="1"/>
+      </x:context>
+      <x:expect label="An additional div for backward compatibility should be added, and id should be moved to div">
+	<figure>
+	  <div class="figure" id="figureid">...</div>
+	</figure>
+      </x:expect>
+    </x:scenario>
+  </x:scenario>
+
+  <x:scenario label="When matching any 'aside'">
+    <x:context>
+      <aside data-type="sidebar" id="sidebarid">
+	<h5>Sidebar heading</h5>
+	<p>This happens to be a sidebar</p>
+      </aside>
+    </x:context>
+
+    <x:scenario label="With html4.structural.elements turned off">
+      <x:context>
+        <x:param name="html4.structural.elements" select="0"/>
+      </x:context>
+      <x:expect label="Element tagging and attributes should be preserved as is">
+	<aside data-type="sidebar" id="sidebarid">
+	  <h5>Sidebar heading</h5>
+	  <p>This happens to be a sidebar</p>
+	</aside>
+      </x:expect>
+    </x:scenario>
+    
+    <x:scenario label="With html4.structural.elements turned on">
+      <x:context>
+        <x:param name="html4.structural.elements" select="1"/>
+      </x:context>
+      <x:expect label="An additional div for backward compatibility should be added, and id should be moved to div">
+	<aside data-type="sidebar">
+	  <div class="sidebar" id="sidebarid">...</div>
+	</aside>
+      </x:expect>
+    </x:scenario>
+  </x:scenario>
+
+  <x:scenario label="When matching any 'figcaption'">
+    <x:context>
+      <figcaption>Figure heading</figcaption>
+    </x:context>
+
+    <x:scenario label="With html4.structural.elements turned off">
+      <x:context>
+        <x:param name="html4.structural.elements" select="0"/>
+      </x:context>
+      <x:expect label="Element tagging and attributes should be preserved as is">
+	<figcaption>Figure heading</figcaption>
+      </x:expect>
+    </x:scenario>
+    
+    <x:scenario label="With html4.structural.elements turned on">
+      <x:context>
+        <x:param name="html4.structural.elements" select="1"/>
+      </x:context>
+      <x:expect label="Caption should be converted to h6">
+	<h6>Figure heading</h6>
+      </x:expect>
+    </x:scenario>
+  </x:scenario>
 
 </x:description>

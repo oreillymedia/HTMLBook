@@ -24,20 +24,46 @@
   <!-- WARNING: If you need additional handling for these elements for other functionality,
        and you override this template elsewhere, make sure you add in id-decoration functionality -->
   <xsl:template match="h:section|h:div[contains(@data-type, 'part')]|h:aside|h:a[contains(@data-type, 'indexterm')]">
+    <xsl:param name="html4.structural.elements" select="$html4.structural.elements"/>
     <xsl:variable name="output-element-name">
-      <xsl:call-template name="html.output.element"/>
+      <xsl:call-template name="html.output.element">
+	<xsl:with-param name="html4.structural.elements" select="$html4.structural.elements"/>
+      </xsl:call-template>
     </xsl:variable>
-    <xsl:element name="{$output-element-name}" namespace="http://www.w3.org/1999/xhtml">
+    <xsl:copy>
       <xsl:apply-templates select="@*[not(local-name() = 'id')]"/>
-      <xsl:attribute name="id">
-	<xsl:call-template name="object.id"/>
-      </xsl:attribute>
       <xsl:apply-templates select="." mode="pdf-bookmark"/>
-      <xsl:apply-templates/>
-      <xsl:if test="$process.footnotes = 1">
-	<xsl:call-template name="generate-footnotes"/>
-      </xsl:if>
-    </xsl:element>
+      <xsl:choose>
+	<!-- If output element name matches local name (i.e., HTML4 fallback elements disabled), copy element as is and process descendant content -->
+	<!-- ToDo: Refactor duplicate code in when/otherwise; perhaps do an apply-templates select="." with a process-section mode -->
+	<xsl:when test="$output-element-name = local-name()">
+	  <xsl:attribute name="id">
+	    <xsl:call-template name="object.id"/>
+	  </xsl:attribute>
+	  <xsl:apply-templates/>
+	  <xsl:if test="$process.footnotes = 1">
+	    <xsl:call-template name="generate-footnotes"/>
+	  </xsl:if>
+	</xsl:when>
+	<!-- If output element name does not match local name (i.e., HTML4 fallback elements enabled), copy element, but add an HTML4
+	     fallback child wrapper to include descendant content -->
+	<xsl:otherwise>
+	  <xsl:element name="{$output-element-name}" namespace="http://www.w3.org/1999/xhtml">
+	    <!-- Put a class on it with the proper semantic name -->
+	    <xsl:attribute name="class">
+	      <xsl:call-template name="semantic-name"/>
+	    </xsl:attribute>
+	    <xsl:attribute name="id">
+	      <xsl:call-template name="object.id"/>
+	    </xsl:attribute>
+	    <xsl:apply-templates/>
+	    <xsl:if test="$process.footnotes = 1">
+	      <xsl:call-template name="generate-footnotes"/>
+	    </xsl:if>
+	  </xsl:element>
+	</xsl:otherwise>
+      </xsl:choose>      
+    </xsl:copy>
   </xsl:template>
 
   <xsl:template match="h:section[@data-type]/*[self::h:h1 or self::h:h2 or self::h:h3 or self::h:h4 or self::h:h5 or self::h:h6]|
@@ -51,20 +77,51 @@
   </xsl:template>
 
   <xsl:template match="h:figure">
+    <xsl:param name="html4.structural.elements" select="$html4.structural.elements"/>
+    <xsl:param name="figure.border.div" select="$figure.border.div"/>
     <xsl:variable name="output-element-name">
-      <xsl:call-template name="html.output.element"/>
+      <xsl:call-template name="html.output.element">
+	<xsl:with-param name="html4.structural.elements" select="$html4.structural.elements"/>
+      </xsl:call-template>
     </xsl:variable>
-    <xsl:element name="{$output-element-name}" namespace="http://www.w3.org/1999/xhtml">
-      <xsl:apply-templates select="@*"/>
-      <!-- If there's no data-type already and $html4.structural.elements is enabled, plop in a data type of "figure" -->
-      <xsl:if test="not(@data-type) and $html4.structural.elements = 1">
-	<xsl:attribute name="data-type">figure</xsl:attribute>
-      </xsl:if>
-      <!-- If the parameter $figure.border.div is enabled, and there is a figure caption, add a child div and put everything but the caption in it -->
+    <xsl:copy>
+      <xsl:apply-templates select="@*[not(local-name() = 'id')]"/>
       <xsl:choose>
-	<xsl:when test="$figure.border.div = 1 and h:figcaption">
+	<!-- If output element name matches local name (i.e., HTML4 fallback elements disabled), copy element as is and process descendant content -->
+	<xsl:when test="$output-element-name = local-name()">
+	  <xsl:apply-templates select="@id"/>
+	  <xsl:call-template name="process-figure-contents">
+	    <xsl:with-param name="figure.border.div" select="$figure.border.div"/>
+	  </xsl:call-template>
+	</xsl:when>
+	<!-- If output element name does not match local name (i.e., HTML4 fallback elements enabled), copy element, but add an HTML4
+	     fallback child wrapper to include descendant content -->
+	<xsl:otherwise>
+	  <xsl:element name="{$output-element-name}" namespace="http://www.w3.org/1999/xhtml">
+	    <xsl:apply-templates select="@id"/>
+	    <xsl:attribute name="class">
+	      <xsl:call-template name="semantic-name"/>
+	    </xsl:attribute>
+	    <xsl:call-template name="process-figure-contents">
+	      <xsl:with-param name="figure.border.div" select="$figure.border.div"/>
+	    </xsl:call-template>
+	  </xsl:element>
+	</xsl:otherwise>
+      </xsl:choose>
+    </xsl:copy>
+  </xsl:template>
+
+  <xsl:template name="process-figure-contents">
+    <xsl:param name="node" select="."/>
+    <xsl:param name="figure.border.div" select="$figure.border.div"/>
+    <!-- If the parameter $figure.border.div is enabled, and there is a figure caption, add a child div and put everything but the caption in it -->
+    <!-- Switch to the appropriate context node -->
+    <xsl:for-each select="$node[1]">
+      <xsl:choose>
+	<xsl:when test="$figure.border.div = 1 and h:figcaption[text()]">
 	  <!-- figcaption must be first or last; handle accordingly -->
 	  <xsl:choose>
+	    <!-- Only do border box when you've got a nonempty fig caption -->
 	    <xsl:when test="*[1][self::h:figcaption]">
 	      <xsl:apply-templates select="h:figcaption"/>
 	      <div class="border-box">
@@ -82,9 +139,9 @@
 	      <xsl:call-template name="log-message">
 		<xsl:with-param name="type" select="'WARNING'"/>
 		<xsl:with-param name="message">
-		  <xsl:text>Error: figcaption for figure </xsl:text>
+		  <xsl:text>Warning: figcaption for figure </xsl:text>
 		  <xsl:value-of select="@id"/> 
-		  <xsl:text> not at beginning or end of figure. Unable to add border box</xsl:text>
+		  <xsl:text>not at beginning or end of figure. Unable to add border box</xsl:text>
 		</xsl:with-param>
 	      </xsl:call-template>
 	      <xsl:apply-templates/>
@@ -95,7 +152,7 @@
 	  <xsl:apply-templates/>
 	</xsl:otherwise>
       </xsl:choose>
-    </xsl:element>
+    </xsl:for-each>
   </xsl:template>
 
   <xsl:template match="h:caption">
@@ -105,12 +162,43 @@
   </xsl:template>
 
   <xsl:template match="h:figcaption">
+    <xsl:param name="html4.structural.elements" select="$html4.structural.elements"/>
     <xsl:apply-templates select="." mode="process-heading">
       <xsl:with-param name="labeled-element-semantic-name" select="'figure'"/>
       <xsl:with-param name="output-element-name">
-	<xsl:call-template name="html.output.element"/>
+	<xsl:call-template name="html.output.element">
+	  <xsl:with-param name="html4.structural.elements" select="$html4.structural.elements"/>
+	</xsl:call-template>
       </xsl:with-param>
     </xsl:apply-templates>
+  </xsl:template>
+
+  <!-- Admonition handling -->
+  <xsl:template match="h:div[@data-type='note' or 
+		             @data-type='tip' or 
+			     @data-type='warning' or
+			     @data-type='caution' or
+			     @data-type='important']">
+    <xsl:param name="add.title.heading.for.admonitions" select="$add.title.heading.for.admonitions"/>
+    <xsl:copy>
+      <xsl:apply-templates select="@*"/>
+      <!-- Add admonition heading title if $add.title.heading.for.admonitions is enabled AND there is not a heading first child already -->
+      <xsl:if test="($add.title.heading.for.admonitions = 1) and
+		    not(*[1][self::h:h1|self::h:h2|self::h:h3|self::h:h4|self::h:h5|self::h:h6])">
+	<h6>
+	  <!-- For title, use proper admonition title gentext, based on localization -->
+	  <xsl:variable name="admon-semantic-name">
+	    <xsl:call-template name="semantic-name">
+	      <xsl:with-param name="node" select="."/>
+	    </xsl:call-template>
+	  </xsl:variable>
+	  <xsl:call-template name="get-localization-value">
+	    <xsl:with-param name="gentext-key" select="$admon-semantic-name"/>
+	  </xsl:call-template>
+	</h6>
+      </xsl:if>
+      <xsl:apply-templates/>
+    </xsl:copy>
   </xsl:template>
 
   <!-- Footnote handling -->

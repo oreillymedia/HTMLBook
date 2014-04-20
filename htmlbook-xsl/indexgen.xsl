@@ -49,40 +49,57 @@
 <xsl:key name="sections" match="*[@id or @xml:id]" use="@id|@xml:id"/>
 
 <xsl:template match="h:section[@data-type='index']">
+  <xsl:param name="html4.structural.elements" select="$html4.structural.elements"/>
   <xsl:variable name="output-element-name">
-    <xsl:call-template name="html.output.element"/>
+    <xsl:call-template name="html.output.element">
+      <xsl:with-param name="html4.structural.elements" select="$html4.structural.elements"/>
+    </xsl:call-template>
   </xsl:variable>
-  <xsl:choose>
-    <!-- If autogenerate-index is enabled, and it's the first index-placeholder-element, and it's either empty or overwrite-contents is specified, then
-	 go ahead and generate the Index here -->
-    <xsl:when test="($autogenerate-index = 1) and 
-		    (not(preceding::h:section[@data-type='index'])) and
-		    (not(node()) or $index-placeholder-overwrite-contents != 0)">
-      <xsl:element name="{$output-element-name}" namespace="http://www.w3.org/1999/xhtml">
-	<xsl:apply-templates select="@*[not(local-name() = 'id')]"/>
+  <xsl:copy>
+    <xsl:apply-templates select="@*[not(local-name() = 'id')]"/>
+    <xsl:choose>
+      <!-- If output element name matches local name (i.e., HTML4 fallback elements disabled), copy element as is and process descendant content -->
+      <xsl:when test="$output-element-name = local-name()">
 	<xsl:attribute name="id">
 	  <xsl:call-template name="object.id"/>
 	</xsl:attribute>
+	<xsl:call-template name="process-index-content"/>
+      </xsl:when>
+      <xsl:otherwise>
+	<xsl:element name="{$output-element-name}" namespace="http://www.w3.org/1999/xhtml">
+	  <!-- Put a class on it with the proper semantic name -->
+	  <xsl:attribute name="class">
+	    <xsl:call-template name="semantic-name"/>
+	  </xsl:attribute>      
+	  <xsl:attribute name="id">
+	    <xsl:call-template name="object.id"/>
+	  </xsl:attribute>
+	  <xsl:call-template name="process-index-content"/>
+	</xsl:element>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:copy>
+</xsl:template>
+
+<xsl:template name="process-index-content">
+  <xsl:param name="node" select="."/>
+  <xsl:for-each select="$node[1]">
+    <xsl:choose>
+      <xsl:when test="($autogenerate-index = 1) and 
+		      (not(preceding::h:section[@data-type='index'])) and
+		      (not(node()) or $index-placeholder-overwrite-contents != 0)">
 	<h1>
 	  <xsl:call-template name="get-localization-value">
 	    <xsl:with-param name="gentext-key" select="'index'"/>
 	  </xsl:call-template>
 	</h1>
 	<xsl:call-template name="generate-index"/>
-      </xsl:element>
-    </xsl:when>
-    <xsl:otherwise>
-      <!-- Otherwise, just process as normal -->
-      <!-- ToDo: Consider using <xsl:apply-imports> here, depending on how we decide to do stylesheet layering for packaging for EPUB, etc. -->
-      <xsl:element name="{$output-element-name}" namespace="http://www.w3.org/1999/xhtml">
-	<xsl:apply-templates select="@*[not(local-name() = 'id')]"/>
-	<xsl:attribute name="id">
-	  <xsl:call-template name="object.id"/>
-	</xsl:attribute>
+      </xsl:when>
+      <xsl:otherwise>
 	<xsl:apply-templates/>
-      </xsl:element>
-    </xsl:otherwise>
-  </xsl:choose>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:for-each>
 </xsl:template>
 
 <xsl:template name="generate-index">

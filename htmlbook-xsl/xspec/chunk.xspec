@@ -7,6 +7,9 @@
 	       xmlns:h="http://www.w3.org/1999/xhtml"
 	       xmlns:e="http://github.com/oreillymedia/epubrenderer"
                stylesheet="../chunk.xsl">
+  
+  <!-- Globally setting url.in.parens to 0 here; tests for url.in.parens handling below modify param value on a oneoff basis -->
+  <x:param name="url.in.parens" select="0"/>
 
   <!-- Tests around text nodes for formal XREF elements (those with data-type='xref') -->
   <x:scenario label="When *empty* XREF element is matched">
@@ -294,35 +297,167 @@
       </x:expect>
     </x:scenario>
   </x:scenario>
-
-  <x:scenario label="When an XREF element is matched that contains an href pointing to an id IN A DIFFERENT CHUNK">
+  
+  <!-- Handling for print URLs (url.in.parens) -->
+  <x:scenario label="If external hyperlink 'a' element is matched">
     <x:context>
-      <section id="chapter1" data-type="chapter">
-	<p>Here comes a cross-reference: see <a id="no_text_node" data-type="xref" href="#chapter2"/></p>
-	<p>Here comes an XREF with a text node: see <a id="text_node" data-type="xref" href="#chapter2">PLACEHOLDER TEXT</a></p>
-      </section>
-      <section id="chapter2" data-type="chapter">
-	<p>This is another chapter and another chunk</p>
+      <section data-type="chapter">
+        <h1>Hyperlink Spree!</h1>
+        <p><a id="hyperlink_different_text_node" href="http://oreilly.com">O'Reilly Media</a></p>
+        <p><a id="hyperlink_same_text_node" href="http://oreilly.com">http://oreilly.com</a></p>
+        <p><a id="hyperlink_same_text_node_2" href="http://oreilly.com">oreilly.com</a></p>
+        <p><a id="hyperlink_same_text_node_3" href="http://www.oreilly.com">oreilly.com</a></p>
+        <p><a id="link" data-type="link" href="#some_id">some awesome location in the text</a></p>
+	<p><a href="#another_id" id="stealth_xref">XREF masquerading as an external hyperlink (no proper data-type)</a></p>
+        <p><a id="email_me" href="mailto:tools@oreilly.com">tools@oreilly.com</a></p>
       </section>
     </x:context>
+    
+    <x:scenario label="with url.in.parens disabled (hyperlink different text node from href)">
+      <x:context select="//h:a[@id='hyperlink_different_text_node']">
+        <x:param name="url.in.parens" select="0"/>
+      </x:context>
+      
+      <x:expect label="No URL should be generated in parentheses after the 'a'" test="not(exists(//h:span[@class='print_url_in_parens']))"/>
+    </x:scenario> 
+    
+    <x:scenario label="with url.in.parens disabled (hyperlink same text node as href 1)">
+      <x:context select="//h:a[@id='hyperlink_same_text_node']">
+        <x:param name="url.in.parens" select="0"/>
+      </x:context>
+      
+      <x:expect label="No URL should be generated in parentheses after the 'a'" test="not(exists(//h:span[@class='print_url_in_parens']))"/>
+    </x:scenario>    
+    
+    <x:scenario label="with url.in.parens disabled (hyperlink same text node as href 2)">
+      <x:context select="//h:a[@id='hyperlink_same_text_node_2']">
+        <x:param name="url.in.parens" select="0"/>
+      </x:context>
+      
+      <x:expect label="No URL should be generated in parentheses after the 'a'" test="not(exists(//h:span[@class='print_url_in_parens']))"/>
+    </x:scenario>  
+    
+    <x:scenario label="with url.in.parens disabled (hyperlink same text node as href 3)">
+      <x:context select="//h:a[@id='hyperlink_same_text_node_3']">
+        <x:param name="url.in.parens" select="0"/>
+      </x:context>
+      
+      <x:expect label="No URL should be generated in parentheses after the 'a'" test="not(exists(//h:span[@class='print_url_in_parens']))"/>
+    </x:scenario> 
+    
+    <x:scenario label="with url.in.parens disabled (internal link)">
+      <x:context select="//h:a[@id='link']">
+        <x:param name="url.in.parens" select="0"/>
+      </x:context>
+      
+      <x:expect label="No URL should be generated in parentheses after the 'a'" test="not(exists(//h:span[@class='print_url_in_parens']))"/>
+    </x:scenario> 
 
-    <x:scenario label="And the XREF contains no text node">
-      <x:context select="//h:a[@id='no_text_node']"/>
-      <x:expect label="href attribute should be processed to output a file/id href to another chunk">
-	<a data-type="xref" id="no_text_node" href="ch02.html#chapter2">...</a>
-      </x:expect>
+    <x:scenario label="with url.in.parens disabled (stealth XREF; XREF with no data-type)">
+      <x:context select="//h:a[@id='stealth_xref']">
+        <x:param name="url.in.parens" select="0"/>
+      </x:context>
+      
+      <x:expect label="No URL should be generated in parentheses after the 'a'" test="not(exists(//h:span[@class='print_url_in_parens']))"/>
+    </x:scenario> 
+    
+    <x:scenario label="with url.in.parens disabled (mailto)">
+      <x:context select="//h:a[@id='email_me']">
+        <x:param name="url.in.parens" select="0"/>
+      </x:context>
+      
+      <x:expect label="No URL should be generated in parentheses after the 'a'" test="not(exists(//h:span[@class='print_url_in_parens']))"/>
     </x:scenario>
+    
+    <x:scenario label="with url.in.parens enabled (hyperlink different text node from href)">
+      <x:context select="//h:a[@id='hyperlink_different_text_node']">
+        <x:param name="url.in.parens" select="1"/>
+      </x:context>
+      
+      <x:expect label="URL should be generated in parentheses after the 'a'">
+        <a id="hyperlink_different_text_node" href="http://oreilly.com">O'Reilly Media</a><span class="print_url_in_parens"> (<span class="print_url">http://oreilly.com</span>)</span>
+      </x:expect>
+    </x:scenario> 
+    
+    <x:scenario label="with url.in.parens enabled (hyperlink same text node as href 1)">
+      <x:context select="//h:a[@id='hyperlink_same_text_node']">
+        <x:param name="url.in.parens" select="1"/>
+      </x:context>
+      
+      <x:expect label="No URL should be generated in parentheses after the 'a'" test="not(exists(//h:span[@class='print_url_in_parens']))"/>
+    </x:scenario>    
+    
+    <x:scenario label="with url.in.parens enabled (hyperlink same text node as href 2)">
+      <x:context select="//h:a[@id='hyperlink_same_text_node_2']">
+        <x:param name="url.in.parens" select="1"/>
+      </x:context>
+      
+      <x:expect label="No URL should be generated in parentheses after the 'a'" test="not(exists(//h:span[@class='print_url_in_parens']))"/>
+    </x:scenario>  
+    
+    <x:scenario label="with url.in.parens enabled (hyperlink same text node as href 3)">
+      <x:context select="//h:a[@id='hyperlink_same_text_node_3']">
+        <x:param name="url.in.parens" select="1"/>
+      </x:context>
+      
+      <x:expect label="No URL should be generated in parentheses after the 'a'" test="not(exists(//h:span[@class='print_url_in_parens']))"/>
+    </x:scenario> 
+    
+    <x:scenario label="with url.in.parens enabled (internal link)">
+      <x:context select="//h:a[@id='link']">
+        <x:param name="url.in.parens" select="1"/>
+      </x:context>
+      
+      <x:expect label="No URL should be generated in parentheses after the 'a'" test="not(exists(//h:span[@class='print_url_in_parens']))"/>
+    </x:scenario> 
 
-    <x:scenario label="And the XREF contains a text node">
-      <x:context select="//h:a[@id='text_node']"/>
-      <x:expect label="href attribute should be processed to output a file/id href to another chunk">
-	<a id="text_node" data-type="xref" href="ch02.html#chapter2">...</a>
-      </x:expect>
+    <x:scenario label="with url.in.parens enabled (stealth XREF; XREF with no data-type)">
+      <x:context select="//h:a[@id='stealth_xref']">
+        <x:param name="url.in.parens" select="1"/>
+      </x:context>
+      
+      <x:expect label="No URL should be generated in parentheses after the 'a'" test="not(exists(//h:span[@class='print_url_in_parens']))"/>
+    </x:scenario> 
+    
+    <x:scenario label="with url.in.parens enabled (mailto)">
+      <x:context select="//h:a[@id='email_me']">
+        <x:param name="url.in.parens" select="1"/>
+      </x:context>
+      
+      <x:expect label="No URL should be generated in parentheses after the 'a'" test="not(exists(//h:span[@class='print_url_in_parens']))"/>
     </x:scenario>
+    
   </x:scenario>
 
   <x:pending>
   <!-- Make sure there are some href tests with XREFs that are intra-chunk -->
+  <!-- Possible to get this block working within XSpec? Currently getting the right results when
+  testing via Saxon direct but not via XSpec -->
+    <x:scenario label="When an XREF element is matched that contains an href pointing to an id IN A DIFFERENT CHUNK">
+      <x:context>
+        <section id="chapter1" data-type="chapter">
+          <p>Here comes a cross-reference: see <a id="no_text_node" data-type="xref" href="#chapter2"/></p>
+          <p>Here comes an XREF with a text node: see <a id="text_node" data-type="xref" href="#chapter2">PLACEHOLDER TEXT</a></p>
+        </section>
+        <section id="chapter2" data-type="chapter">
+          <p>This is another chapter and another chunk</p>
+        </section>
+      </x:context>
+      
+      <x:scenario label="And the XREF contains no text node">
+        <x:context select="//h:a[@id='no_text_node']"/>
+        <x:expect label="href attribute should be processed to output a file/id href to another chunk">
+          <a data-type="xref" id="no_text_node" href="ch02.html#chapter2">...</a>
+        </x:expect>
+      </x:scenario>
+      
+      <x:scenario label="And the XREF contains a text node">
+        <x:context select="//h:a[@id='text_node']"/>
+        <x:expect label="href attribute should be processed to output a file/id href to another chunk">
+          <a id="text_node" data-type="xref" href="ch02.html#chapter2">...</a>
+        </x:expect>
+      </x:scenario>
+    </x:scenario>
   <!-- Also do some tests where you manipulate chunk levels and confirm that hrefs update properly? -->
 
   <x:scenario label="When an XREF element is matched that contains an href pointing to a Web URL (not a valid XREF)">

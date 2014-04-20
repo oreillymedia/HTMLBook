@@ -450,6 +450,14 @@
       <xsl:when test="$node[self::h:div and @data-type]">
 	<xsl:value-of select="$node/@data-type"/> <!-- for <div>, default to @data-type value -->
       </xsl:when>
+      <xsl:when test="$node[self::h:aside]">
+	<xsl:choose>
+	  <xsl:when test="@data-type">
+	    <xsl:value-of select="@data-type"/>
+	  </xsl:when>
+	  <xsl:otherwise>sidebar</xsl:otherwise>
+	</xsl:choose>
+      </xsl:when>
       <xsl:otherwise>
 	<!-- For all other elements besides <section> and <div>, just use the local-name -->
 	<xsl:value-of select="local-name($node)"/>
@@ -460,6 +468,7 @@
   <xsl:template name="html.output.element">
     <!-- Logic to decide which HTML element to output for a given source element. -->
     <xsl:param name="node" select="."/>
+    <xsl:param name="html4.structural.elements" select="$html4.structural.elements"/>
     <xsl:choose>
       <!-- If $html4.structural.elements is enabled, HTML5 <section> and <figure> elements are replaced with a <div> -->
       <xsl:when test="$html4.structural.elements = 1">
@@ -468,7 +477,7 @@
 	    <xsl:text>div</xsl:text>
 	  </xsl:when>
 	  <xsl:when test="$node[self::h:figcaption]">
-	    <xsl:text>h5</xsl:text>
+	    <xsl:text>h6</xsl:text>
 	  </xsl:when>
 	  <xsl:otherwise>
 	    <!-- No change in element name for other elements -->
