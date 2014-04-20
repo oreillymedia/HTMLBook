@@ -143,9 +143,10 @@
   </xsl:template>
 
   <xsl:template match="h:figure" mode="label.markup">
+    <xsl:param name="label.formal.with.ancestor" select="$label.formal.with.ancestor"/>
     <xsl:choose>
       <xsl:when test="$label.formal.with.ancestor != 0">
-	<xsl:apply-templates select="ancestor::h:section[contains(@data-type, 'acknowledgments') or
+	<xsl:apply-templates select="(ancestor::h:section[contains(@data-type, 'acknowledgments') or
 				     contains(@data-type, 'afterword') or
 				     contains(@data-type, 'appendix') or
 				     contains(@data-type, 'bibliography') or
@@ -161,7 +162,8 @@
 				     contains(@data-type, 'introduction') or
 				     contains(@data-type, 'preface') or
 				     contains(@data-type, 'titlepage') or
-				     contains(@data-type, 'toc')][last()]" mode="label.markup"/>
+				     contains(@data-type, 'toc')]|
+				     ancestor::h:div[@data-type = 'part'])[last()]" mode="label.markup"/>
 	<xsl:apply-templates select="." mode="intralabel.punctuation"/>
 	<xsl:number count="h:figure[not(contains(@data-type, 'cover'))]" from="h:section[contains(@data-type, 'acknowledgments') or
 					   contains(@data-type, 'afterword') or

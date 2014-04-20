@@ -183,6 +183,70 @@ sect5:none
     <x:expect label="The appropriate numeration value should be generated (absolute, not relative to part)">3</x:expect>
   </x:scenario>
 
+    <x:scenario label="When generating a label for a figure in a chapter-level division">
+      <x:context select="(//h:section//h:figure)[2]" mode="label.markup">
+	<section data-type="chapter">
+	  <h1>This is a chapter heading</h1>
+	  <p>Running out of amusing things to say</p>
+	  <figure>
+	    <img src="tokyo.png"/>
+	    <figcaption>A picture of the Tokyo skyline</figcaption>
+	  </figure>
+
+	  <figure>
+	    <img src="paris.png"/>
+	    <figcaption>A picture of the Paris skyline</figcaption>
+	  </figure>
+	</section>
+      </x:context>
+
+      <x:scenario label="With label.formal.with.ancestor disabled">
+	<x:context>
+	  <x:param name="label.formal.with.ancestor" select="0"/>
+	</x:context>
+	<x:expect label="The appropriate numeration value should be generated">2</x:expect>
+      </x:scenario>
+
+      <x:scenario label="With label.formal.with.ancestor enabled">
+	<x:context>
+	  <x:param name="label.formal.with.ancestor" select="1"/>
+	</x:context>
+	<x:expect label="The appropriate numeration value should be generated">1-2</x:expect>
+      </x:scenario>
+    </x:scenario>
+
+    <x:scenario label="When generating a label for a figure in a Part">
+      <x:context select="(//h:div[@data-type='part']//h:figure)[2]" mode="label.markup">
+	<div data-type="part">
+	  <h1>This is a Part heading</h1>
+	  <p>More text here</p>
+	  <figure>
+	    <img src="barcelona.png"/>
+	    <figcaption>A picture of the Barcelona skyline</figcaption>
+	  </figure>
+
+	  <figure>
+	    <img src="quito.png"/>
+	    <figcaption>A picture of the Quito skyline</figcaption>
+	  </figure>
+	</div>
+      </x:context>
+
+      <x:scenario label="With label.formal.with.ancestor disabled">
+	<x:context>
+	  <x:param name="label.formal.with.ancestor" select="0"/>
+	</x:context>
+	<x:expect label="The appropriate numeration value should be generated">2</x:expect>
+      </x:scenario>
+
+      <x:scenario label="With label.formal.with.ancestor enabled">
+	<x:context>
+	  <x:param name="label.formal.with.ancestor" select="1"/>
+	</x:context>
+	<x:expect label="The appropriate numeration value should be generated">I-2</x:expect>
+      </x:scenario>
+    </x:scenario>
+
   <x:pending>
 
     <x:scenario label="When generating a label for a part div with label.section.with.ancestors enabled">
@@ -198,18 +262,6 @@ sect5:none
     </x:scenario>
 
     <x:scenario label="When generating a label for a section (subsection) with label.section.with.ancestors enabled">
-      <x:context>
-      </x:context>
-      <x:expect label="The appropriate numeration value should be generated"/>
-    </x:scenario>
-
-    <x:scenario label="When generating a label for a figure">
-      <x:context>
-      </x:context>
-      <x:expect label="The appropriate numeration value should be generated"/>
-    </x:scenario>
-
-    <x:scenario label="When generating a label for a figure (label.formal.with.ancestor = false)">
       <x:context>
       </x:context>
       <x:expect label="The appropriate numeration value should be generated"/>
