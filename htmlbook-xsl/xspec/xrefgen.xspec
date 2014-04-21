@@ -827,6 +827,32 @@
 
   </x:scenario>
 
+  <x:scenario label="If callout-type 'stealth XREF' 'a' elements are matched">
+    <x:context select="(//h:a[@class='co'])[1]">
+      <pre data-type="programlisting" data-code-language="json"><?db-font-size 65%?>{
+        "context_is_admin":  [["role:admin"]],
+        "admin_or_owner":  [["is_admin:True"], ["project_id:%(project_id)s"]], <a class="co" id="co_ch9-co-1" href="#callout_ch9-co-1"><img src="/usr/local/app/git_tmp/c3c6787bcdd5a68b82f8e9e0a5dd141c/doc/openstack-ops/callouts/1.png" alt="1"/></a>
+        ...
+      </pre>
+    </x:context>
+
+    <x:scenario label="with url.in.parens disabled (callout stealth XREF; XREF with no data-type)">
+      <x:context>
+        <x:param name="url.in.parens" select="0"/>
+      </x:context>
+
+      <x:expect label="No URL should be generated in parentheses after the 'a'" test="not(exists(//h:span[@class='print_url_in_parens']))"/>
+    </x:scenario>
+
+    <x:scenario label="with url.in.parens enabled (callout stealth XREF; XREF with no data-type)">
+      <x:context>
+        <x:param name="url.in.parens" select="1"/>
+      </x:context>
+
+      <x:expect label="No URL should be generated in parentheses after the 'a'" test="not(exists(//h:span[@class='print_url_in_parens']))"/>
+    </x:scenario>
+  </x:scenario>
+
   <!-- Tests for whether an HREF is considered to be an XREF (link within the same corpus) -->
   <x:scenario label="If an href starts with a '#'">
     <x:call template="href-is-xref">
