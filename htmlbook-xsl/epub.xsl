@@ -49,6 +49,14 @@
     <xsl:value-of select="//h:head/h:meta[contains(@name, 'identifier')][1]/@content"/>
   </xsl:param>
 
+  <xsl:param name="computed.identifier">
+    <xsl:value-of select="$metadata.unique-identifier"/>
+    <!-- If no identifier supplied, add a default value to ensure validity -->
+    <xsl:if test="not($metadata.unique-identifier) or normalize-space($metadata.unique-identifier) = ''">
+      <xsl:value-of select="concat('randomid-', generate-id())"/>
+    </xsl:if>
+  </xsl:param>
+
   <!-- ID to use on the dc:identifier element corresponding to the EPUB unique identifier -->
   <xsl:param name="metadata.unique-identifier.id" select="'pub-identifier'"/>
 

@@ -40,7 +40,7 @@
 	<xsl:if test="$generate.cover.html = 1">
 	  <meta name="cover" content="{$epub.cover.html.id}"/>
 	</xsl:if>
-	<meta name="dtb:uid" content="{$metadata.unique-identifier}"/>
+	<meta name="dtb:uid" content="{$computed.identifier}"/>
       </head>
       <docTitle>
 	<text>
