@@ -237,8 +237,8 @@
   </xsl:template>
 
   <xsl:template name="opf.metadata">
-    <xsl:param name="metadata.unique-identifier" select="$metadata.unique-identifier"/>
     <xsl:param name="metadata.unique-identifier.id" select="$metadata.unique-identifier.id"/>
+    <xsl:param name="computed.identifier" select="$computed.identifier"/>
     <xsl:param name="metadata.title" select="$metadata.title"/>
     <xsl:param name="metadata.language" select="$metadata.language"/>
     <xsl:param name="metadata.modified" select="$metadata.modified"/>
@@ -252,13 +252,6 @@
     <xsl:param name="metadata.ibooks-specified-fonts" select="$metadata.ibooks-specified-fonts"/>
     <xsl:param name="generate.cover.html" select="$generate.cover.html"/>
     <metadata>
-      <xsl:variable name="computed.identifier">
-	<xsl:value-of select="$metadata.unique-identifier"/>
-	<!-- If no identifier supplied, add a default value to ensure validity -->
-	<xsl:if test="not($metadata.unique-identifier) or normalize-space($metadata.unique-identifier) = ''">
-	  <xsl:value-of select="concat('randomid-', generate-id())"/>
-	</xsl:if>
-      </xsl:variable>
 
       <xsl:variable name="computed.title">
 	<xsl:value-of select="$metadata.title"/>
