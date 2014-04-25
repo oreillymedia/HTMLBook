@@ -582,6 +582,115 @@ sect5:none
       </x:scenario>
     </x:scenario>
 
+    <x:scenario label="When generating a label for a table">
+      <x:context select="(//h:section//h:table)[3]" mode="label.markup">
+	<section data-type="chapter">
+	  <h1>This is a chapter heading</h1>
+	  <p>Running out of amusing things to say</p>
+	  <table>
+	    <!-- No caption -->
+	    <tbody>
+	      <tr>
+		<td>Python</td>
+		<td>Java</td>
+	      </tr>
+	      <tr>
+		<td>Ruby</td>
+		<td>Perl</td>
+	      </tr>
+	    </tbody>
+	  </table>
+	  <table>
+	    <!-- Empty caption -->
+	    <caption/>
+	    <tbody>
+	      <tr>
+		<td>pencil</td>
+	      </tr>
+	      <tr>
+		<td>paper</td>
+	      </tr>
+	    </tbody>
+	  </table>
+	  <table>
+	    <caption>Our favorite colors</caption>
+	    <thead>
+	      <tr>
+		<th>Name</th>
+		<th>Color</th>
+	      </tr>
+	    </thead>
+	    <tbody>
+	      <tr>
+		<td>Tom</td>
+		<td>vermilion</td>
+	      </tr>
+	      <tr>
+		<td>Richard</td>
+		<td>fuchsia</td>
+	      </tr>
+	      <tr>
+		<td>Harry</td>
+		<td>cerulean</td>
+	      </tr>
+	    </tbody>
+	  </table>
+	</section>
+      </x:context>
+
+      <x:scenario label="With label.formal.with.ancestor disabled">
+	<x:context>
+	  <x:param name="label.formal.with.ancestor" select="0"/>
+	</x:context>
+	<x:expect label="Ignore 'informal' (uncaptioned or empty-captioned) tables in the count">1</x:expect>
+      </x:scenario>
+
+      <x:scenario label="With label.formal.with.ancestor enabled">
+	<x:context>
+	  <x:param name="label.formal.with.ancestor" select="1"/>
+	</x:context>
+	<x:expect label="Ignore 'informal' (uncaptioned or empty-captioned) tables in the count">1-1</x:expect>
+      </x:scenario>
+    </x:scenario>
+
+
+    <x:scenario label="When generating a label for a figure">
+      <x:context select="(//h:section//h:figure)[3]" mode="label.markup">
+	<section data-type="chapter">
+	  <h1>This is a chapter heading</h1>
+	  <p>Running out of amusing things to say</p>
+	  <figure>
+	    <!-- No caption (technically shouldn't be a <figure> element here in this case) -->
+	    <img src="tegucigalpa.png"/>
+	  </figure>
+	  <figure>
+	    <!-- Empty caption -->
+	    <figcaption/>
+	    <img src="paramaribo.png"/>
+	  </figure>
+	  <figure>
+	    <figcaption>Image of the Ouagadougou skyline</figcaption>
+	    <img src="ouagadougou.png"/>
+	  </figure>
+	</section>
+      </x:context>
+
+      <x:scenario label="With label.formal.with.ancestor disabled">
+	<x:context>
+	  <x:param name="label.formal.with.ancestor" select="0"/>
+	</x:context>
+	<x:expect label="Ignore 'informal' (uncaptioned or empty-captioned) figures in the count">1</x:expect>
+      </x:scenario>
+
+      <x:scenario label="With label.formal.with.ancestor enabled">
+	<x:context>
+	  <x:param name="label.formal.with.ancestor" select="1"/>
+	</x:context>
+	<x:expect label="Ignore 'informal' (uncaptioned or empty-captioned) figures in the count">1-1</x:expect>
+      </x:scenario>
+    </x:scenario>
+
+
   <x:pending>
 
     <x:scenario label="When generating a label for a part div with label.section.with.ancestors enabled">

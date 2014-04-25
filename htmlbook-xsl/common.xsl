@@ -120,7 +120,7 @@
 				     contains(@data-type, 'toc')]|
 				     ancestor::h:div[@data-type = 'part'])[last()]" mode="label.markup"/>
 	<xsl:apply-templates select="." mode="intralabel.punctuation"/>
-	<xsl:number count="h:table" from="h:section[contains(@data-type, 'acknowledgments') or
+	<xsl:number count="h:table[h:caption[. != '']]" from="h:section[contains(@data-type, 'acknowledgments') or
 					   contains(@data-type, 'afterword') or
 					   contains(@data-type, 'appendix') or
 					   contains(@data-type, 'bibliography') or
@@ -140,7 +140,7 @@
 					   h:div[contains(@data-type, 'part')]" level="any" format="1"/>
       </xsl:when>
       <xsl:otherwise>
-	<xsl:number count="h:table" level="any" format="1"/>
+	<xsl:number count="h:table[h:caption[. != '']]" level="any" format="1"/>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
@@ -168,7 +168,7 @@
 				     contains(@data-type, 'toc')]|
 				     ancestor::h:div[@data-type = 'part'])[last()]" mode="label.markup"/>
 	<xsl:apply-templates select="." mode="intralabel.punctuation"/>
-	<xsl:number count="h:figure[not(contains(@data-type, 'cover'))]" from="h:section[contains(@data-type, 'acknowledgments') or
+	<xsl:number count="h:figure[not(contains(@data-type, 'cover'))][h:figcaption[. != '']]" from="h:section[contains(@data-type, 'acknowledgments') or
 					   contains(@data-type, 'afterword') or
 					   contains(@data-type, 'appendix') or
 					   contains(@data-type, 'bibliography') or
@@ -188,7 +188,7 @@
 					   h:div[contains(@data-type, 'part')]" level="any" format="1"/>
       </xsl:when>
       <xsl:otherwise>
-	<xsl:number count="h:figure[not(contains(@data-type, 'cover'))]" level="any" format="1"/>
+	<xsl:number count="h:figure[not(contains(@data-type, 'cover'))][h:figcaption[. != '']]" level="any" format="1"/>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
