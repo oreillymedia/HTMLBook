@@ -690,6 +690,97 @@ sect5:none
       </x:scenario>
     </x:scenario>
 
+    <x:scenario label="When generating a label for a figure with empty caption">
+      <x:context select="(//h:figure)[2]" mode="label.markup">
+	<section data-type="chapter">
+	  <h1>Look! A Chapter!</h1>
+	  <p>Figure with a caption!</p>
+	  <figure>
+	    <figcaption>Image of Budapest skyline</figcaption>
+	    <img src="budapest.png"/>
+	  </figure>
+	  <p>Figure with empty caption!</p>
+	  <figure>
+	    <img src="helsinki.png"/>
+	    <figcaption/>
+	  </figure>
+	</section>
+      </x:context>
+      <x:scenario label="With label.formal.with.ancestor disabled">
+	<x:context>
+	  <x:param name="label.formal.with.ancestor" select="0"/>
+	</x:context>
+	<x:expect label="Don't return any text" select="()"/>
+      </x:scenario>
+
+      <x:scenario label="With label.formal.with.ancestor enabled">
+	<x:context>
+	  <x:param name="label.formal.with.ancestor" select="1"/>
+	</x:context>
+	<x:expect label="Don't return any text" select="()"/>
+      </x:scenario>
+    </x:scenario>
+
+    <x:scenario label="When generating a label for a table with empty caption">
+      <x:context select="(//h:table)[2]" mode="label.markup">
+	<section data-type="chapter">
+	  <h1>Look! A Chapter!</h1>
+	  <p>Table with a caption!</p>
+	  <table>
+	    <caption>Recent US Presidents' pets</caption>
+	    <thead>
+	      <tr>
+		<th>President</th>
+		<th>Pet</th>
+	      </tr>
+	    </thead>
+	    <tbody>
+	      <tr>
+		<td>Barack Obama</td>
+		<td>Bo</td>
+	      </tr>
+	      <tr>
+		<td>George W. Bush</td>
+		<td>Miss Beazley</td>
+	      </tr>
+	      <tr>
+		<td>Bill Clinton</td>
+		<td>Socks</td>
+	      </tr>
+	    </tbody>
+	  </table>
+	  <p>Table with empty caption!</p>
+	  <table>
+	    <caption> </caption>
+	    <tr>
+	      <th>Food</th>
+	      <th>Calories<span data-type="footnote">Stats via Google</span></th>
+	    </tr>
+	    <tr>
+	      <td>slice of pizza</td>
+	      <td>285</td>
+	    </tr>
+	    <tr>
+	      <td>stalk of celery</td>
+	      <td>6</td>
+	    </tr>
+	  </table>
+	</section>
+      </x:context>
+      <x:scenario label="With label.formal.with.ancestor disabled">
+	<x:context>
+	  <x:param name="label.formal.with.ancestor" select="0"/>
+	</x:context>
+	<x:expect label="Don't return any text" select="()"/>
+      </x:scenario>
+
+      <x:scenario label="With label.formal.with.ancestor enabled">
+	<x:context>
+	  <x:param name="label.formal.with.ancestor" select="1"/>
+	</x:context>
+	<x:expect label="Don't return any text" select="()"/>
+      </x:scenario>
+    </x:scenario>
 
   <x:pending>
 

@@ -241,6 +241,11 @@
     </xsl:choose>
   </xsl:template>
 
+  <!-- No label markup for figures or tables with empty captions -->
+  <xsl:template match="h:figure[h:figcaption[normalize-space(.) = '']]|
+		       h:table[h:caption[normalize-space(.) = '']]" 
+		mode="label.markup"/>
+
   <xsl:template match="*" mode="label.markup"/>
 
   <!-- Intralabel punctuation templates.
