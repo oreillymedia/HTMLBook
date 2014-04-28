@@ -267,17 +267,17 @@
   <xsl:template name="get-param-value-from-key">
     <xsl:param name="parameter"/>
     <xsl:param name="key"/>
-    <xsl:variable name="entry-and-beyond-for-data-type">
-      <!-- Gets the config line for numeration for the specified data-type...and everything beyond -->
+    <xsl:variable name="entry-and-beyond">
+      <!-- Gets the value corresponding to specified key...and everything beyond -->
       <xsl:value-of select="substring-after(normalize-space($parameter), concat($key, ':'))"/>
     </xsl:variable>
-    <!-- Then we further narrow to the exact numeration format type -->
+    <!-- Then we further narrow to just the key value -->
     <xsl:choose>
-      <xsl:when test="contains($entry-and-beyond-for-data-type, ' ')">
-	<xsl:value-of select="substring-before($entry-and-beyond-for-data-type, ' ')"/>
+      <xsl:when test="contains($entry-and-beyond, ' ')">
+	<xsl:value-of select="substring-before($entry-and-beyond, ' ')"/>
       </xsl:when>
       <xsl:otherwise>
-	<xsl:value-of select="$entry-and-beyond-for-data-type"/>
+	<xsl:value-of select="$entry-and-beyond"/>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
