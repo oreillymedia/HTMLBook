@@ -11,6 +11,9 @@
   <!-- Globally setting url.in.parens to 0 here; tests for url.in.parens handling below modify param value on a oneoff basis -->
   <x:param name="url.in.parens" select="0"/>
 
+  <!-- Globally setting xref.elements.pagenum.in.class to be empty here; specific tests for pagenum class handling below modify param value on a oneoff basis -->
+  <x:param name="xref.elements.pagenum.in.class"/>
+
   <!-- Tests around text nodes for formal XREF elements (those with data-type='xref') -->
   <x:scenario label="When *empty* XREF element is matched">
     <x:context select="(//h:section//h:a[@data-type='xref'])[1]">
@@ -851,6 +854,76 @@
 
       <x:expect label="No URL should be generated in parentheses after the 'a'" test="not(exists(//h:span[@class='print_url_in_parens']))"/>
     </x:scenario>
+  </x:scenario>
+
+  <!-- Tests around "pagenum" classes for XREFs -->
+  <x:scenario label="If XREF is matched">
+    <x:context>
+      <body>
+	<section data-type="chapter" id="first">
+	  <h1>First chapter</h1>
+	  <p>Some text</p>
+	  <p>XREF to second chapter is here: see <a id="chapter_xref" data-type="xref" href="#second"/></p>
+	  <p>Now here's a sidebar:</p>
+	  <aside data-type="sidebar" id="sidebar">
+	    <h5>Sidebar heading</h5>
+	    <p>Sidebar text</p>
+	  </aside>
+	  <p>XREF to the sect1 in second chapter: see <a id="sect1_xref" data-type="xref" href="#chapter2_sect1"/></p>
+	</section>
+	<section data-type="chapter" id="second">
+	  <h1>Second chapter</h1>
+	  <p>Let's add a sect1</p>
+	  <section data-type="sect1" id="chapter2_sect1">
+	    <h1>Subsection heading</h1>
+	    <p>Always soft-code your cross-references</p>
+	    <p>Like this one to the sidebar in the previous chapter: see <a class="underline" id="sidebar_xref" data-type="xref" href="#sidebar"/></p>
+	  </section>
+	</section>
+      </body>
+    </x:context>
+
+    <x:scenario label="that points to an element in the xref.elements.pagenum.in.class list">
+      <x:context select="//h:a[@data-type='xref'][@id='chapter_xref']">
+	<x:param name="xref.elements.pagenum.in.class">chapter
+sidebar
+	</x:param>
+      </x:context>
+      <x:expect label="Class value of 'pagenum' should be added to element" test="exists(//h:a[@class = 'pagenum'])"/>
+    </x:scenario>
+
+    <x:scenario label="that points to an element in the xref.elements.pagenum.in.class list (XREF already has class value)">
+      <x:context select="//h:a[@data-type='xref'][@id='sidebar_xref']">
+	<x:param name="xref.elements.pagenum.in.class">chapter
+sidebar
+	</x:param>
+      </x:context>
+      <x:expect label="Class value of 'pagenum' should be added to element (preserving existing class values)" test="exists(//h:a[@class = 'underline pagenum'])"/>
+    </x:scenario>
+
+    <x:scenario label="that points to an element *not in* the xref.elements.pagenum.in.class list">
+      <x:context select="//h:a[@data-type='xref'][@id='sect1_xref']">
+	<x:param name="xref.elements.pagenum.in.class">chapter
+sidebar
+	</x:param>
+      </x:context>
+      <x:expect label="Class value of 'pagenum' should not be added to element" test="not(exists(//h:a[@class = 'pagenum']))"/>
+    </x:scenario>
+
+    <x:scenario label="with xref.elements.pagenum.in.class empty and no preexisting class on XREF">
+      <x:context select="//h:a[@data-type='xref'][@id='chapter_xref']">
+	<x:param name="xref.elements.pagenum.in.class"/>
+      </x:context>
+      <x:expect label="No class attribute should be added to element" test="not(exists(//h:a[@class]))"/>
+    </x:scenario>
+
+    <x:scenario label="with xref.elements.pagenum.in.class empty and a preexisting class on XREF">
+      <x:context select="//h:a[@data-type='xref'][@id='sidebar_xref']">
+	<x:param name="xref.elements.pagenum.in.class"/>
+      </x:context>
+      <x:expect label="Class attribute should be preserved as is" test="exists(//h:a[@class='underline'])"/>
+    </x:scenario>
+
   </x:scenario>
 
   <!-- Tests for whether an HREF is considered to be an XREF (link within the same corpus) -->
