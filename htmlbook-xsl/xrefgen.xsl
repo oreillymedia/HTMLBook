@@ -16,6 +16,8 @@
   <!-- All XREFs must be tagged with a @data-type containing XREF -->
   <xsl:template match="h:a[contains(@data-type, 'xref')]" name="process-as-xref">
     <xsl:param name="autogenerate-xrefs" select="$autogenerate-xrefs"/>
+    <xsl:param name="xref.elements.pagenum.in.class" select="$xref.elements.pagenum.in.class"/>
+
     <xsl:variable name="calculated-output-href">
       <xsl:call-template name="calculate-output-href">
 	<xsl:with-param name="source-href-value" select="@href"/>
@@ -36,9 +38,13 @@
 	  <!-- Generate XREF text node if $autogenerate-xrefs is enabled -->
 	  <xsl:when test="($autogenerate-xrefs = 1) and ($is-xref = 1)">
 	    <xsl:choose>
-	      <!-- If we can locate the target, process gentext with "xref-to" -->
+	      <!-- If we can locate the target, reprocess class attribute to add "pagenum" if needed, and process gentext with "xref-to" -->
 	      <xsl:when test="count(key('id', $href-anchor)) > 0">
 		<xsl:variable name="target" select="key('id', $href-anchor)[1]"/>
+		<xsl:apply-templates select="." mode="class.attribute">
+		  <xsl:with-param name="xref.elements.pagenum.in.class" select="$xref.elements.pagenum.in.class"/>
+		  <xsl:with-param name="xref.target" select="$target"/>
+		</xsl:apply-templates>
 		<xsl:apply-templates select="$target" mode="xref-to">
 		  <xsl:with-param name="referrer" select="."/>
 		  <xsl:with-param name="xrefstyle" select="@data-xrefstyle"/>

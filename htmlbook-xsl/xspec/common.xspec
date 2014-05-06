@@ -948,4 +948,97 @@ sect5:none
     <x:expect label="The caption content should contain a label" test="exists(//h:figcaption[h:span[@class='label' and contains(., 'Figure 1')]]) and contains(//h:figcaption[1], 'Touch this caption!')"/>
   </x:scenario>
 
+  <!-- class.attribute handling -->
+  <x:pending>
+    <!-- Not sure XSpec can handle tests that generate just an attribute node, e.g.:
+	  XTDE0420: Cannot create an attribute node (class) whose parent is a document node
+      -->
+    <x:scenario label="If an element is matched in class.attribute modee">
+      <x:context mode="class.attribute"/>
+      
+    <x:scenario label="and its generated class attribute (via class.value) is empty">
+      <x:context>
+	<section data-type="chapter"/>
+      </x:context>
+      <x:expect label="No @class should be generated" test="not(exists(//@class))"/>
+    </x:scenario>
+    
+    <x:scenario label="and its generated class attribute (via class.value) is non empty">
+      <x:context>
+	<section data-type="chapter" class="case-study"/>
+      </x:context>
+      <x:expect label="@class should be generated" test="exists(//@class)"/>
+    </x:scenario>
+    </x:scenario>
+  </x:pending>
+
+  <!-- class.value handling -->
+  <x:scenario label="If XREF is matched in class.value mode">
+    <x:context mode="class.value">
+      <body>
+	<section data-type="chapter" id="first">
+	  <h1>First chapter</h1>
+	  <p>Some text</p>
+	  <p>XREF to second chapter is here: see <a id="chapter_xref" data-type="xref" href="#second"/></p>
+	  <p>Now here's a sidebar:</p>
+	  <aside data-type="sidebar" id="sidebar">
+	    <h5>Sidebar heading</h5>
+	    <p>Sidebar text</p>
+	  </aside>
+	  <p>XREF to the sect1 in second chapter: see <a id="sect1_xref" data-type="xref" href="#chapter2_sect1"/></p>
+	</section>
+	<section data-type="chapter" id="second">
+	  <h1>Second chapter</h1>
+	  <p>Let's add a sect1</p>
+	  <section data-type="sect1" id="chapter2_sect1">
+	    <h1>Subsection heading</h1>
+	    <p>Always soft-code your cross-references</p>
+	    <p>Like this one to the sidebar in the previous chapter: see <a class="underline" id="sidebar_xref" data-type="xref" href="#sidebar"/></p>
+	  </section>
+	</section>
+      </body>
+    </x:context>
+
+    <x:scenario label="that points to an element in the xref.elements.pagenum.in.class list">
+      <x:context select="//h:a[@data-type='xref'][@id='chapter_xref']">
+	<x:param name="xref.elements.pagenum.in.class">chapter
+sidebar
+	</x:param>
+	<x:param name="xref.target" select="//*[@id='second']"/>
+      </x:context>
+      <x:expect label="Class value of 'pagenum' should be returned">pagenum</x:expect>
+    </x:scenario>
+
+    <x:scenario label="that points to an element in the xref.elements.pagenum.in.class list (XREF already has class value)">
+      <x:context select="//h:a[@data-type='xref'][@id='sidebar_xref']">
+	<x:param name="xref.elements.pagenum.in.class">chapter
+sidebar
+	</x:param>
+	<x:param name="xref.target" select="//h:aside[@id='sidebar']"/>
+      </x:context>
+      <x:expect label="Class value of 'pagenum' should be appended to existing class value list">underline pagenum</x:expect>
+    </x:scenario>
+
+    <x:scenario label="that points to an element *not in* the xref.elements.pagenum.in.class list (no existing class)">
+      <x:context select="//h:a[@data-type='xref'][@id='sect1_xref']">
+	<x:param name="xref.elements.pagenum.in.class">chapter
+sidebar
+	</x:param>
+	<x:param name="xref.target" select="//*[@id='chapter2_sect1']"/>
+      </x:context>
+      <x:expect label="Class value of 'pagenum' should not be added. Returned value should be empty" select="()"/>
+    </x:scenario>
+
+    <x:scenario label="that points to an element *not in* the xref.elements.pagenum.in.class list (XREF already has class value)">
+      <x:context select="//h:a[@data-type='xref'][@id='sidebar_xref']">
+	<x:param name="xref.elements.pagenum.in.class">chapter
+sect1
+	</x:param>
+	<x:param name="xref.target" select="//*[@id='sidebar']"/>
+      </x:context>
+      <x:expect label="Class value of 'pagenum' *should not* be added. Class value preserved as is">underline</x:expect>
+    </x:scenario>
+
+  </x:scenario>
+
 </x:description>

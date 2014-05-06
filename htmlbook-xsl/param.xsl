@@ -160,4 +160,17 @@ sect5:xref
   <!-- When set to 1, add a <div> within a <figure> to encapsulate all the non-caption <figure> content (to facilitate styling) -->
   <xsl:param name="figure.border.div" select="0"/>
 
+  <!-- Params around page numeration -->
+
+  <!-- Add a class of "pagenum" to XREFs pointing to element in the supplied list -->
+  <!-- Element names correspond to values produced by "semantic-name" template in common.xsl -->
+  <xsl:param name="xref.elements.pagenum.in.class">
+sect1
+sect2
+sect3
+sect4
+sect5
+sidebar
+</xsl:param>
+
 </xsl:stylesheet> 

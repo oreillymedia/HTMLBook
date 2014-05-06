@@ -59,6 +59,9 @@ sect5:s
        links will be clickable -->
   <xsl:param name="url.in.parens" select="0"/>
 
+  <!-- Chunked output typically not used for print output, so disabling addition of "pagenum" classes on all XREFs -->
+  <xsl:param name="xref.elements.pagenum.in.class"/>
+
   <xsl:template match="/h:html">
     <xsl:apply-templates select="h:body"/>
   </xsl:template>
@@ -325,6 +328,8 @@ sect5:s
   <!-- All XREFs must be tagged with a @data-type containing XREF -->
   <xsl:template match="h:a[contains(@data-type, 'xref')]" name="process-as-xref">
     <xsl:param name="autogenerate-xrefs" select="$autogenerate-xrefs"/>
+    <xsl:param name="xref.elements.pagenum.in.class" select="$xref.elements.pagenum.in.class"/>
+
     <xsl:variable name="calculated-output-href">
       <xsl:call-template name="calculate-output-href">
 	<xsl:with-param name="source-href-value" select="@href"/>
@@ -341,6 +346,11 @@ sect5:s
       <xsl:choose>
 	<xsl:when test="(count(key('id', $href-anchor)) &gt; 0) and ($is-xref = 1)">
 	  <xsl:variable name="target" select="key('id', $href-anchor)[1]"/>
+	  <!-- If we can locate the target, reprocess class attribute to add "pagenum" class value if needed -->
+	  <xsl:apply-templates select="." mode="class.attribute">
+	    <xsl:with-param name="xref.elements.pagenum.in.class" select="$xref.elements.pagenum.in.class"/>
+	    <xsl:with-param name="xref.target" select="$target"/>
+	  </xsl:apply-templates>
 	  <!-- Regenerate the href here, to ensure it accurately points to correct location, including chunk filename) -->
 	  <xsl:attribute name="href">
 	    <xsl:call-template name="href.target">
