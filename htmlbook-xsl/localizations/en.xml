@@ -645,7 +645,60 @@
 <l:template name="pattype.sep" text=", "/>
 <l:template name="patnum.sep" text=". "/>
 <l:template name="patdate.sep" text=". "/>
-</l:context><l:letters><l:l i="-1"/>
+</l:context>
+<l:context name="number-words">
+  <l:template name="1" text="one"/>
+  <l:template name="2" text="two"/>
+  <l:template name="3" text="three"/>
+  <l:template name="4" text="four"/>
+  <l:template name="5" text="five"/>
+  <l:template name="6" text="six"/>
+  <l:template name="7" text="seven"/>
+  <l:template name="8" text="eight"/>
+  <l:template name="9" text="nine"/>
+  <l:template name="10" text="ten"/>
+  <l:template name="11" text="eleven"/>
+  <l:template name="12" text="twelve"/>
+  <l:template name="13" text="thirteen"/>
+  <l:template name="14" text="fourteen"/>
+  <l:template name="15" text="fifteen"/>
+  <l:template name="16" text="sixteen"/>
+  <l:template name="17" text="seventeen"/>
+  <l:template name="18" text="eighteen"/>
+  <l:template name="19" text="nineteen"/>
+  <l:template name="20" text="twenty"/>
+  <l:template name="21" text="twenty-one"/>
+  <l:template name="22" text="twenty-two"/>
+  <l:template name="23" text="twenty-three"/>
+  <l:template name="24" text="twenty-four"/>
+  <l:template name="25" text="twenty-five"/>
+  <l:template name="26" text="twenty-six"/>
+  <l:template name="27" text="twenty-seven"/>
+  <l:template name="28" text="twenty-eight"/>
+  <l:template name="29" text="twenty-nine"/>
+  <l:template name="30" text="thirty"/>
+  <l:template name="31" text="thirty-one"/>
+  <l:template name="32" text="thirty-two"/>
+  <l:template name="33" text="thirty-three"/>
+  <l:template name="34" text="thirty-four"/>
+  <l:template name="35" text="thirty-five"/>
+  <l:template name="36" text="thirty-six"/>
+  <l:template name="37" text="thirty-seven"/>
+  <l:template name="38" text="thirty-eight"/>
+  <l:template name="39" text="thirty-nine"/>
+  <l:template name="40" text="forty"/>
+  <l:template name="41" text="forty-one"/>
+  <l:template name="42" text="forty-two"/>
+  <l:template name="43" text="forty-three"/>
+  <l:template name="44" text="forty-four"/>
+  <l:template name="45" text="forty-five"/>
+  <l:template name="46" text="forty-six"/>
+  <l:template name="47" text="forty-seven"/>
+  <l:template name="48" text="forty-eight"/>
+  <l:template name="49" text="forty-nine"/>
+  <l:template name="50" text="fifty"/>
+</l:context>
+<l:letters><l:l i="-1"/>
 <l:l i="0">Symbols</l:l>
 <l:l i="10">A</l:l>
 <l:l i="10">a</l:l>
