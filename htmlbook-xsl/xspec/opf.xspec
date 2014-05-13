@@ -149,12 +149,88 @@ UbuntuMono-Regular.otf
     </x:scenario>
   </x:scenario>
 
+  <x:scenario label="When manifest-audio-video-assets is called">
+    <x:call template="manifest-audio-video-assets">
+      <x:param name="asset-nodes">
+	<video src="dancing-puppy.mp4"/>
+	<video src="dancing-kitty.ogg"/>
+	<audio src="barking-puppy.aac"/>
+	<audio src="purring-kitty.mp3"/>
+	<!-- Intentional duplicate for testing to ensure no manifest redundancy -->
+	<video src="dancing-puppy.mp4"/>
+      </x:param>
+    </x:call>
+    <x:expect label="there should be an item for each audio/video src in the source files"
+	      test="every $asset in ('dancing-puppy.mp4', 'dancing-kitty.ogg', 'barking-puppy.aac', 'purring-kitty.mp3') 
+		    satisfies (exists(//opf:item[@href=$asset]))"/>
+    <x:expect label="audio/video items should have the correct mimetype inferred" test="(every $asset in (//opf:item[substring-after(@href, '.') = 'mp4']) 
+									 satisfies ($asset[@media-type = 'video/mp4'])) and
+									 (every $asset in (//opf:item[substring-after(@href, '.') = 'ogg']) 
+									 satisfies ($asset[@media-type = 'video/ogg'])) and
+									 (every $asset in (//opf:item[substring-after(@href, '.') = 'aac']) 
+									 satisfies ($asset[@media-type = 'audio/mp4'])) and
+									 (every $asset in (//opf:item[substring-after(@href, '.') = 'mp3'])
+									 satisfies ($asset[@media-type = 'audio/mpeg']))"/>
+    <x:expect label="and there should be only one item that references each asset file" test="not(exists(//@href[(. = preceding::opf:item/@href) or (. = following::opf:item/@href)]))"/>
+
+    <x:scenario label="on audio/video elements with source children">
+      <x:call>
+	<x:param name="asset-nodes">
+	  <video>
+	    <source src="dancing-puppy.mp4"/>
+	    <source src="dancing-puppy.ogg"/>
+	  </video>
+	  <audio>
+	    <source src="purring-kitty.aac"/>
+	    <source src="purring-kitty.mp3"/>
+	  </audio>
+	  <!-- Intentional duplicate for testing to ensure no manifest redundancy -->
+	  <video>
+	    <source src="dancing-puppy.mp4"/>
+	  </video>
+	</x:param>
+      </x:call>
+      <x:expect label="there should be an item for each audio/video src in the source files"
+		test="every $asset in ('dancing-puppy.mp4', 'dancing-puppy.ogg', 'purring-kitty.aac', 'purring-kitty.mp3') 
+		      satisfies (exists(//opf:item[@href=$asset]))"/>
+      <x:expect label="audio/video items should have the correct mimetype inferred" test="(every $asset in (//opf:item[substring-after(@href, '.') = 'mp4']) 
+											  satisfies ($asset[@media-type = 'video/mp4'])) and
+											  (every $asset in (//opf:item[substring-after(@href, '.') = 'ogg']) 
+											  satisfies ($asset[@media-type = 'video/ogg'])) and
+											  (every $asset in (//opf:item[substring-after(@href, '.') = 'aac']) 
+											  satisfies ($asset[@media-type = 'audio/mp4'])) and
+											  (every $asset in (//opf:item[substring-after(@href, '.') = 'mp3'])
+											  satisfies ($asset[@media-type = 'audio/mpeg']))"/>
+      <x:expect label="and there should be only one item that references each asset file" test="not(exists(//@href[(. = preceding::opf:item/@href) or (. = following::opf:item/@href)]))"/>
+    </x:scenario>
+
+    <x:scenario label="on audio/video elements with @type attributes that don't match expected types that would be inferred from file extension">
+      <x:call>
+	<x:param name="asset-nodes">
+	  <video>
+	    <source src="dancing-puppy.mp4" type="video/ogg"/>
+	  </video>
+	  <audio>
+	    <source src="purring-kitty.mp3" type="audio/mp4"/>
+	  </audio>
+	</x:param>
+      </x:call>
+
+      <x:expect label="@type attributes should take precedence in determining item @media-type">
+	<item xmlns="http://www.idpf.org/2007/opf" id="..." href="dancing-puppy.mp4" media-type="video/ogg"/>
+	<item xmlns="http://www.idpf.org/2007/opf" id="..." href="purring-kitty.mp3" media-type="audio/mp4"/>
+      </x:expect>
+    </x:scenario>
+
+  </x:scenario>
+
   <x:scenario label="When manifest-images is called">
     <x:call template="manifest-images">
       <x:param name="img-nodes">
 	<img src="puppy.jpg"/>
 	<img src="kitty.png"/>
 	<img src="birdie.gif"/>
+	<!-- Intentional duplicate for testing to ensure no manifest redundancy -->
 	<img src="puppy.jpg"/>
       </x:param>
     </x:call>
