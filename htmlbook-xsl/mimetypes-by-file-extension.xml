@@ -17,4 +17,8 @@
   <mimetype file-extension="jpeg">image/jpeg</mimetype>
   <mimetype file-extension="tif">image/tiff</mimetype>
   <mimetype file-extension="tiff">image/tiff</mimetype>
+  <mimetype file-extension="mp3">audio/mpeg</mimetype>
+  <mimetype file-extension="aac">audio/mp4</mimetype>
+  <mimetype file-extension="mp4">video/mp4</mimetype>
+  <mimetype file-extension="ogg">video/ogg</mimetype>
 </mimetypes-by-file-extension>

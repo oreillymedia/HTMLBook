@@ -231,6 +231,8 @@
       </xsl:if>
       <!-- Add images to manifest -->
       <xsl:call-template name="manifest-images"/>
+      <!-- Add any audio-video assets to manifest -->
+      <xsl:call-template name="manifest-audio-video-assets"/>
       <!-- Add HTML documents to manifest -->
       <xsl:call-template name="manifest-html"/>
     </manifest>
@@ -473,6 +475,50 @@
 	</xsl:attribute>
       </itemref>
     </xsl:if>
+  </xsl:template>
+
+  <xsl:template name="manifest-audio-video-assets">
+    <xsl:param name="asset-nodes" select="key('nodes-by-name', 'audio')|key('nodes-by-name', 'video')"/>
+    <!-- Get the nodes from the asset-nodes list that have the @src attributes; either the audio/video tags themselves, or child source tags -->
+    <xsl:variable name="asset-source-nodes" select="$asset-nodes[@src]|$asset-nodes/h:source[@src]"/>
+    <xsl:for-each select="$asset-source-nodes">
+      <!-- Generate an <item> for this asset only if it is the first instance of the asset with this @src attribute -->
+      <xsl:if test="not(@src = (preceding::*[self::h:audio|self::h:video|self::h:source]/@src|
+		                ancestor::*[self::h:audio|self::h:video|self::h:source]/@src))">
+	<xsl:variable name="filename" select="@src"/>
+	<xsl:variable name="file-extension">
+	  <xsl:call-template name="get-extension-from-filename">
+	    <xsl:with-param name="filename" select="$filename"/>
+	  </xsl:call-template>
+	</xsl:variable>
+	<xsl:variable name="file-extension-corresponding-mimetype">
+	  <xsl:call-template name="get-mimetype-from-file-extension">
+	    <xsl:with-param name="file-extension" select="$file-extension"/>
+	  </xsl:call-template>
+	</xsl:variable>
+	<item>
+	  <xsl:attribute name="id">
+	    <xsl:apply-templates select="." mode="opf.id"/>
+	  </xsl:attribute>
+	  <xsl:attribute name="href">
+	    <xsl:value-of select="$filename"/>
+	  </xsl:attribute>
+	  <xsl:attribute name="media-type">
+	    <xsl:choose>
+	      <!-- When @type attribute is specified explicitly on element (only valid HTML5 to supply it on source,
+		   but if we're processing <audio> or <video>, and it happens to have a @type, we'll go ahead and use it -->
+	      <xsl:when test="@type">
+		<xsl:value-of select="@type"/>
+	      </xsl:when>
+	      <!-- Otherwise, go ahead and infer mimetype from file extension -->
+	      <xsl:otherwise>
+		<xsl:value-of select="$file-extension-corresponding-mimetype"/>
+	      </xsl:otherwise>
+	    </xsl:choose>
+	  </xsl:attribute>
+	</item>
+      </xsl:if>
+    </xsl:for-each>
   </xsl:template>
 
   <xsl:template name="manifest-images">
