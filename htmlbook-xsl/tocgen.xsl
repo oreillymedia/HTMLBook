@@ -14,7 +14,9 @@
   <!-- Default rule for TOC generation -->
   <xsl:template match="*" mode="tocgen">
     <xsl:param name="toc.section.depth" select="$toc.section.depth"/>
-    <xsl:apply-templates select="*" mode="tocgen"/>
+    <xsl:apply-templates select="*" mode="tocgen">
+      <xsl:with-param name="toc.section.depth" select="$toc.section.depth"/>
+    </xsl:apply-templates>
   </xsl:template>
 
   <xsl:template match="h:section[not(@data-type = 'dedication' or @data-type = 'titlepage' or @data-type = 'toc' or @data-type = 'colophon' or @data-type = 'copyright-page' or @data-type = 'halftitlepage')]|h:div[@data-type='part']" mode="tocgen">
@@ -48,7 +50,9 @@
 	  <!-- Make sure there are descendants that conform to $toc.section.depth restrictions before generating nested TOC <ol> -->
 	  <xsl:if test="descendant::h:section[not(contains(@data-type, 'sect')) or htmlbook:section-depth(.) &lt;= $toc.section.depth]|descendant::h:div[@data-type='part']">
 	    <ol>
-	      <xsl:apply-templates mode="tocgen"/>
+	      <xsl:apply-templates mode="tocgen">
+		<xsl:with-param name="toc.section.depth" select="$toc.section.depth"/>
+	      </xsl:apply-templates>
 	    </ol>
 	  </xsl:if>
 	</xsl:element>
@@ -61,6 +65,7 @@
     <xsl:param name="scope" select="/*"/>
     <xsl:param name="autogenerate-toc" select="$autogenerate-toc"/>
     <xsl:param name="toc-placeholder-overwrite-contents" select="$toc-placeholder-overwrite-contents"/>
+    <xsl:param name="toc.section.depth" select="$toc.section.depth"/>
 
     <!-- Just switch context to $toc.node, so we don't have to reference the variable in rest of template -->
     <xsl:for-each select="$toc.node">
@@ -80,7 +85,9 @@
 	      </h1>
 	    </xsl:if>
 	    <ol>
-	      <xsl:apply-templates select="$scope" mode="tocgen"/>
+	      <xsl:apply-templates select="$scope" mode="tocgen">
+		<xsl:with-param name="toc.section.depth" select="$toc.section.depth"/>
+	      </xsl:apply-templates>
 	    </ol>
 	  </xsl:copy>
 	</xsl:when>
