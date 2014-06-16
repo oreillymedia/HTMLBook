@@ -449,7 +449,7 @@
 	  <!-- Otherwise, just use the first <section> in the text -->
 	  <xsl:otherwise>
 	    <xsl:call-template name="output-filename-for-chunk">
-	      <xsl:with-param name="node" select="//h:section[1]"/>
+	      <xsl:with-param name="node" select="(//h:section)[1]"/>
 	    </xsl:call-template>
 	  </xsl:otherwise>
 	</xsl:choose>
