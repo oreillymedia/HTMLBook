@@ -1041,4 +1041,74 @@ sect1
 
   </x:scenario>
 
+  <x:scenario label="When calling whitespace-only-in-text on an empty text node">
+    <x:call template="whitespace-only-in-text">
+      <x:param name="text.content" select="''"/>
+    </x:call>
+    <x:expect label="It should return 'true'">1</x:expect>
+  </x:scenario>
+
+  <x:scenario label="When calling whitespace-only-in-text on a single space character">
+    <x:call template="whitespace-only-in-text">
+      <x:param name="text.content" select="' '"/>
+    </x:call>
+    <x:expect label="It should return 'true'">1</x:expect>
+  </x:scenario>
+
+  <x:scenario label="When calling whitespace-only-in-text on an nbsp character">
+    <x:call template="whitespace-only-in-text">
+      <x:param name="text.content" select="'&#xa0;'"/>
+    </x:call>
+    <x:expect label="It should return 'true'">1</x:expect>
+  </x:scenario>
+
+  <x:scenario label="When calling whitespace-only-in-text on a word character">
+    <x:call template="whitespace-only-in-text">
+      <x:param name="text.content" select="'b'"/>
+    </x:call>
+    <x:expect label="It should return 'false'">0</x:expect>
+  </x:scenario>
+
+  <x:scenario label="When calling whitespace-only-in-text on a mix of whitespace character">
+    <x:call template="whitespace-only-in-text">
+      <x:param name="text.content" select="' &#xa0;  '"/>
+    </x:call>
+    <x:expect label="It should return 'true'">1</x:expect>
+  </x:scenario>
+
+  <x:scenario label="When calling whitespace-only-in-text on a mix of whitespace character (2)">
+    <x:call template="whitespace-only-in-text">
+      <x:param name="text.content" select="'    '"/>
+    </x:call>
+    <x:expect label="It should return 'true'">1</x:expect>
+  </x:scenario>
+
+  <x:scenario label="When calling whitespace-only-in-text on a mix of whitespace character (3)">
+    <x:call template="whitespace-only-in-text">
+      <x:param name="text.content" select="'&#xa0;&#xa0;&#xa0;'"/>
+    </x:call>
+    <x:expect label="It should return 'true'">1</x:expect>
+  </x:scenario>
+
+  <x:scenario label="When calling whitespace-only-in-text on a mix of word characters">
+    <x:call template="whitespace-only-in-text">
+      <x:param name="text.content" select="'chocolatechipcookies'"/>
+    </x:call>
+    <x:expect label="It should return 'false'">0</x:expect>
+  </x:scenario>
+
+  <x:scenario label="When calling whitespace-only-in-text on a mix of word and whitespace characters">
+    <x:call template="whitespace-only-in-text">
+      <x:param name="text.content" select="'chocolate chip cookies'"/>
+    </x:call>
+    <x:expect label="It should return 'false'">0</x:expect>
+  </x:scenario>
+
+  <x:scenario label="When calling whitespace-only-in-text on a mix of word and whitespace characters (2)">
+    <x:call template="whitespace-only-in-text">
+      <x:param name="text.content" select="'chocolate&#xa0;chip cookies'"/>
+    </x:call>
+    <x:expect label="It should return 'false'">0</x:expect>
+  </x:scenario>
+
 </x:description>

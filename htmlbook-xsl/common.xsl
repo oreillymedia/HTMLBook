@@ -680,4 +680,25 @@
     </xsl:choose>
   </xsl:template>
 
+  <!-- Returns 1 when a text node contains only whitespace (defined as standard space chars or nbsp chars) -->
+  <!-- Otherwise returns 0 -->
+  <xsl:template name="whitespace-only-in-text">
+    <xsl:param name="text.content" select="."/>
+    <xsl:choose>
+      <!-- Fine to consider empty text nodes to be whitespace-only; facilitates recursion here -->
+      <xsl:when test="string-length($text.content) = 0">1</xsl:when>
+      <xsl:when test="(substring($text.content, 1, 1) = ' ') or 
+		      (substring($text.content, 1, 1) = '&#xa0;')">
+	<!-- If first character is a whitespace char, recurse on rest of string to see if it's all whitespace -->
+	<xsl:call-template name="whitespace-only-in-text">
+	  <xsl:with-param name="text.content">
+	    <xsl:value-of select="substring($text.content, 2)"/>
+	  </xsl:with-param>
+	</xsl:call-template>
+      </xsl:when>
+      <!-- Otherwise, there's at least 1 text character, so return 0 (false) -->
+      <xsl:otherwise>0</xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
 </xsl:stylesheet> 
