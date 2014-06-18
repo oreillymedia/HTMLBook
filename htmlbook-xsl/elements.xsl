@@ -66,6 +66,20 @@
     </xsl:copy>
   </xsl:template>
 
+  <!-- Special handling for indexterm text nodes when there are no sibling text or element nodes -->
+  <xsl:template match="h:a[@data-type='indexterm']/text()[not(preceding-sibling::node()) and not(following-sibling::node())]">
+    <xsl:variable name="whitespace-only-in-indexterm">
+      <xsl:call-template name="whitespace-only-in-text">
+	<xsl:with-param name="text.content" select="."/>
+      </xsl:call-template>
+    </xsl:variable>
+    <!-- Only copy over text when it's not whitespace-only -->
+    <!-- In other words, strip out whitespace-only text nodes in indexterms -->
+    <xsl:if test="$whitespace-only-in-indexterm != 1">
+     <xsl:value-of select="."/>
+    </xsl:if>
+  </xsl:template>
+
   <xsl:template match="h:section[@data-type]/*[self::h:h1 or self::h:h2 or self::h:h3 or self::h:h4 or self::h:h5 or self::h:h6]|
 		       h:section[@data-type]/h:header/*[self::h:h1 or self::h:h2 or self::h:h3 or self::h:h4 or self::h:h5 or self::h:h6]|
 		       h:div[@data-type = 'part' or @data-type = 'example' or @data-type = 'equation']/*[self::h:h1 or self::h:h2 or self::h:h3 or self::h:h4 or self::h:h5 or self::h:h6]|

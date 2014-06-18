@@ -72,6 +72,7 @@ sect5:1
     <x:expect label="Preserve the id" test="h:aside[1]/@id = 'watermelon'"/>
   </x:scenario>
 
+  <!-- Indexterm tests -->
   <x:scenario label="When encountering an indexterm without an id">
     <x:context>
       <a data-type="indexterm" data-primary="rubygems"/>
@@ -86,6 +87,69 @@ sect5:1
     </x:context>
     <!-- check the result -->
     <x:expect label="Preserve the id" test="h:a[@data-type='indexterm'][1]/@id = 'avocado'"/>
+  </x:scenario>
+
+  <x:scenario label="When encountering an indexterm that contains only whitespace">
+    <x:context>
+      <a data-type="indexterm" data-primary="xslt" data-secondary="xml and">   </a>
+    </x:context>
+    <x:expect label="Strip the whitespace">
+      <a data-type="indexterm" data-primary="xslt" data-secondary="xml and" id="..."/>
+    </x:expect>
+  </x:scenario>
+
+  <x:scenario label="When encountering an indexterm that contains only whitespace (including nbsp)">
+    <x:context>
+      <a data-type="indexterm" data-primary="xslt" data-secondary="xml and">&#xa0; &#xa0;</a>
+    </x:context>
+    <x:expect label="Strip the whitespace">
+      <a data-type="indexterm" data-primary="xslt" data-secondary="xml and" id="..."/>
+    </x:expect>
+  </x:scenario>
+
+  <x:scenario label="When encountering an indexterm that contains text and whitespace">
+    <x:context>
+      <a data-type="indexterm" data-primary="xslt" data-secondary="xml and">Unicode&#xa0; &#xa0;is fun</a>
+    </x:context>
+    <x:expect label="Preserve content as is">
+      <a data-type="indexterm" data-primary="xslt" data-secondary="xml and" id="...">Unicode&#xa0; &#xa0;is fun</a>
+    </x:expect>
+  </x:scenario>
+
+  <x:scenario label="When encountering an indexterm that contains child nodes only">
+    <x:context>
+      <a data-type="indexterm" data-primary="xslt" data-secondary="xml and"><em>Unicode</em></a>
+    </x:context>
+    <x:expect label="Preserve content as is">
+      <a data-type="indexterm" data-primary="xslt" data-secondary="xml and" id="..."><em>Unicode</em></a>
+    </x:expect>
+  </x:scenario>
+
+  <x:scenario label="When encountering an indexterm that contains child nodes only (2)">
+    <x:context>
+      <a data-type="indexterm" data-primary="xslt" data-secondary="xml and"><br/></a>
+    </x:context>
+    <x:expect label="Preserve content as is">
+      <a data-type="indexterm" data-primary="xslt" data-secondary="xml and" id="..."><br/></a>
+    </x:expect>
+  </x:scenario>
+
+  <x:scenario label="When encountering an indexterm that contains child nodes and text">
+    <x:context>
+      <a data-type="indexterm" data-primary="xslt" data-secondary="xml and"><em>123</em>456</a>
+    </x:context>
+    <x:expect label="Preserve content as is">
+      <a data-type="indexterm" data-primary="xslt" data-secondary="xml and" id="..."><em>123</em>456</a>
+    </x:expect>
+  </x:scenario>
+
+  <x:scenario label="When encountering an indexterm that contains child nodes, text, and whitespace">
+    <x:context>
+      <a data-type="indexterm" data-primary="xslt" data-secondary="xml and"><em>Unicode</em>&#xa0; &#xa0;is fun</a>
+    </x:context>
+    <x:expect label="Preserve content as is">
+      <a data-type="indexterm" data-primary="xslt" data-secondary="xml and" id="..."><em>Unicode</em>&#xa0; &#xa0;is fun</a>
+    </x:expect>
   </x:scenario>
 
   <!-- PDF bookmark attributes -->
