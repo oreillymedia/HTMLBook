@@ -1434,4 +1434,60 @@ sect5:1
     </x:scenario>
   </x:scenario>
 
+  <!-- Footnote tests -->
+  <x:scenario label="When a footnote is matched">
+    <x:context select="(/h:p/h:span[@data-type='footnote'])[1]">
+      <p>This is the text<span data-type="footnote">And this is the footnote</span></p>
+    </x:context>
+    
+    <x:scenario label="With process.footnotes disabled">
+      <x:context>
+	<x:param name="process.footnotes" select="0"/>
+      </x:context>
+      <x:expect label="Footnote should be copied to output as is">
+	<span data-type="footnote">And this is the footnote</span>
+      </x:expect>
+    </x:scenario>
+
+    <x:scenario label="With process.footnotes enabled">
+      <x:context>
+	<x:param name="process.footnotes" select="1"/>
+      </x:context>
+      <x:expect label="Footnote should be processed to a noteref">
+	<a data-type="noteref" id="..." href="...">
+	  <sup>1</sup>
+	</a>
+      </x:expect>
+    </x:scenario>
+  </x:scenario>
+
+  <x:scenario label="When a footnoteref is matched">
+    <x:context select="(/h:p/h:a[@data-type='footnoteref'])[1]">
+      <p>This is the text<span data-type="footnote">And this is the footnote</span></p>
+      <p>More text<span data-type="footnote" id="best_footnote_ever">Another footnote, yo!</span></p>
+      <p>And now we've got a second paragraph that has a footnoteref here<a data-type="footnoteref" href="#best_footnote_ever"/></p>
+    </x:context>
+    
+    <x:scenario label="With process.footnotes disabled">
+      <x:context>
+	<x:param name="process.footnotes" select="0"/>
+      </x:context>
+      <x:expect label="Footnoteref should be copied to output as is">
+	<a data-type="footnoteref" href="#best_footnote_ever"/>
+      </x:expect>
+    </x:scenario>
+
+    <x:scenario label="With process.footnotes enabled">
+      <x:context>
+	<x:param name="process.footnotes" select="1"/>
+      </x:context>
+      <x:expect label="Footnote should be processed to a noteref">
+	<a data-type="noteref" href="...">
+	  <sup>2</sup>
+	</a>
+      </x:expect>
+    </x:scenario>
+  </x:scenario>
+
+
 </x:description>

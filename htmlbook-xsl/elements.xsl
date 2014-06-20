@@ -24,6 +24,7 @@
   <!-- WARNING: If you need additional handling for these elements for other functionality,
        and you override this template elsewhere, make sure you add in id-decoration functionality -->
   <xsl:template match="h:section|h:div[contains(@data-type, 'part')]|h:aside|h:a[contains(@data-type, 'indexterm')]">
+    <xsl:param name="process.footnotes" select="$process.footnotes"/>
     <xsl:param name="html4.structural.elements" select="$html4.structural.elements"/>
     <xsl:variable name="output-element-name">
       <xsl:call-template name="html.output.element">
@@ -217,6 +218,7 @@
 
   <!-- Footnote handling -->
   <xsl:template match="h:span[@data-type='footnote']">
+    <xsl:param name="process.footnotes" select="$process.footnotes"/>
     <xsl:choose>
       <xsl:when test="$process.footnotes = 1">
 	<xsl:call-template name="footnote-marker"/>
@@ -248,6 +250,7 @@
 
   <!-- Handling for footnoterefs a la DocBook (cross-references to an existing footnote) -->
   <xsl:template match="h:a[@data-type='footnoteref']">
+    <xsl:param name="process.footnotes" select="$process.footnotes"/>
     <xsl:choose>
       <xsl:when test="$process.footnotes = 1">
 	<xsl:variable name="referenced-footnote-id">

@@ -273,12 +273,13 @@ UbuntuMono-Italic.otf</xsl:param>
     </xsl:result-document>
   </xsl:template>
 
-  <xsl:template match="@data-type">
-    <xsl:copy-of select="."/>
+  <xsl:template match="@data-type" name="data-type">
+    <xsl:param name="data-type-node" select="."/>
+    <xsl:copy-of select="$data-type-node"/>
     <xsl:choose>
-      <xsl:when test=". = $valid.epub.type.values//e:epubtype">
+      <xsl:when test="$data-type-node = $valid.epub.type.values//e:epubtype">
 	<xsl:attribute name="epub:type">
-	  <xsl:value-of select="."/>
+	  <xsl:value-of select="$data-type-node"/>
 	</xsl:attribute>
       </xsl:when>
       <xsl:otherwise>
