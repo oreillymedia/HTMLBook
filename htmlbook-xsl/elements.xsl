@@ -402,7 +402,7 @@
 
   <!-- Elements tagged with data-type="comment" -->
   <xsl:template match="*[@data-type='comment']">
-    <xsl:param name="show-comments"/>
+    <xsl:param name="show-comments" select="$show-comments"/>
     <!-- Only show comments if show-comments is turned on -->
     <xsl:if test="$show-comments = 1">
       <xsl:copy>
@@ -413,7 +413,7 @@
 
   <!-- XML comments in inline context -->
   <xsl:template match="comment()">
-    <xsl:param name="show-comments"/>
+    <xsl:param name="show-comments" select="$show-comments"/>
     <!-- Only show comments if show-comments is turned on -->
     <xsl:choose>
       <xsl:when test="$show-comments = 1">
