@@ -420,7 +420,8 @@
 	<xsl:choose>
 	  <!-- Still drop comments in MML or SVG -->
 	  <xsl:when test="ancestor::math or ancestor::mml:math or ancestor::svg or ancestor::svg:svg"/>
-	  <xsl:when test="parent::h:section or 
+	  <xsl:when test="parent::h:body or
+			  parent::h:section or 
 			  parent::h:div[@data-type='part'] or 
 			  (parent::h:aside and &blocksiblingxpath;) or
 			  parent::h:audio or
