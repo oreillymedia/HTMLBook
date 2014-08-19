@@ -1434,4 +1434,128 @@ sect5:1
     </x:scenario>
   </x:scenario>
 
+  <!-- Comment-toggle tests -->
+  <x:scenario label="When matching a block element with data-type='comment'">
+    <x:context>
+      <div data-type="comment">
+	<p>This is a comment. Or, actually, a meta-comment</p>
+      </div>
+    </x:context>
+
+    <x:scenario label="With show-comments disabled">
+      <x:context>
+	<x:param name="show-comments" select="0"/>
+      </x:context>
+      <x:expect label="Comment should be dropped from output" select="()"/>
+    </x:scenario>
+    
+    <x:scenario label="With show-comments enabled">
+      <x:context>
+	<x:param name="show-comments" select="1"/>
+      </x:context>
+      <x:expect label="Comment should be preserved as is">
+	<div data-type="comment">
+	  <p>This is a comment. Or, actually, a meta-comment</p>
+	</div>
+      </x:expect>
+    </x:scenario>
+  </x:scenario>
+
+  <x:scenario label="When matching an inline element with data-type='comment'">
+    <x:context select="(//h:span[@data-type='comment'])[1]">
+      <p>This book was written in HTMLBook <span data-type="comment">Hooray!!!</span></p>
+    </x:context>
+
+    <x:scenario label="With show-comments disabled">
+      <x:context>
+	<x:param name="show-comments" select="0"/>
+      </x:context>
+      <x:expect label="Comment should be dropped from output" select="()"/>
+    </x:scenario>
+    
+    <x:scenario label="With show-comments enabled">
+      <x:context>
+	<x:param name="show-comments" select="1"/>
+      </x:context>
+      <x:expect label="Comment should be preserved as is">
+	<span data-type="comment">Hooray!!!</span>
+      </x:expect>
+    </x:scenario>
+  </x:scenario>
+
+  <x:scenario label="When matching an XML block comment">
+    <x:context select="(//comment())[1]">
+      <section data-type="chapter">
+	<h1>This is a chapter title</h1>
+	<!--This is an editorial comment-->
+	<p>This is some text</p>
+      </section>
+    </x:context>
+    
+    <x:scenario label="With show-comments disabled">
+      <x:context>
+	<x:param name="show-comments" select="0"/>
+      </x:context>
+      <x:expect label="Comment should be dropped from output" select="()"/>
+    </x:scenario>
+
+    <x:scenario label="With show-comments enabled">
+      <x:context>
+	<x:param name="show-comments" select="1"/>
+      </x:context>
+      <x:expect label="Comment should be transformed into a paragraph with a class of 'comment'">
+	<p class="comment">This is an editorial comment</p>
+      </x:expect>
+    </x:scenario>
+  </x:scenario>
+
+  <x:scenario label="When matching an XML inline comment">
+    <x:context select="(//comment())[1]">
+      <p>This is some text <!--with an inline comment--></p>
+    </x:context>
+    
+    <x:scenario label="With show-comments disabled">
+      <x:context>
+	<x:param name="show-comments" select="0"/>
+      </x:context>
+      <x:expect label="Comment should be dropped from output" select="()"/>
+    </x:scenario>
+
+    <x:scenario label="With show-comments enabled">
+      <x:context>
+	<x:param name="show-comments" select="1"/>
+      </x:context>
+      <x:expect label="Comment should be transformed into a span with a class of 'comment'">
+	<span class="comment">with an inline comment</span>
+      </x:expect>
+    </x:scenario>
+  </x:scenario>
+
+  <x:scenario label="When matching XML block comments (with comments enabled) in block-or-inline contexts">
+    <x:context select="(//comment())[1]">
+      <x:param name="show-comments" select="1"/>
+      <blockquote>
+	<p>Paragraph</p>
+	<!--This is a block comment-->
+	<p>Another paragraph</p>
+      </blockquote>
+    </x:context>
+    <x:expect label="Comment should be transformed into a paragraph with a class of 'comment'">
+      <p class="comment">This is a block comment</p>
+    </x:expect>
+  </x:scenario>
+
+  <x:scenario label="When matching XML inline comments (with comments enabled) in block-or-inline contexts">
+    <x:context select="(//comment())[1]">
+      <x:param name="show-comments" select="1"/>
+      <blockquote>
+	Text <!--This is an inline comment--> and some <em>more text</em>
+      </blockquote>
+    </x:context>
+    <x:expect label="Comment should be transformed into a span with a class of 'comment'">
+      <span class="comment">This is an inline comment</span>
+    </x:expect>
+  </x:scenario>
+
+
 </x:description>
