@@ -1496,7 +1496,9 @@ sect5:1
       <x:context>
 	<x:param name="show-comments" select="0"/>
       </x:context>
-      <x:expect label="Comment should be dropped from output" select="()"/>
+      <x:expect label="Comment should be left as is in output">
+	<!--This is an editorial comment-->
+      </x:expect>
     </x:scenario>
 
     <x:scenario label="With show-comments enabled">
@@ -1518,7 +1520,9 @@ sect5:1
       <x:context>
 	<x:param name="show-comments" select="0"/>
       </x:context>
-      <x:expect label="Comment should be dropped from output" select="()"/>
+      <x:expect label="Comment should be left as is in output">
+	<!--with an inline comment-->
+      </x:expect>
     </x:scenario>
 
     <x:scenario label="With show-comments enabled">

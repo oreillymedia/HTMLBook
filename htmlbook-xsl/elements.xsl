@@ -415,45 +415,52 @@
   <xsl:template match="comment()">
     <xsl:param name="show-comments"/>
     <!-- Only show comments if show-comments is turned on -->
-    <xsl:if test="$show-comments = 1">
-      <xsl:choose>
-	<!-- Still drop comments in MML or SVG -->
-	<xsl:when test="ancestor::math or ancestor::mml:math or ancestor::svg or ancestor::svg:svg"/>
-	<xsl:when test="parent::h:section or 
-			parent::h:div[@data-type='part'] or 
-			(parent::h:aside and &blocksiblingxpath;) or
-			parent::h:audio or
-			(parent::h:blockquote and &blocksiblingxpath;) or
-			parent::h:canvas or
-			(parent::h:details and &blocksiblingxpath;) or
-			(parent::h:div and &blocksiblingxpath;) or
-			parent::h:dl or
-			(parent::h:dd and &blocksiblingxpath;) or
-			parent::h:embed or
-			(parent::h:fieldset and &blocksiblingxpath;) or
-			parent::h:figure or
-			parent::h:form or
-			parent::h:iframe or
-			parent::h:map or
-			(parent::h:menu and &blocksiblingxpath;) or
-			(parent::h:object and &blocksiblingxpath;) or
-			parent::h:ol or
-			parent::h:table or
-			parent::h:ul or
-			parent::h:video">
-	  <!-- Comment is in a block context  -->
-	  <p class="comment">
-	    <xsl:value-of select="."/>
-	  </p>
-	</xsl:when>
-	<xsl:otherwise>
-	  <!-- Comment is an inline comment -->
-	  <span class="comment">
-	    <xsl:value-of select="."/>
-	  </span>
-	</xsl:otherwise>
-      </xsl:choose>
-    </xsl:if>
+    <xsl:choose>
+      <xsl:when test="$show-comments = 1">
+	<xsl:choose>
+	  <!-- Still drop comments in MML or SVG -->
+	  <xsl:when test="ancestor::math or ancestor::mml:math or ancestor::svg or ancestor::svg:svg"/>
+	  <xsl:when test="parent::h:section or 
+			  parent::h:div[@data-type='part'] or 
+			  (parent::h:aside and &blocksiblingxpath;) or
+			  parent::h:audio or
+			  (parent::h:blockquote and &blocksiblingxpath;) or
+			  parent::h:canvas or
+			  (parent::h:details and &blocksiblingxpath;) or
+			  (parent::h:div and &blocksiblingxpath;) or
+			  parent::h:dl or
+			  (parent::h:dd and &blocksiblingxpath;) or
+			  parent::h:embed or
+			  (parent::h:fieldset and &blocksiblingxpath;) or
+			  parent::h:figure or
+			  parent::h:form or
+			  parent::h:iframe or
+			  parent::h:map or
+			  (parent::h:menu and &blocksiblingxpath;) or
+			  (parent::h:object and &blocksiblingxpath;) or
+			  parent::h:ol or
+			  parent::h:table or
+			  parent::h:ul or
+			  parent::h:video">
+	    <!-- Comment is in a block context  -->
+	    <p class="comment">
+	      <xsl:value-of select="."/>
+	    </p>
+	  </xsl:when>
+	  <xsl:otherwise>
+	    <!-- Comment is an inline comment -->
+	    <span class="comment">
+	      <xsl:value-of select="."/>
+	    </span>
+	  </xsl:otherwise>
+	</xsl:choose>
+      </xsl:when>
+      <xsl:otherwise>
+	<xsl:copy>
+	  <xsl:apply-templates select="@*|node()"/>
+	</xsl:copy>
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
 
 </xsl:stylesheet> 
