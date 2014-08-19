@@ -724,6 +724,16 @@ Canvas handling.</p>
 &lt;/canvas&gt;</pre>
       </section>
     </section>
+    <section data-type="sect1" id="_comments">
+      <h1>Comments</h1>
+      <p>To add comments to an HTMLBook document, either use standard HTML/XML comment syntax:</p>
+      <pre data-type="programlisting">&lt;!-- This is a comment --&gt;</pre>
+
+      <p>Or add a <code>data-type="comment"</code> attribute to any HTML element, e.g.:</p>
+
+      <pre>&lt;!-- This is a comment preceding a paragraph of text --&gt;
+&lt;p&gt;This is a paragraph of text &lt;span data-type="comment"&gt;Inline comment in paragraph&lt;/span&gt;&lt;/p&gt;</pre>
+    </section>
     <section data-type="sect1" id="_metadata">
       <h1>Metadata</h1>
       <section data-type="sect2" id="_metadata_points">
@@ -768,6 +778,11 @@ Canvas handling.</p>
           <li>
             <p>
               <code>&lt;canvas&gt;</code>
+            </p>
+          </li>
+          <li>
+            <p>
+              <code>&lt;dd&gt;</code>
             </p>
           </li>
           <li>
@@ -935,6 +950,11 @@ Canvas handling.</p>
           <li>
             <p>
               <code>&lt;dfn&gt;</code>
+            </p>
+          </li>
+          <li>
+            <p>
+              <code>&lt;dt&gt;</code>
             </p>
           </li>
           <li>

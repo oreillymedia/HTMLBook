@@ -173,4 +173,11 @@ sect5
 sidebar
 </xsl:param>
 
+  <!-- Params for handling of comments in a manuscript -->
+
+  <!-- Turn on this parameter (off by default) to toggle on display of comments in the manuscript 
+       (both XML comments and elements tagged with data-type="comment")
+    -->
+  <xsl:param name="show-comments" select="0"/>
+
 </xsl:stylesheet> 
