@@ -619,17 +619,38 @@
   <!-- Template to trim http:// and http://www from URLs -->
   <xsl:template name="trim-url">
     <xsl:param name="url-to-trim"/>
-    <xsl:choose>
-      <xsl:when test="contains($url-to-trim, 'http://www.')">
-	<xsl:value-of select="substring-after($url-to-trim, 'http://www.')"/>
-      </xsl:when>
-      <xsl:when test="contains($url-to-trim, 'http://')">
-	<xsl:value-of select="substring-after($url-to-trim, 'http://')"/>
-      </xsl:when>
-      <xsl:otherwise>
-	<xsl:value-of select="$url-to-trim"/>
-      </xsl:otherwise>
-    </xsl:choose>
+
+    <!-- First, trim http://www., http://, or www. prefixes -->
+    <xsl:variable name="prefix-trimmed">
+      <xsl:choose>
+	<xsl:when test="contains($url-to-trim, 'http://www.') and substring-before($url-to-trim, 'http://www.') = ''">
+	  <xsl:value-of select="substring-after($url-to-trim, 'http://www.')"/>
+	</xsl:when>
+	<xsl:when test="contains($url-to-trim, 'http://') and substring-before($url-to-trim, 'http://') = ''">
+	  <xsl:value-of select="substring-after($url-to-trim, 'http://')"/>
+	</xsl:when>
+	<xsl:when test="contains($url-to-trim, 'www.') and substring-before($url-to-trim, 'www.') = ''">
+	  <xsl:value-of select="substring-after($url-to-trim, 'www.')"/>
+	</xsl:when>
+	<xsl:otherwise>
+	  <xsl:value-of select="$url-to-trim"/>
+	</xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
+
+    <!-- Then trim trailing forward slashes -->
+    <xsl:variable name="suffix-trimmed">
+      <xsl:choose>
+	<xsl:when test="substring($prefix-trimmed, string-length($prefix-trimmed), 1) = '/'">
+	  <xsl:value-of select="substring($prefix-trimmed, 1, string-length($prefix-trimmed) - 1)"/>
+	</xsl:when>
+	<xsl:otherwise>
+	  <xsl:value-of select="$prefix-trimmed"/>
+	</xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
+    
+    <xsl:value-of select="$suffix-trimmed"/>
   </xsl:template>
 
 </xsl:stylesheet> 
