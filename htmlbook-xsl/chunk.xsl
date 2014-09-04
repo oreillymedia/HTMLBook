@@ -677,6 +677,17 @@ sect5:s
     </xsl:choose>
   </xsl:template>
   
+  <!-- Support use of &lt;?prev_url?&gt; in insert URL to previous chunk in href -->
+  <!-- Because PIs not allowed in attribute context -->
+  <xsl:template match="@href[. = '&lt;?prev_url?&gt;']" mode="process-chunk-wrapper">
+    <xsl:param name="chunk.node" select="parent::*"/>
+    <xsl:attribute name="href">
+      <xsl:call-template name="prev_url">
+	<!-- Get the parent element of the attribute parent -->
+	<xsl:with-param name="chunk.node" select="$chunk.node"/>
+      </xsl:call-template>
+    </xsl:attribute>
+  </xsl:template>
 
   <!-- Support use of <?next_link?> to insert link to previous chunk in book sequence -->
   <xsl:template match="processing-instruction('next_link')" name="next_link" mode="process-chunk-wrapper">
@@ -723,6 +734,18 @@ sect5:s
     </xsl:choose>
   </xsl:template>
 
+  <!-- Support use of &lt;?next_url?&gt; in insert URL to next chunk in href -->
+  <!-- Because PIs not allowed in attribute context -->
+  <xsl:template match="@href[. = '&lt;?next_url?&gt;']" mode="process-chunk-wrapper">
+    <xsl:param name="chunk.node" select="parent::*"/>
+    <xsl:attribute name="href">
+      <xsl:call-template name="next_url">
+	<!-- Get the parent element of the attribute parent -->
+	<xsl:with-param name="chunk.node" select="$chunk.node"/>
+      </xsl:call-template>
+    </xsl:attribute>
+  </xsl:template>
+
   <!-- Support use of <?toc_link?> to insert link to table of contents in book sequence -->
   <xsl:template match="processing-instruction('toc_link')" name="toc_link" mode="process-chunk-wrapper">
     <xsl:variable name="toc-url">
@@ -760,6 +783,15 @@ sect5:s
 	</xsl:call-template>
       </xsl:otherwise>
     </xsl:choose>
+  </xsl:template>
+
+  <!-- Support use of &lt;?toc_url?&gt; in insert URL to previous chunk in href -->
+  <!-- Because PIs not allowed in URL context -->
+  <xsl:template match="@href[. = '&lt;?toc_url?&gt;']" mode="process-chunk-wrapper">
+    <xsl:param name="chunk.node" select="parent::*"/>
+    <xsl:attribute name="href">
+      <xsl:call-template name="toc_url"/>
+    </xsl:attribute>
   </xsl:template>
 
 </xsl:stylesheet> 
