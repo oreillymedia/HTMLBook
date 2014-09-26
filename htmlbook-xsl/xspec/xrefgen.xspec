@@ -14,6 +14,27 @@
   <!-- Globally setting xref.elements.pagenum.in.class to be empty here; specific tests for pagenum class handling below modify param value on a oneoff basis -->
   <x:param name="xref.elements.pagenum.in.class"/>
 
+  <!-- Global param settings for data-xref-pagenum-style attribute -->
+  <x:param name="xref.pagenum.style.for.section.by.data-type">
+acknowledgments:decimal
+afterword:decimal
+appendix:decimal
+bibliography:decimal
+chapter:decimal
+colophon:decimal
+conclusion:decimal
+copyright-page:decimal
+dedication:lower-roman
+foreword:lower-roman
+glossary:decimal
+halftitlepage:lower-roman
+index:decimal
+introduction:decimal
+preface:lower-roman
+titlepage:lower-roman
+toc:lower-roman
+  </x:param>
+
   <!-- Tests around text nodes for formal XREF elements (those with data-type='xref') -->
   <x:scenario label="When *empty* XREF element is matched">
     <x:context select="(//h:section//h:a[@data-type='xref'])[1]">
@@ -1009,6 +1030,37 @@ sidebar
       <x:expect label="Class attribute should be preserved as is" test="exists(//h:a[@class='underline'])"/>
     </x:scenario>
 
+  </x:scenario>
+
+  <!-- Tests for data-xref-pagenum-style -->
+  <!-- Use global param xref.pagenum.style.for.section.by.data-type set above -->
+  <x:scenario label="XREF to a chapter">
+    <x:context mode="xref-pagenum-style">
+      <section data-type="chapter"/>
+    </x:context>
+    <x:expect label="should return the correct xref-pagenum-style">decimal</x:expect>
+  </x:scenario>
+
+  <x:scenario label="XREF to a preface">
+    <x:context mode="xref-pagenum-style">
+      <section data-type="preface"/>
+    </x:context>
+    <x:expect label="should return the correct xref-pagenum-style">lower-roman</x:expect>
+  </x:scenario>
+
+  <x:scenario label="When a specific pagenum style is passed to xref-pagenum-style">
+    <x:context mode="xref-pagenum-style">
+      <section data-type="chapter"/>
+      <x:param name="xref.pagenum.style">upper-roman</x:param>
+    </x:context>
+    <x:expect label="correct pagenum style should be returned">upper-roman</x:expect>
+  </x:scenario>
+
+  <x:scenario label="XREF to an element without predefined xref-pagenum-style">
+    <x:context mode="xref-pagenum-style">
+      <span/>
+    </x:context>
+    <x:expect label="should return the default xref-pagenum-style of decimal">decimal</x:expect>
   </x:scenario>
 
   <!-- Tests for whether an HREF is considered to be an XREF (link within the same corpus) -->

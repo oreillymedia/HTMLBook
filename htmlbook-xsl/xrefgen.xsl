@@ -137,6 +137,38 @@
     </xsl:choose>
   </xsl:template>
 
+  <!-- Handling for generating values for data-xref-pagenum attribute -->
+  <!-- Override with element-specific templates as needed -->
+  <!-- target-node = target element referenced by XREF -->
+  <xsl:template match="*" mode="xref-pagenum-style">
+    <xsl:param name="target-node" select="."/>
+    <xsl:param name="xref.pagenum.style"/>
+    <xsl:choose>
+      <!-- If an xref-pagenum-style is explicitly passed in, use that -->
+      <xsl:when test="$xref.pagenum.style != ''">
+	<xsl:value-of select="$xref.pagenum.style"/>
+      </xsl:when>
+      <!-- Use xref.pagenum.style.for.section.by.data-type param for determining section pagenum style -->
+      <xsl:when test="$target-node[self::h:section]">
+	<xsl:variable name="pagenum-style">
+	  <xsl:call-template name="get-param-value-from-key">
+	    <xsl:with-param name="parameter" select="$xref.pagenum.style.for.section.by.data-type"/>
+	    <xsl:with-param name="key" select="$target-node/@data-type"/>
+	  </xsl:call-template>
+	</xsl:variable>
+	<xsl:choose>
+	  <xsl:when test="normalize-space($pagenum-style) != ''">
+	    <xsl:value-of select="$pagenum-style"/>
+	  </xsl:when>
+	  <!-- Default to decimal -->
+	  <xsl:otherwise>decimal</xsl:otherwise>
+	</xsl:choose>
+      </xsl:when>
+      <!-- Default to decimal -->
+      <xsl:otherwise>decimal</xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
   <!-- Adapted from docbook-xsl templates in xhtml/xref.xsl -->
   <xsl:template match="*" mode="xref-to">
     <xsl:param name="referrer"/>
