@@ -137,6 +137,29 @@ sect4:xref
 sect5:xref
   </xsl:param>
 
+<!-- Valid pagenum styles correspond to valid counter/list-style-type styles (http://www.w3.org/TR/2011/REC-CSS2-20110607/generate.html#propdef-list-style-type)
+     decimal, decimal-leading-zero, lower-roman, upper-roman, georgian, armenian 
+-->
+<xsl:param name="xref.pagenum.style.for.section.by.data-type">
+acknowledgments:decimal
+afterword:decimal
+appendix:decimal
+bibliography:decimal
+chapter:decimal
+colophon:decimal
+conclusion:decimal
+copyright-page:decimal
+dedication:lower-roman
+foreword:lower-roman
+glossary:decimal
+halftitlepage:lower-roman
+index:decimal
+introduction:decimal
+preface:lower-roman
+titlepage:lower-roman
+toc:lower-roman
+</xsl:param>
+
   <!-- Render @href text in parens following <a> element for external hyperlinks; useful for print outputs -->
   <xsl:param name="url.in.parens" select="1"/>
 

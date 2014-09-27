@@ -30,7 +30,7 @@
       </xsl:call-template>
     </xsl:variable>
     <xsl:copy>
-      <xsl:apply-templates select="@*[not(name(.) = 'href')]"/>
+      <xsl:apply-templates select="@*[not(name(.) = 'href' or name(.) = 'data-xref-pagenum-style')]"/>
       <xsl:attribute name="href">
 	<xsl:value-of select="$calculated-output-href"/>
       </xsl:attribute>
@@ -38,9 +38,15 @@
 	  <!-- Generate XREF text node if $autogenerate-xrefs is enabled -->
 	  <xsl:when test="($autogenerate-xrefs = 1) and ($is-xref = 1)">
 	    <xsl:choose>
-	      <!-- If we can locate the target, reprocess class attribute to add "pagenum" if needed, and process gentext with "xref-to" -->
+	      <!-- If we can locate the target, add data-xref-pagenum-style attr, reprocess class attribute to add "pagenum" if needed, and process gentext with "xref-to" -->
 	      <xsl:when test="count(key('id', $href-anchor)) > 0">
 		<xsl:variable name="target" select="key('id', $href-anchor)[1]"/>
+		<xsl:attribute name="data-xref-pagenum-style">
+		  <xsl:apply-templates select="$target" mode="xref-pagenum-style">
+		    <xsl:with-param name="target-node" select="$target"/>
+		    <xsl:with-param name="xref.pagenum.style" select="@data-xref-pagenum-style"/>
+		  </xsl:apply-templates>
+		</xsl:attribute>
 		<xsl:apply-templates select="." mode="class.attribute">
 		  <xsl:with-param name="xref.elements.pagenum.in.class" select="$xref.elements.pagenum.in.class"/>
 		  <xsl:with-param name="xref.target" select="$target"/>

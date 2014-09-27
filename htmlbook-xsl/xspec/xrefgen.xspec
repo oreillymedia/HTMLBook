@@ -59,7 +59,7 @@ toc:lower-roman
       <!-- Content based on params set globally for this spec doc and localization gentext -->
       <!-- If localizations change, test may produce false negative -->
       <x:expect label="XREF text node should be generated with proper content">
-	<a data-type="xref" href="...">Chapter 1</a>
+	<a data-type="xref" href="..." data-xref-pagenum-style="...">Chapter 1</a>
       </x:expect>
     </x:scenario>    
   </x:scenario>
@@ -87,7 +87,7 @@ toc:lower-roman
       <!-- Content based on params set globally for this spec doc and localization gentext -->
       <!-- If localizations change, test may produce false negative -->
       <x:expect label="XREF text node should be generated with proper content">
-	<a data-type="xref" href="...">Chapter 1</a>
+	<a data-type="xref" href="..." data-xref-pagenum-style="...">Chapter 1</a>
       </x:expect>
     </x:scenario>
   </x:scenario>
@@ -107,7 +107,7 @@ toc:lower-roman
       <!-- Content based on params set globally for this spec doc and localization gentext -->
       <!-- If localizations change, test may produce false negative -->
       <x:expect label="XREF text node should be generated with proper content">
-	<a data-type="xref" id="empty_another_file" href="...">Chapter 1</a>
+	<a data-type="xref" id="empty_another_file" href="..." data-xref-pagenum-style="...">Chapter 1</a>
       </x:expect>
     </x:scenario>
 
@@ -116,7 +116,7 @@ toc:lower-roman
       <!-- Content based on params set globally for this spec doc and localization gentext -->
       <!-- If localizations change, test may produce false negative -->
       <x:expect label="XREF text node should be generated with proper content">
-	<a data-type="xref" id="nonempty_another_file" href="...">Chapter 1</a>
+	<a data-type="xref" id="nonempty_another_file" href="..." data-xref-pagenum-style="...">Chapter 1</a>
       </x:expect>
     </x:scenario>
 
@@ -212,7 +212,7 @@ toc:lower-roman
       <!-- Content based on params set globally for this spec doc and localization gentext -->
       <!-- If localizations change, test may produce false negative -->
       <x:expect label="Text node should be updated with proper gentext">
-	<a id="no_data_type_no_text" href="...">Chapter 1</a>
+	<a id="no_data_type_no_text" href="..." data-xref-pagenum-style="...">Chapter 1</a>
       </x:expect>
     </x:scenario>
 
@@ -265,14 +265,14 @@ toc:lower-roman
     <x:scenario label="And the XREF contains no text node">
       <x:context select="//h:a[@id='no_text_node']"/>
       <x:expect label="href attribute should be processed as expected">
-	<a data-type="xref" id="no_text_node" href="#chapter1">...</a>
+	<a data-type="xref" id="no_text_node" href="#chapter1" data-xref-pagenum-style="...">...</a>
       </x:expect>
     </x:scenario>
 
     <x:scenario label="And the XREF contains a text node">
       <x:context select="//h:a[@id='text_node']"/>
       <x:expect label="href attribute should be processed as expected">
-	<a id="text_node" data-type="xref" href="#chapter1">...</a>
+	<a id="text_node" data-type="xref" href="#chapter1" data-xref-pagenum-style="...">...</a>
       </x:expect>
     </x:scenario>
   </x:scenario>
@@ -287,14 +287,14 @@ toc:lower-roman
     <x:scenario label="And the XREF contains no text node">
       <x:context select="//h:a[@id='no_text_node']"/>
       <x:expect label="href attribute should be processed as expected">
-	<a data-type="xref" id="no_text_node" href="#chapter1">...</a>
+	<a data-type="xref" id="no_text_node" href="#chapter1" data-xref-pagenum-style="...">...</a>
       </x:expect>
     </x:scenario>
 
     <x:scenario label="And the XREF contains a text node">
       <x:context select="//h:a[@id='text_node']"/>
       <x:expect label="href attribute should be processed as expected">
-	<a id="text_node" data-type="xref" href="#chapter1">...</a>
+	<a id="text_node" data-type="xref" href="#chapter1" data-xref-pagenum-style="...">...</a>
       </x:expect>
     </x:scenario>
   </x:scenario>
@@ -309,14 +309,14 @@ toc:lower-roman
     <x:scenario label="And the XREF contains no text node">
       <x:context select="//h:a[@id='no_text_node']"/>
       <x:expect label="href attribute should be processed as expected">
-	<a data-type="xref" id="no_text_node" href="#chapter1">...</a>
+	<a data-type="xref" id="no_text_node" href="#chapter1" data-xref-pagenum-style="...">...</a>
       </x:expect>
     </x:scenario>
 
     <x:scenario label="And the XREF contains a text node">
       <x:context select="//h:a[@id='text_node']"/>
       <x:expect label="href attribute should be processed as expected">
-	<a id="text_node" data-type="xref" href="#chapter1">...</a>
+	<a id="text_node" data-type="xref" href="#chapter1" data-xref-pagenum-style="...">...</a>
       </x:expect>
     </x:scenario>
   </x:scenario>
@@ -433,7 +433,7 @@ toc:lower-roman
     <x:scenario label="And the 'a' contains no text node">
       <x:context select="//h:a[@id='no_text_node']"/>
       <x:expect label="href attribute should be processed as expected">
-	<a id="no_text_node" href="#chapter1">...</a>
+	<a id="no_text_node" href="#chapter1" data-xref-pagenum-style="...">...</a>
       </x:expect>
     </x:scenario>
 
@@ -472,7 +472,7 @@ toc:lower-roman
     <x:scenario label="And the 'a' contains no text node">
       <x:context select="//h:a[@id='no_text_node']"/>
       <x:expect label="href attribute should be processed as expected">
-	<a id="no_text_node" href="#chapter1">...</a>
+	<a id="no_text_node" href="#chapter1" data-xref-pagenum-style="...">...</a>
       </x:expect>
     </x:scenario>
 
@@ -511,7 +511,7 @@ toc:lower-roman
     <x:scenario label="And the 'a' contains no text node">
       <x:context select="//h:a[@id='no_text_node']"/>
       <x:expect label="href attribute should be processed as expected">
-	<a id="no_text_node" href="#chapter1">...</a>
+	<a id="no_text_node" href="#chapter1" data-xref-pagenum-style="...">...</a>
       </x:expect>
     </x:scenario>
 
@@ -719,6 +719,66 @@ toc:lower-roman
     </x:scenario>
 
   </x:scenario>
+
+  <!-- Handling for data-xref-pagenum-style attrs -->
+  <!-- Tests based on global param values set in xref.pagenum.style.for.section.by.data-type above --> 
+  <x:scenario label="When an XREF is matched">
+    <x:context>
+      <section data-type="preface" id="cool_preface">
+	<h1>Preface Title</h1>
+	<p>Cool preface</p>
+      </section>
+      <section data-type="chapter" id="cool_chapter">
+	<h1>Chapter Title</h1>
+	<p>Cool chapter</p>
+	<figure id="cool_figure">
+	  <img src="coolness.png"/>
+	  <figcaption>Cool figure</figcaption>
+	</figure>
+	<p>Now here are the XREFs:</p>
+	<p>XREF to preface: <a id="preface_xref" data-type="xref" href="#cool_preface"/></p>
+	<p>XREF to chapter: <a id="chapter_xref" data-type="xref" href="#cool_chapter"/></p>
+	<p>XREF to figure (default pagenum-style): <a id="figure_xref" data-type="xref" href="#cool_figure"/></p>
+	<p>XREF with custom pagenum-style: <a id="custom_pagenum_xref" data-type="xref" href="#cool_chapter" data-xref-pagenum-style="upper-roman"/></p>
+	<p>"Stealth" XREF: <a id="stealth_xref" href="#cool_preface"/></p>
+      </section>
+    </x:context>
+
+    <x:scenario label="With a preface target">
+      <x:context select="(//h:a[@id='preface_xref'])[1]"/>
+      <x:expect label="Correct data-xref-pagenum-style should be returned">
+	<a id="preface_xref" href="..." data-type="xref" data-xref-pagenum-style="lower-roman">...</a>
+      </x:expect>
+    </x:scenario>
+
+    <x:scenario label="With a preface target (stealth XREF)">
+      <x:context select="(//h:a[@id='stealth_xref'])[1]"/>
+      <x:expect label="Correct data-xref-pagenum-style should be returned (default)">
+	<a id="stealth_xref" href="..." data-xref-pagenum-style="lower-roman">...</a>
+      </x:expect>
+    </x:scenario>
+
+    <x:scenario label="With a chapter target">
+      <x:context select="(//h:a[@id='chapter_xref'])[1]"/>
+      <x:expect label="Correct data-xref-pagenum-style should be returned">
+	<a id="chapter_xref" href="..." data-type="xref" data-xref-pagenum-style="decimal">...</a>
+      </x:expect>
+    </x:scenario>
+
+    <x:scenario label="With a figure target">
+      <x:context select="(//h:a[@id='figure_xref'])[1]"/>
+      <x:expect label="Correct data-xref-pagenum-style should be returned (default)">
+	<a id="figure_xref" href="..." data-type="xref" data-xref-pagenum-style="decimal">...</a>
+      </x:expect>
+    </x:scenario>
+
+    <x:scenario label="With a custom data-xref-pagenum-style attr">
+      <x:context select="(//h:a[@id='custom_pagenum_xref'])[1]"/>
+      <x:expect label="Correct data-xref-pagenum-style should be returned (default)">
+	<a id="custom_pagenum_xref" href="..." data-type="xref" data-xref-pagenum-style="upper-roman">...</a>
+      </x:expect>
+    </x:scenario>
+  </x:scenario>
   
   <!-- Handling for print URLs (url.in.parens) -->
   <x:scenario label="If external hyperlink 'a' element is matched">
@@ -739,6 +799,10 @@ toc:lower-roman
         <p><a id="email_me" href="mailto:tools@oreilly.com">tools@oreilly.com</a></p>
       </section>
     </x:context>
+
+    <x:scenario label="(not XREF mode)">
+      <x:expect label="No data-xref-pagenum-style attribute should be added" test="not(exists(//h:a[@data-xref-pagenum-style]))"/>
+    </x:scenario>
 
     <x:scenario label="with url.in.parens disabled (hyperlink different text node from href)">
       <x:context select="//h:a[@id='hyperlink_different_text_node']">
@@ -944,6 +1008,8 @@ toc:lower-roman
         ...
       </pre>
     </x:context>
+
+    <x:expect label="No data-xref-pagenum-style attribute should be added" test="not(exists(//h:a[@data-xref-pagenum-style]))"/>
 
     <x:scenario label="with url.in.parens disabled (callout stealth XREF; XREF with no data-type)">
       <x:context>
