@@ -426,7 +426,7 @@
   <xsl:param name="role" select="''"/>
   <xsl:param name="type" select="''"/>
   <xsl:param name="position"/>
-  <xsl:param name="autogenerate.xref.pagenum" select="$autogenerate.xref.pagenum"/>
+  <xsl:param name="autogenerate.xref.pagenum.style" select="$autogenerate.xref.pagenum.style"/>
   <!-- BEGIN ORM OVERRIDE -->
   <!-- Adding back in separator param -->
   <xsl:param name="separator" select="''"/>
@@ -481,7 +481,7 @@
           <xsl:apply-templates select="(ancestor-or-self::h:nav|ancestor-or-self::h:div[@data-type='part']|ancestor-or-self::h:section)[last()]" mode="title.markup"/>
         </xsl:variable>
 
-	<xsl:if test="$autogenerate.xref.pagenum = 1">
+	<xsl:if test="$autogenerate.xref.pagenum.style = 1">
 	  <!-- Add data-xref-pagenum-style attribute -->
 	  <xsl:attribute name="data-xref-pagenum-style">
 	    <xsl:variable name="parent-section" select="(ancestor-or-self::h:nav|ancestor-or-self::h:div[@data-type='part']|ancestor-or-self::h:section)[last()]"/>
@@ -533,7 +533,7 @@
   <xsl:param name="type" select="''"/>
   <xsl:param name="zones"/>
   <xsl:param name="position"/>
-  <xsl:param name="autogenerate.xref.pagenum" select="$autogenerate.xref.pagenum"/>
+  <xsl:param name="autogenerate.xref.pagenum.style" select="$autogenerate.xref.pagenum.style"/>
 
   <xsl:choose>
     <xsl:when test="contains($zones, ' ')">
@@ -542,7 +542,7 @@
 
       <a data-type="index:locator"> <!-- From EPUB Indexes Specification -->
 
-	<xsl:if test="$autogenerate.xref.pagenum = 1">
+	<xsl:if test="$autogenerate.xref.pagenum.style = 1">
 	  <!-- Add data-xref-pagenum-style attribute -->
 	  <xsl:attribute name="data-xref-pagenum-style">
 	    <xsl:variable name="parent-section" select="(ancestor-or-self::h:nav|ancestor-or-self::h:div[@data-type='part']|ancestor-or-self::h:section)[last()]"/>
@@ -577,7 +577,7 @@
 
       <a data-type="index.locator"> <!-- From EPUB Indexes Specification -->
 
-	<xsl:if test="$autogenerate.xref.pagenum = 1">
+	<xsl:if test="$autogenerate.xref.pagenum.style = 1">
 	  <!-- Add data-xref-pagenum-style attribute -->
 	  <xsl:attribute name="data-xref-pagenum-style">
 	    <xsl:variable name="parent-section" select="(ancestor-or-self::h:nav|ancestor-or-self::h:div[@data-type='part']|ancestor-or-self::h:section)[last()]"/>

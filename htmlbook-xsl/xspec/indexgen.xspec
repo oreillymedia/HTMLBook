@@ -21,16 +21,16 @@
       </section>
     </x:context>
 
-    <x:scenario label="With autogenerate.xref.pagenum turned off">
+    <x:scenario label="With autogenerate.xref.pagenum.style turned off">
       <x:context select="(//h:a[@data-type='indexterm'])[1]" mode="reference">
-	<x:param name="autogenerate.xref.pagenum" select="0"/>
+	<x:param name="autogenerate.xref.pagenum.style" select="0"/>
       </x:context>
       <x:expect label="No indexentry XREFs should have data-xref-pagenum-style attributes" test="not(exists($x:result[@data-xref-pagenum-style]))"/>
     </x:scenario>
 
-    <x:scenario label="With autogenerate.xref.pagenum turned on">
+    <x:scenario label="With autogenerate.xref.pagenum.style turned on">
       <x:context>
-	<x:param name="autogenerate.xref.pagenum" select="1"/>
+	<x:param name="autogenerate.xref.pagenum.style" select="1"/>
       </x:context>	
       <x:expect label="All indexentry XREFs should have data-xref-pagenum-style attributes" test="count(//h:a) &gt; 0 and not(exists(//h:a[not(@data-xref-pagenum-style)]))"/>
     </x:scenario>

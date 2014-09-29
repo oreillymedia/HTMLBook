@@ -17,7 +17,7 @@
   <xsl:template match="h:a[contains(@data-type, 'xref')]" name="process-as-xref">
     <xsl:param name="autogenerate-xrefs" select="$autogenerate-xrefs"/>
     <xsl:param name="xref.elements.pagenum.in.class" select="$xref.elements.pagenum.in.class"/>
-    <xsl:param name="autogenerate.xref.pagenum" select="$autogenerate.xref.pagenum"/>
+    <xsl:param name="autogenerate.xref.pagenum.style" select="$autogenerate.xref.pagenum.style"/>
 
     <xsl:variable name="calculated-output-href">
       <xsl:call-template name="calculate-output-href">
@@ -42,7 +42,7 @@
 	      <!-- If we can locate the target, add data-xref-pagenum-style attr, reprocess class attribute to add "pagenum" if needed, and process gentext with "xref-to" -->
 	      <xsl:when test="count(key('id', $href-anchor)) > 0">
 		<xsl:variable name="target" select="key('id', $href-anchor)[1]"/>
-		<xsl:if test="$autogenerate.xref.pagenum = 1">
+		<xsl:if test="$autogenerate.xref.pagenum.style = 1">
 		  <xsl:attribute name="data-xref-pagenum-style">
 		    <xsl:apply-templates select="$target" mode="xref-pagenum-style">
 		      <xsl:with-param name="target-node" select="$target"/>
