@@ -137,6 +137,9 @@ sect4:xref
 sect5:xref
   </xsl:param>
 
+<!-- Autogenerate data-xref-pagenum-style attributes; useful for paged output (e.g., PDF) -->
+<xsl:param name="autogenerate.xref.pagenum" select="1"/>
+
 <!-- Valid pagenum styles correspond to valid counter/list-style-type styles (http://www.w3.org/TR/2011/REC-CSS2-20110607/generate.html#propdef-list-style-type)
      decimal, decimal-leading-zero, lower-roman, upper-roman, georgian, armenian 
 -->

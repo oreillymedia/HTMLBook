@@ -6,24 +6,43 @@
 	       xmlns:h="http://www.w3.org/1999/xhtml"
                stylesheet="../htmlbook.xsl">
 
+  <x:param name="autogenerate-index" select="1"/>
+  <x:param name="index-placeholder-overwrite-contents" select="1"/>
+
   <x:scenario label="When matching any Index 'section'">
-    <x:context>
+    <x:context select="(//h:section[@data-type='index'])[1]">
+      <section data-type="chapter">
+	<h1>Index Feeder</h1>
+	<p>Let's add some indexterms: <a data-type="indexterm" data-primary="HTML"/><a data-type="indexterm" data-primary="CSS"/></p>
+      </section>
       <section data-type="index" id="indexid">
 	<h1>Index heading</h1>
 	<p>There should hopefully be some index entries to follow</p>
       </section>
     </x:context>
 
+    <x:scenario label="With autogenerate.xref.pagenum turned off">
+      <x:context select="(//h:a[@data-type='indexterm'])[1]" mode="reference">
+	<x:param name="autogenerate.xref.pagenum" select="0"/>
+      </x:context>
+      <x:expect label="No indexentry XREFs should have data-xref-pagenum-style attributes" test="not(exists($x:result[@data-xref-pagenum-style]))"/>
+    </x:scenario>
+
+    <x:scenario label="With autogenerate.xref.pagenum turned on">
+      <x:context>
+	<x:param name="autogenerate.xref.pagenum" select="1"/>
+      </x:context>	
+      <x:expect label="All indexentry XREFs should have data-xref-pagenum-style attributes" test="count(//h:a) &gt; 0 and not(exists(//h:a[not(@data-xref-pagenum-style)]))"/>
+    </x:scenario>
+
     <x:scenario label="With html4.structural.elements turned off">
       <x:context>
         <x:param name="html4.structural.elements" select="0"/>
       </x:context>
       <x:expect label="Element tagging and attributes should be preserved as is">
-	<section data-type="index" id="indexid">
-	  <h1>Index heading</h1>
-	  <p>There should hopefully be some index entries to follow</p>
-	</section>
+	<section data-type="index" id="indexid">...</section>
       </x:expect>
+      <x:expect label="There should be no div for backward compatibility in the output" test="not(exists($x:result[.//h:div[@class='index']]))"/>
     </x:scenario>
     
     <x:scenario label="With html4.structural.elements turned on">
@@ -36,6 +55,7 @@
 	</section>
       </x:expect>
     </x:scenario>
+
   </x:scenario>
 
 </x:description>

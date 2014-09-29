@@ -426,6 +426,7 @@
   <xsl:param name="role" select="''"/>
   <xsl:param name="type" select="''"/>
   <xsl:param name="position"/>
+  <xsl:param name="autogenerate.xref.pagenum" select="$autogenerate.xref.pagenum"/>
   <!-- BEGIN ORM OVERRIDE -->
   <!-- Adding back in separator param -->
   <xsl:param name="separator" select="''"/>
@@ -480,6 +481,17 @@
           <xsl:apply-templates select="(ancestor-or-self::h:nav|ancestor-or-self::h:div[@data-type='part']|ancestor-or-self::h:section)[last()]" mode="title.markup"/>
         </xsl:variable>
 
+	<xsl:if test="$autogenerate.xref.pagenum = 1">
+	  <!-- Add data-xref-pagenum-style attribute -->
+	  <xsl:attribute name="data-xref-pagenum-style">
+	    <xsl:variable name="parent-section" select="(ancestor-or-self::h:nav|ancestor-or-self::h:div[@data-type='part']|ancestor-or-self::h:section)[last()]"/>
+	    <xsl:apply-templates select="$parent-section" mode="xref-pagenum-style">
+	      <xsl:with-param name="target-node" select="$parent-section"/>
+	      <xsl:with-param name="xref.pagenum.style" select="@data-xref-pagenum-style"/>
+	    </xsl:apply-templates>
+	  </xsl:attribute>
+	</xsl:if>
+
         <xsl:attribute name="href">
           <xsl:choose>
             <xsl:when test="$index.links.to.section = 1">
@@ -521,6 +533,7 @@
   <xsl:param name="type" select="''"/>
   <xsl:param name="zones"/>
   <xsl:param name="position"/>
+  <xsl:param name="autogenerate.xref.pagenum" select="$autogenerate.xref.pagenum"/>
 
   <xsl:choose>
     <xsl:when test="contains($zones, ' ')">
@@ -528,12 +541,25 @@
       <xsl:variable name="target" select="key('sections', $zone)"/>
 
       <a data-type="index:locator"> <!-- From EPUB Indexes Specification -->
+
+	<xsl:if test="$autogenerate.xref.pagenum = 1">
+	  <!-- Add data-xref-pagenum-style attribute -->
+	  <xsl:attribute name="data-xref-pagenum-style">
+	    <xsl:variable name="parent-section" select="(ancestor-or-self::h:nav|ancestor-or-self::h:div[@data-type='part']|ancestor-or-self::h:section)[last()]"/>
+	    <xsl:apply-templates select="$parent-section" mode="xref-pagenum-style">
+	      <xsl:with-param name="target-node" select="$parent-section"/>
+	      <xsl:with-param name="xref.pagenum.style" select="@data-xref-pagenum-style"/>
+	    </xsl:apply-templates>
+	  </xsl:attribute>
+	</xsl:if>
+
         <xsl:attribute name="href">
           <xsl:call-template name="href.target">
             <xsl:with-param name="object" select="$target[1]"/>
             <xsl:with-param name="context" select="//h:section[@data-type='index'][count(ancestor::node()|$scope) = count(ancestor::node()) and ($role = @role or $type = @type or (string-length($role) = 0 and string-length($type) = 0))][1]"/>
           </xsl:call-template>
         </xsl:attribute>
+
         <xsl:apply-templates select="$target[1]" mode="index-title-content"/>
       </a>
       <xsl:text>, </xsl:text>
@@ -550,6 +576,18 @@
       <xsl:variable name="target" select="key('sections', $zone)"/>
 
       <a data-type="index.locator"> <!-- From EPUB Indexes Specification -->
+
+	<xsl:if test="$autogenerate.xref.pagenum = 1">
+	  <!-- Add data-xref-pagenum-style attribute -->
+	  <xsl:attribute name="data-xref-pagenum-style">
+	    <xsl:variable name="parent-section" select="(ancestor-or-self::h:nav|ancestor-or-self::h:div[@data-type='part']|ancestor-or-self::h:section)[last()]"/>
+	    <xsl:apply-templates select="$parent-section" mode="xref-pagenum-style">
+	      <xsl:with-param name="target-node" select="$parent-section"/>
+	      <xsl:with-param name="xref.pagenum.style" select="@data-xref-pagenum-style"/>
+	    </xsl:apply-templates>
+	  </xsl:attribute>
+	</xsl:if>
+
         <xsl:attribute name="href">
           <xsl:call-template name="href.target">
             <xsl:with-param name="object" select="$target[1]"/>
