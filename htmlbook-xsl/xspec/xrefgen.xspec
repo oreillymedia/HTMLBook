@@ -11,6 +11,10 @@
   <!-- Globally setting url.in.parens to 0 here; tests for url.in.parens handling below modify param value on a oneoff basis -->
   <x:param name="url.in.parens" select="0"/>
 
+  <!-- Globally setting autogenerate.xref.pagenum to be 1 here; specific tests for data-xref-pagenum-style handling below modify
+       param value on a oneoff basis -->
+  <x:param name="autogenerate.xref.pagenum" select="1"/>
+
   <!-- Globally setting xref.elements.pagenum.in.class to be empty here; specific tests for pagenum class handling below modify param value on a oneoff basis -->
   <x:param name="xref.elements.pagenum.in.class"/>
 
@@ -775,6 +779,22 @@ toc:lower-roman
     <x:scenario label="With a custom data-xref-pagenum-style attr">
       <x:context select="(//h:a[@id='custom_pagenum_xref'])[1]"/>
       <x:expect label="Correct data-xref-pagenum-style should be returned (default)">
+	<a id="custom_pagenum_xref" href="..." data-type="xref" data-xref-pagenum-style="upper-roman">...</a>
+      </x:expect>
+    </x:scenario>
+
+    <x:scenario label="With autogenerate.xref.pagenum turned off">
+      <x:context select="(//h:a[@id='preface_xref'])[1]">
+	<x:param name="autogenerate.xref.pagenum" select="0"/>
+      </x:context>
+      <x:expect label="No data-xref-pagenum-style should be added" test="not(exists($x:result[@data-xref-pagenum-style]))"/>
+    </x:scenario>
+
+    <x:scenario label="With autogenerate.xref.pagenum turned off (hardcoded data-xref-pagenum-style attr)">
+      <x:context select="(//h:a[@id='custom_pagenum_xref'])[1]">
+	<x:param name="autogenerate.xref.pagenum" select="0"/>
+      </x:context>
+      <x:expect label="Existing data-xref-pagenum-style should be preserved">
 	<a id="custom_pagenum_xref" href="..." data-type="xref" data-xref-pagenum-style="upper-roman">...</a>
       </x:expect>
     </x:scenario>
