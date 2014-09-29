@@ -39,7 +39,7 @@
 	  <!-- Generate XREF text node if $autogenerate-xrefs is enabled -->
 	  <xsl:when test="($autogenerate-xrefs = 1) and ($is-xref = 1)">
 	    <xsl:choose>
-	      <!-- If we can locate the target, add data-xref-pagenum-style attr, reprocess class attribute to add "pagenum" if needed, and process gentext with "xref-to" -->
+	      <!-- If we can locate the target, add data-xref-pagenum-style attr if autogenerate.xref.pagenum.style is enabled, reprocess class attribute to add "pagenum" if needed, and process gentext with "xref-to" -->
 	      <xsl:when test="count(key('id', $href-anchor)) > 0">
 		<xsl:variable name="target" select="key('id', $href-anchor)[1]"/>
 		<xsl:if test="$autogenerate.xref.pagenum.style = 1">
