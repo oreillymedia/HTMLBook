@@ -60,6 +60,9 @@ sect5:s
   <!-- Chunked output typically not used for print output, so disabling addition of "pagenum" classes on all XREFs -->
   <xsl:param name="xref.elements.pagenum.in.class"/>
 
+  <!-- Chunked output typically not used for print output, so disabling addition of data-xref-pagenum-style attrs on all XREFs (including index locators -->
+  <xsl:param name="autogenerate.xref.pagenum.style" select="0"/>
+
   <xsl:template match="/h:html">
     <xsl:apply-templates select="h:body"/>
   </xsl:template>
@@ -327,6 +330,7 @@ sect5:s
   <xsl:template match="h:a[contains(@data-type, 'xref')]" name="process-as-xref">
     <xsl:param name="autogenerate-xrefs" select="$autogenerate-xrefs"/>
     <xsl:param name="xref.elements.pagenum.in.class" select="$xref.elements.pagenum.in.class"/>
+    <xsl:param name="autogenerate.xref.pagenum.style" select="$autogenerate.xref.pagenum.style"/>
 
     <xsl:variable name="calculated-output-href">
       <xsl:call-template name="calculate-output-href">
@@ -344,7 +348,15 @@ sect5:s
       <xsl:choose>
 	<xsl:when test="(count(key('id', $href-anchor)) &gt; 0) and ($is-xref = 1)">
 	  <xsl:variable name="target" select="key('id', $href-anchor)[1]"/>
-	  <!-- If we can locate the target, reprocess class attribute to add "pagenum" class value if needed -->
+	  <!-- If we can locate the target, add data-xref-pagenum-style attr if autogenerate.xref.pagenum.style is enabled, reprocess class attribute to add "pagenum" class value if needed -->
+	  <xsl:if test="$autogenerate.xref.pagenum.style = 1">
+	    <xsl:attribute name="data-xref-pagenum-style">
+	      <xsl:apply-templates select="$target" mode="xref-pagenum-style">
+		<xsl:with-param name="target-node" select="$target"/>
+		<xsl:with-param name="xref.pagenum.style" select="@data-xref-pagenum-style"/>
+	      </xsl:apply-templates>
+	    </xsl:attribute>
+	  </xsl:if>
 	  <xsl:apply-templates select="." mode="class.attribute">
 	    <xsl:with-param name="xref.elements.pagenum.in.class" select="$xref.elements.pagenum.in.class"/>
 	    <xsl:with-param name="xref.target" select="$target"/>

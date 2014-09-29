@@ -17,6 +17,7 @@
   <xsl:template match="h:a[contains(@data-type, 'xref')]" name="process-as-xref">
     <xsl:param name="autogenerate-xrefs" select="$autogenerate-xrefs"/>
     <xsl:param name="xref.elements.pagenum.in.class" select="$xref.elements.pagenum.in.class"/>
+    <xsl:param name="autogenerate.xref.pagenum.style" select="$autogenerate.xref.pagenum.style"/>
 
     <xsl:variable name="calculated-output-href">
       <xsl:call-template name="calculate-output-href">
@@ -38,9 +39,17 @@
 	  <!-- Generate XREF text node if $autogenerate-xrefs is enabled -->
 	  <xsl:when test="($autogenerate-xrefs = 1) and ($is-xref = 1)">
 	    <xsl:choose>
-	      <!-- If we can locate the target, reprocess class attribute to add "pagenum" if needed, and process gentext with "xref-to" -->
+	      <!-- If we can locate the target, add data-xref-pagenum-style attr if autogenerate.xref.pagenum.style is enabled, reprocess class attribute to add "pagenum" if needed, and process gentext with "xref-to" -->
 	      <xsl:when test="count(key('id', $href-anchor)) > 0">
 		<xsl:variable name="target" select="key('id', $href-anchor)[1]"/>
+		<xsl:if test="$autogenerate.xref.pagenum.style = 1">
+		  <xsl:attribute name="data-xref-pagenum-style">
+		    <xsl:apply-templates select="$target" mode="xref-pagenum-style">
+		      <xsl:with-param name="target-node" select="$target"/>
+		      <xsl:with-param name="xref.pagenum.style" select="@data-xref-pagenum-style"/>
+		    </xsl:apply-templates>
+		  </xsl:attribute>
+		</xsl:if>
 		<xsl:apply-templates select="." mode="class.attribute">
 		  <xsl:with-param name="xref.elements.pagenum.in.class" select="$xref.elements.pagenum.in.class"/>
 		  <xsl:with-param name="xref.target" select="$target"/>
@@ -134,6 +143,38 @@
 	  </xsl:if>
 	</xsl:if>
       </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
+  <!-- Handling for generating values for data-xref-pagenum attribute -->
+  <!-- Override with element-specific templates as needed -->
+  <!-- target-node = target element referenced by XREF -->
+  <xsl:template match="*" mode="xref-pagenum-style">
+    <xsl:param name="target-node" select="."/>
+    <xsl:param name="xref.pagenum.style"/>
+    <xsl:choose>
+      <!-- If an xref-pagenum-style is explicitly passed in, use that -->
+      <xsl:when test="$xref.pagenum.style != ''">
+	<xsl:value-of select="$xref.pagenum.style"/>
+      </xsl:when>
+      <!-- Use xref.pagenum.style.for.section.by.data-type param for determining section pagenum style -->
+      <xsl:when test="$target-node[self::h:section]">
+	<xsl:variable name="pagenum-style">
+	  <xsl:call-template name="get-param-value-from-key">
+	    <xsl:with-param name="parameter" select="$xref.pagenum.style.for.section.by.data-type"/>
+	    <xsl:with-param name="key" select="$target-node/@data-type"/>
+	  </xsl:call-template>
+	</xsl:variable>
+	<xsl:choose>
+	  <xsl:when test="normalize-space($pagenum-style) != ''">
+	    <xsl:value-of select="$pagenum-style"/>
+	  </xsl:when>
+	  <!-- Default to decimal -->
+	  <xsl:otherwise>decimal</xsl:otherwise>
+	</xsl:choose>
+      </xsl:when>
+      <!-- Default to decimal -->
+      <xsl:otherwise>decimal</xsl:otherwise>
     </xsl:choose>
   </xsl:template>
 
