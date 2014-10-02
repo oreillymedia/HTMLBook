@@ -152,32 +152,36 @@
   <xsl:template match="*" mode="xref-pagenum-style">
     <xsl:param name="target-node" select="."/>
     <xsl:param name="xref.pagenum.style"/>
-    <xsl:choose>
-      <!-- If an xref-pagenum-style is explicitly passed in, use that -->
-      <xsl:when test="$xref.pagenum.style != ''">
-	<xsl:value-of select="$xref.pagenum.style"/>
-      </xsl:when>
-      <!-- Use xref.pagenum.style.for.section.by.data-type param for determining section pagenum style -->
-      <xsl:when test="$target-node[self::h:section]">
-	<xsl:variable name="pagenum-style">
+    <xsl:variable name="pagenum-style">
+      <xsl:choose>
+	<!-- If an xref-pagenum-style is explicitly passed in, use that -->
+	<xsl:when test="$xref.pagenum.style != ''">
+	  <xsl:value-of select="$xref.pagenum.style"/>
+	</xsl:when>
+	<xsl:otherwise>
+	  <!-- Otherwise try using xref.pagenum.style.for.section.by.data-type param for determining section pagenum style -->
 	  <xsl:call-template name="get-param-value-from-key">
 	    <xsl:with-param name="parameter" select="$xref.pagenum.style.for.section.by.data-type"/>
 	    <xsl:with-param name="key" select="$target-node/@data-type"/>
 	  </xsl:call-template>
-	</xsl:variable>
-	<xsl:choose>
-	  <xsl:when test="normalize-space($pagenum-style) != ''">
-	    <xsl:value-of select="$pagenum-style"/>
-	  </xsl:when>
-	  <!-- Default to decimal -->
-	  <xsl:otherwise>decimal</xsl:otherwise>
-	</xsl:choose>
+	</xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
+    
+    <xsl:choose>
+      <!-- 1. If we found a pagenum.style, use that -->
+      <xsl:when test="normalize-space($pagenum-style) != ''">
+	<xsl:value-of select="normalize-space($pagenum-style)"/>
       </xsl:when>
-      <!-- Default to decimal -->
+      <!-- 2. If we didn't find a pagenum style, and target-node has a parent, call on parent node -->
+      <xsl:when test="$target-node[parent::*]">
+	<xsl:apply-templates select="$target-node/.." mode="xref-pagenum-style"/>
+      </xsl:when>
+      <!-- 3. Otherwise, if we didn't find a pagenum style, and no parent, use the default style (decimal) -->
       <xsl:otherwise>decimal</xsl:otherwise>
     </xsl:choose>
   </xsl:template>
-
+  
   <!-- Adapted from docbook-xsl templates in xhtml/xref.xsl -->
   <xsl:template match="*" mode="xref-to">
     <xsl:param name="referrer"/>
