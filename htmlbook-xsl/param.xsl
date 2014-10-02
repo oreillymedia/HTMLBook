@@ -143,6 +143,8 @@ sect5:xref
 <!-- Valid pagenum styles correspond to valid counter/list-style-type styles (http://www.w3.org/TR/2011/REC-CSS2-20110607/generate.html#propdef-list-style-type)
      decimal, decimal-leading-zero, lower-roman, upper-roman, georgian, armenian 
 -->
+<!-- Top-level sections listed here only; presumption is that pagenum type is set on top-level sections only,
+     and is inherited by lower-level sections -->
 <xsl:param name="xref.pagenum.style.for.section.by.data-type">
 acknowledgments:decimal
 afterword:decimal
@@ -158,6 +160,7 @@ glossary:decimal
 halftitlepage:lower-roman
 index:decimal
 introduction:decimal
+part:decimal
 preface:lower-roman
 titlepage:lower-roman
 toc:lower-roman

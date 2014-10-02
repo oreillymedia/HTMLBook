@@ -731,6 +731,10 @@ toc:lower-roman
       <section data-type="preface" id="cool_preface">
 	<h1>Preface Title</h1>
 	<p>Cool preface</p>
+	<section data-type="sect1" id="cool_sect1">
+	  <h1>Sect1 Title</h1>
+	  <p>Cool Sect1</p>
+	</section>
       </section>
       <section data-type="chapter" id="cool_chapter">
 	<h1>Chapter Title</h1>
@@ -742,6 +746,7 @@ toc:lower-roman
 	<p>Now here are the XREFs:</p>
 	<p>XREF to preface: <a id="preface_xref" data-type="xref" href="#cool_preface"/></p>
 	<p>XREF to chapter: <a id="chapter_xref" data-type="xref" href="#cool_chapter"/></p>
+	<p>XREF to sect1: <a id="sect1_xref" data-type="xref" href="#cool_sect1"/></p>
 	<p>XREF to figure (default pagenum-style): <a id="figure_xref" data-type="xref" href="#cool_figure"/></p>
 	<p>XREF with custom pagenum-style: <a id="custom_pagenum_xref" data-type="xref" href="#cool_chapter" data-xref-pagenum-style="upper-roman"/></p>
 	<p>"Stealth" XREF: <a id="stealth_xref" href="#cool_preface"/></p>
@@ -769,9 +774,16 @@ toc:lower-roman
       </x:expect>
     </x:scenario>
 
+    <x:scenario label="With a sect1 target">
+      <x:context select="(//h:a[@id='sect1_xref'])[1]"/>
+      <x:expect label="Correct data-xref-pagenum-style should be returned">
+	<a id="sect1_xref" href="..." data-type="xref" data-xref-pagenum-style="lower-roman">...</a>
+      </x:expect>
+    </x:scenario>
+
     <x:scenario label="With a figure target">
       <x:context select="(//h:a[@id='figure_xref'])[1]"/>
-      <x:expect label="Correct data-xref-pagenum-style should be returned (default)">
+      <x:expect label="Correct data-xref-pagenum-style should be returned">
 	<a id="figure_xref" href="..." data-type="xref" data-xref-pagenum-style="decimal">...</a>
       </x:expect>
     </x:scenario>
