@@ -601,11 +601,10 @@ Markdown&lt;span data-type="footnote"&gt;Totally made-up statistic&lt;/span&gt;&
         <p><strong>Notes</strong>:</p>
         <ul>
           <li>
-            <p>The <code>&lt;span&gt;</code> element does not accept block element children (and as of April 2014, nor does any other HTML5 element that can be used in an inline context and is an acceptable semantic fit for footnotes)). If you need to include multiple blocks of content in a footnote, use <code>&lt;br/&gt;</code> elements to delimit them, e.g.:</p>
-          </li>
+            <p>The <code>&lt;span&gt;</code> element does not accept block element children (and as of April 2014, nor does any other HTML5 element that can be used in an inline context and is an acceptable semantic fit for footnotes). If you need to include multiple blocks of content in a footnote, use <code>&lt;br/&gt;</code> elements to delimit them, e.g.:</p>
         <pre data-type="programlisting">&lt;p&gt;This is a really short paragraph.&lt;span data-type="footnote"&gt;Largely because I like 
 to put lots and lots of content in footnotes.&lt;br/&gt;&lt;br/&gt;
-For example, let me tell you a story about my dog...&lt;/span&gt;&lt;/p&gt;</pre>
+For example, let me tell you a story about my dog...&lt;/span&gt;&lt;/p&gt;</pre></li>
           <li>
             <p>Desired rendering of footnote content (i.e., floating/moving footnotes to the bottom of a page or end of a section, adding appropriate marker symbols/numeration) should be handled by XSL/CSS stylesheet processing.</p>
           </li>
@@ -670,8 +669,8 @@ sect4 title -&gt; h4
 sect5 title -&gt; h5
 sidebar title -&gt; h5</pre>
       </section>
-      <section data-type="sect1" id="header_block">
-	<h1>Header</h1>
+      <section data-type="sect2" id="header_block">
+	<h2>Header</h2>
 	<p><strong>HTML element</strong>: <code>&lt;header&gt;</code></p>
 	<p><strong>Content Model</strong>: A Heading element at the proper level designated (<code>h1</code>&ndash;<code>h5</code>) 
 	  for the parent Book Component, as outlined in the previous <a href="#_headings">Headings</a> section (e.g., an <code>&lt;h1&gt;</code> for a chapter <code>&lt;header&gt;</code>); then zero or more <code>&lt;p&gt;</code> elements for subtitles or author attributions, each of which must have a <code>data-type</code> of either <code>subtitle</code> or <code>author</code></p>
@@ -836,7 +835,7 @@ Canvas handling.</p>
             </p>
           </li>
           <li>
-            <p><code>&lt;math&gt;</code> (In MathML vocabulary; must be namespaced under <a href="http://www.w3.org/1998/Math/MathML)">http://www.w3.org/1998/Math/MathML)</a></p>
+            <p><code>&lt;math&gt;</code> (In MathML vocabulary; must be namespaced under <a href="http://www.w3.org/1998/Math/MathML">http://www.w3.org/1998/Math/MathML</a>)</p>
           </li>
           <li>
             <p>
@@ -864,7 +863,7 @@ Canvas handling.</p>
             </p>
           </li>
           <li>
-            <p><code>&lt;svg&gt;</code> (In SVG vocabulary; must be namespaced under <a href="http://www.w3.org/2000/svg)">http://www.w3.org/2000/svg)</a></p>
+            <p><code>&lt;svg&gt;</code> (In SVG vocabulary; must be namespaced under <a href="http://www.w3.org/2000/svg">http://www.w3.org/2000/svg</a>)</p>
           </li>
           <li>
             <p>
