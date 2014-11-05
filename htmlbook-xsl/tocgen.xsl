@@ -108,7 +108,7 @@
   <xsl:template name="toc-title">
     <!-- Override if you want a different value for the title heading on the TOC (e.g., the book title) -->
     <xsl:call-template name="get-localization-value">
-      <xsl:with-param name="gentext-key" select="'tableofcontents'"/>
+      <xsl:with-param name="gentext-key" select="'TableofContents'"/>
     </xsl:call-template>
   </xsl:template>
 
