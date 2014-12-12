@@ -70,10 +70,10 @@
     </xsl:choose>
 
     <!-- Was autogeneration of XREFs specified, and are there any XREFs with existing text content that would or would not be overwritten? -->
-    <xsl:if test="$autogenerate-xrefs = 1 and count(//h:a[@data-type='xref'][. != '']) > 0">
+<!--    <xsl:if test="$autogenerate-xrefs = 1 and count(//h:a[@data-type='xref'][. != '']) > 0"> -->
       <!-- If autogeneration of XREFs was specified and overwriting of existing XREF content *was not* specified,
 	   report all XREFs that will not be overwritten -->
-      <xsl:call-template name="log-message">
+<!--      <xsl:call-template name="log-message">
 	<xsl:with-param name="type" select="'WARNING'"/>
 	<xsl:with-param name="message">
 	  <xsl:text>Warning: the following XREFs already have content in their text nodes, which will be overwritten (rerun stylesheets with $autogenerate-xrefs = 0 if you don't want to autogenerate XREFs):</xsl:text>
@@ -82,7 +82,7 @@
 	  </xsl:for-each>
 	</xsl:with-param>
       </xsl:call-template>
-    </xsl:if>
+    </xsl:if> -->
 
     <xsl:copy>
       <xsl:apply-templates select="@*|node()"/>
