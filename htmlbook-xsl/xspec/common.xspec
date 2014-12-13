@@ -183,37 +183,101 @@ sect5:none
     <x:expect label="The appropriate numeration value should be generated (absolute, not relative to part)">3</x:expect>
   </x:scenario>
 
-    <x:scenario label="When generating a label for a figure in a chapter-level division">
-      <x:context select="(//h:section//h:figure)[2]" mode="label.markup">
-	<section data-type="chapter">
-	  <h1>This is a chapter heading</h1>
-	  <p>Running out of amusing things to say</p>
-	  <figure>
-	    <img src="tokyo.png"/>
-	    <figcaption>A picture of the Tokyo skyline</figcaption>
-	  </figure>
-
-	  <figure>
-	    <img src="paris.png"/>
-	    <figcaption>A picture of the Paris skyline</figcaption>
-	  </figure>
+  <x:scenario label="When generating a label for a figure in a chapter">
+    <x:context select="(//h:section//h:figure)[2]" mode="label.markup">
+      <section data-type="chapter">
+	<h1>This is a chapter heading</h1>
+	<p>Running out of amusing things to say</p>
+	<figure>
+	  <img src="tokyo.png"/>
+	  <figcaption>A picture of the Tokyo skyline</figcaption>
+	</figure>
+	
+	<figure>
+	  <img src="paris.png"/>
+	  <figcaption>A picture of the Paris skyline</figcaption>
+	</figure>
 	</section>
+    </x:context>
+    
+    <x:scenario label="With label.formal.with.ancestor disabled">
+      <x:context>
+	<x:param name="label.formal.with.ancestor" select="0"/>
       </x:context>
-
-      <x:scenario label="With label.formal.with.ancestor disabled">
-	<x:context>
-	  <x:param name="label.formal.with.ancestor" select="0"/>
-	</x:context>
-	<x:expect label="The appropriate numeration value should be generated">2</x:expect>
-      </x:scenario>
-
-      <x:scenario label="With label.formal.with.ancestor enabled">
-	<x:context>
-	  <x:param name="label.formal.with.ancestor" select="1"/>
-	</x:context>
-	<x:expect label="The appropriate numeration value should be generated">1-2</x:expect>
-      </x:scenario>
+      <x:expect label="The appropriate numeration value should be generated">2</x:expect>
     </x:scenario>
+    
+    <x:scenario label="With label.formal.with.ancestor enabled">
+      <x:context>
+	<x:param name="label.formal.with.ancestor" select="1"/>
+      </x:context>
+      <x:expect label="The appropriate numeration value should be generated">1-2</x:expect>
+    </x:scenario>
+  </x:scenario>
+  
+  <x:scenario label="When generating a label for a figure in a preface">
+    <x:context select="(//h:section//h:figure)[2]" mode="label.markup">
+      <section data-type="preface">
+	<h1>This is a preface heading</h1>
+	<p>Some info about prereqs you need to appreciate this book</p>
+	<figure>
+	  <img src="pencil.png"/>
+	  <figcaption>A picture of a pencil</figcaption>
+	</figure>
+	
+	<figure>
+	  <img src="chalk.png"/>
+	  <figcaption>A picture of chalk</figcaption>
+	</figure>
+      </section>
+    </x:context>
+
+    <x:scenario label="With label.formal.with.ancestor disabled">
+      <x:context>
+	<x:param name="label.formal.with.ancestor" select="0"/>
+      </x:context>
+      <x:expect label="The appropriate numeration value should be generated">2</x:expect>
+    </x:scenario>
+    
+    <x:scenario label="With label.formal.with.ancestor enabled">
+      <x:context>
+	<x:param name="label.formal.with.ancestor" select="1"/>
+      </x:context>
+      <x:expect label="The appropriate numeration value should be generated">P-2</x:expect>
+    </x:scenario>
+  </x:scenario>
+
+  <x:scenario label="When generating a label for a figure in an introduction">
+    <x:context select="(//h:section//h:figure)[2]" mode="label.markup">
+      <section data-type="introduction">
+	<h1>This is the Introduction heading</h1>
+	<p>Introducing you to this book!</p>
+	<figure>
+	  <img src="dachshund.png"/>
+	  <figcaption>A picture of a dachshund</figcaption>
+	</figure>
+	
+	<figure>
+	  <img src="labrador.png"/>
+	  <figcaption>A picture of a labrador</figcaption>
+	</figure>
+      </section>
+    </x:context>
+
+    <x:scenario label="With label.formal.with.ancestor disabled">
+      <x:context>
+	<x:param name="label.formal.with.ancestor" select="0"/>
+      </x:context>
+      <x:expect label="The appropriate numeration value should be generated">2</x:expect>
+    </x:scenario>
+    
+    <x:scenario label="With label.formal.with.ancestor enabled">
+      <x:context>
+	<x:param name="label.formal.with.ancestor" select="1"/>
+      </x:context>
+      <x:expect label="The appropriate numeration value should be generated">I-2</x:expect>
+    </x:scenario>
+  </x:scenario>
 
     <x:scenario label="When generating a label for a figure in a Part">
       <x:context select="(//h:div[@data-type='part']//h:figure)[2]" mode="label.markup">
@@ -287,7 +351,7 @@ sect5:none
       </x:scenario>
     </x:scenario>
 
-    <x:scenario label="When generating a label for a table in a chapter-level division">
+    <x:scenario label="When generating a label for a table in a chapter">
       <x:context select="(//h:section//h:table)[2]" mode="label.markup">
 	<section data-type="chapter">
 	  <h1>This is a chapter heading</h1>
@@ -343,6 +407,124 @@ sect5:none
 	  <x:param name="label.formal.with.ancestor" select="1"/>
 	</x:context>
 	<x:expect label="The appropriate numeration value should be generated">1-2</x:expect>
+      </x:scenario>
+    </x:scenario>
+
+    <x:scenario label="When generating a label for a table in a preface">
+      <x:context select="(//h:section//h:table)[2]" mode="label.markup">
+	<section data-type="preface">
+	  <h1>This is a preface heading</h1>
+	  <p>Running out of amusing things to say</p>
+	  <table>
+	    <caption>Some dog breeds</caption>
+	    <tbody>
+	      <tr>
+		<td>Poodle</td>
+		<td>German Shepherd</td>
+	      </tr>
+	      <tr>
+		<td>Bichon Frisé</td>
+		<td>Bearded Collie</td>
+	      </tr>
+	    </tbody>
+	  </table>
+	  <table>
+	    <caption>Our favorite vegetables</caption>
+	    <thead>
+	      <tr>
+		<th>Name</th>
+		<th>Vegetable</th>
+	      </tr>
+	    </thead>
+	    <tbody>
+	      <tr>
+		<td>Tom</td>
+		<td>carrot</td>
+	      </tr>
+	      <tr>
+		<td>Richard</td>
+		<td>potato</td>
+	      </tr>
+	      <tr>
+		<td>Harry</td>
+		<td>celery</td>
+	      </tr>
+	    </tbody>
+	  </table>
+	</section>
+      </x:context>
+
+      <x:scenario label="With label.formal.with.ancestor disabled">
+	<x:context>
+	  <x:param name="label.formal.with.ancestor" select="0"/>
+	</x:context>
+	<x:expect label="The appropriate numeration value should be generated">2</x:expect>
+      </x:scenario>
+
+      <x:scenario label="With label.formal.with.ancestor enabled">
+	<x:context>
+	  <x:param name="label.formal.with.ancestor" select="1"/>
+	</x:context>
+	<x:expect label="The appropriate numeration value should be generated">P-2</x:expect>
+      </x:scenario>
+    </x:scenario>
+
+    <x:scenario label="When generating a label for a table in an introduction">
+      <x:context select="(//h:section//h:table)[2]" mode="label.markup">
+	<section data-type="introduction">
+	  <h1>This is an introduction heading</h1>
+	  <p>Running out of amusing things to say</p>
+	  <table>
+	    <caption>Some more dog breeds</caption>
+	    <tbody>
+	      <tr>
+		<td>Golden Retriever</td>
+		<td>Weimaraner</td>
+	      </tr>
+	      <tr>
+		<td>Basset Hound</td>
+		<td>Scottish Terrier</td>
+	      </tr>
+	    </tbody>
+	  </table>
+	  <table>
+	    <caption>Our favorite numbers</caption>
+	    <thead>
+	      <tr>
+		<th>Name</th>
+		<th>Number</th>
+	      </tr>
+	    </thead>
+	    <tbody>
+	      <tr>
+		<td>Tom</td>
+		<td>18</td>
+	      </tr>
+	      <tr>
+		<td>Richard</td>
+		<td>123456789</td>
+	      </tr>
+	      <tr>
+		<td>Harry</td>
+		<td>0</td>
+	      </tr>
+	    </tbody>
+	  </table>
+	</section>
+      </x:context>
+
+      <x:scenario label="With label.formal.with.ancestor disabled">
+	<x:context>
+	  <x:param name="label.formal.with.ancestor" select="0"/>
+	</x:context>
+	<x:expect label="The appropriate numeration value should be generated">2</x:expect>
+      </x:scenario>
+
+      <x:scenario label="With label.formal.with.ancestor enabled">
+	<x:context>
+	  <x:param name="label.formal.with.ancestor" select="1"/>
+	</x:context>
+	<x:expect label="The appropriate numeration value should be generated">I-2</x:expect>
       </x:scenario>
     </x:scenario>
 
@@ -481,7 +663,7 @@ sect5:none
       </x:scenario>
     </x:scenario>
 
-    <x:scenario label="When generating a label for an example in a chapter-level division">
+    <x:scenario label="When generating a label for an example in a chapter">
       <x:context select="(//h:section//h:div[@data-type='example'])[2]" mode="label.markup">
 	<section data-type="chapter">
 	  <h1>This is a chapter heading</h1>
@@ -509,6 +691,70 @@ sect5:none
 	  <x:param name="label.formal.with.ancestor" select="1"/>
 	</x:context>
 	<x:expect label="The appropriate numeration value should be generated">1-2</x:expect>
+      </x:scenario>
+    </x:scenario>
+
+    <x:scenario label="When generating a label for an example in a preface">
+      <x:context select="(//h:section//h:div[@data-type='example'])[2]" mode="label.markup">
+	<section data-type="preface">
+	  <h1>This is a preface heading</h1>
+	  <p>Running out of amusing things to say</p>
+	  <div data-type="example">
+	    <h6>My third code listing</h6>
+	    <pre data-type="programlisting" data-code-language="ruby">"abc".gsub("abc", "xyz")</pre>
+	  </div>
+	  <div data-type="example">
+	    <h6>My fourth code listing</h6>
+	    <pre data-type="programlisting" data-code-language="ruby">this_variable_holds_the_number_2 = 2</pre>
+	  </div>
+	</section>
+      </x:context>
+
+      <x:scenario label="With label.formal.with.ancestor disabled">
+	<x:context>
+	  <x:param name="label.formal.with.ancestor" select="0"/>
+	</x:context>
+	<x:expect label="The appropriate numeration value should be generated">2</x:expect>
+      </x:scenario>
+
+      <x:scenario label="With label.formal.with.ancestor enabled">
+	<x:context>
+	  <x:param name="label.formal.with.ancestor" select="1"/>
+	</x:context>
+	<x:expect label="The appropriate numeration value should be generated">P-2</x:expect>
+      </x:scenario>
+    </x:scenario>
+
+    <x:scenario label="When generating a label for an example in an introduction">
+      <x:context select="(//h:section//h:div[@data-type='example'])[2]" mode="label.markup">
+	<section data-type="introduction">
+	  <h1>This is an introduction heading</h1>
+	  <p>Running out of amusing things to say</p>
+	  <div data-type="example">
+	    <h6>My fifth code listing</h6>
+	    <pre data-type="programlisting" data-code-language="xslt">&lt;xsl:template match="h:h1"&gt;
+  &lt;h2&gt;Heading&lt;/h2&gt;
+&lt;/xsl:template&gt;</pre>
+	  </div>
+	  <div data-type="example">
+	    <h6>My sixth code listing</h6>
+	    <pre data-type="programlisting" data-code-language="css">h2 { color: green }</pre>
+	  </div>
+	</section>
+      </x:context>
+
+      <x:scenario label="With label.formal.with.ancestor disabled">
+	<x:context>
+	  <x:param name="label.formal.with.ancestor" select="0"/>
+	</x:context>
+	<x:expect label="The appropriate numeration value should be generated">2</x:expect>
+      </x:scenario>
+
+      <x:scenario label="With label.formal.with.ancestor enabled">
+	<x:context>
+	  <x:param name="label.formal.with.ancestor" select="1"/>
+	</x:context>
+	<x:expect label="The appropriate numeration value should be generated">I-2</x:expect>
       </x:scenario>
     </x:scenario>
 
