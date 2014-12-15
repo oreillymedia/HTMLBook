@@ -197,8 +197,8 @@
     <xsl:choose>
       <!-- For Preface and Introduction, custom label prefixes for formal ancestor
 	   (don't use label.markup template here, as these labels are typically specific to just formal-object context -->
-      <xsl:when test="(ancestor::h:section)[last()]/@data-type = 'preface'">P</xsl:when>
-      <xsl:when test="(ancestor::h:section)[last()]/@data-type = 'introduction'">I</xsl:when>
+      <xsl:when test="ancestor::h:section[@data-type = 'preface']">P</xsl:when>
+      <xsl:when test="ancestor::h:section[@data-type = 'introduction']">I</xsl:when>
       <xsl:otherwise>
 	<!-- Otherwise, go ahead and use label.markup to get proper label numeral for ancestor -->
 	<xsl:apply-templates select="(ancestor::h:section[contains(@data-type, 'acknowledgments') or
