@@ -257,10 +257,13 @@ sect5:none
 	  <figcaption>A picture of a dachshund</figcaption>
 	</figure>
 	
-	<figure>
-	  <img src="labrador.png"/>
-	  <figcaption>A picture of a labrador</figcaption>
-	</figure>
+	<section data-type="sect1">
+	  <h1>Section title</h1>
+	  <figure>
+	    <img src="labrador.png"/>
+	    <figcaption>A picture of a labrador</figcaption>
+	  </figure>
+	</section>
       </section>
     </x:context>
 
@@ -428,29 +431,32 @@ sect5:none
 	      </tr>
 	    </tbody>
 	  </table>
-	  <table>
-	    <caption>Our favorite vegetables</caption>
-	    <thead>
-	      <tr>
-		<th>Name</th>
-		<th>Vegetable</th>
-	      </tr>
-	    </thead>
-	    <tbody>
-	      <tr>
-		<td>Tom</td>
-		<td>carrot</td>
-	      </tr>
-	      <tr>
-		<td>Richard</td>
-		<td>potato</td>
-	      </tr>
-	      <tr>
-		<td>Harry</td>
-		<td>celery</td>
-	      </tr>
-	    </tbody>
-	  </table>
+	  <section data-type="sect1">
+	    <h1>This section has another table</h1>
+	    <table>
+	      <caption>Our favorite vegetables</caption>
+	      <thead>
+		<tr>
+		  <th>Name</th>
+		  <th>Vegetable</th>
+		</tr>
+	      </thead>
+	      <tbody>
+		<tr>
+		  <td>Tom</td>
+		  <td>carrot</td>
+		</tr>
+		<tr>
+		  <td>Richard</td>
+		  <td>potato</td>
+		</tr>
+		<tr>
+		  <td>Harry</td>
+		  <td>celery</td>
+		</tr>
+	      </tbody>
+	    </table>
+	  </section>
 	</section>
       </x:context>
 
@@ -736,10 +742,13 @@ sect5:none
   &lt;h2&gt;Heading&lt;/h2&gt;
 &lt;/xsl:template&gt;</pre>
 	  </div>
-	  <div data-type="example">
-	    <h6>My sixth code listing</h6>
-	    <pre data-type="programlisting" data-code-language="css">h2 { color: green }</pre>
-	  </div>
+	  <section data-type="sect1">
+	    <h1>This example is in a sect1</h1>
+	    <div data-type="example">
+	      <h6>My sixth code listing</h6>
+	      <pre data-type="programlisting" data-code-language="css">h2 { color: green }</pre>
+	    </div>
+	  </section>
 	</section>
       </x:context>
 
