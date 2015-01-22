@@ -19,9 +19,9 @@
   <xsl:include href="indexgen.xsl"/> <!-- Autogeneration of index if specified in autogenerate-index -->
   <xsl:include href="xrefgen.xsl"/> <!-- Autogeneration of XREFs if specified in autogenerate-xrefs -->
 
-  <xsl:include href="functions-exsl.xsl"/>   <!-- Functions that are compatible with exsl package -->
+  <!-- <xsl:include href="functions-exsl.xsl"/> -->   <!-- Functions that are compatible with exsl package -->
   <!-- If you are using an XSLT 2.0 processor, comment out the above include and uncomment the following include -->
-  <!-- <xsl:include href="functions-xslt2.xsl"/> --> <!-- Functions that are compatible with XSLT 2.0 processors --> 
+  <xsl:include href="functions-xslt2.xsl"/> <!-- Functions that are compatible with XSLT 2.0 processors --> 
 
   <xsl:output method="xml"
               encoding="UTF-8"/>
