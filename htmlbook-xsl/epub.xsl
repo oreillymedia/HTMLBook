@@ -205,12 +205,12 @@
   <xsl:param name="css.id">epub-css</xsl:param>
 
   <!-- List fonts to be embedded here: place each font on a separate line -->
-  <!--<xsl:param name="embedded.fonts.list">DejaVuSerif.otf
+  <xsl:param name="embedded.fonts.list"><!--DejaVuSerif.otf
 DejaVuSans-Bold.otf
 UbuntuMono-Regular.otf
 UbuntuMono-Bold.otf
 UbuntuMono-BoldItalic.otf
-UbuntuMono-Italic.otf</xsl:param>-->
+UbuntuMono-Italic.otf--></xsl:param>
 
   <!-- Directory to place embedded fonts, relative to content directory; leave blank to put in root content dir (e.g., in "OEBPS" dir) -->
   <xsl:param name="embedded.fonts.directory"/>
