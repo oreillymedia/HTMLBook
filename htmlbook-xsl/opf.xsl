@@ -155,9 +155,9 @@
 	  <xsl:text>ibooks: http://vocabulary.itunes.apple.com/rdf/ibooks/vocabulary-extensions-1.0/</xsl:text>
 	</xsl:attribute>
       </xsl:if>
-      <!--<xsl:for-each select="exsl:node-set($package.namespaces)//*/namespace::*">-->
+      <!--<xsl:for-each select="exsl:node-set($package.namespaces)//*/namespace::*">
 	<xsl:copy-of select="."/>
-      </xsl:for-each>
+      </xsl:for-each>-->
       <xsl:call-template name="opf.metadata"/>
       <xsl:call-template name="opf.manifest"/>
       <xsl:call-template name="generate-spine"/>
