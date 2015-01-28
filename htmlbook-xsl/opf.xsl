@@ -149,13 +149,13 @@
 
   <xsl:template name="generate.opf.content">
     <xsl:param name="generate.guide" select="$generate.guide"/>
-    <package version="3.0" unique-identifier="{$metadata.unique-identifier.id}">
+    <package xmlns="http://www.idpf.org/2007/opf" version="3.0" xml:lang="en" prefix="rendition: http://www.idpf.org/vocab/rendition/#" unique-identifier="{$metadata.unique-identifier.id}">
       <xsl:if test="$metadata.ibooks-specified-fonts = 1">
 	<xsl:attribute name="prefix">
 	  <xsl:text>ibooks: http://vocabulary.itunes.apple.com/rdf/ibooks/vocabulary-extensions-1.0/</xsl:text>
 	</xsl:attribute>
       </xsl:if>
-      <xsl:for-each select="exsl:node-set($package.namespaces)//*/namespace::*">
+      <!--<xsl:for-each select="exsl:node-set($package.namespaces)//*/namespace::*">-->
 	<xsl:copy-of select="."/>
       </xsl:for-each>
       <xsl:call-template name="opf.metadata"/>
