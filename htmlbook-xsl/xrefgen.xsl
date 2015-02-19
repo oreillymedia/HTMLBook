@@ -17,6 +17,7 @@
   <xsl:template match="h:a[contains(@data-type, 'xref')]" name="process-as-xref">
     <xsl:param name="autogenerate-xrefs" select="$autogenerate-xrefs"/>
     <xsl:param name="xref.elements.pagenum.in.class" select="$xref.elements.pagenum.in.class"/>
+    <xsl:param name="autogenerate.xref.pagenum.style" select="$autogenerate.xref.pagenum.style"/>
 
     <xsl:variable name="calculated-output-href">
       <xsl:call-template name="calculate-output-href">
@@ -38,9 +39,17 @@
 	  <!-- Generate XREF text node if $autogenerate-xrefs is enabled -->
 	  <xsl:when test="($autogenerate-xrefs = 1) and ($is-xref = 1)">
 	    <xsl:choose>
-	      <!-- If we can locate the target, reprocess class attribute to add "pagenum" if needed, and process gentext with "xref-to" -->
+	      <!-- If we can locate the target, add data-xref-pagenum-style attr if autogenerate.xref.pagenum.style is enabled, reprocess class attribute to add "pagenum" if needed, and process gentext with "xref-to" -->
 	      <xsl:when test="count(key('id', $href-anchor)) > 0">
 		<xsl:variable name="target" select="key('id', $href-anchor)[1]"/>
+		<xsl:if test="$autogenerate.xref.pagenum.style = 1">
+		  <xsl:attribute name="data-xref-pagenum-style">
+		    <xsl:apply-templates select="$target" mode="xref-pagenum-style">
+		      <xsl:with-param name="target-node" select="$target"/>
+		      <xsl:with-param name="xref.pagenum.style" select="@data-xref-pagenum-style"/>
+		    </xsl:apply-templates>
+		  </xsl:attribute>
+		</xsl:if>
 		<xsl:apply-templates select="." mode="class.attribute">
 		  <xsl:with-param name="xref.elements.pagenum.in.class" select="$xref.elements.pagenum.in.class"/>
 		  <xsl:with-param name="xref.target" select="$target"/>
@@ -137,6 +146,42 @@
     </xsl:choose>
   </xsl:template>
 
+  <!-- Handling for generating values for data-xref-pagenum attribute -->
+  <!-- Override with element-specific templates as needed -->
+  <!-- target-node = target element referenced by XREF -->
+  <xsl:template match="*" mode="xref-pagenum-style">
+    <xsl:param name="target-node" select="."/>
+    <xsl:param name="xref.pagenum.style"/>
+    <xsl:variable name="pagenum-style">
+      <xsl:choose>
+	<!-- If an xref-pagenum-style is explicitly passed in, use that -->
+	<xsl:when test="$xref.pagenum.style != ''">
+	  <xsl:value-of select="$xref.pagenum.style"/>
+	</xsl:when>
+	<xsl:otherwise>
+	  <!-- Otherwise try using xref.pagenum.style.for.section.by.data-type param for determining section pagenum style -->
+	  <xsl:call-template name="get-param-value-from-key">
+	    <xsl:with-param name="parameter" select="$xref.pagenum.style.for.section.by.data-type"/>
+	    <xsl:with-param name="key" select="$target-node/@data-type"/>
+	  </xsl:call-template>
+	</xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
+    
+    <xsl:choose>
+      <!-- 1. If we found a pagenum.style, use that -->
+      <xsl:when test="normalize-space($pagenum-style) != ''">
+	<xsl:value-of select="normalize-space($pagenum-style)"/>
+      </xsl:when>
+      <!-- 2. If we didn't find a pagenum style, and target-node has a parent, call on parent node -->
+      <xsl:when test="$target-node[parent::*]">
+	<xsl:apply-templates select="$target-node/.." mode="xref-pagenum-style"/>
+      </xsl:when>
+      <!-- 3. Otherwise, if we didn't find a pagenum style, and no parent, use the default style (decimal) -->
+      <xsl:otherwise>decimal</xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+  
   <!-- Adapted from docbook-xsl templates in xhtml/xref.xsl -->
   <xsl:template match="*" mode="xref-to">
     <xsl:param name="referrer"/>
@@ -619,17 +664,38 @@
   <!-- Template to trim http:// and http://www from URLs -->
   <xsl:template name="trim-url">
     <xsl:param name="url-to-trim"/>
-    <xsl:choose>
-      <xsl:when test="contains($url-to-trim, 'http://www.')">
-	<xsl:value-of select="substring-after($url-to-trim, 'http://www.')"/>
-      </xsl:when>
-      <xsl:when test="contains($url-to-trim, 'http://')">
-	<xsl:value-of select="substring-after($url-to-trim, 'http://')"/>
-      </xsl:when>
-      <xsl:otherwise>
-	<xsl:value-of select="$url-to-trim"/>
-      </xsl:otherwise>
-    </xsl:choose>
+
+    <!-- First, trim http://www., http://, or www. prefixes -->
+    <xsl:variable name="prefix-trimmed">
+      <xsl:choose>
+	<xsl:when test="contains($url-to-trim, 'http://www.') and substring-before($url-to-trim, 'http://www.') = ''">
+	  <xsl:value-of select="substring-after($url-to-trim, 'http://www.')"/>
+	</xsl:when>
+	<xsl:when test="contains($url-to-trim, 'http://') and substring-before($url-to-trim, 'http://') = ''">
+	  <xsl:value-of select="substring-after($url-to-trim, 'http://')"/>
+	</xsl:when>
+	<xsl:when test="contains($url-to-trim, 'www.') and substring-before($url-to-trim, 'www.') = ''">
+	  <xsl:value-of select="substring-after($url-to-trim, 'www.')"/>
+	</xsl:when>
+	<xsl:otherwise>
+	  <xsl:value-of select="$url-to-trim"/>
+	</xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
+
+    <!-- Then trim trailing forward slashes -->
+    <xsl:variable name="suffix-trimmed">
+      <xsl:choose>
+	<xsl:when test="substring($prefix-trimmed, string-length($prefix-trimmed), 1) = '/'">
+	  <xsl:value-of select="substring($prefix-trimmed, 1, string-length($prefix-trimmed) - 1)"/>
+	</xsl:when>
+	<xsl:otherwise>
+	  <xsl:value-of select="$prefix-trimmed"/>
+	</xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
+    
+    <xsl:value-of select="$suffix-trimmed"/>
   </xsl:template>
 
 </xsl:stylesheet> 

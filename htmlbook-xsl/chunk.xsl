@@ -12,8 +12,6 @@
 
   <!-- ToDo: Refactor to eliminate duplicate code around href generation for XREF vs. non-XREF <a> elems -->
 
-  <!-- ToDo: Add "previous" and "next" links as in the docbook-xsl stylesheets? -->
-
   <!-- Imports htmlbook.xsl -->
   <xsl:import href="htmlbook.xsl"/>
 
@@ -61,6 +59,9 @@ sect5:s
 
   <!-- Chunked output typically not used for print output, so disabling addition of "pagenum" classes on all XREFs -->
   <xsl:param name="xref.elements.pagenum.in.class"/>
+
+  <!-- Chunked output typically not used for print output, so disabling addition of data-xref-pagenum-style attrs on all XREFs (including index locators -->
+  <xsl:param name="autogenerate.xref.pagenum.style" select="0"/>
 
   <xsl:template match="/h:html">
     <xsl:apply-templates select="h:body"/>
@@ -329,6 +330,7 @@ sect5:s
   <xsl:template match="h:a[contains(@data-type, 'xref')]" name="process-as-xref">
     <xsl:param name="autogenerate-xrefs" select="$autogenerate-xrefs"/>
     <xsl:param name="xref.elements.pagenum.in.class" select="$xref.elements.pagenum.in.class"/>
+    <xsl:param name="autogenerate.xref.pagenum.style" select="$autogenerate.xref.pagenum.style"/>
 
     <xsl:variable name="calculated-output-href">
       <xsl:call-template name="calculate-output-href">
@@ -346,7 +348,15 @@ sect5:s
       <xsl:choose>
 	<xsl:when test="(count(key('id', $href-anchor)) &gt; 0) and ($is-xref = 1)">
 	  <xsl:variable name="target" select="key('id', $href-anchor)[1]"/>
-	  <!-- If we can locate the target, reprocess class attribute to add "pagenum" class value if needed -->
+	  <!-- If we can locate the target, add data-xref-pagenum-style attr if autogenerate.xref.pagenum.style is enabled, reprocess class attribute to add "pagenum" class value if needed -->
+	  <xsl:if test="$autogenerate.xref.pagenum.style = 1">
+	    <xsl:attribute name="data-xref-pagenum-style">
+	      <xsl:apply-templates select="$target" mode="xref-pagenum-style">
+		<xsl:with-param name="target-node" select="$target"/>
+		<xsl:with-param name="xref.pagenum.style" select="@data-xref-pagenum-style"/>
+	      </xsl:apply-templates>
+	    </xsl:attribute>
+	  </xsl:if>
 	  <xsl:apply-templates select="." mode="class.attribute">
 	    <xsl:with-param name="xref.elements.pagenum.in.class" select="$xref.elements.pagenum.in.class"/>
 	    <xsl:with-param name="xref.target" select="$target"/>
@@ -634,43 +644,80 @@ sect5:s
        3. TOC link (go to the TOC chunk)
     -->
 
-  <!-- Support use of <?prev_link?> to insert link to previous chunk in book sequence -->
+  <!-- Support use of <?prev_link?> to insert full link to previous chunk in book sequence -->
   <xsl:template match="processing-instruction('prev_link')" name="prev_link" mode="process-chunk-wrapper">
+    <xsl:param name="chunk.node" select="parent::*"/>
+
+    <xsl:variable name="prev-url">
+      <xsl:call-template name="prev_url">
+	<xsl:with-param name="chunk.node" select="$chunk.node"/>
+      </xsl:call-template>
+    </xsl:variable>
+
+    <xsl:if test="$prev-url != ''">
+      <a href="{$prev-url}">Previous</a>
+    </xsl:if>
+  </xsl:template>
+
+  <!-- Support use of <?prev_url?> to insert URL to previous chunk in book sequence -->
+  <xsl:template match="processing-instruction('prev_url')" name="prev_url" mode="process-chunk-wrapper">
     <xsl:param name="chunk.node" select="parent::*"/>
 
     <xsl:choose>
       <xsl:when test="htmlbook:chunk-for-node($chunk.node, $chunks)">
 	<xsl:variable name="current.chunk" select="htmlbook:chunk-for-node($chunk.node, $chunks)"/>
 	<xsl:variable name="previous.chunk" select="$chunks[descendant::*[generate-id(.) = generate-id($current.chunk)]|
-						            following::*[generate-id(.) = generate-id($current.chunk)]][last()]"/>
+						    following::*[generate-id(.) = generate-id($current.chunk)]][last()]"/>
 	<xsl:if test="$previous.chunk">
-<!--	  <xsl:message>Current chunk: <xsl:value-of select="$current.chunk/@id"/>; Previous chunk: <xsl:value-of select="$previous.chunk/@id"/>; Output filename: 	      <xsl:call-template name="output-filename-for-chunk">
-		<xsl:with-param name="node" select="$previous.chunk"/>
+<!--	  	  <xsl:message>Current chunk: <xsl:value-of select="$current.chunk/@id"/>; Previous chunk: <xsl:value-of select="$previous.chunk/@id"/>; Output filename: 	      <xsl:call-template name="output-filename-for-chunk">
+		  <xsl:with-param name="node" select="$previous.chunk"/> 
               </xsl:call-template>
-</xsl:message> -->
-	  <a>
-	    <xsl:attribute name="href">
-	      <xsl:call-template name="output-filename-for-chunk">
-		<xsl:with-param name="node" select="$previous.chunk"/>
-              </xsl:call-template>
-	    </xsl:attribute>
-	    <xsl:text>Previous</xsl:text>
-	  </a>
+	    </xsl:message> -->
+	  <xsl:call-template name="output-filename-for-chunk">
+	    <xsl:with-param name="node" select="$previous.chunk"/>
+          </xsl:call-template>
 	</xsl:if>
       </xsl:when>
       <xsl:otherwise>
 	<xsl:call-template name="log-message">
 	  <xsl:with-param name="type" select="'ERROR'"/>
 	  <xsl:with-param name="message">
-	    <xsl:text>Unable to find proper context for previous-link placeholder. Link will not be generated</xsl:text>
+	    <xsl:text>Unable to find proper context for previous-URL placeholder. URL will not be generated</xsl:text>
 	  </xsl:with-param>
 	</xsl:call-template>	
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
+  
+  <!-- Support use of &lt;?prev_url?&gt; in insert URL to previous chunk in href -->
+  <!-- Because PIs not allowed in attribute context -->
+  <xsl:template match="@href[. = '&lt;?prev_url?&gt;']" mode="process-chunk-wrapper">
+    <xsl:param name="chunk.node" select="parent::*"/>
+    <xsl:attribute name="href">
+      <xsl:call-template name="prev_url">
+	<!-- Get the parent element of the attribute parent -->
+	<xsl:with-param name="chunk.node" select="$chunk.node"/>
+      </xsl:call-template>
+    </xsl:attribute>
+  </xsl:template>
 
   <!-- Support use of <?next_link?> to insert link to previous chunk in book sequence -->
   <xsl:template match="processing-instruction('next_link')" name="next_link" mode="process-chunk-wrapper">
+    <xsl:param name="chunk.node" select="parent::*"/>
+
+    <xsl:variable name="next-url">
+      <xsl:call-template name="next_url">
+	<xsl:with-param name="chunk.node" select="$chunk.node"/>
+      </xsl:call-template>
+    </xsl:variable>
+
+    <xsl:if test="$next-url != ''">
+      <a href="{$next-url}">Next</a>
+    </xsl:if>
+  </xsl:template>
+
+  <!-- Support use of <?next_url?> to insert URL to next chunk in book sequence -->
+  <xsl:template match="processing-instruction('next_url')" name="next_url" mode="process-chunk-wrapper">
     <xsl:param name="chunk.node" select="parent::*"/>
 
     <xsl:choose>
@@ -683,57 +730,80 @@ sect5:s
 		<xsl:with-param name="node" select="$next.chunk"/>
               </xsl:call-template>
 </xsl:message> -->
-	  <a>
-	    <xsl:attribute name="href">
-	      <xsl:call-template name="output-filename-for-chunk">
-		<xsl:with-param name="node" select="$next.chunk"/>
-              </xsl:call-template>
-	    </xsl:attribute>
-	    <xsl:text>Next</xsl:text>
-	  </a>
+           <xsl:call-template name="output-filename-for-chunk">
+	     <xsl:with-param name="node" select="$next.chunk"/>
+           </xsl:call-template>
 	</xsl:if>
       </xsl:when>
       <xsl:otherwise>
 	<xsl:call-template name="log-message">
 	  <xsl:with-param name="type" select="'ERROR'"/>
 	  <xsl:with-param name="message">
-	    <xsl:text>Unable to find proper context for next-link placeholder. Link will not be generated</xsl:text>
+	    <xsl:text>Unable to find proper context for next-URL placeholder. URL will not be generated</xsl:text>
 	  </xsl:with-param>
 	</xsl:call-template>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
 
+  <!-- Support use of &lt;?next_url?&gt; in insert URL to next chunk in href -->
+  <!-- Because PIs not allowed in attribute context -->
+  <xsl:template match="@href[. = '&lt;?next_url?&gt;']" mode="process-chunk-wrapper">
+    <xsl:param name="chunk.node" select="parent::*"/>
+    <xsl:attribute name="href">
+      <xsl:call-template name="next_url">
+	<!-- Get the parent element of the attribute parent -->
+	<xsl:with-param name="chunk.node" select="$chunk.node"/>
+      </xsl:call-template>
+    </xsl:attribute>
+  </xsl:template>
+
   <!-- Support use of <?toc_link?> to insert link to table of contents in book sequence -->
   <xsl:template match="processing-instruction('toc_link')" name="toc_link" mode="process-chunk-wrapper">
+    <xsl:variable name="toc-url">
+      <xsl:call-template name="toc_url"/>
+    </xsl:variable>
+
+    <xsl:if test="$toc-url != ''">
+      <a href="{$toc-url}">Table of Contents</a>
+    </xsl:if>
+  </xsl:template>
+
+  <!-- Support use of <?toc_url?> to insert URL for table of contents in book sequence -->
+  <xsl:template match="processing-instruction('toc_url')" name="toc_url" mode="process-chunk-wrapper">
     <xsl:variable name="toc_chunks" select="$chunks[self::h:nav[@data-type='toc']]"/>
     <xsl:if test="count($toc_chunks) &gt; 1">
       <xsl:call-template name="log-message">
 	<xsl:with-param name="type" select="'WARNING'"/>
 	<xsl:with-param name="message">
-	  <xsl:text>More than one TOC in book. TOC navigation link will be generated for the *first* TOC.</xsl:text>
+	  <xsl:text>More than one TOC in book. TOC navigation URL will be generated for the *first* TOC.</xsl:text>
 	</xsl:with-param>
       </xsl:call-template>
     </xsl:if>
     <xsl:choose>
       <xsl:when test="count($toc_chunks) &gt; 0">
-	<a>
-	  <xsl:attribute name="href">
-	    <xsl:call-template name="output-filename-for-chunk">
-	      <xsl:with-param name="node" select="$toc_chunks[1]"/>
-            </xsl:call-template>
-	  </xsl:attribute>
-	  <xsl:text>Table of Contents</xsl:text>
-	</a>
+	<xsl:call-template name="output-filename-for-chunk">
+	  <xsl:with-param name="node" select="$toc_chunks[1]"/>
+        </xsl:call-template>
       </xsl:when>
       <xsl:otherwise>
 	<xsl:call-template name="log-message">
 	  <xsl:with-param name="type" select="'WARNING'"/>
 	  <xsl:with-param name="message">
-	    <xsl:text>No TOC in book. No TOC navigation link will be generated.</xsl:text>
+	    <xsl:text>No TOC in book. No TOC navigation URL will be generated.</xsl:text>
 	  </xsl:with-param>
 	</xsl:call-template>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
+
+  <!-- Support use of &lt;?toc_url?&gt; in insert URL to previous chunk in href -->
+  <!-- Because PIs not allowed in URL context -->
+  <xsl:template match="@href[. = '&lt;?toc_url?&gt;']" mode="process-chunk-wrapper">
+    <xsl:param name="chunk.node" select="parent::*"/>
+    <xsl:attribute name="href">
+      <xsl:call-template name="toc_url"/>
+    </xsl:attribute>
+  </xsl:template>
+
 </xsl:stylesheet> 

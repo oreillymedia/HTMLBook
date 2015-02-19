@@ -137,6 +137,35 @@ sect4:xref
 sect5:xref
   </xsl:param>
 
+<!-- Autogenerate data-xref-pagenum-style attributes; useful for paged output (e.g., PDF) -->
+<xsl:param name="autogenerate.xref.pagenum.style" select="1"/>
+
+<!-- Valid pagenum styles correspond to valid counter/list-style-type styles (http://www.w3.org/TR/2011/REC-CSS2-20110607/generate.html#propdef-list-style-type)
+     decimal, decimal-leading-zero, lower-roman, upper-roman, georgian, armenian 
+-->
+<!-- Top-level sections listed here only; presumption is that pagenum type is set on top-level sections only,
+     and is inherited by lower-level sections -->
+<xsl:param name="xref.pagenum.style.for.section.by.data-type">
+acknowledgments:decimal
+afterword:decimal
+appendix:decimal
+bibliography:decimal
+chapter:decimal
+colophon:decimal
+conclusion:decimal
+copyright-page:decimal
+dedication:lower-roman
+foreword:lower-roman
+glossary:decimal
+halftitlepage:lower-roman
+index:decimal
+introduction:decimal
+part:decimal
+preface:lower-roman
+titlepage:lower-roman
+toc:lower-roman
+</xsl:param>
+
   <!-- Render @href text in parens following <a> element for external hyperlinks; useful for print outputs -->
   <xsl:param name="url.in.parens" select="1"/>
 
@@ -172,5 +201,12 @@ sect4
 sect5
 sidebar
 </xsl:param>
+
+  <!-- Params for handling of comments in a manuscript -->
+
+  <!-- Turn on this parameter (off by default) to toggle on display of comments in the manuscript 
+       (both XML comments and elements tagged with data-type="comment")
+    -->
+  <xsl:param name="show-comments" select="0"/>
 
 </xsl:stylesheet> 

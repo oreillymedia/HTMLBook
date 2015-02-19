@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+﻿<?xml version="1.0"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.w3.org/1999/xhtml" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:svg="http://www.w3.org/2000/svg" targetNamespace="http://www.w3.org/1999/xhtml" elementFormDefault="qualified" attributeFormDefault="unqualified">
 
 <xs:import namespace="http://www.w3.org/1998/Math/MathML" schemaLocation="mathml3/mathml3.xsd"/>
@@ -1458,10 +1458,7 @@
   
 <xs:element name="tr">
   <xs:complexType>
-    <xs:choice>
-      <xs:element ref="td" minOccurs="0" maxOccurs="unbounded"/>
-      <xs:element ref="th" minOccurs="0" maxOccurs="unbounded"/>
-    </xs:choice>
+    <xs:group ref="table_cells" minOccurs="0" maxOccurs="unbounded"/>
     <xs:attributeGroup ref="globals"/>
   </xs:complexType>
 </xs:element>
@@ -2015,6 +2012,13 @@
   <xs:choice>
     <xs:group ref="inlineelements"/>
     <xs:group ref="external_elements"/>
+  </xs:choice>
+</xs:group>
+
+<xs:group name="table_cells">
+  <xs:choice>
+    <xs:element ref="th"/>
+    <xs:element ref="td"/>
   </xs:choice>
 </xs:group>
   

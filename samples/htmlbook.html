@@ -15,9 +15,11 @@
     </figure>
     <!-- body must have h1 child with book title -->
     <section data-type="titlepage" class="titlepage">
-      <h1>HTMLBook Sample</h1>
-      <h2 data-type="subtitle">Optional Subtitle</h2>
-      <p data-type="author">O’Reilly Media</p>
+      <header>
+	<h1>HTMLBook Sample</h1>
+	<p data-type="subtitle">Optional Subtitle</p>
+	<p data-type="author">O’Reilly Media</p>
+      </header>
     </section>
     <section data-type="copyright-page">
       <h1>HTMLBook Sample</h1>
@@ -300,8 +302,10 @@ public class Scribble extends Applet {
         </section>
       </section>
       <section data-type="chapter" class="chapter" id="chapter02">
-        <h1>Chapter 2. Another Chapter</h1>
-        <h2 data-type="subtitle">This is the chapter's subtitle</h2>
+	<header>
+          <h1>Chapter 2. Another Chapter</h1>
+          <p data-type="subtitle">This is the chapter's subtitle</p>
+	</header>
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean eros sapien, iaculis eget
           egestas eu, tempus eu tellus. Aliquam in facilisis sapien. Nulla blandit, ligula vel
           auctor facilisis, quam felis rhoncus arcu, non rhoncus nulla felis sed est. Pellentesque
