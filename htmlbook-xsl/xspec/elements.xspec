@@ -1437,7 +1437,7 @@ sect5:1
   <!-- Footnote tests -->
   <x:scenario label="When a footnote is matched">
     <x:context select="(/h:p/h:span[@data-type='footnote'])[1]">
-      <p>This is the text<span data-type="footnote">And this is the footnote</span></p>
+      <p>This is the text<span id="fn_id_yo" data-type="footnote">And this is the footnote</span></p>
     </x:context>
     
     <x:scenario label="With process.footnotes disabled">
@@ -1445,7 +1445,7 @@ sect5:1
 	<x:param name="process.footnotes" select="0"/>
       </x:context>
       <x:expect label="Footnote should be copied to output as is">
-	<span data-type="footnote">And this is the footnote</span>
+	<span data-type="footnote" id="fn_id_yo">And this is the footnote</span>
       </x:expect>
     </x:scenario>
 
@@ -1454,11 +1454,149 @@ sect5:1
 	<x:param name="process.footnotes" select="1"/>
       </x:context>
       <x:expect label="Footnote should be processed to a noteref">
-	<a data-type="noteref" id="..." href="...">
+	<a data-type="noteref" id="fn_id_yo-marker" href="#fn_id_yo">
 	  <sup>1</sup>
 	</a>
       </x:expect>
     </x:scenario>
+  </x:scenario>
+
+  <x:scenario label="When footnote is matched">
+    <x:context>
+      <section data-type="chapter" id="first_ch">
+	<h1>First chapter</h1>
+	<p>This chapter has a couple footnotes:</p>
+	<p>Here's the first footnote<span  data-type="footnote">Footnote #1 in Chapter #1</span></p>
+	<p>Here's the second footnote<span data-type="footnote">Footnote #2 in Chapter #1</span></p>
+      </section>
+      <section data-type="chapter" id="second_ch">
+	<h1>Second chapter</h1>
+	<p>This chapter also has a couple footnotes:</p>
+	<p>Here's the first footnote<span data-type="footnote">Footnote #1 in Chapter #2</span></p>
+	<p>Here's the second footnote<span data-type="footnote">Footnote #2 in Chapter #2</span></p>
+      </section>
+      <div data-type="part">
+	<h1>Here's a part</h1>
+	<section data-type="chapter" id="third_ch">
+	  <h1>Third chapter</h1>
+	  <p>This chapter also has a couple footnotes:</p>
+	  <p>Here's the first footnote<span data-type="footnote">Footnote #1 in Chapter #2</span></p>
+	  <p>Here's the second footnote<span id="second_part_fn" data-type="footnote">Footnote #2 in Chapter #2</span></p>
+	  <p>Here's a footnoteref to the second footnote<a data-type="footnoteref" href="#second_part_fn"/></p>
+	</section>
+      </div>
+      <section data-type="appendix" id="the_app">
+	<h1>The Appendix</h1>
+	<p>The appendix also has a couple footnotes:</p>
+	<p>Here's the first footnote<span data-type="footnote">Footnote #1 in the Appendix</span></p>
+	<p>Here's the second footnote<span data-type="footnote">Footnote #2 in the Appendix</span></p>
+      </section>
+    </x:context>
+
+    <x:scenario label="With process footnotes enabled and footnote.reset.numbering.at.chapter.level disabled">
+      <x:context select="(/h:section[@id='second_ch']//h:span[@data-type='footnote'])[2]">
+	<x:param name="process.footnotes" select="1"/>
+	<x:param name="footnote.reset.numbering.at.chapter.level" select="0"/>
+      </x:context>
+      <x:expect label="Footnote should be processed to a noteref with proper number">
+	<a data-type="noteref" id="..." href="...">
+	  <sup>4</sup>
+	</a>
+      </x:expect>
+    </x:scenario>
+
+    <x:scenario label="With process footnotes enabled and footnote.reset.numbering.at.chapter.level enabled">
+      <x:context select="(/h:section[@id='second_ch']//h:span[@data-type='footnote'])[2]">
+	<x:param name="process.footnotes" select="1"/>
+	<x:param name="footnote.reset.numbering.at.chapter.level" select="1"/>
+      </x:context>
+      <x:expect label="Footnote should be processed to a noteref with proper number">
+	<a data-type="noteref" id="..." href="...">
+	  <sup>2</sup>
+	</a>
+      </x:expect>
+    </x:scenario>
+
+    <x:scenario label="On a footnoteref with process footnotes enabled and footnote.reset.numbering.at.chapter.level disabled">
+      <x:context select="(/h:div[@data-type='part']/h:section[@id='third_ch']//h:a[@data-type='footnoteref'])[1]">
+	<x:param name="process.footnotes" select="1"/>
+	<x:param name="footnote.reset.numbering.at.chapter.level" select="0"/>
+      </x:context>
+      <x:expect label="Footnote should be processed to a noteref with proper number">
+	<a data-type="noteref" href="...">
+	  <sup>6</sup>
+	</a>
+      </x:expect>
+    </x:scenario>
+
+    <x:scenario label="On a footnoteref with process footnotes enabled and footnote.reset.numbering.at.chapter.level enabled">
+      <x:context select="(/h:div[@data-type='part']/h:section[@id='third_ch']//h:a[@data-type='footnoteref'])[1]">
+	<x:param name="process.footnotes" select="1"/>
+	<x:param name="footnote.reset.numbering.at.chapter.level" select="1"/>
+      </x:context>
+      <x:expect label="Footnote should be processed to a noteref with proper number">
+	<a data-type="noteref" href="...">
+	  <sup>2</sup>
+	</a>
+      </x:expect>
+    </x:scenario>
+    
+    <x:scenario label="In numbering mode with footnote.reset.numbering.at.chapter.level disabled (first chapter)">
+      <x:context select="(/h:section[@id='first_ch']//h:span[@data-type='footnote'])[2]" mode="footnote.number">
+	<x:param name="footnote.reset.numbering.at.chapter.level" select="0"/>
+      </x:context>
+      <x:expect label="The correct number should be generated">2</x:expect>
+    </x:scenario>
+
+    <x:scenario label="In numbering mode with footnote.reset.numbering.at.chapter.level disabled (second chapter)">
+      <x:context select="(/h:section[@id='second_ch']//h:span[@data-type='footnote'])[2]" mode="footnote.number">
+	<x:param name="footnote.reset.numbering.at.chapter.level" select="0"/>
+      </x:context>
+      <x:expect label="The correct number should be generated">4</x:expect>
+    </x:scenario>
+
+    <x:scenario label="In numbering mode with footnote.reset.numbering.at.chapter.level disabled (third chapter; in part)">
+      <x:context select="(/h:div[@data-type='part']/h:section[@id='third_ch']//h:span[@data-type='footnote'])[1]" mode="footnote.number">
+	<x:param name="footnote.reset.numbering.at.chapter.level" select="0"/>
+      </x:context>
+      <x:expect label="The correct number should be generated">5</x:expect>
+    </x:scenario>
+
+    <x:scenario label="In numbering mode with footnote.reset.numbering.at.chapter.level disabled (appendix)">
+      <x:context select="(/h:section[@id='the_app']//h:span[@data-type='footnote'])[1]" mode="footnote.number">
+	<x:param name="footnote.reset.numbering.at.chapter.level" select="0"/>
+      </x:context>
+      <x:expect label="The correct number should be generated">7</x:expect>
+    </x:scenario>
+
+    <x:scenario label="In numbering mode with footnote.reset.numbering.at.chapter.level enabled (first chapter)">
+      <x:context select="(/h:section[@id='first_ch']//h:span[@data-type='footnote'])[2]" mode="footnote.number">
+	<x:param name="footnote.reset.numbering.at.chapter.level" select="1"/>
+      </x:context>
+      <x:expect label="The correct number should be generated">2</x:expect>
+    </x:scenario>
+
+    <x:scenario label="In numbering mode with footnote.reset.numbering.at.chapter.level enabled (second chapter)">
+      <x:context select="(/h:section[@id='second_ch']//h:span[@data-type='footnote'])[2]" mode="footnote.number">
+	<x:param name="footnote.reset.numbering.at.chapter.level" select="1"/>
+      </x:context>
+      <x:expect label="The correct number should be generated">2</x:expect>
+    </x:scenario>
+
+    <x:scenario label="In numbering mode with footnote.reset.numbering.at.chapter.level enabled (third chapter; in part)">
+      <x:context select="(/h:div[@data-type='part']/h:section[@id='third_ch']//h:span[@data-type='footnote'])[1]" mode="footnote.number">
+	<x:param name="footnote.reset.numbering.at.chapter.level" select="1"/>
+      </x:context>
+      <x:expect label="The correct number should be generated">1</x:expect>
+    </x:scenario>
+
+    <x:scenario label="In numbering mode with footnote.reset.numbering.at.chapter.level enabled (appendix)">
+      <x:context select="(/h:section[@id='the_app']//h:span[@data-type='footnote'])[1]" mode="footnote.number">
+	<x:param name="footnote.reset.numbering.at.chapter.level" select="1"/>
+      </x:context>
+      <x:expect label="The correct number should be generated">1</x:expect>
+    </x:scenario>
+
   </x:scenario>
 
   <x:scenario label="When a footnoteref is matched">

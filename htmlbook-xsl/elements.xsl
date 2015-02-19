@@ -270,10 +270,13 @@
 
   <!-- Footnote handling -->
   <xsl:template match="h:span[@data-type='footnote']">
+    <xsl:param name="footnote.reset.numbering.at.chapter.level" select="$footnote.reset.numbering.at.chapter.level"/>
     <xsl:param name="process.footnotes" select="$process.footnotes"/>
     <xsl:choose>
       <xsl:when test="$process.footnotes = 1">
-	<xsl:call-template name="footnote-marker"/>
+	<xsl:apply-templates select="." mode="footnote.marker">
+	  <xsl:with-param name="footnote.reset.numbering.at.chapter.level" select="$footnote.reset.numbering.at.chapter.level"/>
+	</xsl:apply-templates>
       </xsl:when>
       <xsl:otherwise>
 	<xsl:copy>
@@ -283,7 +286,8 @@
     </xsl:choose>
   </xsl:template>
 
-  <xsl:template name="footnote-marker">
+  <xsl:template match="h:span[@data-type='footnote']" mode="footnote.marker" name="footnote-marker">
+    <xsl:param name="footnote.reset.numbering.at.chapter.level" select="$footnote.reset.numbering.at.chapter.level"/>
     <a data-type="noteref">
       <xsl:attribute name="id">
 	<xsl:call-template name="object.id"/>
@@ -295,13 +299,16 @@
       <sup>
 	<!-- Use numbers for footnotes -->
 	<!-- ToDo: Parameterize for numeration type and/or symbols? -->
-	<xsl:number count="h:span[@data-type='footnote']" level="any"/>
+	<xsl:apply-templates select="." mode="footnote.number">
+	  <xsl:with-param name="footnote.reset.numbering.at.chapter.level" select="$footnote.reset.numbering.at.chapter.level"/>
+	</xsl:apply-templates>
       </sup>
     </a>
   </xsl:template>
 
   <!-- Handling for footnoterefs a la DocBook (cross-references to an existing footnote) -->
   <xsl:template match="h:a[@data-type='footnoteref']">
+    <xsl:param name="footnote.reset.numbering.at.chapter.level" select="$footnote.reset.numbering.at.chapter.level"/>
     <xsl:param name="process.footnotes" select="$process.footnotes"/>
     <xsl:choose>
       <xsl:when test="$process.footnotes = 1">
@@ -322,7 +329,9 @@
 		<sup>
 		  <!-- Use numbers for footnotes -->
 		  <!-- ToDo: Parameterize for numeration type and/or symbols? -->
-		  <xsl:number count="h:span[@data-type='footnote']" level="any"/>
+		  <xsl:apply-templates select="." mode="footnote.number">
+		    <xsl:with-param name="footnote.reset.numbering.at.chapter.level" select="$footnote.reset.numbering.at.chapter.level"/>
+		  </xsl:apply-templates>
 		</sup>
 	  </a>
 	    </xsl:for-each>
@@ -344,6 +353,23 @@
 	<xsl:copy>
 	  <xsl:apply-templates select="@*|node()"/>
 	</xsl:copy>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
+  <!-- Template for numbering footnotes -->
+  <xsl:template match="h:span[@data-type='footnote']" mode="footnote.number">
+    <xsl:param name="footnote.reset.numbering.at.chapter.level" select="$footnote.reset.numbering.at.chapter.level"/>
+    <xsl:choose>
+      <xsl:when test="$footnote.reset.numbering.at.chapter.level = 1">
+	<!-- Count footnote only from most recent chapter-level element -->
+	<xsl:number count="h:span[@data-type='footnote']" level="any" from="h:section[parent::h:body or 
+									              parent::h:div[@data-type='part'] or
+										      not(ancestor::h:section)]"/>
+      </xsl:when>
+      <xsl:otherwise>
+	<!-- Count footnotes from beginning of content -->
+	<xsl:number count="h:span[@data-type='footnote']" level="any"/>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
@@ -383,7 +409,7 @@
 	<sup>
 	  <!-- Use numbers for footnotes -->
 	  <!-- ToDo: Parameterize for numeration type and/or symbols? -->
-	  <xsl:number count="h:span[@data-type='footnote']" level="any"/>
+	  <xsl:apply-templates select="." mode="footnote.number"/>
 	</sup>
       </a>
       <xsl:text> </xsl:text>
