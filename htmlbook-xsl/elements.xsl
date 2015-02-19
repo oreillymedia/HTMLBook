@@ -397,6 +397,7 @@
   </xsl:template>
 
   <xsl:template match="h:span[@data-type='footnote']" mode="generate.footnote">
+    <xsl:param name="footnote.reset.numbering.at.chapter.level" select="$footnote.reset.numbering.at.chapter.level"/>
     <p data-type="footnote">
       <xsl:attribute name="id">
 	<xsl:call-template name="object.id"/>
@@ -409,7 +410,9 @@
 	<sup>
 	  <!-- Use numbers for footnotes -->
 	  <!-- ToDo: Parameterize for numeration type and/or symbols? -->
-	  <xsl:apply-templates select="." mode="footnote.number"/>
+	  <xsl:apply-templates select="." mode="footnote.number">
+	    <xsl:with-param name="footnote.reset.numbering.at.chapter.level" select="$footnote.reset.numbering.at.chapter.level"/>
+	  </xsl:apply-templates>
 	</sup>
       </a>
       <xsl:text> </xsl:text>
