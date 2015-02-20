@@ -174,6 +174,9 @@ toc:lower-roman
   <!-- Process footnotes into separate marker/hyperlink and footnote content -->
   <xsl:param name="process.footnotes" select="0"/>
 
+  <!-- Reset footnote numbering at chapter level elements (children of part or body) -->
+  <xsl:param name="footnote.reset.numbering.at.chapter.level" select="1"/>
+
   <!-- Admonition-specific params -->
   <!-- Add title heading elements for different admonition types that do not already have headings in markup -->
   <xsl:param name="add.title.heading.for.admonitions" select="0"/>
