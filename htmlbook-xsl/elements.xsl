@@ -365,7 +365,8 @@
 	<!-- Count footnote only from most recent chapter-level element -->
 	<xsl:number count="h:span[@data-type='footnote']" level="any" from="h:section[parent::h:body or 
 									              parent::h:div[@data-type='part'] or
-										      not(ancestor::h:section)]"/>
+										      not(ancestor::h:section)]|
+									    h:div[@data-type='part']"/>
       </xsl:when>
       <xsl:otherwise>
 	<!-- Count footnotes from beginning of content -->

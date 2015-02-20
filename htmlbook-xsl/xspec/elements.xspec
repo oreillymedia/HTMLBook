@@ -1475,8 +1475,11 @@ sect5:1
 	<p>Here's the first footnote<span data-type="footnote">Footnote #1 in Chapter #2</span></p>
 	<p>Here's the second footnote<span data-type="footnote">Footnote #2 in Chapter #2</span></p>
       </section>
-      <div data-type="part">
+      <div data-type="part" id="the_part">
 	<h1>Here's a part</h1>
+	<p>This part has two footnotes</p>
+	<p>Here's the first footnote<span data-type="footnote">Footnote #1 in Part</span></p>
+	<p>Here's the second footnote<span data-type="footnote">Footnote #2 in Part</span></p>
 	<section data-type="chapter" id="third_ch">
 	  <h1>Third chapter</h1>
 	  <p>This chapter also has a couple footnotes:</p>
@@ -1546,7 +1549,7 @@ sect5:1
       </x:context>
       <x:expect label="Footnote should be processed to a noteref with proper number">
 	<a data-type="noteref" href="...">
-	  <sup>6</sup>
+	  <sup>8</sup>
 	</a>
       </x:expect>
     </x:scenario>
@@ -1577,18 +1580,25 @@ sect5:1
       <x:expect label="The correct number should be generated">4</x:expect>
     </x:scenario>
 
+    <x:scenario label="In numbering mode with footnote.reset.numbering.at.chapter.level disabled (part)">
+      <x:context select="(/h:div[@id='the_part']//h:span[@data-type='footnote'])[1]" mode="footnote.number">
+	<x:param name="footnote.reset.numbering.at.chapter.level" select="0"/>
+      </x:context>
+      <x:expect label="The correct number should be generated">5</x:expect>
+    </x:scenario>
+
     <x:scenario label="In numbering mode with footnote.reset.numbering.at.chapter.level disabled (third chapter; in part)">
       <x:context select="(/h:div[@data-type='part']/h:section[@id='third_ch']//h:span[@data-type='footnote'])[1]" mode="footnote.number">
 	<x:param name="footnote.reset.numbering.at.chapter.level" select="0"/>
       </x:context>
-      <x:expect label="The correct number should be generated">5</x:expect>
+      <x:expect label="The correct number should be generated">7</x:expect>
     </x:scenario>
 
     <x:scenario label="In numbering mode with footnote.reset.numbering.at.chapter.level disabled (appendix)">
       <x:context select="(/h:section[@id='the_app']//h:span[@data-type='footnote'])[1]" mode="footnote.number">
 	<x:param name="footnote.reset.numbering.at.chapter.level" select="0"/>
       </x:context>
-      <x:expect label="The correct number should be generated">7</x:expect>
+      <x:expect label="The correct number should be generated">9</x:expect>
     </x:scenario>
 
     <x:scenario label="In numbering mode with footnote.reset.numbering.at.chapter.level enabled (first chapter)">
@@ -1603,6 +1613,13 @@ sect5:1
 	<x:param name="footnote.reset.numbering.at.chapter.level" select="1"/>
       </x:context>
       <x:expect label="The correct number should be generated">2</x:expect>
+    </x:scenario>
+
+    <x:scenario label="In numbering mode with footnote.reset.numbering.at.chapter.level enabled (part)">
+      <x:context select="(/h:div[@id='the_part']//h:span[@data-type='footnote'])[1]" mode="footnote.number">
+	<x:param name="footnote.reset.numbering.at.chapter.level" select="1"/>
+      </x:context>
+      <x:expect label="The correct number should be generated">1</x:expect>
     </x:scenario>
 
     <x:scenario label="In numbering mode with footnote.reset.numbering.at.chapter.level enabled (third chapter; in part)">
