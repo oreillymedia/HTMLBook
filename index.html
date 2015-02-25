@@ -81,6 +81,8 @@ span[data-type=footnote] {
     <section>
       <h2>Revision History and Notes</h2>
       <dl>
+	<dt>25 February 2015</dt>
+	<dd>Clarified HTMLBook specifications for inline semantics/tagging</dd>
 	<dt>8 April 2014</dt>
 	<dd>Updated specifications for section subtitles to comply with best practices set forth in <a href="http://www.w3.org/TR/html5/common-idioms.html#common-idioms">&ldquo;Common idioms without dedicated elements&rdquo;</a> in [[!HTML5]] Specification.</dd>
         <dt>29 December 2013</dt>
@@ -565,6 +567,7 @@ now free to be used for whatever user-defined semantics are desired, and there a
     </section>
     <section data-type="sect1" id="_inline_elements">
       <h1>Inline Elements</h1>
+	<div class="note">HTMLBook is primarily focused on codifying <em>structural semantics</em> for book authoring, and as such, it does not formally define specifications for phrase-level semantics (such as the DocBook <a href="http://www.docbook.org/tdg/en/html/varname.html"><code>varname</code></a> or <a href="http://www.docbook.org/tdg/en/html/personname.html"><code>personname</code></a> elements) beyond that which is codified in the [[!HTML5]] specification, Nor does it formally define specifications for purely presentational markup (such as underline or strikethrough rendering). HTMLBook users are encouraged to employ the appropriate standard HTML5 phrasing elements for inline semantics when available (e.g., <code>&lt;strong&gt;</code>, <code>&lt;em&gt;</code>, <code>&lt;s&gt;</code>, <code>&lt;u&gt;</code>) and to use <code>&lt;span&gt;</code> elements with custom-defined classes in other cases, as illustrated in the following examples.</div>
       <section data-type="sect2" id="_emphasis_generally_for_italic">
         <h2>Emphasis (generally for italic)</h2>
         <p><strong>HTML element</strong>: <code>&lt;em&gt;</code></p>
@@ -584,11 +587,11 @@ now free to be used for whatever user-defined semantics are desired, and there a
         <pre data-type="programlisting">&lt;p&gt;Enter &lt;code&gt;echo "Hello World"&lt;/code&gt; on the command line&lt;/p&gt;</pre>
       </section>
       <section data-type="sect2" id="_general_purpose_phrase_markup_for_other_styling_underline_strikethrough_etc">
-        <h2>General-purpose phrase markup for other styling (underline, strikethrough, etc.)</h2>
+        <h2>General-purpose phrase markup for other styling</h2>
         <p><strong>HTML element</strong>: <code>&lt;span&gt;</code></p>
         <p><strong>Example:</strong></p>
-        <pre data-type="programlisting">&lt;p&gt;Use your own data-type or class attributes for custom styling for formatting 
-like &lt;span data-type="strikethrough"&gt;strikethrough&lt;/span&gt;&lt;/p&gt;</pre>
+        <pre data-type="programlisting">&lt;p&gt;Use your own class attributes for custom styling for formatting 
+like &lt;span class="underline"&gt;underlined text&lt;/span&gt;&lt;/p&gt;</pre>
       </section>
       <section data-type="sect2" id="_footnote_endnote">
         <h2>Footnote, endnote</h2>
