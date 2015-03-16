@@ -58,12 +58,7 @@ UbuntuMono-Regular.otf
 
   <x:scenario label="When generate.opf is run">
     <x:call template="generate.opf.content"/>
-    <x:scenario label="with generate.guide disabled">
-      <x:call>
-	<x:param name="generate.guide" select="0"/>
-      </x:call>
-      <x:expect test="not(exists(/opf:package/opf:guide))"/>
-    </x:scenario>
+
     <x:expect label="A package root element should be generated with the proper namespaces">
       <package xmlns="http://www.idpf.org/2007/opf" 
 	       xmlns:opf="http://www.idpf.org/2007/opf"
@@ -77,6 +72,12 @@ UbuntuMono-Regular.otf
     <x:expect label="The OPF package should contain a manifest element" test="exists(/opf:package/opf:manifest)"/>
     <x:expect label="The OPF package should contain a spine element" test="exists(/opf:package/opf:spine)"/>
     <x:expect label="The OPF package should contain a guide element by default" test="exists(/opf:package/opf:guide)"/>
+  	<x:scenario label="with generate.guide disabled">
+  		<x:call>
+  			<x:param name="generate.guide" select="0"/>
+  		</x:call>
+  		<x:expect label="The OPF package should not contain a guide element" test="not(exists(/opf:package/opf:guide))"/>
+  	</x:scenario>
   </x:scenario>
 
   <x:scenario label="When opf.manifest is run">

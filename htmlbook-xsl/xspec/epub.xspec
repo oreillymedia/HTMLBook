@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               xmlns:functx="http://www.functx.com"
+	       xmlns="http://www.w3.org/1999/xhtml"
+	       xmlns:dc="http://purl.org/dc/elements/1.1/"
+	       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+	       xmlns:dcterms="http://purl.org/dc/terms/"
+	       xmlns:opf="http://www.idpf.org/2007/opf"
+	       xmlns:h="http://www.w3.org/1999/xhtml"
+	       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+	       xmlns:epub="http://www.idpf.org/2007/ops"
+               stylesheet="../epub.xsl">
+
+  <!-- Test suite for epub.xsl -->
+
+  <x:scenario label="When a data-type attribute is matched">
+    <x:context select="(/h:aside)[1]">
+      <aside data-type="sidebar">
+	<h5>Sidebar title</h5>
+	<p>Some text</p>
+      </aside>
+    </x:context>
+    <x:expect label="It should be propagated to output as is, and also in a epub:type attribute (if part of the EPUB SSV)">
+      <aside data-type="sidebar" epub:type="sidebar">...</aside>
+    </x:expect>
+  </x:scenario>
+
+</x:description>
