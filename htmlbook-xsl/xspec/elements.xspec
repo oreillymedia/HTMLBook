@@ -1454,9 +1454,9 @@ sect5:1
 	<x:param name="process.footnotes" select="1"/>
       </x:context>
       <x:expect label="Footnote should be processed to a noteref">
-	<a data-type="noteref" id="fn_id_yo-marker" href="#fn_id_yo">
-	  <sup>1</sup>
-	</a>
+	<sup>
+	<a data-type="noteref" id="fn_id_yo-marker" href="#fn_id_yo">1</a>
+	</sup>
       </x:expect>
     </x:scenario>
   </x:scenario>
@@ -1502,9 +1502,9 @@ sect5:1
 	<x:param name="footnote.reset.numbering.at.chapter.level" select="0"/>
       </x:context>
       <x:expect label="Footnote should be processed to a noteref with proper number">
-	<a data-type="noteref" id="..." href="...">
-	  <sup>4</sup>
-	</a>
+	<sup>
+	<a data-type="noteref" id="..." href="...">4</a>
+	</sup>
       </x:expect>
     </x:scenario>
 
@@ -1514,9 +1514,9 @@ sect5:1
 	<x:param name="footnote.reset.numbering.at.chapter.level" select="1"/>
       </x:context>
       <x:expect label="Footnote should be processed to a noteref with proper number">
-	<a data-type="noteref" id="..." href="...">
-	  <sup>2</sup>
-	</a>
+	<sup>
+	<a data-type="noteref" id="..." href="...">2</a>
+	</sup>
       </x:expect>
     </x:scenario>
 
@@ -1527,7 +1527,7 @@ sect5:1
       </x:context>
       <x:expect label="Footnote should be processed to a para with anchor and proper number">
 	<p data-type="footnote" id="...">
-	  <a href="..."><sup>4</sup></a> Footnote #2 in Chapter #2</p>
+	  <sup><a href="...">4</a></sup> Footnote #2 in Chapter #2</p>
       </x:expect>
     </x:scenario>
 
@@ -1538,7 +1538,7 @@ sect5:1
       </x:context>
       <x:expect label="Footnote should be processed to a para with anchor and proper number">
 	<p data-type="footnote" id="...">
-	  <a href="..."><sup>2</sup></a> Footnote #2 in Chapter #2</p>
+	  <sup><a href="...">2</a></sup> Footnote #2 in Chapter #2</p>
       </x:expect>
     </x:scenario>
 
@@ -1548,9 +1548,9 @@ sect5:1
 	<x:param name="footnote.reset.numbering.at.chapter.level" select="0"/>
       </x:context>
       <x:expect label="Footnote should be processed to a noteref with proper number">
-	<a data-type="noteref" href="...">
-	  <sup>8</sup>
-	</a>
+	<sup>
+	<a data-type="noteref" href="...">8</a>
+	</sup>
       </x:expect>
     </x:scenario>
 
@@ -1560,9 +1560,9 @@ sect5:1
 	<x:param name="footnote.reset.numbering.at.chapter.level" select="1"/>
       </x:context>
       <x:expect label="Footnote should be processed to a noteref with proper number">
-	<a data-type="noteref" href="...">
-	  <sup>2</sup>
-	</a>
+	<sup>
+	<a data-type="noteref" href="...">2</a>
+	</sup>
       </x:expect>
     </x:scenario>
     
@@ -1659,9 +1659,9 @@ sect5:1
 	<x:param name="process.footnotes" select="1"/>
       </x:context>
       <x:expect label="Footnote should be processed to a noteref">
-	<a data-type="noteref" href="...">
-	  <sup>2</sup>
-	</a>
+	<sup>
+	<a data-type="noteref" href="...">2</a>
+	</sup>
       </x:expect>
     </x:scenario>
   </x:scenario>
