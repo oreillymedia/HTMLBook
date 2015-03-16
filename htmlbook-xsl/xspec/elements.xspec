@@ -1649,8 +1649,8 @@ sect5:1
       <x:context>
 	<x:param name="process.footnotes" select="0"/>
       </x:context>
-      <x:expect label="Footnoteref should be copied to output as is">
-	<a data-type="footnoteref" href="#best_footnote_ever"/>
+      <x:expect label="Footnoteref should be processed to marker with correct number">
+	<sup class="footnoteref">2</sup>
       </x:expect>
     </x:scenario>
 

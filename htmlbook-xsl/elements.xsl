@@ -310,49 +310,54 @@
   <xsl:template match="h:a[@data-type='footnoteref']">
     <xsl:param name="footnote.reset.numbering.at.chapter.level" select="$footnote.reset.numbering.at.chapter.level"/>
     <xsl:param name="process.footnotes" select="$process.footnotes"/>
+    <xsl:variable name="referenced-footnote-id">
+      <!-- Assuming that href is in the format href="#footnote_id" -->
+      <xsl:value-of select="substring-after(@href, '#')"/>
+    </xsl:variable>
+    <xsl:variable name="referenced-footnote" select="key('footnote-nodes-by-id', $referenced-footnote-id)"/>
+
     <xsl:choose>
-      <xsl:when test="$process.footnotes = 1">
-	<xsl:variable name="referenced-footnote-id">
-	  <!-- Assuming that href is in the format href="#footnote_id" -->
-	  <xsl:value-of select="substring-after(@href, '#')"/>
-	</xsl:variable>
-	<xsl:variable name="referenced-footnote" select="key('footnote-nodes-by-id', $referenced-footnote-id)"/>
-	<xsl:choose>
-	  <xsl:when test="count($referenced-footnote) &gt; 0">
-	    <!-- Switch the context node to that of the referenced footnote -->
-	    <xsl:for-each select="$referenced-footnote[1]">
+      <xsl:when test="count($referenced-footnote) &gt; 0">
+	<!-- Switch the context node to that of the referenced footnote -->
+	<xsl:for-each select="$referenced-footnote[1]">
+	  <xsl:variable name="footnoteref.number">
+	    <!-- Use numbers for footnotes -->
+	    <!-- ToDo: Parameterize for numeration type and/or symbols? -->
+	    <xsl:apply-templates select="." mode="footnote.number">
+	      <xsl:with-param name="footnote.reset.numbering.at.chapter.level" select="$footnote.reset.numbering.at.chapter.level"/>
+	    </xsl:apply-templates>
+	  </xsl:variable>
+	  <xsl:choose>
+	    <xsl:when test="$process.footnotes = 1">
 	      <!-- Same general handling as regular footnote markers, except footnoterefs don't get ids -->
 	      <sup>
-	      <a data-type="noteref">
-		<xsl:attribute name="href">
-		  <xsl:call-template name="href.target"/>
-		</xsl:attribute>
-		  <!-- Use numbers for footnotes -->
-		  <!-- ToDo: Parameterize for numeration type and/or symbols? -->
-		  <xsl:apply-templates select="." mode="footnote.number">
-		    <xsl:with-param name="footnote.reset.numbering.at.chapter.level" select="$footnote.reset.numbering.at.chapter.level"/>
-		  </xsl:apply-templates>
-	  </a>
-	  </sup>
-	    </xsl:for-each>
-	  </xsl:when>
-	  <xsl:otherwise>
-	    <!-- Uh oh, couldn't find the corresponding footnote for the footnoteref -->
-	    <xsl:call-template name="log-message">
-	      <xsl:with-param name="type" select="'WARNING'"/>
-	      <xsl:with-param name="message">
-		<xsl:text>Error: Could not find footnote referenced by footnoteref link </xsl:text>
-		<xsl:value-of select="@href"/>
-		<xsl:text>. Footnote marker will not be generated.</xsl:text>
-	      </xsl:with-param>
-	    </xsl:call-template>
-	  </xsl:otherwise>
-	</xsl:choose>
+		<a data-type="noteref">
+		  <xsl:attribute name="href">
+		    <xsl:call-template name="href.target"/>
+		  </xsl:attribute>
+		  <xsl:value-of select="$footnoteref.number"/>
+		</a>
+	      </sup>
+	    </xsl:when>
+	    <xsl:otherwise>
+	      <!-- If footnotes are not being processed, just output a sup with correct marker number -->
+	      <sup class="footnoteref">
+		<xsl:value-of select="$footnoteref.number"/>
+	      </sup>
+	    </xsl:otherwise>
+	  </xsl:choose>
+	</xsl:for-each>
       </xsl:when>
       <xsl:otherwise>
-	<xsl:copy>
-	  <xsl:apply-templates select="@*|node()"/>
-	</xsl:copy>
+	<!-- Uh oh, couldn't find the corresponding footnote for the footnoteref -->
+	<xsl:call-template name="log-message">
+	  <xsl:with-param name="type" select="'WARNING'"/>
+	  <xsl:with-param name="message">
+	    <xsl:text>Error: Could not find footnote referenced by footnoteref link </xsl:text>
+	    <xsl:value-of select="@href"/>
+	    <xsl:text>. Footnote marker will not be generated.</xsl:text>
+	  </xsl:with-param>
+	</xsl:call-template>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
