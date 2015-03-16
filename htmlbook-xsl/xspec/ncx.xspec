@@ -38,6 +38,14 @@ sect5:none
     <x:expect label="It should have the standard ncx root element">
       <ncx xmlns="http://www.daisy.org/z3986/2005/ncx/" version="2005-1">...</ncx>
     </x:expect>
+  	
+  	<x:expect label="It should have the book title in a docTitle element" test="exists(/ncx:ncx/ncx:docTitle[. = 'Infinite Jest'])"/>
+  	
+  	<x:expect label="It should have a navMap with navPoint children for TOC elements" test="exists(/ncx:ncx/ncx:navMap[ncx:navPoint])"/>
+  	
+  	<x:expect label="navPoints should have playOrder attributes in consecutive order" 
+  		test="not(exists(//ncx:navPoint[not(@playOrder)])) and
+  		count((//ncx:navPoint)[position() = @playOrder]) = count((//ncx:navPoint))"/>
     
     <x:scenario label="With generate.cover.html disabled">
       <x:call>
@@ -63,14 +71,7 @@ sect5:none
       </x:scenario>
     </x:pending>
     
-    <x:expect label="It should have the book title in a docTitle element" test="exists(/ncx:ncx/ncx:docTitle[. = 'Infinite Jest'])"/>
-    
-    <x:expect label="It should have a navMap with navPoint children for TOC elements" test="exists(/ncx:ncx/ncx:navMap[ncx:navPoint])"/>
-
-    <x:expect label="navPoints should have playOrder attributes in consecutive order" 
-	      test="not(exists(//ncx:navPoint[not(@playOrder)])) and
-		    count((//ncx:navPoint)[position() = @playOrder]) = count((//ncx:navPoint))"/>
-  </x:scenario>
+      </x:scenario>
 
     <x:scenario label="When a book section/div is matched in ncx.toc.gen mode">
       <x:context mode="ncx.toc.gen">
@@ -155,6 +156,10 @@ sect5:none
       <x:expect label="A navLabel element should be generated with properly formatted heading text" 
 		test="count(ncx:navPoint/ncx:navLabel[contains(., 'Tables of Crucial Data')]) = 1"/>
 
+    	<!-- More robust testing here for src attribute value might be nice. -->
+    	<x:expect label="A navPoint element should contain a content element with a src attribute"
+    		test="exists(ncx:navPoint/ncx:content[@src])"/>
+
       <x:scenario label="with $ncx.toc.include.label enabled">
 	<x:call>
 	  <x:param name="ncx.toc.include.labels" select="1"/>
@@ -185,10 +190,6 @@ sect5:none
 	<x:expect label="A navLabel's text content *should not* contain any inline elements"
 		  test="not(exists(ncx:navPoint/ncx:navLabel/ncx:text/*))"/>
       </x:scenario>
-
-      <!-- More robust testing here for src attribute value might be nice. -->
-      <x:expect label="A navPoint element should contain a content element with a src attribute"
-		test="exists(ncx:navPoint/ncx:content[@src])"/>
 
     </x:scenario>
 
