@@ -288,6 +288,7 @@
 
   <xsl:template match="h:span[@data-type='footnote']" mode="footnote.marker" name="footnote-marker">
     <xsl:param name="footnote.reset.numbering.at.chapter.level" select="$footnote.reset.numbering.at.chapter.level"/>
+    <sup>
     <a data-type="noteref">
       <xsl:attribute name="id">
 	<xsl:call-template name="object.id"/>
@@ -296,14 +297,13 @@
       <xsl:attribute name="href">
 	<xsl:call-template name="href.target"/>
       </xsl:attribute>
-      <sup>
 	<!-- Use numbers for footnotes -->
 	<!-- ToDo: Parameterize for numeration type and/or symbols? -->
 	<xsl:apply-templates select="." mode="footnote.number">
 	  <xsl:with-param name="footnote.reset.numbering.at.chapter.level" select="$footnote.reset.numbering.at.chapter.level"/>
 	</xsl:apply-templates>
-      </sup>
     </a>
+    </sup>
   </xsl:template>
 
   <!-- Handling for footnoterefs a la DocBook (cross-references to an existing footnote) -->
@@ -322,18 +322,18 @@
 	    <!-- Switch the context node to that of the referenced footnote -->
 	    <xsl:for-each select="$referenced-footnote[1]">
 	      <!-- Same general handling as regular footnote markers, except footnoterefs don't get ids -->
+	      <sup>
 	      <a data-type="noteref">
 		<xsl:attribute name="href">
 		  <xsl:call-template name="href.target"/>
 		</xsl:attribute>
-		<sup>
 		  <!-- Use numbers for footnotes -->
 		  <!-- ToDo: Parameterize for numeration type and/or symbols? -->
 		  <xsl:apply-templates select="." mode="footnote.number">
 		    <xsl:with-param name="footnote.reset.numbering.at.chapter.level" select="$footnote.reset.numbering.at.chapter.level"/>
 		  </xsl:apply-templates>
-		</sup>
 	  </a>
+	  </sup>
 	    </xsl:for-each>
 	  </xsl:when>
 	  <xsl:otherwise>
@@ -403,19 +403,19 @@
       <xsl:attribute name="id">
 	<xsl:call-template name="object.id"/>
       </xsl:attribute>
+      <sup>
       <a>
 	<xsl:attribute name="href">
 	  <xsl:call-template name="href.target"/>
 	  <xsl:text>-marker</xsl:text>
 	</xsl:attribute>
-	<sup>
 	  <!-- Use numbers for footnotes -->
 	  <!-- ToDo: Parameterize for numeration type and/or symbols? -->
 	  <xsl:apply-templates select="." mode="footnote.number">
 	    <xsl:with-param name="footnote.reset.numbering.at.chapter.level" select="$footnote.reset.numbering.at.chapter.level"/>
 	  </xsl:apply-templates>
-	</sup>
       </a>
+      </sup>
       <xsl:text> </xsl:text>
       <xsl:apply-templates/>
     </p>
