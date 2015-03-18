@@ -588,7 +588,8 @@ sect5:s
     <!-- Only generate footnotes if the current node is a chunk -->
     <xsl:if test="htmlbook:is-chunk(.)">
 
-      <xsl:variable name="all-footnotes" select="//h:span[@data-type='footnote']"/>
+      <!-- Get all footnotes that aren't in tables -->
+      <xsl:variable name="all-footnotes" select="//h:span[@data-type='footnote'][not(ancestor::h:table)]"/>
 
       <!-- Get a list of all chunk filenames corresponding to each footnote node -->
       <xsl:variable name="filenames-for-footnotes">
