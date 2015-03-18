@@ -177,6 +177,12 @@ toc:lower-roman
   <!-- Reset footnote numbering at chapter level elements (children of part or body) -->
   <xsl:param name="footnote.reset.numbering.at.chapter.level" select="1"/>
 
+  <!-- Numeration format for table footnotes -->
+  <xsl:param name="table.footnote.numeration.format" select="'a'"/>
+
+  <!-- Numeration format for non-table footnotes -->
+  <xsl:param name="footnote.numeration.format" select="'1'"/>
+
   <!-- Admonition-specific params -->
   <!-- Add title heading elements for different admonition types that do not already have headings in markup -->
   <xsl:param name="add.title.heading.for.admonitions" select="0"/>

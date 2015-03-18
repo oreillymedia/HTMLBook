@@ -1666,6 +1666,113 @@ sect5:1
     </x:scenario>
   </x:scenario>
 
+  <!-- Table footnote tests -->
+  <x:scenario label="When a table with footnotes is matched">
+    <x:context>
+      <table>
+	<caption>Four colors</caption>
+	<tbody>
+	  <tr>
+	    <td>Vermillion<span id="tf1" data-type="footnote">Reddish</span></td>
+	    <td>Cerulean<span id="tf2" data-type="footnote">Bluish</span></td>
+	  </tr>
+	  <tr>
+	    <td>Chartreuse<span id="tf3" data-type="footnote">Greenish</span></td>
+	    <td>Fuschia<span id="tf4" data-type="footnote">Purplish</span></td>
+	  </tr>
+	  <tr>
+	    <td>Teal<a data-type="footnoteref" href="#tf3"/></td>
+	    <td>Eggplant<a data-type="footnoteref" href="#tf4"/></td>
+	  </tr>
+	</tbody>
+      </table>
+    </x:context>
+
+    <x:expect label="Footnotes should be added to a tfoot section at the end of table">
+      <table>
+	<caption>...</caption>
+	<tbody>...</tbody>
+	<tfoot class="footnotes">
+	  <tr>
+	    <td>
+	      <p data-type="footnote" id="tf1"><sup><a href="#tf1-marker">a</a></sup> Reddish</p>
+	      <p data-type="footnote" id="tf2"><sup><a href="#tf2-marker">b</a></sup> Bluish</p>
+	      <p data-type="footnote" id="tf3"><sup><a href="#tf3-marker">c</a></sup> Greenish</p>
+	      <p data-type="footnote" id="tf4"><sup><a href="#tf4-marker">d</a></sup> Purplish</p>
+	    </td>
+	  </tr>
+	</tfoot>
+      </table>
+    </x:expect>
+
+    <!-- Same result regardless of whether process.footnotes is disabled or enabled -->
+    <x:scenario label="With process.footnotes disabled">
+      <x:context select="//h:span[@id='tf4']">
+	<x:param name="process.footnotes" select="0"/>
+      </x:context>
+      <x:expect label="The footnote callout should be converted to a superscripted hyperlink with a lower-alpha marker">
+	<sup><a data-type="noteref" id="tf4-marker" href="#tf4">d</a></sup>
+      </x:expect>
+    </x:scenario>
+
+    <x:scenario label="With process.footnotes enabled">
+      <x:context select="//h:span[@id='tf4']">
+	<x:param name="process.footnotes" select="1"/>
+      </x:context>
+      <x:expect label="The footnote callout should be converted to a superscripted hyperlink with a lower-alpha marker">
+	<sup><a data-type="noteref" id="tf4-marker" href="#tf4">d</a></sup>
+      </x:expect>
+    </x:scenario>
+
+    <x:scenario label="(footnoteref)">
+      <x:context select="(//h:a[@data-type='footnoteref'])[1]"/>
+      <x:expect label="The proper footnote callout should be generated with a lower-alpha marker">
+	<sup><a data-type="noteref" href="#tf3">c</a></sup>
+      </x:expect>
+    </x:scenario>
+  </x:scenario>
+
+  <x:scenario label="When a section is matched that has both footnotes and table footnotes">
+    <x:context>
+      <section data-type="chapter">
+	<h1>All about colors</h1>
+	<p>The following table<span data-type="footnote">Made with love</span> lists some colors</p>
+	<table>
+	  <caption>Four colors</caption>
+	  <tbody>
+	    <tr>
+	      <td>Vermillion<span id="tf1" data-type="footnote">Reddish</span></td>
+	      <td>Cerulean<span id="tf2" data-type="footnote">Bluish</span></td>
+	    </tr>
+	    <tr>
+	      <td>Chartreuse<span id="tf3" data-type="footnote">Greenish</span></td>
+	    <td>Fuschia<span id="tf4" data-type="footnote">Purplish</span></td>
+	    </tr>
+	  </tbody>
+	</table>
+	<p>I hope you found this table accurate<span data-type="footnote">If not, please send errata</span></p>
+      </section>
+    </x:context>
+
+    <x:scenario label="With process.footnotes disabled">
+      <x:context>
+	<x:param name="process.footnotes" select="0"/>
+      </x:context>
+      <x:expect label="There should be 4 footnotes at end of table" test="count(//h:table//h:tfoot//*[@data-type='footnote']) = 4"/>
+      <x:expect label="There should be no footnotes at end of section" test="count(//h:section/h:aside//*[@data-type='footnote']) = 0"/>
+    </x:scenario>
+
+    <x:scenario label="With process.footnotes enabled">
+      <x:context>
+	<x:param name="process.footnotes" select="1"/>
+      </x:context>
+      <x:expect label="There should be 4 footnotes at end of table" test="count(//h:table//h:tfoot//*[@data-type='footnote']) = 4"/>
+      <x:expect label="There should be 2 footnotes at end of section" test="count(//h:section/h:aside//*[@data-type='footnote']) = 2"/>
+      <x:expect label="Footnotes at end of section should be numbered in sequence" test="every $footnote in (//h:p[@data-type='footnote'][ancestor::h:aside]) satisfies $footnote[count(preceding-sibling::h:p[@data-type='footnote']) + 1 = h:sup/h:a]"/>
+    </x:scenario>
+
+  </x:scenario>
+
   <!-- Comment-toggle tests -->
   <x:scenario label="When matching a block element with data-type='comment'">
     <x:context>

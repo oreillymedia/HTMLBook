@@ -143,6 +143,24 @@
     </xsl:apply-templates>
   </xsl:template>
 
+  <!-- Custom handling for tables that have footnotes -->
+  <xsl:template match="h:table[descendant::h:span[@data-type='footnote']]">
+    <xsl:param name="process.footnotes" select="$process.footnotes"/>
+    <xsl:copy>
+      <xsl:apply-templates select="@*|node()"/>
+      <!-- Put table footnotes in a tfoot -->
+      <tfoot class="footnotes">
+	<tr>
+	  <td>
+	    <xsl:for-each select="descendant::h:span[@data-type='footnote']">
+	      <xsl:apply-templates select="." mode="generate.footnote"/>
+	    </xsl:for-each>
+	  </td>
+	</tr>
+      </tfoot>
+    </xsl:copy>
+  </xsl:template>
+
   <xsl:template match="h:figure">
     <xsl:param name="html4.structural.elements" select="$html4.structural.elements"/>
     <xsl:param name="figure.border.div" select="$figure.border.div"/>
@@ -273,7 +291,7 @@
     <xsl:param name="footnote.reset.numbering.at.chapter.level" select="$footnote.reset.numbering.at.chapter.level"/>
     <xsl:param name="process.footnotes" select="$process.footnotes"/>
     <xsl:choose>
-      <xsl:when test="$process.footnotes = 1">
+      <xsl:when test="($process.footnotes = 1) or ancestor::h:table">
 	<xsl:apply-templates select="." mode="footnote.marker">
 	  <xsl:with-param name="footnote.reset.numbering.at.chapter.level" select="$footnote.reset.numbering.at.chapter.level"/>
 	</xsl:apply-templates>
@@ -328,7 +346,7 @@
 	    </xsl:apply-templates>
 	  </xsl:variable>
 	  <xsl:choose>
-	    <xsl:when test="$process.footnotes = 1">
+	    <xsl:when test="($process.footnotes = 1) or ancestor::h:table">
 	      <!-- Same general handling as regular footnote markers, except footnoterefs don't get ids -->
 	      <sup>
 		<a data-type="noteref">
@@ -366,16 +384,22 @@
   <xsl:template match="h:span[@data-type='footnote']" mode="footnote.number">
     <xsl:param name="footnote.reset.numbering.at.chapter.level" select="$footnote.reset.numbering.at.chapter.level"/>
     <xsl:choose>
+      <xsl:when test="ancestor::h:table">
+	<!-- Count footnotes from this table -->
+	<xsl:number count="h:span[@data-type='footnote'][ancestor::h:table]" from="h:table" level="any" format="{$table.footnote.numeration.format}"/>
+      </xsl:when>
       <xsl:when test="$footnote.reset.numbering.at.chapter.level = 1">
-	<!-- Count footnote only from most recent chapter-level element -->
-	<xsl:number count="h:span[@data-type='footnote']" level="any" from="h:section[parent::h:body or 
-									              parent::h:div[@data-type='part'] or
-										      not(ancestor::h:section)]|
-									    h:div[@data-type='part']"/>
+	<!-- Count non-table footnotes only from most recent chapter-level element -->
+	<xsl:number count="h:span[@data-type='footnote'][not(ancestor::h:table)]" 
+		    level="any" format="{$footnote.numeration.format}"
+		    from="h:section[parent::h:body or 
+			  parent::h:div[@data-type='part'] or
+			  not(ancestor::h:section)]|
+			  h:div[@data-type='part']"/>
       </xsl:when>
       <xsl:otherwise>
-	<!-- Count footnotes from beginning of content -->
-	<xsl:number count="h:span[@data-type='footnote']" level="any"/>
+	<!-- Count non-table footnotes from beginning of content -->
+	<xsl:number count="h:span[@data-type='footnote'][not(ancestor::h:table)]" level="any" format="{$footnote.numeration.format}"/>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
@@ -384,7 +408,7 @@
     <!-- For standard, one-chunk output, we put all the footnotes at the end of the last chapter or appendix -->
     <!-- (Note that if there are no chapters or appendixes in the book, footnotes will not be generated properly. This can be changed
 	 if we determine that there are other main-book-div types that can hold footnotes at the end of a book) --> 
-    <xsl:if test="self::h:section[@data-type='chapter' or @data-type='appendix'] and not(following::h:section[@data-type='chapter' or @data-type='appendix']) and count(//h:span[@data-type='footnote']) > 0">
+    <xsl:if test="self::h:section[@data-type='chapter' or @data-type='appendix'] and not(following::h:section[@data-type='chapter' or @data-type='appendix']) and count(//h:span[@data-type='footnote'][not(ancestor::h:table)]) > 0">
       <!-- Footnotes should be put in an aside by default, but we call html.output.element to see if <aside> should be remapped to something else -->
       <!-- Kludge-y way to get an aside element -->
       <xsl:variable name="aside-element">
@@ -397,7 +421,7 @@
       </xsl:variable>
       <xsl:element name="{$footnote-element-name}" namespace="http://www.w3.org/1999/xhtml">
 	<xsl:attribute name="data-type">footnotes</xsl:attribute>
-	<xsl:apply-templates select="//h:span[@data-type='footnote']" mode="generate.footnote"/>
+	<xsl:apply-templates select="//h:span[@data-type='footnote'][not(ancestor::h:table)]" mode="generate.footnote"/>
       </xsl:element>
     </xsl:if>
   </xsl:template>
