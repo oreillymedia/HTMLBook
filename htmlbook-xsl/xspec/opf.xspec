@@ -38,20 +38,30 @@ DejaVuSans-Bold.otf
 UbuntuMono-Regular.otf
 UbuntuMono-Bold.otf
 UbuntuMono-BoldItalic.otf
-UbuntuMono-Italic.otf</x:param>
+UbuntuMono-Italic.otf
+images/puppy.png
+images/kitkat.jpg</x:param>
   
   <x:scenario label="When get.external.assets.xml is run">
     <x:call template="get.external.assets.xml">
       <x:param name="assets.to.process">DejaVuSerif.otf
 DejaVuSerif.ttf
+boston.gif
+pencil.jpg
 UbuntuMono-Regular.otf
+css_images/puppy.png
+css_images/pizza.svg
 </x:param>
     </x:call>
     <x:expect label="it should return an XML-formatted lists of assets with proper mimetypes">
       <e:assets>
 	<e:asset filename="DejaVuSerif.otf" mimetype="application/vnd.ms-opentype"/>
 	<e:asset filename="DejaVuSerif.ttf" mimetype="font/truetype"/>
+	<e:asset filename="boston.gif" mimetype="image/gif"/>
+	<e:asset filename="pencil.jpg" mimetype="image/jpeg"/>
 	<e:asset filename="UbuntuMono-Regular.otf" mimetype="application/vnd.ms-opentype"/>
+	<e:asset filename="css_images/puppy.png" mimetype="image/png"/>
+	<e:asset filename="css_images/pizza.svg" mimetype="image/svg+xml"/>
       </e:assets>
     </x:expect>
   </x:scenario>
@@ -83,12 +93,14 @@ UbuntuMono-Regular.otf
   <x:scenario label="When opf.manifest is run">
     <x:call template="opf.manifest"/>
     <!-- Based on font list specified in global param $external.assets.list -->
-    <x:expect label="there should be items for each font" test="exists(/opf:manifest/opf:item[@href='DejaVuSerif.otf']) and
+    <x:expect label="there should be items for each external asset" test="exists(/opf:manifest/opf:item[@href='DejaVuSerif.otf']) and
 								exists(/opf:manifest/opf:item[@href='DejaVuSans-Bold.otf']) and
 								exists(/opf:manifest/opf:item[@href='UbuntuMono-Regular.otf']) and
 								exists(/opf:manifest/opf:item[@href='UbuntuMono-Bold.otf']) and
 								exists(/opf:manifest/opf:item[@href='UbuntuMono-BoldItalic.otf']) and
-								exists(/opf:manifest/opf:item[@href='UbuntuMono-Italic.otf'])"/>
+								exists(/opf:manifest/opf:item[@href='UbuntuMono-Italic.otf']) and
+								exists(/opf:manifest/opf:item[@href='images/puppy.png']) and
+								exists(/opf:manifest/opf:item[@href='images/kitkat.jpg'])"/>
     <x:scenario label="with NCX generation enabled">
       <x:call>
 	<x:param name="generate.ncx.toc" select="1"/>
