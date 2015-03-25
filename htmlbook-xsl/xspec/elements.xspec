@@ -1694,7 +1694,7 @@ sect5:1
 	<tbody>...</tbody>
 	<tfoot class="footnotes">
 	  <tr>
-	    <td>
+	    <td colspan="2">
 	      <p data-type="footnote" id="tf1"><sup><a href="#tf1-marker">a</a></sup> Reddish</p>
 	      <p data-type="footnote" id="tf2"><sup><a href="#tf2-marker">b</a></sup> Bluish</p>
 	      <p data-type="footnote" id="tf3"><sup><a href="#tf3-marker">c</a></sup> Greenish</p>
