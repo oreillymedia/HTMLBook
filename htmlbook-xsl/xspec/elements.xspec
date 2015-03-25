@@ -1692,7 +1692,7 @@ sect5:1
       <table>
 	<caption>...</caption>
 	<tbody>...</tbody>
-	<tfoot class="footnotes" >
+	<tfoot class="footnotes">
 	  <tr>
 	    <td colspan="2">
 	      <p data-type="footnote" id="tf1"><sup><a href="#tf1-marker">a</a></sup> Reddish</p>
