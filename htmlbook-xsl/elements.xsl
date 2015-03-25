@@ -146,12 +146,15 @@
   <!-- Custom handling for tables that have footnotes -->
   <xsl:template match="h:table[descendant::h:span[@data-type='footnote']]">
     <xsl:param name="process.footnotes" select="$process.footnotes"/>
+    <xsl:variable name="number-of-table-columns">
+      <xsl:apply-templates select="." mode="number.of.table.columns"/>
+    </xsl:variable>
     <xsl:copy>
       <xsl:apply-templates select="@*|node()"/>
       <!-- Put table footnotes in a tfoot -->
       <tfoot class="footnotes">
 	<tr>
-	  <td>
+	  <td colspan="{$number-of-table-columns}">
 	    <xsl:for-each select="descendant::h:span[@data-type='footnote']">
 	      <xsl:apply-templates select="." mode="generate.footnote"/>
 	    </xsl:for-each>
