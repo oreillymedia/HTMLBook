@@ -208,12 +208,12 @@
        to be embedded here: place each asset on a separate line 
        Filenames should be relative paths from OPF directory to location of asset
   -->
-  <xsl:param name="external.assets.list">DejaVuSerif.otf
+  <xsl:param name="external.assets.list"><!--DejaVuSerif.otf
 DejaVuSans-Bold.otf
 UbuntuMono-Regular.otf
 UbuntuMono-Bold.otf
 UbuntuMono-BoldItalic.otf
-UbuntuMono-Italic.otf</xsl:param>
+UbuntuMono-Italic.otf--></xsl:param>
 
   <!-- Useful for EPUB 2 backward compatibility. Setting to 1 will turn on EPUB2-compatible elements, 
        which means that HTML5 structural semantic elements
