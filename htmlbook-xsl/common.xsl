@@ -683,4 +683,23 @@
     </xsl:choose>
   </xsl:template>
 
+  <!-- Infer the number of columns in a table -->
+  <!-- ToDo: More sophistication needed? -->
+  <xsl:template match="h:table" mode="number.of.table.columns" name="number-of-table-columns">
+    <xsl:choose>
+       <!-- If there is a single colgroup child of table element, with a span on it, use that -->
+      <xsl:when test="h:colgroup[not(preceding-sibling::h:colgroup or following-sibling::h:colgroup) and @span]">
+	<xsl:value-of select="h:colgroup[1]/@span"/>
+      </xsl:when>
+      <!-- Otherwise, if there's a tbody, use the number of columns in the first row of the last tbody -->
+      <xsl:when test="h:tbody">
+	<xsl:value-of select="count(h:tbody[last()]/h:tr[1]/h:td)"/>
+      </xsl:when>
+      <!-- Otherwise, use the first row -->
+      <xsl:otherwise>
+	<xsl:value-of select="count(h:tr[1]/h:td)"/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
 </xsl:stylesheet> 

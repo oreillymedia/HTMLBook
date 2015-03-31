@@ -76,6 +76,7 @@
   <!-- WARNING: If you need additional handling for these elements for other functionality,
        and you override this template elsewhere, make sure you add in id-decoration functionality -->
   <xsl:template match="h:section|h:div[contains(@data-type, 'part')]|h:aside|h:a[contains(@data-type, 'indexterm')]">
+    <xsl:param name="process.footnotes" select="$process.footnotes"/>
     <xsl:param name="html4.structural.elements" select="$html4.structural.elements"/>
     <xsl:variable name="output-element-name">
       <xsl:call-template name="html.output.element">
@@ -140,6 +141,27 @@
     <xsl:apply-templates select="." mode="process-heading">
       <xsl:with-param name="autogenerate.labels" select="$autogenerate.labels"/>
     </xsl:apply-templates>
+  </xsl:template>
+
+  <!-- Custom handling for tables that have footnotes -->
+  <xsl:template match="h:table[descendant::h:span[@data-type='footnote']]">
+    <xsl:param name="process.footnotes" select="$process.footnotes"/>
+    <xsl:variable name="number-of-table-columns">
+      <xsl:apply-templates select="." mode="number.of.table.columns"/>
+    </xsl:variable>
+    <xsl:copy>
+      <xsl:apply-templates select="@*|node()"/>
+      <!-- Put table footnotes in a tfoot -->
+      <tfoot class="footnotes">
+	<tr>
+	  <td colspan="{$number-of-table-columns}">
+	    <xsl:for-each select="descendant::h:span[@data-type='footnote']">
+	      <xsl:apply-templates select="." mode="generate.footnote"/>
+	    </xsl:for-each>
+	  </td>
+	</tr>
+      </tfoot>
+    </xsl:copy>
   </xsl:template>
 
   <xsl:template match="h:figure">
@@ -269,9 +291,13 @@
 
   <!-- Footnote handling -->
   <xsl:template match="h:span[@data-type='footnote']">
+    <xsl:param name="footnote.reset.numbering.at.chapter.level" select="$footnote.reset.numbering.at.chapter.level"/>
+    <xsl:param name="process.footnotes" select="$process.footnotes"/>
     <xsl:choose>
-      <xsl:when test="$process.footnotes = 1">
-	<xsl:call-template name="footnote-marker"/>
+      <xsl:when test="($process.footnotes = 1) or ancestor::h:table">
+	<xsl:apply-templates select="." mode="footnote.marker">
+	  <xsl:with-param name="footnote.reset.numbering.at.chapter.level" select="$footnote.reset.numbering.at.chapter.level"/>
+	</xsl:apply-templates>
       </xsl:when>
       <xsl:otherwise>
 	<xsl:copy>
@@ -281,7 +307,9 @@
     </xsl:choose>
   </xsl:template>
 
-  <xsl:template name="footnote-marker">
+  <xsl:template match="h:span[@data-type='footnote']" mode="footnote.marker" name="footnote-marker">
+    <xsl:param name="footnote.reset.numbering.at.chapter.level" select="$footnote.reset.numbering.at.chapter.level"/>
+    <sup>
     <a data-type="noteref">
       <xsl:attribute name="id">
 	<xsl:call-template name="object.id"/>
@@ -290,57 +318,91 @@
       <xsl:attribute name="href">
 	<xsl:call-template name="href.target"/>
       </xsl:attribute>
-      <sup>
 	<!-- Use numbers for footnotes -->
 	<!-- ToDo: Parameterize for numeration type and/or symbols? -->
-	<xsl:number count="h:span[@data-type='footnote']" level="any"/>
-      </sup>
+	<xsl:apply-templates select="." mode="footnote.number">
+	  <xsl:with-param name="footnote.reset.numbering.at.chapter.level" select="$footnote.reset.numbering.at.chapter.level"/>
+	</xsl:apply-templates>
     </a>
+    </sup>
   </xsl:template>
 
   <!-- Handling for footnoterefs a la DocBook (cross-references to an existing footnote) -->
   <xsl:template match="h:a[@data-type='footnoteref']">
+    <xsl:param name="footnote.reset.numbering.at.chapter.level" select="$footnote.reset.numbering.at.chapter.level"/>
+    <xsl:param name="process.footnotes" select="$process.footnotes"/>
+    <xsl:variable name="referenced-footnote-id">
+      <!-- Assuming that href is in the format href="#footnote_id" -->
+      <xsl:value-of select="substring-after(@href, '#')"/>
+    </xsl:variable>
+    <xsl:variable name="referenced-footnote" select="key('footnote-nodes-by-id', $referenced-footnote-id)"/>
+
     <xsl:choose>
-      <xsl:when test="$process.footnotes = 1">
-	<xsl:variable name="referenced-footnote-id">
-	  <!-- Assuming that href is in the format href="#footnote_id" -->
-	  <xsl:value-of select="substring-after(@href, '#')"/>
-	</xsl:variable>
-	<xsl:variable name="referenced-footnote" select="key('footnote-nodes-by-id', $referenced-footnote-id)"/>
-	<xsl:choose>
-	  <xsl:when test="count($referenced-footnote) &gt; 0">
-	    <!-- Switch the context node to that of the referenced footnote -->
-	    <xsl:for-each select="$referenced-footnote[1]">
+      <xsl:when test="count($referenced-footnote) &gt; 0">
+	<!-- Switch the context node to that of the referenced footnote -->
+	<xsl:for-each select="$referenced-footnote[1]">
+	  <xsl:variable name="footnoteref.number">
+	    <!-- Use numbers for footnotes -->
+	    <!-- ToDo: Parameterize for numeration type and/or symbols? -->
+	    <xsl:apply-templates select="." mode="footnote.number">
+	      <xsl:with-param name="footnote.reset.numbering.at.chapter.level" select="$footnote.reset.numbering.at.chapter.level"/>
+	    </xsl:apply-templates>
+	  </xsl:variable>
+	  <xsl:choose>
+	    <xsl:when test="($process.footnotes = 1) or ancestor::h:table">
 	      <!-- Same general handling as regular footnote markers, except footnoterefs don't get ids -->
-	      <a data-type="noteref">
-		<xsl:attribute name="href">
-		  <xsl:call-template name="href.target"/>
-		</xsl:attribute>
-		<sup>
-		  <!-- Use numbers for footnotes -->
-		  <!-- ToDo: Parameterize for numeration type and/or symbols? -->
-		  <xsl:number count="h:span[@data-type='footnote']" level="any"/>
-		</sup>
-	  </a>
-	    </xsl:for-each>
-	  </xsl:when>
-	  <xsl:otherwise>
-	    <!-- Uh oh, couldn't find the corresponding footnote for the footnoteref -->
-	    <xsl:call-template name="log-message">
-	      <xsl:with-param name="type" select="'WARNING'"/>
-	      <xsl:with-param name="message">
-		<xsl:text>Error: Could not find footnote referenced by footnoteref link </xsl:text>
-		<xsl:value-of select="@href"/>
-		<xsl:text>. Footnote marker will not be generated.</xsl:text>
-	      </xsl:with-param>
-	    </xsl:call-template>
-	  </xsl:otherwise>
-	</xsl:choose>
+	      <sup>
+		<a data-type="noteref">
+		  <xsl:attribute name="href">
+		    <xsl:call-template name="href.target"/>
+		  </xsl:attribute>
+		  <xsl:value-of select="$footnoteref.number"/>
+		</a>
+	      </sup>
+	    </xsl:when>
+	    <xsl:otherwise>
+	      <!-- If footnotes are not being processed, just output a sup with correct marker number -->
+	      <sup class="footnoteref">
+		<xsl:value-of select="$footnoteref.number"/>
+	      </sup>
+	    </xsl:otherwise>
+	  </xsl:choose>
+	</xsl:for-each>
       </xsl:when>
       <xsl:otherwise>
-	<xsl:copy>
-	  <xsl:apply-templates select="@*|node()"/>
-	</xsl:copy>
+	<!-- Uh oh, couldn't find the corresponding footnote for the footnoteref -->
+	<xsl:call-template name="log-message">
+	  <xsl:with-param name="type" select="'WARNING'"/>
+	  <xsl:with-param name="message">
+	    <xsl:text>Error: Could not find footnote referenced by footnoteref link </xsl:text>
+	    <xsl:value-of select="@href"/>
+	    <xsl:text>. Footnote marker will not be generated.</xsl:text>
+	  </xsl:with-param>
+	</xsl:call-template>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
+  <!-- Template for numbering footnotes -->
+  <xsl:template match="h:span[@data-type='footnote']" mode="footnote.number">
+    <xsl:param name="footnote.reset.numbering.at.chapter.level" select="$footnote.reset.numbering.at.chapter.level"/>
+    <xsl:choose>
+      <xsl:when test="ancestor::h:table">
+	<!-- Count footnotes from this table -->
+	<xsl:number count="h:span[@data-type='footnote'][ancestor::h:table]" from="h:table" level="any" format="{$table.footnote.numeration.format}"/>
+      </xsl:when>
+      <xsl:when test="$footnote.reset.numbering.at.chapter.level = 1">
+	<!-- Count non-table footnotes only from most recent chapter-level element -->
+	<xsl:number count="h:span[@data-type='footnote'][not(ancestor::h:table)]" 
+		    level="any" format="{$footnote.numeration.format}"
+		    from="h:section[parent::h:body or 
+			  parent::h:div[@data-type='part'] or
+			  not(ancestor::h:section)]|
+			  h:div[@data-type='part']"/>
+      </xsl:when>
+      <xsl:otherwise>
+	<!-- Count non-table footnotes from beginning of content -->
+	<xsl:number count="h:span[@data-type='footnote'][not(ancestor::h:table)]" level="any" format="{$footnote.numeration.format}"/>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
@@ -349,7 +411,7 @@
     <!-- For standard, one-chunk output, we put all the footnotes at the end of the last chapter or appendix -->
     <!-- (Note that if there are no chapters or appendixes in the book, footnotes will not be generated properly. This can be changed
 	 if we determine that there are other main-book-div types that can hold footnotes at the end of a book) --> 
-    <xsl:if test="self::h:section[@data-type='chapter' or @data-type='appendix'] and not(following::h:section[@data-type='chapter' or @data-type='appendix']) and count(//h:span[@data-type='footnote']) > 0">
+    <xsl:if test="self::h:section[@data-type='chapter' or @data-type='appendix'] and not(following::h:section[@data-type='chapter' or @data-type='appendix']) and count(//h:span[@data-type='footnote'][not(ancestor::h:table)]) > 0">
       <!-- Footnotes should be put in an aside by default, but we call html.output.element to see if <aside> should be remapped to something else -->
       <!-- Kludge-y way to get an aside element -->
       <xsl:variable name="aside-element">
@@ -362,27 +424,30 @@
       </xsl:variable>
       <xsl:element name="{$footnote-element-name}" namespace="http://www.w3.org/1999/xhtml">
 	<xsl:attribute name="data-type">footnotes</xsl:attribute>
-	<xsl:apply-templates select="//h:span[@data-type='footnote']" mode="generate.footnote"/>
+	<xsl:apply-templates select="//h:span[@data-type='footnote'][not(ancestor::h:table)]" mode="generate.footnote"/>
       </xsl:element>
     </xsl:if>
   </xsl:template>
 
   <xsl:template match="h:span[@data-type='footnote']" mode="generate.footnote">
+    <xsl:param name="footnote.reset.numbering.at.chapter.level" select="$footnote.reset.numbering.at.chapter.level"/>
     <p data-type="footnote">
       <xsl:attribute name="id">
 	<xsl:call-template name="object.id"/>
       </xsl:attribute>
+      <sup>
       <a>
 	<xsl:attribute name="href">
 	  <xsl:call-template name="href.target"/>
 	  <xsl:text>-marker</xsl:text>
 	</xsl:attribute>
-	<sup>
 	  <!-- Use numbers for footnotes -->
 	  <!-- ToDo: Parameterize for numeration type and/or symbols? -->
-	  <xsl:number count="h:span[@data-type='footnote']" level="any"/>
-	</sup>
+	  <xsl:apply-templates select="." mode="footnote.number">
+	    <xsl:with-param name="footnote.reset.numbering.at.chapter.level" select="$footnote.reset.numbering.at.chapter.level"/>
+	  </xsl:apply-templates>
       </a>
+      </sup>
       <xsl:text> </xsl:text>
       <xsl:apply-templates/>
     </p>

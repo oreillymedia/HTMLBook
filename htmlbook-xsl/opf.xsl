@@ -32,59 +32,59 @@
     <xsl:value-of select="$opf.filename"/>
   </xsl:variable>
       
-  <!-- Convert $embedded.fonts.list to XML for easier parsing -->
-  <xsl:variable name="embedded.fonts.list.xml">
-    <xsl:call-template name="get.fonts.xml"/>
+  <!-- Convert $external.assets.list to XML for easier parsing -->
+  <xsl:variable name="external.assets.list.xml">
+    <xsl:call-template name="get.external.assets.xml"/>
   </xsl:variable>
 
-  <!-- Reformat fonts list as XML that can be parsed -->
-  <xsl:template name="get.fonts.xml">
-    <xsl:param name="fonts.to.process" select="$embedded.fonts.list"/>
+  <!-- Reformat assets list as XML that can be parsed -->
+  <xsl:template name="get.external.assets.xml">
+    <xsl:param name="assets.to.process" select="$external.assets.list"/>
     <xsl:param name="first.call" select="1"/>
     <xsl:choose>
       <xsl:when test="$first.call = 1">
-	<e:fonts>
-	  <xsl:call-template name="get.fonts.xml">
-	    <xsl:with-param name="fonts.to.process" select="$fonts.to.process"/>
+	<e:assets>
+	  <xsl:call-template name="get.external.assets.xml">
+	    <xsl:with-param name="assets.to.process" select="$assets.to.process"/>
 	    <xsl:with-param name="first.call" select="0"/>
 	  </xsl:call-template>
-	</e:fonts>
+	</e:assets>
       </xsl:when>
       <xsl:otherwise>
 	<xsl:choose>
-	  <xsl:when test="normalize-space(substring-before($fonts.to.process, '&#x0A;')) != ''">
-	    <xsl:variable name="font-filename">
-	      <xsl:value-of select="normalize-space(substring-before($fonts.to.process, '&#x0A;'))"/>
+	  <xsl:when test="normalize-space(substring-before($assets.to.process, '&#x0A;')) != ''">
+	    <xsl:variable name="asset-filename">
+	      <xsl:value-of select="normalize-space(substring-before($assets.to.process, '&#x0A;'))"/>
 	    </xsl:variable>
-	    <xsl:variable name="font-extension">
-	      <xsl:value-of select="normalize-space(substring-after($font-filename, '.'))"/>
+	    <xsl:variable name="asset-extension">
+	      <xsl:value-of select="normalize-space(substring-after($asset-filename, '.'))"/>
 	    </xsl:variable>
-	    <xsl:variable name="font-mimetype">
+	    <xsl:variable name="asset-mimetype">
 	      <xsl:call-template name="get-mimetype-from-file-extension">
-		<xsl:with-param name="file-extension" select="$font-extension"/>
+		<xsl:with-param name="file-extension" select="$asset-extension"/>
 	      </xsl:call-template>
 	    </xsl:variable>
-	    <e:font filename="{$font-filename}" mimetype="{$font-mimetype}"/>
-	    <xsl:if test="normalize-space(substring-after($fonts.to.process, '&#x0A;')) != ''">
-	      <xsl:call-template name="get.fonts.xml">
-		<xsl:with-param name="fonts.to.process" select="substring-after($fonts.to.process, '&#x0A;')"/>
+	    <e:asset filename="{$asset-filename}" mimetype="{$asset-mimetype}"/>
+	    <xsl:if test="normalize-space(substring-after($assets.to.process, '&#x0A;')) != ''">
+	      <xsl:call-template name="get.external.assets.xml">
+		<xsl:with-param name="assets.to.process" select="substring-after($assets.to.process, '&#x0A;')"/>
 		<xsl:with-param name="first.call" select="0"/>
 	      </xsl:call-template>
 	    </xsl:if>
 	  </xsl:when>
-	  <xsl:when test="normalize-space($fonts.to.process) != ''">
-	    <xsl:variable name="font-filename">
-	      <xsl:value-of select="normalize-space($fonts.to.process)"/>
+	  <xsl:when test="normalize-space($assets.to.process) != ''">
+	    <xsl:variable name="asset-filename">
+	      <xsl:value-of select="normalize-space($assets.to.process)"/>
 	    </xsl:variable>
-	    <xsl:variable name="font-extension">
-	      <xsl:value-of select="normalize-space(substring-after($font-filename, '.'))"/>
+	    <xsl:variable name="asset-extension">
+	      <xsl:value-of select="normalize-space(substring-after($asset-filename, '.'))"/>
 	    </xsl:variable>
-	    <xsl:variable name="font-mimetype">
+	    <xsl:variable name="asset-mimetype">
 	      <xsl:call-template name="get-mimetype-from-file-extension">
-		<xsl:with-param name="file-extension" select="$font-extension"/>
+		<xsl:with-param name="file-extension" select="$asset-extension"/>
 	      </xsl:call-template>
 	    </xsl:variable>
-	    <e:font filename="{$font-filename}" mimetype="{$font-mimetype}"/>
+	    <e:asset filename="{$asset-filename}" mimetype="{$asset-mimetype}"/>
 	  </xsl:when>
 	</xsl:choose>
       </xsl:otherwise>
@@ -193,9 +193,9 @@
 	  </xsl:attribute>
 	</item>
       </xsl:if>
-      <!-- Add any embedded fonts to EPUB manifest, if they will be included in the EPUB package -->
-      <xsl:for-each select="exsl:node-set($embedded.fonts.list.xml)//e:font">
-	<item id="{concat('epub.embedded.font.', position())}" href="{@filename}" media-type="{@mimetype}"/>
+      <!-- Add any embedded assets to EPUB manifest, if they will be included in the EPUB package -->
+      <xsl:for-each select="exsl:node-set($external.assets.list.xml)//e:asset">
+	<item id="{concat('epub.embedded.asset.', position())}" href="{@filename}" media-type="{@mimetype}"/>
       </xsl:for-each>
       <!-- Add cover to manifest, if present -->
       <xsl:if test="$generate.cover.html = 1">

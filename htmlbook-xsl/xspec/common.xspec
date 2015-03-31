@@ -1366,4 +1366,198 @@ sect1
     <x:expect label="It should return 'false'">0</x:expect>
   </x:scenario>
 
+  <!-- Table column calculations -->
+
+  <x:scenario label="When matching a table with a colgroup">
+    <x:context mode="number.of.table.columns">
+      <table>
+	<colgroup span="2"/>
+	<tbody>
+	  <tr>
+	    <td>First</td>
+	    <td>Second</td>
+	  </tr>
+	  <tr>
+	    <td>Third</td>
+	    <td>Fourth</td>
+	  </tr>
+	</tbody>
+      </table>
+    </x:context>
+    <!-- check the result -->
+    <x:expect label="The colgroup span should be returned as the number of columns">2</x:expect>
+  </x:scenario>
+
+  <x:scenario label="When matching a table with a colgroup">
+    <x:context mode="number.of.table.columns">
+      <table>
+	<colgroup span="5"/>
+	<tbody>
+	  <tr>
+	    <td>First</td>
+	    <td>Second</td>
+	  </tr>
+	  <tr>
+	    <td>Third</td>
+	    <td>Fourth</td>
+	  </tr>
+	</tbody>
+      </table>
+    </x:context>
+    <!-- check the result -->
+    <x:expect label="The colgroup span should be returned as the number of columns, even if it doesn't reflect table accurately">5</x:expect>
+  </x:scenario>
+
+  <x:scenario label="When matching a table with a tbody (no colgroup)">
+    <x:context mode="number.of.table.columns">
+      <table>
+	<thead>
+	  <tr>
+	    <th>First</th>
+	    <th>Second</th>
+	    <!-- Intentionally mismatching thead columns with tbody columns -->
+	  </tr>
+	</thead>
+	<tbody>
+	  <tr>
+	    <td>One</td>
+	    <td>Two</td>
+	    <td>Three</td>
+	  </tr>
+	  <tr>
+	    <td>Quatre</td>
+	    <td>Cinq</td>
+	    <td>Six</td>
+	  </tr>
+	</tbody>
+      </table>
+    </x:context>
+    <x:expect label="The correct number of columns should be inferred">3</x:expect>
+  </x:scenario>
+
+  <x:scenario label="When matching a table with a tbody (nonstandard colgroup should be ignored)">
+    <x:context mode="number.of.table.columns">
+      <table>
+	<colgroup>
+	  <col/>
+	</colgroup>
+	<thead>
+	  <tr>
+	    <th>First</th>
+	    <th>Second</th>
+	    <!-- Intentionally mismatching thead columns with tbody columns -->
+	  </tr>
+	</thead>
+	<tbody>
+	  <tr>
+	    <td>One</td>
+	    <td>Two</td>
+	    <td>Three</td>
+	  </tr>
+	  <tr>
+	    <td>Quatre</td>
+	    <td>Cinq</td>
+	    <td>Six</td>
+	  </tr>
+	</tbody>
+      </table>
+    </x:context>
+    <x:expect label="The correct number of columns should be inferred">3</x:expect>
+  </x:scenario>
+
+  <x:scenario label="When matching a table with a tbody (nonstandard colgroups should be ignored)">
+    <x:context mode="number.of.table.columns">
+      <table>
+	<colgroup span="2"/>
+	<colgroup span="4"/>
+	<thead>
+	  <tr>
+	    <th>First</th>
+	    <th>Second</th>
+	    <!-- Intentionally mismatching thead columns with tbody columns -->
+	  </tr>
+	</thead>
+	<tbody>
+	  <tr>
+	    <td>One</td>
+	    <td>Two</td>
+	    <td>Three</td>
+	  </tr>
+	  <tr>
+	    <td>Quatre</td>
+	    <td>Cinq</td>
+	    <td>Six</td>
+	  </tr>
+	</tbody>
+      </table>
+    </x:context>
+    <x:expect label="The correct number of columns should be inferred">3</x:expect>
+  </x:scenario>
+  
+  <x:scenario label="When matching a table without a tbody">
+    <x:context mode="number.of.table.columns">
+      <table>
+	<tr>
+	  <td>One</td>
+	  <td>Two</td>
+	  <td>Three</td>
+	  <td>Four</td>
+	</tr>
+	<tr>
+	  <td>Quatre</td>
+	  <td>Cinq</td>
+	  <td>Six</td>
+	  <td>Sept</td>
+	</tr>
+      </table>
+    </x:context>
+    <x:expect label="The correct number of columns should be inferred">4</x:expect>
+  </x:scenario>
+
+  <x:scenario label="When matching a table without a tbody (nonstandard colgroup should be ignored)">
+    <x:context mode="number.of.table.columns">
+      <table>
+	<colgroup>
+	  <col/>
+	</colgroup>
+	<tr>
+	  <td>One</td>
+	  <td>Two</td>
+	  <td>Three</td>
+	  <td>Four</td>
+	</tr>
+	<tr>
+	  <td>Quatre</td>
+	  <td>Cinq</td>
+	  <td>Six</td>
+	  <td>Sept</td>
+	</tr>
+      </table>
+    </x:context>
+    <x:expect label="The correct number of columns should be inferred">4</x:expect>
+  </x:scenario>
+
+  <x:scenario label="When matching a table without a tbody (nonstandard colgroups should be ignored)">
+    <x:context mode="number.of.table.columns">
+      <table>
+	<colgroup span="3"/>
+	<colgroup span="9"/>
+	<colgroup span="6"/>
+	<tr>
+	  <td>One</td>
+	  <td>Two</td>
+	  <td>Three</td>
+	  <td>Four</td>
+	</tr>
+	<tr>
+	  <td>Quatre</td>
+	  <td>Cinq</td>
+	  <td>Six</td>
+	  <td>Sept</td>
+	</tr>
+      </table>
+    </x:context>
+    <x:expect label="The correct number of columns should be inferred">4</x:expect>
+  </x:scenario>
+
 </x:description>
