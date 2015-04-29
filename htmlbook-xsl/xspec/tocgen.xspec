@@ -142,6 +142,26 @@
     </x:expect>
   </x:scenario>
 
+  <x:scenario label="When a standard book-level section (chapter) with class of 'notoc' is matched in tocgen mode">
+    <x:context select="(//h:section[@data-type='chapter'][@class='notoc'])[1]" mode="tocgen">
+      <body data-type="book">
+	<section data-type="chapter">
+	  <h1>First chapter</h1>
+	  <p>Number 1!</p>
+	</section>
+	<section data-type="chapter" class="notoc">
+	  <h1>Second chapter</h1>
+	  <p>Number 2!</p>
+	</section>
+	<section data-type="chapter">
+	  <h1>Third chapter</h1>
+	  <p>Number 3!</p>
+	</section>
+      </body>
+    </x:context>
+    <x:expect label="An entry 'li' *should not* be generated" select="()"/>
+  </x:scenario>
+
   <x:scenario label="When a standard book-level section (part) is matched in tocgen mode">
     <x:context href="skeleton.html" select="(//h:div[@data-type='part'])[1]" mode="tocgen"/>
     <x:expect label="An entry 'li' should be generated">
@@ -161,6 +181,37 @@
   <x:scenario label="When a subsection at greater depth than the toc.section.depth is matched in tocgen mode">
     <x:context href="skeleton.html" select="(//h:section[@data-type='sect2'])[1]" mode="tocgen">
       <x:param name="toc.section.depth" select="1"/>
+    </x:context>
+    <x:expect label="An entry 'li' *should not* be generated" select="()"/>
+  </x:scenario>
+
+  <x:scenario label="When a subsection with class of 'notoc' is matched in tocgen mode">
+    <x:context select="(//h:section[@data-type='sect2'][@class='notoc'])[1]" mode="tocgen">
+      <x:param name="toc.section.depth" select="3"/>
+      <body data-type="book">
+	<section data-type="chapter">
+	  <h1>First chapter</h1>
+	  <section data-type="sect1">
+	    <h1>First sect1</h1>
+	    <section data-type="sect2">
+	      <h2>First sect2</h2>
+	      <p>Hello world</p>
+	    </section>
+	    <section data-type="sect2" class="notoc">
+	      <h2>Second sect2</h2>
+	      <p>Should not have entry in TOC</p>
+	    </section>
+	  </section>
+	  <section data-type="sect1">
+	    <h1>Second sect1</h1>
+	    <p>Whatever...</p>
+	  </section>
+	</section>
+	<section data-type="chapter">
+	  <h1>Second chapter</h1>
+	  <p>Another chapter</p>
+	</section>
+      </body>
     </x:context>
     <x:expect label="An entry 'li' *should not* be generated" select="()"/>
   </x:scenario>
