@@ -24,6 +24,8 @@
     <xsl:choose>
       <!-- Don't output entry for section elements at a level that is greater than specified $toc.section.depth -->
       <xsl:when test="self::h:section[contains(@data-type, 'sect') and htmlbook:section-depth(.) != '' and htmlbook:section-depth(.) &gt; $toc.section.depth]"/>
+      <!-- Don't output entry if a class of "notoc" is specified -->
+      <xsl:when test="contains(@class, 'notoc')"/>
       <!-- Otherwise, go ahead -->
       <xsl:otherwise>
 	<xsl:element name="li">
