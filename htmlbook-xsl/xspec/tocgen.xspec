@@ -216,6 +216,58 @@
     <x:expect label="An entry 'li' *should not* be generated" select="()"/>
   </x:scenario>
   
+  <x:scenario label="When a frontmatter or backmatter section is matched in tocgen mode">
+    <x:context select="(//h:section[@data-type='colophon'])[1]" mode="tocgen">>
+      <x:param name="toc.section.depth" select="3"/>
+      <body data-type="book">
+        <section data-type="chapter">
+          <h1>First chapter</h1>
+          <section data-type="sect1">
+            <h1>First sect1</h1>
+            <p>A paragraph</p>
+          </section>
+        </section>
+        <section data-type="chapter">
+          <h1>Second chapter</h1>
+          <p>A paragraph</p>
+        </section>
+        <section data-type="colophon">
+          <h1>About the Author</h1>
+          <p>There shouldn't be an entry for this in the TOC</p>
+        </section>
+      </body>
+    </x:context>
+    <x:expect label="An entry 'li' *should not* be generated" select="()"/>
+  </x:scenario>
+  
+  <x:scenario label="When a subsection of a frontmatter or backmatter section is matched in tocgen mode">
+    <x:context select="(//h:section[@data-type='colophon']/h:section[@data-type='colophon'])[1]" mode="tocgen">>
+      <x:param name="toc.section.depth" select="3"/>
+      <body data-type="book">
+        <section data-type="chapter">
+          <h1>First chapter</h1>
+          <section data-type="sect1">
+            <h1>First sect1</h1>
+            <p>A paragraph</p>
+          </section>
+        </section>
+        <section data-type="chapter">
+          <h1>Second chapter</h1>
+          <p>A paragraph</p>
+        </section>
+        <section data-type="colophon">
+          <h1>About the Author</h1>
+          <p>Bio goes here</p>
+          <section data-type="sect1">
+            <h1>Acknowledgments</h1>
+            <p>There shouldn't be an entry for this in the TOC</p>
+          </section>
+        </section>
+      </body>
+    </x:context>
+    <x:expect label="An entry 'li' *should not* be generated" select="()"/>
+  </x:scenario>
+  
   <x:scenario label="When a nonsection is matched in tocgen mode">
     <x:context href="skeleton.html" select="(//h:p)[1]" mode="tocgen"/>
     <x:expect label="An entry 'li' *should not* be generated" select="()"/>
