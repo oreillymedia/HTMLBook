@@ -120,6 +120,41 @@ sect5:none
 	</x:scenario>
       </x:scenario>
     </x:scenario>
+	
+	
+	<x:scenario label="When a frontmatter/backmatter section is matched in ncx.toc.gen mode">
+		<x:context mode="ncx.toc.gen" select="(//h:body/h:section[@data-type='titlepage'])[1]" >
+			<body data-type="book">
+				<section data-type="titlepage">
+					<h1>You Don't Know JS</h1>
+				</section>
+				<section data-type="chapter">
+					<h1>Test Chapter</h1>
+					<p>It was the best of times!</p>
+				</section>
+			</body>
+		</x:context>
+		<x:expect label="It should not return a navPoint" select="()"/>
+	</x:scenario>
+	
+	<x:scenario label="When a subsection of a frontmatter/backmatter section is matched in ncx.toc.gen mode">
+		<x:context mode="ncx.toc.gen" select="(//h:body/h:section[@data-type='titlepage'])[1]" >
+			<body data-type="book">
+				<section data-type="titlepage">
+					<h1>You Don't Know JS</h1>
+					<section data-type="sect1">
+						<h1>Credits</h1>
+						<p>This section shouldn't show up in the TOC</p>
+					</section>
+				</section>
+				<section data-type="chapter">
+					<h1>Test Chapter</h1>
+					<p>It was the best of times!</p>
+				</section>
+			</body>
+		</x:context>
+		<x:expect label="It should not return a navPoint" select="()"/>
+	</x:scenario>
 
     <x:scenario label="When a non-book section/div is matched in ncx.toc.gen mode that does not have a book section/div child">
       <x:context mode="ncx.toc.gen">
