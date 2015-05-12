@@ -19,7 +19,15 @@
     </xsl:apply-templates>
   </xsl:template>
 
-  <xsl:template match="h:section[not(@data-type = 'dedication' or @data-type = 'titlepage' or @data-type = 'toc' or @data-type = 'colophon' or @data-type = 'copyright-page' or @data-type = 'halftitlepage')]|h:div[@data-type='part']" mode="tocgen">
+  <!-- Exclude these frontmatter/backmatter sections from TOC generation -->
+  <xsl:template match="h:section[@data-type = 'dedication' or 
+		                 @data-type = 'titlepage' or 
+				 @data-type = 'toc' or 
+				 @data-type = 'colophon' or 
+				 @data-type = 'copyright-page' or 
+				 @data-type = 'halftitlepage']" mode="tocgen"/>
+
+  <xsl:template match="h:section|h:div[@data-type='part']" mode="tocgen">
     <xsl:param name="toc.section.depth" select="$toc.section.depth"/>
     <xsl:choose>
       <!-- Don't output entry for section elements at a level that is greater than specified $toc.section.depth -->
