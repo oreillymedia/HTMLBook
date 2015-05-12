@@ -241,7 +241,7 @@
   </x:scenario>
   
   <x:scenario label="When a subsection of a frontmatter or backmatter section is matched in tocgen mode">
-    <x:context select="(//h:section[@data-type='colophon']/h:section[@data-type='colophon'])[1]" mode="tocgen">>
+    <x:context select="(//h:section[@data-type='colophon'])[1]" mode="tocgen">>
       <x:param name="toc.section.depth" select="3"/>
       <body data-type="book">
         <section data-type="chapter">
