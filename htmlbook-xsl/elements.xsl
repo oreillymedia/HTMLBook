@@ -144,57 +144,35 @@
   </xsl:template>
 
   <!-- BEGIN Custom handling for tables that have footnotes: -->
-  <!-- Three options -->
-  <!-- 1. Place footnotes in preexisting tfoot, if present. -->
-  <!-- 2. If no tfoot, but preexisting tbody, create tfoot before first tbody -->
-  <!-- 3. If no tfoot or tbody, create tfoot before first tr -->
 
-  <!-- OPTION 1 -->
-  <!-- There should only be one tfoot per table, but grab the last in case there's something odd in source -->
-  <xsl:template match="h:table[descendant::h:span[@data-type='footnote']]/h:tfoot[not(following-sibling::h:tfoot)]">
+  <xsl:template match="h:table[descendant::h:span[@data-type='footnote']]">
     <xsl:param name="process.footnotes" select="$process.footnotes"/>
     <xsl:variable name="number-of-table-columns">
-      <xsl:apply-templates select="parent::h:table" mode="number.of.table.columns"/>
+      <xsl:apply-templates select="." mode="number.of.table.columns"/>
     </xsl:variable>
-    <xsl:copy>
-      <xsl:apply-templates select="@*"/>
-      <xsl:attribute name="class">
-	<xsl:value-of select="normalize-space(concat(@class, ' ', 'footnotes'))"/>
-      </xsl:attribute>
-      <xsl:apply-templates/>
-      <tr>
-	<td colspan="{$number-of-table-columns}">
-	  <xsl:for-each select="parent::h:table//h:span[@data-type='footnote']">
-	    <xsl:apply-templates select="." mode="generate.footnote"/>
-	  </xsl:for-each>
-	</td>
-      </tr>
-    </xsl:copy>
-  </xsl:template>
-
-  <!-- OPTIONS 2 and 3 -->
-  <!-- Find first tbody, but only in tables that don't have a tfoot (which are covered by OPTION 1) -->
-  <!-- and create footnotes tfoot before it -->
-  <!-- Find first tr, but only in tables that don't have a tfoot or a tbody, and create footnotes tfoot before it -->
-  <xsl:template match="h:table[descendant::h:span[@data-type='footnote'] 
-		               and not(h:tfoot)]/h:tbody[not(preceding-sibling::h:tbody)]|
-		       h:table[descendant::h:span[@data-type='footnote'] 
-		               and not(h:tfoot or h:tbody)]/h:tr[not(preceding-sibling::h:tr)]">
-    <xsl:param name="process.footnotes" select="$process.footnotes"/>
-    <xsl:variable name="number-of-table-columns">
-      <xsl:apply-templates select="parent::h:table" mode="number.of.table.columns"/>
-    </xsl:variable>
-    <tfoot class="footnotes">
-      <tr>
-	<td colspan="{$number-of-table-columns}">
-	  <xsl:for-each select="parent::h:table//h:span[@data-type='footnote']">
-	    <xsl:apply-templates select="." mode="generate.footnote"/>
-	  </xsl:for-each>
-	</td>
-      </tr>
-    </tfoot>
     <xsl:copy>
       <xsl:apply-templates select="@*|node()"/>
+      <xsl:variable name="footnote-row">
+	<tr class="footnotes">
+	  <td colspan="{$number-of-table-columns}">
+	    <xsl:for-each select="descendant::h:span[@data-type='footnote']">
+	      <xsl:apply-templates select="." mode="generate.footnote"/>
+	    </xsl:for-each>
+	  </td>
+	</tr>
+      </xsl:variable>
+      <xsl:choose>
+	<!-- Put footnote row in tbody, when other tbody elements exist -->
+	<xsl:when test="h:tbody">
+	  <tbody>
+	    <xsl:copy-of select="$footnote-row"/>
+	  </tbody>
+	</xsl:when>
+	<xsl:otherwise>
+	  <!-- Otherwise, put footnote row in loose -->
+	  <xsl:copy-of select="$footnote-row"/>
+	</xsl:otherwise>
+      </xsl:choose>
     </xsl:copy>
   </xsl:template>
 
