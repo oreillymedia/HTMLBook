@@ -693,11 +693,11 @@
       </xsl:when>
       <!-- Otherwise, if there's a tbody, use the number of columns in the first row of the last tbody -->
       <xsl:when test="h:tbody">
-	<xsl:value-of select="count(h:tbody[last()]/h:tr[1]/h:td)"/>
+	<xsl:value-of select="count(h:tbody[last()]/h:tr[1]/*[self::h:td or self::h:th])"/>
       </xsl:when>
       <!-- Otherwise, use the first row -->
       <xsl:otherwise>
-	<xsl:value-of select="count(h:tr[1]/h:td)"/>
+	<xsl:value-of select="count(h:tr[1]/*[self::h:td or self::h:th])"/>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
