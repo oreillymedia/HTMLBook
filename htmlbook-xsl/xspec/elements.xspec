@@ -1688,10 +1688,9 @@ sect5:1
       </table>
     </x:context>
 
-    <x:expect label="Footnotes should be added to a tfoot section at the end of table">
+    <x:expect label="Footnotes should be added to a tfoot section right before tbody">
       <table>
 	<caption>...</caption>
-	<tbody>...</tbody>
 	<tfoot class="footnotes">
 	  <tr>
 	    <td colspan="2">
@@ -1702,6 +1701,7 @@ sect5:1
 	    </td>
 	  </tr>
 	</tfoot>
+	<tbody>...</tbody>
       </table>
     </x:expect>
 
@@ -1730,6 +1730,140 @@ sect5:1
 	<sup><a data-type="noteref" href="#tf3">c</a></sup>
       </x:expect>
     </x:scenario>
+  </x:scenario>
+
+  <!-- Additional tfoot placement tests for different table source markup -->
+  <x:scenario label="When a table with footnotes is matched (no tbody)">
+    <x:context>
+      <table>
+	<caption>Four colors</caption>
+	<tr>
+	  <td>Vermillion<span id="tf1" data-type="footnote">Reddish</span></td>
+	  <td>Cerulean<span id="tf2" data-type="footnote">Bluish</span></td>
+	</tr>
+	<tr>
+	  <td>Chartreuse<span id="tf3" data-type="footnote">Greenish</span></td>
+	  <td>Fuschia<span id="tf4" data-type="footnote">Purplish</span></td>
+	</tr>
+	<tr>
+	  <td>Teal<a data-type="footnoteref" href="#tf3"/></td>
+	  <td>Eggplant<a data-type="footnoteref" href="#tf4"/></td>
+	</tr>
+      </table>
+    </x:context>
+
+    <x:expect label="Footnotes should be added to a tfoot section right before first tr">
+      <table>
+	<caption>...</caption>
+	<tfoot class="footnotes">
+	  <tr>
+	    <td colspan="2">
+	      <p data-type="footnote" id="tf1"><sup><a href="#tf1-marker">a</a></sup> Reddish</p>
+	      <p data-type="footnote" id="tf2"><sup><a href="#tf2-marker">b</a></sup> Bluish</p>
+	      <p data-type="footnote" id="tf3"><sup><a href="#tf3-marker">c</a></sup> Greenish</p>
+	      <p data-type="footnote" id="tf4"><sup><a href="#tf4-marker">d</a></sup> Purplish</p>
+	    </td>
+	  </tr>
+	</tfoot>
+	<tr>...</tr>
+	<tr>...</tr>
+	<tr>...</tr>
+      </table>
+    </x:expect>
+  </x:scenario>
+
+  <x:scenario label="When a table with footnotes is matched (no tbody; tfoot already present)">
+    <x:context>
+      <table>
+	<caption>Four colors</caption>
+	<tfoot>
+	  <tr><td>Thanks for reading this table!</td></tr>
+	</tfoot>
+	<tr>
+	  <td>Vermillion<span id="tf1" data-type="footnote">Reddish</span></td>
+	  <td>Cerulean<span id="tf2" data-type="footnote">Bluish</span></td>
+	</tr>
+	<tr>
+	  <td>Chartreuse<span id="tf3" data-type="footnote">Greenish</span></td>
+	  <td>Fuschia<span id="tf4" data-type="footnote">Purplish</span></td>
+	</tr>
+	<tr>
+	  <td>Teal<a data-type="footnoteref" href="#tf3"/></td>
+	  <td>Eggplant<a data-type="footnoteref" href="#tf4"/></td>
+	</tr>
+      </table>
+    </x:context>
+
+    <x:expect label="Footnotes should be added to the end of the existing tfoot section">
+      <table>
+	<caption>...</caption>
+	<tfoot class="footnotes">
+	  <tr><td>Thanks for reading this table!</td></tr>
+	  <tr>
+	    <td colspan="2">
+	      <p data-type="footnote" id="tf1"><sup><a href="#tf1-marker">a</a></sup> Reddish</p>
+	      <p data-type="footnote" id="tf2"><sup><a href="#tf2-marker">b</a></sup> Bluish</p>
+	      <p data-type="footnote" id="tf3"><sup><a href="#tf3-marker">c</a></sup> Greenish</p>
+	      <p data-type="footnote" id="tf4"><sup><a href="#tf4-marker">d</a></sup> Purplish</p>
+	    </td>
+	  </tr>
+	</tfoot>
+	<tr>...</tr>
+	<tr>...</tr>
+	<tr>...</tr>
+      </table>
+    </x:expect>
+  </x:scenario>
+
+  <x:scenario label="When a table with footnotes is matched (tbody present; tfoot already present)">
+    <x:context>
+      <table>
+	<caption>Four colors</caption>
+	<thead>
+	  <tr><th>Color</th><th>Color again</th></tr>
+	</thead>
+	<tfoot>
+	  <tr><td>Thanks for reading this table!</td></tr>
+	</tfoot>
+	<tbody>
+	  <tr>
+	    <td>Vermillion<span id="tf1" data-type="footnote">Reddish</span></td>
+	    <td>Cerulean<span id="tf2" data-type="footnote">Bluish</span></td>
+	  </tr>
+	  <tr>
+	    <td>Chartreuse<span id="tf3" data-type="footnote">Greenish</span></td>
+	    <td>Fuschia<span id="tf4" data-type="footnote">Purplish</span></td>
+	  </tr>
+	  <tr>
+	    <td>Teal<a data-type="footnoteref" href="#tf3"/></td>
+	    <td>Eggplant<a data-type="footnoteref" href="#tf4"/></td>
+	  </tr>
+	</tbody>
+      </table>
+    </x:context>
+
+    <x:expect label="Footnotes should be added to the end of the existing tfoot section">
+      <table>
+	<caption>...</caption>
+	<thead>...</thead>
+	<tfoot class="footnotes">
+	  <tr><td>Thanks for reading this table!</td></tr>
+	  <tr>
+	    <td colspan="2">
+	      <p data-type="footnote" id="tf1"><sup><a href="#tf1-marker">a</a></sup> Reddish</p>
+	      <p data-type="footnote" id="tf2"><sup><a href="#tf2-marker">b</a></sup> Bluish</p>
+	      <p data-type="footnote" id="tf3"><sup><a href="#tf3-marker">c</a></sup> Greenish</p>
+	      <p data-type="footnote" id="tf4"><sup><a href="#tf4-marker">d</a></sup> Purplish</p>
+	    </td>
+	  </tr>
+	</tfoot>
+	<tbody>
+	  <tr>...</tr>
+	  <tr>...</tr>
+	  <tr>...</tr>
+	</tbody>
+      </table>
+    </x:expect>
   </x:scenario>
 
   <x:scenario label="When a section is matched that has both footnotes and table footnotes">
