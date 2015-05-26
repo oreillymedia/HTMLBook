@@ -56,7 +56,7 @@
 		xmlns:svg="http://www.w3.org/2000/svg"
 		xmlns="http://www.w3.org/1999/xhtml"
 		extension-element-prefixes="exsl"
-		exclude-result-prefixes="exsl h">
+		exclude-result-prefixes="exsl h mml svg">
 
 <!-- Template for id decoration on elements that need it for TOC and/or index generation. 
      Should be at a lower import level than tocgen.xsl and indexgen.xsl, so that those
