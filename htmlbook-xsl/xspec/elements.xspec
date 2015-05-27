@@ -1688,11 +1688,12 @@ sect5:1
       </table>
     </x:context>
 
-    <x:expect label="Footnotes should be added to a tfoot section right before tbody">
+    <x:expect label="Footnotes should be added to a tbody section at end of table">
       <table>
 	<caption>...</caption>
-	<tfoot class="footnotes">
-	  <tr>
+	<tbody>...</tbody>
+	<tbody>
+	  <tr class="footnotes">
 	    <td colspan="2">
 	      <p data-type="footnote" id="tf1"><sup><a href="#tf1-marker">a</a></sup> Reddish</p>
 	      <p data-type="footnote" id="tf2"><sup><a href="#tf2-marker">b</a></sup> Bluish</p>
@@ -1700,8 +1701,7 @@ sect5:1
 	      <p data-type="footnote" id="tf4"><sup><a href="#tf4-marker">d</a></sup> Purplish</p>
 	    </td>
 	  </tr>
-	</tfoot>
-	<tbody>...</tbody>
+	</tbody>
       </table>
     </x:expect>
 
@@ -1732,7 +1732,7 @@ sect5:1
     </x:scenario>
   </x:scenario>
 
-  <!-- Additional tfoot placement tests for different table source markup -->
+  <!-- Additional table footnote placement tests for different table source markup -->
   <x:scenario label="When a table with footnotes is matched (no tbody)">
     <x:context>
       <table>
@@ -1752,116 +1752,20 @@ sect5:1
       </table>
     </x:context>
 
-    <x:expect label="Footnotes should be added to a tfoot section right before first tr">
+    <x:expect label="Footnotes should be added to a tr at the end of the table">
       <table>
 	<caption>...</caption>
-	<tfoot class="footnotes">
-	  <tr>
-	    <td colspan="2">
-	      <p data-type="footnote" id="tf1"><sup><a href="#tf1-marker">a</a></sup> Reddish</p>
-	      <p data-type="footnote" id="tf2"><sup><a href="#tf2-marker">b</a></sup> Bluish</p>
-	      <p data-type="footnote" id="tf3"><sup><a href="#tf3-marker">c</a></sup> Greenish</p>
-	      <p data-type="footnote" id="tf4"><sup><a href="#tf4-marker">d</a></sup> Purplish</p>
-	    </td>
-	  </tr>
-	</tfoot>
 	<tr>...</tr>
 	<tr>...</tr>
 	<tr>...</tr>
-      </table>
-    </x:expect>
-  </x:scenario>
-
-  <x:scenario label="When a table with footnotes is matched (no tbody; tfoot already present)">
-    <x:context>
-      <table>
-	<caption>Four colors</caption>
-	<tfoot>
-	  <tr><td>Thanks for reading this table!</td></tr>
-	</tfoot>
-	<tr>
-	  <td>Vermillion<span id="tf1" data-type="footnote">Reddish</span></td>
-	  <td>Cerulean<span id="tf2" data-type="footnote">Bluish</span></td>
+	<tr class="footnotes">
+	  <td colspan="2">
+	    <p data-type="footnote" id="tf1"><sup><a href="#tf1-marker">a</a></sup> Reddish</p>
+	    <p data-type="footnote" id="tf2"><sup><a href="#tf2-marker">b</a></sup> Bluish</p>
+	    <p data-type="footnote" id="tf3"><sup><a href="#tf3-marker">c</a></sup> Greenish</p>
+	    <p data-type="footnote" id="tf4"><sup><a href="#tf4-marker">d</a></sup> Purplish</p>
+	  </td>
 	</tr>
-	<tr>
-	  <td>Chartreuse<span id="tf3" data-type="footnote">Greenish</span></td>
-	  <td>Fuschia<span id="tf4" data-type="footnote">Purplish</span></td>
-	</tr>
-	<tr>
-	  <td>Teal<a data-type="footnoteref" href="#tf3"/></td>
-	  <td>Eggplant<a data-type="footnoteref" href="#tf4"/></td>
-	</tr>
-      </table>
-    </x:context>
-
-    <x:expect label="Footnotes should be added to the end of the existing tfoot section">
-      <table>
-	<caption>...</caption>
-	<tfoot class="footnotes">
-	  <tr><td>Thanks for reading this table!</td></tr>
-	  <tr>
-	    <td colspan="2">
-	      <p data-type="footnote" id="tf1"><sup><a href="#tf1-marker">a</a></sup> Reddish</p>
-	      <p data-type="footnote" id="tf2"><sup><a href="#tf2-marker">b</a></sup> Bluish</p>
-	      <p data-type="footnote" id="tf3"><sup><a href="#tf3-marker">c</a></sup> Greenish</p>
-	      <p data-type="footnote" id="tf4"><sup><a href="#tf4-marker">d</a></sup> Purplish</p>
-	    </td>
-	  </tr>
-	</tfoot>
-	<tr>...</tr>
-	<tr>...</tr>
-	<tr>...</tr>
-      </table>
-    </x:expect>
-  </x:scenario>
-
-  <x:scenario label="When a table with footnotes is matched (tbody present; tfoot already present)">
-    <x:context>
-      <table>
-	<caption>Four colors</caption>
-	<thead>
-	  <tr><th>Color</th><th>Color again</th></tr>
-	</thead>
-	<tfoot>
-	  <tr><td>Thanks for reading this table!</td></tr>
-	</tfoot>
-	<tbody>
-	  <tr>
-	    <td>Vermillion<span id="tf1" data-type="footnote">Reddish</span></td>
-	    <td>Cerulean<span id="tf2" data-type="footnote">Bluish</span></td>
-	  </tr>
-	  <tr>
-	    <td>Chartreuse<span id="tf3" data-type="footnote">Greenish</span></td>
-	    <td>Fuschia<span id="tf4" data-type="footnote">Purplish</span></td>
-	  </tr>
-	  <tr>
-	    <td>Teal<a data-type="footnoteref" href="#tf3"/></td>
-	    <td>Eggplant<a data-type="footnoteref" href="#tf4"/></td>
-	  </tr>
-	</tbody>
-      </table>
-    </x:context>
-
-    <x:expect label="Footnotes should be added to the end of the existing tfoot section">
-      <table>
-	<caption>...</caption>
-	<thead>...</thead>
-	<tfoot class="footnotes">
-	  <tr><td>Thanks for reading this table!</td></tr>
-	  <tr>
-	    <td colspan="2">
-	      <p data-type="footnote" id="tf1"><sup><a href="#tf1-marker">a</a></sup> Reddish</p>
-	      <p data-type="footnote" id="tf2"><sup><a href="#tf2-marker">b</a></sup> Bluish</p>
-	      <p data-type="footnote" id="tf3"><sup><a href="#tf3-marker">c</a></sup> Greenish</p>
-	      <p data-type="footnote" id="tf4"><sup><a href="#tf4-marker">d</a></sup> Purplish</p>
-	    </td>
-	  </tr>
-	</tfoot>
-	<tbody>
-	  <tr>...</tr>
-	  <tr>...</tr>
-	  <tr>...</tr>
-	</tbody>
       </table>
     </x:expect>
   </x:scenario>
@@ -1892,7 +1796,7 @@ sect5:1
       <x:context>
 	<x:param name="process.footnotes" select="0"/>
       </x:context>
-      <x:expect label="There should be 4 footnotes at end of table" test="count(//h:table//h:tfoot//*[@data-type='footnote']) = 4"/>
+      <x:expect label="There should be 4 footnotes at end of table" test="count(//h:table//h:tr[@class = 'footnotes']//*[@data-type='footnote']) = 4"/>
       <x:expect label="There should be no footnotes at end of section" test="count(//h:section/h:aside//*[@data-type='footnote']) = 0"/>
     </x:scenario>
 
@@ -1900,7 +1804,7 @@ sect5:1
       <x:context>
 	<x:param name="process.footnotes" select="1"/>
       </x:context>
-      <x:expect label="There should be 4 footnotes at end of table" test="count(//h:table//h:tfoot//*[@data-type='footnote']) = 4"/>
+      <x:expect label="There should be 4 footnotes at end of table" test="count(//h:table//h:tr[@class = 'footnotes']//*[@data-type='footnote']) = 4"/>
       <x:expect label="There should be 2 footnotes at end of section" test="count(//h:section/h:aside//*[@data-type='footnote']) = 2"/>
       <x:expect label="Footnotes at end of section should be numbered in sequence" test="every $footnote in (//h:p[@data-type='footnote'][ancestor::h:aside]) satisfies $footnote[count(preceding-sibling::h:p[@data-type='footnote']) + 1 = h:sup/h:a]"/>
     </x:scenario>
