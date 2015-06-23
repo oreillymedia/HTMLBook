@@ -183,10 +183,10 @@
   <xsl:param name="ncx.toc.section.depth" select="4"/>
 
   <!-- Include labels in NCX TOC? -->
-  <xsl:param name="ncx.toc.include.labels" select="1"/>
+  <xsl:param name="ncx.toc.include.labels" select="0"/>
 
   <!-- Include labels in Nav Doc TOC -->
-  <xsl:param name="toc-include-labels" select="1"/>
+  <xsl:param name="toc-include-labels" select="0"/>
 
   <!-- Include root chunk (index.html) in NCX? -->
   <!-- Don't turn this parameter on if you're not generating a root chunk -->
@@ -196,7 +196,7 @@
   <xsl:param name="nav.in.spine" select="0"/>
 
   <!-- Param to specify whether or not to include the Navigation Document (XHTML5 TOC) in the NCX TOC -->
-  <xsl:param name="nav.in.ncx" select="0"/>
+  <xsl:param name="nav.in.ncx" select="1"/>
 
   <!-- Filename for custom CSS to be embedded in EPUB; leave blank if none -->
   <xsl:param name="css.filename">epub.css</xsl:param>
