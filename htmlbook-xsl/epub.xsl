@@ -193,7 +193,7 @@
   <xsl:param name="ncx.include.root.chunk" select="$generate.root.chunk"/>
 
   <!-- Param to specify whether or not to include the Navigation Document (XHTML5 TOC) in the spine -->
-  <xsl:param name="nav.in.spine" select="0"/>
+  <xsl:param name="nav.in.spine" select="1"/>
 
   <!-- Param to specify whether or not to include the Navigation Document (XHTML5 TOC) in the NCX TOC -->
   <xsl:param name="nav.in.ncx" select="1"/>
