@@ -77,7 +77,7 @@
     <xsl:apply-templates select="*" mode="ncx.toc.gen"/>
   </xsl:template>
 
-  <xsl:template match="h:section[not(@data-type = 'dedication' or @data-type = 'titlepage' or @data-type = 'toc' or @data-type = 'colophon' or @data-type = 'copyright-page' or @data-type = 'halftitlepage')]|h:div[@data-type='part']" mode="ncx.toc.gen">
+  <xsl:template match="h:section[not(@data-type = 'colophon' or @data-type = 'halftitlepage')]|h:div[@data-type='part']" mode="ncx.toc.gen">
     <xsl:if test="not(self::h:section[contains(@data-type, 'sect') and htmlbook:section-depth(.) != '' and htmlbook:section-depth(.) &gt; $ncx.toc.section.depth])">
       <xsl:call-template name="generate.navpoint"/>
     </xsl:if>
