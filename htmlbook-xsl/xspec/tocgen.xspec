@@ -273,6 +273,42 @@
     <x:expect label="An entry 'li' *should not* be generated" select="()"/>
   </x:scenario>
 
+  <!-- Inline markup in TOC tests -->
+  <x:scenario label="When a section with inline markup in its heading is matched in tocgen mode">
+    <x:context select="(//h:section[@data-type='sect1'])[1]" mode="tocgen">>
+      <x:param name="toc.section.depth" select="3"/>
+      <body data-type="book">
+        <section data-type="chapter">
+          <h1>First chapter</h1>
+          <section data-type="sect1">
+            <h1>First sect1 with <em>inline tagging</em></h1>
+            <p>A paragraph</p>
+          </section>
+        </section>
+      </body>
+    </x:context>
+    
+    <x:scenario label="And inline.markup.in.toc disabled">
+      <x:context>
+	<x:param name="inline.markup.in.toc" select="0"/>
+      </x:context>
+
+      <x:expect label="An entry 'li' should be generated *without* inline markup">
+	<li data-type="sect1"><a href="...">First sect1 with inline tagging</a></li>
+      </x:expect>
+    </x:scenario>
+    
+    <x:scenario label="And inline.markup.in.toc enabled">
+      <x:context>
+	<x:param name="inline.markup.in.toc" select="1"/>
+      </x:context>
+
+      <x:expect label="An entry 'li' should be generated *with* inline markup">
+	<li data-type="sect1"><a href="...">First sect1 with <em>inline tagging</em></a></li>
+      </x:expect>
+    </x:scenario>
+  </x:scenario>
+
   <x:scenario label="When toc-title is called for English-language content (default)">
     <x:call template="toc-title"/>
     <x:expect label="it should return the proper TOC title">Table of Contents</x:expect>

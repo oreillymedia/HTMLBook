@@ -192,6 +192,9 @@
   <!-- Don't turn this parameter on if you're not generating a root chunk -->
   <xsl:param name="ncx.include.root.chunk" select="$generate.root.chunk"/>
 
+  <!-- Param to specify whether or not to include inline markup tagging (e.g., "em", "code") in generated XHTML TOC (EPUB Navigation Document) -->
+  <xsl:param name="inline.markup.in.toc" select="0"/>
+
   <!-- Param to specify whether or not to include the Navigation Document (XHTML5 TOC) in the spine -->
   <xsl:param name="nav.in.spine" select="0"/>
 

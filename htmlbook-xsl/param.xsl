@@ -117,6 +117,9 @@ sect5:none
     -->
   <xsl:param name="toc.section.depth" select="2"/>
 
+  <!-- Param to specify whether or not to include inline markup tagging (e.g., "em", "code") in generated XHTML TOC (EPUB Navigation Document) -->
+  <xsl:param name="inline.markup.in.toc" select="1"/>
+
   <!-- XREF-specific params -->
   <xsl:param name="autogenerate-xrefs" select="1"/>
 
