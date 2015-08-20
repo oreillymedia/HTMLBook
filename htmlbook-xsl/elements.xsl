@@ -315,7 +315,13 @@
       </xsl:when>
       <xsl:otherwise>
 	<xsl:copy>
-	  <xsl:apply-templates select="@*|node()"/>
+	  <xsl:apply-templates select="@*"/>
+	  <xsl:attribute name="data-footnote-marker">
+	    <xsl:apply-templates select="." mode="footnote.number">
+	      <xsl:with-param name="footnote.reset.numbering.at.chapter.level" select="$footnote.reset.numbering.at.chapter.level"/>
+	    </xsl:apply-templates>
+	  </xsl:attribute>
+	  <xsl:apply-templates/>
 	</xsl:copy>
       </xsl:otherwise>
     </xsl:choose>
