@@ -1445,7 +1445,7 @@ sect5:1
 	<x:param name="process.footnotes" select="0"/>
       </x:context>
       <x:expect label="Footnote should be copied to output as is">
-	<span data-type="footnote" id="fn_id_yo">And this is the footnote</span>
+	<span data-type="footnote" id="fn_id_yo" data-footnote-marker="...">And this is the footnote</span>
       </x:expect>
     </x:scenario>
 
@@ -1495,6 +1495,26 @@ sect5:1
 	<p>Here's the second footnote<span data-type="footnote">Footnote #2 in the Appendix</span></p>
       </section>
     </x:context>
+
+    <x:scenario label="With process footnotes disabled and footnote.reset.numbering.at.chapter.level disabled">
+      <x:context select="(/h:section[@id='second_ch']//h:span[@data-type='footnote'])[2]">
+	<x:param name="process.footnotes" select="0"/>
+	<x:param name="footnote.reset.numbering.at.chapter.level" select="0"/>
+      </x:context>
+      <x:expect label="Footnote should be postprocessing with the proper data-footnote-marker attribute">
+	<span data-footnote-marker="4" data-type="footnote">Footnote #2 in Chapter #2</span>
+      </x:expect>
+    </x:scenario>
+
+    <x:scenario label="With process footnotes disabled and footnote.reset.numbering.at.chapter.level enabled">
+      <x:context select="(/h:section[@id='second_ch']//h:span[@data-type='footnote'])[2]">
+	<x:param name="process.footnotes" select="0"/>
+	<x:param name="footnote.reset.numbering.at.chapter.level" select="1"/>
+      </x:context>
+      <x:expect label="Footnote should be postprocessing with the proper data-footnote-marker attribute">
+	<span data-footnote-marker="2" data-type="footnote">Footnote #2 in Chapter #2</span>
+      </x:expect>
+    </x:scenario>
 
     <x:scenario label="With process footnotes enabled and footnote.reset.numbering.at.chapter.level disabled">
       <x:context select="(/h:section[@id='second_ch']//h:span[@data-type='footnote'])[2]">
