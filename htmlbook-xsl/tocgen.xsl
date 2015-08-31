@@ -19,12 +19,20 @@
     </xsl:apply-templates>
   </xsl:template>
 
-  <!--<xsl:template match="h:section[not(@data-type = 'dedication' or @data-type = 'titlepage' or @data-type = 'toc' or @data-type = 'colophon' or @data-type = 'copyright-page' or @data-type = 'halftitlepage')]|h:div[@data-type='part']" mode="tocgen">-->
-  <xsl:template match="h:section[not(@data-type = 'colophon' or @data-type = 'halftitlepage')]|h:div[@data-type='part']" mode="tocgen">
+  <!-- Exclude these frontmatter/backmatter sections from TOC generation -->
+  <!-- EDITED FOR MACMILLAN -->
+  <xsl:template match="h:section[@data-type = 'colophon' or 
+				 @data-type = 'halftitlepage']" mode="tocgen"/>
+  <!-- END EDITS -->
+
+  <xsl:template match="h:section|h:div[@data-type='part']" mode="tocgen">
     <xsl:param name="toc.section.depth" select="$toc.section.depth"/>
+    <xsl:param name="inline.markup.in.toc" select="$inline.markup.in.toc"/>
     <xsl:choose>
       <!-- Don't output entry for section elements at a level that is greater than specified $toc.section.depth -->
       <xsl:when test="self::h:section[contains(@data-type, 'sect') and htmlbook:section-depth(.) != '' and htmlbook:section-depth(.) &gt; $toc.section.depth]"/>
+      <!-- Don't output entry if a class of "notoc" is specified -->
+      <xsl:when test="contains(@class, 'notoc')"/>
       <!-- Otherwise, go ahead -->
       <xsl:otherwise>
 	<xsl:element name="li">
@@ -46,7 +54,19 @@
 		<xsl:value-of select="$label.and.title.separator"/>
 	      </xsl:if>
 	    </xsl:if>
-	    <xsl:apply-templates select="." mode="title.markup"/>
+	    <xsl:choose>
+	      <xsl:when test="$inline.markup.in.toc = 1">
+		<!-- Include inline elements in TOC entry -->
+		<xsl:apply-templates select="." mode="title.markup"/>
+	      </xsl:when>
+	      <xsl:otherwise>
+		<!-- Strip inline tagging from TOC entry: raw text only -->
+		<xsl:variable name="title.markup">
+		  <xsl:apply-templates select="." mode="title.markup"/>
+		</xsl:variable>
+		<xsl:value-of select="$title.markup"/>
+	      </xsl:otherwise>
+	    </xsl:choose>		
 	  </a>
 	  <!-- Make sure there are descendants that conform to $toc.section.depth restrictions before generating nested TOC <ol> -->
 	  <xsl:if test="descendant::h:section[not(contains(@data-type, 'sect')) or htmlbook:section-depth(.) &lt;= $toc.section.depth]|descendant::h:div[@data-type='part']">

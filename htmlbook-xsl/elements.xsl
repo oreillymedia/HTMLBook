@@ -56,7 +56,7 @@
 		xmlns:svg="http://www.w3.org/2000/svg"
 		xmlns="http://www.w3.org/1999/xhtml"
 		extension-element-prefixes="exsl"
-		exclude-result-prefixes="exsl h">
+		exclude-result-prefixes="exsl h mml svg">
 
 <!-- Template for id decoration on elements that need it for TOC and/or index generation. 
      Should be at a lower import level than tocgen.xsl and indexgen.xsl, so that those
@@ -143,7 +143,8 @@
     </xsl:apply-templates>
   </xsl:template>
 
-  <!-- Custom handling for tables that have footnotes -->
+  <!-- BEGIN Custom handling for tables that have footnotes: -->
+
   <xsl:template match="h:table[descendant::h:span[@data-type='footnote']]">
     <xsl:param name="process.footnotes" select="$process.footnotes"/>
     <xsl:variable name="number-of-table-columns">
@@ -151,18 +152,31 @@
     </xsl:variable>
     <xsl:copy>
       <xsl:apply-templates select="@*|node()"/>
-      <!-- Put table footnotes in a tfoot -->
-      <tfoot class="footnotes">
-	<tr>
+      <xsl:variable name="footnote-row">
+	<tr class="footnotes">
 	  <td colspan="{$number-of-table-columns}">
 	    <xsl:for-each select="descendant::h:span[@data-type='footnote']">
 	      <xsl:apply-templates select="." mode="generate.footnote"/>
 	    </xsl:for-each>
 	  </td>
 	</tr>
-      </tfoot>
+      </xsl:variable>
+      <xsl:choose>
+	<!-- Put footnote row in tbody, when other tbody elements exist -->
+	<xsl:when test="h:tbody">
+	  <tbody>
+	    <xsl:copy-of select="$footnote-row"/>
+	  </tbody>
+	</xsl:when>
+	<xsl:otherwise>
+	  <!-- Otherwise, put footnote row in loose -->
+	  <xsl:copy-of select="$footnote-row"/>
+	</xsl:otherwise>
+      </xsl:choose>
     </xsl:copy>
   </xsl:template>
+
+  <!-- END Custom handling for tables that have footnotes: -->
 
   <xsl:template match="h:figure">
     <xsl:param name="html4.structural.elements" select="$html4.structural.elements"/>
@@ -301,7 +315,13 @@
       </xsl:when>
       <xsl:otherwise>
 	<xsl:copy>
-	  <xsl:apply-templates select="@*|node()"/>
+	  <xsl:apply-templates select="@*"/>
+	  <xsl:attribute name="data-footnote-marker">
+	    <xsl:apply-templates select="." mode="footnote.number">
+	      <xsl:with-param name="footnote.reset.numbering.at.chapter.level" select="$footnote.reset.numbering.at.chapter.level"/>
+	    </xsl:apply-templates>
+	  </xsl:attribute>
+	  <xsl:apply-templates/>
 	</xsl:copy>
       </xsl:otherwise>
     </xsl:choose>

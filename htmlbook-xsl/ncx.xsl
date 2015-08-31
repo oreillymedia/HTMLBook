@@ -72,15 +72,27 @@
     </ncx>
   </xsl:template>
 
-  <!-- Default rule for TOC generation -->
+  <!-- Default rule for NCX TOC generation -->
   <xsl:template match="*" mode="ncx.toc.gen">
     <xsl:apply-templates select="*" mode="ncx.toc.gen"/>
   </xsl:template>
 
-  <xsl:template match="h:section[not(@data-type = 'colophon' or @data-type = 'halftitlepage')]|h:div[@data-type='part']" mode="ncx.toc.gen">
-    <xsl:if test="not(self::h:section[contains(@data-type, 'sect') and htmlbook:section-depth(.) != '' and htmlbook:section-depth(.) &gt; $ncx.toc.section.depth])">
-      <xsl:call-template name="generate.navpoint"/>
-    </xsl:if>
+  <!-- Exclude these frontmatter/backmatter sections from NCX TOC generation -->
+  <!-- EDITED FOR MACMILLAN -->
+  <xsl:template match="h:section[@data-type = 'colophon' or
+				 @data-type = 'halftitlepage']" mode="ncx.toc.gen"/>
+  <!-- END EDITS -->
+
+  <xsl:template match="h:section|h:div[@data-type='part']" mode="ncx.toc.gen">
+    <xsl:choose>
+      <!-- Don't generate NCX entries for sectNs of a level that exceeds specified NCX TOC section depth -->
+      <xsl:when test="self::h:section[contains(@data-type, 'sect') and htmlbook:section-depth(.) != '' and htmlbook:section-depth(.) &gt; $ncx.toc.section.depth]"/>
+      <!-- Don't generate NCX entries if class of "notoc" is specified -->
+      <xsl:when test="contains(@class, 'notoc')"/>
+      <xsl:otherwise>
+	<xsl:call-template name="generate.navpoint"/>
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
 
   <!-- Only put the Nav doc in the NCX TOC if $nav.in.ncx is enabled -->
