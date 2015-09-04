@@ -21,8 +21,7 @@
 
   <!-- Exclude these frontmatter/backmatter sections from TOC generation -->
   <!-- EDITED FOR MACMILLAN -->
-  <xsl:template match="h:section[@data-type = 'colophon' or 
-				 @data-type = 'halftitlepage']" mode="tocgen"/>
+  <xsl:template match="h:section[@data-type = 'halftitlepage']" mode="tocgen"/>
   <!-- END EDITS -->
 
   <xsl:template match="h:section|h:div[@data-type='part']" mode="tocgen">
