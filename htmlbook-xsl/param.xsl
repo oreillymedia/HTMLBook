@@ -174,8 +174,11 @@ toc:lower-roman
 
   <!-- Footnote-specific params -->
 
-  <!-- Process footnotes into separate marker/hyperlink and footnote content -->
+  <!-- Process footnotes into separate marker/hyperlink and footnote content, and move to end of sections -->
   <xsl:param name="process.footnotes" select="0"/>
+
+  <!-- Generate hardcoded superscripted markers for footnotes, but don't move footnote contente to end of sections -->
+  <xsl:param name="process.footnote.callouts.only" select="0"/>
 
   <!-- Reset footnote numbering at chapter level elements (children of part or body) -->
   <xsl:param name="footnote.reset.numbering.at.chapter.level" select="1"/>

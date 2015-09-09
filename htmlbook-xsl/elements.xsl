@@ -307,24 +307,31 @@
   <xsl:template match="h:span[@data-type='footnote']">
     <xsl:param name="footnote.reset.numbering.at.chapter.level" select="$footnote.reset.numbering.at.chapter.level"/>
     <xsl:param name="process.footnotes" select="$process.footnotes"/>
-    <xsl:choose>
-      <xsl:when test="($process.footnotes = 1) or ancestor::h:table">
-	<xsl:apply-templates select="." mode="footnote.marker">
-	  <xsl:with-param name="footnote.reset.numbering.at.chapter.level" select="$footnote.reset.numbering.at.chapter.level"/>
-	</xsl:apply-templates>
-      </xsl:when>
-      <xsl:otherwise>
-	<xsl:copy>
-	  <xsl:apply-templates select="@*"/>
-	  <xsl:attribute name="data-footnote-marker">
-	    <xsl:apply-templates select="." mode="footnote.number">
-	      <xsl:with-param name="footnote.reset.numbering.at.chapter.level" select="$footnote.reset.numbering.at.chapter.level"/>
-	    </xsl:apply-templates>
+    <xsl:param name="process.footnote.callouts.only" select="$process.footnote.callouts.only"/>
+    <xsl:if test="($process.footnotes = 1) or ($process.footnote.callouts.only = 1) or ancestor::h:table">
+      <!-- Generate marker if we're processing footnotes completely, processing just footnote callouts, or working on a table footnote -->
+      <xsl:apply-templates select="." mode="footnote.marker">
+	<xsl:with-param name="footnote.reset.numbering.at.chapter.level" select="$footnote.reset.numbering.at.chapter.level"/>
+      </xsl:apply-templates>
+    </xsl:if>
+    <!-- Copy footnote content in place if we're not processing footnotes completely and not working on a table footnote -->
+    <xsl:if test="($process.footnotes != 1) and not(ancestor::h:table)">
+      <xsl:copy>
+	<xsl:apply-templates select="@*"/>
+	<!-- Need to ensure there are ids if process.footnote.callouts.only is enabled -->
+	<xsl:if test="$process.footnote.callouts.only = 1">
+	  <xsl:attribute name="id">
+	    <xsl:call-template name="object.id"/>
 	  </xsl:attribute>
-	  <xsl:apply-templates/>
-	</xsl:copy>
-      </xsl:otherwise>
-    </xsl:choose>
+	</xsl:if>
+	<xsl:attribute name="data-footnote-marker">
+	  <xsl:apply-templates select="." mode="footnote.number">
+	    <xsl:with-param name="footnote.reset.numbering.at.chapter.level" select="$footnote.reset.numbering.at.chapter.level"/>
+	  </xsl:apply-templates>
+	</xsl:attribute>
+	<xsl:apply-templates/>
+      </xsl:copy>
+    </xsl:if>
   </xsl:template>
 
   <xsl:template match="h:span[@data-type='footnote']" mode="footnote.marker" name="footnote-marker">
