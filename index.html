@@ -16,6 +16,11 @@
                     companyURL: "http://oreilly.com" }
           ],
           localBiblio: {
+             "DITA": {
+                title: "Darwin Information Typing Architecture (DITA) Version 1.2",
+                href: "http://docs.oasis-open.org/dita/v1.2/spec/DITA1.2-spec.html",
+                authors: ["Kristen James Eberlein", "Robert D. Anderson", "Gershon Joseph"]
+             },
              "DOCBOOK": { 
                 title: "The DocBook Document Type",
                 href: "http://www.docbook.org/specs/docbook-4.5-spec.html",
@@ -81,6 +86,8 @@ span[data-type=footnote] {
     <section>
       <h2>Revision History and Notes</h2>
       <dl>
+	<dt>16 September 2015</dt>
+	<dd>Added informative section on reference entries</dd>
 	<dt>25 February 2015</dt>
 	<dd>Clarified HTMLBook specifications for inline semantics/tagging</dd>
 	<dt>8 April 2014</dt>
@@ -562,6 +569,26 @@ now free to be used for whatever user-defined semantics are desired, and there a
   &lt;mo&gt;=&lt;/mo&gt;
   &lt;msup&gt;&lt;mi&gt;c&lt;/mi&gt;&lt;mn&gt;2&lt;/mn&gt;&lt;/msup&gt;
 &lt;/math&gt;
+&lt;/div&gt;</pre>
+      </section>
+      <section data-type="sect2" id="_refentry" class="informative">
+        <h2>Reference Entries (refentries)</h2>
+        <p><strong>Suggested HTML element</strong>: <code>&lt;div&gt;</code></p>
+        <p><strong>Suggested semantics</strong>: <code>class="refentry"</code></p>
+        <p><strong>Note:</strong> HTMLBook does not currently normatively specify structural semantics for reference entries as they are conceived in <a href="http://www.docbook.org/tdg/en/html/refentry.html">DocBook</a> ([[DOCBOOK]]) or <a href="http://docs.oasis-open.org/dita/v1.2/os/spec/common/reference2.html#reference2">DITA</a> ([[DITA]]). Use of <code>&lt;div class="refentry"&gt;</code> is suggested for marking up reference entries. The following example illustrates XHTML5 markup one might use for refentry content, which captures DocBook-style semantics</p>
+        <p><strong>Example refentry paralleling [[DOCBOOK]]</strong>:</p>
+        <pre data-type="programlisting">&lt;div class="refentry">
+  &lt;header&gt;
+    &lt;p class="refname"&gt;print&lt;/p&gt;
+    &lt;p class="refpurpose"&gt;Output some text to stdout.&lt;/p&gt;
+  &lt;/header&gt;
+  &lt;div class="refsynopsisdiv"&gt;
+    &lt;pre class="synopsis"&gt;print "&lt;em&gt;Hello World&lt;/em&gt;"&lt;/pre&gt;
+  &lt;/div&gt;
+  &lt;div class="refsect1"&gt;
+    &lt;h6&gt;Description&lt;/h6&gt;
+    &lt;p&gt;More description would go here&lt;/p&gt;
+  &lt;/div&gt;
 &lt;/div&gt;</pre>
       </section>
     </section>

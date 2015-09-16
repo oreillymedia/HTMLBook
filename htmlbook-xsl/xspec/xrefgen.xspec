@@ -182,6 +182,43 @@ toc:lower-roman
     </x:scenario>
   </x:scenario>
 
+  <x:scenario label="When an XREF points to a refentry">
+    <x:context mode="xref-to">
+      <div class="refentry">
+	<header>
+	  <p class="refname">print</p>
+	  <p class="refpurpose">Output some text to stdout.</p>
+	</header>
+	<div class="refsynopsisdiv">
+	  <pre class="synopsis">print "<em>Hello World</em>"</pre>
+	</div>
+	<div class="refsect1">
+	  <h6>Description</h6>
+	  <p>More description would go here</p>
+	</div>
+      </div>
+    </x:context>
+    <x:expect label="Generated text should be refname tagged as code"><code class="refentry">print</code></x:expect>
+  </x:scenario>
+
+  <x:scenario label="When an XREF points to a refentry without a refname 'p'">
+    <x:context mode="xref-to">
+      <div class="refentry">
+	<header>
+	  <p class="refpurpose">Output some text to stdout.</p>
+	</header>
+	<div class="refsynopsisdiv">
+	  <pre class="synopsis">print "<em>Hello World</em>"</pre>
+	</div>
+	<div class="refsect1">
+	  <h6>Description</h6>
+	  <p>More description would go here</p>
+	</div>
+      </div>
+    </x:context>
+    <x:expect label="Generated text should be question marks">???</x:expect>
+  </x:scenario>
+
   <!-- Tests for text nodes of <a> elements that do not have data-type="xref" -->
   <x:scenario label="If an 'a' element does not contain data-type='xref'">
     <x:context>

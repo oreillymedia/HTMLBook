@@ -196,6 +196,30 @@
     </xsl:apply-templates>
   </xsl:template>
 
+  <!-- Special xref-to handling for refentries -->
+  <xsl:template match="h:div[@class='refentry']" mode="xref-to">
+    <xsl:choose>
+      <xsl:when test="descendant::*[@class='refname']">
+	<!-- Choose the first descendant element with class of refname, if one exists, and wrap in "code" tag -->
+	<code class="refentry">
+	  <xsl:value-of select="descendant::*[@class='refname'][1]"/>
+	</code>
+      </xsl:when>
+      <xsl:otherwise>
+	<!-- Otherwise, throw warning, and print out ??? -->
+	<xsl:call-template name="log-message">
+	  <xsl:with-param name="type" select="'WARNING'"/>
+	  <xsl:with-param name="message">
+	    <xsl:text>Cannot output gentext for XREF to refentry (id:</xsl:text>
+	    <xsl:value-of select="@id"/>
+	    <xsl:text>) that does not contain an element with class of refname</xsl:text>
+	  </xsl:with-param>
+	</xsl:call-template>
+	<xsl:text>???</xsl:text>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
   <!-- Adapted from docbook-xsl templates in common/gentext.xsl -->
   <!-- For simplicity, not folding in all the special 'select: ' logic (some of which is FO-specific, anyway) -->
 <xsl:template match="*" mode="object.xref.markup">
