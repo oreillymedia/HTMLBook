@@ -82,7 +82,9 @@
   <xsl:template match="h:section[@data-type = 'halftitlepage']" mode="ncx.toc.gen"/>
   <!-- END EDITS -->
 
-  <xsl:template match="h:section|h:div[@data-type='part']" mode="ncx.toc.gen">
+  <!-- EDITED FOR MACMILLAN -->
+  <xsl:template match="h:section|h:div[@data-type='part']|h:figure[@data-type='cover']" mode="ncx.toc.gen">
+  <!-- END EDITS -->
     <xsl:choose>
       <!-- Don't generate NCX entries for sectNs of a level that exceeds specified NCX TOC section depth -->
       <xsl:when test="self::h:section[contains(@data-type, 'sect') and htmlbook:section-depth(.) != '' and htmlbook:section-depth(.) &gt; $ncx.toc.section.depth]"/>
