@@ -1208,7 +1208,7 @@ sect5:none
     <!-- Not sure XSpec can handle tests that generate just an attribute node, e.g.:
 	  XTDE0420: Cannot create an attribute node (class) whose parent is a document node
       -->
-    <x:scenario label="If an element is matched in class.attribute modee">
+    <x:scenario label="If an element is matched in class.attribute mode">
       <x:context mode="class.attribute"/>
       
     <x:scenario label="and its generated class attribute (via class.value) is empty">
@@ -1241,6 +1241,8 @@ sect5:none
 	    <p>Sidebar text</p>
 	  </aside>
 	  <p>XREF to the sect1 in second chapter: see <a id="sect1_xref" data-type="xref" href="#chapter2_sect1"/></p>
+	  <p>Same XREF as above, but with pagenumber suppressed: see <a id="sect1_xref_nopage" data-type="xref" href="#chapter2_sect1" data-xrefstyle="select:nopage"/></p>
+	  <p>Same XREF as above, different xrefstyle formatting: see <a id="sect1_xref_nopage2" class="underline" data-type="xref" href="#chapter2_sect1" data-xrefstyle="select: nopage"/></p>
 	</section>
 	<section data-type="chapter" id="second">
 	  <h1>Second chapter</h1>
@@ -1293,6 +1295,48 @@ sect1
       </x:context>
       <x:expect label="Class value of 'pagenum' *should not* be added. Class value preserved as is">underline</x:expect>
     </x:scenario>
+
+    <!-- xrefstyle handling -->
+    <x:scenario label="that points to an element *not* in the xref.elements.pagenum.in.class list, and with select:nopage specified as xrefstyle">
+      <x:context select="//h:a[@data-type='xref'][@id='sect1_xref_nopage']">
+	<x:param name="xref.elements.pagenum.in.class">chapter
+sidebar
+	</x:param>
+	<x:param name="xref.target" select="//h:section[@id='chapter2_sect1']"/>
+      </x:context>
+      <x:expect label="Class value of 'pagenum' should not be appended" select="()"/>
+    </x:scenario>
+
+    <x:scenario label="that points to an element in the xref.elements.pagenum.in.class list, but with select:nopage specified as xrefstyle">
+      <x:context select="//h:a[@data-type='xref'][@id='sect1_xref_nopage']">
+	<x:param name="xref.elements.pagenum.in.class">chapter
+sect1
+	</x:param>
+	<x:param name="xref.target" select="//h:section[@id='chapter2_sect1']"/>
+      </x:context>
+      <x:expect label="Class value of 'pagenum' should not be appended" select="()"/>
+    </x:scenario>
+
+    <x:scenario label="that points to an element *not* in the xref.elements.pagenum.in.class list, and with select: nopage specified as xrefstyle">
+      <x:context select="//h:a[@data-type='xref'][@id='sect1_xref_nopage2']">
+	<x:param name="xref.elements.pagenum.in.class">chapter
+sidebar
+	</x:param>
+	<x:param name="xref.target" select="//h:section[@id='chapter2_sect1']"/>
+      </x:context>
+      <x:expect label="Class value of 'pagenum' should not be appended">underline</x:expect>
+    </x:scenario>
+
+    <x:scenario label="that points to an element in the xref.elements.pagenum.in.class list, but with select: nopage specified as xrefstyle">
+      <x:context select="//h:a[@data-type='xref'][@id='sect1_xref_nopage2']">
+	<x:param name="xref.elements.pagenum.in.class">chapter
+sect1
+	</x:param>
+	<x:param name="xref.target" select="//h:section[@id='chapter2_sect1']"/>
+      </x:context>
+      <x:expect label="Class value of 'pagenum' should not be appended">underline</x:expect>
+    </x:scenario>
+
 
   </x:scenario>
 
