@@ -572,6 +572,45 @@ toc:lower-roman
     </x:scenario>
   </x:scenario>
 
+  <!-- Tests for data-xrefstyle attribute -->
+  <x:scenario label="When an XREF is matched with data-xrefstyle...">
+    <x:context>
+      <body>
+	<section data-type="chapter" id="awesome_chap">
+	  <h1>AWESOME CHAPTER</h1>
+	  <p>Check out this pic:</p>
+	  <figure>
+	    <figcaption>AWESOME PIC</figcaption>
+	    <img alt="awesomeness" src="awesomeness.png"/>
+	  </figure>
+	  <p>And this one, too:</p>
+	  <figure id="awesome_squared_fig">
+	    <figcaption>AWESOMENESS SQUARED</figcaption>
+	    <img alt="awesomeness to the second power" src="awesomenesssquared.png"/>
+	  </figure>
+	  <p>See <a href="#awesome_squared_fig" id="labelnumber-xref" data-type="xref" data-xrefstyle="select: labelnumber"/> for lots of awesomeness.</p>
+	  <p>See <a href="#awesome_chap" id="chap-num-title-xref" data-type="xref" data-xrefstyle="chap-num-title"/> for awesomeness.</p>
+	</section>
+      </body>
+    </x:context>
+
+    <x:scenario label="of 'select: labelnumber'">
+      <x:context select="//h:a[@id='labelnumber-xref']"/>
+      <x:expect label="it should return just the label number"><a href="#awesome_squared_fig" id="labelnumber-xref" data-type="xref" data-xrefstyle="select: labelnumber">1-2</a></x:expect>
+    </x:scenario>
+
+    <x:scenario label="of 'chap-num-title'">
+      <x:context select="//h:a[@id='chap-num-title-xref']"/>
+      <x:expect label="it should return chapter label, number, and title"><a href="#awesome_chap" id="chap-num-title-xref" data-type="xref" data-xrefstyle="chap-num-title">Chapter&#xa0;1, <em>AWESOME CHAPTER</em></a></x:expect>
+    </x:scenario>
+
+    <x:scenario label="of 'chap-num-title' (localization other than 'en')"
+		pending="No clean way to parameterize language at template level for unit tests yet">
+      <x:expect label="FILL ME IN LATER" select="'FILL ME IN LATER'"/>
+    </x:scenario>
+    
+  </x:scenario>
+
   <!-- Tests around "pagenum" classes for XREFs -->
   <x:scenario label="If XREF is matched">
     <x:context>

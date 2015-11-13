@@ -1226,16 +1226,16 @@ sidebar
     </x:scenario>
 
     <x:scenario label="of 'chap-num-title'">
-      <x:context select="//h:a[@id='labelnumber-xref']"/>
-      <x:expect label="it should return chapter label, number, and title"><a href="#awesome_chap" id="labelnumber-xref" data-type="xref" data-xrefstyle="select: labelnumber" data-xref-pagenum-style="...">Chapter&#xa0;1, <em>AWESOME CHAPTER</em></a></x:expect>
+      <x:context select="//h:a[@id='chap-num-title-xref']"/>
+      <x:expect label="it should return chapter label, number, and title"><a href="#awesome_chap" id="chap-num-title-xref" data-type="xref" data-xrefstyle="chap-num-title" data-xref-pagenum-style="...">Chapter&#xa0;1, <em>AWESOME CHAPTER</em></a></x:expect>
     </x:scenario>
 
-  <x:scenario label="of 'chap-num-title' (localization other than 'en')"
-	      pending="No way to parameterize language locally yet for XSpec testing"/> 
+    <x:scenario label="of 'chap-num-title' (localization other than 'en')"
+		pending="No clean way to parameterize language at template level for unit tests yet">
+      <x:expect label="FILL ME IN LATER" select="'FILL ME IN LATER'"/>
+    </x:scenario>
     
   </x:scenario>
-
-
 
   <!-- Tests for whether an HREF is considered to be an XREF (link within the same corpus) -->
   <x:scenario label="If an href starts with a '#'">
@@ -1356,21 +1356,21 @@ sidebar
     <x:call template="calculate-xrefstyle">
       <x:param name="data-xrefstyle-attr">chap-num-title</x:param>
     </x:call>
-    <x:expect label="Proper template should be generated">template:Chapter&#xa0;%n, %t</x:expect>
+    <x:expect label="Proper template should be generated">xref-number-and-title</x:expect>
   </x:scenario>
 
   <x:scenario label="If calculate-xrefstyle is called on xrefstyle that does not match an enumerated pattern">
     <x:call template="calculate-xrefstyle">
       <x:param name="data-xrefstyle-attr">bogus_xrefstyle_yo</x:param>
     </x:call>
-    <x:expect label="Result should be empty" select="''"/>
+    <x:expect label="Result should be empty" select="()"/>
   </x:scenario>
 
   <x:scenario label="If calculate-xrefstyle is called on xrefstyle value that is empty">
     <x:call template="calculate-xrefstyle">
       <x:param name="data-xrefstyle-attr" select="''"/>
     </x:call>
-    <x:expect label="Result should be empty" select="''"/>
+    <x:expect label="Result should be empty" select="()"/>
   </x:scenario>
   
   <!-- Tests for trim url template -->
