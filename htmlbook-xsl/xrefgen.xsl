@@ -56,7 +56,11 @@
 		</xsl:apply-templates>
 		<xsl:apply-templates select="$target" mode="xref-to">
 		  <xsl:with-param name="referrer" select="."/>
-		  <xsl:with-param name="xrefstyle" select="@data-xrefstyle"/>
+		  <xsl:with-param name="xrefstyle">
+		    <xsl:call-template name="calculate-xrefstyle">
+		      <xsl:with-param name="data-xrefstyle-attr" select="@data-xrefstyle"/>
+		    </xsl:call-template>
+		  </xsl:with-param>
 		</xsl:apply-templates>
 	      </xsl:when>
 	      <!-- We can't locate the target; fall back on ??? -->
@@ -300,7 +304,13 @@
 
   <xsl:variable name="context">
     <xsl:choose>
-      <!-- If we're XREFing a section or a part div, use the $xref.type.for.section.by.data-type variable -->
+      <!-- First, allow $xrefstyle to override standard xref-type handling -->
+      <xsl:when test="($xrefstyle = 'xref-number-and-title' and $number-and-title-template != 0) or
+		      ($xrefstyle = 'xref-number' and $number-template != 0) or
+		      ($xrefstyle = 'xref')">
+	<xsl:value-of select="$xrefstyle"/>
+      </xsl:when>
+      <!-- Otherwise, if we're XREFing a section or a part div, use the $xref.type.for.section.by.data-type variable -->
       <xsl:when test="self::h:section or self::h:div[contains(@data-type, 'part')]">
 	<xsl:variable name="xref-type">
 	  <xsl:call-template name="get-param-value-from-key">
@@ -684,6 +694,19 @@
     </xsl:otherwise>
   </xsl:choose>
 </xsl:template>
+
+  <!-- Template to calculate xrefstyle from data-xrefstyle attribute -->
+  <xsl:template name="calculate-xrefstyle">
+    <xsl:param name="data-xrefstyle-attr"/>
+    <!-- Currently support the following enumerated custom xrefstyles -->
+    <xsl:choose>
+      <!-- select: labelnumber -->
+      <xsl:when test="starts-with($data-xrefstyle-attr, 'select:') and 
+		      contains(substring-after($data-xrefstyle-attr, 'select:'), 'labelnumber')">template:%n</xsl:when>
+      <!-- chap-num-title -->
+      <xsl:when test="$data-xrefstyle-attr = 'chap-num-title'">xref-number-and-title</xsl:when>
+    </xsl:choose>
+  </xsl:template>
 
   <!-- Template to trim http:// and http://www from URLs -->
   <xsl:template name="trim-url">
