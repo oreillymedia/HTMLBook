@@ -1216,6 +1216,11 @@ sidebar
 	  </figure>
 	  <p>See <a href="#awesome_squared_fig" id="labelnumber-xref" data-type="xref" data-xrefstyle="select: labelnumber"/> for lots of awesomeness.</p>
 	  <p>See <a href="#awesome_chap" id="chap-num-title-xref" data-type="xref" data-xrefstyle="chap-num-title"/> for awesomeness.</p>
+	  <p>See <a href="#awesome_sect1" id="nopage-xref" data-type="xref" data-xrefstyle="select:nopage"/> for yet more awesomeness</p>
+	  <section id="awesome_sect1" data-type="sect1">
+	    <h1>AWESOME SUBSECTION</h1>
+	    <p>I'm here only as an XREF referent.</p>
+	  </section>
 	</section>
       </body>
     </x:context>
@@ -1228,6 +1233,13 @@ sidebar
     <x:scenario label="of 'chap-num-title'">
       <x:context select="//h:a[@id='chap-num-title-xref']"/>
       <x:expect label="it should return chapter label, number, and title"><a href="#awesome_chap" id="chap-num-title-xref" data-type="xref" data-xrefstyle="chap-num-title" data-xref-pagenum-style="...">Chapter&#xa0;1, <em>AWESOME CHAPTER</em></a></x:expect>
+    </x:scenario>
+
+    <x:scenario label="of 'select:nopage'">
+      <x:context select="//h:a[@id='nopage-xref']">
+	<x:param name="xref.elements.pagenum.in.class">sect1</x:param>
+      </x:context>
+      <x:expect label="it should return an XREF as usual, but without a pagenum class"><a href="#awesome_sect1" id="nopage-xref" data-xref-pagenum-style="..." data-xrefstyle="select:nopage" data-type="xref">&#x201c;AWESOME SUBSECTION&#x201d;</a></x:expect>
     </x:scenario>
 
     <x:scenario label="of 'chap-num-title' (localization other than 'en')"
