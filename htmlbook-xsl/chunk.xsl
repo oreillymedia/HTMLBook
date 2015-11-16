@@ -390,7 +390,11 @@ sect5:s
 	      <xsl:variable name="target" select="key('id', $href-anchor)[1]"/>
 	      <xsl:apply-templates select="$target" mode="xref-to">
 		<xsl:with-param name="referrer" select="."/>
-		<xsl:with-param name="xrefstyle" select="@data-xrefstyle"/>
+		  <xsl:with-param name="xrefstyle">
+		    <xsl:call-template name="calculate-xrefstyle">
+		      <xsl:with-param name="data-xrefstyle-attr" select="@data-xrefstyle"/>
+		    </xsl:call-template>
+		  </xsl:with-param>
 	      </xsl:apply-templates>
 	    </xsl:when>
 	    <!-- We can't locate the target; fall back on ??? -->
