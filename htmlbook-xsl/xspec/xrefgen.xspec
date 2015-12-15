@@ -229,7 +229,7 @@ toc:lower-roman
         <p>More description would go here</p>
       </div>
     </x:context>
-    <x:expect label="Generated text should be the refsect1 title">"My Refsect1 Title"</x:expect>
+    <x:expect label="Generated text should be the refsect1 title">“My Refsect1 Title”</x:expect>
     
   </x:scenario>
   
@@ -240,7 +240,7 @@ toc:lower-roman
         <p>More description would go here</p>
       </div>
     </x:context>
-    <x:expect label="Generated text should be the refsect2 title">"My Refsect2 Title"</x:expect>
+    <x:expect label="Generated text should be the refsect2 title">“My Refsect2 Title”</x:expect>
     
   </x:scenario>
   <!--End Chris's refsect work -->
