@@ -199,8 +199,9 @@ toc:lower-roman
       </div>
     </x:context>
     <x:expect label="Generated text should be refname tagged as code"><code class="refentry">print</code></x:expect>
+  
   </x:scenario>
-
+  
   <x:scenario label="When an XREF points to a refentry without a refname 'p'">
     <x:context mode="xref-to">
       <div class="refentry">
@@ -218,7 +219,32 @@ toc:lower-roman
     </x:context>
     <x:expect label="Generated text should be question marks">???</x:expect>
   </x:scenario>
-
+  
+  <!--Chris's refsect work here -->
+  <!-- <x:param name="xref.elements.pagenum.in.class" select="1"/> -->
+  <x:scenario label="When an XREF points to a refsect1">
+    <x:context mode="xref-to">
+      <div class="refsect1">
+        <h6>My Refsect1 Title</h6>
+        <p>More description would go here</p>
+      </div>
+    </x:context>
+    <x:expect label="Generated text should be the refsect1 title">"My Refsect1 Title"</x:expect>
+    
+  </x:scenario>
+  
+  <x:scenario label="When an XREF points to a refsect2">
+    <x:context mode="xref-to">
+      <div class="refsect2">
+        <h6>My Refsect2 Title</h6>
+        <p>More description would go here</p>
+      </div>
+    </x:context>
+    <x:expect label="Generated text should be the refsect2 title">"My Refsect2 Title"</x:expect>
+    
+  </x:scenario>
+  <!--End Chris's refsect work -->
+  
   <!-- Tests for text nodes of <a> elements that do not have data-type="xref" -->
   <x:scenario label="If an 'a' element does not contain data-type='xref'">
     <x:context>
@@ -1441,5 +1467,5 @@ sidebar
     </x:call>
     <x:expect label="Trimmed URL should be returned as is">oreilly.com</x:expect>
   </x:scenario>
-
+  
 </x:description>

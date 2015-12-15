@@ -1251,11 +1251,64 @@ sect5:none
 	    <h1>Subsection heading</h1>
 	    <p>Always soft-code your cross-references</p>
 	    <p>Like this one to the sidebar in the previous chapter: see <a class="underline" id="sidebar_xref" data-type="xref" href="#sidebar"/></p>
+	  	<p>This is an xref to a refentry: see <a id="refentry_no_title_xref" data-type="xref" href="#refentry"/></p>
+	  	<p>This is an xref to a refsect1: see <a id="refsect1_xref" data-type="xref" href="#refsect1"/></p>
+	  	<p>This is an xref to a refsect2: see <a id="refsect2_xref" data-type="xref" href="#refsect2"/></p>
+	  	<div class="refentry" id="refentry_no_title">
+	  		<header>
+	  			<p class="refpurpose">Output some text to stdout.</p>
+	  		</header>
+	  		<div class="refsynopsisdiv">
+	  			<pre class="synopsis">print "<em>Hello World</em>"</pre>
+	  		</div>
+	  		<div class="refsect1" id="refsect1">
+	  			<h6>Refsect1 Title</h6>
+	  			<p>More description would go here</p>
+	  			<div class="refsect2" id="refsect2">
+	  				<h6>Refsect2 Title</h6>
+	  				<p>More description would go here</p>
+	  			</div>
+	  		</div>
+	  	</div>
+	  	
 	  </section>
 	</section>
       </body>
     </x:context>
+  	
+  	<!-- Chris's refsect/entry tests here -->
+  	<x:scenario label="that points to a refentry element in the xref.elements.pagenum.in.class list">
+  		<x:context select="//h:a[@data-type='xref'][@id='refentry_no_title_xref']">
+  			<x:param name="xref.elements.pagenum.in.class">chapter
+  				sidebar
+  			</x:param>
+  			<x:param name="xref.target" select="//*[@id='refentry_no_title']"/>
+  		</x:context>
+  		<x:expect label="Class value of 'pagenum' should be returned">pagenum</x:expect>
+  	</x:scenario>
+  	
+  	<x:scenario label="that points to a refsect1 element in the xref.elements.pagenum.in.class list">
+  		<x:context select="//h:a[@data-type='xref'][@id='refsect1_xref']">
+  			<x:param name="xref.elements.pagenum.in.class">chapter
+  				sidebar
+  			</x:param>
+  			<x:param name="xref.target" select="//*[@id='refsect1']"/>
+  		</x:context>
+  		<x:expect label="Class value of 'pagenum' should be returned">pagenum</x:expect>
+  	</x:scenario>
+  	
+  	<x:scenario label="that points to a refsect2 element in the xref.elements.pagenum.in.class list">
+  		<x:context select="//h:a[@data-type='xref'][@id='refsect2_xref']">
+  			<x:param name="xref.elements.pagenum.in.class">chapter
+  				sidebar
+  			</x:param>
+  			<x:param name="xref.target" select="//*[@id='refsect2']"/>
+  		</x:context>
+  		<x:expect label="Class value of 'pagenum' should be returned">pagenum</x:expect>
+  	</x:scenario>
 
+  	<!-- Chris's refsect/entry tests END here -->
+  	
     <x:scenario label="that points to an element in the xref.elements.pagenum.in.class list">
       <x:context select="//h:a[@data-type='xref'][@id='chapter_xref']">
 	<x:param name="xref.elements.pagenum.in.class">chapter
