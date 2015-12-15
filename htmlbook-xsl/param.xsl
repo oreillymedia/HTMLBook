@@ -215,6 +215,9 @@ sect3
 sect4
 sect5
 sidebar
+refsect1
+refsect2
+refentry
 </xsl:param>
 
   <!-- Params for handling of comments in a manuscript -->

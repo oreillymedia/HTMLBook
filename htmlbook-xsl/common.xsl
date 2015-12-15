@@ -443,6 +443,9 @@
       <xsl:when test="$node[self::h:div and contains(@data-type, 'part')]">part</xsl:when>
       <xsl:when test="$node[self::h:div and contains(@data-type, 'rearnote')]">footnote</xsl:when>
       <xsl:when test="$node[self::h:div and contains(@data-type, 'warning')]">warning</xsl:when>
+      <xsl:when test="$node[self::h:div and contains(@class, 'refentry')]">refentry</xsl:when>
+      <xsl:when test="$node[self::h:div and contains(@class, 'refsect1')]">refsect1</xsl:when>
+      <xsl:when test="$node[self::h:div and contains(@class, 'refsect2')]">refsect2</xsl:when>
       <xsl:when test="$node[self::h:div and @data-type]">
 	<xsl:value-of select="$node/@data-type"/> <!-- for <div>, default to @data-type value -->
       </xsl:when>
