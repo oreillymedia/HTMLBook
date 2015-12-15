@@ -1277,34 +1277,53 @@ sect5:none
     </x:context>
   	
   	<!-- Chris's refsect/entry tests here -->
+  	
   	<x:scenario label="that points to a refentry element in the xref.elements.pagenum.in.class list">
   		<x:context select="//h:a[@data-type='xref'][@id='refentry_no_title_xref']">
-  			<x:param name="xref.elements.pagenum.in.class">chapter
-  				sidebar
-  			</x:param>
+  			<x:param name="xref.elements.pagenum.in.class">refentry</x:param>
   			<x:param name="xref.target" select="//*[@id='refentry_no_title']"/>
   		</x:context>
   		<x:expect label="Class value of 'pagenum' should be returned">pagenum</x:expect>
   	</x:scenario>
   	
+  	<x:scenario label="that points to a refentry element *not in* the xref.elements.pagenum.in.class list (no existing class)">
+  		<x:context select="//h:a[@data-type='xref'][@id='refentry_no_title_xref']">
+  			<x:param name="xref.elements.pagenum.in.class"/>
+  			<x:param name="xref.target" select="//*[@id='refentry_no_title']"/>
+  		</x:context>
+  		<x:expect label="Class value of 'pagenum' should NOT be returned" select="()"/>
+  	</x:scenario>
+  	
   	<x:scenario label="that points to a refsect1 element in the xref.elements.pagenum.in.class list">
   		<x:context select="//h:a[@data-type='xref'][@id='refsect1_xref']">
-  			<x:param name="xref.elements.pagenum.in.class">chapter
-  				sidebar
-  			</x:param>
+  			<x:param name="xref.elements.pagenum.in.class">refsect1</x:param>
   			<x:param name="xref.target" select="//*[@id='refsect1']"/>
   		</x:context>
   		<x:expect label="Class value of 'pagenum' should be returned">pagenum</x:expect>
   	</x:scenario>
   	
+  	<x:scenario label="that points to a refsect1 element *not in* the xref.elements.pagenum.in.class list (no existing class)">
+  		<x:context select="//h:a[@data-type='xref'][@id='refsect1_xref']">
+  			<x:param name="xref.elements.pagenum.in.class"/>
+  			<x:param name="xref.target" select="//*[@id='refsect1']"/>
+  		</x:context>
+  		<x:expect label="Class value of 'pagenum' should NOT be returned" select="()"/>
+  	</x:scenario>
+
   	<x:scenario label="that points to a refsect2 element in the xref.elements.pagenum.in.class list">
   		<x:context select="//h:a[@data-type='xref'][@id='refsect2_xref']">
-  			<x:param name="xref.elements.pagenum.in.class">chapter
-  				sidebar
-  			</x:param>
+  			<x:param name="xref.elements.pagenum.in.class">refsect2</x:param>
   			<x:param name="xref.target" select="//*[@id='refsect2']"/>
   		</x:context>
   		<x:expect label="Class value of 'pagenum' should be returned">pagenum</x:expect>
+  	</x:scenario>
+  	
+  	<x:scenario label="that points to a refsect2 element *not in* the xref.elements.pagenum.in.class list (no existing class)">
+  		<x:context select="//h:a[@data-type='xref'][@id='refsect2_xref']">
+  			<x:param name="xref.elements.pagenum.in.class"/>
+  			<x:param name="xref.target" select="//*[@id='refsect2']"/>
+  		</x:context>
+  		<x:expect label="Class value of 'pagenum' should NOT be returned" select="()"/>
   	</x:scenario>
 
   	<!-- Chris's refsect/entry tests END here -->
