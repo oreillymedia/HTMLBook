@@ -228,7 +228,7 @@
   <xsl:template match="h:div[@class='refsect1'] | h:div[@class='refsect2']" mode="xref-to">
     <xsl:choose>
       <xsl:when test="h:h6[1]">
-  <!-- Choose the first descendant h6 element with class of refsect1, if one exists, drop in text-->
+  <!-- Choose the first descendant, h6 element, if one exists, drop in text-->
     <xsl:text>“</xsl:text><xsl:value-of select="h:h6[1]"/><xsl:text>”</xsl:text>
       </xsl:when>
       <xsl:otherwise>
@@ -238,7 +238,7 @@
     <xsl:with-param name="message">
       <xsl:text>Cannot output gentext for XREF to refsection (id:</xsl:text>
       <xsl:value-of select="@id"/>
-      <xsl:text>) that does not contain an element with class of refname</xsl:text>
+      <xsl:text>) that does not contain an element with class of refsect</xsl:text>
     </xsl:with-param>
   </xsl:call-template>
   <xsl:text>???</xsl:text>

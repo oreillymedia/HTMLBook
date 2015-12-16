@@ -1251,7 +1251,7 @@ sect5:none
 	    <h1>Subsection heading</h1>
 	    <p>Always soft-code your cross-references</p>
 	    <p>Like this one to the sidebar in the previous chapter: see <a class="underline" id="sidebar_xref" data-type="xref" href="#sidebar"/></p>
-	  	<p>This is an xref to a refentry: see <a id="refentry_no_title_xref" data-type="xref" href="#refentry"/></p>
+	  	<p>This is an xref to a refentry: see <a id="refentry_no_title_xref" data-type="xref" href="#refentry_no_title"/></p>
 	  	<p>This is an xref to a refsect1: see <a id="refsect1_xref" data-type="xref" href="#refsect1"/></p>
 	  	<p>This is an xref to a refsect2: see <a id="refsect2_xref" data-type="xref" href="#refsect2"/></p>
 	  	<div class="refentry" id="refentry_no_title">
