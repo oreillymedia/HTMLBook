@@ -238,7 +238,7 @@
     <xsl:with-param name="message">
       <xsl:text>Cannot output gentext for XREF to refsection (id:</xsl:text>
       <xsl:value-of select="@id"/>
-      <xsl:text>) that does not contain an element with class of refsect</xsl:text>
+      <xsl:text>) that does not contain a descendant h6 element</xsl:text>
     </xsl:with-param>
   </xsl:call-template>
   <xsl:text>???</xsl:text>
