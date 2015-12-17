@@ -224,6 +224,28 @@
     </xsl:choose>
   </xsl:template>
 
+    <!-- Special xref-to handling for refsect1/refsect2 -->
+  <xsl:template match="h:div[@class='refsect1'] | h:div[@class='refsect2']" mode="xref-to">
+    <xsl:choose>
+      <xsl:when test="h:h6[1]">
+  <!-- Choose the first descendant, h6 element, if one exists, drop in text-->
+    <xsl:text>“</xsl:text><xsl:value-of select="h:h6[1]"/><xsl:text>”</xsl:text>
+      </xsl:when>
+      <xsl:otherwise>
+  <!-- Otherwise, throw warning, and print out ??? -->
+  <xsl:call-template name="log-message">
+    <xsl:with-param name="type" select="'WARNING'"/>
+    <xsl:with-param name="message">
+      <xsl:text>Cannot output gentext for XREF to refsection (id:</xsl:text>
+      <xsl:value-of select="@id"/>
+      <xsl:text>) that does not contain a descendant h6 element</xsl:text>
+    </xsl:with-param>
+  </xsl:call-template>
+  <xsl:text>???</xsl:text>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
   <!-- Adapted from docbook-xsl templates in common/gentext.xsl -->
   <!-- For simplicity, not folding in all the special 'select: ' logic (some of which is FO-specific, anyway) -->
 <xsl:template match="*" mode="object.xref.markup">
