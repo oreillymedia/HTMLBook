@@ -1409,6 +1409,68 @@ sect5:1
       </x:expect>
     </x:scenario>
   </x:scenario>
+  
+  <x:scenario label="When matching a 'pre'">
+    <x:context>
+      <pre data-type="programlisting">def self.compile_file(filename, *args)
+    options = args.last.is_a?(Hash) ? args.pop : {}
+    css_filename = args.shift
+    result = Sass::Engine.for_file(filename, options).render
+    if css_filename
+      options[:css_filename] ||= css_filename
+      open(css_filename, "w") {|css_file| css_file.write(result)}
+      nil
+    else
+      result
+    end
+  end
+end</pre>
+    </x:context>
+    
+    <x:scenario label="with global code line numbering disabled">
+      <x:context>
+        <x:param name="number.code.lines" select="0"/>
+      </x:context>
+    
+    <x:expect label="Content should be passed through as is">
+      <pre data-type="programlisting">def self.compile_file(filename, *args)
+    options = args.last.is_a?(Hash) ? args.pop : {}
+    css_filename = args.shift
+    result = Sass::Engine.for_file(filename, options).render
+    if css_filename
+      options[:css_filename] ||= css_filename
+      open(css_filename, "w") {|css_file| css_file.write(result)}
+      nil
+    else
+      result
+    end
+  end
+end</pre>
+    </x:expect>
+    </x:scenario>
+      
+    <x:scenario label="with global line numbering enabled">
+      <x:context>
+        <x:param name="number.code.lines" select="1"/>
+      </x:context>
+      
+      <x:expect label="Code line numbers should be added">
+        <pre data-type="programlisting"><span class="line-number">1 </span>def self.compile_file(filename, *args)
+<span class="line-number">2 </span>    options = args.last.is_a?(Hash) ? args.pop : {}
+<span class="line-number">3 </span>    css_filename = args.shift
+<span class="line-number">4 </span>    result = Sass::Engine.for_file(filename, options).render
+<span class="line-number">5 </span>    if css_filename
+<span class="line-number">6 </span>      options[:css_filename] ||= css_filename
+<span class="line-number">7 </span>      open(css_filename, "w") {|css_file| css_file.write(result)}
+<span class="line-number">8 </span>      nil
+<span class="line-number">9 </span>    else
+<span class="line-number">10 </span>      result
+<span class="line-number">11 </span>    end
+<span class="line-number">12 </span>  end
+<span class="line-number">13 </span>end</pre>
+      </x:expect>
+  </x:scenario>
+</x:scenario>
 
   <x:scenario label="When matching any 'figcaption'">
     <x:context>
