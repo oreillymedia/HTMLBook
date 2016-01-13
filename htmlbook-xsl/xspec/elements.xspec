@@ -1470,6 +1470,34 @@ end</pre>
 <span class="line-number">13 </span>end</pre>
       </x:expect>
   </x:scenario>
+    
+  <x:scenario label="with global line numbering enabled (blank lines in listing">
+    <x:context>
+      <x:param name="number.code.lines" select="1"/>
+      <pre data-type="programlisting" data-code-language="java" data-line-numbering="numbered">import java.applet.*;
+import java.awt.*;
+
+public class Scribble extends Applet {
+    private int last_x = 0;
+    private int last_y = 0;
+    private Color current_color = Color.black;
+    private Button clear_button;
+    private Choice color_choices;</pre>
+    </x:context>
+    
+    <x:expect label="Code line numbers should be added">
+      <pre data-type="programlisting" data-code-language="java" data-line-numbering="numbered"><span class="line-number">1 </span>import java.applet.*;
+<span class="line-number">2 </span>import java.awt.*;
+<span class="line-number">3 </span>
+<span class="line-number">4 </span>public class Scribble extends Applet {
+<span class="line-number">5 </span>    private int last_x = 0;
+<span class="line-number">6 </span>    private int last_y = 0;
+<span class="line-number">7 </span>    private Color current_color = Color.black;
+<span class="line-number">8 </span>    private Button clear_button;
+<span class="line-number">9 </span>    private Choice color_choices;</pre>
+    </x:expect>
+    
+  </x:scenario>
 
     <x:scenario label="with global line numbering disabled but data-linenumbering enabled for the individual listing">
       <x:context>

@@ -339,8 +339,8 @@
 
   <xsl:template name="add-line-numbering-markup-at-newlines">
     <xsl:param name="text" select="."/>
-    <xsl:choose>
-      <xsl:when test="substring-before($text, '&#xa;')">
+    <xsl:choose>      
+      <xsl:when test="substring-before($text, '&#xa;') or substring($text, 1, 1) = '&#xa;'">
 	<xsl:value-of select="substring-before($text, '&#xa;')"/>
 	<xsl:text>&#xa;</xsl:text>
 	<span class="line-number"/>
