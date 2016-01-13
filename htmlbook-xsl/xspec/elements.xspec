@@ -1470,6 +1470,30 @@ end</pre>
 <span class="line-number">13 </span>end</pre>
       </x:expect>
   </x:scenario>
+
+    <x:scenario label="with global line numbering disabled but data-linenumbering enabled for the individual listing">
+      <x:context>
+        <x:param name="number.code.lines" select="0"/>
+        <pre data-type="programlisting" data-line-numbering="numbered">if css_filename
+  options[:css_filename] ||= css_filename
+  open(css_filename, "w") {|css_file| css_file.write(result)}
+  nil
+else
+  result
+end</pre>
+      </x:context>
+      
+      <x:expect label="Code line numbers should be added">
+        <pre data-type="programlisting" data-line-numbering="numbered"><span class="line-number">1 </span>if css_filename
+<span class="line-number">2 </span>  options[:css_filename] ||= css_filename
+<span class="line-number">3 </span>  open(css_filename, "w") {|css_file| css_file.write(result)}
+<span class="line-number">4 </span>  nil
+<span class="line-number">5 </span>else
+<span class="line-number">6 </span>  result
+<span class="line-number">7 </span>end</pre>
+      </x:expect>
+    </x:scenario>
+
 </x:scenario>
 
   <x:scenario label="When matching any 'figcaption'">

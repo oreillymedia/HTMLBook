@@ -307,7 +307,7 @@
   <xsl:template match="h:pre[@data-type='programlisting']">
     <xsl:param name="number.code.lines" select="$number.code.lines"/>
     <xsl:choose>
-      <xsl:when test="$number.code.lines = 1">
+      <xsl:when test="$number.code.lines = 1 or @data-line-numbering='numbered'">
 	<xsl:variable name="code-listing">
 	  <xsl:copy>
 	    <xsl:apply-templates select="@*|node()" mode="add.numbering.placeholders"/>
