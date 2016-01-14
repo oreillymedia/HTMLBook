@@ -172,6 +172,11 @@ toc:lower-roman
   <!-- Render @href text in parens following <a> element for external hyperlinks; useful for print outputs -->
   <xsl:param name="url.in.parens" select="1"/>
 
+  <!-- Code-specific params -->
+
+  <!-- Add line numbers to code listings globally -->
+  <xsl:param name="number.code.lines" select="0"/>
+
   <!-- Footnote-specific params -->
 
   <!-- Process footnotes into separate marker/hyperlink and footnote content, and move to end of sections -->

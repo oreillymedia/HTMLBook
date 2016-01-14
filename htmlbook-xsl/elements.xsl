@@ -303,6 +303,73 @@
     </xsl:copy>
   </xsl:template>
 
+  <!-- Programlisting handling -->
+  <xsl:template match="h:pre[@data-type='programlisting']">
+    <xsl:param name="number.code.lines" select="$number.code.lines"/>
+    <xsl:choose>
+      <xsl:when test="$number.code.lines = 1 or @data-line-numbering='numbered'">
+	<xsl:variable name="code-listing">
+	  <xsl:copy>
+	    <xsl:apply-templates select="@*|node()" mode="add.numbering.placeholders"/>
+	  </xsl:copy>
+	</xsl:variable>
+	<xsl:apply-templates select="exsl:node-set($code-listing)" mode="number.code.lines"/>
+      </xsl:when>
+      <xsl:otherwise>
+	<xsl:copy>
+	  <xsl:apply-templates select="@*|node()"/>
+	</xsl:copy>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
+  <!-- Default template for add.numbering.placeholders to ensure all content is copied over -->
+  <xsl:template match="@*|node()" mode="add.numbering.placeholders">
+    <xsl:copy>
+      <xsl:apply-templates select="@*|node()" mode="add.numbering.placeholders"/>
+    </xsl:copy>
+  </xsl:template>
+
+  <xsl:template match="h:pre[@data-type='programlisting']//text()" mode="add.numbering.placeholders">
+      <!-- Check if this is the very first text node in the code listing; if so, add span numbering placeholder at the beginning -->
+      <xsl:if test="not(ancestor::h:pre[1]//text()[following::*[. = current()]])"><span class="line-number"/></xsl:if>
+      <!-- Then add line numbering for each newline -->
+      <xsl:call-template name="add-line-numbering-markup-at-newlines"/>
+  </xsl:template>
+
+  <xsl:template name="add-line-numbering-markup-at-newlines">
+    <xsl:param name="text" select="."/>
+    <xsl:choose>      
+      <xsl:when test="substring-before($text, '&#xa;') or substring($text, 1, 1) = '&#xa;'">
+	<xsl:value-of select="substring-before($text, '&#xa;')"/>
+	<xsl:text>&#xa;</xsl:text>
+	<span class="line-number"/>
+	<xsl:call-template name="add-line-numbering-markup-at-newlines">
+	  <xsl:with-param name="text" select="substring-after($text, '&#xa;')"/>
+	</xsl:call-template>
+      </xsl:when>
+      <xsl:otherwise>
+	<xsl:value-of select="$text"/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
+  <!-- Default template for number.code.lines to ensure all content is copied over -->
+  <xsl:template match="@*|node()" mode="number.code.lines">
+    <xsl:copy>
+      <xsl:apply-templates select="@*|node()" mode="number.code.lines"/>
+    </xsl:copy>
+  </xsl:template>
+
+  <!-- Add number and a space to spans with class "line-number" -->
+  <xsl:template match="h:span[@class='line-number']" mode="number.code.lines">
+    <xsl:copy>
+      <xsl:apply-templates select="@*"/>
+      <xsl:number count="h:span[@class='line-number']" level="any" from="h:pre[@data-type='programlisting']"/>
+      <xsl:text> </xsl:text>
+    </xsl:copy>
+  </xsl:template>
+
   <!-- Footnote handling -->
   <xsl:template match="h:span[@data-type='footnote']">
     <xsl:param name="footnote.reset.numbering.at.chapter.level" select="$footnote.reset.numbering.at.chapter.level"/>

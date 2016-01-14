@@ -1409,6 +1409,120 @@ sect5:1
       </x:expect>
     </x:scenario>
   </x:scenario>
+  
+  <x:scenario label="When matching a 'pre'">
+    <x:context>
+      <pre data-type="programlisting">def self.compile_file(filename, *args)
+    options = args.last.is_a?(Hash) ? args.pop : {}
+    css_filename = args.shift
+    result = Sass::Engine.for_file(filename, options).render
+    if css_filename
+      options[:css_filename] ||= css_filename
+      open(css_filename, "w") {|css_file| css_file.write(result)}
+      nil
+    else
+      result
+    end
+  end
+end</pre>
+    </x:context>
+    
+    <x:scenario label="with global code line numbering disabled">
+      <x:context>
+        <x:param name="number.code.lines" select="0"/>
+      </x:context>
+    
+    <x:expect label="Content should be passed through as is">
+      <pre data-type="programlisting">def self.compile_file(filename, *args)
+    options = args.last.is_a?(Hash) ? args.pop : {}
+    css_filename = args.shift
+    result = Sass::Engine.for_file(filename, options).render
+    if css_filename
+      options[:css_filename] ||= css_filename
+      open(css_filename, "w") {|css_file| css_file.write(result)}
+      nil
+    else
+      result
+    end
+  end
+end</pre>
+    </x:expect>
+    </x:scenario>
+      
+    <x:scenario label="with global line numbering enabled">
+      <x:context>
+        <x:param name="number.code.lines" select="1"/>
+      </x:context>
+      
+      <x:expect label="Code line numbers should be added">
+        <pre data-type="programlisting"><span class="line-number">1 </span>def self.compile_file(filename, *args)
+<span class="line-number">2 </span>    options = args.last.is_a?(Hash) ? args.pop : {}
+<span class="line-number">3 </span>    css_filename = args.shift
+<span class="line-number">4 </span>    result = Sass::Engine.for_file(filename, options).render
+<span class="line-number">5 </span>    if css_filename
+<span class="line-number">6 </span>      options[:css_filename] ||= css_filename
+<span class="line-number">7 </span>      open(css_filename, "w") {|css_file| css_file.write(result)}
+<span class="line-number">8 </span>      nil
+<span class="line-number">9 </span>    else
+<span class="line-number">10 </span>      result
+<span class="line-number">11 </span>    end
+<span class="line-number">12 </span>  end
+<span class="line-number">13 </span>end</pre>
+      </x:expect>
+  </x:scenario>
+    
+  <x:scenario label="with global line numbering enabled (blank lines in listing">
+    <x:context>
+      <x:param name="number.code.lines" select="1"/>
+      <pre data-type="programlisting" data-code-language="java" data-line-numbering="numbered">import java.applet.*;
+import java.awt.*;
+
+public class Scribble extends Applet {
+    private int last_x = 0;
+    private int last_y = 0;
+    private Color current_color = Color.black;
+    private Button clear_button;
+    private Choice color_choices;</pre>
+    </x:context>
+    
+    <x:expect label="Code line numbers should be added">
+      <pre data-type="programlisting" data-code-language="java" data-line-numbering="numbered"><span class="line-number">1 </span>import java.applet.*;
+<span class="line-number">2 </span>import java.awt.*;
+<span class="line-number">3 </span>
+<span class="line-number">4 </span>public class Scribble extends Applet {
+<span class="line-number">5 </span>    private int last_x = 0;
+<span class="line-number">6 </span>    private int last_y = 0;
+<span class="line-number">7 </span>    private Color current_color = Color.black;
+<span class="line-number">8 </span>    private Button clear_button;
+<span class="line-number">9 </span>    private Choice color_choices;</pre>
+    </x:expect>
+    
+  </x:scenario>
+
+    <x:scenario label="with global line numbering disabled but data-linenumbering enabled for the individual listing">
+      <x:context>
+        <x:param name="number.code.lines" select="0"/>
+        <pre data-type="programlisting" data-line-numbering="numbered">if css_filename
+  options[:css_filename] ||= css_filename
+  open(css_filename, "w") {|css_file| css_file.write(result)}
+  nil
+else
+  result
+end</pre>
+      </x:context>
+      
+      <x:expect label="Code line numbers should be added">
+        <pre data-type="programlisting" data-line-numbering="numbered"><span class="line-number">1 </span>if css_filename
+<span class="line-number">2 </span>  options[:css_filename] ||= css_filename
+<span class="line-number">3 </span>  open(css_filename, "w") {|css_file| css_file.write(result)}
+<span class="line-number">4 </span>  nil
+<span class="line-number">5 </span>else
+<span class="line-number">6 </span>  result
+<span class="line-number">7 </span>end</pre>
+      </x:expect>
+    </x:scenario>
+
+</x:scenario>
 
   <x:scenario label="When matching any 'figcaption'">
     <x:context>
