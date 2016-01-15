@@ -1412,7 +1412,7 @@ sect5:1
   
   <x:scenario label="When matching a 'pre'">
     <x:context>
-      <pre data-type="programlisting">def self.compile_file(filename, *args)
+      <pre data-type="programlisting" xml:space="preserve">def self.compile_file(filename, *args)
     options = args.last.is_a?(Hash) ? args.pop : {}
     css_filename = args.shift
     result = Sass::Engine.for_file(filename, options).render
@@ -1433,7 +1433,7 @@ end</pre>
       </x:context>
     
     <x:expect label="Content should be passed through as is">
-      <pre data-type="programlisting">def self.compile_file(filename, *args)
+      <pre data-type="programlisting" xml:space="preserve">def self.compile_file(filename, *args)
     options = args.last.is_a?(Hash) ? args.pop : {}
     css_filename = args.shift
     result = Sass::Engine.for_file(filename, options).render
@@ -1455,7 +1455,7 @@ end</pre>
       </x:context>
       
       <x:expect label="Code line numbers should be added">
-        <pre data-type="programlisting"><span class="line-number">1 </span>def self.compile_file(filename, *args)
+        <pre data-type="programlisting" xml:space="preserve"><span class="line-number">1 </span>def self.compile_file(filename, *args)
 <span class="line-number">2 </span>    options = args.last.is_a?(Hash) ? args.pop : {}
 <span class="line-number">3 </span>    css_filename = args.shift
 <span class="line-number">4 </span>    result = Sass::Engine.for_file(filename, options).render
@@ -1474,7 +1474,7 @@ end</pre>
   <x:scenario label="with global line numbering enabled (blank lines in listing">
     <x:context>
       <x:param name="number.code.lines" select="1"/>
-      <pre data-type="programlisting" data-code-language="java" data-line-numbering="numbered">import java.applet.*;
+      <pre xml:space="preserve" data-type="programlisting" data-code-language="java" data-line-numbering="numbered">import java.applet.*;
 import java.awt.*;
 
 public class Scribble extends Applet {
@@ -1486,7 +1486,7 @@ public class Scribble extends Applet {
     </x:context>
     
     <x:expect label="Code line numbers should be added">
-      <pre data-type="programlisting" data-code-language="java" data-line-numbering="numbered"><span class="line-number">1 </span>import java.applet.*;
+      <pre xml:space="preserve" data-type="programlisting" data-code-language="java" data-line-numbering="numbered"><span class="line-number">1 </span>import java.applet.*;
 <span class="line-number">2 </span>import java.awt.*;
 <span class="line-number">3 </span>
 <span class="line-number">4 </span>public class Scribble extends Applet {
@@ -1498,6 +1498,42 @@ public class Scribble extends Applet {
     </x:expect>
     
   </x:scenario>
+    
+    <x:scenario label="with global line numbering enabled (inline markup)">
+      <x:context>
+        <x:param name="number.code.lines" select="1"/>
+        <pre data-type="programlisting" data-code-language="ruby" xml:space="preserve"><code class="k">def</code> <code class="nc">self</code><code class="o">.</code><code class="nf">compile_file</code><code class="p">(</code><code class="n">filename</code><code class="p">,</code> <code class="o">*</code><code class="n">args</code><code class="p">)</code>
+    <code class="n">options</code> <code class="o">=</code> <code class="n">args</code><code class="o">.</code><code class="n">last</code><code class="o">.</code><code class="n">is_a?</code><code class="p">(</code><code class="no">Hash</code><code class="p">)</code> <code class="p">?</code> <code class="n">args</code><code class="o">.</code><code class="n">pop</code> <code class="p">:</code> <code class="p">{}</code>
+    <code class="n">css_filename</code> <code class="o">=</code> <code class="n">args</code><code class="o">.</code><code class="n">shift</code>
+    <code class="n">result</code> <code class="o">=</code> <code class="ss">Sass</code><code class="p">:</code><code class="ss">:Engine</code><code class="o">.</code><code class="n">for_file</code><code class="p">(</code><code class="n">filename</code><code class="p">,</code> <code class="n">options</code><code class="p">)</code><code class="o">.</code><code class="n">render</code>
+    <code class="k">if</code> <code class="n">css_filename</code>
+      <code class="n">options</code><code class="o">[</code><code class="ss">:css_filename</code><code class="o">]</code> <code class="o">||=</code> <code class="n">css_filename</code>
+      <code class="nb">open</code><code class="p">(</code><code class="n">css_filename</code><code class="p">,</code> <code class="s2">"w"</code><code class="p">)</code> <code class="p">{</code><code class="o">|</code><code class="n">css_file</code><code class="o">|</code> <code class="n">css_file</code><code class="o">.</code><code class="n">write</code><code class="p">(</code><code class="n">result</code><code class="p">)}</code>
+      <code class="kp">nil</code>
+    <code class="k">else</code>
+      <code class="n">result</code>
+    <code class="k">end</code>
+  <code class="k">end</code>
+<code class="k">end</code></pre>
+      </x:context>
+      
+      
+      <x:expect label="Code line numbers should be added">
+        <pre data-type="programlisting" data-code-language="ruby" xml:space="preserve"><span class="line-number">1 </span><code class="k">def</code> <code class="nc">self</code><code class="o">.</code><code class="nf">compile_file</code><code class="p">(</code><code class="n">filename</code><code class="p">,</code> <code class="o">*</code><code class="n">args</code><code class="p">)</code>
+<span class="line-number">2 </span>    <code class="n">options</code> <code class="o">=</code> <code class="n">args</code><code class="o">.</code><code class="n">last</code><code class="o">.</code><code class="n">is_a?</code><code class="p">(</code><code class="no">Hash</code><code class="p">)</code> <code class="p">?</code> <code class="n">args</code><code class="o">.</code><code class="n">pop</code> <code class="p">:</code> <code class="p">{}</code>
+<span class="line-number">3 </span>    <code class="n">css_filename</code> <code class="o">=</code> <code class="n">args</code><code class="o">.</code><code class="n">shift</code>
+<span class="line-number">4 </span>    <code class="n">result</code> <code class="o">=</code> <code class="ss">Sass</code><code class="p">:</code><code class="ss">:Engine</code><code class="o">.</code><code class="n">for_file</code><code class="p">(</code><code class="n">filename</code><code class="p">,</code> <code class="n">options</code><code class="p">)</code><code class="o">.</code><code class="n">render</code>
+<span class="line-number">5 </span>    <code class="k">if</code> <code class="n">css_filename</code>
+<span class="line-number">6 </span>      <code class="n">options</code><code class="o">[</code><code class="ss">:css_filename</code><code class="o">]</code> <code class="o">||=</code> <code class="n">css_filename</code>
+<span class="line-number">7 </span>      <code class="nb">open</code><code class="p">(</code><code class="n">css_filename</code><code class="p">,</code> <code class="s2">"w"</code><code class="p">)</code> <code class="p">{</code><code class="o">|</code><code class="n">css_file</code><code class="o">|</code> <code class="n">css_file</code><code class="o">.</code><code class="n">write</code><code class="p">(</code><code class="n">result</code><code class="p">)}</code>
+<span class="line-number">8 </span>      <code class="kp">nil</code>
+<span class="line-number">9 </span>    <code class="k">else</code>
+<span class="line-number">10 </span>      <code class="n">result</code>
+<span class="line-number">11 </span>    <code class="k">end</code>
+<span class="line-number">12 </span>  <code class="k">end</code>
+<span class="line-number">13 </span><code class="k">end</code></pre>
+      </x:expect>
+    </x:scenario>
 
     <x:scenario label="with global line numbering disabled but data-linenumbering enabled for the individual listing">
       <x:context>
