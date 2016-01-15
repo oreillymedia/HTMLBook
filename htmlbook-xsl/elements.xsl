@@ -310,7 +310,9 @@
       <xsl:when test="$number.code.lines = 1 or @data-line-numbering='numbered'">
 	<xsl:variable name="code-listing">
 	  <xsl:copy>
-	    <xsl:apply-templates select="@*|node()" mode="add.numbering.placeholders"/>
+	    <xsl:apply-templates select="@*" mode="add.numbering.placeholders"/>
+	    <span class="line-number"/>
+	    <xsl:apply-templates select="node()" mode="add.numbering.placeholders"/>
 	  </xsl:copy>
 	</xsl:variable>
 	<xsl:apply-templates select="exsl:node-set($code-listing)" mode="number.code.lines"/>
@@ -330,16 +332,10 @@
     </xsl:copy>
   </xsl:template>
 
-  <xsl:template match="h:pre[@data-type='programlisting']//text()" mode="add.numbering.placeholders">
+  <xsl:template match="h:pre[@data-type='programlisting']//text()" mode="add.numbering.placeholders" name="add-line-numbering-markup-at-newlines">
       <!-- Check if this is the very first text node in the code listing; if so, add span numbering placeholder at the beginning -->
-      <xsl:if test="not(ancestor::h:pre[1]//text()[following::*[. = current()]])"><span class="line-number"/></xsl:if>
-      <!-- Then add line numbering for each newline -->
-      <xsl:call-template name="add-line-numbering-markup-at-newlines"/>
-  </xsl:template>
-
-  <xsl:template name="add-line-numbering-markup-at-newlines">
     <xsl:param name="text" select="."/>
-    <xsl:choose>      
+    <xsl:choose>
       <xsl:when test="substring-before($text, '&#xa;') or substring($text, 1, 1) = '&#xa;'">
 	<xsl:value-of select="substring-before($text, '&#xa;')"/>
 	<xsl:text>&#xa;</xsl:text>
