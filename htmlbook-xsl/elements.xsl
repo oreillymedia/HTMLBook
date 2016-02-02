@@ -361,7 +361,7 @@
   <xsl:template match="h:span[@class='line-number']" mode="number.code.lines">
     <xsl:copy>
       <xsl:apply-templates select="@*"/>
-      <xsl:number count="h:span[@class='line-number']" level="any" from="h:pre[@data-type='programlisting']"/>
+      <xsl:number count="h:span[@class='line-number']" level="any" from="h:pre"/>
       <xsl:text> </xsl:text>
     </xsl:copy>
   </xsl:template>
