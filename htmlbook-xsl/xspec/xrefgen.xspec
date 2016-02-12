@@ -202,6 +202,26 @@ toc:lower-roman
   
   </x:scenario>
   
+  <x:scenario label="When an XREF points to a refentry that has other roles">
+    <x:context mode="xref-to">
+      <div class="refentry pagebreak-before refentry_nospace">
+        <header>
+          <p class="refname">print</p>
+          <p class="refpurpose">Output some text to stdout.</p>
+        </header>
+        <div class="refsynopsisdiv">
+          <pre class="synopsis">print "<em>Hello World</em>"</pre>
+        </div>
+        <div class="refsect1">
+          <h6>Description</h6>
+          <p>More description would go here</p>
+        </div>
+      </div>
+    </x:context>
+    <x:expect label="Generated text should be refname tagged as code"><code class="refentry">print</code></x:expect>
+    
+  </x:scenario>
+  
   <x:scenario label="When an XREF points to a refentry without a refname 'p'">
     <x:context mode="xref-to">
       <div class="refentry">

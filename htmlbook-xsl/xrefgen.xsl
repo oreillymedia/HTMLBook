@@ -201,7 +201,7 @@
   </xsl:template>
 
   <!-- Special xref-to handling for refentries -->
-  <xsl:template match="h:div[@class='refentry']" mode="xref-to">
+  <xsl:template match="h:div[contains(@class,'refentry')]" mode="xref-to">
     <xsl:choose>
       <xsl:when test="descendant::*[@class='refname']">
 	<!-- Choose the first descendant element with class of refname, if one exists, and wrap in "code" tag -->
