@@ -245,6 +245,42 @@
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
+  
+  <!-- ADDING HANDLING FOR XREFS TO EQUATION -->
+  <!-- Adapted from docbook-xsl templates in xhtml/xref.xsl -->
+  <xsl:template match="h:div[@data-type='equation']" mode="xref-to">
+    <xsl:param name="referrer"/>
+    <xsl:param name="xrefstyle"/>
+    <xsl:param name="verbose" select="1"/>
+    
+    <xsl:choose>
+      <xsl:when test="h:h5">
+        <xsl:apply-templates select="." mode="object.xref.markup">
+          <xsl:with-param name="purpose" select="'xref'"/>
+          <!-- BEGIN OVERRIDE -->
+          <xsl:with-param name="xrefstyle" select="'template:Equation %n'"/>
+          <!-- END OVERRIDE -->
+          <xsl:with-param name="referrer" select="$referrer"/>
+          <xsl:with-param name="verbose" select="$verbose"/>
+        </xsl:apply-templates>
+      </xsl:when>
+      <xsl:otherwise>
+        <!-- Otherwise, throw warning, and print out ??? -->
+        <xsl:call-template name="log-message">
+          <xsl:with-param name="type" select="'WARNING'"/>
+          <xsl:with-param name="message">
+            <xsl:text>Cannot output gentext for XREF to refsection (id:</xsl:text>
+            <xsl:value-of select="@id"/>
+            <xsl:text>) that does not contain a descendant h6 element</xsl:text>
+          </xsl:with-param>
+        </xsl:call-template>
+        <xsl:text>???</xsl:text>
+      </xsl:otherwise>
+
+    </xsl:choose>
+
+  </xsl:template>
+  
 
   <!-- Adapted from docbook-xsl templates in common/gentext.xsl -->
   <!-- For simplicity, not folding in all the special 'select: ' logic (some of which is FO-specific, anyway) -->
