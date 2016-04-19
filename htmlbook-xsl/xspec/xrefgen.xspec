@@ -265,7 +265,7 @@ toc:lower-roman
   </x:scenario>
   <!--End Chris's refsect work -->
   
-  <!-- Begin Chris's Equation Work select="(//h:a[@data-type='xref'])[1]" -->
+  <!-- Begin Chris's Equation Work -->
   <x:scenario label="When an XREF points to a formal equation with a caption">
     <x:context mode="xref-to" select="(//h:div[@data-type='equation'])[2]">
   <section data-type="chapter">
@@ -293,7 +293,7 @@ toc:lower-roman
     <x:expect label="Gentext should be created for the xref">???</x:expect>
   </x:scenario>
   
-  <x:scenario label="When an XREF points to a formal equation with a caption">
+  <x:scenario label="When an XREF points to a formal equation with no caption text">
     <x:context mode="xref-to" select="(//h:div[@data-type='equation'])[1]">
       <section data-type="chapter">
         <div data-type="equation" id="formal_equation">
@@ -306,7 +306,7 @@ toc:lower-roman
   </x:scenario>
   
 <!-- Equation in a preface -->
-  <x:scenario label="When an XREF points to a formal equation with a caption">
+  <x:scenario label="When an XREF points to a formal equation with no caption text">
     <x:context mode="xref-to" select="(//h:div[@data-type='equation'])[1]">
       <section data-type="preface">
         <div data-type="equation" id="formal_equation">
@@ -319,7 +319,7 @@ toc:lower-roman
   </x:scenario>
   
  <!-- Equation in an appendix -->
-  <x:scenario label="When an XREF points to a formal equation with a caption">
+  <x:scenario label="When an XREF points to a formal equation with no caption text">
     <x:context mode="xref-to"  select="(//h:div[@data-type='equation'])[3]">
       <section data-type="appendix">
         <div data-type="equation" id="formal_equation">
