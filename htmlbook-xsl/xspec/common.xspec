@@ -405,7 +405,7 @@ sect5:none
     		
     	</x:scenario>
     	
-    	<x:scenario label="With label.formal.with.ancestor disabled">
+    	<x:scenario label="With label.formal.with.ancestor enabled">
     		<x:context select="h:section[@data-type='chapter']//h:div[@data-type='equation'][1]"   mode="label.markup">
     			<x:param name="label.formal.with.ancestor" select="1"/>
     		</x:context>
@@ -413,7 +413,7 @@ sect5:none
     		
     	</x:scenario>
     	
-    	<x:scenario label="With label.formal.with.ancestor disabled">
+    	<x:scenario label="With label.formal.with.ancestor enabled">
     		<x:context select="h:section[@data-type='chapter']//h:div[@data-type='equation'][2]"   mode="label.markup">
     			<x:param name="label.formal.with.ancestor" select="1"/>
     		</x:context>
@@ -421,7 +421,7 @@ sect5:none
     		
     	</x:scenario>
     	
-    	<x:scenario label="With label.formal.with.ancestor disabled">
+    	<x:scenario label="With label.formal.with.ancestor enabled">
     		<x:context select="h:section[@data-type='chapter']//h:div[@data-type='equation'][3]"   mode="label.markup">
     			<x:param name="label.formal.with.ancestor" select="1"/>
     		</x:context>
@@ -479,7 +479,7 @@ sect5:none
 		
 	</x:scenario>
 	
-	<x:scenario label="With label.formal.with.ancestor disabled">
+	<x:scenario label="With label.formal.with.ancestor enabled">
 		<x:context select="h:section[@data-type='preface']//h:div[@data-type='equation'][1]"   mode="label.markup">
 			<x:param name="label.formal.with.ancestor" select="1"/>
 		</x:context>
@@ -487,7 +487,7 @@ sect5:none
 		
 	</x:scenario>
 	
-	<x:scenario label="With label.formal.with.ancestor disabled">
+	<x:scenario label="With label.formal.with.ancestor enabled">
 		<x:context select="h:section[@data-type='preface']//h:div[@data-type='equation'][2]"   mode="label.markup">
 			<x:param name="label.formal.with.ancestor" select="1"/>
 		</x:context>
@@ -495,7 +495,7 @@ sect5:none
 		
 	</x:scenario>
 	
-	<x:scenario label="With label.formal.with.ancestor disabled">
+	<x:scenario label="With label.formal.with.ancestor enabled">
 		<x:context select="h:section[@data-type='preface']//h:div[@data-type='equation'][3]"   mode="label.markup">
 			<x:param name="label.formal.with.ancestor" select="1"/>
 		</x:context>
@@ -555,7 +555,7 @@ sect5:none
 		
 	</x:scenario>
 	
-	<x:scenario label="With label.formal.with.ancestor disabled">
+	<x:scenario label="With label.formal.with.ancestor enabled">
 		<x:context select="h:section[@data-type='appendix']//h:div[@data-type='equation'][1]"   mode="label.markup">
 			<x:param name="label.formal.with.ancestor" select="1"/>
 		</x:context>
@@ -563,7 +563,7 @@ sect5:none
 		
 	</x:scenario>
 	
-	<x:scenario label="With label.formal.with.ancestor disabled">
+	<x:scenario label="With label.formal.with.ancestor enabled">
 		<x:context select="h:section[@data-type='appendix']//h:div[@data-type='equation'][2]"   mode="label.markup">
 			<x:param name="label.formal.with.ancestor" select="1"/>
 		</x:context>
@@ -571,7 +571,7 @@ sect5:none
 		
 	</x:scenario>
 	
-	<x:scenario label="With label.formal.with.ancestor disabled">
+	<x:scenario label="With label.formal.with.ancestor enabled">
 		<x:context select="h:section[@data-type='appendix']//h:div[@data-type='equation'][3]"   mode="label.markup">
 			<x:param name="label.formal.with.ancestor" select="1"/>
 		</x:context>
