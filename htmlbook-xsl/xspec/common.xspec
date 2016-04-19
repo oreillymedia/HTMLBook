@@ -353,6 +353,234 @@ sect5:none
 	<x:expect label="The appropriate numeration value should be generated">I-2</x:expect>
       </x:scenario>
     </x:scenario>
+	
+
+    <!-- Chris's Equation Tests here -->
+	<!-- For Chapter -->
+    <x:scenario label="When generating a label for an equation in a chapter">
+    	<x:context>
+    	  <section data-type="chapter">
+    	    <h1>This is a chapter</h1>
+    	    <p>A paragraph for good measure!</p>
+    	  	
+      	    <div data-type="equation">
+      	      <h5>I am formal and have a caption.</h5>
+      	      <p data-type="tex">$2 + 2 = 4$</p>
+      	    </div>
+	    <p>A paragraph for good measure!</p>
+	    
+    	     <div data-type="equation">
+	      <p data-type="tex">$2 + 2 = 5$</p>
+	     </div>    	
+    	     <p>A paragraph for good measure!</p>
+    	  	
+    	      <div data-type="equation">
+    	        <h5/>
+    	        <p data-type="tex">$2 + 2 = 16$</p>
+    	     </div>    	  	
+    	  </section>
+    	</x:context>
+    	
+    	<x:scenario label="With label.formal.with.ancestor disabled">
+    		<x:context select="h:section[@data-type='chapter']//h:div[@data-type='equation'][1]"   mode="label.markup">
+    		  <x:param name="label.formal.with.ancestor" select="0"/>
+    		</x:context>
+    		<x:expect label="The appropriate numeration value should be generated" >1</x:expect>
+
+    	</x:scenario>
+    	
+    	<x:scenario label="With label.formal.with.ancestor disabled">
+    		<x:context select="h:section[@data-type='chapter']//h:div[@data-type='equation'][2]"   mode="label.markup">
+    			<x:param name="label.formal.with.ancestor" select="0"/>
+    		</x:context>
+    		<x:expect label="The appropriate numeration value should be generated" ></x:expect>
+    		
+    	</x:scenario>
+    	
+    	<x:scenario label="With label.formal.with.ancestor disabled">
+    		<x:context select="h:section[@data-type='chapter']//h:div[@data-type='equation'][3]"   mode="label.markup">
+    			<x:param name="label.formal.with.ancestor" select="0"/>
+    		</x:context>
+    		<x:expect label="The appropriate numeration value should be generated" >2</x:expect>
+    		
+    	</x:scenario>
+    	
+    	<x:scenario label="With label.formal.with.ancestor enabled">
+    		<x:context select="h:section[@data-type='chapter']//h:div[@data-type='equation'][1]"   mode="label.markup">
+    			<x:param name="label.formal.with.ancestor" select="1"/>
+    		</x:context>
+    		<x:expect label="The appropriate numeration value should be generated" >1-1</x:expect>
+    		
+    	</x:scenario>
+    	
+    	<x:scenario label="With label.formal.with.ancestor enabled">
+    		<x:context select="h:section[@data-type='chapter']//h:div[@data-type='equation'][2]"   mode="label.markup">
+    			<x:param name="label.formal.with.ancestor" select="1"/>
+    		</x:context>
+    		<x:expect label="The appropriate numeration value should be generated" ></x:expect>
+    		
+    	</x:scenario>
+    	
+    	<x:scenario label="With label.formal.with.ancestor enabled">
+    		<x:context select="h:section[@data-type='chapter']//h:div[@data-type='equation'][3]"   mode="label.markup">
+    			<x:param name="label.formal.with.ancestor" select="1"/>
+    		</x:context>
+    		<x:expect label="The appropriate numeration value should be generated" >1-2</x:expect>
+    		
+    	</x:scenario>
+    </x:scenario>
+	
+	<!-- For Preface -->
+    <x:scenario label="When generating a label for an equation in a preface">
+	<x:context>
+		<section data-type="preface">
+			<h1>This is a chapter</h1>
+			<p>A paragraph for good measure!</p>
+			
+			<div data-type="equation">
+				<h5>I am formal and have a caption.</h5>
+				<p data-type="tex">$2 + 2 = 4$</p>
+			</div>
+			<p>A paragraph for good measure!</p>
+			
+			<div data-type="equation">
+				<p data-type="tex">$2 + 2 = 5$</p>
+			</div>    	
+			<p>A paragraph for good measure!</p>
+			
+			<div data-type="equation">
+				<h5/>
+				<p data-type="tex">$2 + 2 = 16$</p>
+			</div>    	  	
+		</section>
+	</x:context>
+	
+	<x:scenario label="With label.formal.with.ancestor disabled">
+		<x:context select="h:section[@data-type='preface']//h:div[@data-type='equation'][1]"   mode="label.markup">
+			<x:param name="label.formal.with.ancestor" select="0"/>
+		</x:context>
+		<x:expect label="The appropriate numeration value should be generated" >1</x:expect>
+		
+	</x:scenario>
+	
+	<x:scenario label="With label.formal.with.ancestor disabled">
+		<x:context select="h:section[@data-type='preface']//h:div[@data-type='equation'][2]"   mode="label.markup">
+			<x:param name="label.formal.with.ancestor" select="0"/>
+		</x:context>
+		<x:expect label="The appropriate numeration value should be generated" ></x:expect>
+		
+	</x:scenario>
+	
+	<x:scenario label="With label.formal.with.ancestor disabled">
+		<x:context select="h:section[@data-type='preface']//h:div[@data-type='equation'][3]"   mode="label.markup">
+			<x:param name="label.formal.with.ancestor" select="0"/>
+		</x:context>
+		<x:expect label="The appropriate numeration value should be generated" >2</x:expect>
+		
+	</x:scenario>
+	
+	<x:scenario label="With label.formal.with.ancestor enabled">
+		<x:context select="h:section[@data-type='preface']//h:div[@data-type='equation'][1]"   mode="label.markup">
+			<x:param name="label.formal.with.ancestor" select="1"/>
+		</x:context>
+		<x:expect label="The appropriate numeration value should be generated" >P-1</x:expect>
+		
+	</x:scenario>
+	
+	<x:scenario label="With label.formal.with.ancestor enabled">
+		<x:context select="h:section[@data-type='preface']//h:div[@data-type='equation'][2]"   mode="label.markup">
+			<x:param name="label.formal.with.ancestor" select="1"/>
+		</x:context>
+		<x:expect label="The appropriate numeration value should be generated" ></x:expect>
+		
+	</x:scenario>
+	
+	<x:scenario label="With label.formal.with.ancestor enabled">
+		<x:context select="h:section[@data-type='preface']//h:div[@data-type='equation'][3]"   mode="label.markup">
+			<x:param name="label.formal.with.ancestor" select="1"/>
+		</x:context>
+		<x:expect label="The appropriate numeration value should be generated" >P-2</x:expect>
+		
+	</x:scenario>
+    </x:scenario>
+	
+    
+
+	<!-- For Appendix -->
+    <x:scenario label="When generating a label for an equation in a appendix">
+	<x:context>
+		<section data-type="appendix">
+			<h1>This is a chapter</h1>
+			<p>A paragraph for good measure!</p>
+			
+			<div data-type="equation">
+				<h5>I am formal and have a caption.</h5>
+				<p data-type="tex">$2 + 2 = 4$</p>
+			</div>
+			<p>A paragraph for good measure!</p>
+			
+			<div data-type="equation">
+				<p data-type="tex">$2 + 2 = 5$</p>
+			</div>    	
+			<p>A paragraph for good measure!</p>
+			
+			<div data-type="equation">
+				<h5/>
+				<p data-type="tex">$2 + 2 = 16$</p>
+			</div>    	  	
+		</section>
+	</x:context>
+	
+	<x:scenario label="With label.formal.with.ancestor disabled">
+		<x:context select="h:section[@data-type='appendix']//h:div[@data-type='equation'][1]"   mode="label.markup">
+			<x:param name="label.formal.with.ancestor" select="0"/>
+		</x:context>
+		<x:expect label="The appropriate numeration value should be generated" >1</x:expect>
+		
+	</x:scenario>
+	
+	<x:scenario label="With label.formal.with.ancestor disabled">
+		<x:context select="h:section[@data-type='appendix']//h:div[@data-type='equation'][2]"   mode="label.markup">
+			<x:param name="label.formal.with.ancestor" select="0"/>
+		</x:context>
+		<x:expect label="The appropriate numeration value should be generated" ></x:expect>
+		
+	</x:scenario>
+	
+	<x:scenario label="With label.formal.with.ancestor disabled">
+		<x:context select="h:section[@data-type='appendix']//h:div[@data-type='equation'][3]"   mode="label.markup">
+			<x:param name="label.formal.with.ancestor" select="0"/>
+		</x:context>
+		<x:expect label="The appropriate numeration value should be generated" >2</x:expect>
+		
+	</x:scenario>
+	
+	<x:scenario label="With label.formal.with.ancestor enabled">
+		<x:context select="h:section[@data-type='appendix']//h:div[@data-type='equation'][1]"   mode="label.markup">
+			<x:param name="label.formal.with.ancestor" select="1"/>
+		</x:context>
+		<x:expect label="The appropriate numeration value should be generated" >A-1</x:expect>
+		
+	</x:scenario>
+	
+	<x:scenario label="With label.formal.with.ancestor enabled">
+		<x:context select="h:section[@data-type='appendix']//h:div[@data-type='equation'][2]"   mode="label.markup">
+			<x:param name="label.formal.with.ancestor" select="1"/>
+		</x:context>
+		<x:expect label="The appropriate numeration value should be generated" ></x:expect>
+		
+	</x:scenario>
+	
+	<x:scenario label="With label.formal.with.ancestor enabled">
+		<x:context select="h:section[@data-type='appendix']//h:div[@data-type='equation'][3]"   mode="label.markup">
+			<x:param name="label.formal.with.ancestor" select="1"/>
+		</x:context>
+		<x:expect label="The appropriate numeration value should be generated" >A-2</x:expect>
+		
+	</x:scenario>
+    </x:scenario>
+	
+    <!-- Chris's Equation work ends -->
 
     <x:scenario label="When generating a label for a table in a chapter">
       <x:context select="(//h:section//h:table)[2]" mode="label.markup">

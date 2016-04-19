@@ -265,6 +265,80 @@ toc:lower-roman
   </x:scenario>
   <!--End Chris's refsect work -->
   
+  <!-- Begin Chris's Equation Work -->
+  <x:scenario label="When an XREF points to a formal equation with a caption">
+    <x:context mode="xref-to" select="(//h:div[@data-type='equation'])[2]">
+  <section data-type="chapter">
+        <div data-type="equation" id="formal_equation">
+          <h5>I am a caption!</h5>
+          <p data-type="tex">$2 + 2 = 4$</p>
+        </div>
+    <div data-type="equation" id="formal_equation2">
+      <h5>I am a caption!</h5>
+      <p data-type="tex">$2 + 2 = 4$</p>
+    </div>
+  </section>
+    </x:context>
+    <x:expect label="Gentext should be created for the xref">Equation 1-2</x:expect>
+  </x:scenario>
+
+  <x:scenario label="When an XREF points to a informal equation">
+    <x:context mode="xref-to" select="(//h:div[@data-type='equation'])[1]">
+      <section data-type="chapter">
+      <div data-type="equation">
+        <p data-type="tex">$2 + 2 = 4$</p>
+      </div>
+      </section>
+    </x:context>
+    <x:expect label="Gentext should be created for the xref">???</x:expect>
+  </x:scenario>
+  
+  <x:scenario label="When an XREF points to a formal equation with no caption text">
+    <x:context mode="xref-to" select="(//h:div[@data-type='equation'])[1]">
+      <section data-type="chapter">
+        <div data-type="equation" id="formal_equation">
+          <h5/>
+          <p data-type="tex">$2 + 2 = 4$</p>
+        </div>
+      </section>
+    </x:context>
+    <x:expect label="Gentext should be created for the xref">Equation 1-1</x:expect>
+  </x:scenario>
+  
+<!-- Equation in a preface -->
+  <x:scenario label="When an XREF points to a formal equation with no caption text">
+    <x:context mode="xref-to" select="(//h:div[@data-type='equation'])[1]">
+      <section data-type="preface">
+        <div data-type="equation" id="formal_equation">
+          <h5/>
+          <p data-type="tex">$2 + 2 = 4$</p>
+        </div>
+      </section>
+    </x:context>
+    <x:expect label="Gentext should be created for the xref">Equation P-1</x:expect>
+  </x:scenario>
+  
+ <!-- Equation in an appendix -->
+  <x:scenario label="When an XREF points to a formal equation with no caption text">
+    <x:context mode="xref-to"  select="(//h:div[@data-type='equation'])[3]">
+      <section data-type="appendix">
+        <div data-type="equation" id="formal_equation">
+          <h5/>
+          <p data-type="tex">$2 + 2 = 4$</p>
+        </div>
+        <div data-type="equation" id="formal_equation2">
+          <p data-type="tex">$2 + 2 = 4$</p>
+        </div>
+        <div data-type="equation" id="formal_equation3">
+          <h5/>
+          <p data-type="tex">$2 + 2 = 4$</p>
+        </div>
+      </section>
+    </x:context>
+    <x:expect label="Gentext should be created for the xref">Equation A-2</x:expect>
+  </x:scenario>
+ <!-- Begin Chris's Equation work -->
+  
   <!-- Tests for text nodes of <a> elements that do not have data-type="xref" -->
   <x:scenario label="If an 'a' element does not contain data-type='xref'">
     <x:context>

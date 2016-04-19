@@ -189,11 +189,52 @@
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
+  
+  <!-- HANDLING FOR COUNTING EQUATION NUMBER  -->
+  <xsl:template match="h:div[contains(@data-type, 'equation')][h:h5]" mode="label.markup">
+    <xsl:param name="label.formal.with.ancestor" select="$label.formal.with.ancestor"/>
+    <xsl:choose>
+      <xsl:when test="$label.formal.with.ancestor != 0">
+        <xsl:apply-templates select="." mode="label.formal.ancestor"/>
+        <xsl:apply-templates select="." mode="intralabel.punctuation"/>
+        
+        <xsl:for-each select="h:h5[1]">
+          
+          <xsl:number count="h:div[@data-type='equation']/h:h5" from="h:section[contains(@data-type, 'acknowledgments') or
+            contains(@data-type, 'afterword') or
+            contains(@data-type, 'appendix') or
+            contains(@data-type, 'bibliography') or
+            contains(@data-type, 'chapter') or
+            contains(@data-type, 'colophon') or
+            contains(@data-type, 'conclusion') or
+            contains(@data-type, 'copyright-page') or
+            contains(@data-type, 'dedication') or
+            contains(@data-type, 'foreword') or
+            contains(@data-type, 'glossary') or
+            contains(@data-type, 'halftitlepage') or
+            contains(@data-type, 'index') or
+            contains(@data-type, 'introduction') or
+            contains(@data-type, 'preface') or
+            contains(@data-type, 'titlepage') or
+            contains(@data-type, 'toc')]|
+            h:div[contains(@data-type, 'part')]" level="any" format="1"/>
+          
+        </xsl:for-each>
+        
+      </xsl:when>
+      <xsl:otherwise>
+        
+        <xsl:for-each select="h:h5[1]">
+          <xsl:number count="h:div[contains(@data-type, 'equation')]/h:h5" level="any" format="1"/>
+        </xsl:for-each>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
 
   <!-- Special handling for labeling ancestors of formal objects (tables, figures, examples only) -->
   <xsl:template match="*" mode="label.formal.ancestor"/>
 
-  <xsl:template match="h:table|h:figure|h:div[@data-type='example']" mode="label.formal.ancestor">
+  <xsl:template match="h:table|h:figure|h:div[@data-type='example']|h:div[@data-type='equation'][h:h5]" mode="label.formal.ancestor">
     <xsl:choose>
       <!-- For Preface and Introduction, custom label prefixes for formal ancestor
 	   (don't use label.markup template here, as these labels are typically specific to just formal-object context -->
@@ -240,6 +281,10 @@
 
   <xsl:template match="h:figure|h:table|h:div[@data-type='example']" mode="intralabel.punctuation">
     <xsl:text>-</xsl:text>
+  </xsl:template>
+  
+  <xsl:template match="h:div[@data-type='equation'][h:h5]" mode="intralabel.punctuation">
+      <xsl:text>-</xsl:text>
   </xsl:template>
 
   <!-- Template that pulls a value from a key/value list in an <xsl:param> that looks like this: 
