@@ -212,7 +212,10 @@
           <xsl:with-param name="scope" select="$scope"/>
           <xsl:with-param name="role" select="$role"/>
           <xsl:with-param name="type" select="$type"/>
-          <xsl:sort select="translate(normalize-space(concat(@data-primary-sortas, &quot; &quot;, @data-primary)), $index-letter-chars, $index-letter-chars-normalized)"/>
+          <xsl:sort select="normalize-space(concat(translate(@data-primary-sortas, $index-letter-chars, $index-letter-chars-normalized),
+            &quot; &quot;, @data-primary-sortas, &quot; &quot;,
+            translate(@data-primary, $index-letter-chars, $index-letter-chars-normalized),
+            &quot; &quot;, @data-primary))"/>
         </xsl:apply-templates>
       </ul>
     </div>
@@ -292,7 +295,10 @@
           <xsl:with-param name="scope" select="$scope"/>
           <xsl:with-param name="role" select="$role"/>
           <xsl:with-param name="type" select="$type"/>
-          <xsl:sort select="translate(normalize-space(concat(@data-secondary-sortas, &quot; &quot;, @data-secondary)), $index-letter-chars, $index-letter-chars-normalized)"/>
+          <xsl:sort select="normalize-space(concat(translate(@data-secondary-sortas, $index-letter-chars, $index-letter-chars-normalized),
+            &quot; &quot;, @data-secondary-sortas, &quot; &quot;,
+            translate(@data-secondary, $index-letter-chars, $index-letter-chars-normalized),
+            &quot; &quot;, @data-secondary))"/>
         </xsl:apply-templates>
       </ul>
     </xsl:if>
