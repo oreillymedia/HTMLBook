@@ -586,7 +586,7 @@
 
 </xsl:template>
 
-<xsl:template match="h:section[contains(@data-type, 'chapter') or contains(@data-type, 'appendix')]" mode="insert.title.markup">
+  <xsl:template match="h:section[contains(@data-type, 'chapter') or contains(@data-type, 'appendix')] | h:div[contains(@data-type, 'part')]" mode="insert.title.markup">
   <xsl:param name="purpose"/>
   <xsl:param name="xrefstyle"/>
   <xsl:param name="title"/>
@@ -763,6 +763,10 @@
 		      contains(substring-after($data-xrefstyle-attr, 'select:'), 'labelnumber')">template:%n</xsl:when>
       <!-- chap-num-title -->
       <xsl:when test="$data-xrefstyle-attr = 'chap-num-title'">xref-number-and-title</xsl:when>
+      <!-- app-num-title -->
+      <xsl:when test="$data-xrefstyle-attr = 'app-num-title'">xref-number-and-title</xsl:when>
+      <!-- part-num-title -->
+      <xsl:when test="$data-xrefstyle-attr = 'part-num-title'">xref-number-and-title</xsl:when>
     </xsl:choose>
   </xsl:template>
 
