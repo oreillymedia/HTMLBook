@@ -1322,6 +1322,13 @@ sidebar
   <x:scenario label="When an XREF is matched with data-xrefstyle...">
     <x:context>
       <body>
+        <div data-type="part" id="awesome_part">
+        <h1>I'm Part of the Solution!</h1>
+          <section data-type="appendix" id="awesome_app">
+            <h1>Appendix Title</h1>
+            <p>Some text</p>
+          </section>
+        </div>
 	<section data-type="chapter" id="awesome_chap">
 	  <h1>AWESOME CHAPTER</h1>
 	  <p>Check out this pic:</p>
@@ -1336,6 +1343,8 @@ sidebar
 	  </figure>
 	  <p>See <a href="#awesome_squared_fig" id="labelnumber-xref" data-type="xref" data-xrefstyle="select: labelnumber"/> for lots of awesomeness.</p>
 	  <p>See <a href="#awesome_chap" id="chap-num-title-xref" data-type="xref" data-xrefstyle="chap-num-title"/> for awesomeness.</p>
+	  <p>See <a href="#awesome_app" id="app-num-title-xref" data-type="xref" data-xrefstyle="app-num-title"/> for app awesomeness.</p>
+	  <p>See <a href="#awesome_part" id="part-num-title-xref" data-type="xref" data-xrefstyle="part-num-title"/> for part awesomeness.</p>
 	  <p>See <a href="#awesome_sect1" id="nopage-xref" data-type="xref" data-xrefstyle="select:nopage"/> for yet more awesomeness</p>
 	  <section id="awesome_sect1" data-type="sect1">
 	    <h1>AWESOME SUBSECTION</h1>
@@ -1353,6 +1362,16 @@ sidebar
     <x:scenario label="of 'chap-num-title'">
       <x:context select="//h:a[@id='chap-num-title-xref']"/>
       <x:expect label="it should return chapter label, number, and title"><a href="#awesome_chap" id="chap-num-title-xref" data-type="xref" data-xrefstyle="chap-num-title" data-xref-pagenum-style="...">Chapter&#xa0;1, <em>AWESOME CHAPTER</em></a></x:expect>
+    </x:scenario>
+
+    <x:scenario label="of 'app-num-title'">
+      <x:context select="//h:a[@id='app-num-title-xref']"/>
+      <x:expect label="it should return appendix label, number, and title"><a href="#awesome_app" id="app-num-title-xref" data-type="xref" data-xrefstyle="app-num-title" data-xref-pagenum-style="...">Appendix&#xa0;A, <em>Appendix Title</em></a></x:expect>
+    </x:scenario>
+
+    <x:scenario label="of 'part-num-title'">
+      <x:context select="//h:a[@id='part-num-title-xref']"/>
+      <x:expect label="it should return part label, number, and title"><a href="#awesome_part" id="part-num-title-xref" data-type="xref" data-xrefstyle="part-num-title" data-xref-pagenum-style="...">Part&#xa0;I, <em>I'm Part of the Solution!</em></a></x:expect>
     </x:scenario>
 
     <x:scenario label="of 'select:nopage'">
@@ -1491,6 +1510,19 @@ sidebar
     <x:expect label="Proper template should be generated">xref-number-and-title</x:expect>
   </x:scenario>
 
+  <x:scenario label="If calculate-xrefstyle is called on xrefstyle of app-num-title">
+    <x:call template="calculate-xrefstyle">
+      <x:param name="data-xrefstyle-attr">app-num-title</x:param>
+    </x:call>
+    <x:expect label="Proper template should be generated">xref-number-and-title</x:expect>
+  </x:scenario>
+
+  <x:scenario label="If calculate-xrefstyle is called on xrefstyle of part-num-title">
+    <x:call template="calculate-xrefstyle">
+      <x:param name="data-xrefstyle-attr">part-num-title</x:param>
+    </x:call>
+    <x:expect label="Proper template should be generated">xref-number-and-title</x:expect>
+  </x:scenario>
   <x:scenario label="If calculate-xrefstyle is called on xrefstyle that does not match an enumerated pattern">
     <x:call template="calculate-xrefstyle">
       <x:param name="data-xrefstyle-attr">bogus_xrefstyle_yo</x:param>
