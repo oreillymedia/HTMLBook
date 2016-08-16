@@ -183,10 +183,10 @@
   <xsl:param name="ncx.toc.section.depth" select="4"/>
 
   <!-- Include labels in NCX TOC? -->
-  <xsl:param name="ncx.toc.include.labels" select="1"/>
+  <xsl:param name="ncx.toc.include.labels" select="0"/>
 
   <!-- Include labels in Nav Doc TOC -->
-  <xsl:param name="toc-include-labels" select="1"/>
+  <xsl:param name="toc-include-labels" select="0"/>
 
   <!-- Include root chunk (index.html) in NCX? -->
   <!-- Don't turn this parameter on if you're not generating a root chunk -->
@@ -196,10 +196,10 @@
   <xsl:param name="inline.markup.in.toc" select="0"/>
 
   <!-- Param to specify whether or not to include the Navigation Document (XHTML5 TOC) in the spine -->
-  <xsl:param name="nav.in.spine" select="0"/>
+  <xsl:param name="nav.in.spine" select="1"/>
 
   <!-- Param to specify whether or not to include the Navigation Document (XHTML5 TOC) in the NCX TOC -->
-  <xsl:param name="nav.in.ncx" select="0"/>
+  <xsl:param name="nav.in.ncx" select="1"/>
 
   <!-- Filename for custom CSS to be embedded in EPUB; leave blank if none -->
   <xsl:param name="css.filename">epub.css</xsl:param>
@@ -211,12 +211,7 @@
        to be embedded here: place each asset on a separate line 
        Filenames should be relative paths from OPF directory to location of asset
   -->
-  <xsl:param name="external.assets.list">DejaVuSerif.otf
-DejaVuSans-Bold.otf
-UbuntuMono-Regular.otf
-UbuntuMono-Bold.otf
-UbuntuMono-BoldItalic.otf
-UbuntuMono-Italic.otf</xsl:param>
+  <xsl:param name="external.assets.list">NotoSansSymbols-Regular.ttf</xsl:param>
 
   <!-- Useful for EPUB 2 backward compatibility. Setting to 1 will turn on EPUB2-compatible elements, 
        which means that HTML5 structural semantic elements
@@ -225,7 +220,7 @@ UbuntuMono-Italic.otf</xsl:param>
   <xsl:param name="html4.structural.elements" select="1"/>
 
   <!-- Do default to turning on autolabeling for EPUB, as some older ereaders may not support the necessary CSS -->
-  <xsl:param name="autogenerate.labels" select="1"/>
+  <xsl:param name="autogenerate.labels" select="0"/>
 
   <xsl:variable name="full.cover.filename">
     <xsl:value-of select="$outputdir"/>

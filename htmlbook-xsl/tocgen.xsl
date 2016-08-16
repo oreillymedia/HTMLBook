@@ -20,14 +20,13 @@
   </xsl:template>
 
   <!-- Exclude these frontmatter/backmatter sections from TOC generation -->
-  <xsl:template match="h:section[@data-type = 'dedication' or 
-		                 @data-type = 'titlepage' or 
-				 @data-type = 'toc' or 
-				 @data-type = 'colophon' or 
-				 @data-type = 'copyright-page' or 
-				 @data-type = 'halftitlepage']" mode="tocgen"/>
+  <!-- EDITED FOR MACMILLAN -->
+  <xsl:template match="h:section[@data-type = 'halftitlepage']" mode="tocgen"/>
+  <!-- END EDITS -->
 
-  <xsl:template match="h:section|h:div[@data-type='part']" mode="tocgen">
+  <!-- EDITED FOR MACMILLAN -->
+  <xsl:template match="h:section|h:div[@data-type='part']|h:figure[@data-type='cover']" mode="tocgen">
+  <!-- END EDITS -->
     <xsl:param name="toc.section.depth" select="$toc.section.depth"/>
     <xsl:param name="inline.markup.in.toc" select="$inline.markup.in.toc"/>
     <xsl:choose>
