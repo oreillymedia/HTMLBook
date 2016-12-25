@@ -31,7 +31,7 @@ h2.author { font-style: italic }
 
 /* (((((((((((((( COPYRIGHT )))))))))))))) */
 
-section[data-type="titlepage"] { page: copyright }
+section[data-type="copyright-page"] { page: copyright }
 
 /* (((((((((((((( DEDICATION )))))))))))))) */
 
