@@ -49,3 +49,5 @@ Alternatively, to validate in a GUI XML editor like oXygen, add a +xsi:schemaLoc
 * In the coming months, we will be adding additional tools to the HTMLBook project for authoring and producing books with HTMLBook: CSS stylesheets, scripts for generating EPUB/Mobi, etc.
 
 * If you would like to contribute to the HTMLBook project, send us a pull request!
+
+* JavaScript Package for converting markdown to HTMLBook https://www.npmjs.com/package/htmlbook
