@@ -59,25 +59,26 @@ die() {
 # Just use it.
 # [1]http://code.google.com/p/expath-pkg/source/browse/trunk/saxon/pkg-saxon/src/shell/saxon
 
-if which saxon > /dev/null 2>&1; then
-    echo Saxon script found, use it.
-    echo
-    xslt() {
-        saxon --add-cp "${XSPEC_HOME}/java/" --xsl "$@"
-    }
-    xquery() {
-        saxon --add-cp "${XSPEC_HOME}/java/" --xq "$@"
-    }
-else
-    echo Saxon script not found, invoking JVM directly instead.
-    echo
-    xslt() {
-        java -cp "$CP" net.sf.saxon.Transform "$@"
-    }
-    xquery() {
-        java -cp "$CP" net.sf.saxon.Query "$@"
-    }
-fi
+#if which saxon > /dev/null 2>&1; then
+#    echo Saxon script found, use it.
+#    echo
+#    xslt() {
+#        saxon "$@"
+       # echo "$@"
+#    }
+#    xquery() {
+#        saxon --add-cp "${XSPEC_HOME}/java/" --xq "$@"
+#    }
+#else
+echo Saxon script not found, invoking JVM directly instead.
+echo
+xslt() {
+    java -cp "$CP" net.sf.saxon.Transform "$@"
+}
+xquery() {
+    java -cp "$CP" net.sf.saxon.Query "$@"
+}
+#fi
 
 ##
 ## some variables ############################################################
