@@ -56,7 +56,7 @@ toc:lower-roman
       </x:expect>
     </x:scenario>
     
-    <x:scenario label="And autogenerate-xrefs param is enabled">
+    <x:scenario label="And autogenerate-xrefs param is enabled" pending="XTDE1425: Cannot find a matching 1-argument function named node-set(). There is no Saxon extension function with the local name node-set">
       <x:context>
 	<x:param name="autogenerate-xrefs" select="1"/>
       </x:context>
@@ -84,7 +84,7 @@ toc:lower-roman
       </x:expect>
     </x:scenario>
 
-    <x:scenario label="And autogenerate-xrefs param is enabled">
+    <x:scenario label="And autogenerate-xrefs param is enabled" pending="XTDE1425: Cannot find a matching 1-argument function named node-set(). There is no Saxon extension function with the local name node-set">
       <x:context>
 	<x:param name="autogenerate-xrefs" select="1"/>
       </x:context>
@@ -106,7 +106,7 @@ toc:lower-roman
       </section>
     </x:context>
 
-    <x:scenario label="Which is another local file (text node of XREF empty)">
+    <x:scenario label="Which is another local file (text node of XREF empty)" pending="XTDE1425: Cannot find a matching 1-argument function named node-set(). There is no Saxon extension function with the local name node-set">
       <x:context select="//h:a[@id='empty_another_file']"/>
       <!-- Content based on params set globally for this spec doc and localization gentext -->
       <!-- If localizations change, test may produce false negative -->
@@ -115,7 +115,7 @@ toc:lower-roman
       </x:expect>
     </x:scenario>
 
-    <x:scenario label="Which is another local file (text node of XREF nonempty)">
+    <x:scenario label="Which is another local file (text node of XREF nonempty)" pending="XTDE1425: Cannot find a matching 1-argument function named node-set(). There is no Saxon extension function with the local name node-set">
       <x:context select="//h:a[@id='nonempty_another_file']"/>
       <!-- Content based on params set globally for this spec doc and localization gentext -->
       <!-- If localizations change, test may produce false negative -->
@@ -368,7 +368,7 @@ toc:lower-roman
       </x:expect>
     </x:scenario>
 
-    <x:scenario label="And does not have a text node already, and has a valid XREF link">
+    <x:scenario label="And does not have a text node already, and has a valid XREF link" pending="XTDE1425: Cannot find a matching 1-argument function named node-set(). There is no Saxon extension function with the local name node-set">
       <x:context select="//h:a[@id='no_data_type_no_text']"/>
       <!-- Content based on params set globally for this spec doc and localization gentext -->
       <!-- If localizations change, test may produce false negative -->
@@ -423,14 +423,14 @@ toc:lower-roman
 	<p>Here comes an XREF with a text node: see <a id="text_node" data-type="xref" href="#chapter1">PLACEHOLDER TEXT</a></p>
       </section>
     </x:context>
-    <x:scenario label="And the XREF contains no text node">
+    <x:scenario label="And the XREF contains no text node" pending="XTDE1425: Cannot find a matching 1-argument function named node-set(). There is no Saxon extension function with the local name node-set">
       <x:context select="//h:a[@id='no_text_node']"/>
       <x:expect label="href attribute should be processed as expected">
 	<a data-type="xref" id="no_text_node" href="#chapter1" data-xref-pagenum-style="...">...</a>
       </x:expect>
     </x:scenario>
 
-    <x:scenario label="And the XREF contains a text node">
+    <x:scenario label="And the XREF contains a text node" pending="XTDE1425: Cannot find a matching 1-argument function named node-set(). There is no Saxon extension function with the local name node-set">
       <x:context select="//h:a[@id='text_node']"/>
       <x:expect label="href attribute should be processed as expected">
 	<a id="text_node" data-type="xref" href="#chapter1" data-xref-pagenum-style="...">...</a>
@@ -445,14 +445,14 @@ toc:lower-roman
 	<p>Here comes an XREF with a text node: see <a id="text_node" data-type="xref" href="chapter1">PLACEHOLDER TEXT</a></p>
       </section>
     </x:context>
-    <x:scenario label="And the XREF contains no text node">
+    <x:scenario label="And the XREF contains no text node" pending="XTDE1425: Cannot find a matching 1-argument function named node-set(). There is no Saxon extension function with the local name node-set">
       <x:context select="//h:a[@id='no_text_node']"/>
       <x:expect label="href attribute should be processed as expected">
 	<a data-type="xref" id="no_text_node" href="#chapter1" data-xref-pagenum-style="...">...</a>
       </x:expect>
     </x:scenario>
 
-    <x:scenario label="And the XREF contains a text node">
+    <x:scenario label="And the XREF contains a text node" pending="XTDE1425: Cannot find a matching 1-argument function named node-set(). There is no Saxon extension function with the local name node-set">
       <x:context select="//h:a[@id='text_node']"/>
       <x:expect label="href attribute should be processed as expected">
 	<a id="text_node" data-type="xref" href="#chapter1" data-xref-pagenum-style="...">...</a>
@@ -467,14 +467,14 @@ toc:lower-roman
 	<p>Here comes an XREF with a text node: see <a id="text_node" data-type="xref" href="ch01.html#chapter1">PLACEHOLDER TEXT</a></p>
       </section>
     </x:context>
-    <x:scenario label="And the XREF contains no text node">
+    <x:scenario label="And the XREF contains no text node" pending="XTDE1425: Cannot find a matching 1-argument function named node-set(). There is no Saxon extension function with the local name node-set">
       <x:context select="//h:a[@id='no_text_node']"/>
       <x:expect label="href attribute should be processed as expected">
 	<a data-type="xref" id="no_text_node" href="#chapter1" data-xref-pagenum-style="...">...</a>
       </x:expect>
     </x:scenario>
 
-    <x:scenario label="And the XREF contains a text node">
+    <x:scenario label="And the XREF contains a text node" pending="XTDE1425: Cannot find a matching 1-argument function named node-set(). There is no Saxon extension function with the local name node-set">
       <x:context select="//h:a[@id='text_node']"/>
       <x:expect label="href attribute should be processed as expected">
 	<a id="text_node" data-type="xref" href="#chapter1" data-xref-pagenum-style="...">...</a>
@@ -591,7 +591,7 @@ toc:lower-roman
 	<p>Here comes an XREF (link) with a text node: see <a id="text_node_link" data-type="link" href="#chapter1">PLACEHOLDER TEXT</a></p>
       </section>
     </x:context>
-    <x:scenario label="And the 'a' contains no text node">
+    <x:scenario label="And the 'a' contains no text node" pending="XTDE1425: Cannot find a matching 1-argument function named node-set(). There is no Saxon extension function with the local name node-set">
       <x:context select="//h:a[@id='no_text_node']"/>
       <x:expect label="href attribute should be processed as expected">
 	<a id="no_text_node" href="#chapter1" data-xref-pagenum-style="...">...</a>
@@ -630,7 +630,7 @@ toc:lower-roman
 	<p>Here comes an XREF with a text node: see <a id="text_node_link" data-type="link" href="chapter1">PLACEHOLDER TEXT</a></p>
       </section>
     </x:context>
-    <x:scenario label="And the 'a' contains no text node">
+    <x:scenario label="And the 'a' contains no text node" pending="XTDE1425: Cannot find a matching 1-argument function named node-set(). There is no Saxon extension function with the local name node-set">
       <x:context select="//h:a[@id='no_text_node']"/>
       <x:expect label="href attribute should be processed as expected">
 	<a id="no_text_node" href="#chapter1" data-xref-pagenum-style="...">...</a>
@@ -669,7 +669,7 @@ toc:lower-roman
 	<p>Here comes an XREF with a text node: see <a id="text_node_link" data-type="link" href="ch01.html#chapter1">PLACEHOLDER TEXT</a></p>
       </section>
     </x:context>
-    <x:scenario label="And the 'a' contains no text node">
+    <x:scenario label="And the 'a' contains no text node" pending="XTDE1425: Cannot find a matching 1-argument function named node-set(). There is no Saxon extension function with the local name node-set">
       <x:context select="//h:a[@id='no_text_node']"/>
       <x:expect label="href attribute should be processed as expected">
 	<a id="no_text_node" href="#chapter1" data-xref-pagenum-style="...">...</a>
@@ -910,56 +910,56 @@ toc:lower-roman
       </section>
     </x:context>
 
-    <x:scenario label="With a preface target">
+    <x:scenario label="With a preface target" pending="XTDE1425: Cannot find a matching 1-argument function named node-set(). There is no Saxon extension function with the local name node-set">
       <x:context select="(//h:a[@id='preface_xref'])[1]"/>
       <x:expect label="Correct data-xref-pagenum-style should be returned">
 	<a id="preface_xref" href="..." data-type="xref" data-xref-pagenum-style="lower-roman">...</a>
       </x:expect>
     </x:scenario>
 
-    <x:scenario label="With a preface target (stealth XREF)">
+    <x:scenario label="With a preface target (stealth XREF)" pending="XTDE1425: Cannot find a matching 1-argument function named node-set(). There is no Saxon extension function with the local name node-set">
       <x:context select="(//h:a[@id='stealth_xref'])[1]"/>
       <x:expect label="Correct data-xref-pagenum-style should be returned (default)">
 	<a id="stealth_xref" href="..." data-xref-pagenum-style="lower-roman">...</a>
       </x:expect>
     </x:scenario>
 
-    <x:scenario label="With a chapter target">
+    <x:scenario label="With a chapter target" pending="XTDE1425: Cannot find a matching 1-argument function named node-set(). There is no Saxon extension function with the local name node-set">
       <x:context select="(//h:a[@id='chapter_xref'])[1]"/>
       <x:expect label="Correct data-xref-pagenum-style should be returned">
 	<a id="chapter_xref" href="..." data-type="xref" data-xref-pagenum-style="decimal">...</a>
       </x:expect>
     </x:scenario>
 
-    <x:scenario label="With a sect1 target">
+    <x:scenario label="With a sect1 target" pending="XTDE1425: Cannot find a matching 1-argument function named node-set(). There is no Saxon extension function with the local name node-set">
       <x:context select="(//h:a[@id='sect1_xref'])[1]"/>
       <x:expect label="Correct data-xref-pagenum-style should be returned">
 	<a id="sect1_xref" href="..." data-type="xref" data-xref-pagenum-style="lower-roman">...</a>
       </x:expect>
     </x:scenario>
 
-    <x:scenario label="With a figure target">
+    <x:scenario label="With a figure target" pending="XTDE1425: Cannot find a matching 1-argument function named node-set(). There is no Saxon extension function with the local name node-set">
       <x:context select="(//h:a[@id='figure_xref'])[1]"/>
       <x:expect label="Correct data-xref-pagenum-style should be returned">
 	<a id="figure_xref" href="..." data-type="xref" data-xref-pagenum-style="decimal">...</a>
       </x:expect>
     </x:scenario>
 
-    <x:scenario label="With a custom data-xref-pagenum-style attr">
+    <x:scenario label="With a custom data-xref-pagenum-style attr" pending="XTDE1425: Cannot find a matching 1-argument function named node-set(). There is no Saxon extension function with the local name node-set">
       <x:context select="(//h:a[@id='custom_pagenum_xref'])[1]"/>
       <x:expect label="Correct data-xref-pagenum-style should be returned (default)">
 	<a id="custom_pagenum_xref" href="..." data-type="xref" data-xref-pagenum-style="upper-roman">...</a>
       </x:expect>
     </x:scenario>
 
-    <x:scenario label="With autogenerate.xref.pagenum.style turned off">
+    <x:scenario label="With autogenerate.xref.pagenum.style turned off" pending="XTDE1425: Cannot find a matching 1-argument function named node-set(). There is no Saxon extension function with the local name node-set">
       <x:context select="(//h:a[@id='preface_xref'])[1]">
 	<x:param name="autogenerate.xref.pagenum.style" select="0"/>
       </x:context>
       <x:expect label="No data-xref-pagenum-style should be added" test="not(exists($x:result[@data-xref-pagenum-style]))"/>
     </x:scenario>
 
-    <x:scenario label="With autogenerate.xref.pagenum.style turned off (hardcoded data-xref-pagenum-style attr)">
+    <x:scenario label="With autogenerate.xref.pagenum.style turned off (hardcoded data-xref-pagenum-style attr)" pending="XTDE1425: Cannot find a matching 1-argument function named node-set(). There is no Saxon extension function with the local name node-set">
       <x:context select="(//h:a[@id='custom_pagenum_xref'])[1]">
 	<x:param name="autogenerate.xref.pagenum.style" select="0"/>
       </x:context>
@@ -989,7 +989,7 @@ toc:lower-roman
       </section>
     </x:context>
 
-    <x:scenario label="(not XREF mode)">
+    <x:scenario label="(not XREF mode)" pending="XTDE1425: Cannot find a matching 1-argument function named node-set(). There is no Saxon extension function with the local name node-set">
       <x:expect label="No data-xref-pagenum-style attribute should be added" test="not(exists(//h:a[@data-xref-pagenum-style]))"/>
     </x:scenario>
 
@@ -1244,7 +1244,7 @@ toc:lower-roman
       </body>
     </x:context>
 
-    <x:scenario label="that points to an element in the xref.elements.pagenum.in.class list">
+    <x:scenario label="that points to an element in the xref.elements.pagenum.in.class list" pending="XTDE1425: Cannot find a matching 1-argument function named node-set(). There is no Saxon extension function with the local name node-set">
       <x:context select="//h:a[@data-type='xref'][@id='chapter_xref']">
 	<x:param name="xref.elements.pagenum.in.class">chapter
 sidebar
@@ -1253,7 +1253,7 @@ sidebar
       <x:expect label="Class value of 'pagenum' should be added to element" test="exists(//h:a[@class = 'pagenum'])"/>
     </x:scenario>
 
-    <x:scenario label="that points to an element in the xref.elements.pagenum.in.class list (XREF already has class value)">
+    <x:scenario label="that points to an element in the xref.elements.pagenum.in.class list (XREF already has class value)" pending="XTDE1425: Cannot find a matching 1-argument function named node-set(). There is no Saxon extension function with the local name node-set">
       <x:context select="//h:a[@data-type='xref'][@id='sidebar_xref']">
 	<x:param name="xref.elements.pagenum.in.class">chapter
 sidebar
@@ -1262,7 +1262,7 @@ sidebar
       <x:expect label="Class value of 'pagenum' should be added to element (preserving existing class values)" test="exists(//h:a[@class = 'underline pagenum'])"/>
     </x:scenario>
 
-    <x:scenario label="that points to an element *not in* the xref.elements.pagenum.in.class list">
+    <x:scenario label="that points to an element *not in* the xref.elements.pagenum.in.class list" pending="XTDE1425: Cannot find a matching 1-argument function named node-set(). There is no Saxon extension function with the local name node-set">
       <x:context select="//h:a[@data-type='xref'][@id='sect1_xref']">
 	<x:param name="xref.elements.pagenum.in.class">chapter
 sidebar
@@ -1271,14 +1271,14 @@ sidebar
       <x:expect label="Class value of 'pagenum' should not be added to element" test="not(exists(//h:a[@class = 'pagenum']))"/>
     </x:scenario>
 
-    <x:scenario label="with xref.elements.pagenum.in.class empty and no preexisting class on XREF">
+    <x:scenario label="with xref.elements.pagenum.in.class empty and no preexisting class on XREF" pending="XTDE1425: Cannot find a matching 1-argument function named node-set(). There is no Saxon extension function with the local name node-set">
       <x:context select="//h:a[@data-type='xref'][@id='chapter_xref']">
 	<x:param name="xref.elements.pagenum.in.class"/>
       </x:context>
       <x:expect label="No class attribute should be added to element" test="not(exists(//h:a[@class]))"/>
     </x:scenario>
 
-    <x:scenario label="with xref.elements.pagenum.in.class empty and a preexisting class on XREF">
+    <x:scenario label="with xref.elements.pagenum.in.class empty and a preexisting class on XREF" pending="XTDE1425: Cannot find a matching 1-argument function named node-set(). There is no Saxon extension function with the local name node-set">
       <x:context select="//h:a[@data-type='xref'][@id='sidebar_xref']">
 	<x:param name="xref.elements.pagenum.in.class"/>
       </x:context>
@@ -1359,22 +1359,22 @@ sidebar
       <x:expect label="it should return just the label number"><a href="#awesome_squared_fig" id="labelnumber-xref" data-type="xref" data-xrefstyle="select: labelnumber" data-xref-pagenum-style="...">1-2</a></x:expect>
     </x:scenario>
 
-    <x:scenario label="of 'chap-num-title'">
+    <x:scenario label="of 'chap-num-title'" pending="XTDE1425: Cannot find a matching 1-argument function named node-set(). There is no Saxon extension function with the local name node-set">
       <x:context select="//h:a[@id='chap-num-title-xref']"/>
       <x:expect label="it should return chapter label, number, and title"><a href="#awesome_chap" id="chap-num-title-xref" data-type="xref" data-xrefstyle="chap-num-title" data-xref-pagenum-style="...">Chapter&#xa0;1, <em>AWESOME CHAPTER</em></a></x:expect>
     </x:scenario>
 
-    <x:scenario label="of 'app-num-title'">
+    <x:scenario label="of 'app-num-title'" pending="XTDE1425: Cannot find a matching 1-argument function named node-set(). There is no Saxon extension function with the local name node-set">
       <x:context select="//h:a[@id='app-num-title-xref']"/>
       <x:expect label="it should return appendix label, number, and title"><a href="#awesome_app" id="app-num-title-xref" data-type="xref" data-xrefstyle="app-num-title" data-xref-pagenum-style="...">Appendix&#xa0;A, <em>Appendix Title</em></a></x:expect>
     </x:scenario>
 
-    <x:scenario label="of 'part-num-title'">
+    <x:scenario label="of 'part-num-title'" pending="XTDE1425: Cannot find a matching 1-argument function named node-set(). There is no Saxon extension function with the local name node-set">
       <x:context select="//h:a[@id='part-num-title-xref']"/>
       <x:expect label="it should return part label, number, and title"><a href="#awesome_part" id="part-num-title-xref" data-type="xref" data-xrefstyle="part-num-title" data-xref-pagenum-style="...">Part&#xa0;I, <em>I'm Part of the Solution!</em></a></x:expect>
     </x:scenario>
 
-    <x:scenario label="of 'select:nopage'">
+    <x:scenario label="of 'select:nopage'" pending="XTDE1425: Cannot find a matching 1-argument function named node-set(). There is no Saxon extension function with the local name node-set">
       <x:context select="//h:a[@id='nopage-xref']">
 	<x:param name="xref.elements.pagenum.in.class">sect1</x:param>
       </x:context>
