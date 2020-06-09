@@ -57,7 +57,7 @@ sect5:none
   </x:scenario>
 
   <!-- Label markup tests -->
-  <!-- This section's tests based on values in label.numeration.by.data-type global param 
+  <!-- This section's tests based on values in label.numeration.by.data-type global param -->
   <x:scenario label="When generating a label for a section (chapter)">
     <x:context mode="label.markup" select="/h:body/h:section[@data-type='chapter'][2]">
       <body>
@@ -75,9 +75,9 @@ sect5:none
 	</section>
       </body>
     </x:context>
-     check the result 
+    <!-- check the result -->
     <x:expect label="The appropriate numeration value should be generated">2</x:expect>
-  </x:scenario> -->
+  </x:scenario>
 
   <x:scenario label="When generating a label for a part div">
     <x:context mode="label.markup" select="/h:body/h:div[@data-type='part'][3]">
