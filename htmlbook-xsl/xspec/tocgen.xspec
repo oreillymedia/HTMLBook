@@ -31,7 +31,7 @@
       </x:expect>
     </x:scenario>
  
-    <x:scenario label="And autogenerate-toc param is *enabled*" pending="XTDE1425: Cannot find a matching 1-argument function named section-depth()">
+    <x:scenario label="And autogenerate-toc param is *enabled*" pending="Setting this scenario as pending because we received the following error when trying to run this scenario: XTDE1425: Cannot find a matching 1-argument function named section-depth(). We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
       <x:context>
 	<x:param name="autogenerate-toc" select="1"/>
       </x:context>
@@ -94,7 +94,7 @@
       </x:expect>
     </x:scenario>
 
-    <x:scenario label="And autogenerate-toc param is *enabled*, and toc-placeholder-overwrite-contents is *enabled*" pending="XTDE1425: Cannot find a matching 1-argument function named section-depth()">
+    <x:scenario label="And autogenerate-toc param is *enabled*, and toc-placeholder-overwrite-contents is *enabled*" pending="Setting this scenario as pending because we received the following error when trying to run this scenario: XTDE1425: Cannot find a matching 1-argument function named section-depth(). We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
       <x:context>
 	<x:param name="autogenerate-toc" select="1"/>
 	<x:param name="toc-placeholder-overwrite-contents" select="1"/>
@@ -105,7 +105,7 @@
     </x:scenario>
   </x:scenario>
     
-  <x:scenario label="When there are multiple empty TOC nav elements" pending="XTDE1425: Cannot find a matching 1-argument function named section-depth()">
+  <x:scenario label="When there are multiple empty TOC nav elements" pending="Setting this scenario as pending because we received the following error when trying to run this scenario: XTDE1425: Cannot find a matching 1-argument function named section-depth(). We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
     <x:context select="//h:nav">
       <body>
 	<nav data-type="toc"/>
@@ -121,7 +121,7 @@
 	      test="deep-equal(//h:nav[@data-type='toc'][1]/node(), //h:nav[@data-type='toc'][2]/node())"/>
   </x:scenario>
 
-  <x:scenario label="When a TOC is generated with a scope specified" pending="XTDE1425: Cannot find a matching 1-argument function named section-depth()">
+  <x:scenario label="When a TOC is generated with a scope specified" pending="Setting this scenario as pending because we received the following error when trying to run this scenario: XTDE1425: Cannot find a matching 1-argument function named section-depth(). We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
     <x:context href="skeleton.html" select="(//h:nav[@data-type='toc'])[1]">
       <x:param name="autogenerate-toc" select="1"/>
       <x:param name="scope" select="(document('../skeleton.html')//h:section[@data-type='sect1'])[1]"/>
@@ -135,14 +135,14 @@
     </x:expect>
   </x:scenario>
   
-  <x:scenario label="When a standard book-level section (chapter) is matched in tocgen mode" pending="XTDE1425: Cannot find a matching 1-argument function named section-depth()">
+  <x:scenario label="When a standard book-level section (chapter) is matched in tocgen mode" pending="Setting this scenario as pending because we received the following error when trying to run this scenario: XTDE1425: Cannot find a matching 1-argument function named section-depth(). We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
     <x:context href="skeleton.html" select="(//h:section[@data-type='chapter'])[1]" mode="tocgen"/>
     <x:expect label="An entry 'li' should be generated">
       <li data-type="chapter"><a href="...">...</a>...</li>
     </x:expect>
   </x:scenario>
 
-  <x:scenario label="When a standard book-level section (chapter) with class of 'notoc' is matched in tocgen mode" pending="XTDE1425: Cannot find a matching 1-argument function named section-depth()">
+  <x:scenario label="When a standard book-level section (chapter) with class of 'notoc' is matched in tocgen mode" pending="Setting this scenario as pending because we received the following error when trying to run this scenario: XTDE1425: Cannot find a matching 1-argument function named section-depth(). We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
     <x:context select="(//h:section[@data-type='chapter'][@class='notoc'])[1]" mode="tocgen">
       <body data-type="book">
 	<section data-type="chapter">
@@ -162,14 +162,14 @@
     <x:expect label="An entry 'li' *should not* be generated" select="()"/>
   </x:scenario>
 
-  <x:scenario label="When a standard book-level section (part) is matched in tocgen mode" pending="XTDE1425: Cannot find a matching 1-argument function named section-depth()">
+  <x:scenario label="When a standard book-level section (part) is matched in tocgen mode" pending="Setting this scenario as pending because we received the following error when trying to run this scenario: XTDE1425: Cannot find a matching 1-argument function named section-depth(). We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
     <x:context href="skeleton.html" select="(//h:div[@data-type='part'])[1]" mode="tocgen"/>
     <x:expect label="An entry 'li' should be generated">
       <li data-type="part"><a href="...">...</a>...</li>
     </x:expect>
   </x:scenario>
   
- <x:scenario label="When a subsection within the toc.section.depth is matched in tocgen mode" pending="XTDE1425: Cannot find a matching 1-argument function named section-depth()">
+ <x:scenario label="When a subsection within the toc.section.depth is matched in tocgen mode" pending="Setting this scenario as pending because we received the following error when trying to run this scenario: XTDE1425: Cannot find a matching 1-argument function named section-depth(). We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
     <x:context href="skeleton.html" select="(//h:section[@data-type='sect1'])[1]" mode="tocgen">
       <x:param name="toc.section.depth" select="1"/>
     </x:context>
@@ -178,14 +178,14 @@
     </x:expect>
   </x:scenario>
 
-  <x:scenario label="When a subsection at greater depth than the toc.section.depth is matched in tocgen mode" pending="XTDE1425: Cannot find a matching 1-argument function named section-depth()">
+  <x:scenario label="When a subsection at greater depth than the toc.section.depth is matched in tocgen mode" pending="Setting this scenario as pending because we received the following error when trying to run this scenario: XTDE1425: Cannot find a matching 1-argument function named section-depth(). We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
     <x:context href="skeleton.html" select="(//h:section[@data-type='sect2'])[1]" mode="tocgen">
       <x:param name="toc.section.depth" select="1"/>
     </x:context>
     <x:expect label="An entry 'li' *should not* be generated" select="()"/>
   </x:scenario>
 
-  <x:scenario label="When a subsection with class of 'notoc' is matched in tocgen mode" pending="XTDE1425: Cannot find a matching 1-argument function named section-depth()">
+  <x:scenario label="When a subsection with class of 'notoc' is matched in tocgen mode" pending="Setting this scenario as pending because we received the following error when trying to run this scenario: XTDE1425: Cannot find a matching 1-argument function named section-depth(). We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
     <x:context select="(//h:section[@data-type='sect2'][@class='notoc'])[1]" mode="tocgen">
       <x:param name="toc.section.depth" select="3"/>
       <body data-type="book">
@@ -288,7 +288,7 @@
       </body>
     </x:context>
     
-    <x:scenario label="And inline.markup.in.toc disabled" pending="XTDE1425: Cannot find a matching 1-argument function named section-depth()">
+    <x:scenario label="And inline.markup.in.toc disabled" pending="Setting this scenario as pending because we received the following error when trying to run this scenario: XTDE1425: Cannot find a matching 1-argument function named section-depth(). We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
       <x:context>
 	<x:param name="inline.markup.in.toc" select="0"/>
       </x:context>
@@ -298,7 +298,7 @@
       </x:expect>
     </x:scenario>
     
-    <x:scenario label="And inline.markup.in.toc enabled" pending="XTDE1425: Cannot find a matching 1-argument function named section-depth()">
+    <x:scenario label="And inline.markup.in.toc enabled" pending="Setting this scenario as pending because we received the following error when trying to run this scenario: XTDE1425: Cannot find a matching 1-argument function named section-depth(). We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
       <x:context>
 	<x:param name="inline.markup.in.toc" select="1"/>
       </x:context>
@@ -309,7 +309,7 @@
     </x:scenario>
   </x:scenario>
 
-  <x:scenario label="When toc-title is called for English-language content (default)" pending="XTDE1425: Cannot find a matching 1-argument function named section-depth()">
+  <x:scenario label="When toc-title is called for English-language content (default)" pending="Setting this scenario as pending because we received the following error when trying to run this scenario: XTDE1425: Cannot find a matching 1-argument function named section-depth(). We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
     <x:call template="toc-title"/>
     <x:expect label="it should return the proper TOC title">Table of Contents</x:expect>
   </x:scenario>
