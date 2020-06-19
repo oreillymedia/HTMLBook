@@ -1314,7 +1314,7 @@ sect5:none
     </x:expect>
   </x:scenario>
 
-  <x:scenario label="When process-headings is run on a section heading with $autogenerate.labels turned on" pending="Setting this scenario as pending because we received the following error when trying to run this scenario: XTDE1425: Cannot find a matching 1-argument function named node-set(). There is no Saxon extension function with the local. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
+  <x:scenario label="When process-headings is run on a section heading with $autogenerate.labels turned on" pending="We received the following error when trying to run this scenario: XTDE1425: Cannot find a matching 1-argument function named node-set(). There is no Saxon extension function with the local. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
     <x:context mode="process-heading" select="/h:section/h:h1">
       <x:param name="autogenerate.labels" select="1"/>
       <section data-type="chapter">
@@ -1338,7 +1338,7 @@ sect5:none
     </x:expect>
   </x:scenario>
 
-  <x:scenario label="When process-headings is run on a div heading with $autogenerate.labels turned on" pending="Setting this scenario as pending because we received the following error when trying to run this scenario: XTDE1425: Cannot find a matching 1-argument function named node-set(). There is no Saxon extension function with the local. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
+  <x:scenario label="When process-headings is run on a div heading with $autogenerate.labels turned on" pending="We received the following error when trying to run this scenario: XTDE1425: Cannot find a matching 1-argument function named node-set(). There is no Saxon extension function with the local. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
     <x:context mode="process-heading" select="/h:section/h:div/h:h1">
       <x:param name="autogenerate.labels" select="1"/>
       <section data-type="chapter">
@@ -1370,7 +1370,7 @@ sect5:none
     </x:expect>
   </x:scenario>
 
-  <x:scenario label="When process-headings is run on a table caption with $autogenerate.labels turned on" pending="Setting this scenario as pending because we received the following error when trying to run this scenario: XTDE1425: Cannot find a matching 1-argument function named node-set(). There is no Saxon extension function with the local. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
+  <x:scenario label="When process-headings is run on a table caption with $autogenerate.labels turned on" pending="We received the following error when trying to run this scenario: XTDE1425: Cannot find a matching 1-argument function named node-set(). There is no Saxon extension function with the local. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
     <x:context mode="process-heading" select="/h:section/h:table/h:caption">
       <x:param name="autogenerate.labels" select="1"/>
       <x:param name="labeled-element-semantic-name" select="'table'"/>
@@ -1418,7 +1418,7 @@ sect5:none
     </x:expect>
   </x:scenario>
 
-  <x:scenario label="When process-headings is run on a figure caption with $autogenerate.labels turned on" pending="Setting this scenario as pending because we received the following error when trying to run this scenario: XTDE1425: Cannot find a matching 1-argument function named node-set(). There is no Saxon extension function with the local. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
+  <x:scenario label="When process-headings is run on a figure caption with $autogenerate.labels turned on" pending="We received the following error when trying to run this scenario: XTDE1425: Cannot find a matching 1-argument function named node-set(). There is no Saxon extension function with the local. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
     <x:context mode="process-heading" select="/h:section/h:figure/h:figcaption">
       <x:param name="autogenerate.labels" select="1"/>
       <x:param name="labeled-element-semantic-name" select="'figure'"/>

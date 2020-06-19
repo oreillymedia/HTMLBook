@@ -21,21 +21,21 @@
       </section>
     </x:context>
 
-    <x:scenario label="With autogenerate.xref.pagenum.style turned off" pending="Setting this scenario as pending because we received the following error when trying to run this scenario: XTDE1425: Cannot find a matching 1-argument function named node-set(). There is no Saxon extension function with the local name node-set. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
+    <x:scenario label="With autogenerate.xref.pagenum.style turned off" pending="We received the following error when trying to run this scenario: XTDE1425: Cannot find a matching 1-argument function named node-set(). There is no Saxon extension function with the local name node-set. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
       <x:context select="(//h:a[@data-type='indexterm'])[1]" mode="reference">
 	<x:param name="autogenerate.xref.pagenum.style" select="0"/>
       </x:context>
       <x:expect label="No indexentry XREFs should have data-xref-pagenum-style attributes" test="not(exists($x:result[@data-xref-pagenum-style]))"/>
     </x:scenario>
 
-    <x:scenario label="With autogenerate.xref.pagenum.style turned on" pending="Setting this scenario as pending because we received the following error when trying to run this scenario: XTDE1425: Cannot find a matching 1-argument function named node-set(). There is no Saxon extension function with the local name node-set. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
+    <x:scenario label="With autogenerate.xref.pagenum.style turned on" pending="We received the following error when trying to run this scenario: XTDE1425: Cannot find a matching 1-argument function named node-set(). There is no Saxon extension function with the local name node-set. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
       <x:context>
 	<x:param name="autogenerate.xref.pagenum.style" select="1"/>
       </x:context>	
       <x:expect label="All indexentry XREFs should have data-xref-pagenum-style attributes" test="count(//h:a) &gt; 0 and not(exists(//h:a[not(@data-xref-pagenum-style)]))"/>
     </x:scenario>
 
-    <x:scenario label="With html4.structural.elements turned off" pending="Setting this scenario as pending because we received the following error when trying to run this scenario: XTDE1425: Cannot find a matching 1-argument function named node-set(). There is no Saxon extension function with the local name node-set. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
+    <x:scenario label="With html4.structural.elements turned off" pending="We received the following error when trying to run this scenario: XTDE1425: Cannot find a matching 1-argument function named node-set(). There is no Saxon extension function with the local name node-set. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
       <x:context>
         <x:param name="html4.structural.elements" select="0"/>
       </x:context>
@@ -45,7 +45,7 @@
       <x:expect label="There should be no div for backward compatibility in the output" test="not(exists($x:result[.//h:div[@class='index']]))"/>
     </x:scenario>
     
-    <x:scenario label="With html4.structural.elements turned on" pending="Setting this scenario as pending because we received the following error when trying to run this scenario: XTDE1425: Cannot find a matching 1-argument function named node-set(). There is no Saxon extension function with the local name node-set. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
+    <x:scenario label="With html4.structural.elements turned on" pending="We received the following error when trying to run this scenario: XTDE1425: Cannot find a matching 1-argument function named node-set(). There is no Saxon extension function with the local name node-set. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
       <x:context>
         <x:param name="html4.structural.elements" select="1"/>
       </x:context>
