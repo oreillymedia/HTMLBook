@@ -320,7 +320,7 @@ sect5:s
       <xsl:number count="*[local-name() = $node-name and @data-type = $node-data-type]" format="01"/>
       <xsl:if test="$original-call = 1">
 	<!-- ToDo: Parameterize me to allow use of different filename extension? -->
-	<xsl:text>.html</xsl:text>
+	<xsl:text>.xhtml</xsl:text>
       </xsl:if>
     </xsl:for-each>
   </xsl:template>
