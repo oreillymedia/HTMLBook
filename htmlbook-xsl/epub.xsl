@@ -161,7 +161,7 @@
   </xsl:param>
 
   <!-- Param to specify filename for cover HTML (only applicable if $generate.cover.html is enabled)-->
-  <xsl:param name="cover.html.filename" select="'cover.xhtml'"/>
+  <xsl:param name="cover.html.filename" select="'cover.html'"/>
 
   <!-- Param to specify whether or not to include the cover HTML file in the spine (only applicable if $generate.cover.html is enabled)-->
   <xsl:param name="cover.in.spine" select="1"/>
