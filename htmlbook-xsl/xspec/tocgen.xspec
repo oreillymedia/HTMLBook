@@ -31,9 +31,7 @@
       </x:expect>
     </x:scenario>
  
-    <x:scenario label="And autogenerate-toc param is *enabled*" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+    <x:scenario label="And autogenerate-toc param is *enabled*">
       <x:context>
 	<x:param name="autogenerate-toc" select="1"/>
       </x:context>
@@ -96,9 +94,7 @@ and the script from https://github.com/xspec/xspec.">
       </x:expect>
     </x:scenario>
 
-    <x:scenario label="And autogenerate-toc param is *enabled*, and toc-placeholder-overwrite-contents is *enabled*" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+    <x:scenario label="And autogenerate-toc param is *enabled*, and toc-placeholder-overwrite-contents is *enabled*">
       <x:context>
 	<x:param name="autogenerate-toc" select="1"/>
 	<x:param name="toc-placeholder-overwrite-contents" select="1"/>
@@ -109,9 +105,7 @@ and the script from https://github.com/xspec/xspec.">
     </x:scenario>
   </x:scenario>
     
-  <x:scenario label="When there are multiple empty TOC nav elements" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+  <x:scenario label="When there are multiple empty TOC nav elements">
     <x:context select="//h:nav">
       <body>
 	<nav data-type="toc"/>
@@ -127,9 +121,7 @@ and the script from https://github.com/xspec/xspec.">
 	      test="deep-equal(//h:nav[@data-type='toc'][1]/node(), //h:nav[@data-type='toc'][2]/node())"/>
   </x:scenario>
 
-  <x:scenario label="When a TOC is generated with a scope specified" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+  <x:scenario label="When a TOC is generated with a scope specified">
     <x:context href="skeleton.html" select="(//h:nav[@data-type='toc'])[1]">
       <x:param name="autogenerate-toc" select="1"/>
       <x:param name="scope" select="(document('../skeleton.html')//h:section[@data-type='sect1'])[1]"/>
@@ -143,18 +135,14 @@ and the script from https://github.com/xspec/xspec.">
     </x:expect>
   </x:scenario>
   
-  <x:scenario label="When a standard book-level section (chapter) is matched in tocgen mode" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+  <x:scenario label="When a standard book-level section (chapter) is matched in tocgen mode">
     <x:context href="skeleton.html" select="(//h:section[@data-type='chapter'])[1]" mode="tocgen"/>
     <x:expect label="An entry 'li' should be generated">
       <li data-type="chapter"><a href="...">...</a>...</li>
     </x:expect>
   </x:scenario>
 
-  <x:scenario label="When a standard book-level section (chapter) with class of 'notoc' is matched in tocgen mode" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+  <x:scenario label="When a standard book-level section (chapter) with class of 'notoc' is matched in tocgen mode">
     <x:context select="(//h:section[@data-type='chapter'][@class='notoc'])[1]" mode="tocgen">
       <body data-type="book">
 	<section data-type="chapter">
@@ -174,18 +162,14 @@ and the script from https://github.com/xspec/xspec.">
     <x:expect label="An entry 'li' *should not* be generated" select="()"/>
   </x:scenario>
 
-  <x:scenario label="When a standard book-level section (part) is matched in tocgen mode" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+  <x:scenario label="When a standard book-level section (part) is matched in tocgen mode">
     <x:context href="skeleton.html" select="(//h:div[@data-type='part'])[1]" mode="tocgen"/>
     <x:expect label="An entry 'li' should be generated">
       <li data-type="part"><a href="...">...</a>...</li>
     </x:expect>
   </x:scenario>
   
- <x:scenario label="When a subsection within the toc.section.depth is matched in tocgen mode" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+ <x:scenario label="When a subsection within the toc.section.depth is matched in tocgen mode">
     <x:context href="skeleton.html" select="(//h:section[@data-type='sect1'])[1]" mode="tocgen">
       <x:param name="toc.section.depth" select="1"/>
     </x:context>
@@ -194,18 +178,14 @@ and the script from https://github.com/xspec/xspec.">
     </x:expect>
   </x:scenario>
 
-  <x:scenario label="When a subsection at greater depth than the toc.section.depth is matched in tocgen mode" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+  <x:scenario label="When a subsection at greater depth than the toc.section.depth is matched in tocgen mode">
     <x:context href="skeleton.html" select="(//h:section[@data-type='sect2'])[1]" mode="tocgen">
       <x:param name="toc.section.depth" select="1"/>
     </x:context>
     <x:expect label="An entry 'li' *should not* be generated" select="()"/>
   </x:scenario>
 
-  <x:scenario label="When a subsection with class of 'notoc' is matched in tocgen mode" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+  <x:scenario label="When a subsection with class of 'notoc' is matched in tocgen mode">
     <x:context select="(//h:section[@data-type='sect2'][@class='notoc'])[1]" mode="tocgen">
       <x:param name="toc.section.depth" select="3"/>
       <body data-type="book">
@@ -308,9 +288,7 @@ and the script from https://github.com/xspec/xspec.">
       </body>
     </x:context>
     
-    <x:scenario label="And inline.markup.in.toc disabled" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+    <x:scenario label="And inline.markup.in.toc disabled">
       <x:context>
 	<x:param name="inline.markup.in.toc" select="0"/>
       </x:context>
@@ -320,9 +298,7 @@ and the script from https://github.com/xspec/xspec.">
       </x:expect>
     </x:scenario>
     
-    <x:scenario label="And inline.markup.in.toc enabled" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+    <x:scenario label="And inline.markup.in.toc enabled">
       <x:context>
 	<x:param name="inline.markup.in.toc" select="1"/>
       </x:context>
@@ -333,9 +309,7 @@ and the script from https://github.com/xspec/xspec.">
     </x:scenario>
   </x:scenario>
 
-  <x:scenario label="When toc-title is called for English-language content (default)" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+  <x:scenario label="When toc-title is called for English-language content (default)">
     <x:call template="toc-title"/>
     <x:expect label="it should return the proper TOC title">Table of Contents</x:expect>
   </x:scenario>

@@ -357,7 +357,6 @@ sect5:none
 
     <!-- Chris's Equation Tests here -->
 	<!-- For Chapter -->
-	<x:pending label="These scenarios have been set as pending because they were preventing the test stylesheet from building. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
     <x:scenario label="When generating a label for an equation in a chapter">
     	<x:context>
     	  <section data-type="chapter">
@@ -580,7 +579,7 @@ sect5:none
 		
 	</x:scenario>
     </x:scenario>
-	</x:pending>
+	
     <!-- Chris's Equation work ends -->
 
     <x:scenario label="When generating a label for a table in a chapter">
@@ -1314,9 +1313,7 @@ sect5:none
     </x:expect>
   </x:scenario>
 
-  <x:scenario label="When process-headings is run on a section heading with $autogenerate.labels turned on" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+  <x:scenario label="When process-headings is run on a section heading with $autogenerate.labels turned on">
     <x:context mode="process-heading" select="/h:section/h:h1">
       <x:param name="autogenerate.labels" select="1"/>
       <section data-type="chapter">
@@ -1340,9 +1337,7 @@ and the script from https://github.com/xspec/xspec.">
     </x:expect>
   </x:scenario>
 
-  <x:scenario label="When process-headings is run on a div heading with $autogenerate.labels turned on" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+  <x:scenario label="When process-headings is run on a div heading with $autogenerate.labels turned on">
     <x:context mode="process-heading" select="/h:section/h:div/h:h1">
       <x:param name="autogenerate.labels" select="1"/>
       <section data-type="chapter">
@@ -1374,9 +1369,7 @@ and the script from https://github.com/xspec/xspec.">
     </x:expect>
   </x:scenario>
 
-  <x:scenario label="When process-headings is run on a table caption with $autogenerate.labels turned on" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+  <x:scenario label="When process-headings is run on a table caption with $autogenerate.labels turned on">
     <x:context mode="process-heading" select="/h:section/h:table/h:caption">
       <x:param name="autogenerate.labels" select="1"/>
       <x:param name="labeled-element-semantic-name" select="'table'"/>
@@ -1424,9 +1417,7 @@ and the script from https://github.com/xspec/xspec.">
     </x:expect>
   </x:scenario>
 
-  <x:scenario label="When process-headings is run on a figure caption with $autogenerate.labels turned on" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+  <x:scenario label="When process-headings is run on a figure caption with $autogenerate.labels turned on">
     <x:context mode="process-heading" select="/h:section/h:figure/h:figcaption">
       <x:param name="autogenerate.labels" select="1"/>
       <x:param name="labeled-element-semantic-name" select="'figure'"/>
@@ -1514,7 +1505,7 @@ and the script from https://github.com/xspec/xspec.">
     </x:context>
   	
   	<!-- Chris's refsect/entry tests here -->
-  	<x:pending>
+  	
   	<x:scenario label="that points to a refentry element in the xref.elements.pagenum.in.class list">
   		<x:context select="//h:a[@data-type='xref'][@id='refentry_no_title_xref']">
   			<x:param name="xref.elements.pagenum.in.class">refentry</x:param>
@@ -1565,7 +1556,7 @@ and the script from https://github.com/xspec/xspec.">
 
   	<!-- Chris's refsect/entry tests END here -->
   	
-    <x:scenario label="that points to an element in the xref.elements.pagenum.in.class list" >
+    <x:scenario label="that points to an element in the xref.elements.pagenum.in.class list">
       <x:context select="//h:a[@data-type='xref'][@id='chapter_xref']">
 	<x:param name="xref.elements.pagenum.in.class">chapter
 sidebar
@@ -1645,7 +1636,7 @@ sect1
       </x:context>
       <x:expect label="Class value of 'pagenum' should not be appended">underline</x:expect>
     </x:scenario>
-</x:pending>
+
 
   </x:scenario>
 
