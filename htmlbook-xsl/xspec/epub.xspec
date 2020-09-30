@@ -14,7 +14,9 @@
 
   <!-- Test suite for epub.xsl -->
 
-  <x:scenario label="When a data-type attribute is matched">
+  <x:scenario label="When a data-type attribute is matched" pending="We received an  error when trying to run this scenario.
+We were using the Saxon JAR file version SAXON HE 9.5.1.2
+and the script from https://github.com/xspec/xspec.">
     <x:context select="(/h:aside)[1]">
       <aside data-type="sidebar">
 	<h5>Sidebar title</h5>

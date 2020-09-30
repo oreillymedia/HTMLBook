@@ -29,7 +29,9 @@ sect5:none
 
   <x:param name="ncx.toc.section.depth" select="2"/>
 
-  <x:scenario label="When generating full NCX TOC content">
+  <x:scenario label="When generating full NCX TOC content"  pending="We received an  error when trying to run this scenario.
+We were using the Saxon JAR file version SAXON HE 9.5.1.2
+and the script from https://github.com/xspec/xspec.">
     <x:call template="generate.ncx.toc.content">
       <!-- Test XSL is output to a subdir of the .xspec dir, which also contains skeleton, so relative path contains .. to go up a directory level -->
       <x:param name="toc.node" select="document('../skeleton.html')/*"/>
@@ -73,7 +75,9 @@ sect5:none
     
       </x:scenario>
 
-    <x:scenario label="When a book section/div is matched in ncx.toc.gen mode">
+    <x:scenario label="When a book section/div is matched in ncx.toc.gen mode"  pending="We received an  error when trying to run this scenario.
+We were using the Saxon JAR file version SAXON HE 9.5.1.2
+and the script from https://github.com/xspec/xspec.">
       <x:context mode="ncx.toc.gen">
 	<section data-type="chapter">
 	  <h1>Test Chapter</h1>
@@ -170,7 +174,9 @@ sect5:none
 	<nav data-type="toc"/>
       </x:context>
 
-      <x:scenario label="...with $nav.in.ncx enabled">
+      <x:scenario label="...with $nav.in.ncx enabled"  pending="We received an  error when trying to run this scenario.
+We were using the Saxon JAR file version SAXON HE 9.5.1.2
+and the script from https://github.com/xspec/xspec.">
 	<x:context>
 	  <x:param name="nav.in.ncx" select="1"/>
 	</x:context>
@@ -188,7 +194,9 @@ sect5:none
       </x:scenario>
     </x:scenario>
 
-    <x:scenario label="When generate.navpoint is called">
+    <x:scenario label="When generate.navpoint is called"  pending="We received an  error when trying to run this scenario.
+We were using the Saxon JAR file version SAXON HE 9.5.1.2
+and the script from https://github.com/xspec/xspec.">
       <x:call template="generate.navpoint">
 	<x:param name="node">
 	  <section data-type="appendix">
