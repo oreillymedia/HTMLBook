@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               xmlns:functx="http://www.functx.com"
+	       xmlns="http://www.w3.org/1999/xhtml"
+	       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+	       xmlns:h="http://www.w3.org/1999/xhtml"
+	       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+	       xmlns:htmlbook="https://github.com/oreillymedia/HTMLBook"
+               stylesheet="../chunk.xsl">
+
+<x:scenario 
+  label="When calling output-filename-for-chunk" 
+  pending="We received an error when trying to run this scenario.
+    We were using the Saxon JAR file version SAXON HE 9.5.1.2
+    and the script from https://github.com/xspec/xspec.">
+	<x:call template="output-filename-for-chunk">
+		<x:param name="node">
+			<section data-type="chapter"/>
+		</x:param>
+    </x:call>
+    <x:expect label="the file extension should be .xhtml">ch01.xhtml</x:expect>
+</x:scenario>
+
+</x:description>
