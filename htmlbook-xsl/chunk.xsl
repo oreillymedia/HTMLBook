@@ -28,7 +28,7 @@
   <xsl:param name="generate.root.chunk" select="0"/>
 
   <!-- Specify the filename for the root chunk, if $generate.root.chunk is enabled -->
-  <xsl:param name="root.chunk.filename" select="'index.xhtml'"/>
+  <xsl:param name="root.chunk.filename" select="'index.html'"/>
 
   <!-- Specify a prefix for output filename for a given data-type -->
   <xsl:param name="output.filename.prefix.by.data-type">
