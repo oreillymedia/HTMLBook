@@ -223,6 +223,9 @@ sidebar
 refsect1
 refsect2
 refentry
+note
+tip
+warning
 </xsl:param>
 
   <!-- Params for handling of comments in a manuscript -->
