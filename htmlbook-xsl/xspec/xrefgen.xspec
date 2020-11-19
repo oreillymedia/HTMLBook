@@ -1657,5 +1657,114 @@ and the script from https://github.com/xspec/xspec.">
     </x:call>
     <x:expect label="Trimmed URL should be returned as is">oreilly.com</x:expect>
   </x:scenario>
-  
+
+<!-- TOOLSREQ-6431 XREFS for Admonitions begins -->
+  <x:scenario label="When an XREF points to an admonition with a title">
+    <x:context>
+        <section data-type="chapter">
+        <div data-type="note" id="note_admonition">
+          <h1>I am a note title!</h1>
+          <p>This is a note</p>
+        </div>
+          <div data-type="tip" id="tip_admonition">
+          <h1>I am a tip title!</h1>
+          <p>This is a tip</p>
+        </div>
+        <div data-type="warning" id="warning_admonition">
+          <h1>I am a warning title!</h1>
+          <p>This is a warning</p>
+        </div>
+  </section>
+</x:context>
+
+  <x:scenario label="When an XREF points to a note with a title">
+  <x:context mode="xref-to" select="(//h:div[@data-type='note'])[1]"/>
+    <x:expect label="Gentext should be created for the xref">“I am a note title!”</x:expect>
+  </x:scenario>
+    <x:scenario label="When an XREF points to a tip with a title">
+  <x:context mode="xref-to" select="(//h:div[@data-type='tip'])[1]"/>
+    <x:expect label="Gentext should be created for the xref">“I am a tip title!”</x:expect>
+  </x:scenario>
+
+  <x:scenario label="When an XREF points to a warning with a title">
+  <x:context mode="xref-to" select="(//h:div[@data-type='warning'])[1]"/>
+    <x:expect label="Gentext should not be created for the xref">“I am a warning title!”</x:expect>
+  </x:scenario>
+ </x:scenario>
+
+<x:scenario label="When an XREF points to an admonition without a title">
+  <x:context>
+    <section data-type="chapter">
+        <div data-type="note" id="note_admonition">
+          <p>This is a note</p>
+        </div>
+        <div data-type="tip" id="tip_admonition">
+          <p>This is a tip</p>
+        </div>
+        <div data-type="warning" id="warning_admonition">
+          <p>This is a warning</p>
+        </div>
+  </section>
+  </x:context>
+
+    <x:scenario label="When an XREF points to a note without a title">
+  <x:context mode="xref-to" select="(//h:div[@data-type='note'])[1]"/>
+    <x:expect label="Gentext should not be created for the xref">???</x:expect>
+  </x:scenario>
+
+  <x:scenario label="When an XREF points to a tip without a title">
+  <x:context mode="xref-to" select="(//h:div[@data-type='tip'])[1]"/>
+    <x:expect label="Gentext should be created for the xref">???</x:expect>
+  </x:scenario>
+
+  <x:scenario label="When an XREF points to a warning without a title">
+  <x:context mode="xref-to" select="(//h:div[@data-type='warning'])[1]"/>
+    <x:expect label="Gentext should not be created for the xref">???</x:expect>
+  </x:scenario>
+</x:scenario>
+
+  <x:scenario label="When an XREF points to any admonition">
+  <x:context>
+  <x:param name="xref.elements.pagenum.in.class">
+    note
+    tip
+    warning
+  </x:param>
+  <section data-type="chapter">
+    <p>XREF to Note: <a data-type="xref" href="#note1"/></p>
+
+    <p>XREF to Tip: <a data-type="xref" href="#tip1"/></p>
+
+    <p>XREF to Warning: <a data-type="xref" href="#warning1"/></p>
+
+        <div data-type="note" id="note1">
+          <h1>I am a title!</h1>
+          <p>This is a note</p>
+        </div>
+
+        <div data-type="tip" id="tip1">
+          <h1>I am a title!</h1>
+          <p>This is a tip</p>
+        </div>
+
+        <div data-type="warning" id="warning1">
+          <h1>I am a title!</h1>
+          <p>This is a warning</p>
+        </div>
+  </section>
+  </x:context>
+   <x:scenario label="When an XREF points to any Note">
+    <x:context select="(//h:a[@data-type='xref'])[1]"/>
+    <x:expect label="The xref should generate with a pagenum class"><a href="..." data-type="xref" data-xref-pagenum-style="..." class="pagenum">...</a></x:expect>
+   </x:scenario>
+   <x:scenario label="When an XREF points to any Tip">
+    <x:context select="(//h:a[@data-type='xref'])[2]"/>
+    <x:expect label="The xref should generate with a pagenum class"><a href="..." data-type="xref" data-xref-pagenum-style="..." class="pagenum">...</a></x:expect>
+   </x:scenario>
+   <x:scenario label="When an XREF points to any Warning">
+    <x:context select="(//h:a[@data-type='xref'])[3]"/>
+    <x:expect label="The xref should generate with a pagenum class"><a href="..." data-type="xref" data-xref-pagenum-style="..." class="pagenum">...</a></x:expect>
+   </x:scenario>
+  </x:scenario>
+  <!-- TOOLSREQ-6431 ends -->
 </x:description>
