@@ -1658,7 +1658,7 @@ and the script from https://github.com/xspec/xspec.">
     <x:expect label="Trimmed URL should be returned as is">oreilly.com</x:expect>
   </x:scenario>
 
-<!-- TOOLSREQ-6431 XREFS for Admonitions begins -->
+<!-- XREFS for Admonitions begins -->
   <x:scenario label="When an XREF points to an admonition with a title">
     <x:context>
         <section data-type="chapter">
