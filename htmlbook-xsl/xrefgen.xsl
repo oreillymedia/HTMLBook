@@ -245,6 +245,28 @@
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
+
+<!-- Special xref-to handling for admonitions (notes, tips, and warnings) -->
+  <xsl:template match="h:div[contains(@data-type, 'note') or contains(@data-type, 'tip') or contains(@data-type, 'warning')]" mode="xref-to">
+    <xsl:choose>
+      <xsl:when test="h:h1[1]">
+  <!-- Choose the first descendant, h1 element, if one exists, drop in text-->
+    <xsl:text>“</xsl:text><xsl:value-of select="h:h1[1]"/><xsl:text>”</xsl:text>
+      </xsl:when>
+      <xsl:otherwise>
+  <!-- Otherwise, throw warning, and print out ??? -->
+  <xsl:call-template name="log-message">
+    <xsl:with-param name="type" select="'WARNING'"/>
+    <xsl:with-param name="message">
+      <xsl:text>Cannot output gentext for XREF to Admonition (id:</xsl:text>
+      <xsl:value-of select="@id"/>
+      <xsl:text>) that does not contain a descendant h1 element</xsl:text>
+    </xsl:with-param>
+  </xsl:call-template>
+  <xsl:text>???</xsl:text>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
   
   <!-- ADDING HANDLING FOR XREFS TO EQUATION -->
   <!-- Adapted from docbook-xsl templates in xhtml/xref.xsl -->
