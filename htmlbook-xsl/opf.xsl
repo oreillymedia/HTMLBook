@@ -454,7 +454,7 @@
 	  </xsl:otherwise>
 	</xsl:choose>
       </xsl:variable>
-      <reference href="{$start-of-text-filename}" type="text"/>      
+      <reference href="{$start-of-text-filename}" type="text" title="Start of Text"/>      
     </guide>
   </xsl:template>
 
