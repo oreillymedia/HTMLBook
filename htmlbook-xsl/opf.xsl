@@ -421,16 +421,6 @@
       <xsl:if test="$generate.cover.html = 1">
 	<reference href="{$cover.html.filename}" type="cover" title="Cover"/>
       </xsl:if>
-
-      <!-- Generate reference to HTML5 TOC (EPUB Nav Doc) if present (and it should be!)-->
-      <xsl:if test="$html5.toc.node">
-	<xsl:variable name="html5-toc-filename">
-	  <xsl:call-template name="output-filename-for-chunk">
-	    <xsl:with-param name="node" select="$html5.toc.node"/>
-	  </xsl:call-template>
-	</xsl:variable>
-	<reference href="{$html5-toc-filename}" type="toc" title="Table of Contents"/>
-      </xsl:if>
       
       <!-- Calculate <reference element for start-of-text -->
       <!-- Override and customize for different handling, if desired -->
