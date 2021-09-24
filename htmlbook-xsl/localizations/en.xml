@@ -511,13 +511,13 @@
 <l:template name="section" text="Section %n"/>
 <l:template name="table" text="Table %n"/>
 </l:context>
-<l:context name="xref-number-and-title"><l:template name="appendix" text="Appendix %n, %t"/>
+<l:context name="xref-number-and-title"><l:template name="appendix" text="Appendix %n, “%t“"/>
 <l:template name="bridgehead" text="Section %n, “%t”"/>
-<l:template name="chapter" text="Chapter %n, %t"/>
+<l:template name="chapter" text="Chapter %n, “%t”"/>
 <l:template name="equation" text="Equation %n, “%t”"/>
 <l:template name="example" text="Example %n, “%t”"/>
 <l:template name="figure" text="Figure %n, “%t”"/>
-<l:template name="part" text="Part %n, %t"/>
+<l:template name="part" text="Part %n, “%t”"/>
 <l:template name="procedure" text="Procedure %n, “%t”"/>
 <l:template name="productionset" text="Production %n, “%t”"/>
 <l:template name="qandadiv" text="Q &amp; A %n, “%t”"/>
