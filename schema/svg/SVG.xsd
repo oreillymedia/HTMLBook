@@ -1102,6 +1102,7 @@
     <attribute name="style" type="svg:StyleSheetType" use="optional"/>
     <attributeGroup ref="svg:PresentationAttributes-All"/>
     <attribute name="viewBox" type="svg:ViewBoxSpecType" use="optional"/>
+    <attribute name="version" type="double" use="optional"/>
     <attribute name="preserveAspectRatio" type="svg:PreserveAspectRatioSpecType" default="xMidYMid meet"/>
     <attribute name="zoomAndPan" default="magnify">
       <simpleType>

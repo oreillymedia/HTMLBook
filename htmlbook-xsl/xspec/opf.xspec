@@ -544,7 +544,9 @@ and the script from https://github.com/xspec/xspec.">
       <!-- Note, we can't access document context from a named template, so we can't check hrefs here, but at least we can check for existence of elements -->
       <!-- ToDo: parameterize context node for generate-guide so hrefs can be tested, and pending tests can be filled in -->
       <x:expect label="There should be a reference element for the cover if generate.cover.html is enabled" test="exists(/opf:guide/opf:reference[@type='cover'])"/>
-      <x:expect label="There should be a reference element to the EPUB Nav doc" test="exists(/opf:guide/opf:reference[@type='toc'])"/>
+      <!-- Note, we are no longer including the TOC element because of an error when sending EPUB to Amazon -->
+      <x:expect label="There *should not* be a reference element to the EPUB Nav doc" test="not(exists(/opf:guide/opf:reference[@type='toc']))"/>
+      <x:expect label="There should be a title element in the start of text reference" test="exists(/opf:guide/opf:reference[contains(@type='text' and @title='Start of Text')])"/>
       <x:scenario label="With generate.cover.html disabled">
 	<x:call>
 	  <x:param name="generate.cover.html"/>
