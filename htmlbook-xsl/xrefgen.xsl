@@ -608,23 +608,6 @@
 
 </xsl:template>
 
-  <xsl:template match="h:section[contains(@data-type, 'chapter') or contains(@data-type, 'appendix')] | h:div[contains(@data-type, 'part')]" mode="insert.title.markup">
-  <xsl:param name="purpose"/>
-  <xsl:param name="xrefstyle"/>
-  <xsl:param name="title"/>
-
-  <xsl:choose>
-    <xsl:when test="$purpose = 'xref'">
-      <em xmlns:xslo="http://www.w3.org/1999/XSL/Transform">
-        <xsl:copy-of select="$title"/>
-      </em>
-    </xsl:when>
-    <xsl:otherwise>
-      <xsl:copy-of select="$title"/>
-    </xsl:otherwise>
-  </xsl:choose>
-</xsl:template>
-
 <!-- ============================================================ -->
 
 <!-- Adapted from docbook-xsl common/l10.xsl stylesheet -->

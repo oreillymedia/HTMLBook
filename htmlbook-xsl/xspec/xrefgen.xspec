@@ -1419,21 +1419,21 @@ and the script from https://github.com/xspec/xspec.">
 We were using the Saxon JAR file version SAXON HE 9.5.1.2
 and the script from https://github.com/xspec/xspec.">
       <x:context select="//h:a[@id='chap-num-title-xref']"/>
-      <x:expect label="it should return chapter label, number, and title"><a href="#awesome_chap" id="chap-num-title-xref" data-type="xref" data-xrefstyle="chap-num-title" data-xref-pagenum-style="...">Chapter&#xa0;1, <em>AWESOME CHAPTER</em></a></x:expect>
+      <x:expect label="it should return chapter label, number, and title"><a href="#awesome_chap" id="chap-num-title-xref" data-type="xref" data-xrefstyle="chap-num-title" data-xref-pagenum-style="...">Chapter&#xa0;1, “AWESOME CHAPTER“</a></x:expect>
     </x:scenario>
 
     <x:scenario label="of 'app-num-title'" pending="We received an  error when trying to run this scenario.
 We were using the Saxon JAR file version SAXON HE 9.5.1.2
 and the script from https://github.com/xspec/xspec.">
       <x:context select="//h:a[@id='app-num-title-xref']"/>
-      <x:expect label="it should return appendix label, number, and title"><a href="#awesome_app" id="app-num-title-xref" data-type="xref" data-xrefstyle="app-num-title" data-xref-pagenum-style="...">Appendix&#xa0;A, <em>Appendix Title</em></a></x:expect>
+      <x:expect label="it should return appendix label, number, and title"><a href="#awesome_app" id="app-num-title-xref" data-type="xref" data-xrefstyle="app-num-title" data-xref-pagenum-style="...">Appendix&#xa0;A, “Appendix Title“</a></x:expect>
     </x:scenario>
 
     <x:scenario label="of 'part-num-title'" pending="We received an  error when trying to run this scenario.
 We were using the Saxon JAR file version SAXON HE 9.5.1.2
 and the script from https://github.com/xspec/xspec.">
       <x:context select="//h:a[@id='part-num-title-xref']"/>
-      <x:expect label="it should return part label, number, and title"><a href="#awesome_part" id="part-num-title-xref" data-type="xref" data-xrefstyle="part-num-title" data-xref-pagenum-style="...">Part&#xa0;I, <em>I'm Part of the Solution!</em></a></x:expect>
+      <x:expect label="it should return part label, number, and title"><a href="#awesome_part" id="part-num-title-xref" data-type="xref" data-xrefstyle="part-num-title" data-xref-pagenum-style="...">Part&#xa0;I, “I'm Part of the Solution!“</a></x:expect>
     </x:scenario>
 
     <x:scenario label="of 'select:nopage'" pending="We received an  error when trying to run this scenario.
