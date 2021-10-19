@@ -23,9 +23,11 @@
   <xsl:template match="h:section[@data-type = 'dedication' or 
 		                 @data-type = 'titlepage' or 
 				 @data-type = 'toc' or 
-				 @data-type = 'colophon' or 
 				 @data-type = 'copyright-page' or 
 				 @data-type = 'halftitlepage']" mode="tocgen"/>
+
+  <!-- Exclude regular colophon but not author bio from TOC generation -->
+	<xsl:template match="h:section[contains(@data-type, 'colophon') and not(contains(@class, 'abouttheauthor'))]" mode="tocgen"/>
 
   <xsl:template match="h:section|h:div[@data-type='part']" mode="tocgen">
     <xsl:param name="toc.section.depth" select="$toc.section.depth"/>
