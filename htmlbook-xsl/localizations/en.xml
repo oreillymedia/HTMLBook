@@ -511,7 +511,7 @@
 <l:template name="section" text="Section %n"/>
 <l:template name="table" text="Table %n"/>
 </l:context>
-<l:context name="xref-number-and-title"><l:template name="appendix" text="Appendix %n, “%t“"/>
+<l:context name="xref-number-and-title"><l:template name="appendix" text="Appendix %n, “%t”"/>
 <l:template name="bridgehead" text="Section %n, “%t”"/>
 <l:template name="chapter" text="Chapter %n, “%t”"/>
 <l:template name="equation" text="Equation %n, “%t”"/>
