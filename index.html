@@ -3,43 +3,43 @@
   <head>
     <title>HTMLBook</title>
     <meta charset="utf-8">
-    <script src="//www.w3.org/Tools/respec/respec-w3c-common" async class="remove"></script>
+    <script src="https://www.w3.org/Tools/respec/respec-w3c" async class="remove"></script>
     <script class="remove">
       var respecConfig = {
           additionalCopyrightHolders: "Copyright &copy; 2014 O&#x2019;Reilly Media, Inc.",
           specStatus: "unofficial",
           shortName:  "htmlbook",
           editors: [
-                {   name:       "Sanders Kleinfeld",
-                    url:        "http://oreilly.com",
+                {   name:       "O'Reilly Tools Team",
+                    url:        "https://oreilly.com",
                     company:    "O&#x2019;Reilly Media, Inc",
-                    companyURL: "http://oreilly.com" }
+                    companyURL: "https://oreilly.com" }
           ],
           localBiblio: {
              "DITA": {
                 title: "Darwin Information Typing Architecture (DITA) Version 1.2",
-                href: "http://docs.oasis-open.org/dita/v1.2/spec/DITA1.2-spec.html",
+                href: "https://docs.oasis-open.org/dita/v1.2/spec/DITA1.2-spec.html",
                 authors: ["Kristen James Eberlein", "Robert D. Anderson", "Gershon Joseph"]
              },
              "DOCBOOK": { 
                 title: "The DocBook Document Type",
-                href: "http://www.docbook.org/specs/docbook-4.5-spec.html",
+                href: "https://www.docbook.org/specs/docbook-4.5-spec.html",
                 authors: ["Norman Walsh"],
                 publisher: "OASIS",
              },
              "EPUB3": {
                 title: "EPUB 3 Overview",
-                href: "http://www.idpf.org/epub/30/spec/",
+                href: "https://www.idpf.org/epub/30/spec/",
                 publisher: "IDPF"
              },
              "EPUB3SSV" : {
                 title: "EPUB 3 Structural Semantics Vocabulary",
-                href: "http://www.idpf.org/epub/vocab/structure/",
+                href: "https://www.idpf.org/epub/vocab/structure/",
                 publisher: "IDPF",
              },
              "EPUBINDEX": {
                 title: "EPUB Indexes 1.0",
-                href: "http://www.idpf.org/epub/idx/",
+                href: "https://www.idpf.org/epub/idx/",
                 publisher: "IDPF"
              }
           } 
@@ -79,19 +79,21 @@ span[data-type=footnote] {
     </section>
     <section>
       <h2>Notes on the HTMLBook Specification</h2>
-      <p>Requirements for HTML5 elements in the HTMLBook specification are below. Special semantic inflections for <code>data-type</code> attributes, unless otherwise noted, come from <a href="http://idpf.org/epub/vocab/structure/">EPUB 3 Structural Semantics Vocabulary</a></p>
+      <p>Requirements for HTML5 elements in the HTMLBook specification are below. Special semantic inflections for <code>data-type</code> attributes, unless otherwise noted, come from <a href="https://idpf.org/epub/vocab/structure/">EPUB 3 Structural Semantics Vocabulary</a></p>
       <p>Many content models refer to &ldquo;Block Elements&rdquo; or &ldquo;Inline Elements&rdquo;; please see <a href="#block_elements">Block Elements</a> and <a href="#inline_elements">Inline Elements</a> for the corresponding list of HTML5 elements that belong to each of these categories.</p>
-      <p>If no content model or attribute requirements are explicitly specified, then HTMLBook adopts the corresponding requirements in the [[!HTML5]] Specification</p>
+      <p>If no content model or attribute requirements are explicitly specified, then HTMLBook adopts the corresponding requirements in the [[HTML5]] Specification</p>
     </section>
     <section>
       <h2>Revision History and Notes</h2>
       <dl>
+  <dt>7 February 2023</dt>
+  <dd>Changed Sidebar section to reflect new standard of using &lt;h1&gt; over &lt;h5&gt; as the heading element. Also addressed ReSpec deprecation warnings by updating some attributes and replacing http: URLs with https:</dd>
 	<dt>16 September 2015</dt>
 	<dd>Added informative section on reference entries</dd>
 	<dt>25 February 2015</dt>
 	<dd>Clarified HTMLBook specifications for inline semantics/tagging</dd>
 	<dt>8 April 2014</dt>
-	<dd>Updated specifications for section subtitles to comply with best practices set forth in <a href="http://www.w3.org/TR/html5/common-idioms.html#common-idioms">&ldquo;Common idioms without dedicated elements&rdquo;</a> in [[!HTML5]] Specification.</dd>
+	<dd>Updated specifications for section subtitles to comply with best practices set forth in <a href="https://www.w3.org/TR/html5/common-idioms.html#common-idioms">&ldquo;Common idioms without dedicated elements&rdquo;</a> in [[!HTML5]] Specification.</dd>
         <dt>29 December 2013</dt>
         <dd>Minor revisions for clarity</dd>
         <dt>13 August 2013</dt>
@@ -256,7 +258,7 @@ now free to be used for whatever user-defined semantics are desired, and there a
         <h2>Table of Contents</h2>
         <p><strong>HTML element</strong>: <code>&lt;nav&gt;</code></p>
         <p><strong>Attribute requirements</strong>: <code>data-type="toc"</code></p>
-        <p><strong>Content Model</strong>: The TOC must be conformant to the specs for the [[EPUB3]] <a href="http://www.idpf.org/epub/30/spec/epub30-contentdocs-20111011.html#sec-xhtml-nav">Navigation document</a>. First child is zero or more <a href="#_headings">Heading elements</a> (<code>&lt;h1&gt;-&lt;h6&gt;</code>), followed by an <code>&lt;ol&gt;</code> (with <code>&lt;li&gt;</code> children that can contain only a <code>&lt;span&gt;</code> element or an <code>&lt;a&gt;</code> element plus an optional <code>&lt;ol&gt;</code> child)</p>
+        <p><strong>Content Model</strong>: The TOC must be conformant to the specs for the [[EPUB3]] <a href="https://www.idpf.org/epub/30/spec/epub30-contentdocs-20111011.html#sec-xhtml-nav">Navigation document</a>. First child is zero or more <a href="#_headings">Heading elements</a> (<code>&lt;h1&gt;-&lt;h6&gt;</code>), followed by an <code>&lt;ol&gt;</code> (with <code>&lt;li&gt;</code> children that can contain only a <code>&lt;span&gt;</code> element or an <code>&lt;a&gt;</code> element plus an optional <code>&lt;ol&gt;</code> child)</p>
         <p>
           <strong>Example</strong>
         </p>
@@ -336,10 +338,10 @@ now free to be used for whatever user-defined semantics are desired, and there a
         <h2>Sidebar</h2>
         <p><strong>HTML element</strong>: <code>&lt;aside&gt;</code></p>
         <p><strong>Attribute requirements</strong>: <code>data-type="sidebar"</code></p>
-        <p><strong>Content model</strong>: Zero or one <code>&lt;h5&gt;</code> element that contains the sidebar title); then zero or more <a href="#block_elements">Block Elements</a></p>
+        <p><strong>Content model</strong>: Zero or one <code>&lt;h1&gt;</code> element that contains the sidebar title); then zero or more <a href="#block_elements">Block Elements</a></p>
         <p><strong>Example</strong>:</p>
         <pre data-type="programlisting">&lt;aside data-type="sidebar"&gt;
-  &lt;h5&gt;Amusing Digression&lt;/h5&gt;
+  &lt;h1&gt;Amusing Digression&lt;/h1&gt;
   &lt;p&gt;Did you know that in Boston, they call it "soda", and in Chicago, they call it "pop"?&lt;/p&gt;
 &lt;/aside&gt;</pre>
       </section>
@@ -562,7 +564,7 @@ now free to be used for whatever user-defined semantics are desired, and there a
         <p><strong>Example</strong>:</p>
         <pre data-type="programlisting">&lt;div data-type="equation"&gt;
 &lt;h5&gt;Pythagorean Theorem&lt;/h5&gt;
-&lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt;
+&lt;math xmlns="https://www.w3.org/1998/Math/MathML"&gt;
   &lt;msup&gt;&lt;mi&gt;a&lt;/mi&gt;&lt;mn&gt;2&lt;/mn&gt;&lt;/msup&gt;
   &lt;mo&gt;+&lt;/mo&gt;
   &lt;msup&gt;&lt;mi&gt;b&lt;/mi&gt;&lt;mn&gt;2&lt;/mn&gt;&lt;/msup&gt;
@@ -575,7 +577,7 @@ now free to be used for whatever user-defined semantics are desired, and there a
         <h2>Reference Entries (refentries)</h2>
         <p><strong>Suggested HTML element</strong>: <code>&lt;div&gt;</code></p>
         <p><strong>Suggested semantics</strong>: <code>class="refentry"</code></p>
-        <p><strong>Note:</strong> HTMLBook does not currently normatively specify structural semantics for reference entries as they are conceived in <a href="http://www.docbook.org/tdg/en/html/refentry.html">DocBook</a> ([[DOCBOOK]]) or <a href="http://docs.oasis-open.org/dita/v1.2/os/spec/common/reference2.html#reference2">DITA</a> ([[DITA]]). Use of <code>&lt;div class="refentry"&gt;</code> is suggested for marking up reference entries. The following example illustrates XHTML5 markup one might use for refentry content, which captures DocBook-style semantics</p>
+        <p><strong>Note:</strong> HTMLBook does not currently normatively specify structural semantics for reference entries as they are conceived in <a href="https://www.docbook.org/tdg/en/html/refentry.html">DocBook</a> ([[DOCBOOK]]) or <a href="https://docs.oasis-open.org/dita/v1.2/os/spec/common/reference2.html#reference2">DITA</a> ([[DITA]]). Use of <code>&lt;div class="refentry"&gt;</code> is suggested for marking up reference entries. The following example illustrates XHTML5 markup one might use for refentry content, which captures DocBook-style semantics</p>
         <p><strong>Example refentry paralleling [[DOCBOOK]]</strong>:</p>
         <pre data-type="programlisting">&lt;div class="refentry">
   &lt;header&gt;
@@ -594,7 +596,7 @@ now free to be used for whatever user-defined semantics are desired, and there a
     </section>
     <section data-type="sect1" id="_inline_elements">
       <h1>Inline Elements</h1>
-	<div class="note">HTMLBook is primarily focused on codifying <em>structural semantics</em> for book authoring, and as such, it does not formally define specifications for phrase-level semantics (such as the DocBook <a href="http://www.docbook.org/tdg/en/html/varname.html"><code>varname</code></a> or <a href="http://www.docbook.org/tdg/en/html/personname.html"><code>personname</code></a> elements) beyond that which is codified in the [[!HTML5]] specification. Nor does it formally define specifications for purely presentational markup (such as underline or strikethrough rendering). HTMLBook users are encouraged to employ the appropriate standard HTML5 phrasing elements for inline semantics when available (e.g., <code>&lt;strong&gt;</code>, <code>&lt;em&gt;</code>, <code>&lt;s&gt;</code>, <code>&lt;u&gt;</code>) and to use <code>&lt;span&gt;</code> elements with custom-defined classes in other cases, as illustrated in the following examples.</div>
+	<div class="note">HTMLBook is primarily focused on codifying <em>structural semantics</em> for book authoring, and as such, it does not formally define specifications for phrase-level semantics (such as the DocBook <a href="https://www.docbook.org/tdg/en/html/varname.html"><code>varname</code></a> or <a href="https://www.docbook.org/tdg/en/html/personname.html"><code>personname</code></a> elements) beyond that which is codified in the [[!HTML5]] specification. Nor does it formally define specifications for purely presentational markup (such as underline or strikethrough rendering). HTMLBook users are encouraged to employ the appropriate standard HTML5 phrasing elements for inline semantics when available (e.g., <code>&lt;strong&gt;</code>, <code>&lt;em&gt;</code>, <code>&lt;s&gt;</code>, <code>&lt;u&gt;</code>) and to use <code>&lt;span&gt;</code> elements with custom-defined classes in other cases, as illustrated in the following examples.</div>
       <section data-type="sect2" id="_emphasis_generally_for_italic">
         <h2>Emphasis (generally for italic)</h2>
         <p><strong>HTML element</strong>: <code>&lt;em&gt;</code></p>
@@ -697,7 +699,7 @@ sect2 title -&gt; h2
 sect3 title -&gt; h3
 sect4 title -&gt; h4
 sect5 title -&gt; h5
-sidebar title -&gt; h5</pre>
+sidebar title -&gt; h1</pre>
       </section>
       <section data-type="sect2" id="header_block">
 	<h2>Header</h2>
@@ -725,7 +727,7 @@ sidebar title -&gt; h5</pre>
 &lt;source src="video/html5_asteroids.mp4" type="video/mp4"/&gt;
 &lt;source src="video/html5_asteroids.ogg" type="video/ogg"/&gt;
 &lt;em&gt;Sorry, the &amp;lt;video&amp;gt; element not supported in your
-  reading system. View the video online at http://example.com.&lt;/em&gt;
+  reading system. View the video online at https://example.com.&lt;/em&gt;
 &lt;/video&gt;</pre>
       </section>
       <section data-type="sect2" id="_audio">
@@ -738,7 +740,7 @@ sidebar title -&gt; h5</pre>
 &lt;source src="audio/new_slang.mp3" type="audio/mp3"/&gt;
 &lt;source src="audionew_slang.ogg" type="audio/ogg"/&gt;
 &lt;em&gt;Sorry, the &amp;lt;audio&amp;gt; element is not supported in your
-  reading system. Hear the audio online at http://example.com.&lt;/em&gt;
+  reading system. Hear the audio online at https://example.com.&lt;/em&gt;
 &lt;/audio&gt;</pre>
       </section>
       <section data-type="sect2" id="_canvas">
@@ -749,7 +751,7 @@ You may include <code>&lt;script&gt;</code> elements in your HTMLBook document <
 Canvas handling.</p>
         <p><strong>Examples</strong>:</p>
         <pre data-type="programlisting">&lt;canvas id="canvas" width="400" height="400"&gt;
- Your browser does not support the HTML 5 Canvas. See the interactive example at http://example.com.
+ Your browser does not support the HTML 5 Canvas. See the interactive example at https://example.com.
 &lt;/canvas&gt;</pre>
       </section>
     </section>
@@ -782,7 +784,7 @@ Canvas handling.</p>
       <h1>Element Classification</h1>
       <section data-type="sect2" id="block_elements">
         <h2>Block Elements</h2>
-        <p>In HTMLBook, the majority of elements classified by the HTML5 specification as <a href="http://www.w3.org/TR/html5/dom.html#flow-content">Flow Content</a> (minus elements also categorized as <a href="http://www.w3.org/TR/html5/dom.html#heading-content">Heading Content</a>, <a href="http://www.w3.org/TR/html5/dom.html#phrasing-content">Phrasing Content</a>, and <a href="http://www.w3.org/TR/html5/dom.html#sectioning-content">Sectioning Content</a>) are considered to be Block Elements. Here is a complete list:</p>
+        <p>In HTMLBook, the majority of elements classified by the HTML5 specification as <a href="https://www.w3.org/TR/html5/dom.html#flow-content">Flow Content</a> (minus elements also categorized as <a href="https://www.w3.org/TR/html5/dom.html#heading-content">Heading Content</a>, <a href="https://www.w3.org/TR/html5/dom.html#phrasing-content">Phrasing Content</a>, and <a href="https://www.w3.org/TR/html5/dom.html#sectioning-content">Sectioning Content</a>) are considered to be Block Elements. Here is a complete list:</p>
         <ul>
           <li>
             <p>
@@ -865,7 +867,7 @@ Canvas handling.</p>
             </p>
           </li>
           <li>
-            <p><code>&lt;math&gt;</code> (In MathML vocabulary; must be namespaced under <a href="http://www.w3.org/1998/Math/MathML">http://www.w3.org/1998/Math/MathML</a>)</p>
+            <p><code>&lt;math&gt;</code> (In MathML vocabulary; must be namespaced under <a href="https://www.w3.org/1998/Math/MathML">https://www.w3.org/1998/Math/MathML</a>)</p>
           </li>
           <li>
             <p>
@@ -893,7 +895,7 @@ Canvas handling.</p>
             </p>
           </li>
           <li>
-            <p><code>&lt;svg&gt;</code> (In SVG vocabulary; must be namespaced under <a href="http://www.w3.org/2000/svg">http://www.w3.org/2000/svg</a>)</p>
+            <p><code>&lt;svg&gt;</code> (In SVG vocabulary; must be namespaced under <a href="https://www.w3.org/2000/svg">https://www.w3.org/2000/svg</a>)</p>
           </li>
           <li>
             <p>
@@ -914,7 +916,7 @@ Canvas handling.</p>
       </section>
       <section data-type="sect2" id="inline_elements">
         <h2>Inline Elements</h2>
-        <p>In HTMLBook, the majority of elements classified by the HTML5 specification as <a href="http://www.w3.org/TR/html5/dom.html#phrasing-content">Phrasing Content</a> are considered to be Inline Elements. Here is a complete list:</p>
+        <p>In HTMLBook, the majority of elements classified by the HTML5 specification as <a href="https://www.w3.org/TR/html5/dom.html#phrasing-content">Phrasing Content</a> are considered to be Inline Elements. Here is a complete list:</p>
         <ul>
           <li>
             <p>
