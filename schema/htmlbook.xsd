@@ -1761,7 +1761,7 @@
 <!-- Sidebar; primarily for <aside> -->
 <xs:complexType name="sidebar">
   <xs:sequence>
-    <xs:element ref="h5" minOccurs="0"/> <!-- Unlike other sections, sidebar titles are optional -->
+    <xs:element ref="h1" minOccurs="0"/> <!-- Unlike other sections, sidebar titles are optional -->
     <xs:group ref="figure_elements" minOccurs="0" maxOccurs="unbounded"/>
   </xs:sequence>
   <!-- ToDo: require data-type attr restriction of "sidebar" here? -->
