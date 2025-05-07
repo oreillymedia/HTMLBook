@@ -91,6 +91,100 @@
     </xsl:choose>
   </xsl:template>
 
+<!-- Generic template for handling accessibility properties -->
+<xsl:template name="get.accessibility.property.xml">
+  <xsl:param name="terms.to.process" select="''"/>
+  <xsl:param name="property.type" select="'term'"/> <!-- 'term', 'feature', or 'hazard' -->
+  <xsl:param name="first.call" select="1"/>
+  <xsl:choose>
+    <xsl:when test="$first.call = 1">
+      <xsl:variable name="wrapper.element">
+        <xsl:choose>
+          <xsl:when test="$property.type = 'term'">e:accessibility-terms</xsl:when>
+          <xsl:when test="$property.type = 'feature'">e:accessibility-features</xsl:when>
+          <xsl:when test="$property.type = 'hazard'">e:accessibility-hazards</xsl:when>
+        </xsl:choose>
+      </xsl:variable>
+      <xsl:element name="{$wrapper.element}">
+        <xsl:call-template name="get.accessibility.property.xml">
+          <xsl:with-param name="terms.to.process" select="$terms.to.process"/>
+          <xsl:with-param name="property.type" select="$property.type"/>
+          <xsl:with-param name="first.call" select="0"/>
+        </xsl:call-template>
+      </xsl:element>
+    </xsl:when>
+    <xsl:otherwise>
+      <xsl:choose>
+        <xsl:when test="normalize-space(substring-before($terms.to.process, '&#x0A;')) != ''">
+          <xsl:variable name="term">
+            <xsl:value-of select="normalize-space(substring-before($terms.to.process, '&#x0A;'))"/>
+          </xsl:variable>
+          <xsl:variable name="element.name">
+            <xsl:choose>
+              <xsl:when test="$property.type = 'term'">e:term</xsl:when>
+              <xsl:when test="$property.type = 'feature'">e:feature</xsl:when>
+              <xsl:when test="$property.type = 'hazard'">e:hazard</xsl:when>
+            </xsl:choose>
+          </xsl:variable>
+          <xsl:element name="{$element.name}"><xsl:value-of select="$term"/></xsl:element>
+          <xsl:if test="normalize-space(substring-after($terms.to.process, '&#x0A;')) != ''">
+            <xsl:call-template name="get.accessibility.property.xml">
+              <xsl:with-param name="terms.to.process" select="substring-after($terms.to.process, '&#x0A;')"/>
+              <xsl:with-param name="property.type" select="$property.type"/>
+              <xsl:with-param name="first.call" select="0"/>
+            </xsl:call-template>
+          </xsl:if>
+        </xsl:when>
+        <xsl:when test="normalize-space($terms.to.process) != ''">
+          <xsl:variable name="term">
+            <xsl:value-of select="normalize-space($terms.to.process)"/>
+          </xsl:variable>
+          <xsl:variable name="element.name">
+            <xsl:choose>
+              <xsl:when test="$property.type = 'term'">e:term</xsl:when>
+              <xsl:when test="$property.type = 'feature'">e:feature</xsl:when>
+              <xsl:when test="$property.type = 'hazard'">e:hazard</xsl:when>
+            </xsl:choose>
+          </xsl:variable>
+          <xsl:element name="{$element.name}"><xsl:value-of select="$term"/></xsl:element>
+        </xsl:when>
+      </xsl:choose>
+    </xsl:otherwise>
+  </xsl:choose>
+</xsl:template>
+
+<!-- Parameter for accessibility modes -->
+<xsl:variable name="accessibility.modes.list.xml">
+  <xsl:call-template name="get.accessibility.property.xml">
+    <xsl:with-param name="terms.to.process" select="$access.mode"/>
+    <xsl:with-param name="property.type" select="'term'"/>
+  </xsl:call-template>
+</xsl:variable>
+
+<!-- Parameter for accessibility mode sufficient -->
+<xsl:variable name="accessibility.mode.sufficient.list.xml">
+  <xsl:call-template name="get.accessibility.property.xml">
+    <xsl:with-param name="terms.to.process" select="$access.mode.sufficient"/>
+    <xsl:with-param name="property.type" select="'term'"/>
+  </xsl:call-template>
+</xsl:variable>
+
+<!-- Parameter for accessibility features -->
+<xsl:variable name="accessibility.features.list.xml">
+  <xsl:call-template name="get.accessibility.property.xml">
+    <xsl:with-param name="terms.to.process" select="$accessibility.feature"/>
+    <xsl:with-param name="property.type" select="'feature'"/>
+  </xsl:call-template>
+</xsl:variable>
+
+<!-- Parameter for accessibility hazards -->
+<xsl:variable name="accessibility.hazards.list.xml">
+  <xsl:call-template name="get.accessibility.property.xml">
+    <xsl:with-param name="terms.to.process" select="$accessibility.hazard"/>
+    <xsl:with-param name="property.type" select="'hazard'"/>
+  </xsl:call-template>
+</xsl:variable>
+
   <xsl:template name="generate.mimetype">
     <!-- Outputs "mimetype" file that meets EPUB 3.0 specifications: http://www.idpf.org/epub/30/spec/epub30-ocf.html#physical-container-zip-->
     <!-- Override this template if you want to customize mimetype output -->
@@ -379,6 +473,26 @@
       <xsl:if test="$metadata.ibooks-specified-fonts = 1">
 	<meta property="ibooks:specified-fonts">true</meta>
       </xsl:if>
+
+    <!-- Generate schema:accessMode elements for each term -->
+    <xsl:for-each select="exsl:node-set($accessibility.modes.list.xml)//e:term">
+      <meta property="schema:accessMode"><xsl:value-of select="."/></meta>
+    </xsl:for-each>
+
+    <!-- Generate schema:accessModeSufficient elements for each term -->
+    <xsl:for-each select="exsl:node-set($accessibility.mode.sufficient.list.xml)//e:term">
+        <meta property="schema:accessModeSufficient"><xsl:value-of select="."/></meta>
+    </xsl:for-each>
+
+    <!-- Generate schema:accessibilityFeature elements for each feature -->
+    <xsl:for-each select="exsl:node-set($accessibility.features.list.xml)//e:feature">
+      <meta property="schema:accessibilityFeature"><xsl:value-of select="."/></meta>
+    </xsl:for-each>
+
+    <!-- Generate schema:accessibilityHazard elements for each feature -->
+    <xsl:for-each select="exsl:node-set($accessibility.hazards.list.xml)//e:hazard">
+      <meta property="schema:accessibilityHazard"><xsl:value-of select="."/></meta>
+    </xsl:for-each>
     </metadata>
   </xsl:template>
 
