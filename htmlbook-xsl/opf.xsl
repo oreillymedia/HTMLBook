@@ -493,6 +493,11 @@
     <xsl:for-each select="exsl:node-set($accessibility.hazards.list.xml)//e:hazard">
       <meta property="schema:accessibilityHazard"><xsl:value-of select="."/></meta>
     </xsl:for-each>
+
+    <!-- Generate schema:accessibilitySummary element if summary is provided -->
+    <xsl:if test="$accessibility.summary != ''">
+      <meta property="schema:accessibilitySummary"><xsl:value-of select="$accessibility.summary"/></meta>
+    </xsl:if>
     </metadata>
   </xsl:template>
 
