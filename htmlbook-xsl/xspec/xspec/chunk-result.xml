@@ -1,0 +1,2954 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.jenitennison.com/xslt/xspec"
+        xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+        stylesheet="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/chunk.xsl"
+        date="2026-04-10T13:27:14.099-04:00">
+   <scenario id="scenario1"
+             xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec">
+      <label>When *empty* XREF element is matched</label>
+      <input-wrap xmlns="">
+         <x:context xmlns="http://www.w3.org/1999/xhtml"
+                    xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                    xmlns:functx="http://www.functx.com"
+                    xmlns:h="http://www.w3.org/1999/xhtml"
+                    xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    select="(//h:section//h:a[@data-type='xref'])[1]">
+            <section id="chapter1" data-type="chapter">
+               <p>Here comes a cross-reference: see <a data-type="xref" href="#chapter1"/>
+               </p>
+            </section>
+         </x:context>
+      </input-wrap>
+      <scenario id="scenario1-scenario1"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+                pending="We received an  error when trying to run this scenario. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
+         <label>And autogenerate-xrefs param is disabled</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec">
+               <x:param name="autogenerate-xrefs" select="0"/>
+            </x:context>
+         </input-wrap>
+         <test id="scenario1-scenario1-expect1"
+               pending="We received an  error when trying to run this scenario. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
+            <label>No XREF text node should be generated</label>
+         </test>
+      </scenario>
+      <scenario id="scenario1-scenario2"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+                pending="We received an  error when trying to run this scenario. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
+         <label>And autogenerate-xrefs param is enabled</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec">
+               <x:param name="autogenerate-xrefs" select="1"/>
+            </x:context>
+         </input-wrap>
+         <test id="scenario1-scenario2-expect1"
+               pending="We received an  error when trying to run this scenario. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
+            <label>XREF text node should be generated with proper content</label>
+         </test>
+      </scenario>
+   </scenario>
+   <scenario id="scenario2"
+             xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+             pending="We received an  error when trying to run this scenario. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
+      <label>When *nonempty* XREF element is matched</label>
+      <input-wrap xmlns="">
+         <x:context xmlns="http://www.w3.org/1999/xhtml"
+                    xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                    xmlns:functx="http://www.functx.com"
+                    xmlns:h="http://www.w3.org/1999/xhtml"
+                    xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    select="(//h:section//h:a[@data-type='xref'])[1]">
+            <section id="chapter1" data-type="chapter">
+               <p>Here comes a cross-reference: see <a data-type="xref" href="#chapter1">PLACEHOLDER</a>
+               </p>
+            </section>
+         </x:context>
+      </input-wrap>
+      <scenario id="scenario2-scenario1"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+                pending="We received an  error when trying to run this scenario. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
+         <label>And autogenerate-xrefs param is disabled</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec">
+               <x:param name="autogenerate-xrefs" select="0"/>
+            </x:context>
+         </input-wrap>
+         <test id="scenario2-scenario1-expect1"
+               pending="We received an  error when trying to run this scenario. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
+            <label>No XREF text node should be generated</label>
+         </test>
+      </scenario>
+      <scenario id="scenario2-scenario2"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+                pending="We received an  error when trying to run this scenario. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
+         <label>And autogenerate-xrefs param is enabled</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec">
+               <x:param name="autogenerate-xrefs" select="1"/>
+            </x:context>
+         </input-wrap>
+         <test id="scenario2-scenario2-expect1"
+               pending="We received an  error when trying to run this scenario. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
+            <label>XREF text node should be generated with proper content</label>
+         </test>
+      </scenario>
+   </scenario>
+   <scenario id="scenario3"
+             xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+             pending="We received an  error when trying to run this scenario. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
+      <label>When an XREF points to an id in another location</label>
+      <input-wrap xmlns="">
+         <x:context xmlns="http://www.w3.org/1999/xhtml"
+                    xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                    xmlns:functx="http://www.functx.com"
+                    xmlns:h="http://www.w3.org/1999/xhtml"
+                    xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec">
+            <section id="chapter1" data-type="chapter">
+               <p>Here comes an XREF with an href pointing to another file: <a data-type="xref" id="empty_another_file" href="ch01.html#chapter1"/>
+               </p>
+               <p>Another XREF with an href pointing to another file: <a data-type="xref"
+                     id="nonempty_another_file"
+                     href="ch01.html#chapter1">PLACEHOLDER</a>
+               </p>
+               <p>XREF pointing to a URL <a data-type="xref"
+                     id="empty_web_url"
+                     href="http://oreilly.com/index.html#chapter1"/>
+               </p>
+               <p>Another XREF with an href pointing to another file: <a data-type="xref"
+                     id="nonempty_web_url"
+                     href="http://oreilly.com/index.html#chapter1">PLACEHOLDER</a>
+               </p>
+            </section>
+         </x:context>
+      </input-wrap>
+      <scenario id="scenario3-scenario1"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+                pending="We received an  error when trying to run this scenario. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
+         <label>Which is another local file (text node of XREF empty)</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="//h:a[@id='empty_another_file']"/>
+         </input-wrap>
+         <test id="scenario3-scenario1-expect1"
+               pending="We received an  error when trying to run this scenario. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
+            <label>XREF text node should be generated with proper content</label>
+         </test>
+      </scenario>
+      <scenario id="scenario3-scenario2"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+                pending="We received an  error when trying to run this scenario. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
+         <label>Which is another local file (text node of XREF nonempty)</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="//h:a[@id='nonempty_another_file']"/>
+         </input-wrap>
+         <test id="scenario3-scenario2-expect1"
+               pending="We received an  error when trying to run this scenario. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
+            <label>XREF text node should be generated with proper content</label>
+         </test>
+      </scenario>
+      <scenario id="scenario3-scenario3"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+                pending="We received an  error when trying to run this scenario. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
+         <label>Which is a Web URL instead of a valid XREF (text node empty)</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="//h:a[@id='empty_web_url']"/>
+         </input-wrap>
+         <test id="scenario3-scenario3-expect1"
+               pending="We received an  error when trying to run this scenario. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
+            <label>XREF text node should be left untouched</label>
+         </test>
+      </scenario>
+      <scenario id="scenario3-scenario4"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+                pending="We received an  error when trying to run this scenario. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
+         <label>Which is a Web URL instead of a valid XREF (text node nonempty)</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="//h:a[@id='nonempty_web_url']"/>
+         </input-wrap>
+         <test id="scenario3-scenario4-expect1"
+               pending="We received an  error when trying to run this scenario. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
+            <label>XREF text node should be left untouched</label>
+         </test>
+      </scenario>
+   </scenario>
+   <scenario id="scenario4"
+             xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec">
+      <label>When an XREF has a bogus href</label>
+      <input-wrap xmlns="">
+         <x:context xmlns="http://www.w3.org/1999/xhtml"
+                    xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                    xmlns:functx="http://www.functx.com"
+                    xmlns:h="http://www.w3.org/1999/xhtml"
+                    xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec">
+            <section id="chapter1" data-type="chapter">
+               <p>Here comes a bogus cross-reference: see <a data-type="xref" id="empty_bogus" href="#bogusbogus"/>
+               </p>
+               <p>Another bogus cross-referece: see <a data-type="xref" id="empty_file_bogus" href="ch01.html#bogus"/>
+               </p>
+               <p>Third bogus cross-reference: see <a data-type="xref" id="nonempty_bogus" href="#bogusbogus">I do believe this is bogus</a>
+               </p>
+               <p>Fourth bogus cross-reference: See <a data-type="xref" id="nonempty_file_bogus" href="ch01.html#bogus">I do believe this is bogus</a>
+               </p>
+            </section>
+         </x:context>
+      </input-wrap>
+      <scenario id="scenario4-scenario1"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec">
+         <label>And an empty text node</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="//h:a[@id='empty_bogus']"/>
+         </input-wrap>
+         <result select="/element()">
+            <content-wrap xmlns="">
+               <a xmlns="http://www.w3.org/1999/xhtml"
+                  xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                  xmlns:functx="http://www.functx.com"
+                  xmlns:h="http://www.w3.org/1999/xhtml"
+                  xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                  xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                  data-type="xref"
+                  id="empty_bogus"
+                  href="#bogusbogus">???</a>
+            </content-wrap>
+         </result>
+         <test id="scenario4-scenario1-expect1" successful="true">
+            <label>Three question marks should be used for text node</label>
+            <expect select="/element()">
+               <content-wrap xmlns="">
+                  <a xmlns="http://www.w3.org/1999/xhtml"
+                     xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                     xmlns:functx="http://www.functx.com"
+                     xmlns:h="http://www.w3.org/1999/xhtml"
+                     xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                     xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                     data-type="xref"
+                     id="empty_bogus"
+                     href="...">???</a>
+               </content-wrap>
+            </expect>
+         </test>
+      </scenario>
+      <scenario id="scenario4-scenario2"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec">
+         <label>Referencing another file and has an empty text node</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="//h:a[@id='empty_file_bogus']"/>
+         </input-wrap>
+         <result select="/element()">
+            <content-wrap xmlns="">
+               <a xmlns="http://www.w3.org/1999/xhtml"
+                  xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                  xmlns:functx="http://www.functx.com"
+                  xmlns:h="http://www.w3.org/1999/xhtml"
+                  xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                  xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                  data-type="xref"
+                  id="empty_file_bogus"
+                  href="ch01.html#bogus">???</a>
+            </content-wrap>
+         </result>
+         <test id="scenario4-scenario2-expect1" successful="true">
+            <label>Three question marks should be used for text node</label>
+            <expect select="/element()">
+               <content-wrap xmlns="">
+                  <a xmlns="http://www.w3.org/1999/xhtml"
+                     xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                     xmlns:functx="http://www.functx.com"
+                     xmlns:h="http://www.w3.org/1999/xhtml"
+                     xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                     xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                     data-type="xref"
+                     id="empty_file_bogus"
+                     href="...">???</a>
+               </content-wrap>
+            </expect>
+         </test>
+      </scenario>
+      <scenario id="scenario4-scenario3"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec">
+         <label>And a nonempty text node</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="//h:a[@id='nonempty_bogus']"/>
+         </input-wrap>
+         <result select="/element()">
+            <content-wrap xmlns="">
+               <a xmlns="http://www.w3.org/1999/xhtml"
+                  xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                  xmlns:functx="http://www.functx.com"
+                  xmlns:h="http://www.w3.org/1999/xhtml"
+                  xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                  xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                  data-type="xref"
+                  id="nonempty_bogus"
+                  href="#bogusbogus">???</a>
+            </content-wrap>
+         </result>
+         <test id="scenario4-scenario3-expect1" successful="true">
+            <label>Three question marks should be used for text node</label>
+            <expect select="/element()">
+               <content-wrap xmlns="">
+                  <a xmlns="http://www.w3.org/1999/xhtml"
+                     xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                     xmlns:functx="http://www.functx.com"
+                     xmlns:h="http://www.w3.org/1999/xhtml"
+                     xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                     xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                     data-type="xref"
+                     id="nonempty_bogus"
+                     href="...">???</a>
+               </content-wrap>
+            </expect>
+         </test>
+      </scenario>
+      <scenario id="scenario4-scenario4"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec">
+         <label>Referencing another file and has a nonempty text node</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="//h:a[@id='nonempty_file_bogus']"/>
+         </input-wrap>
+         <result select="/element()">
+            <content-wrap xmlns="">
+               <a xmlns="http://www.w3.org/1999/xhtml"
+                  xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                  xmlns:functx="http://www.functx.com"
+                  xmlns:h="http://www.w3.org/1999/xhtml"
+                  xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                  xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                  data-type="xref"
+                  id="nonempty_file_bogus"
+                  href="ch01.html#bogus">???</a>
+            </content-wrap>
+         </result>
+         <test id="scenario4-scenario4-expect1" successful="true">
+            <label>Three question marks should be used for text node</label>
+            <expect select="/element()">
+               <content-wrap xmlns="">
+                  <a xmlns="http://www.w3.org/1999/xhtml"
+                     xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                     xmlns:functx="http://www.functx.com"
+                     xmlns:h="http://www.w3.org/1999/xhtml"
+                     xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                     xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                     data-type="xref"
+                     id="nonempty_file_bogus"
+                     href="...">???</a>
+               </content-wrap>
+            </expect>
+         </test>
+      </scenario>
+   </scenario>
+   <scenario id="scenario5"
+             xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+             pending="We received an  error when trying to run this scenario. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
+      <label>If an 'a' element does not contain data-type='xref'</label>
+      <input-wrap xmlns="">
+         <x:context xmlns="http://www.w3.org/1999/xhtml"
+                    xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                    xmlns:functx="http://www.functx.com"
+                    xmlns:h="http://www.w3.org/1999/xhtml"
+                    xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec">
+            <section id="chapter1" data-type="chapter">
+               <a id="no_data_type" href="#chapter1">DO NOT TOUCH ME</a>
+               <!-- Don't update this one -->
+               <a id="link" data-type="link" href="#chapter1">DO NOT TOUCH ME</a>
+               <!-- Don't update this one -->
+               <a id="no_data_type_no_text" href="#chapter1"/>
+               <!-- Update this one -->
+               <a id="link_no_text" data-type="link" href="#chapter1"/>
+               <!-- Don't update this one -->
+               <a id="no_data_type_no_text_bogus_href" href="#bogus"/>
+               <!-- Update this one -->
+               <a id="link_no_text_bogus_href" data-type="link" href="#bogus"/>
+               <!-- Don't update this one -->
+               <a id="no_data_type_no_text_href_not_xref" href="http://oreilly.com"/>
+               <!-- Don't update this one -->
+               <a id="link_no_text_href_not_xref"
+                  data-type="link"
+                  href="http://oreilly.com"/>
+               <!-- Don't update this one -->
+            </section>
+         </x:context>
+      </input-wrap>
+      <scenario id="scenario5-scenario1"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+                pending="We received an  error when trying to run this scenario. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
+         <label>And has a text node already</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="//h:a[@id='no_data_type']"/>
+         </input-wrap>
+         <test id="scenario5-scenario1-expect1"
+               pending="We received an  error when trying to run this scenario. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
+            <label>Text node should not be modified</label>
+         </test>
+      </scenario>
+      <scenario id="scenario5-scenario2"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+                pending="We received an  error when trying to run this scenario. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
+         <label>And has a text node already (link)</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="//h:a[@id='link']"/>
+         </input-wrap>
+         <test id="scenario5-scenario2-expect1"
+               pending="We received an  error when trying to run this scenario. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
+            <label>Text node should not be modified</label>
+         </test>
+      </scenario>
+      <scenario id="scenario5-scenario3"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+                pending="We received an  error when trying to run this scenario. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
+         <label>And does not have a text node already, and has a valid XREF link</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="//h:a[@id='no_data_type_no_text']"/>
+         </input-wrap>
+         <test id="scenario5-scenario3-expect1"
+               pending="We received an  error when trying to run this scenario. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
+            <label>Text node should be updated with proper gentext</label>
+         </test>
+      </scenario>
+      <scenario id="scenario5-scenario4"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+                pending="We received an  error when trying to run this scenario. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
+         <label>And does not have a text node already, but is a link with a valid XREF link</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="//h:a[@id='link_no_text']"/>
+         </input-wrap>
+         <test id="scenario5-scenario4-expect1"
+               pending="We received an  error when trying to run this scenario. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
+            <label>Text node should not be modified</label>
+         </test>
+      </scenario>
+      <scenario id="scenario5-scenario5"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+                pending="We received an  error when trying to run this scenario. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
+         <label>And does not have a text node already, and has a bogus XREF link</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="//h:a[@id='no_data_type_no_text_bogus_href']"/>
+         </input-wrap>
+         <test id="scenario5-scenario5-expect1"
+               pending="We received an  error when trying to run this scenario. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
+            <label>Text node should be updated with question marks</label>
+         </test>
+      </scenario>
+      <scenario id="scenario5-scenario6"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+                pending="We received an  error when trying to run this scenario. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
+         <label>And does not have a text node already, and is a link with a bogus XREF link</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="//h:a[@id='link_no_text_bogus_href']"/>
+         </input-wrap>
+         <test id="scenario5-scenario6-expect1"
+               pending="We received an  error when trying to run this scenario. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
+            <label>Text node should not be modified</label>
+         </test>
+      </scenario>
+      <scenario id="scenario5-scenario7"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+                pending="We received an  error when trying to run this scenario. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
+         <label>And does not have a text node already, and has an href that is not an XREF</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="//h:a[@id='no_data_type_no_text_href_not_xref']"/>
+         </input-wrap>
+         <test id="scenario5-scenario7-expect1"
+               pending="We received an  error when trying to run this scenario. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
+            <label>Text node should not be modified</label>
+         </test>
+      </scenario>
+      <scenario id="scenario5-scenario8"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+                pending="We received an  error when trying to run this scenario. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
+         <label>And does not have a text node already, and is a link with an href that is not an XREF</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="//h:a[@id='link_no_text_href_not_xref']"/>
+         </input-wrap>
+         <test id="scenario5-scenario8-expect1"
+               pending="We received an  error when trying to run this scenario. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
+            <label>Text node should not be modified</label>
+         </test>
+      </scenario>
+   </scenario>
+   <scenario id="scenario6"
+             xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+             pending="We received an  error when trying to run this scenario. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
+      <label>When an XREF element is matched that contains an href pointing to an id</label>
+      <input-wrap xmlns="">
+         <x:context xmlns="http://www.w3.org/1999/xhtml"
+                    xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                    xmlns:functx="http://www.functx.com"
+                    xmlns:h="http://www.w3.org/1999/xhtml"
+                    xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec">
+            <section id="chapter1" data-type="chapter">
+               <p>Here comes a cross-reference: see <a id="no_text_node" data-type="xref" href="#chapter1"/>
+               </p>
+               <p>Here comes an XREF with a text node: see <a id="text_node" data-type="xref" href="#chapter1">PLACEHOLDER TEXT</a>
+               </p>
+            </section>
+         </x:context>
+      </input-wrap>
+      <scenario id="scenario6-scenario1"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+                pending="We received an  error when trying to run this scenario. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
+         <label>And the XREF contains no text node</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="//h:a[@id='no_text_node']"/>
+         </input-wrap>
+         <test id="scenario6-scenario1-expect1"
+               pending="We received an  error when trying to run this scenario. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
+            <label>href attribute should be processed as expected</label>
+         </test>
+      </scenario>
+      <scenario id="scenario6-scenario2"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+                pending="We received an  error when trying to run this scenario. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
+         <label>And the XREF contains a text node</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="//h:a[@id='text_node']"/>
+         </input-wrap>
+         <test id="scenario6-scenario2-expect1"
+               pending="We received an  error when trying to run this scenario. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
+            <label>href attribute should be processed as expected</label>
+         </test>
+      </scenario>
+   </scenario>
+   <scenario id="scenario7"
+             xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+             pending="We received an  error when trying to run this scenario. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
+      <label>When an XREF element is matched that contains an href pointing to an id (no initial #)</label>
+      <input-wrap xmlns="">
+         <x:context xmlns="http://www.w3.org/1999/xhtml"
+                    xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                    xmlns:functx="http://www.functx.com"
+                    xmlns:h="http://www.w3.org/1999/xhtml"
+                    xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec">
+            <section id="chapter1" data-type="chapter">
+               <p>Here comes a cross-reference: see <a id="no_text_node" data-type="xref" href="chapter1"/>
+               </p>
+               <p>Here comes an XREF with a text node: see <a id="text_node" data-type="xref" href="chapter1">PLACEHOLDER TEXT</a>
+               </p>
+            </section>
+         </x:context>
+      </input-wrap>
+      <scenario id="scenario7-scenario1"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+                pending="We received an  error when trying to run this scenario. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
+         <label>And the XREF contains no text node</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="//h:a[@id='no_text_node']"/>
+         </input-wrap>
+         <test id="scenario7-scenario1-expect1"
+               pending="We received an  error when trying to run this scenario. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
+            <label>href attribute should be processed as expected</label>
+         </test>
+      </scenario>
+      <scenario id="scenario7-scenario2"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+                pending="We received an  error when trying to run this scenario. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
+         <label>And the XREF contains a text node</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="//h:a[@id='text_node']"/>
+         </input-wrap>
+         <test id="scenario7-scenario2-expect1"
+               pending="We received an  error when trying to run this scenario. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
+            <label>href attribute should be processed as expected</label>
+         </test>
+      </scenario>
+   </scenario>
+   <scenario id="scenario8"
+             xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+             pending="We received an  error when trying to run this scenario. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
+      <label>When an XREF element is matched that contains an href pointing to a file/id</label>
+      <input-wrap xmlns="">
+         <x:context xmlns="http://www.w3.org/1999/xhtml"
+                    xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                    xmlns:functx="http://www.functx.com"
+                    xmlns:h="http://www.w3.org/1999/xhtml"
+                    xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec">
+            <section id="chapter1" data-type="chapter">
+               <p>Here comes a cross-reference: see <a id="no_text_node" data-type="xref" href="ch01.html#chapter1"/>
+               </p>
+               <p>Here comes an XREF with a text node: see <a id="text_node" data-type="xref" href="ch01.html#chapter1">PLACEHOLDER TEXT</a>
+               </p>
+            </section>
+         </x:context>
+      </input-wrap>
+      <scenario id="scenario8-scenario1"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+                pending="We received an  error when trying to run this scenario. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
+         <label>And the XREF contains no text node</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="//h:a[@id='no_text_node']"/>
+         </input-wrap>
+         <test id="scenario8-scenario1-expect1"
+               pending="We received an  error when trying to run this scenario. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
+            <label>href attribute should be processed as expected</label>
+         </test>
+      </scenario>
+      <scenario id="scenario8-scenario2"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+                pending="We received an  error when trying to run this scenario. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
+         <label>And the XREF contains a text node</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="//h:a[@id='text_node']"/>
+         </input-wrap>
+         <test id="scenario8-scenario2-expect1"
+               pending="We received an  error when trying to run this scenario. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
+            <label>href attribute should be processed as expected</label>
+         </test>
+      </scenario>
+   </scenario>
+   <scenario id="scenario9"
+             xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec">
+      <label>When an XREF is matched</label>
+      <input-wrap xmlns="">
+         <x:context xmlns="http://www.w3.org/1999/xhtml"
+                    xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                    xmlns:functx="http://www.functx.com"
+                    xmlns:h="http://www.w3.org/1999/xhtml"
+                    xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec">
+            <x:param name="autogenerate.xref.pagenum.style" select="1"/>
+            <section data-type="preface" id="cool_preface">
+               <h1>Preface Title</h1>
+               <p>Cool preface</p>
+               <section data-type="sect1" id="cool_sect1">
+                  <h1>Sect1 Title</h1>
+                  <p>Cool Sect1</p>
+               </section>
+            </section>
+            <section data-type="chapter" id="cool_chapter">
+               <h1>Chapter Title</h1>
+               <p>Cool chapter</p>
+               <figure id="cool_figure">
+                  <img src="coolness.png"/>
+                  <figcaption>Cool figure</figcaption>
+               </figure>
+               <p>Now here are the XREFs:</p>
+               <p>XREF to preface: <a id="preface_xref" data-type="xref" href="#cool_preface"/>
+               </p>
+               <p>XREF to chapter: <a id="chapter_xref" data-type="xref" href="#cool_chapter"/>
+               </p>
+               <p>XREF to sect1: <a id="sect1_xref" data-type="xref" href="#cool_sect1"/>
+               </p>
+               <p>XREF to figure (default pagenum-style): <a id="figure_xref" data-type="xref" href="#cool_figure"/>
+               </p>
+               <p>XREF with custom pagenum-style: <a id="custom_pagenum_xref"
+                     data-type="xref"
+                     href="#cool_chapter"
+                     data-xref-pagenum-style="upper-roman"/>
+               </p>
+               <p>"Stealth" XREF: <a id="stealth_xref" href="#cool_preface"/>
+               </p>
+            </section>
+         </x:context>
+      </input-wrap>
+      <scenario id="scenario9-scenario1"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+                pending="We received an  error when trying to run this scenario. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
+         <label>With a preface target</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="(//h:a[@id='preface_xref'])[1]"/>
+         </input-wrap>
+         <test id="scenario9-scenario1-expect1"
+               pending="We received an  error when trying to run this scenario. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
+            <label>Correct data-xref-pagenum-style should be returned</label>
+         </test>
+      </scenario>
+      <scenario id="scenario9-scenario2"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+                pending="Pending due to no existing logic to pass along autogenerate.xref.pagenum.style param locally from template to template, which is only really needed for testing (global param suffices for desired stylesheet functionality)">
+         <label>With a preface target (stealth XREF)</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="(//h:a[@id='stealth_xref'])[1]"/>
+         </input-wrap>
+         <test id="scenario9-scenario2-expect1"
+               pending="Pending due to no existing logic to pass along autogenerate.xref.pagenum.style param locally from template to template, which is only really needed for testing (global param suffices for desired stylesheet functionality)">
+            <label>Correct data-xref-pagenum-style should be returned (default)</label>
+         </test>
+      </scenario>
+      <scenario id="scenario9-scenario3"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+                pending="We received an  error when trying to run this scenario. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
+         <label>With a chapter target</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="(//h:a[@id='chapter_xref'])[1]"/>
+         </input-wrap>
+         <test id="scenario9-scenario3-expect1"
+               pending="We received an  error when trying to run this scenario. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
+            <label>Correct data-xref-pagenum-style should be returned</label>
+         </test>
+      </scenario>
+      <scenario id="scenario9-scenario4"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+                pending="We received an  error when trying to run this scenario. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
+         <label>With a sect1 target</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="(//h:a[@id='sect1_xref'])[1]"/>
+         </input-wrap>
+         <test id="scenario9-scenario4-expect1"
+               pending="We received an  error when trying to run this scenario. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
+            <label>Correct data-xref-pagenum-style should be returned</label>
+         </test>
+      </scenario>
+      <scenario id="scenario9-scenario5"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+                pending="We received an  error when trying to run this scenario. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
+         <label>With a figure target</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="(//h:a[@id='figure_xref'])[1]"/>
+         </input-wrap>
+         <test id="scenario9-scenario5-expect1"
+               pending="We received an  error when trying to run this scenario. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
+            <label>Correct data-xref-pagenum-style should be returned (default)</label>
+         </test>
+      </scenario>
+      <scenario id="scenario9-scenario6"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+                pending="We received an  error when trying to run this scenario. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
+         <label>With a custom data-xref-pagenum-style attr</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="(//h:a[@id='custom_pagenum_xref'])[1]"/>
+         </input-wrap>
+         <test id="scenario9-scenario6-expect1"
+               pending="We received an  error when trying to run this scenario. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
+            <label>Correct data-xref-pagenum-style should be returned (default)</label>
+         </test>
+      </scenario>
+      <scenario id="scenario9-scenario7"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+                pending="We received an  error when trying to run this scenario. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
+         <label>With autogenerate.xref.pagenum.style turned off</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="(//h:a[@id='preface_xref'])[1]">
+               <x:param name="autogenerate.xref.pagenum.style" select="0"/>
+            </x:context>
+         </input-wrap>
+         <test id="scenario9-scenario7-expect1"
+               pending="We received an  error when trying to run this scenario. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
+            <label>No data-xref-pagenum-style should be added</label>
+         </test>
+      </scenario>
+      <scenario id="scenario9-scenario8"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+                pending="We received an  error when trying to run this scenario. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
+         <label>With autogenerate.xref.pagenum.style turned off (hardcoded data-xref-pagenum-style attr)</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="(//h:a[@id='custom_pagenum_xref'])[1]">
+               <x:param name="autogenerate.xref.pagenum.style" select="0"/>
+            </x:context>
+         </input-wrap>
+         <test id="scenario9-scenario8-expect1"
+               pending="We received an  error when trying to run this scenario. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
+            <label>Existing data-xref-pagenum-style should be preserved</label>
+         </test>
+      </scenario>
+   </scenario>
+   <scenario id="scenario10"
+             xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec">
+      <label>If external hyperlink 'a' element is matched</label>
+      <input-wrap xmlns="">
+         <x:context xmlns="http://www.w3.org/1999/xhtml"
+                    xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                    xmlns:functx="http://www.functx.com"
+                    xmlns:h="http://www.w3.org/1999/xhtml"
+                    xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec">
+            <section data-type="chapter">
+               <h1>Hyperlink Spree!</h1>
+               <p>
+                  <a id="hyperlink_different_text_node" href="http://oreilly.com">O'Reilly Media</a>
+               </p>
+               <p>
+                  <a id="hyperlink_same_text_node" href="http://oreilly.com">http://oreilly.com</a>
+               </p>
+               <p>
+                  <a id="hyperlink_same_text_node_2" href="http://oreilly.com">oreilly.com</a>
+               </p>
+               <p>
+                  <a id="hyperlink_same_text_node_3" href="http://www.oreilly.com">oreilly.com</a>
+               </p>
+               <p>
+                  <a id="link" data-type="link" href="#some_id">some awesome location in the text</a>
+               </p>
+               <p>
+                  <a href="#another_id" id="stealth_xref">XREF masquerading as an external hyperlink (no proper data-type)</a>
+               </p>
+               <p>
+                  <a id="email_me" href="mailto:tools@oreilly.com">tools@oreilly.com</a>
+               </p>
+            </section>
+         </x:context>
+      </input-wrap>
+      <scenario id="scenario10-scenario1"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec">
+         <label>with url.in.parens disabled (hyperlink different text node from href)</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="//h:a[@id='hyperlink_different_text_node']">
+               <x:param name="url.in.parens" select="0"/>
+            </x:context>
+         </input-wrap>
+         <result select="/element()">
+            <content-wrap xmlns="">
+               <a xmlns="http://www.w3.org/1999/xhtml"
+                  xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                  xmlns:functx="http://www.functx.com"
+                  xmlns:h="http://www.w3.org/1999/xhtml"
+                  xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                  xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                  id="hyperlink_different_text_node"
+                  href="http://oreilly.com">O'Reilly Media</a>
+            </content-wrap>
+         </result>
+         <test id="scenario10-scenario1-expect1" successful="true">
+            <label>No URL should be generated in parentheses after the 'a'</label>
+            <expect-test-wrap xmlns="">
+               <x:expect xmlns="http://www.w3.org/1999/xhtml"
+                         xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                         xmlns:functx="http://www.functx.com"
+                         xmlns:h="http://www.w3.org/1999/xhtml"
+                         xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                         xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                         test="not(exists(//h:span[@class='print_url_in_parens']))"/>
+            </expect-test-wrap>
+            <expect select="()"/>
+         </test>
+      </scenario>
+      <scenario id="scenario10-scenario2"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec">
+         <label>with url.in.parens disabled (hyperlink same text node as href 1)</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="//h:a[@id='hyperlink_same_text_node']">
+               <x:param name="url.in.parens" select="0"/>
+            </x:context>
+         </input-wrap>
+         <result select="/element()">
+            <content-wrap xmlns="">
+               <a xmlns="http://www.w3.org/1999/xhtml"
+                  xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                  xmlns:functx="http://www.functx.com"
+                  xmlns:h="http://www.w3.org/1999/xhtml"
+                  xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                  xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                  id="hyperlink_same_text_node"
+                  href="http://oreilly.com">http://oreilly.com</a>
+            </content-wrap>
+         </result>
+         <test id="scenario10-scenario2-expect1" successful="true">
+            <label>No URL should be generated in parentheses after the 'a'</label>
+            <expect-test-wrap xmlns="">
+               <x:expect xmlns="http://www.w3.org/1999/xhtml"
+                         xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                         xmlns:functx="http://www.functx.com"
+                         xmlns:h="http://www.w3.org/1999/xhtml"
+                         xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                         xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                         test="not(exists(//h:span[@class='print_url_in_parens']))"/>
+            </expect-test-wrap>
+            <expect select="()"/>
+         </test>
+      </scenario>
+      <scenario id="scenario10-scenario3"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec">
+         <label>with url.in.parens disabled (hyperlink same text node as href 2)</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="//h:a[@id='hyperlink_same_text_node_2']">
+               <x:param name="url.in.parens" select="0"/>
+            </x:context>
+         </input-wrap>
+         <result select="/element()">
+            <content-wrap xmlns="">
+               <a xmlns="http://www.w3.org/1999/xhtml"
+                  xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                  xmlns:functx="http://www.functx.com"
+                  xmlns:h="http://www.w3.org/1999/xhtml"
+                  xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                  xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                  id="hyperlink_same_text_node_2"
+                  href="http://oreilly.com">oreilly.com</a>
+            </content-wrap>
+         </result>
+         <test id="scenario10-scenario3-expect1" successful="true">
+            <label>No URL should be generated in parentheses after the 'a'</label>
+            <expect-test-wrap xmlns="">
+               <x:expect xmlns="http://www.w3.org/1999/xhtml"
+                         xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                         xmlns:functx="http://www.functx.com"
+                         xmlns:h="http://www.w3.org/1999/xhtml"
+                         xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                         xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                         test="not(exists(//h:span[@class='print_url_in_parens']))"/>
+            </expect-test-wrap>
+            <expect select="()"/>
+         </test>
+      </scenario>
+      <scenario id="scenario10-scenario4"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec">
+         <label>with url.in.parens disabled (hyperlink same text node as href 3)</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="//h:a[@id='hyperlink_same_text_node_3']">
+               <x:param name="url.in.parens" select="0"/>
+            </x:context>
+         </input-wrap>
+         <result select="/element()">
+            <content-wrap xmlns="">
+               <a xmlns="http://www.w3.org/1999/xhtml"
+                  xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                  xmlns:functx="http://www.functx.com"
+                  xmlns:h="http://www.w3.org/1999/xhtml"
+                  xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                  xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                  id="hyperlink_same_text_node_3"
+                  href="http://www.oreilly.com">oreilly.com</a>
+            </content-wrap>
+         </result>
+         <test id="scenario10-scenario4-expect1" successful="true">
+            <label>No URL should be generated in parentheses after the 'a'</label>
+            <expect-test-wrap xmlns="">
+               <x:expect xmlns="http://www.w3.org/1999/xhtml"
+                         xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                         xmlns:functx="http://www.functx.com"
+                         xmlns:h="http://www.w3.org/1999/xhtml"
+                         xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                         xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                         test="not(exists(//h:span[@class='print_url_in_parens']))"/>
+            </expect-test-wrap>
+            <expect select="()"/>
+         </test>
+      </scenario>
+      <scenario id="scenario10-scenario5"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec">
+         <label>with url.in.parens disabled (internal link)</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="//h:a[@id='link']">
+               <x:param name="url.in.parens" select="0"/>
+            </x:context>
+         </input-wrap>
+         <result select="/element()">
+            <content-wrap xmlns="">
+               <a xmlns="http://www.w3.org/1999/xhtml"
+                  xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                  xmlns:functx="http://www.functx.com"
+                  xmlns:h="http://www.w3.org/1999/xhtml"
+                  xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                  xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                  id="link"
+                  data-type="link"
+                  href="#some_id">some awesome location in the text</a>
+            </content-wrap>
+         </result>
+         <test id="scenario10-scenario5-expect1" successful="true">
+            <label>No URL should be generated in parentheses after the 'a'</label>
+            <expect-test-wrap xmlns="">
+               <x:expect xmlns="http://www.w3.org/1999/xhtml"
+                         xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                         xmlns:functx="http://www.functx.com"
+                         xmlns:h="http://www.w3.org/1999/xhtml"
+                         xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                         xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                         test="not(exists(//h:span[@class='print_url_in_parens']))"/>
+            </expect-test-wrap>
+            <expect select="()"/>
+         </test>
+      </scenario>
+      <scenario id="scenario10-scenario6"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec">
+         <label>with url.in.parens disabled (stealth XREF; XREF with no data-type)</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="//h:a[@id='stealth_xref']">
+               <x:param name="url.in.parens" select="0"/>
+            </x:context>
+         </input-wrap>
+         <result select="/element()">
+            <content-wrap xmlns="">
+               <a xmlns="http://www.w3.org/1999/xhtml"
+                  xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                  xmlns:functx="http://www.functx.com"
+                  xmlns:h="http://www.w3.org/1999/xhtml"
+                  xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                  xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                  id="stealth_xref"
+                  href="#another_id">XREF masquerading as an external hyperlink (no proper data-type)</a>
+            </content-wrap>
+         </result>
+         <test id="scenario10-scenario6-expect1" successful="true">
+            <label>No URL should be generated in parentheses after the 'a'</label>
+            <expect-test-wrap xmlns="">
+               <x:expect xmlns="http://www.w3.org/1999/xhtml"
+                         xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                         xmlns:functx="http://www.functx.com"
+                         xmlns:h="http://www.w3.org/1999/xhtml"
+                         xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                         xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                         test="not(exists(//h:span[@class='print_url_in_parens']))"/>
+            </expect-test-wrap>
+            <expect select="()"/>
+         </test>
+      </scenario>
+      <scenario id="scenario10-scenario7"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec">
+         <label>with url.in.parens disabled (mailto)</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="//h:a[@id='email_me']">
+               <x:param name="url.in.parens" select="0"/>
+            </x:context>
+         </input-wrap>
+         <result select="/element()">
+            <content-wrap xmlns="">
+               <a xmlns="http://www.w3.org/1999/xhtml"
+                  xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                  xmlns:functx="http://www.functx.com"
+                  xmlns:h="http://www.w3.org/1999/xhtml"
+                  xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                  xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                  id="email_me"
+                  href="mailto:tools@oreilly.com">tools@oreilly.com</a>
+            </content-wrap>
+         </result>
+         <test id="scenario10-scenario7-expect1" successful="true">
+            <label>No URL should be generated in parentheses after the 'a'</label>
+            <expect-test-wrap xmlns="">
+               <x:expect xmlns="http://www.w3.org/1999/xhtml"
+                         xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                         xmlns:functx="http://www.functx.com"
+                         xmlns:h="http://www.w3.org/1999/xhtml"
+                         xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                         xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                         test="not(exists(//h:span[@class='print_url_in_parens']))"/>
+            </expect-test-wrap>
+            <expect select="()"/>
+         </test>
+      </scenario>
+      <scenario id="scenario10-scenario8"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec">
+         <label>with url.in.parens enabled (hyperlink different text node from href)</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="//h:a[@id='hyperlink_different_text_node']">
+               <x:param name="url.in.parens" select="1"/>
+            </x:context>
+         </input-wrap>
+         <result select="/element()">
+            <content-wrap xmlns="">
+               <a xmlns="http://www.w3.org/1999/xhtml"
+                  xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                  xmlns:functx="http://www.functx.com"
+                  xmlns:h="http://www.w3.org/1999/xhtml"
+                  xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                  xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                  id="hyperlink_different_text_node"
+                  href="http://oreilly.com">O'Reilly Media</a>
+               <span xmlns="http://www.w3.org/1999/xhtml"
+                     xmlns:htmlbook="https://github.com/oreillymedia/HTMLBook"
+                     class="print_url_in_parens"> (<span class="print_url">http://oreilly.com</span>)</span>
+            </content-wrap>
+         </result>
+         <test id="scenario10-scenario8-expect1" successful="true">
+            <label>URL should be generated in parentheses after the 'a'</label>
+            <expect select="/element()">
+               <content-wrap xmlns="">
+                  <a xmlns="http://www.w3.org/1999/xhtml"
+                     xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                     xmlns:functx="http://www.functx.com"
+                     xmlns:h="http://www.w3.org/1999/xhtml"
+                     xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                     xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                     id="hyperlink_different_text_node"
+                     href="http://oreilly.com">O'Reilly Media</a>
+                  <span xmlns="http://www.w3.org/1999/xhtml"
+                        xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                        xmlns:functx="http://www.functx.com"
+                        xmlns:h="http://www.w3.org/1999/xhtml"
+                        xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                        xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                        class="print_url_in_parens"> (<span class="print_url">http://oreilly.com</span>)</span>
+               </content-wrap>
+            </expect>
+         </test>
+      </scenario>
+      <scenario id="scenario10-scenario9"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec">
+         <label>with url.in.parens enabled (hyperlink same text node as href 1)</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="//h:a[@id='hyperlink_same_text_node']">
+               <x:param name="url.in.parens" select="1"/>
+            </x:context>
+         </input-wrap>
+         <result select="/element()">
+            <content-wrap xmlns="">
+               <a xmlns="http://www.w3.org/1999/xhtml"
+                  xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                  xmlns:functx="http://www.functx.com"
+                  xmlns:h="http://www.w3.org/1999/xhtml"
+                  xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                  xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                  id="hyperlink_same_text_node"
+                  href="http://oreilly.com">http://oreilly.com</a>
+            </content-wrap>
+         </result>
+         <test id="scenario10-scenario9-expect1" successful="true">
+            <label>No URL should be generated in parentheses after the 'a'</label>
+            <expect-test-wrap xmlns="">
+               <x:expect xmlns="http://www.w3.org/1999/xhtml"
+                         xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                         xmlns:functx="http://www.functx.com"
+                         xmlns:h="http://www.w3.org/1999/xhtml"
+                         xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                         xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                         test="not(exists(//h:span[@class='print_url_in_parens']))"/>
+            </expect-test-wrap>
+            <expect select="()"/>
+         </test>
+      </scenario>
+      <scenario id="scenario10-scenario10"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec">
+         <label>with url.in.parens enabled (hyperlink same text node as href 2)</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="//h:a[@id='hyperlink_same_text_node_2']">
+               <x:param name="url.in.parens" select="1"/>
+            </x:context>
+         </input-wrap>
+         <result select="/element()">
+            <content-wrap xmlns="">
+               <a xmlns="http://www.w3.org/1999/xhtml"
+                  xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                  xmlns:functx="http://www.functx.com"
+                  xmlns:h="http://www.w3.org/1999/xhtml"
+                  xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                  xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                  id="hyperlink_same_text_node_2"
+                  href="http://oreilly.com">oreilly.com</a>
+            </content-wrap>
+         </result>
+         <test id="scenario10-scenario10-expect1" successful="true">
+            <label>No URL should be generated in parentheses after the 'a'</label>
+            <expect-test-wrap xmlns="">
+               <x:expect xmlns="http://www.w3.org/1999/xhtml"
+                         xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                         xmlns:functx="http://www.functx.com"
+                         xmlns:h="http://www.w3.org/1999/xhtml"
+                         xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                         xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                         test="not(exists(//h:span[@class='print_url_in_parens']))"/>
+            </expect-test-wrap>
+            <expect select="()"/>
+         </test>
+      </scenario>
+      <scenario id="scenario10-scenario11"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec">
+         <label>with url.in.parens enabled (hyperlink same text node as href 3)</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="//h:a[@id='hyperlink_same_text_node_3']">
+               <x:param name="url.in.parens" select="1"/>
+            </x:context>
+         </input-wrap>
+         <result select="/element()">
+            <content-wrap xmlns="">
+               <a xmlns="http://www.w3.org/1999/xhtml"
+                  xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                  xmlns:functx="http://www.functx.com"
+                  xmlns:h="http://www.w3.org/1999/xhtml"
+                  xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                  xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                  id="hyperlink_same_text_node_3"
+                  href="http://www.oreilly.com">oreilly.com</a>
+            </content-wrap>
+         </result>
+         <test id="scenario10-scenario11-expect1" successful="true">
+            <label>No URL should be generated in parentheses after the 'a'</label>
+            <expect-test-wrap xmlns="">
+               <x:expect xmlns="http://www.w3.org/1999/xhtml"
+                         xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                         xmlns:functx="http://www.functx.com"
+                         xmlns:h="http://www.w3.org/1999/xhtml"
+                         xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                         xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                         test="not(exists(//h:span[@class='print_url_in_parens']))"/>
+            </expect-test-wrap>
+            <expect select="()"/>
+         </test>
+      </scenario>
+      <scenario id="scenario10-scenario12"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec">
+         <label>with url.in.parens enabled (internal link)</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="//h:a[@id='link']">
+               <x:param name="url.in.parens" select="1"/>
+            </x:context>
+         </input-wrap>
+         <result select="/element()">
+            <content-wrap xmlns="">
+               <a xmlns="http://www.w3.org/1999/xhtml"
+                  xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                  xmlns:functx="http://www.functx.com"
+                  xmlns:h="http://www.w3.org/1999/xhtml"
+                  xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                  xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                  id="link"
+                  data-type="link"
+                  href="#some_id">some awesome location in the text</a>
+            </content-wrap>
+         </result>
+         <test id="scenario10-scenario12-expect1" successful="true">
+            <label>No URL should be generated in parentheses after the 'a'</label>
+            <expect-test-wrap xmlns="">
+               <x:expect xmlns="http://www.w3.org/1999/xhtml"
+                         xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                         xmlns:functx="http://www.functx.com"
+                         xmlns:h="http://www.w3.org/1999/xhtml"
+                         xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                         xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                         test="not(exists(//h:span[@class='print_url_in_parens']))"/>
+            </expect-test-wrap>
+            <expect select="()"/>
+         </test>
+      </scenario>
+      <scenario id="scenario10-scenario13"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec">
+         <label>with url.in.parens enabled (stealth XREF; XREF with no data-type)</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="//h:a[@id='stealth_xref']">
+               <x:param name="url.in.parens" select="1"/>
+            </x:context>
+         </input-wrap>
+         <result select="/element()">
+            <content-wrap xmlns="">
+               <a xmlns="http://www.w3.org/1999/xhtml"
+                  xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                  xmlns:functx="http://www.functx.com"
+                  xmlns:h="http://www.w3.org/1999/xhtml"
+                  xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                  xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                  id="stealth_xref"
+                  href="#another_id">XREF masquerading as an external hyperlink (no proper data-type)</a>
+            </content-wrap>
+         </result>
+         <test id="scenario10-scenario13-expect1" successful="true">
+            <label>No URL should be generated in parentheses after the 'a'</label>
+            <expect-test-wrap xmlns="">
+               <x:expect xmlns="http://www.w3.org/1999/xhtml"
+                         xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                         xmlns:functx="http://www.functx.com"
+                         xmlns:h="http://www.w3.org/1999/xhtml"
+                         xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                         xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                         test="not(exists(//h:span[@class='print_url_in_parens']))"/>
+            </expect-test-wrap>
+            <expect select="()"/>
+         </test>
+      </scenario>
+      <scenario id="scenario10-scenario14"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec">
+         <label>with url.in.parens enabled (mailto)</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="//h:a[@id='email_me']">
+               <x:param name="url.in.parens" select="1"/>
+            </x:context>
+         </input-wrap>
+         <result select="/element()">
+            <content-wrap xmlns="">
+               <a xmlns="http://www.w3.org/1999/xhtml"
+                  xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                  xmlns:functx="http://www.functx.com"
+                  xmlns:h="http://www.w3.org/1999/xhtml"
+                  xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                  xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                  id="email_me"
+                  href="mailto:tools@oreilly.com">tools@oreilly.com</a>
+            </content-wrap>
+         </result>
+         <test id="scenario10-scenario14-expect1" successful="true">
+            <label>No URL should be generated in parentheses after the 'a'</label>
+            <expect-test-wrap xmlns="">
+               <x:expect xmlns="http://www.w3.org/1999/xhtml"
+                         xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                         xmlns:functx="http://www.functx.com"
+                         xmlns:h="http://www.w3.org/1999/xhtml"
+                         xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                         xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                         test="not(exists(//h:span[@class='print_url_in_parens']))"/>
+            </expect-test-wrap>
+            <expect select="()"/>
+         </test>
+      </scenario>
+   </scenario>
+   <scenario id="scenario11"
+             xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec">
+      <label>If callout-type 'stealth XREF' 'a' elements are matched</label>
+      <input-wrap xmlns="">
+         <x:context xmlns="http://www.w3.org/1999/xhtml"
+                    xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                    xmlns:functx="http://www.functx.com"
+                    xmlns:h="http://www.w3.org/1999/xhtml"
+                    xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    select="(//h:a[@class='co'])[1]">
+            <pre data-type="programlisting" data-code-language="json"><?db-font-size 65%?>{
+        "context_is_admin":  [["role:admin"]],
+        "admin_or_owner":  [["is_admin:True"], ["project_id:%(project_id)s"]], <a class="co" id="co_ch9-co-1" href="#callout_ch9-co-1">
+                  <img src="/usr/local/app/git_tmp/c3c6787bcdd5a68b82f8e9e0a5dd141c/doc/openstack-ops/callouts/1.png"
+                       alt="1"/>
+               </a>
+        ...
+      </pre>
+         </x:context>
+      </input-wrap>
+      <scenario id="scenario11-scenario1"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec">
+         <label>with url.in.parens disabled (callout stealth XREF; XREF with no data-type)</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec">
+               <x:param name="url.in.parens" select="0"/>
+            </x:context>
+         </input-wrap>
+         <result select="/element()">
+            <content-wrap xmlns="">
+               <a xmlns="http://www.w3.org/1999/xhtml"
+                  xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                  xmlns:functx="http://www.functx.com"
+                  xmlns:h="http://www.w3.org/1999/xhtml"
+                  xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                  xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                  class="co"
+                  id="co_ch9-co-1"
+                  href="#callout_ch9-co-1">
+                  <img src="/usr/local/app/git_tmp/c3c6787bcdd5a68b82f8e9e0a5dd141c/doc/openstack-ops/callouts/1.png"
+                       alt="1"/>
+               </a>
+            </content-wrap>
+         </result>
+         <test id="scenario11-scenario1-expect1" successful="true">
+            <label>No URL should be generated in parentheses after the 'a'</label>
+            <expect-test-wrap xmlns="">
+               <x:expect xmlns="http://www.w3.org/1999/xhtml"
+                         xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                         xmlns:functx="http://www.functx.com"
+                         xmlns:h="http://www.w3.org/1999/xhtml"
+                         xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                         xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                         test="not(exists(//h:span[@class='print_url_in_parens']))"/>
+            </expect-test-wrap>
+            <expect select="()"/>
+         </test>
+      </scenario>
+      <scenario id="scenario11-scenario2"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec">
+         <label>with url.in.parens enabled (callout stealth XREF; XREF with no data-type)</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec">
+               <x:param name="url.in.parens" select="1"/>
+            </x:context>
+         </input-wrap>
+         <result select="/element()">
+            <content-wrap xmlns="">
+               <a xmlns="http://www.w3.org/1999/xhtml"
+                  xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                  xmlns:functx="http://www.functx.com"
+                  xmlns:h="http://www.w3.org/1999/xhtml"
+                  xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                  xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                  class="co"
+                  id="co_ch9-co-1"
+                  href="#callout_ch9-co-1">
+                  <img src="/usr/local/app/git_tmp/c3c6787bcdd5a68b82f8e9e0a5dd141c/doc/openstack-ops/callouts/1.png"
+                       alt="1"/>
+               </a>
+            </content-wrap>
+         </result>
+         <test id="scenario11-scenario2-expect1" successful="true">
+            <label>No URL should be generated in parentheses after the 'a'</label>
+            <expect-test-wrap xmlns="">
+               <x:expect xmlns="http://www.w3.org/1999/xhtml"
+                         xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                         xmlns:functx="http://www.functx.com"
+                         xmlns:h="http://www.w3.org/1999/xhtml"
+                         xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                         xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                         test="not(exists(//h:span[@class='print_url_in_parens']))"/>
+            </expect-test-wrap>
+            <expect select="()"/>
+         </test>
+      </scenario>
+   </scenario>
+   <scenario id="scenario12"
+             xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec">
+      <label>When an XREF is matched with data-xrefstyle...</label>
+      <input-wrap xmlns="">
+         <x:context xmlns="http://www.w3.org/1999/xhtml"
+                    xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                    xmlns:functx="http://www.functx.com"
+                    xmlns:h="http://www.w3.org/1999/xhtml"
+                    xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec">
+            <body>
+               <section data-type="chapter" id="awesome_chap">
+                  <h1>AWESOME CHAPTER</h1>
+                  <p>Check out this pic:</p>
+                  <figure>
+                     <figcaption>AWESOME PIC</figcaption>
+                     <img alt="awesomeness" src="awesomeness.png"/>
+                  </figure>
+                  <p>And this one, too:</p>
+                  <figure id="awesome_squared_fig">
+                     <figcaption>AWESOMENESS SQUARED</figcaption>
+                     <img alt="awesomeness to the second power" src="awesomenesssquared.png"/>
+                  </figure>
+                  <p>See <a href="#awesome_squared_fig"
+                        id="labelnumber-xref"
+                        data-type="xref"
+                        data-xrefstyle="select: labelnumber"/> for lots of awesomeness.</p>
+                  <p>See <a href="#awesome_chap"
+                        id="chap-num-title-xref"
+                        data-type="xref"
+                        data-xrefstyle="chap-num-title"/> for awesomeness.</p>
+                  <p>See <a href="#awesome_sect1"
+                        id="nopage-xref"
+                        data-type="xref"
+                        data-xrefstyle="select:nopage"/> for yet more awesomeness</p>
+               </section>
+               <section id="awesome_sect1" data-type="sect1">
+                  <h1>AWESOME SUBSECTION</h1>
+                  <p>I'm here only as an XREF referent.</p>
+               </section>
+            </body>
+         </x:context>
+      </input-wrap>
+      <scenario id="scenario12-scenario1"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+                pending="We received an  error when trying to run this scenario. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
+         <label>of 'select: labelnumber'</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="//h:a[@id='labelnumber-xref']"/>
+         </input-wrap>
+         <test id="scenario12-scenario1-expect1"
+               pending="We received an  error when trying to run this scenario. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
+            <label>it should return just the label number</label>
+         </test>
+      </scenario>
+      <scenario id="scenario12-scenario2"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+                pending="We received an  error when trying to run this scenario. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
+         <label>of 'chap-num-title'</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="//h:a[@id='chap-num-title-xref']"/>
+         </input-wrap>
+         <test id="scenario12-scenario2-expect1"
+               pending="We received an  error when trying to run this scenario. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
+            <label>it should return chapter label, number, and title</label>
+         </test>
+      </scenario>
+      <scenario id="scenario12-scenario3"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+                pending="We received an  error when trying to run this scenario. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
+         <label>of 'select:nopage'</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="//h:a[@id='nopage-xref']">
+               <x:param name="xref.elements.pagenum.in.class">sect1</x:param>
+            </x:context>
+         </input-wrap>
+         <test id="scenario12-scenario3-expect1"
+               pending="We received an  error when trying to run this scenario. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
+            <label>it should return an XREF as usual, but without a pagenum class</label>
+         </test>
+      </scenario>
+      <scenario id="scenario12-scenario4"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+                pending="No clean way to parameterize language at template level for unit tests yet">
+         <label>of 'chap-num-title' (localization other than 'en')</label>
+         <test id="scenario12-scenario4-expect1"
+               pending="No clean way to parameterize language at template level for unit tests yet">
+            <label>FILL ME IN LATER</label>
+         </test>
+      </scenario>
+   </scenario>
+   <scenario id="scenario13"
+             xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec">
+      <label>If XREF is matched</label>
+      <input-wrap xmlns="">
+         <x:context xmlns="http://www.w3.org/1999/xhtml"
+                    xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                    xmlns:functx="http://www.functx.com"
+                    xmlns:h="http://www.w3.org/1999/xhtml"
+                    xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec">
+            <body>
+               <section data-type="chapter" id="first">
+                  <h1>First chapter</h1>
+                  <p>Some text</p>
+                  <p>XREF to second chapter is here: see <a id="chapter_xref" data-type="xref" href="#second"/>
+                  </p>
+                  <p>Now here's a sidebar:</p>
+                  <aside data-type="sidebar" id="sidebar">
+                     <h5>Sidebar heading</h5>
+                     <p>Sidebar text</p>
+                  </aside>
+                  <p>XREF to the sect1 in second chapter: see <a id="sect1_xref" data-type="xref" href="#chapter2_sect1"/>
+                  </p>
+               </section>
+               <section data-type="chapter" id="second">
+                  <h1>Second chapter</h1>
+                  <p>Let's add a sect1</p>
+                  <section data-type="sect1" id="chapter2_sect1">
+                     <h1>Subsection heading</h1>
+                     <p>Always soft-code your cross-references</p>
+                     <p>Like this one to the sidebar in the previous chapter: see <a class="underline"
+                           id="sidebar_xref"
+                           data-type="xref"
+                           href="#sidebar"/>
+                     </p>
+                  </section>
+               </section>
+            </body>
+         </x:context>
+      </input-wrap>
+      <scenario id="scenario13-scenario1"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+                pending="We received an  error when trying to run this scenario. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
+         <label>that points to an element in the xref.elements.pagenum.in.class list</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="//h:a[@data-type='xref'][@id='chapter_xref']">
+               <x:param name="xref.elements.pagenum.in.class">chapter
+sidebar
+	</x:param>
+            </x:context>
+         </input-wrap>
+         <test id="scenario13-scenario1-expect1"
+               pending="We received an  error when trying to run this scenario. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
+            <label>Class value of 'pagenum' should be added to element</label>
+         </test>
+      </scenario>
+      <scenario id="scenario13-scenario2"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+                pending="We received an  error when trying to run this scenario. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
+         <label>that points to an element in the xref.elements.pagenum.in.class list (XREF already has class value)</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="//h:a[@data-type='xref'][@id='sidebar_xref']">
+               <x:param name="xref.elements.pagenum.in.class">chapter
+sidebar
+	</x:param>
+            </x:context>
+         </input-wrap>
+         <test id="scenario13-scenario2-expect1"
+               pending="We received an  error when trying to run this scenario. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
+            <label>Class value of 'pagenum' should be added to element (preserving existing class values)</label>
+         </test>
+      </scenario>
+      <scenario id="scenario13-scenario3"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+                pending="We received an  error when trying to run this scenario. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
+         <label>that points to an element *not in* the xref.elements.pagenum.in.class list</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="//h:a[@data-type='xref'][@id='sect1_xref']">
+               <x:param name="xref.elements.pagenum.in.class">chapter
+sidebar
+	</x:param>
+            </x:context>
+         </input-wrap>
+         <test id="scenario13-scenario3-expect1"
+               pending="We received an  error when trying to run this scenario. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
+            <label>Class value of 'pagenum' should not be added to element</label>
+         </test>
+      </scenario>
+      <scenario id="scenario13-scenario4"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+                pending="We received an  error when trying to run this scenario. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
+         <label>with xref.elements.pagenum.in.class empty and no preexisting class on XREF</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="//h:a[@data-type='xref'][@id='chapter_xref']">
+               <x:param name="xref.elements.pagenum.in.class"/>
+            </x:context>
+         </input-wrap>
+         <test id="scenario13-scenario4-expect1"
+               pending="We received an  error when trying to run this scenario. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
+            <label>No class attribute should be added to element</label>
+         </test>
+      </scenario>
+      <scenario id="scenario13-scenario5"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+                pending="We received an  error when trying to run this scenario. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
+         <label>with xref.elements.pagenum.in.class empty and a preexisting class on XREF</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="//h:a[@data-type='xref'][@id='sidebar_xref']">
+               <x:param name="xref.elements.pagenum.in.class"/>
+            </x:context>
+         </input-wrap>
+         <test id="scenario13-scenario5-expect1"
+               pending="We received an  error when trying to run this scenario. We were using the Saxon JAR file version SAXON HE 9.5.1.2 and the script from https://github.com/xspec/xspec.">
+            <label>Class attribute should be preserved as is</label>
+         </test>
+      </scenario>
+   </scenario>
+   <scenario id="scenario14"
+             xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+             pending="">
+      <label>When an XREF element is matched that contains an href pointing to an id IN A DIFFERENT CHUNK</label>
+      <input-wrap xmlns="">
+         <x:context xmlns="http://www.w3.org/1999/xhtml"
+                    xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                    xmlns:functx="http://www.functx.com"
+                    xmlns:h="http://www.w3.org/1999/xhtml"
+                    xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec">
+            <section id="chapter1" data-type="chapter">
+               <p>Here comes a cross-reference: see <a id="no_text_node" data-type="xref" href="#chapter2"/>
+               </p>
+               <p>Here comes an XREF with a text node: see <a id="text_node" data-type="xref" href="#chapter2">PLACEHOLDER TEXT</a>
+               </p>
+            </section>
+            <section id="chapter2" data-type="chapter">
+               <p>This is another chapter and another chunk</p>
+            </section>
+         </x:context>
+      </input-wrap>
+      <scenario id="scenario14-scenario1"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+                pending="">
+         <label>And the XREF contains no text node</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="//h:a[@id='no_text_node']"/>
+         </input-wrap>
+         <test id="scenario14-scenario1-expect1" pending="">
+            <label>href attribute should be processed to output a file/id href to another chunk</label>
+         </test>
+      </scenario>
+      <scenario id="scenario14-scenario2"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+                pending="">
+         <label>And the XREF contains a text node</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="//h:a[@id='text_node']"/>
+         </input-wrap>
+         <test id="scenario14-scenario2-expect1" pending="">
+            <label>href attribute should be processed to output a file/id href to another chunk</label>
+         </test>
+      </scenario>
+   </scenario>
+   <scenario id="scenario15"
+             xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+             pending="">
+      <label>When an XREF element is matched that contains an href pointing to a Web URL (not a valid XREF)</label>
+      <input-wrap xmlns="">
+         <x:context xmlns="http://www.w3.org/1999/xhtml"
+                    xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                    xmlns:functx="http://www.functx.com"
+                    xmlns:h="http://www.w3.org/1999/xhtml"
+                    xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec">
+            <section id="chapter1" data-type="chapter">
+               <p>Here comes a cross-reference: see <a id="no_text_node"
+                     data-type="xref"
+                     href="http://oreilly.com/whatever.html#chapter1"/>
+               </p>
+               <p>Here comes an XREF with a text node: see <a id="text_node"
+                     data-type="xref"
+                     href="http://oreilly.com/whatever.html#chapter1">PLACEHOLDER TEXT</a>
+               </p>
+            </section>
+         </x:context>
+      </input-wrap>
+      <scenario id="scenario15-scenario1"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+                pending="">
+         <label>And the XREF contains no text node</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="//h:a[@id='no_text_node']"/>
+         </input-wrap>
+         <test id="scenario15-scenario1-expect1" pending="">
+            <label>href attribute should be left untouched</label>
+         </test>
+      </scenario>
+      <scenario id="scenario15-scenario2"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+                pending="">
+         <label>And the XREF contains a text node</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="//h:a[@id='text_node']"/>
+         </input-wrap>
+         <test id="scenario15-scenario2-expect1" pending="">
+            <label>href attribute should be left untouched</label>
+         </test>
+      </scenario>
+   </scenario>
+   <scenario id="scenario16"
+             xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+             pending="">
+      <label>When an XREF element is matched that contains an href pointing to a mailto URL (not a valid XREF)</label>
+      <input-wrap xmlns="">
+         <x:context xmlns="http://www.w3.org/1999/xhtml"
+                    xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                    xmlns:functx="http://www.functx.com"
+                    xmlns:h="http://www.w3.org/1999/xhtml"
+                    xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec">
+            <section id="chapter1" data-type="chapter">
+               <p>Here comes a cross-reference: see <a id="no_text_node" data-type="xref" href="mailto:tools@oreilly.com"/>
+               </p>
+               <p>Here comes an XREF with a text node: see <a id="text_node" data-type="xref" href="mailto:tools@oreilly.com">PLACEHOLDER TEXT</a>
+               </p>
+            </section>
+         </x:context>
+      </input-wrap>
+      <scenario id="scenario16-scenario1"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+                pending="">
+         <label>And the XREF contains no text node</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="//h:a[@id='no_text_node']"/>
+         </input-wrap>
+         <test id="scenario16-scenario1-expect1" pending="">
+            <label>href attribute should be left untouched</label>
+         </test>
+      </scenario>
+      <scenario id="scenario16-scenario2"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+                pending="">
+         <label>And the XREF contains a text node</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="//h:a[@id='text_node']"/>
+         </input-wrap>
+         <test id="scenario16-scenario2-expect1" pending="">
+            <label>href attribute should be left untouched</label>
+         </test>
+      </scenario>
+   </scenario>
+   <scenario id="scenario17"
+             xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+             pending="">
+      <label>When an XREF element is matched that contains an href pointing to a bogus id</label>
+      <input-wrap xmlns="">
+         <x:context xmlns="http://www.w3.org/1999/xhtml"
+                    xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                    xmlns:functx="http://www.functx.com"
+                    xmlns:h="http://www.w3.org/1999/xhtml"
+                    xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec">
+            <section id="chapter1" data-type="chapter">
+               <p>Here comes a bogus cross-reference: see <a id="bogus_no_text_node" data-type="xref" href="#bogus"/>
+               </p>
+               <p>Here comes a bogus cross-reference with a text node: see <a id="bogus_text_node" data-type="xref" href="#bogus">PLACEHOLDER TEXT</a>
+               </p>
+               <p>Here comes a bogus cross-reference (random text): see <a id="random_bogus_no_text_node"
+                     data-type="xref"
+                     href="random_bogus_text"/>
+               </p>
+               <p>Here comes a bogus cross-reference (random text) with a text node: see <a id="random_bogus_text_node"
+                     data-type="xref"
+                     href="random_bogus_text">PLACEHOLDER TEXT</a>
+               </p>
+               <p>Here comes a bogus cross-reference (random text): see <a id="fileref_bogus_no_text_node"
+                     data-type="xref"
+                     href="ch01.html#bogus"/>
+               </p>
+               <p>Here comes a bogus cross-reference (random text) with a text node: see <a id="fileref_bogus_text_node"
+                     data-type="xref"
+                     href="ch01.html#bogus">PLACEHOLDER TEXT</a>
+               </p>
+            </section>
+         </x:context>
+      </input-wrap>
+      <scenario id="scenario17-scenario1"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+                pending="">
+         <label>Where id doesn't exist (no text node)</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="//h:a[@id = 'bogus_no_text_node']"/>
+         </input-wrap>
+         <test id="scenario17-scenario1-expect1" pending="">
+            <label>href should resolve to # sign and content that follows</label>
+         </test>
+      </scenario>
+      <scenario id="scenario17-scenario2"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+                pending="">
+         <label>Where id doesn't exist (text node)</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="//h:a[@id = 'bogus_text_node']"/>
+         </input-wrap>
+         <test id="scenario17-scenario2-expect1" pending="">
+            <label>href should resolve to # sign and content that follows</label>
+         </test>
+      </scenario>
+      <scenario id="scenario17-scenario3"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+                pending="">
+         <label>Where id doesn't exist and no # sign (no text node)</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="//h:a[@id = 'random_bogus_no_text_node']"/>
+         </input-wrap>
+         <test id="scenario17-scenario3-expect1" pending="">
+            <label>existing href should be prepended by a # sign</label>
+         </test>
+      </scenario>
+      <scenario id="scenario17-scenario4"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+                pending="">
+         <label>Where id doesn't exist and no # sign (text node)</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="//h:a[@id = 'random_bogus_text_node']"/>
+         </input-wrap>
+         <test id="scenario17-scenario4-expect1" pending="">
+            <label>existing href should be prepended by a # sign</label>
+         </test>
+      </scenario>
+      <scenario id="scenario17-scenario5"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+                pending="">
+         <label>Where href is a bogus file/id pair (no text node)</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="//h:a[@id = 'fileref_bogus_no_text_node']"/>
+         </input-wrap>
+         <test id="scenario17-scenario5-expect1" pending="">
+            <label>href should resolve to # sign and content that follows</label>
+         </test>
+      </scenario>
+      <scenario id="scenario17-scenario6"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+                pending="">
+         <label>Where href is a bogus file/id pair (text node)</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="//h:a[@id = 'fileref_bogus_text_node']"/>
+         </input-wrap>
+         <test id="scenario17-scenario6-expect1" pending="">
+            <label>href should resolve to # sign and content that follows</label>
+         </test>
+      </scenario>
+   </scenario>
+   <scenario id="scenario18"
+             xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+             pending="">
+      <label>When an 'a' element is matched that contains an href pointing to an id</label>
+      <input-wrap xmlns="">
+         <x:context xmlns="http://www.w3.org/1999/xhtml"
+                    xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                    xmlns:functx="http://www.functx.com"
+                    xmlns:h="http://www.w3.org/1999/xhtml"
+                    xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec">
+            <section id="chapter1" data-type="chapter">
+               <p>Here comes a cross-reference: see <a id="no_text_node" href="#chapter1"/>
+               </p>
+               <p>Here comes an XREF with a text node: see <a id="text_node" href="#chapter1">PLACEHOLDER TEXT</a>
+               </p>
+               <p>Here comes a cross-reference (link): see <a id="no_text_node_link" data-type="link" href="#chapter1"/>
+               </p>
+               <p>Here comes an XREF (link) with a text node: see <a id="text_node_link" data-type="link" href="#chapter1">PLACEHOLDER TEXT</a>
+               </p>
+            </section>
+         </x:context>
+      </input-wrap>
+      <scenario id="scenario18-scenario1"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+                pending="">
+         <label>And the 'a' contains no text node</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="//h:a[@id='no_text_node']"/>
+         </input-wrap>
+         <test id="scenario18-scenario1-expect1" pending="">
+            <label>href attribute should be processed as expected</label>
+         </test>
+      </scenario>
+      <scenario id="scenario18-scenario2"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+                pending="">
+         <label>And the 'a' contains a text node</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="//h:a[@id='text_node']"/>
+         </input-wrap>
+         <test id="scenario18-scenario2-expect1" pending="">
+            <label>href attribute should be processed as expected</label>
+         </test>
+      </scenario>
+      <scenario id="scenario18-scenario3"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+                pending="">
+         <label>And the 'a' contains no text node (link)</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="//h:a[@id='no_text_node_link']"/>
+         </input-wrap>
+         <test id="scenario18-scenario3-expect1" pending="">
+            <label>href attribute should be processed as expected</label>
+         </test>
+      </scenario>
+      <scenario id="scenario18-scenario4"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+                pending="">
+         <label>And the 'a' contains a text node (link)</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="//h:a[@id='text_node_link']"/>
+         </input-wrap>
+         <test id="scenario18-scenario4-expect1" pending="">
+            <label>href attribute should be processed as expected</label>
+         </test>
+      </scenario>
+   </scenario>
+   <scenario id="scenario19"
+             xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+             pending="">
+      <label>When an 'a' element is matched that contains an href pointing to an id (no initial #)</label>
+      <input-wrap xmlns="">
+         <x:context xmlns="http://www.w3.org/1999/xhtml"
+                    xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                    xmlns:functx="http://www.functx.com"
+                    xmlns:h="http://www.w3.org/1999/xhtml"
+                    xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec">
+            <section id="chapter1" data-type="chapter">
+               <p>Here comes a cross-reference: see <a id="no_text_node" href="chapter1"/>
+               </p>
+               <p>Here comes an XREF with a text node: see <a id="text_node" href="chapter1">PLACEHOLDER TEXT</a>
+               </p>
+               <p>Here comes a cross-reference: see <a id="no_text_node_link" data-type="link" href="chapter1"/>
+               </p>
+               <p>Here comes an XREF with a text node: see <a id="text_node_link" data-type="link" href="chapter1">PLACEHOLDER TEXT</a>
+               </p>
+            </section>
+         </x:context>
+      </input-wrap>
+      <scenario id="scenario19-scenario1"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+                pending="">
+         <label>And the 'a' contains no text node</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="//h:a[@id='no_text_node']"/>
+         </input-wrap>
+         <test id="scenario19-scenario1-expect1" pending="">
+            <label>href attribute should be processed as expected</label>
+         </test>
+      </scenario>
+      <scenario id="scenario19-scenario2"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+                pending="">
+         <label>And the 'a' contains a text node</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="//h:a[@id='text_node']"/>
+         </input-wrap>
+         <test id="scenario19-scenario2-expect1" pending="">
+            <label>href attribute should be processed as expected</label>
+         </test>
+      </scenario>
+      <scenario id="scenario19-scenario3"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+                pending="">
+         <label>And the 'a' contains no text node (link)</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="//h:a[@id='no_text_node_link']"/>
+         </input-wrap>
+         <test id="scenario19-scenario3-expect1" pending="">
+            <label>href attribute should be processed as expected</label>
+         </test>
+      </scenario>
+      <scenario id="scenario19-scenario4"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+                pending="">
+         <label>And the 'a' contains a text node (link)</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="//h:a[@id='text_node_link']"/>
+         </input-wrap>
+         <test id="scenario19-scenario4-expect1" pending="">
+            <label>href attribute should be processed as expected</label>
+         </test>
+      </scenario>
+   </scenario>
+   <scenario id="scenario20"
+             xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+             pending="">
+      <label>When an 'a' element is matched that contains an href pointing to a file/id</label>
+      <input-wrap xmlns="">
+         <x:context xmlns="http://www.w3.org/1999/xhtml"
+                    xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                    xmlns:functx="http://www.functx.com"
+                    xmlns:h="http://www.w3.org/1999/xhtml"
+                    xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec">
+            <section id="chapter1" data-type="chapter">
+               <p>Here comes a cross-reference: see <a id="no_text_node" href="ch01.html#chapter1"/>
+               </p>
+               <p>Here comes an XREF with a text node: see <a id="text_node" href="ch01.html#chapter1">PLACEHOLDER TEXT</a>
+               </p>
+               <p>Here comes a cross-reference: see <a id="no_text_node_link" data-type="link" href="ch01.html#chapter1"/>
+               </p>
+               <p>Here comes an XREF with a text node: see <a id="text_node_link" data-type="link" href="ch01.html#chapter1">PLACEHOLDER TEXT</a>
+               </p>
+            </section>
+         </x:context>
+      </input-wrap>
+      <scenario id="scenario20-scenario1"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+                pending="">
+         <label>And the 'a' contains no text node</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="//h:a[@id='no_text_node']"/>
+         </input-wrap>
+         <test id="scenario20-scenario1-expect1" pending="">
+            <label>href attribute should be processed as expected</label>
+         </test>
+      </scenario>
+      <scenario id="scenario20-scenario2"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+                pending="">
+         <label>And the 'a' contains a text node</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="//h:a[@id='text_node']"/>
+         </input-wrap>
+         <test id="scenario20-scenario2-expect1" pending="">
+            <label>href attribute should be processed as expected</label>
+         </test>
+      </scenario>
+      <scenario id="scenario20-scenario3"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+                pending="">
+         <label>And the 'a' contains no text node (link)</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="//h:a[@id='no_text_node_link']"/>
+         </input-wrap>
+         <test id="scenario20-scenario3-expect1" pending="">
+            <label>href attribute should be processed as expected</label>
+         </test>
+      </scenario>
+      <scenario id="scenario20-scenario4"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+                pending="">
+         <label>And the 'a' contains a text node (link)</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="//h:a[@id='text_node_link']"/>
+         </input-wrap>
+         <test id="scenario20-scenario4-expect1" pending="">
+            <label>href attribute should be processed as expected</label>
+         </test>
+      </scenario>
+   </scenario>
+   <scenario id="scenario21"
+             xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+             pending="">
+      <label>When an 'a' element is matched that contains an href pointing to a Web URL (not a valid XREF)</label>
+      <input-wrap xmlns="">
+         <x:context xmlns="http://www.w3.org/1999/xhtml"
+                    xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                    xmlns:functx="http://www.functx.com"
+                    xmlns:h="http://www.w3.org/1999/xhtml"
+                    xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec">
+            <section id="chapter1" data-type="chapter">
+               <p>Here comes a cross-reference: see <a id="no_text_node" href="http://oreilly.com/whatever.html#chapter1"/>
+               </p>
+               <p>Here comes an XREF with a text node: see <a id="text_node" href="http://oreilly.com/whatever.html#chapter1">PLACEHOLDER TEXT</a>
+               </p>
+               <p>Here comes a cross-reference: see <a id="no_text_node_link"
+                     data-type="link"
+                     href="http://oreilly.com/whatever.html#chapter1"/>
+               </p>
+               <p>Here comes an XREF with a text node: see <a id="text_node_link"
+                     data-type="link"
+                     href="http://oreilly.com/whatever.html#chapter1">PLACEHOLDER TEXT</a>
+               </p>
+            </section>
+         </x:context>
+      </input-wrap>
+      <scenario id="scenario21-scenario1"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+                pending="">
+         <label>And the 'a' contains no text node</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="//h:a[@id='no_text_node']"/>
+         </input-wrap>
+         <test id="scenario21-scenario1-expect1" pending="">
+            <label>href attribute should be left untouched</label>
+         </test>
+      </scenario>
+      <scenario id="scenario21-scenario2"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+                pending="">
+         <label>And the 'a' contains a text node</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="//h:a[@id='text_node']"/>
+         </input-wrap>
+         <test id="scenario21-scenario2-expect1" pending="">
+            <label>href attribute should be left untouched</label>
+         </test>
+      </scenario>
+      <scenario id="scenario21-scenario3"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+                pending="">
+         <label>And the 'a' contains no text node (link)</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="//h:a[@id='no_text_node_link']"/>
+         </input-wrap>
+         <test id="scenario21-scenario3-expect1" pending="">
+            <label>href attribute should be left untouched</label>
+         </test>
+      </scenario>
+      <scenario id="scenario21-scenario4"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+                pending="">
+         <label>And the 'a' contains a text node (link)</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="//h:a[@id='text_node_link']"/>
+         </input-wrap>
+         <test id="scenario21-scenario4-expect1" pending="">
+            <label>href attribute should be left untouched</label>
+         </test>
+      </scenario>
+   </scenario>
+   <scenario id="scenario22"
+             xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+             pending="">
+      <label>When an 'a' element is matched that contains an href pointing to a mailto URL (not a valid XREF)</label>
+      <input-wrap xmlns="">
+         <x:context xmlns="http://www.w3.org/1999/xhtml"
+                    xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                    xmlns:functx="http://www.functx.com"
+                    xmlns:h="http://www.w3.org/1999/xhtml"
+                    xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec">
+            <section id="chapter1" data-type="chapter">
+               <p>Here comes a cross-reference: see <a id="no_text_node" href="mailto:tools@oreilly.com"/>
+               </p>
+               <p>Here comes an XREF with a text node: see <a id="text_node" href="mailto:tools@oreilly.com">PLACEHOLDER TEXT</a>
+               </p>
+               <p>Here comes a cross-reference: see <a id="no_text_node_link"
+                     data-type="link"
+                     href="mailto:tools@oreilly.com"/>
+               </p>
+               <p>Here comes an XREF with a text node: see <a id="text_node_link"
+                     data-type="link"
+                     href="mailto:tools@oreilly.com">PLACEHOLDER TEXT</a>
+               </p>
+            </section>
+         </x:context>
+      </input-wrap>
+      <scenario id="scenario22-scenario1"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+                pending="">
+         <label>And the 'a' contains no text node</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="//h:a[@id='no_text_node']"/>
+         </input-wrap>
+         <test id="scenario22-scenario1-expect1" pending="">
+            <label>href attribute should be left untouched</label>
+         </test>
+      </scenario>
+      <scenario id="scenario22-scenario2"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+                pending="">
+         <label>And the 'a' contains a text node</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="//h:a[@id='text_node']"/>
+         </input-wrap>
+         <test id="scenario22-scenario2-expect1" pending="">
+            <label>href attribute should be left untouched</label>
+         </test>
+      </scenario>
+      <scenario id="scenario22-scenario3"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+                pending="">
+         <label>And the 'a' contains no text node (link)</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="//h:a[@id='no_text_node_link']"/>
+         </input-wrap>
+         <test id="scenario22-scenario3-expect1" pending="">
+            <label>href attribute should be left untouched</label>
+         </test>
+      </scenario>
+      <scenario id="scenario22-scenario4"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+                pending="">
+         <label>And the 'a' contains a text node (link)</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="//h:a[@id='text_node_link']"/>
+         </input-wrap>
+         <test id="scenario22-scenario4-expect1" pending="">
+            <label>href attribute should be left untouched</label>
+         </test>
+      </scenario>
+   </scenario>
+   <scenario id="scenario23"
+             xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+             pending="">
+      <label>When an 'a' element is matched that contains an href pointing to a bogus id</label>
+      <input-wrap xmlns="">
+         <x:context xmlns="http://www.w3.org/1999/xhtml"
+                    xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                    xmlns:functx="http://www.functx.com"
+                    xmlns:h="http://www.w3.org/1999/xhtml"
+                    xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec">
+            <section id="chapter1" data-type="chapter">
+               <p>Here comes a bogus cross-reference: see <a id="bogus_no_text_node" href="#bogus"/>
+               </p>
+               <p>Here comes a bogus cross-reference with a text node: see <a id="bogus_text_node" href="#bogus">PLACEHOLDER TEXT</a>
+               </p>
+               <p>Here comes a bogus cross-reference (random text): see <a id="random_bogus_no_text_node" href="random_bogus_text"/>
+               </p>
+               <p>Here comes a bogus cross-reference (random text) with a text node: see <a id="random_bogus_text_node" href="random_bogus_text">PLACEHOLDER TEXT</a>
+               </p>
+               <p>Here comes a bogus cross-reference (random text): see <a id="fileref_bogus_no_text_node" href="ch01.html#bogus"/>
+               </p>
+               <p>Here comes a bogus cross-reference (random text) with a text node: see <a id="fileref_bogus_text_node" href="ch01.html#bogus">PLACEHOLDER TEXT</a>
+               </p>
+               <p>Here comes a bogus cross-reference: see <a id="bogus_no_text_node_link" data-type="link" href="#bogus"/>
+               </p>
+               <p>Here comes a bogus cross-reference with a text node: see <a id="bogus_text_node_link" data-type="link" href="#bogus">PLACEHOLDER TEXT</a>
+               </p>
+               <p>Here comes a bogus cross-reference (random text): see <a id="random_bogus_no_text_node_link"
+                     data-type="link"
+                     href="random_bogus_text"/>
+               </p>
+               <p>Here comes a bogus cross-reference (random text) with a text node: see <a id="random_bogus_text_node_link"
+                     data-type="link"
+                     href="random_bogus_text">PLACEHOLDER TEXT</a>
+               </p>
+               <p>Here comes a bogus cross-reference (random text): see <a id="fileref_bogus_no_text_node_link"
+                     data-type="link"
+                     href="ch01.html#bogus"/>
+               </p>
+               <p>Here comes a bogus cross-reference (random text) with a text node: see <a id="fileref_bogus_text_node_link"
+                     data-type="link"
+                     href="ch01.html#bogus">PLACEHOLDER TEXT</a>
+               </p>
+            </section>
+         </x:context>
+      </input-wrap>
+      <scenario id="scenario23-scenario1"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+                pending="">
+         <label>Where id doesn't exist (no text node)</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="//h:a[@id = 'bogus_no_text_node']"/>
+         </input-wrap>
+         <test id="scenario23-scenario1-expect1" pending="">
+            <label>href should resolve to # sign and content that follows</label>
+         </test>
+      </scenario>
+      <scenario id="scenario23-scenario2"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+                pending="">
+         <label>Where id doesn't exist (text node)</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="//h:a[@id = 'bogus_text_node']"/>
+         </input-wrap>
+         <test id="scenario23-scenario2-expect1" pending="">
+            <label>href should resolve to # sign and content that follows</label>
+         </test>
+      </scenario>
+      <scenario id="scenario23-scenario3"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+                pending="">
+         <label>Where id doesn't exist and no # sign (no text node)</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="//h:a[@id = 'random_bogus_no_text_node']"/>
+         </input-wrap>
+         <test id="scenario23-scenario3-expect1" pending="">
+            <label>href should resolve to # sign and existing href value</label>
+         </test>
+      </scenario>
+      <scenario id="scenario23-scenario4"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+                pending="">
+         <label>Where id doesn't exist and no # sign (text node)</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="//h:a[@id = 'random_bogus_text_node']"/>
+         </input-wrap>
+         <test id="scenario23-scenario4-expect1" pending="">
+            <label>href should resolve to # sign and existing href value</label>
+         </test>
+      </scenario>
+      <scenario id="scenario23-scenario5"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+                pending="">
+         <label>Where href is a bogus file/id pair (no text node)</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="//h:a[@id = 'fileref_bogus_no_text_node']"/>
+         </input-wrap>
+         <test id="scenario23-scenario5-expect1" pending="">
+            <label>href should resolve to # sign and content that follows</label>
+         </test>
+      </scenario>
+      <scenario id="scenario23-scenario6"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+                pending="">
+         <label>Where href is a bogus file/id pair (text node)</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="//h:a[@id = 'fileref_bogus_text_node']"/>
+         </input-wrap>
+         <test id="scenario23-scenario6-expect1" pending="">
+            <label>href should resolve to # sign and content that follows</label>
+         </test>
+      </scenario>
+      <scenario id="scenario23-scenario7"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+                pending="">
+         <label>Where id doesn't exist (link; no text node)</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="//h:a[@id = 'bogus_no_text_node_link']"/>
+         </input-wrap>
+         <test id="scenario23-scenario7-expect1" pending="">
+            <label>href should resolve to # sign and content that follows</label>
+         </test>
+      </scenario>
+      <scenario id="scenario23-scenario8"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+                pending="">
+         <label>Where id doesn't exist (link; text node)</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="//h:a[@id = 'bogus_text_node_link']"/>
+         </input-wrap>
+         <test id="scenario23-scenario8-expect1" pending="">
+            <label>href should resolve to # sign and content that follows</label>
+         </test>
+      </scenario>
+      <scenario id="scenario23-scenario9"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+                pending="">
+         <label>Where id doesn't exist and no # sign (link; no text node)</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="//h:a[@id = 'random_bogus_no_text_node_link']"/>
+         </input-wrap>
+         <test id="scenario23-scenario9-expect1" pending="">
+            <label>href should resolve to # sign and existing href value</label>
+         </test>
+      </scenario>
+      <scenario id="scenario23-scenario10"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+                pending="">
+         <label>Where id doesn't exist and no # sign (link; text node)</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="//h:a[@id = 'random_bogus_text_node_link']"/>
+         </input-wrap>
+         <test id="scenario23-scenario10-expect1" pending="">
+            <label>href should resolve to # sign and existing href value</label>
+         </test>
+      </scenario>
+      <scenario id="scenario23-scenario11"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+                pending="">
+         <label>Where href is a bogus file/id pair (link; no text node)</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="//h:a[@id = 'fileref_bogus_no_text_node_link']"/>
+         </input-wrap>
+         <test id="scenario23-scenario11-expect1" pending="">
+            <label>href should resolve to # sign and content that follows</label>
+         </test>
+      </scenario>
+      <scenario id="scenario23-scenario12"
+                xspec="file:/Users/ghyman/Documents/Resources/orm_repos/HTMLBook/htmlbook-xsl/xspec/chunk.xspec"
+                pending="">
+         <label>Where href is a bogus file/id pair (link; text node)</label>
+         <input-wrap xmlns="">
+            <x:context xmlns="http://www.w3.org/1999/xhtml"
+                       xmlns:e="http://github.com/oreillymedia/epubrenderer"
+                       xmlns:functx="http://www.functx.com"
+                       xmlns:h="http://www.w3.org/1999/xhtml"
+                       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="//h:a[@id = 'fileref_bogus_text_node_link']"/>
+         </input-wrap>
+         <test id="scenario23-scenario12-expect1" pending="">
+            <label>href should resolve to # sign and content that follows</label>
+         </test>
+      </scenario>
+   </scenario>
+</report>

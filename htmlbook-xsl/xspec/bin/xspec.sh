@@ -10,20 +10,12 @@
 ## file), or on $SAXON_CP to be set to a full classpath containing
 ## Saxon (and maybe more).  The latter has precedence over the former.
 ##
+## When running tests for Schematron via XQS, the environment variable
+## BASEX_JAR must be set to the BaseX.jar file in a BaseX installation.
+##
 ## It also uses the environment variable XSPEC_HOME.  It must be set
 ## to the XSpec install directory.  By default, it uses this script's
 ## parent dir.
-##
-## Note: If you use the EXPath Packaging System with Saxon, then you
-## already have the script "saxon" shipped with expath-repo.  In that
-## case you don't need to do anything, this script will be detected
-## and used instead.  You just have to ensure it is visible from here
-## (aka "ensure it is in the $PATH").  Even without packaging support,
-## this script is a useful way to launch Saxon from the shell.
-##
-## TODO: With the Packaging System, there should be no need to set the
-## XSPEC_HOME, as we could use absolute public URIs for the public
-## components...
 ##
 ##############################################################################
 
@@ -36,15 +28,19 @@ usage() {
         echo "$1"
         echo
     fi
-    echo "Usage: xspec [-t|-q|-s|-c|-j|-catalog file|-h] file"
+    echo "XSpec v${XSPEC_VERSION}"
+    echo
+    echo "Usage: xspec [-t|-q|-s|-p|-c|-j|-catalog file|-e|-h] file"
     echo
     echo "  file           the XSpec document"
     echo "  -t             test an XSLT stylesheet (the default)"
-    echo "  -q             test an XQuery module (mutually exclusive with -t and -s)"
-    echo "  -s             test a Schematron schema (mutually exclusive with -t and -q)"
+    echo "  -q             test an XQuery module (mutually exclusive with -t, -s, and -p)"
+    echo "  -s             test a Schematron schema (mutually exclusive with -t, -q, and -p)"
+    echo "  -p             test an XProc step (mutually exclusive with -t, -q, and -s)"
     echo "  -c             output test coverage report (XSLT only)"
     echo "  -j             output JUnit report"
     echo "  -catalog file  use XML Catalog file to locate resources"
+    echo "  -e             treat failed tests as error"
     echo "  -h             display this help message"
 }
 
@@ -54,47 +50,120 @@ die() {
     exit 1
 }
 
-# If there is a script called "saxon" and returning ok (status code 0)
-# when called with "--help", we assume this is the EXPath Packaging
-# script for Saxon [1].  If it is present, that means the user already
-# configured it, so there is no point to duplicate the logic here.
-# Just use it.
+xslt-with-pipeline() {
+    PIPELINES="${TEST_DIR}/${TARGET_FILE_NAME}-pipelines.xpl"
+    # Convey XML Calabash configuration file if XMLCALABASH_CONFIG has been set to a URI
+    if test -n "$XMLCALABASH_CONFIG"; then
+        XMLCALABASH_CONFIG_ARG="-Dcom.xmlcalabash.configuration=$XMLCALABASH_CONFIG"
+    else
+        XMLCALABASH_CONFIG_ARG=
+    fi
 
-if command -v saxon > /dev/null 2>&1 && saxon --help | grep "EXPath Packaging" > /dev/null 2>&1; then
-    echo Saxon script found, use it.
+    xslt \
+        -s:"$XSPEC" \
+        -xsl:"$XSPEC_HOME/src/compiler/xproc/in-scope-steps/generate-xproc-imports.xsl" \
+        -o:"${PIPELINES}"
+    java \
+        -Dxspec.coverage.ignore="${TEST_DIR}" \
+        -Dxspec.coverage.xml="${COVERAGE_XML}" \
+        -Dxspec.home="${XSPEC_HOME}" \
+        -Dxspec.xspecfile="${XSPEC}" \
+        -Dcom.xmlcalabash.pipelines="${PIPELINES}" \
+        ${XMLCALABASH_CONFIG_ARG:+"$XMLCALABASH_CONFIG_ARG"} \
+        -cp "$CP" net.sf.saxon.Transform \
+        -init:com.xmlcalabash.api.RegisterSaxonFunctions \
+        ${CATALOG:+"$CATALOG"} "$@"
+}
+xslt() {
+    java \
+        -Dxspec.coverage.ignore="${TEST_DIR}" \
+        -Dxspec.coverage.xml="${COVERAGE_XML}" \
+        -Dxspec.home="${XSPEC_HOME}" \
+        -Dxspec.xspecfile="${XSPEC}" \
+        -cp "$CP" net.sf.saxon.Transform ${CATALOG:+"$CATALOG"} "$@"
+}
+xquery() {
+    java -cp "$CP" net.sf.saxon.Query ${CATALOG:+"$CATALOG"} "$@"
+}
+
+basex() {
+    # BaseX dir
+    basex_home=$(dirname -- "${BASEX_JAR}")
+    "${basex_home}/bin/basex" "$@"
+}
+
+classify_and_process_schematron() {
+    # stylesheet output should be xslt or xquery
+    if xslt -s:"$XSPEC" -xsl:"$XSPEC_HOME/src/schematron/get-query-binding.xsl" -it | grep "xquery" > /dev/null 2>&1; then
+        preprocess_schematron-xqs
+        XSLT=
+    else
+        preprocess_schematron
+    fi
+}
+
+preprocess_schematron-xqs() {
+    SCH_PREPROCESSED_XSPEC="${TEST_DIR}/${TARGET_FILE_NAME}-sch-preprocessed.xspec"
+    if test -z "${XQS_HOME_URI}"; then
+        XQS_HOME_URI="../../lib/XQS/"
+    fi
     echo
-    xslt() {
-        saxon \
-            --java -Dxspec.coverage.ignore="${TEST_DIR}" \
-            --java -Dxspec.coverage.xml="${COVERAGE_XML}" \
-            --java -Dxspec.xspecfile="${XSPEC}" \
-            --add-cp "${XSPEC_HOME}/java/" ${CATALOG:+"$CATALOG"} --xsl "$@"
-    }
-    xquery() {
-        saxon \
-            --java -Dxspec.coverage.ignore="${TEST_DIR}" \
-            --java -Dxspec.coverage.xml="${COVERAGE_XML}" \
-            --java -Dxspec.xspecfile="${XSPEC}" \
-            --add-cp "${XSPEC_HOME}/java/" ${CATALOG:+"$CATALOG"} --xq "$@"
-    }
-else
-    echo Saxon script not found, invoking JVM directly instead.
+    echo "Converting Schematron XSpec into XQuery XSpec..."
+    xslt -o:"${SCH_PREPROCESSED_XSPEC}" \
+        -s:"${XSPEC}" \
+        -xsl:"${XSPEC_HOME}/src/schematron/schut-to-xspec.xsl" \
+        stylesheet-uri="irrelevant for XQS but make it nonempty" \
+        sch-impl-name="xqs" \
+        xqs-home="${XQS_HOME_URI}" \
+        || die "Error converting Schematron XSpec into XQuery XSpec"
+    XSPEC="${SCH_PREPROCESSED_XSPEC}"
+
     echo
-    xslt() {
-        java \
-            -Dxspec.coverage.ignore="${TEST_DIR}" \
-            -Dxspec.coverage.xml="${COVERAGE_XML}" \
-            -Dxspec.xspecfile="${XSPEC}" \
-            -cp "$CP" net.sf.saxon.Transform ${CATALOG:+"$CATALOG"} "$@"
-    }
-    xquery() {
-        java \
-            -Dxspec.coverage.ignore="${TEST_DIR}" \
-            -Dxspec.coverage.xml="${COVERAGE_XML}" \
-            -Dxspec.xspecfile="${XSPEC}" \
-            -cp "$CP" net.sf.saxon.Query ${CATALOG:+"$CATALOG"} "$@"
-    }
-fi
+}
+
+preprocess_schematron() {
+    SCH_PREPROCESSED_XSPEC="${TEST_DIR}/${TARGET_FILE_NAME}-sch-preprocessed.xspec"
+    SCH_PREPROCESSED_XSL="${TEST_DIR}/${TARGET_FILE_NAME}-sch-preprocessed.xsl"
+
+    SCHUT_TO_XSLT_PARAMS=()
+    if [ -n "${SCHEMATRON_XSLT_INCLUDE}" ]; then
+        if [ "${SCHEMATRON_XSLT_INCLUDE}" = "#none" ]; then
+            SCHUT_TO_XSLT_PARAMS+=("STEP1-PREPROCESSOR-URI=${SCHEMATRON_XSLT_INCLUDE}")
+        else
+            SCHUT_TO_XSLT_PARAMS+=("+STEP1-PREPROCESSOR-DOC=${SCHEMATRON_XSLT_INCLUDE}")
+        fi
+    fi
+    if [ -n "${SCHEMATRON_XSLT_EXPAND}" ]; then
+        if [ "${SCHEMATRON_XSLT_EXPAND}" = "#none" ]; then
+            SCHUT_TO_XSLT_PARAMS+=("STEP2-PREPROCESSOR-URI=${SCHEMATRON_XSLT_EXPAND}")
+        else
+            SCHUT_TO_XSLT_PARAMS+=("+STEP2-PREPROCESSOR-DOC=${SCHEMATRON_XSLT_EXPAND}")
+        fi
+    fi
+    if [ -n "${SCHEMATRON_XSLT_COMPILE}" ]; then
+        SCHUT_TO_XSLT_PARAMS+=("+STEP3-PREPROCESSOR-DOC=${SCHEMATRON_XSLT_COMPILE}")
+    fi
+
+    echo
+    echo "Converting Schematron into XSLT..."
+    xslt \
+        -o:"${SCH_PREPROCESSED_XSL}" \
+        -s:"${XSPEC}" \
+        -xsl:"${XSPEC_HOME}/src/schematron/schut-to-xslt.xsl" \
+        "${SCHUT_TO_XSLT_PARAMS[@]}" \
+        || die "Error converting Schematron into XSLT"
+
+    echo
+    echo "Converting Schematron XSpec into XSLT XSpec..."
+    xslt -o:"${SCH_PREPROCESSED_XSPEC}" \
+        -s:"${XSPEC}" \
+        -xsl:"${XSPEC_HOME}/src/schematron/schut-to-xspec.xsl" \
+        +stylesheet-doc="${SCH_PREPROCESSED_XSL}" \
+        || die "Error converting Schematron XSpec into XSLT XSpec"
+    XSPEC="${SCH_PREPROCESSED_XSPEC}"
+
+    echo
+}
 
 ##
 ## some variables ############################################################
@@ -107,8 +176,8 @@ fi
 #    OPEN=see
 #fi
 
-# the classpath delimiter (aka ':', except ';' on Cygwin)
-if uname | grep -i cygwin > /dev/null 2>&1; then
+# the classpath delimiter (aka ':', except ';' on Cygwin and MSYS)
+if uname | grep -i 'cygwin\|msys' > /dev/null 2>&1; then
     CP_DELIM=";"
 else
     CP_DELIM=":"
@@ -117,7 +186,7 @@ fi
 # set XSPEC_HOME if it has not been set by the user (set it to the
 # parent dir of this script)
 if test -z "$XSPEC_HOME"; then
-    XSPEC_HOME=$(dirname "$0")
+    XSPEC_HOME="$(cd "$(dirname "$0")" && pwd)"
     XSPEC_HOME=$(dirname "$XSPEC_HOME")
 fi
 # safety checks
@@ -125,7 +194,9 @@ if test \! -d "${XSPEC_HOME}"; then
     echo "ERROR: XSPEC_HOME is not a directory: ${XSPEC_HOME}"
     exit 1
 fi
-if test \! -f "${XSPEC_HOME}/src/compiler/generate-common-tests.xsl"; then
+unset XSPEC_VERSION
+XSPEC_VERSION=$(cat "${XSPEC_HOME}/src/common/VERSION")
+if [ -z "${XSPEC_VERSION}" ]; then
     echo "ERROR: XSPEC_HOME seems to be corrupted: ${XSPEC_HOME}"
     exit 1
 fi
@@ -165,7 +236,8 @@ CP="${SAXON_CP}${CP_DELIM}${XSPEC_HOME}/java/"
 ## options ###################################################################
 ##
 
-while echo "$1" | grep -- ^- > /dev/null 2>&1; do
+# Use printf instead of echo: https://stackoverflow.com/a/3657061/11853330
+while printf "%s\n" "$1" | grep -- ^- > /dev/null 2>&1; do
     case "$1" in
         # XSLT
         -t)
@@ -175,6 +247,10 @@ while echo "$1" | grep -- ^- > /dev/null 2>&1; do
             fi
             if test -n "$SCHEMATRON"; then
                 usage "-s and -t are mutually exclusive"
+                exit 1
+            fi
+            if test -n "$XPROC"; then
+                usage "-p and -t are mutually exclusive"
                 exit 1
             fi
             XSLT=1
@@ -189,6 +265,10 @@ while echo "$1" | grep -- ^- > /dev/null 2>&1; do
                 usage "-s and -q are mutually exclusive"
                 exit 1
             fi
+            if test -n "$XPROC"; then
+                usage "-p and -q are mutually exclusive"
+                exit 1
+            fi
             XQUERY=1
             ;;
         # Schematron
@@ -201,9 +281,29 @@ while echo "$1" | grep -- ^- > /dev/null 2>&1; do
                 usage "-s and -t are mutually exclusive"
                 exit 1
             fi
+            if test -n "$XPROC"; then
+                usage "-p and -s are mutually exclusive"
+                exit 1
+            fi
             SCHEMATRON=1
             ;;
-        # Coverage
+        # XProc
+        -p)
+            if test -n "$XQUERY"; then
+                usage "-p and -q are mutually exclusive"
+                exit 1
+            fi
+            if test -n "$XSLT"; then
+                usage "-p and -t are mutually exclusive"
+                exit 1
+            fi
+            if test -n "$SCHEMATRON"; then
+                usage "-p and -s are mutually exclusive"
+                exit 1
+            fi
+            XPROC=1
+            ;;
+            # Coverage
         -c)
             COVERAGE=1
             ;;
@@ -215,6 +315,10 @@ while echo "$1" | grep -- ^- > /dev/null 2>&1; do
         -catalog)
             shift
             XML_CATALOG="$1"
+            ;;
+        # Error on test failure
+        -e)
+            ERROR_ON_TEST_FAILURE=1
             ;;
         # Help!
         -h)
@@ -231,7 +335,7 @@ while echo "$1" | grep -- ^- > /dev/null 2>&1; do
 done
 
 # Coverage is only for XSLT
-if [ -n "${COVERAGE}" ] && [ -n "${XQUERY}${SCHEMATRON}" ]; then
+if [ -n "${COVERAGE}" ] && [ -n "${XQUERY}${SCHEMATRON}${XPROC}" ]; then
     usage "Coverage is supported only for XSLT"
     exit 1
 fi
@@ -243,8 +347,8 @@ else
     CATALOG=
 fi
 
-# set XSLT if XQuery has not been set (that's the default)
-if test -z "$XQUERY"; then
+# set XSLT if XQuery and XProc have not been set (XSLT is the default)
+if [ -z "$XQUERY" ] && [ -z "$XPROC" ]; then
     XSLT=1
 fi
 
@@ -270,12 +374,6 @@ fi
 
 TARGET_FILE_NAME=$(basename "$XSPEC" | sed 's:\.[^.]*$::')
 
-COMPILED="${TEST_DIR}/${TARGET_FILE_NAME}-compiled"
-if test -n "$XSLT"; then
-    COMPILED="${COMPILED}.xsl"
-else
-    COMPILED="${COMPILED}.xq"
-fi
 COVERAGE_XML=$TEST_DIR/$TARGET_FILE_NAME-coverage.xml
 if [ -z "${COVERAGE_HTML}" ]; then
     COVERAGE_HTML="${TEST_DIR}/${TARGET_FILE_NAME}-coverage.html"
@@ -291,52 +389,31 @@ if [ ! -d "$TEST_DIR" ]; then
     echo
 fi
 
+if test -n "$SCHEMATRON"; then
+    classify_and_process_schematron
+fi
+
+COMPILED="${TEST_DIR}/${TARGET_FILE_NAME}-compiled"
+if test -n "$XQUERY"; then
+    COMPILED="${COMPILED}.xq"
+else
+    COMPILED="${COMPILED}.xsl"
+fi
+
 ##
 ## compile the suite #########################################################
 ##
 
-if test -n "$SCHEMATRON"; then
-    SCH_PREPROCESSED_XSPEC="${TEST_DIR}/${TARGET_FILE_NAME}-sch-preprocessed.xspec"
-    SCH_PREPROCESSED_XSL="${TEST_DIR}/${TARGET_FILE_NAME}-sch-preprocessed.xsl"
-
-    SCHUT_TO_XSLT_PARAMS=()
-    if [ -n "${SCHEMATRON_XSLT_INCLUDE}" ]; then
-        SCHUT_TO_XSLT_PARAMS+=("+STEP1-PREPROCESSOR-DOC=${SCHEMATRON_XSLT_INCLUDE}")
-    fi
-    if [ -n "${SCHEMATRON_XSLT_EXPAND}" ]; then
-        SCHUT_TO_XSLT_PARAMS+=("+STEP2-PREPROCESSOR-DOC=${SCHEMATRON_XSLT_EXPAND}")
-    fi
-    if [ -n "${SCHEMATRON_XSLT_COMPILE}" ]; then
-        SCHUT_TO_XSLT_PARAMS+=("+STEP3-PREPROCESSOR-DOC=${SCHEMATRON_XSLT_COMPILE}")
-    fi
-
-    echo
-    echo "Converting Schematron into XSLT..."
-    xslt \
-        -o:"${SCH_PREPROCESSED_XSL}" \
-        -s:"${XSPEC}" \
-        -xsl:"${XSPEC_HOME}/src/schematron/schut-to-xslt.xsl" \
-        "${SCHUT_TO_XSLT_PARAMS[@]}" \
-        || die "Error converting Schematron into XSLT"
-
-    echo
-    echo "Converting Schematron XSpec into XSLT XSpec..."
-    xslt -o:"${SCH_PREPROCESSED_XSPEC}" \
-        -s:"${XSPEC}" \
-        -xsl:"${XSPEC_HOME}/src/schematron/schut-to-xspec.xsl" \
-        +stylesheet-doc="${SCH_PREPROCESSED_XSL}" \
-        || die "Error converting Schematron XSpec into XSLT XSpec"
-    XSPEC="${SCH_PREPROCESSED_XSPEC}"
-
-    echo
-fi
-
 if test -n "$XSLT"; then
-    COMPILE_SHEET=generate-xspec-tests.xsl
+    COMPILE_SHEET=compile-xslt-tests.xsl
 else
-    COMPILE_SHEET=generate-query-tests.xsl
+    if test -n "$XPROC"; then
+        COMPILE_SHEET=compile-xproc-tests.xsl
+    else
+        COMPILE_SHEET=compile-xquery-tests.xsl
+    fi
 fi
-echo "Creating Test Stylesheet..."
+echo "Creating Test Runner..."
 xslt -o:"$COMPILED" -s:"$XSPEC" \
     -xsl:"$XSPEC_HOME/src/compiler/$COMPILE_SHEET" \
     || die "Error compiling the test suite"
@@ -355,7 +432,7 @@ declare -a "saxon_custom_options_array=(${SAXON_CUSTOM_OPTIONS})"
 
 echo "Running Tests..."
 if test -n "$XSLT"; then
-    # for XSLT
+    # for XSLT or XSLT-based Schematron
     if test -n "$COVERAGE"; then
         echo "Collecting test coverage data..."
         xslt "${saxon_custom_options_array[@]}" \
@@ -370,17 +447,32 @@ if test -n "$XSLT"; then
             || die "Error running the test suite"
     fi
 else
-    # for XQuery
-    if test -n "$COVERAGE"; then
-        echo "Collecting test coverage data..."
-        xquery "${saxon_custom_options_array[@]}" \
-            -T:$COVERAGE_CLASS \
-            -o:"$RESULT" -q:"$COMPILED" \
-            || die "Error collecting test coverage data"
+    if test -n "$SCHEMATRON"; then
+        # for Schematron via XQS
+        if test -n "$BASEX_JAR"; then
+            if test -n "$XML_CATALOG"; then
+                basex -OCATALOG="$XML_CATALOG" -ODTD=true -Q"$COMPILED" > "$RESULT" \
+                    || die "Error running the test suite"
+            else
+                basex -Q"$COMPILED" > "$RESULT" \
+                    || die "Error running the test suite"
+            fi
+        else
+            die "Executing test for Schematron with XQS requires BASEX_JAR to be defined"
+        fi
     else
-        xquery "${saxon_custom_options_array[@]}" \
-            -o:"$RESULT" -q:"$COMPILED" \
-            || die "Error running the test suite"
+        if test -n "$XPROC"; then
+            # For XProc
+            xslt-with-pipeline "${saxon_custom_options_array[@]}" \
+                -o:"$RESULT" -xsl:"$COMPILED" \
+                -it:"{http://www.jenitennison.com/xslt/xspec}main" \
+                || die "Error running the test suite"
+        else
+            # for XQuery
+            xquery "${saxon_custom_options_array[@]}" \
+                -o:"$RESULT" -q:"$COMPILED" \
+                || die "Error running the test suite"
+        fi
     fi
 fi
 
@@ -394,6 +486,11 @@ fi
 if [ -z "${COVERAGE_REPORTER_XSL}" ]; then
     COVERAGE_REPORTER_XSL="$XSPEC_HOME/src/reporter/coverage-report.xsl"
 fi
+if test -n "$XSPEC_HTML_REPORT_THEME"; then
+    REPORT_THEME="$XSPEC_HTML_REPORT_THEME"
+else
+    REPORT_THEME="default"
+fi
 
 echo
 echo "Formatting Report..."
@@ -401,6 +498,7 @@ xslt -o:"$HTML" \
     -s:"$RESULT" \
     -xsl:"${HTML_REPORTER_XSL}" \
     inline-css=true \
+    report-theme="$REPORT_THEME" \
     || die "Error formatting the report"
 if test -n "$COVERAGE"; then
     echo
@@ -410,6 +508,7 @@ if test -n "$COVERAGE"; then
         -s:"$COVERAGE_XML" \
         -xsl:"${COVERAGE_REPORTER_XSL}" \
         inline-css=true \
+        report-theme="$REPORT_THEME" \
         || die "Error formatting the coverage report"
     echo "Report available at $COVERAGE_HTML"
     #$OPEN "$COVERAGE_HTML"
@@ -427,14 +526,14 @@ else
 fi
 
 ##
-## cleanup
+## error on test failure #####################################################
 ##
-if test -n "$SCHEMATRON"; then
-    rm -f "$SCH_PREPROCESSED_XSPEC"
-    rm -f "$TEST_DIR/$TARGET_FILE_NAME-var.txt"
-    rm -f "$TEST_DIR/$TARGET_FILE_NAME-step1.sch"
-    rm -f "$TEST_DIR/$TARGET_FILE_NAME-step2.sch"
-    rm -f "$SCH_PREPROCESSED_XSL"
+
+if [ -n "${ERROR_ON_TEST_FAILURE}" ]; then
+    xslt \
+        -s:"${RESULT}" \
+        -xsl:"${XSPEC_HOME}/src/cli/terminate-on-test-failure.xsl" 2> /dev/null \
+        || die "Found a test failure"
 fi
 
 echo "Done."

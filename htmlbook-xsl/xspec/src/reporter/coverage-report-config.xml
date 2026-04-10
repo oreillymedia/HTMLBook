@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration edition="HE" xmlns="http://saxon.sf.net/ns/configuration">
+
+	<global lineNumbering="true" />
+
+	<resources>
+		<extensionFunction>io.xspec.xspec.saxon.funcdefs.ColumnNumber</extensionFunction>
+		<extensionFunction>io.xspec.xspec.saxon.funcdefs.LineNumber</extensionFunction>
+	</resources>
+
+</configuration>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
+	
+	<nextCatalog catalog="compiler/catalog.xml" />
+	<nextCatalog catalog="reporter/catalog.xml" />
+	<nextCatalog catalog="schemas/catalog.xml" />
+	<nextCatalog catalog="xproc3/catalog.xml" />
+	
+</catalog>

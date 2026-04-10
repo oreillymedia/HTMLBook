@@ -1,0 +1,306 @@
+/****************************************************************************/
+/*  File:       test-report-base.css                                        */
+/*  Author:     Jeni Tennison                                               */
+/*  Tags:                                                                   */
+/*    Copyright (c) 2008, 2010 Jeni Tennison (see end of file.)             */
+/* ------------------------------------------------------------------------ */
+
+/* test */
+
+/* box model */
+
+body {
+	margin-right: 5%;
+	margin-left: 5%;
+}
+
+h1 {
+	padding: 0.3em 0.5em 0.3em 0.5em;
+	position: relative;
+}
+
+h2 {
+	padding: 0.1em 0.5em 0.2em 0.5em;
+}
+
+h3 {
+	padding-left: 0.6em;
+}
+
+h4 {
+	padding-left: 0.8em;
+}
+
+p,
+table {
+	margin-left: 5%;
+}
+
+tr td,
+td p {
+	margin-left: 0%;
+}
+
+td {
+	padding-right: 5%;
+}
+
+img {
+	position: relative;
+}
+
+pre {
+	margin-left: 5%;
+}
+
+/* fonts */
+body,
+table {
+	font-family: sans-serif;
+	font-size: 12px;
+}
+
+h1,
+h2,
+h3,
+h4 {
+	font-family: sans-serif;
+}
+
+h1 {
+	font-size: 1.7em;
+	font-weight: bold;
+}
+
+h2 {
+	font-size: 1.4em;
+	font-weight: bold;
+}
+
+h3 {
+	font-size: 120%;
+	font-weight: normal;
+}
+
+h4 {
+	font-size: 100%;
+	font-weight: bold;
+}
+
+a:link,
+a:visited,
+a:active,
+a:hover {
+	font-weight: bold;
+}
+
+pre,
+code {
+	font-family: monospace;
+}
+
+/* this is to make Navigator fill the entire line */
+h1,
+h2 {
+	border: 0px solid white;
+	width: auto;
+}
+
+body {
+	border: 0px none black;
+}
+
+img,
+a:link img,
+a:visited img,
+a:hover img,
+a:active img {
+	border: 0px none white;
+	background: transparent;
+}
+
+a:link {
+	border: 0px none white;
+}
+
+a:visited {
+	border: 0px none white;
+}
+
+a:active {
+	border: 0px none white;
+}
+
+a:hover {
+	border: 0px none white;
+}
+
+/* code coverage report styles */
+.ignored,
+.comment,
+pre.xspecCoverage > .whitespace {
+	font-style: italic;
+}
+
+.unknown {
+	font-style: italic;
+	font-weight: bold;
+}
+
+.hit {
+}
+
+.missed {
+}
+
+/* text */
+td {
+	vertical-align: top;
+}
+
+h1 {
+	text-transform: uppercase;
+}
+
+.byline {
+	float: right;
+}
+
+a {
+	text-decoration: none;
+}
+
+body > h2:first-of-type {
+	background: inherit;
+	font-size: 1.7em;
+	margin-bottom: 0;
+}
+
+table {
+	width: 95%;
+}
+
+th {
+	text-align: left;
+}
+
+th.totals {
+	text-align: center;
+	font-weight: normal;
+}
+
+div > table > tbody > tr > th:first-child {
+	font-weight: bold;
+}
+
+.xspec tbody th {
+	font-weight: normal;
+	border-top: 1px #666 solid;
+}
+
+.xspec tbody th .elapsed {
+	float: right;
+	font-weight: initial;
+}
+
+/* underline nodes heading in Test Coverage report */
+.nodesHead {
+	border-bottom: 1px #666 solid;
+}
+
+#testReport .successful td:first-child:before,
+body#testReport > table:first-of-type tr.successful th:first-child:before {
+	margin-right: 5px;
+
+	/* optimized version of ../../graphics/success12.png */
+	content: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAABcUlEQVR42m1SPUsDQRB9661BIoEQDBqJnRhE1BD8CP4AgwhWEbQIKIhi6Q/QwspCtBBs/CBG1Fb9AWK0iBosLCQgYmGQEFARRUguezfuLeZygsWbmZ037zEMyxZ2W0IgHBIoIjPoF6q2QQYIWVlPcxmS3mYt4vFpjmEpd4pNaJ9vRvS9ILa57Aw2ejUYBtVcTdsZPnc7Qk0juNQ3QC/o55JkhnAO19wDnjAmIkkcZBMwBVmci1uEoR5Od4K73o94eAuZpx3kX+9U35TgVjAqVWdmZUWOhldQrnwhnduEELD7dVYhdMJY9zom+/ZAgqOnNY7OQAynt0sol3TFSyiRWklUCKXyN8Jt40gM7SPo68VDIY1c/ly5KlBtJaU+vlmEpyGArmBMkiZOrpdV3yFQ4PJBkmBkCqTO5jE3fITixyOei/dy0L5aVSjY7Jo/w10sqnFmn9VU+e+ZhW7BvGAzq/4O2UiBMCBJRv9/DyHDFQFTPwI/IlPYPLYnAAAAAElFTkSuQmCC");
+}
+
+#testReport .failed td:first-child:before,
+body#testReport > table:first-of-type tr.failed th:first-child:before {
+	margin-right: 5px;
+
+	/* optimized version of ../../graphics/fail12.png */
+	content: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAMAAABhq6zVAAAAjVBMVEWDKBSQLBadMBidMBiSLBWSLRaLKhWCKBOZLheHKRT//////v3ivLPgt67dsafhraLfqJvcopXQl4vNkoTKjH3RbljKaVO8aVaxYlCsUDylUDusOh+wNxu0OBu4ORy7OhzAOx3EPB2rNRqnNBqjMhifMRidMBeaLxeXLhaULRaRLBaOKxWLKhWIKRSFKBRkN75PAAAACnRSTlP7+c3Hx8TIwicknixbQAAAAIZJREFUeNoNwsEKgkAUBdD77jzSXKhDuEpyURBE//8h0SratQuKRK3QsdccjqTjDgLEV9VpPSEyYHPjVtFb9LYQKNYPrVk7fOyAfdMUWRnX9VHFLO9GJB4ClR8wxyIQYmGveZmGu1BUJFjm5fHtShDM8xVZFZ4nXtQVjDxd4hbPytGRPLf8A/K/MGOep8atAAAAAElFTkSuQmCC");
+}
+
+#testReport .pending td:first-child:before,
+body#testReport > table:first-of-type tr.pending th:first-child:before {
+	margin-right: 5px;
+
+	/* optimized version of ../../graphics/pending12.png */
+	content: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAMAAABhq6zVAAAAt1BMVEVgYGBZWVldXV1gYGBjY2NmZmZnZ2dnZ2diYmJfX19dXV1hYWFZWVlYWFhiYmJeXl5YWFhoaGj6+vr39/fz8/Py8vLv7+/p6enk5OR9fX18fHx7e3t6enp5eXl4eHh3d3d2dnZ1dXV0dHRzc3NycnJxcXFwcHBvb29ubm5tbW1sbGxra2tqamppaWloaGhnZ2dmZmZlZWVkZGRjY2NiYmJhYWFfX19eXl5dXV1cXFxbW1taWlpZWVl0CTiLAAAAEnRSTlP++/75/P7Nx8fHyMTBwygmIycZZx20AAAAdElEQVR42jWKvQ4BURSEzzdzED+NQiFRaCWi4f1rhcor2EZl2RDdcq+YyUzyZYb5c0MUn3PIaPUKKk4aBgsqfHPRVpLl0nuFbbkKoe7te5ftw0jue4OJFIeOn4KZsNN26SB28Z9OHi+RJUTePL0263LMY5sfIzMU3HCY7dEAAAAASUVORK5CYII=");
+}
+
+.xspecResult {
+	width: 95%;
+	table-layout: fixed;
+}
+
+.xspecResult td,
+.xspecResult th {
+	width: 50%;
+}
+
+.xspecResult pre {
+	margin-left: 0;
+	padding: 0.5em;
+	overflow: auto;
+	border: 1px #999 dotted;
+}
+
+span.scenario-totals {
+	float: right;
+	text-align: right;
+}
+
+/* highlight the link target */
+*:target {
+	box-shadow: -0.5rem 0 0 0 #fc511d;
+}
+
+/* hint button */
+.xTestReport {
+	display: grid;
+	grid-template-areas:
+		"title title"
+		"table hint";
+	grid-template-columns: 1fr 1em;
+}
+.xTestReportTitle {
+	grid-area: title;
+}
+.xTestReportHint {
+	grid-area: hint;
+}
+.xspecResult {
+	grid-area: table;
+}
+
+/* ------------------------------------------------------------------------ */
+/*  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS COMMENT.               */
+/*                                                                          */
+/*  Copyright (c) 2008, 2010 Jeni Tennison                                  */
+/*                                                                          */
+/*  The contents of this file are subject to the MIT License (see the URI   */
+/*  http://www.opensource.org/licenses/mit-license.php for details).        */
+/*                                                                          */
+/*  Permission is hereby granted, free of charge, to any person obtaining   */
+/*  a copy of this software and associated documentation files (the         */
+/*  "Software"), to deal in the Software without restriction, including     */
+/*  without limitation the rights to use, copy, modify, merge, publish,     */
+/*  distribute, sublicense, and/or sell copies of the Software, and to      */
+/*  permit persons to whom the Software is furnished to do so, subject to   */
+/*  the following conditions:                                               */
+/*                                                                          */
+/*  The above copyright notice and this permission notice shall be          */
+/*  included in all copies or substantial portions of the Software.         */
+/*                                                                          */
+/*  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,         */
+/*  EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF      */
+/*  MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  */
+/*  IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY    */
+/*  CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,    */
+/*  TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE       */
+/*  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                  */
+/* ------------------------------------------------------------------------ */

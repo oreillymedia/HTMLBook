@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- https://docs.xmlcalabash.com/userguide/current/configuration.html -->
+<cc:xml-calabash xmlns:cc="https://xmlcalabash.com/ns/configuration" version="1.0"
+    default-xquery-processor="https://basex.org/"/> 
