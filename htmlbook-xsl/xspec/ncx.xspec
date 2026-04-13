@@ -6,7 +6,8 @@
 	       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
 	       xmlns:h="http://www.w3.org/1999/xhtml"
 	       xmlns:e="http://github.com/oreillymedia/epubrenderer"
-               stylesheet="../epub.xsl">
+               stylesheet="../epub.xsl"
+               run-as="external">
 
   <!-- Test suite for ncx.xsl -->
 
@@ -166,7 +167,7 @@ and the script from https://github.com/xspec/xspec.">
 	  <p>Notes should not get navPoints!!!</p>
 	</div>
       </x:context>
-      <x:expect label="Don't generate a navPoint" test="not(exists(ncx:navPoint))"/>
+      <x:expect label="Don't generate a navPoint" test="empty($x:result)"/>
     </x:scenario>
 
     <x:scenario label="When a nav TOC is matched in ncx.toc.gen mode...">
@@ -186,11 +187,9 @@ and the script from https://github.com/xspec/xspec.">
       </x:scenario>
       
       <x:scenario label="...with $nav.in.ncx disabled">
-	<x:context>
-	  <x:param name="nav.in.ncx" select="0"/>
-	</x:context>
+	<x:param name="nav.in.ncx" select="0"/>
 	<x:expect label="*Do not* generate a navPoint"
-		  test="not(exists(ncx:navPoint))"/>
+		  test="empty($x:result)"/>
       </x:scenario>
     </x:scenario>
 
