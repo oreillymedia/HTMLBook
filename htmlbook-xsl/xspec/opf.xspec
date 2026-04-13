@@ -68,9 +68,7 @@ css_images/pizza.svg
     </x:expect>
   </x:scenario>
 
-  <x:scenario label="When generate.opf is run" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+  <x:scenario label="When generate.opf is run">
     <x:call template="generate.opf.content"/>
 
     <x:expect label="A package root element should be generated with the proper namespaces">
@@ -94,9 +92,7 @@ and the script from https://github.com/xspec/xspec.">
   	</x:scenario>
   </x:scenario>
 
-  <x:scenario label="When opf.manifest is run" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+  <x:scenario label="When opf.manifest is run">
     <x:call template="opf.manifest"/>
     <!-- Based on font list specified in global param $external.assets.list -->
     <x:expect label="there should be items for each external asset" test="exists(/opf:manifest/opf:item[@href='DejaVuSerif.otf']) and
@@ -274,9 +270,7 @@ and the script from https://github.com/xspec/xspec.">
     </x:scenario>
   </x:scenario>
 
-  <x:scenario label="When manifest-html is called (no embedded MathML or SVG in chunks)" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+  <x:scenario label="When manifest-html is called (no embedded MathML or SVG in chunks)">
     <x:call template="manifest-html">
       <x:param name="chunk.nodes">
 	<section data-type="chapter">
@@ -298,9 +292,7 @@ and the script from https://github.com/xspec/xspec.">
     <x:expect label="there should be no special properties" test="count(//opf:item[@properties]) = 0"/>
   </x:scenario>
 
-  <x:scenario label="When manifest-html is called for a chunk node that contains MathML" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+  <x:scenario label="When manifest-html is called for a chunk node that contains MathML">
     <x:call template="manifest-html">
       <x:param name="chunk.nodes">
 	<section data-type="chapter">
@@ -315,9 +307,7 @@ and the script from https://github.com/xspec/xspec.">
 	      test="exists(//opf:item[contains(@properties, 'math')])"/>
   </x:scenario>
 
-  <x:scenario label="When manifest-html is called for a chunk node that contains SVG" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+  <x:scenario label="When manifest-html is called for a chunk node that contains SVG">
     <x:call template="manifest-html">
       <x:param name="chunk.nodes">
 	<section data-type="chapter">
@@ -332,9 +322,7 @@ and the script from https://github.com/xspec/xspec.">
 	      test="exists(//opf:item[contains(@properties, 'svg')])"/>
   </x:scenario>
 
-  <x:scenario label="When manifest-html is called for a chunk node that contains MathML *and* SVG" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+  <x:scenario label="When manifest-html is called for a chunk node that contains MathML *and* SVG">
     <x:call template="manifest-html">
       <x:param name="chunk.nodes">
 	<section data-type="chapter">
@@ -399,9 +387,7 @@ and the script from https://github.com/xspec/xspec.">
     <x:expect label="Cover metadata should be generated" test="exists(/opf:metadata/opf:meta[@name='cover' and @content='bookcoverimage'])"/>
     <x:expect label="iBooks metadata should be generated if specified" test="exists(/opf:metadata/opf:meta[@property='ibooks:specified-fonts' and . = 'true'])"/>
 
-    <x:scenario label="When generating OPF metadata for a book with two authors specified" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+    <x:scenario label="When generating OPF metadata for a book with two authors specified">
       <x:call>
 	<x:param name="metadata.creators">
 	  <meta name="creator" content="Descartes"/>
@@ -415,9 +401,7 @@ and the script from https://github.com/xspec/xspec.">
 													    exists(/opf:metadata/opf:meta[@property = 'dcterms:creator' and . = 'Kant'])"/>
     </x:scenario>    
 
-    <x:scenario label="When generating OPF metadata for a book with more than two authors specified" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec."> 
+    <x:scenario label="When generating OPF metadata for a book with more than two authors specified"> 
       <x:call>
 	<x:param name="metadata.creators">
 	  <meta name="creator" content="Descartes"/>
@@ -535,9 +519,7 @@ and the script from https://github.com/xspec/xspec.">
       </x:scenario>
     </x:scenario>
 
-    <x:scenario label="When generate-guide is called" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+    <x:scenario label="When generate-guide is called">
       <x:call template="generate-guide">
 	<x:param name="generate.cover.html" select="1"/>
 	<x:param name="html5.toc.node">
@@ -556,8 +538,6 @@ and the script from https://github.com/xspec/xspec.">
 	</x:call>
 	<x:expect label="There *should not* be a reference element for the cover" test="not(exists(/opf:guide/opf:reference[@type='cover']))"/>
       </x:scenario>
-
-      <x:pending>
 	<x:scenario label="On content that contains a titlepage">
 	  
 	</x:scenario>
@@ -569,7 +549,6 @@ and the script from https://github.com/xspec/xspec.">
 	<x:scenario label="On content that contains no titlepage or cover">
 	  
 	</x:scenario>
-      </x:pending>
     </x:scenario>
 
     <x:scenario label="When element is matched in opf.spine.itemref mode">
@@ -620,9 +599,7 @@ and the script from https://github.com/xspec/xspec.">
 	</body>
       </x:context>
       <x:expect label="It should return a value of 'nav'">nav</x:expect>
-      <x:scenario label="that is not the first nav in the book" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+      <x:scenario label="that is not the first nav in the book">
 	<x:context select="/h:body/h:nav[2]" mode="opf.manifest.properties">
 	  <body>
 	    <nav data-type="toc"/>
@@ -634,9 +611,7 @@ and the script from https://github.com/xspec/xspec.">
       </x:scenario>
     </x:scenario>
     
-    <x:scenario label="When a general element is matched in opf.manifest.properties mode" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+    <x:scenario label="When a general element is matched in opf.manifest.properties mode">
       <x:context mode="opf.manifest.properties" select="/h:section[@id='only_html']">
 	<section data-type="chapter" id="only_html">
 	  <p>Only HTML content...</p>
@@ -670,9 +645,7 @@ and the script from https://github.com/xspec/xspec.">
       </x:scenario>
     </x:scenario>
 
-    <x:scenario label="When has-element-in-chunk is called" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+    <x:scenario label="When has-element-in-chunk is called">
       <x:call template="has-element-in-chunk">
 	<x:param name="element-name" select="'svg'"/>
 	<x:param name="chunk" select="document('../skeleton.html')//h:section[@data-type =  'preface' and @id = 'svg_preface']"/>
@@ -681,9 +654,7 @@ and the script from https://github.com/xspec/xspec.">
       <x:expect label="It should return 1 if an instance of the given element name can be found in the given chunk">1</x:expect>
     </x:scenario>
 
-    <x:scenario label="When has-element-in-chunk is called" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+    <x:scenario label="When has-element-in-chunk is called">
       <x:call template="has-element-in-chunk">
 	<x:param name="element-name" select="'math'"/>
 	<x:param name="chunk" select="document('../skeleton.html')//h:section[@id = 'child_of_mml_chunk']"/>
@@ -693,9 +664,7 @@ and the script from https://github.com/xspec/xspec.">
 		test="string-length($x:result) = 0"/>
     </x:scenario>
 
-    <x:scenario label="When has-element-in-chunk is called" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+    <x:scenario label="When has-element-in-chunk is called">
       <x:call template="has-element-in-chunk">
 	<x:param name="element-name" select="'svg'"/>
 	<x:param name="chunk" select="document('../skeleton.html')//h:section[@id = 'sibling_of_svg_chunk']"/>

@@ -30,9 +30,7 @@ sect5:none
 
   <x:param name="ncx.toc.section.depth" select="2"/>
 
-  <x:scenario label="When generating full NCX TOC content"  pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+  <x:scenario label="When generating full NCX TOC content" >
     <x:call template="generate.ncx.toc.content">
       <!-- Test XSL is output to a subdir of the .xspec dir, which also contains skeleton, so relative path contains .. to go up a directory level -->
       <x:param name="toc.node" select="document('../skeleton.html')/*"/>
@@ -63,8 +61,6 @@ and the script from https://github.com/xspec/xspec.">
       </x:call>
       <x:expect label="It should have a meta element for the cover HTML" test="count(/ncx:ncx/ncx:head/ncx:meta[@name='cover']) = 1"/>
     </x:scenario>
-
-    <x:pending>
       <x:scenario label="With ncx.include.root.chunk enabled">
 	<x:expect label="navPoint for root chunk should be generated"/>
       </x:scenario>
@@ -72,13 +68,9 @@ and the script from https://github.com/xspec/xspec.">
       <x:scenario label="With ncx.include.root.chunk disabled">
 	<x:expect label="navPoint for root chunk *should not* be generated"/>
       </x:scenario>
-    </x:pending>
-    
       </x:scenario>
 
-    <x:scenario label="When a book section/div is matched in ncx.toc.gen mode"  pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+    <x:scenario label="When a book section/div is matched in ncx.toc.gen mode" >
       <x:context mode="ncx.toc.gen">
 	<section data-type="chapter">
 	  <h1>Test Chapter</h1>
@@ -175,9 +167,7 @@ and the script from https://github.com/xspec/xspec.">
 	<nav data-type="toc"/>
       </x:context>
 
-      <x:scenario label="...with $nav.in.ncx enabled"  pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+      <x:scenario label="...with $nav.in.ncx enabled" >
 	<x:context>
 	  <x:param name="nav.in.ncx" select="1"/>
 	</x:context>
@@ -193,9 +183,7 @@ and the script from https://github.com/xspec/xspec.">
       </x:scenario>
     </x:scenario>
 
-    <x:scenario label="When generate.navpoint is called"  pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+    <x:scenario label="When generate.navpoint is called" >
       <x:call template="generate.navpoint">
 	<x:param name="node">
 	  <section data-type="appendix">
