@@ -4,10 +4,11 @@
                xmlns:functx="http://www.functx.com"
 	       xmlns="http://www.w3.org/1999/xhtml"
 	       xmlns:h="http://www.w3.org/1999/xhtml"
-               stylesheet="../htmlbook.xsl">
+               stylesheet="../htmlbook.xsl"
+               run-as="external">
 
   <x:param name="book-language" select="'en'"/>
-  
+
   <!-- Use the following global label-generation params for testing of h1-h6 processing in the
        heading-processing section below -->
   <x:param name="label.numeration.by.data-type">
@@ -914,12 +915,13 @@ sect5:1
     </x:scenario>
     
     <x:scenario label="With add.title.heading.for.admonitions turned on (es language localization)">
+      <x:param name="book-language" select="'es'"/>
       <x:context>
         <x:param name="add.title.heading.for.admonitions" select="1"/>
       </x:context>
       <x:expect label="An admonition heading should be added">
         <div data-type="note">
-          <h6>Nota</h6>
+          <h6>nota</h6>
           <p>This is a note.</p>
         </div>
       </x:expect>
