@@ -6,11 +6,16 @@
 	       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
 	       xmlns:h="http://www.w3.org/1999/xhtml"
 	       xmlns:e="http://github.com/oreillymedia/epubrenderer"
-               stylesheet="xspec-chunk.xsl">
+               stylesheet="xspec-chunk.xsl"
+               run-as="external">
 
   <!-- xspec-chunk.xsl wraps chunk.xsl with functions-xslt2.xsl for Saxon HE 12.5 compatibility.
        Production uses chunk.xsl directly via lxml/libxslt with functions-exsl.xsl.
        Both function files implement identical logic; see htmlbook.xsl for full explanation. -->
+
+  <x:param name="book-language" select="'en'"/> <!-- Avoids context-dependent default in param.xsl -->
+  <x:param name="generate.cover.html" select="0"/> <!-- Avoids context-dependent default in epub.xsl -->
+  <x:param name="generate.root.chunk" select="0"/> <!-- Avoids context-dependent $chunks variable in chunk.xsl -->
 
   <!-- Globally setting url.in.parens to 0 here; tests for url.in.parens handling below modify param value on a oneoff basis -->
   <x:param name="url.in.parens" select="0"/>

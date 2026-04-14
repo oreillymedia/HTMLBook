@@ -17,6 +17,9 @@
 
   <!-- Global params for testing -->
 
+  <x:param name="book-language" select="'en'"/> <!-- Avoids context-dependent default in param.xsl -->
+  <x:param name="generate.cover.html" select="0"/> <!-- Avoids context-dependent default in epub.xsl -->
+  <x:param name="metadata.unique-identifier" select="'test-identifier'"/> <!-- Avoids context-dependent default in epub.xsl -->
   <x:param name="metadata.title" select="'Infinite Jest'"/>
 
   <x:param name="label.and.title.separator" select="'. '"/>

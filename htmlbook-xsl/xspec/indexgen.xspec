@@ -4,12 +4,14 @@
                xmlns:functx="http://www.functx.com"
 	       xmlns="http://www.w3.org/1999/xhtml"
 	       xmlns:h="http://www.w3.org/1999/xhtml"
-               stylesheet="xspec-htmlbook.xsl">
+               stylesheet="xspec-htmlbook.xsl"
+               run-as="external">
 
   <!-- xspec-htmlbook.xsl wraps htmlbook.xsl with functions-xslt2.xsl for Saxon HE 12.5 compatibility.
        Production uses htmlbook.xsl directly via lxml/libxslt with functions-exsl.xsl.
        Both function files implement identical logic; see htmlbook.xsl for full explanation. -->
 
+  <x:param name="book-language" select="'en'"/> <!-- Avoids context-dependent default in param.xsl -->
   <x:param name="autogenerate-index" select="1"/>
   <x:param name="index-placeholder-overwrite-contents" select="1"/>
 

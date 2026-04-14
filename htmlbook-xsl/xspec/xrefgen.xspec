@@ -6,11 +6,14 @@
 	       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
 	       xmlns:h="http://www.w3.org/1999/xhtml"
 	       xmlns:e="http://github.com/oreillymedia/epubrenderer"
-               stylesheet="xspec-htmlbook.xsl">
+               stylesheet="xspec-htmlbook.xsl"
+               run-as="external">
 
   <!-- xspec-htmlbook.xsl wraps htmlbook.xsl with functions-xslt2.xsl for Saxon HE 12.5 compatibility.
        Production uses htmlbook.xsl directly via lxml/libxslt with functions-exsl.xsl.
        Both function files implement identical logic; see htmlbook.xsl for full explanation. -->
+
+  <x:param name="book-language" select="'en'"/> <!-- Avoids context-dependent default in param.xsl -->
 
   <!-- Globally setting url.in.parens to 0 here; tests for url.in.parens handling below modify param value on a oneoff basis -->
   <x:param name="url.in.parens" select="0"/>
