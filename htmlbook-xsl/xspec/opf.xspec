@@ -506,8 +506,8 @@ css_images/pizza.svg
       <x:expect label="There should be an itemref for the cover if cover.in.spine is enabled and cover HTML is being generated"
 		test="exists(/opf:spine/opf:itemref[@idref = 'bookcover'])"/>
       <x:expect label="There should be an itemref for every chunk in the book"
-		test="every $chunk in ('preface', 'chapter', 'appendix')
-		      satisfies (exists(/opf:spine/opf:itemref[contains(@idref, $chunk)]))"/>
+		test="every $dtype in ('preface', 'chapter', 'appendix')
+		      satisfies (exists($x:result/opf:spine/opf:itemref[contains(@idref, $dtype)]))"/>
 
       <x:scenario label="with NCX TOC generation disabled">
 	<x:call>
@@ -535,7 +535,7 @@ css_images/pizza.svg
       <x:expect label="There should be a reference element for the cover if generate.cover.html is enabled" test="exists(/opf:guide/opf:reference[@type='cover'])"/>
       <!-- Note, we are no longer including the TOC element because of an error when sending EPUB to Amazon -->
       <x:expect label="There *should not* be a reference element to the EPUB Nav doc" test="not(exists(/opf:guide/opf:reference[@type='toc']))"/>
-      <x:expect label="There should be a title element in the start of text reference" test="exists(/opf:guide/opf:reference[contains(@type='text' and @title='Start of Text')])"/>
+      <x:expect label="There should be a title element in the start of text reference" test="exists(/opf:guide/opf:reference[@type='text' and @title='Start of Text'])"/>
       <x:scenario label="With generate.cover.html disabled">
 	<x:call>
 	  <x:param name="generate.cover.html"/>
@@ -653,7 +653,7 @@ css_images/pizza.svg
       <x:call template="has-element-in-chunk">
 	<x:param name="element-name" select="'svg'"/>
 	<x:param name="chunk" select="document('../skeleton.html')//h:section[@data-type =  'preface' and @id = 'svg_preface']"/>
-	<x:param name="chunk-id" select="generate-id($chunk)"/>
+	<x:param name="chunk-id" select="generate-id(document('../skeleton.html')//h:section[@data-type = 'preface' and @id = 'svg_preface'])"/>
       </x:call>
       <x:expect label="It should return 1 if an instance of the given element name can be found in the given chunk">1</x:expect>
     </x:scenario>
@@ -662,7 +662,7 @@ css_images/pizza.svg
       <x:call template="has-element-in-chunk">
 	<x:param name="element-name" select="'math'"/>
 	<x:param name="chunk" select="document('../skeleton.html')//h:section[@id = 'child_of_mml_chunk']"/>
-	<x:param name="chunk-id" select="generate-id($chunk)"/>
+	<x:param name="chunk-id" select="generate-id(document('../skeleton.html')//h:section[@id = 'child_of_mml_chunk'])"/>
       </x:call>
       <x:expect label="It should not return 1 if an instance of the given element name *cannot* be found in the given chunk (element in ancestor chunk)"
 		test="string-length($x:result) = 0"/>
@@ -672,7 +672,7 @@ css_images/pizza.svg
       <x:call template="has-element-in-chunk">
 	<x:param name="element-name" select="'svg'"/>
 	<x:param name="chunk" select="document('../skeleton.html')//h:section[@id = 'sibling_of_svg_chunk']"/>
-	<x:param name="chunk-id" select="generate-id($chunk)"/>
+	<x:param name="chunk-id" select="generate-id(document('../skeleton.html')//h:section[@id = 'sibling_of_svg_chunk'])"/>
       </x:call>
       <x:expect label="It should not return 1 if an instance of the given element name *cannot* be found in the given chunk (element in sibling chunk)"
 		test="string-length($x:result) = 0"/>
