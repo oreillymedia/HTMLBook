@@ -6,7 +6,11 @@
 	       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
 	       xmlns:h="http://www.w3.org/1999/xhtml"
 	       xmlns:e="http://github.com/oreillymedia/epubrenderer"
-               stylesheet="../htmlbook.xsl">
+               stylesheet="xspec-htmlbook.xsl">
+
+  <!-- xspec-htmlbook.xsl wraps htmlbook.xsl with functions-xslt2.xsl for Saxon HE 12.5 compatibility.
+       Production uses htmlbook.xsl directly via lxml/libxslt with functions-exsl.xsl.
+       Both function files implement identical logic; see htmlbook.xsl for full explanation. -->
 
   <x:param name="autogenerate-toc" select="0"/>
   <x:param name="toc-placeholder-overwrite-contents" select="0"/>

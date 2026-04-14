@@ -9,8 +9,12 @@
 	       xmlns:opf="http://www.idpf.org/2007/opf"
 	       xmlns:h="http://www.w3.org/1999/xhtml"
 	       xmlns:e="http://github.com/oreillymedia/epubrenderer"
-               stylesheet="../epub.xsl"
+               stylesheet="xspec-epub.xsl"
                run-as="external">
+
+  <!-- xspec-epub.xsl wraps epub.xsl with functions-xslt2.xsl for Saxon HE 12.5 compatibility.
+       Production uses epub.xsl directly via lxml/libxslt with functions-exsl.xsl.
+       Both function files implement identical logic; see htmlbook.xsl for full explanation. -->
 
   <!-- Test suite for opf.xsl -->
 

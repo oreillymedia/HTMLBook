@@ -19,9 +19,17 @@
   <xsl:include href="indexgen.xsl"/> <!-- Autogeneration of index if specified in autogenerate-index -->
   <xsl:include href="xrefgen.xsl"/> <!-- Autogeneration of XREFs if specified in autogenerate-xrefs -->
 
-  <xsl:include href="functions-exsl.xsl"/>   <!-- Functions that are compatible with exsl package -->
-  <!-- If you are using an XSLT 2.0 processor, comment out the above include and uncomment the following include -->
-  <!-- <xsl:include href="functions-xslt2.xsl"/> --> <!-- Functions that are compatible with XSLT 2.0 processors --> 
+  <!-- Two implementations of HTMLBook functions are provided:
+       - functions-exsl.xsl: EXSL func:function syntax, used in production via lxml/libxslt
+         (the HTMLBook -> EPUB/chunked HTML pipeline in orm-atlas-workers)
+       - functions-xslt2.xsl: xsl:function syntax, used by the XSpec test suite (Saxon HE 12.5)
+         and also compatible with the Saxon-based DocBook -> HTMLBook pipeline.
+       Both files implement identical logic. If you modify one, update the other.
+       Production (lxml/libxslt) uses this file: -->
+  <xsl:include href="functions-exsl.xsl"/>
+  <!-- The XSpec test suite uses functions-xslt2.xsl instead; see xspec files for chunk.xsl,
+       epub.xsl, and htmlbook.xsl entry points. -->
+  <!-- <xsl:include href="functions-xslt2.xsl"/> -->
 
   <xsl:output method="xml"
               encoding="UTF-8"/>

@@ -7,9 +7,13 @@
 	       xmlns:h="http://www.w3.org/1999/xhtml"
 	       xmlns:e="http://github.com/oreillymedia/epubrenderer"
 	       xmlns:htmlbook="https://github.com/oreillymedia/HTMLBook"
-               stylesheet="../chunk.xsl">
+               stylesheet="xspec-chunk.xsl">
 
-<x:scenario 
+  <!-- xspec-chunk.xsl wraps chunk.xsl with functions-xslt2.xsl for Saxon HE 12.5 compatibility.
+       Production uses chunk.xsl directly via lxml/libxslt with functions-exsl.xsl.
+       Both function files implement identical logic; see htmlbook.xsl for full explanation. -->
+
+<x:scenario
   label="When calling output-filename-for-chunk" 
  >
 	<x:call template="output-filename-for-chunk">
