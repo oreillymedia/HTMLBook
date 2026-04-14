@@ -3,10 +3,9 @@
 		xmlns:exsl="http://exslt.org/common"
 		xmlns:h="http://www.w3.org/1999/xhtml"
 		xmlns:htmlbook="https://github.com/oreillymedia/HTMLBook"
-		xmlns:set="http://exslt.org/sets"
 		xmlns="http://www.w3.org/1999/xhtml"
-		extension-element-prefixes="exsl set"
-		exclude-result-prefixes="exsl h set">
+		extension-element-prefixes="exsl"
+		exclude-result-prefixes="exsl h">
 
   <xsl:function name="htmlbook:is-chunk">
     <xsl:param name="node"/>
@@ -49,7 +48,7 @@
     <xsl:variable name="self-and-ancestors" select="$node/ancestor-or-self::*"/>
 
     <!-- 2. Find out which of these "self and ancestors" are also chunks -->
-    <xsl:variable name="self-and-ancestors-that-are-chunks" select="set:intersection($self-and-ancestors, $chunks)"/>
+    <xsl:variable name="self-and-ancestors-that-are-chunks" select="$self-and-ancestors intersect $chunks"/>
 
     <!-- 3. Desired chunk is the last (lowest in hierarchy) in this nodeset -->
     <xsl:variable name="chunk.node" select="$self-and-ancestors-that-are-chunks[last()]"/>
