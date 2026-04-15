@@ -4,7 +4,17 @@
                xmlns:functx="http://www.functx.com"
 	       xmlns="http://www.w3.org/1999/xhtml"
 	       xmlns:h="http://www.w3.org/1999/xhtml"
-               stylesheet="../htmlbook.xsl">
+               stylesheet="xspec-htmlbook.xsl"
+               run-as="external">
+
+  <!-- xspec-htmlbook.xsl wraps htmlbook.xsl with functions-xslt2.xsl for Saxon HE 12.5 compatibility.
+       Production uses htmlbook.xsl directly via lxml/libxslt with functions-exsl.xsl.
+       Both function files implement identical logic; see htmlbook.xsl for full explanation. -->
+
+  <!-- Test suite for common.xsl -->
+
+  <!-- Global params for testing -->
+  <x:param name="book-language" select="'en'"/> <!-- Avoids context-dependent default in param.xsl -->
 
   <x:param name="label.numeration.by.data-type">
 appendix:A
@@ -16,8 +26,6 @@ sect3:none
 sect4:none
 sect5:none
   </x:param>
-
-  <!-- Test suite for common.xsl -->
 
   <!-- Title markup tests -->
   <x:scenario label="When generating a title for a section">
@@ -1264,33 +1272,75 @@ sect5:none
       </x:scenario>
     </x:scenario>
     <x:scenario label="When generating a label for a part div with label.section.with.ancestors enabled">
-      <x:context>
+      <!-- Note: parts have no ancestor sections, so label.section.with.ancestors does not change the output -->
+      <x:param name="label.section.with.ancestors" select="1"/>
+      <x:context mode="label.markup" select="/h:body/h:div[@data-type='part'][2]">
+	<body>
+	  <div data-type="part">
+	    <h1>First Part</h1>
+	  </div>
+	  <div data-type="part">
+	    <h1>Second Part</h1>
+	  </div>
+	</body>
       </x:context>
-      <x:expect label="The appropriate numeration value should be generated"/>
+      <x:expect label="The appropriate numeration value should be generated">II</x:expect>
     </x:scenario>
 
     <x:scenario label="When generating a label for a section (chapter) with label.section.with.ancestors enabled">
-      <x:context>
+      <!-- Note: chapters have no ancestor sections, so label.section.with.ancestors does not change the output -->
+      <x:param name="label.section.with.ancestors" select="1"/>
+      <x:context mode="label.markup" select="/h:body/h:section[@data-type='chapter'][1]">
+	<body>
+	  <section data-type="chapter">
+	    <h1>First Chapter</h1>
+	  </section>
+	</body>
       </x:context>
-      <x:expect label="The appropriate numeration value should be generated"/>
+      <x:expect label="The appropriate numeration value should be generated">1</x:expect>
     </x:scenario>
 
     <x:scenario label="When generating a label for a section (subsection) with label.section.with.ancestors enabled">
-      <x:context>
+      <!-- With label.section.with.ancestors enabled, ancestor section labels are prepended -->
+      <x:param name="label.section.with.ancestors" select="1"/>
+      <x:context mode="label.markup" select="/h:section[@data-type='chapter']/h:section[@data-type='sect1'][1]">
+	<section data-type="chapter">
+	  <h1>A Chapter</h1>
+	  <section data-type="sect1">
+	    <h1>First Subsection</h1>
+	  </section>
+	</section>
       </x:context>
-      <x:expect label="The appropriate numeration value should be generated"/>
+      <!-- chapter label "1" + intralabel.punctuation "." + sect1 label "a" -->
+      <x:expect label="The appropriate numeration value should be generated">1.a</x:expect>
     </x:scenario>
 
     <x:scenario label="When generating a label for an example">
-      <x:context>
+      <x:context mode="label.markup" select="//h:section//h:div[@data-type='example']">
+	<section data-type="chapter">
+	  <h1>A Chapter</h1>
+	  <div data-type="example">
+	    <h6>A Code Example</h6>
+	    <pre data-type="programlisting">puts "Hello"</pre>
+	  </div>
+	</section>
       </x:context>
-      <x:expect label="The appropriate numeration value should be generated"/>
+      <!-- With default label.formal.with.ancestor=1: chapter label "1" + intralabel.punctuation "-" + example count "1" -->
+      <x:expect label="The appropriate numeration value should be generated">1-1</x:expect>
     </x:scenario>
 
     <x:scenario label="When generating a label for an example (label.formal.with.ancestor = false)">
-      <x:context>
+      <x:context mode="label.markup" select="//h:section//h:div[@data-type='example']">
+	<x:param name="label.formal.with.ancestor" select="0"/>
+	<section data-type="chapter">
+	  <h1>A Chapter</h1>
+	  <div data-type="example">
+	    <h6>A Code Example</h6>
+	    <pre data-type="programlisting">puts "Hello"</pre>
+	  </div>
+	</section>
       </x:context>
-      <x:expect label="The appropriate numeration value should be generated"/>
+      <x:expect label="The appropriate numeration value should be generated">1</x:expect>
     </x:scenario>
   <!-- Heading processing templates -->
   <x:scenario label="When process-headings is run on a section heading with $autogenerate.labels turned off">
