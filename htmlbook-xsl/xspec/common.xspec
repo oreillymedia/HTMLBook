@@ -4,8 +4,7 @@
                xmlns:functx="http://www.functx.com"
 	       xmlns="http://www.w3.org/1999/xhtml"
 	       xmlns:h="http://www.w3.org/1999/xhtml"
-               stylesheet="xspec-htmlbook.xsl"
-               run-as="external">
+               stylesheet="xspec-htmlbook.xsl">
 
   <!-- xspec-htmlbook.xsl wraps htmlbook.xsl with functions-xslt2.xsl for Saxon HE 12.5 compatibility.
        Production uses htmlbook.xsl directly via lxml/libxslt with functions-exsl.xsl.
@@ -1271,49 +1270,8 @@ sect5:none
 	<x:expect label="Don't return any text" select="()"/>
       </x:scenario>
     </x:scenario>
-    <x:scenario label="When generating a label for a part div with label.section.with.ancestors enabled">
-      <!-- Note: parts have no ancestor sections, so label.section.with.ancestors does not change the output -->
-      <x:param name="label.section.with.ancestors" select="1"/>
-      <x:context mode="label.markup" select="/h:body/h:div[@data-type='part'][2]">
-	<body>
-	  <div data-type="part">
-	    <h1>First Part</h1>
-	  </div>
-	  <div data-type="part">
-	    <h1>Second Part</h1>
-	  </div>
-	</body>
-      </x:context>
-      <x:expect label="The appropriate numeration value should be generated">II</x:expect>
-    </x:scenario>
-
-    <x:scenario label="When generating a label for a section (chapter) with label.section.with.ancestors enabled">
-      <!-- Note: chapters have no ancestor sections, so label.section.with.ancestors does not change the output -->
-      <x:param name="label.section.with.ancestors" select="1"/>
-      <x:context mode="label.markup" select="/h:body/h:section[@data-type='chapter'][1]">
-	<body>
-	  <section data-type="chapter">
-	    <h1>First Chapter</h1>
-	  </section>
-	</body>
-      </x:context>
-      <x:expect label="The appropriate numeration value should be generated">1</x:expect>
-    </x:scenario>
-
-    <x:scenario label="When generating a label for a section (subsection) with label.section.with.ancestors enabled">
-      <!-- With label.section.with.ancestors enabled, ancestor section labels are prepended -->
-      <x:param name="label.section.with.ancestors" select="1"/>
-      <x:context mode="label.markup" select="/h:section[@data-type='chapter']/h:section[@data-type='sect1'][1]">
-	<section data-type="chapter">
-	  <h1>A Chapter</h1>
-	  <section data-type="sect1">
-	    <h1>First Subsection</h1>
-	  </section>
-	</section>
-      </x:context>
-      <!-- chapter label "1" + intralabel.punctuation "." + sect1 label "a" -->
-      <x:expect label="The appropriate numeration value should be generated">1.a</x:expect>
-    </x:scenario>
+    <!-- label.section.with.ancestors tests are in common-label-ancestors.xspec,
+         which sets label.section.with.ancestors=1 as a global description-level param -->
 
     <x:scenario label="When generating a label for an example">
       <x:context mode="label.markup" select="//h:section//h:div[@data-type='example']">
@@ -1485,14 +1443,17 @@ sect5:none
       <x:context>
 	<section data-type="chapter"/>
       </x:context>
-      <x:expect label="No @class should be generated" test="not(exists(//@class))"/>
+      <!-- class.attribute mode produces an attribute node. XSpec cannot wrap an attribute node
+           in a document root (XTDE0420), so absolute paths like //@class fail with "context item
+           is absent". Use $x:result directly instead, which is always available in XSpec v3+. -->
+      <x:expect label="No @class should be generated" test="empty($x:result)"/>
     </x:scenario>
-    
+
     <x:scenario label="and its generated class attribute (via class.value) is non empty">
       <x:context>
 	<section data-type="chapter" class="case-study"/>
       </x:context>
-      <x:expect label="@class should be generated" test="exists(//@class)"/>
+      <x:expect label="@class should be generated" test="exists($x:result)"/>
     </x:scenario>
     </x:scenario>
   <!-- class.value handling -->
@@ -1545,34 +1506,37 @@ sect5:none
     </x:context>
   	
   	<!-- Chris's refsect/entry tests here -->
+  	<!-- Note: xref.target cannot use select="//*[@id='...']" here because XSpec v3.4.3 does not
+  	     evaluate x:param/@select in a child x:context against the parent's context document.
+  	     The target element is provided as inline content instead. -->
   	<x:scenario label="that points to a refentry element in the xref.elements.pagenum.in.class list">
   		<x:context select="//h:a[@data-type='xref'][@id='refentry_no_title_xref']">
   			<x:param name="xref.elements.pagenum.in.class">refentry</x:param>
-  			<x:param name="xref.target" select="//*[@id='refentry_no_title']"/>
+  			<x:param name="xref.target"><div class="refentry" id="refentry_no_title"/></x:param>
   		</x:context>
   		<x:expect label="Class value of 'pagenum' should be returned">pagenum</x:expect>
   	</x:scenario>
-  	
+
   	<x:scenario label="that points to a refentry element *not in* the xref.elements.pagenum.in.class list (no existing class)">
   		<x:context select="//h:a[@data-type='xref'][@id='refentry_no_title_xref']">
   			<x:param name="xref.elements.pagenum.in.class"/>
-  			<x:param name="xref.target" select="//*[@id='refentry_no_title']"/>
+  			<x:param name="xref.target"><div class="refentry" id="refentry_no_title"/></x:param>
   		</x:context>
   		<x:expect label="Class value of 'pagenum' should NOT be returned" select="()"/>
   	</x:scenario>
-  	
+
   	<x:scenario label="that points to a refsect1 element in the xref.elements.pagenum.in.class list">
   		<x:context select="//h:a[@data-type='xref'][@id='refsect1_xref']">
   			<x:param name="xref.elements.pagenum.in.class">refsect1</x:param>
-  			<x:param name="xref.target" select="//*[@id='refsect1']"/>
+  			<x:param name="xref.target"><div class="refsect1" id="refsect1"/></x:param>
   		</x:context>
   		<x:expect label="Class value of 'pagenum' should be returned">pagenum</x:expect>
   	</x:scenario>
-  	
+
   	<x:scenario label="that points to a refsect1 element *not in* the xref.elements.pagenum.in.class list (no existing class)">
   		<x:context select="//h:a[@data-type='xref'][@id='refsect1_xref']">
   			<x:param name="xref.elements.pagenum.in.class"/>
-  			<x:param name="xref.target" select="//*[@id='refsect1']"/>
+  			<x:param name="xref.target"><div class="refsect1" id="refsect1"/></x:param>
   		</x:context>
   		<x:expect label="Class value of 'pagenum' should NOT be returned" select="()"/>
   	</x:scenario>
@@ -1580,27 +1544,31 @@ sect5:none
   	<x:scenario label="that points to a refsect2 element in the xref.elements.pagenum.in.class list">
   		<x:context select="//h:a[@data-type='xref'][@id='refsect2_xref']">
   			<x:param name="xref.elements.pagenum.in.class">refsect2</x:param>
-  			<x:param name="xref.target" select="//*[@id='refsect2']"/>
+  			<x:param name="xref.target"><div class="refsect2" id="refsect2"/></x:param>
   		</x:context>
   		<x:expect label="Class value of 'pagenum' should be returned">pagenum</x:expect>
   	</x:scenario>
-  	
+
   	<x:scenario label="that points to a refsect2 element *not in* the xref.elements.pagenum.in.class list (no existing class)">
   		<x:context select="//h:a[@data-type='xref'][@id='refsect2_xref']">
   			<x:param name="xref.elements.pagenum.in.class"/>
-  			<x:param name="xref.target" select="//*[@id='refsect2']"/>
+  			<x:param name="xref.target"><div class="refsect2" id="refsect2"/></x:param>
   		</x:context>
   		<x:expect label="Class value of 'pagenum' should NOT be returned" select="()"/>
   	</x:scenario>
 
   	<!-- Chris's refsect/entry tests END here -->
   	
+    <!-- Note: xref.target uses inline content rather than select="//*[@id='...']" because
+         XSpec v3.4.3 cannot evaluate absolute path select expressions in x:param within a child
+         x:context. The semantic-name template inspects only the node's element name, @data-type,
+         and @class — it does not traverse the document — so inline content is equivalent. -->
     <x:scenario label="that points to an element in the xref.elements.pagenum.in.class list" >
       <x:context select="//h:a[@data-type='xref'][@id='chapter_xref']">
 	<x:param name="xref.elements.pagenum.in.class">chapter
 sidebar
 	</x:param>
-	<x:param name="xref.target" select="//*[@id='second']"/>
+	<x:param name="xref.target"><section data-type="chapter" id="second"/></x:param>
       </x:context>
       <x:expect label="Class value of 'pagenum' should be returned">pagenum</x:expect>
     </x:scenario>
@@ -1610,7 +1578,7 @@ sidebar
 	<x:param name="xref.elements.pagenum.in.class">chapter
 sidebar
 	</x:param>
-	<x:param name="xref.target" select="//h:aside[@id='sidebar']"/>
+	<x:param name="xref.target"><aside data-type="sidebar" id="sidebar"/></x:param>
       </x:context>
       <x:expect label="Class value of 'pagenum' should be appended to existing class value list">underline pagenum</x:expect>
     </x:scenario>
@@ -1620,7 +1588,7 @@ sidebar
 	<x:param name="xref.elements.pagenum.in.class">chapter
 sidebar
 	</x:param>
-	<x:param name="xref.target" select="//*[@id='chapter2_sect1']"/>
+	<x:param name="xref.target"><section data-type="sect1" id="chapter2_sect1"/></x:param>
       </x:context>
       <x:expect label="Class value of 'pagenum' should not be added. Returned value should be empty" select="()"/>
     </x:scenario>
@@ -1630,7 +1598,7 @@ sidebar
 	<x:param name="xref.elements.pagenum.in.class">chapter
 sect1
 	</x:param>
-	<x:param name="xref.target" select="//*[@id='sidebar']"/>
+	<x:param name="xref.target"><aside data-type="sidebar" id="sidebar"/></x:param>
       </x:context>
       <x:expect label="Class value of 'pagenum' *should not* be added. Class value preserved as is">underline</x:expect>
     </x:scenario>
@@ -1641,7 +1609,7 @@ sect1
 	<x:param name="xref.elements.pagenum.in.class">chapter
 sidebar
 	</x:param>
-	<x:param name="xref.target" select="//h:section[@id='chapter2_sect1']"/>
+	<x:param name="xref.target"><section data-type="sect1" id="chapter2_sect1"/></x:param>
       </x:context>
       <x:expect label="Class value of 'pagenum' should not be appended" select="()"/>
     </x:scenario>
@@ -1651,7 +1619,7 @@ sidebar
 	<x:param name="xref.elements.pagenum.in.class">chapter
 sect1
 	</x:param>
-	<x:param name="xref.target" select="//h:section[@id='chapter2_sect1']"/>
+	<x:param name="xref.target"><section data-type="sect1" id="chapter2_sect1"/></x:param>
       </x:context>
       <x:expect label="Class value of 'pagenum' should not be appended" select="()"/>
     </x:scenario>
@@ -1661,7 +1629,7 @@ sect1
 	<x:param name="xref.elements.pagenum.in.class">chapter
 sidebar
 	</x:param>
-	<x:param name="xref.target" select="//h:section[@id='chapter2_sect1']"/>
+	<x:param name="xref.target"><section data-type="sect1" id="chapter2_sect1"/></x:param>
       </x:context>
       <x:expect label="Class value of 'pagenum' should not be appended">underline</x:expect>
     </x:scenario>
@@ -1671,7 +1639,7 @@ sidebar
 	<x:param name="xref.elements.pagenum.in.class">chapter
 sect1
 	</x:param>
-	<x:param name="xref.target" select="//h:section[@id='chapter2_sect1']"/>
+	<x:param name="xref.target"><section data-type="sect1" id="chapter2_sect1"/></x:param>
       </x:context>
       <x:expect label="Class value of 'pagenum' should not be appended">underline</x:expect>
     </x:scenario>
