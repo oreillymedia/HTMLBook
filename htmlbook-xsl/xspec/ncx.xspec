@@ -19,7 +19,9 @@
 
   <x:param name="book-language" select="'en'"/> <!-- Avoids context-dependent default in param.xsl -->
   <x:param name="generate.cover.html" select="0"/> <!-- Avoids context-dependent default in epub.xsl -->
+  <x:param name="generate.root.chunk" select="0"/> <!-- Avoids context-dependent default in epub.xsl -->
   <x:param name="metadata.unique-identifier" select="'test-identifier'"/> <!-- Avoids context-dependent default in epub.xsl -->
+  <x:param name="computed.identifier" select="'test-identifier'"/> <!-- Avoids context-dependent default in epub.xsl -->
   <x:param name="metadata.title" select="'Infinite Jest'"/>
 
   <x:param name="label.and.title.separator" select="'. '"/>
@@ -38,6 +40,9 @@ sect5:none
   <x:param name="ncx.toc.section.depth" select="2"/>
 
   <x:scenario label="When generating full NCX TOC content" >
+    <!-- Providing skeleton.html as source document so that the $chunks global variable in chunk.xsl
+         (which uses key()) has a context item when filename-for-node is called during navPoint generation. -->
+    <x:context href="skeleton.html"/>
     <x:call template="generate.ncx.toc.content">
       <!-- Test XSL is output to a subdir of the .xspec dir, which also contains skeleton, so relative path contains .. to go up a directory level -->
       <x:param name="toc.node" select="document('../skeleton.html')/*"/>
@@ -116,11 +121,11 @@ sect5:none
 	    </section>
 	  </section>
 	</x:context>
-	<x:expect label="Don't generate a navPoint" test="not(exists(ncx:navPoint))"/>
+	<x:expect label="Don't generate a navPoint" test="empty($x:result)"/>
 
 	<x:scenario label="when source TOC section elements have a class of 'notoc'">
 	  <x:context mode="ncx.toc.gen" select="(//h:section[@class='notoc'])[1]"/>
-	  <x:expect label="Don't generate a navPoint" test="not(exists(ncx:navPoint))"/>
+	  <x:expect label="Don't generate a navPoint" test="empty($x:result)"/>
 	</x:scenario>
       </x:scenario>
     </x:scenario>
@@ -191,6 +196,8 @@ sect5:none
     </x:scenario>
 
     <x:scenario label="When generate.navpoint is called" >
+      <!-- Providing skeleton.html as source document so $chunks has a context item (see generate.ncx.toc.content scenario) -->
+      <x:context href="skeleton.html"/>
       <x:call template="generate.navpoint">
 	<x:param name="node">
 	  <section data-type="appendix">

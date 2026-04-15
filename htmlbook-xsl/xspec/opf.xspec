@@ -19,8 +19,12 @@
   <!-- Test suite for opf.xsl -->
 
   <!-- Global params for testing -->
+  <x:param name="book-language" select="'en'"/> <!-- Avoids context-dependent default in param.xsl -->
   <x:param name="metadata.unique-identifier.id" select="'pub-identifier'"/>
   <x:param name="metadata.unique-identifier"/> <!-- Leave blank globally -->
+  <x:param name="computed.identifier" select="'test-identifier'"/> <!-- Avoids context-dependent default in epub.xsl -->
+  <x:param name="metadata.title" select="'Test Book'"/> <!-- Avoids context-dependent default in epub.xsl -->
+  <x:param name="metadata.modified" select="'2000-01-01T00:00:00Z'"/> <!-- Avoids EXSL date:date-time() call, not supported by Saxon HE -->
   <x:param name="metadata.ibooks-specified-fonts" select="1"/>
   <x:param name="generate.cover.html" select="1"/>
   <x:param name="generate.root.chunk" select="0"/> <!-- Default for tests; avoids context-dependent //h:section and /* expressions -->
@@ -73,6 +77,9 @@ css_images/pizza.svg
   </x:scenario>
 
   <x:scenario label="When generate.opf is run">
+    <!-- Providing skeleton.html as source document so that context-dependent global params in epub.xsl
+         (metadata.rights, metadata.publisher, etc.) have a context item when lazily evaluated. -->
+    <x:context href="skeleton.html"/>
     <x:call template="generate.opf.content"/>
 
     <x:expect label="A package root element should be generated with the proper namespaces">
@@ -97,6 +104,7 @@ css_images/pizza.svg
   </x:scenario>
 
   <x:scenario label="When opf.manifest is run">
+    <x:context href="skeleton.html"/>
     <x:call template="opf.manifest"/>
     <!-- Based on font list specified in global param $external.assets.list -->
     <x:expect label="there should be items for each external asset" test="exists(/opf:manifest/opf:item[@href='DejaVuSerif.otf']) and
@@ -169,6 +177,7 @@ css_images/pizza.svg
   </x:scenario>
 
   <x:scenario label="When manifest-audio-video-assets is called">
+    <x:context href="skeleton.html"/>
     <x:call template="manifest-audio-video-assets">
       <x:param name="asset-nodes">
 	<video src="dancing-puppy.mp4"/>
@@ -244,6 +253,7 @@ css_images/pizza.svg
   </x:scenario>
 
   <x:scenario label="When manifest-images is called">
+    <x:context href="skeleton.html"/>
     <x:call template="manifest-images">
       <x:param name="img-nodes">
 	<img src="puppy.jpg"/>
@@ -275,6 +285,7 @@ css_images/pizza.svg
   </x:scenario>
 
   <x:scenario label="When manifest-html is called (no embedded MathML or SVG in chunks)">
+    <x:context href="skeleton.html"/>
     <x:call template="manifest-html">
       <x:param name="chunk.nodes">
 	<section data-type="chapter">
@@ -297,6 +308,7 @@ css_images/pizza.svg
   </x:scenario>
 
   <x:scenario label="When manifest-html is called for a chunk node that contains MathML">
+    <x:context href="skeleton.html"/>
     <x:call template="manifest-html">
       <x:param name="chunk.nodes">
 	<section data-type="chapter">
@@ -312,6 +324,7 @@ css_images/pizza.svg
   </x:scenario>
 
   <x:scenario label="When manifest-html is called for a chunk node that contains SVG">
+    <x:context href="skeleton.html"/>
     <x:call template="manifest-html">
       <x:param name="chunk.nodes">
 	<section data-type="chapter">
@@ -327,6 +340,7 @@ css_images/pizza.svg
   </x:scenario>
 
   <x:scenario label="When manifest-html is called for a chunk node that contains MathML *and* SVG">
+    <x:context href="skeleton.html"/>
     <x:call template="manifest-html">
       <x:param name="chunk.nodes">
 	<section data-type="chapter">
@@ -442,6 +456,7 @@ css_images/pizza.svg
   </x:scenario>
 
     <x:scenario label="When generating OPF metadata for book without any metadata supplied or a cover">
+      <x:context href="skeleton.html"/>
       <x:call template="opf.metadata">
 	<x:param name="computed.identifier" select="'randomid-test'"/>
 	<x:param name="metadata.ibooks-specified-fonts"/>
@@ -483,6 +498,7 @@ css_images/pizza.svg
     </x:scenario>
 
     <x:scenario label="When generate-spine is called">
+      <x:context href="skeleton.html"/>
       <x:call template="generate-spine">
 	<x:param name="generate.ncx.toc" select="1"/>
 	<x:param name="cover.in.spine" select="1"/>
@@ -524,6 +540,7 @@ css_images/pizza.svg
     </x:scenario>
 
     <x:scenario label="When generate-guide is called">
+      <x:context href="skeleton.html"/>
       <x:call template="generate-guide">
 	<x:param name="generate.cover.html" select="1"/>
 	<x:param name="html5.toc.node">
