@@ -1,0 +1,107 @@
+/****************************************************************************/
+/*  File:       test-report-colors-classic.css                              */
+/* ------------------------------------------------------------------------ */
+
+/* text and background colours */
+body {
+	background-color: white;
+	color: black;
+}
+
+h1 {
+	background: #606;
+	color: #6f6;
+}
+
+h2 {
+	color: #606;
+	background: #cfc;
+}
+
+a:link {
+	color: #636;
+	background: transparent;
+}
+
+a:visited {
+	color: #606;
+	background: transparent;
+}
+
+a:hover {
+	color: #636;
+	background: #9f9;
+}
+
+a:active {
+	color: #6f6;
+	background: #606;
+}
+
+.same {
+	background-color: rgb(206, 239, 174);
+}
+
+.inner-diff {
+	background-color: rgba(255, 204, 204, 0.4);
+}
+
+.diff {
+	background-color: #fcc;
+}
+
+/*
+ * Whitespace notation in diffs in test result report,
+ * not literal whitespace characters in code coverage report.
+ */
+td > pre > .whitespace {
+	color: #999;
+}
+
+.ellipsis {
+	color: #999;
+}
+
+.xmlns.trivial {
+	color: #c0c0c0;
+}
+
+div > table > tbody > tr > th:first-child {
+	color: #474747;
+}
+
+.xspec tbody td {
+	color: #262626;
+}
+
+.successful {
+	background-color: #cfc;
+}
+.pending {
+	background-color: #eee;
+	color: #666;
+}
+.failed {
+	background-color: #fcc;
+}
+
+/* code coverage report styles */
+.ignored,
+.comment,
+pre.xspecCoverage > .whitespace {
+	color: #999;
+	background: white;
+}
+
+.unknown {
+	color: #999;
+	background: white;
+}
+
+.hit {
+}
+
+.missed {
+	color: white;
+	background-color: #a33;
+}

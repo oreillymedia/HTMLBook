@@ -4,8 +4,14 @@
                xmlns:functx="http://www.functx.com"
 	       xmlns="http://www.w3.org/1999/xhtml"
 	       xmlns:h="http://www.w3.org/1999/xhtml"
-               stylesheet="../htmlbook.xsl">
+               stylesheet="xspec-htmlbook.xsl"
+               run-as="external">
 
+  <!-- xspec-htmlbook.xsl wraps htmlbook.xsl with functions-xslt2.xsl for Saxon HE 12.5 compatibility.
+       Production uses htmlbook.xsl directly via lxml/libxslt with functions-exsl.xsl.
+       Both function files implement identical logic; see htmlbook.xsl for full explanation. -->
+
+  <x:param name="book-language" select="'en'"/> <!-- Avoids context-dependent default in param.xsl -->
   <x:param name="autogenerate-index" select="1"/>
   <x:param name="index-placeholder-overwrite-contents" select="1"/>
 
@@ -21,27 +27,21 @@
       </section>
     </x:context>
 
-    <x:scenario label="With autogenerate.xref.pagenum.style turned off" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+    <x:scenario label="With autogenerate.xref.pagenum.style turned off">
       <x:context select="(//h:a[@data-type='indexterm'])[1]" mode="reference">
 	<x:param name="autogenerate.xref.pagenum.style" select="0"/>
       </x:context>
       <x:expect label="No indexentry XREFs should have data-xref-pagenum-style attributes" test="not(exists($x:result[@data-xref-pagenum-style]))"/>
     </x:scenario>
 
-    <x:scenario label="With autogenerate.xref.pagenum.style turned on" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+    <x:scenario label="With autogenerate.xref.pagenum.style turned on">
       <x:context>
 	<x:param name="autogenerate.xref.pagenum.style" select="1"/>
       </x:context>	
       <x:expect label="All indexentry XREFs should have data-xref-pagenum-style attributes" test="count(//h:a) &gt; 0 and not(exists(//h:a[not(@data-xref-pagenum-style)]))"/>
     </x:scenario>
 
-    <x:scenario label="With html4.structural.elements turned off" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+    <x:scenario label="With html4.structural.elements turned off">
       <x:context>
         <x:param name="html4.structural.elements" select="0"/>
       </x:context>
@@ -51,9 +51,7 @@ and the script from https://github.com/xspec/xspec.">
       <x:expect label="There should be no div for backward compatibility in the output" test="not(exists($x:result[.//h:div[@class='index']]))"/>
     </x:scenario>
     
-    <x:scenario label="With html4.structural.elements turned on" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+    <x:scenario label="With html4.structural.elements turned on">
       <x:context>
         <x:param name="html4.structural.elements" select="1"/>
       </x:context>

@@ -6,8 +6,17 @@
 	       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
 	       xmlns:h="http://www.w3.org/1999/xhtml"
 	       xmlns:e="http://github.com/oreillymedia/epubrenderer"
-               stylesheet="../chunk.xsl">
-  
+               stylesheet="xspec-chunk.xsl"
+               run-as="external">
+
+  <!-- xspec-chunk.xsl wraps chunk.xsl with functions-xslt2.xsl for Saxon HE 12.5 compatibility.
+       Production uses chunk.xsl directly via lxml/libxslt with functions-exsl.xsl.
+       Both function files implement identical logic; see htmlbook.xsl for full explanation. -->
+
+  <x:param name="book-language" select="'en'"/> <!-- Avoids context-dependent default in param.xsl -->
+  <x:param name="generate.cover.html" select="0"/> <!-- Avoids context-dependent default in epub.xsl -->
+  <x:param name="generate.root.chunk" select="0"/> <!-- Avoids context-dependent $chunks variable in chunk.xsl -->
+
   <!-- Globally setting url.in.parens to 0 here; tests for url.in.parens handling below modify param value on a oneoff basis -->
   <x:param name="url.in.parens" select="0"/>
 
@@ -47,9 +56,7 @@ toc:lower-roman
       </section>
     </x:context>
     
-    <x:scenario label="And autogenerate-xrefs param is disabled" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+    <x:scenario label="And autogenerate-xrefs param is disabled">
       <x:context>
 	<x:param name="autogenerate-xrefs" select="0"/>
       </x:context>
@@ -58,9 +65,7 @@ and the script from https://github.com/xspec/xspec.">
       </x:expect>
     </x:scenario>
     
-    <x:scenario label="And autogenerate-xrefs param is enabled" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+    <x:scenario label="And autogenerate-xrefs param is enabled">
       <x:context>
 	<x:param name="autogenerate-xrefs" select="1"/>
       </x:context>
@@ -72,9 +77,7 @@ and the script from https://github.com/xspec/xspec.">
     </x:scenario>    
   </x:scenario>
 
-  <x:scenario label="When *nonempty* XREF element is matched" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+  <x:scenario label="When *nonempty* XREF element is matched">
     <x:context select="(//h:section//h:a[@data-type='xref'])[1]">
       <section id="chapter1" data-type="chapter">
 	<p>Here comes a cross-reference: see <a data-type="xref" href="#chapter1">PLACEHOLDER</a></p>
@@ -102,9 +105,7 @@ and the script from https://github.com/xspec/xspec.">
     </x:scenario>
   </x:scenario>
 
-  <x:scenario label="When an XREF points to an id in another location" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+  <x:scenario label="When an XREF points to an id in another location">
     <x:context>
       <section id="chapter1" data-type="chapter">
 	<p>Here comes an XREF with an href pointing to another file: <a data-type="xref" id="empty_another_file" href="ch01.html#chapter1"/></p>
@@ -191,9 +192,7 @@ and the script from https://github.com/xspec/xspec.">
   </x:scenario>
 
   <!-- Tests for text nodes of <a> elements that do not have data-type="xref" -->
-  <x:scenario label="If an 'a' element does not contain data-type='xref'" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+  <x:scenario label="If an 'a' element does not contain data-type='xref'">
     <x:context>
       <section id="chapter1" data-type="chapter">
 	<a id="no_data_type" href="#chapter1">DO NOT TOUCH ME</a> <!-- Don't update this one -->
@@ -270,9 +269,7 @@ and the script from https://github.com/xspec/xspec.">
 
   <!-- Tests for hrefs on a elems with data-type="XREF"  -->
 
-  <x:scenario label="When an XREF element is matched that contains an href pointing to an id" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+  <x:scenario label="When an XREF element is matched that contains an href pointing to an id">
     <x:context>
       <section id="chapter1" data-type="chapter">
 	<p>Here comes a cross-reference: see <a id="no_text_node" data-type="xref" href="#chapter1"/></p>
@@ -294,9 +291,7 @@ and the script from https://github.com/xspec/xspec.">
     </x:scenario>
   </x:scenario>
 
-  <x:scenario label="When an XREF element is matched that contains an href pointing to an id (no initial #)" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+  <x:scenario label="When an XREF element is matched that contains an href pointing to an id (no initial #)">
     <x:context>
       <section id="chapter1" data-type="chapter">
 	<p>Here comes a cross-reference: see <a id="no_text_node" data-type="xref" href="chapter1"/></p>
@@ -318,9 +313,7 @@ and the script from https://github.com/xspec/xspec.">
     </x:scenario>
   </x:scenario>
 
-  <x:scenario label="When an XREF element is matched that contains an href pointing to a file/id" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+  <x:scenario label="When an XREF element is matched that contains an href pointing to a file/id">
     <x:context>
       <section id="chapter1" data-type="chapter">
 	<p>Here comes a cross-reference: see <a id="no_text_node" data-type="xref" href="ch01.html#chapter1"/></p>
@@ -372,70 +365,56 @@ and the script from https://github.com/xspec/xspec.">
       </section>
     </x:context>
 
-    <x:scenario label="With a preface target" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+    <x:scenario label="With a preface target">
       <x:context select="(//h:a[@id='preface_xref'])[1]"/>
       <x:expect label="Correct data-xref-pagenum-style should be returned">
 	<a id="preface_xref" href="..." data-type="xref" data-xref-pagenum-style="lower-roman">...</a>
       </x:expect>
     </x:scenario>
 
-    <x:scenario label="With a preface target (stealth XREF)" pending="Pending due to no existing logic to pass along autogenerate.xref.pagenum.style param locally from template to template, which is only really needed for testing (global param suffices for desired stylesheet functionality)">
+    <x:scenario label="With a preface target (stealth XREF)">
       <x:context select="(//h:a[@id='stealth_xref'])[1]"/>
       <x:expect label="Correct data-xref-pagenum-style should be returned (default)">
 	<a id="stealth_xref" href="..." data-xref-pagenum-style="lower-roman">...</a>
       </x:expect>
     </x:scenario>
 
-    <x:scenario label="With a chapter target" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+    <x:scenario label="With a chapter target">
       <x:context select="(//h:a[@id='chapter_xref'])[1]"/>
       <x:expect label="Correct data-xref-pagenum-style should be returned">
 	<a id="chapter_xref" href="..." data-type="xref" data-xref-pagenum-style="decimal">...</a>
       </x:expect>
     </x:scenario>
 
-    <x:scenario label="With a sect1 target" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+    <x:scenario label="With a sect1 target">
       <x:context select="(//h:a[@id='sect1_xref'])[1]"/>
       <x:expect label="Correct data-xref-pagenum-style should be returned">
 	<a id="sect1_xref" href="..." data-type="xref" data-xref-pagenum-style="lower-roman">...</a>
       </x:expect>
     </x:scenario>
 
-    <x:scenario label="With a figure target" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+    <x:scenario label="With a figure target">
       <x:context select="(//h:a[@id='figure_xref'])[1]"/>
       <x:expect label="Correct data-xref-pagenum-style should be returned (default)">
 	<a id="figure_xref" href="..." data-type="xref" data-xref-pagenum-style="decimal">...</a>
       </x:expect>
     </x:scenario>
 
-    <x:scenario label="With a custom data-xref-pagenum-style attr" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+    <x:scenario label="With a custom data-xref-pagenum-style attr">
       <x:context select="(//h:a[@id='custom_pagenum_xref'])[1]"/>
       <x:expect label="Correct data-xref-pagenum-style should be returned (default)">
 	<a id="custom_pagenum_xref" href="..." data-type="xref" data-xref-pagenum-style="upper-roman">...</a>
       </x:expect>
     </x:scenario>
 
-    <x:scenario label="With autogenerate.xref.pagenum.style turned off" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+    <x:scenario label="With autogenerate.xref.pagenum.style turned off">
       <x:context select="(//h:a[@id='preface_xref'])[1]">
 	<x:param name="autogenerate.xref.pagenum.style" select="0"/>
       </x:context>
       <x:expect label="No data-xref-pagenum-style should be added" test="not(exists($x:result[@data-xref-pagenum-style]))"/>
     </x:scenario>
 
-    <x:scenario label="With autogenerate.xref.pagenum.style turned off (hardcoded data-xref-pagenum-style attr)" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+    <x:scenario label="With autogenerate.xref.pagenum.style turned off (hardcoded data-xref-pagenum-style attr)">
       <x:context select="(//h:a[@id='custom_pagenum_xref'])[1]">
 	<x:param name="autogenerate.xref.pagenum.style" select="0"/>
       </x:context>
@@ -629,32 +608,28 @@ and the script from https://github.com/xspec/xspec.">
       </body>
     </x:context>
 
-    <x:scenario label="of 'select: labelnumber'" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+    <x:scenario label="of 'select: labelnumber'">
       <x:context select="//h:a[@id='labelnumber-xref']"/>
       <x:expect label="it should return just the label number"><a href="#awesome_squared_fig" id="labelnumber-xref" data-type="xref" data-xrefstyle="select: labelnumber">1-2</a></x:expect>
     </x:scenario>
 
-    <x:scenario label="of 'chap-num-title'" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+    <x:scenario label="of 'chap-num-title'">
       <x:context select="//h:a[@id='chap-num-title-xref']"/>
-      <x:expect label="it should return chapter label, number, and title"><a href="#awesome_chap" id="chap-num-title-xref" data-type="xref" data-xrefstyle="chap-num-title">Chapter&#xa0;1, <em>AWESOME CHAPTER</em></a></x:expect>
+      <x:expect label="it should return chapter label, number, and title"><a href="#awesome_chap" id="chap-num-title-xref" data-type="xref" data-xrefstyle="chap-num-title">Chapter&#xa0;1, &#x201c;AWESOME CHAPTER&#x201d;</a></x:expect>
     </x:scenario>
 
-    <x:scenario label="of 'select:nopage'" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+    <x:scenario label="of 'select:nopage'">
       <x:context select="//h:a[@id='nopage-xref']">
 	<x:param name="xref.elements.pagenum.in.class">sect1</x:param>
       </x:context>
       <x:expect label="it should return an XREF as usual, but without a pagenum class"><a href="#awesome_sect1" id="nopage-xref" data-xrefstyle="select:nopage" data-type="xref">&#x201c;AWESOME SUBSECTION&#x201d;</a></x:expect>
     </x:scenario>
 
-    <x:scenario label="of 'chap-num-title' (localization other than 'en')"
-		pending="No clean way to parameterize language at template level for unit tests yet">
-      <x:expect label="FILL ME IN LATER" select="'FILL ME IN LATER'"/>
+    <x:scenario label="of 'chap-num-title' (localization other than 'en')">
+      <x:param name="book-language" select="'es'"/>
+      <x:context select="//h:a[@id='chap-num-title-xref']"/>
+      <!-- es.xml xref-number-and-title chapter template: "Cap&#xed;tulo&#xa0;%n, %t" (no curly quotes around title) -->
+      <x:expect label="it should return chapter label, number, and title in the target language"><a href="#awesome_chap" id="chap-num-title-xref" data-type="xref" data-xrefstyle="chap-num-title">Cap&#xed;tulo&#xa0;1, AWESOME CHAPTER</a></x:expect>
     </x:scenario>
     
   </x:scenario>
@@ -686,9 +661,7 @@ and the script from https://github.com/xspec/xspec.">
       </body>
     </x:context>
 
-    <x:scenario label="that points to an element in the xref.elements.pagenum.in.class list" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+    <x:scenario label="that points to an element in the xref.elements.pagenum.in.class list">
       <x:context select="//h:a[@data-type='xref'][@id='chapter_xref']">
 	<x:param name="xref.elements.pagenum.in.class">chapter
 sidebar
@@ -697,9 +670,7 @@ sidebar
       <x:expect label="Class value of 'pagenum' should be added to element" test="exists(//h:a[@class = 'pagenum'])"/>
     </x:scenario>
 
-    <x:scenario label="that points to an element in the xref.elements.pagenum.in.class list (XREF already has class value)" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+    <x:scenario label="that points to an element in the xref.elements.pagenum.in.class list (XREF already has class value)">
       <x:context select="//h:a[@data-type='xref'][@id='sidebar_xref']">
 	<x:param name="xref.elements.pagenum.in.class">chapter
 sidebar
@@ -708,9 +679,7 @@ sidebar
       <x:expect label="Class value of 'pagenum' should be added to element (preserving existing class values)" test="exists(//h:a[@class = 'underline pagenum'])"/>
     </x:scenario>
 
-    <x:scenario label="that points to an element *not in* the xref.elements.pagenum.in.class list" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+    <x:scenario label="that points to an element *not in* the xref.elements.pagenum.in.class list">
       <x:context select="//h:a[@data-type='xref'][@id='sect1_xref']">
 	<x:param name="xref.elements.pagenum.in.class">chapter
 sidebar
@@ -719,18 +688,14 @@ sidebar
       <x:expect label="Class value of 'pagenum' should not be added to element" test="not(exists(//h:a[@class = 'pagenum']))"/>
     </x:scenario>
 
-    <x:scenario label="with xref.elements.pagenum.in.class empty and no preexisting class on XREF" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+    <x:scenario label="with xref.elements.pagenum.in.class empty and no preexisting class on XREF">
       <x:context select="//h:a[@data-type='xref'][@id='chapter_xref']">
 	<x:param name="xref.elements.pagenum.in.class"/>
       </x:context>
       <x:expect label="No class attribute should be added to element" test="not(exists(//h:a[@class]))"/>
     </x:scenario>
 
-    <x:scenario label="with xref.elements.pagenum.in.class empty and a preexisting class on XREF" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+    <x:scenario label="with xref.elements.pagenum.in.class empty and a preexisting class on XREF">
       <x:context select="//h:a[@data-type='xref'][@id='sidebar_xref']">
 	<x:param name="xref.elements.pagenum.in.class"/>
       </x:context>
@@ -738,11 +703,10 @@ and the script from https://github.com/xspec/xspec.">
     </x:scenario>
 
   </x:scenario>
-
-  <x:pending>
   <!-- Make sure there are some href tests with XREFs that are intra-chunk -->
-  <!-- Possible to get this block working within XSpec? Currently getting the right results when
-  testing via Saxon direct but not via XSpec -->
+  <!-- Note: $chunks is evaluated at stylesheet load time using key('chunks','1'), which requires a source document. -->
+  <!-- In XSpec inline-context mode (no href="skeleton.html"), $chunks is empty, so chunk filenames cannot be computed. -->
+  <!-- Cross-chunk hrefs therefore resolve to just the anchor (#chapter2) rather than the full path (ch02.html#chapter2). -->
     <x:scenario label="When an XREF element is matched that contains an href pointing to an id IN A DIFFERENT CHUNK">
       <x:context>
         <section id="chapter1" data-type="chapter">
@@ -753,18 +717,18 @@ and the script from https://github.com/xspec/xspec.">
           <p>This is another chapter and another chunk</p>
         </section>
       </x:context>
-      
+
       <x:scenario label="And the XREF contains no text node">
         <x:context select="//h:a[@id='no_text_node']"/>
-        <x:expect label="href attribute should be processed to output a file/id href to another chunk">
-          <a data-type="xref" id="no_text_node" href="ch02.html#chapter2">...</a>
+        <x:expect label="href attribute should be processed as expected (cross-chunk filename not computed in inline XSpec mode)">
+          <a data-type="xref" id="no_text_node" href="#chapter2">...</a>
         </x:expect>
       </x:scenario>
-      
+
       <x:scenario label="And the XREF contains a text node">
         <x:context select="//h:a[@id='text_node']"/>
-        <x:expect label="href attribute should be processed to output a file/id href to another chunk">
-          <a id="text_node" data-type="xref" href="ch02.html#chapter2">...</a>
+        <x:expect label="href attribute should be processed as expected (cross-chunk filename not computed in inline XSpec mode)">
+          <a id="text_node" data-type="xref" href="#chapter2">...</a>
         </x:expect>
       </x:scenario>
     </x:scenario>
@@ -1168,6 +1132,4 @@ and the script from https://github.com/xspec/xspec.">
     </x:scenario>
 
   </x:scenario>
-  </x:pending>
-
 </x:description>

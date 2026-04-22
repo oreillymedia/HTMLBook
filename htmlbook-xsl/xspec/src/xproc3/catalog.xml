@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
+				
+	<system systemId="http://www.jenitennison.com/xslt/xspec/xproc/lib"
+		uri="harness-lib.xpl" />
+	
+	<system systemId="http://www.jenitennison.com/xslt/xspec/xproc/steps/run-xslt"
+		uri="run-xslt.xpl" />
+	
+	<system systemId="http://www.jenitennison.com/xslt/xspec/xproc/steps/run-xquery"
+		uri="run-xquery.xpl" />
+	
+	<nextCatalog catalog="schematron-xqs/catalog.xml" />
+
+	<nextCatalog catalog="xproc-testing/catalog.xml" />
+			
+</catalog>

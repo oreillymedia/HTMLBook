@@ -9,15 +9,25 @@
 	       xmlns:opf="http://www.idpf.org/2007/opf"
 	       xmlns:h="http://www.w3.org/1999/xhtml"
 	       xmlns:e="http://github.com/oreillymedia/epubrenderer"
-               stylesheet="../epub.xsl">
+               stylesheet="xspec-epub.xsl"
+               run-as="external">
+
+  <!-- xspec-epub.xsl wraps epub.xsl with functions-xslt2.xsl for Saxon HE 12.5 compatibility.
+       Production uses epub.xsl directly via lxml/libxslt with functions-exsl.xsl.
+       Both function files implement identical logic; see htmlbook.xsl for full explanation. -->
 
   <!-- Test suite for opf.xsl -->
 
   <!-- Global params for testing -->
+  <x:param name="book-language" select="'en'"/> <!-- Avoids context-dependent default in param.xsl -->
   <x:param name="metadata.unique-identifier.id" select="'pub-identifier'"/>
   <x:param name="metadata.unique-identifier"/> <!-- Leave blank globally -->
+  <x:param name="computed.identifier" select="'test-identifier'"/> <!-- Avoids context-dependent default in epub.xsl -->
+  <x:param name="metadata.title" select="'Test Book'"/> <!-- Avoids context-dependent default in epub.xsl -->
+  <x:param name="metadata.modified" select="'2000-01-01T00:00:00Z'"/> <!-- Avoids EXSL date:date-time() call, not supported by Saxon HE -->
   <x:param name="metadata.ibooks-specified-fonts" select="1"/>
   <x:param name="generate.cover.html" select="1"/>
+  <x:param name="generate.root.chunk" select="0"/> <!-- Default for tests; avoids context-dependent //h:section and /* expressions -->
 
   <x:param name="package.namespaces">
     <opf.foo/>
@@ -66,9 +76,10 @@ css_images/pizza.svg
     </x:expect>
   </x:scenario>
 
-  <x:scenario label="When generate.opf is run" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+  <x:scenario label="When generate.opf is run">
+    <!-- Providing skeleton.html as source document so that context-dependent global params in epub.xsl
+         (metadata.rights, metadata.publisher, etc.) have a context item when lazily evaluated. -->
+    <x:context href="skeleton.html"/>
     <x:call template="generate.opf.content"/>
 
     <x:expect label="A package root element should be generated with the proper namespaces">
@@ -92,9 +103,8 @@ and the script from https://github.com/xspec/xspec.">
   	</x:scenario>
   </x:scenario>
 
-  <x:scenario label="When opf.manifest is run" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+  <x:scenario label="When opf.manifest is run">
+    <x:context href="skeleton.html"/>
     <x:call template="opf.manifest"/>
     <!-- Based on font list specified in global param $external.assets.list -->
     <x:expect label="there should be items for each external asset" test="exists(/opf:manifest/opf:item[@href='DejaVuSerif.otf']) and
@@ -167,6 +177,7 @@ and the script from https://github.com/xspec/xspec.">
   </x:scenario>
 
   <x:scenario label="When manifest-audio-video-assets is called">
+    <x:context href="skeleton.html"/>
     <x:call template="manifest-audio-video-assets">
       <x:param name="asset-nodes">
 	<video src="dancing-puppy.mp4"/>
@@ -242,6 +253,7 @@ and the script from https://github.com/xspec/xspec.">
   </x:scenario>
 
   <x:scenario label="When manifest-images is called">
+    <x:context href="skeleton.html"/>
     <x:call template="manifest-images">
       <x:param name="img-nodes">
 	<img src="puppy.jpg"/>
@@ -272,9 +284,8 @@ and the script from https://github.com/xspec/xspec.">
     </x:scenario>
   </x:scenario>
 
-  <x:scenario label="When manifest-html is called (no embedded MathML or SVG in chunks)" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+  <x:scenario label="When manifest-html is called (no embedded MathML or SVG in chunks)">
+    <x:context href="skeleton.html"/>
     <x:call template="manifest-html">
       <x:param name="chunk.nodes">
 	<section data-type="chapter">
@@ -296,9 +307,8 @@ and the script from https://github.com/xspec/xspec.">
     <x:expect label="there should be no special properties" test="count(//opf:item[@properties]) = 0"/>
   </x:scenario>
 
-  <x:scenario label="When manifest-html is called for a chunk node that contains MathML" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+  <x:scenario label="When manifest-html is called for a chunk node that contains MathML">
+    <x:context href="skeleton.html"/>
     <x:call template="manifest-html">
       <x:param name="chunk.nodes">
 	<section data-type="chapter">
@@ -313,9 +323,8 @@ and the script from https://github.com/xspec/xspec.">
 	      test="exists(//opf:item[contains(@properties, 'math')])"/>
   </x:scenario>
 
-  <x:scenario label="When manifest-html is called for a chunk node that contains SVG" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+  <x:scenario label="When manifest-html is called for a chunk node that contains SVG">
+    <x:context href="skeleton.html"/>
     <x:call template="manifest-html">
       <x:param name="chunk.nodes">
 	<section data-type="chapter">
@@ -330,9 +339,8 @@ and the script from https://github.com/xspec/xspec.">
 	      test="exists(//opf:item[contains(@properties, 'svg')])"/>
   </x:scenario>
 
-  <x:scenario label="When manifest-html is called for a chunk node that contains MathML *and* SVG" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+  <x:scenario label="When manifest-html is called for a chunk node that contains MathML *and* SVG">
+    <x:context href="skeleton.html"/>
     <x:call template="manifest-html">
       <x:param name="chunk.nodes">
 	<section data-type="chapter">
@@ -397,9 +405,7 @@ and the script from https://github.com/xspec/xspec.">
     <x:expect label="Cover metadata should be generated" test="exists(/opf:metadata/opf:meta[@name='cover' and @content='bookcoverimage'])"/>
     <x:expect label="iBooks metadata should be generated if specified" test="exists(/opf:metadata/opf:meta[@property='ibooks:specified-fonts' and . = 'true'])"/>
 
-    <x:scenario label="When generating OPF metadata for a book with two authors specified" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+    <x:scenario label="When generating OPF metadata for a book with two authors specified">
       <x:call>
 	<x:param name="metadata.creators">
 	  <meta name="creator" content="Descartes"/>
@@ -413,9 +419,7 @@ and the script from https://github.com/xspec/xspec.">
 													    exists(/opf:metadata/opf:meta[@property = 'dcterms:creator' and . = 'Kant'])"/>
     </x:scenario>    
 
-    <x:scenario label="When generating OPF metadata for a book with more than two authors specified" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec."> 
+    <x:scenario label="When generating OPF metadata for a book with more than two authors specified"> 
       <x:call>
 	<x:param name="metadata.creators">
 	  <meta name="creator" content="Descartes"/>
@@ -452,7 +456,9 @@ and the script from https://github.com/xspec/xspec.">
   </x:scenario>
 
     <x:scenario label="When generating OPF metadata for book without any metadata supplied or a cover">
+      <x:context href="skeleton.html"/>
       <x:call template="opf.metadata">
+	<x:param name="computed.identifier" select="'randomid-test'"/>
 	<x:param name="metadata.ibooks-specified-fonts"/>
 	<x:param name="metadata.title"/>
 	<x:param name="metadata.language"/>
@@ -492,6 +498,7 @@ and the script from https://github.com/xspec/xspec.">
     </x:scenario>
 
     <x:scenario label="When generate-spine is called">
+      <x:context href="skeleton.html"/>
       <x:call template="generate-spine">
 	<x:param name="generate.ncx.toc" select="1"/>
 	<x:param name="cover.in.spine" select="1"/>
@@ -515,8 +522,8 @@ and the script from https://github.com/xspec/xspec.">
       <x:expect label="There should be an itemref for the cover if cover.in.spine is enabled and cover HTML is being generated"
 		test="exists(/opf:spine/opf:itemref[@idref = 'bookcover'])"/>
       <x:expect label="There should be an itemref for every chunk in the book"
-		test="every $chunk in ('preface', 'chapter', 'appendix')
-		      satisfies (exists(/opf:spine/opf:itemref[contains(@idref, $chunk)]))"/>
+		test="every $dtype in ('preface', 'chapter', 'appendix')
+		      satisfies (exists($x:result/opf:itemref[contains(@idref, $dtype)]))"/>
 
       <x:scenario label="with NCX TOC generation disabled">
 	<x:call>
@@ -532,9 +539,8 @@ and the script from https://github.com/xspec/xspec.">
       </x:scenario>
     </x:scenario>
 
-    <x:scenario label="When generate-guide is called" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+    <x:scenario label="When generate-guide is called">
+      <x:context href="skeleton.html"/>
       <x:call template="generate-guide">
 	<x:param name="generate.cover.html" select="1"/>
 	<x:param name="html5.toc.node">
@@ -546,15 +552,13 @@ and the script from https://github.com/xspec/xspec.">
       <x:expect label="There should be a reference element for the cover if generate.cover.html is enabled" test="exists(/opf:guide/opf:reference[@type='cover'])"/>
       <!-- Note, we are no longer including the TOC element because of an error when sending EPUB to Amazon -->
       <x:expect label="There *should not* be a reference element to the EPUB Nav doc" test="not(exists(/opf:guide/opf:reference[@type='toc']))"/>
-      <x:expect label="There should be a title element in the start of text reference" test="exists(/opf:guide/opf:reference[contains(@type='text' and @title='Start of Text')])"/>
+      <x:expect label="There should be a title element in the start of text reference" test="exists(/opf:guide/opf:reference[@type='text' and @title='Start of Text'])"/>
       <x:scenario label="With generate.cover.html disabled">
 	<x:call>
 	  <x:param name="generate.cover.html"/>
 	</x:call>
 	<x:expect label="There *should not* be a reference element for the cover" test="not(exists(/opf:guide/opf:reference[@type='cover']))"/>
       </x:scenario>
-
-      <x:pending>
 	<x:scenario label="On content that contains a titlepage">
 	  
 	</x:scenario>
@@ -566,7 +570,6 @@ and the script from https://github.com/xspec/xspec.">
 	<x:scenario label="On content that contains no titlepage or cover">
 	  
 	</x:scenario>
-      </x:pending>
     </x:scenario>
 
     <x:scenario label="When element is matched in opf.spine.itemref mode">
@@ -584,13 +587,15 @@ and the script from https://github.com/xspec/xspec.">
       <x:context mode="opf.spine.itemref">
 	<nav data-type="toc"/>
       </x:context>
-      <x:expect label="An itemref *should not* be generated by default" test="count(/opf:itemref) = 0"/>
-      <x:scenario label="with nav.in.spine enabled">
-	<x:context>
-	  <x:param name="nav.in.spine">1</x:param>
-	</x:context>
-	<x:expect label="An itemref should be generated when nav.in.spine is enabled" test="count(/opf:itemref[contains(@idref, 'toc')]) = 1"/>
-      </x:scenario>
+      <x:expect label="An itemref *should not* be generated by default" test="empty($x:result)"/>
+    </x:scenario>
+
+    <x:scenario label="When Nav doc is matched in opf.spine.itemref mode with nav.in.spine enabled">
+      <x:param name="nav.in.spine" select="1"/>
+      <x:context mode="opf.spine.itemref">
+	<nav data-type="toc"/>
+      </x:context>
+      <x:expect label="An itemref should be generated when nav.in.spine is enabled" test="count($x:result[self::opf:itemref[contains(@idref, 'toc')]]) = 1"/>
     </x:scenario>
 
     <x:scenario label="When element is matched in opf.id mode">
@@ -615,9 +620,7 @@ and the script from https://github.com/xspec/xspec.">
 	</body>
       </x:context>
       <x:expect label="It should return a value of 'nav'">nav</x:expect>
-      <x:scenario label="that is not the first nav in the book" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+      <x:scenario label="that is not the first nav in the book">
 	<x:context select="/h:body/h:nav[2]" mode="opf.manifest.properties">
 	  <body>
 	    <nav data-type="toc"/>
@@ -629,9 +632,7 @@ and the script from https://github.com/xspec/xspec.">
       </x:scenario>
     </x:scenario>
     
-    <x:scenario label="When a general element is matched in opf.manifest.properties mode" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+    <x:scenario label="When a general element is matched in opf.manifest.properties mode">
       <x:context mode="opf.manifest.properties" select="/h:section[@id='only_html']">
 	<section data-type="chapter" id="only_html">
 	  <p>Only HTML content...</p>
@@ -665,36 +666,30 @@ and the script from https://github.com/xspec/xspec.">
       </x:scenario>
     </x:scenario>
 
-    <x:scenario label="When has-element-in-chunk is called" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+    <x:scenario label="When has-element-in-chunk is called">
       <x:call template="has-element-in-chunk">
 	<x:param name="element-name" select="'svg'"/>
 	<x:param name="chunk" select="document('../skeleton.html')//h:section[@data-type =  'preface' and @id = 'svg_preface']"/>
-	<x:param name="chunk-id" select="generate-id($chunk)"/>
+	<x:param name="chunk-id" select="generate-id(document('../skeleton.html')//h:section[@data-type = 'preface' and @id = 'svg_preface'])"/>
       </x:call>
       <x:expect label="It should return 1 if an instance of the given element name can be found in the given chunk">1</x:expect>
     </x:scenario>
 
-    <x:scenario label="When has-element-in-chunk is called" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+    <x:scenario label="When has-element-in-chunk is called">
       <x:call template="has-element-in-chunk">
 	<x:param name="element-name" select="'math'"/>
 	<x:param name="chunk" select="document('../skeleton.html')//h:section[@id = 'child_of_mml_chunk']"/>
-	<x:param name="chunk-id" select="generate-id($chunk)"/>
+	<x:param name="chunk-id" select="generate-id(document('../skeleton.html')//h:section[@id = 'child_of_mml_chunk'])"/>
       </x:call>
       <x:expect label="It should not return 1 if an instance of the given element name *cannot* be found in the given chunk (element in ancestor chunk)"
 		test="string-length($x:result) = 0"/>
     </x:scenario>
 
-    <x:scenario label="When has-element-in-chunk is called" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+    <x:scenario label="When has-element-in-chunk is called">
       <x:call template="has-element-in-chunk">
 	<x:param name="element-name" select="'svg'"/>
 	<x:param name="chunk" select="document('../skeleton.html')//h:section[@id = 'sibling_of_svg_chunk']"/>
-	<x:param name="chunk-id" select="generate-id($chunk)"/>
+	<x:param name="chunk-id" select="generate-id(document('../skeleton.html')//h:section[@id = 'sibling_of_svg_chunk'])"/>
       </x:call>
       <x:expect label="It should not return 1 if an instance of the given element name *cannot* be found in the given chunk (element in sibling chunk)"
 		test="string-length($x:result) = 0"/>

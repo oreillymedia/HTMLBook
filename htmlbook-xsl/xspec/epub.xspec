@@ -10,13 +10,15 @@
 	       xmlns:h="http://www.w3.org/1999/xhtml"
 	       xmlns:e="http://github.com/oreillymedia/epubrenderer"
 	       xmlns:epub="http://www.idpf.org/2007/ops"
-               stylesheet="../epub.xsl">
+               stylesheet="xspec-epub.xsl">
+
+  <!-- xspec-epub.xsl wraps epub.xsl with functions-xslt2.xsl for Saxon HE 12.5 compatibility.
+       Production uses epub.xsl directly via lxml/libxslt with functions-exsl.xsl.
+       Both function files implement identical logic; see htmlbook.xsl for full explanation. -->
 
   <!-- Test suite for epub.xsl -->
 
-  <x:scenario label="When a data-type attribute is matched" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+  <x:scenario label="When a data-type attribute is matched">
     <x:context select="(/h:aside)[1]">
       <aside data-type="sidebar">
 	<h5>Sidebar title</h5>

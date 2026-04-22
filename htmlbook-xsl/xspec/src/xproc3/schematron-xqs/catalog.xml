@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
+	
+	<system systemId="http://www.jenitennison.com/xslt/xspec/xproc/steps/run-schematron-xqs"
+		uri="run-schematron-xqs.xpl" />
+	
+	<system systemId="http://www.jenitennison.com/xslt/xspec/xproc/steps/preprocess-schematron-xqs"
+		uri="preprocess-schematron-xqs.xpl" />
+			
+</catalog>

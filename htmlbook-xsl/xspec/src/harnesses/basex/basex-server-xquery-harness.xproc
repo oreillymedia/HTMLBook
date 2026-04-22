@@ -3,7 +3,7 @@
 <!--  File:       basex-server-xquery-harness.xproc                        -->
 <!--  Author:     Florent Georges                                          -->
 <!--  Date:       2011-08-30                                               -->
-<!--  URI:        http://xspec.googlecode.com/                             -->
+<!--  URI:        http://github.com/xspec/xspec                            -->
 <!--  Tags:                                                                -->
 <!--    Copyright (c) 2011 Florent Georges (see end of file.)              -->
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -14,7 +14,7 @@
             xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
             xmlns:xs="http://www.w3.org/2001/XMLSchema"
             xmlns:t="http://www.jenitennison.com/xslt/xspec"
-            xmlns:rest="http://www.basex.org/rest"
+            xmlns:rest="http://basex.org/rest"
             xmlns:pkg="http://expath.org/ns/pkg"
             pkg:import-uri="http://www.jenitennison.com/xslt/xspec/basex/harness/server/xquery.xproc"
             name="basex-server-xquery-harness"
@@ -27,15 +27,17 @@
       <p><b>Primary output:</b> A formatted HTML XSpec report.</p>
       <p>The XQuery library module to test must already be on the BaseX instance
         (its URI is passed through the option 'query-at').  The instance endpoint
-        is passed in the option 'endpoint'.  The runtime utils library (also known
-        as generate-query-utils.xql) must also be on the instance (its location
-        hint, that is the 'at' clause to use) is passed in the option 'utils-lib'.
+        is passed in the option 'endpoint'.  The runtime utils library must also
+        be on the instance (its location hint, that is the 'at' clause to use) is
+        controlled by the option 'utils-library-at'.
         The dir where you unzipped the XSpec archive on your filesystem is passed
         in the option 'xspec-home'.  User credentials are passed through options
         'username' and 'password'.</p>
    </p:documentation>
 
-   <p:serialization port="result" indent="true"/>
+   <p:serialization port="result" indent="true" method="xhtml"
+                    encoding="UTF-8" include-content-type="true"
+                    omit-xml-declaration="false" />
 
    <p:import href="../harness-lib.xpl"/>
 
@@ -65,16 +67,18 @@
       <t:compile-xquery/>
 
       <!-- escape the query as text -->
-      <p:escape-markup/>
+      <t:escape-markup />
 
       <!-- construct the BaseX REST query element around the query itself -->
       <p:rename new-name="rest:text" match="/*"/>
       <p:wrap wrapper="rest:query" match="/*"/>
+
       <!-- construct the HTTP request following BaseX REST interface -->
       <p:wrap wrapper="c:body" match="/*"/>
       <p:add-attribute attribute-name="content-type" attribute-value="application/xml" match="/*"/>
       <p:wrap wrapper="c:request" match="/*"/>
       <p:add-attribute attribute-name="method" attribute-value="POST" match="/*"/>
+
       <!-- inject variable values -->
       <p:add-attribute attribute-name="href" match="/*">
          <p:with-option name="attribute-value" select="$endpoint"/>
@@ -99,7 +103,7 @@
       <!-- TODO: Check HTTP return code, etc.? (using @detailed = true) -->
       <p:http-request name="run"/>
 
-      <!-- log the HTTP request ? -->
+      <!-- log the HTTP response ? -->
       <t:log if-set="log-http-response">
          <p:input port="parameters">
             <p:pipe step="params" port="parameters"/>
@@ -107,9 +111,7 @@
       </t:log>
 
       <!-- format the report -->
-      <t:format-report>
-         <p:with-option name="xspec-home" select="$xspec-home"/>
-      </t:format-report>
+      <t:format-report/>
    </p:group>
 
 </p:pipeline>

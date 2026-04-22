@@ -6,12 +6,22 @@
 	       xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
 	       xmlns:h="http://www.w3.org/1999/xhtml"
 	       xmlns:e="http://github.com/oreillymedia/epubrenderer"
-               stylesheet="../epub.xsl">
+               stylesheet="xspec-epub.xsl"
+               run-as="external">
+
+  <!-- xspec-epub.xsl wraps epub.xsl with functions-xslt2.xsl for Saxon HE 12.5 compatibility.
+       Production uses epub.xsl directly via lxml/libxslt with functions-exsl.xsl.
+       Both function files implement identical logic; see htmlbook.xsl for full explanation. -->
 
   <!-- Test suite for ncx.xsl -->
 
   <!-- Global params for testing -->
 
+  <x:param name="book-language" select="'en'"/> <!-- Avoids context-dependent default in param.xsl -->
+  <x:param name="generate.cover.html" select="0"/> <!-- Avoids context-dependent default in epub.xsl -->
+  <x:param name="generate.root.chunk" select="0"/> <!-- Avoids context-dependent default in epub.xsl -->
+  <x:param name="metadata.unique-identifier" select="'test-identifier'"/> <!-- Avoids context-dependent default in epub.xsl -->
+  <x:param name="computed.identifier" select="'test-identifier'"/> <!-- Avoids context-dependent default in epub.xsl -->
   <x:param name="metadata.title" select="'Infinite Jest'"/>
 
   <x:param name="label.and.title.separator" select="'. '"/>
@@ -29,9 +39,10 @@ sect5:none
 
   <x:param name="ncx.toc.section.depth" select="2"/>
 
-  <x:scenario label="When generating full NCX TOC content"  pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+  <x:scenario label="When generating full NCX TOC content" >
+    <!-- Providing skeleton.html as source document so that the $chunks global variable in chunk.xsl
+         (which uses key()) has a context item when filename-for-node is called during navPoint generation. -->
+    <x:context href="skeleton.html"/>
     <x:call template="generate.ncx.toc.content">
       <!-- Test XSL is output to a subdir of the .xspec dir, which also contains skeleton, so relative path contains .. to go up a directory level -->
       <x:param name="toc.node" select="document('../skeleton.html')/*"/>
@@ -62,22 +73,21 @@ and the script from https://github.com/xspec/xspec.">
       </x:call>
       <x:expect label="It should have a meta element for the cover HTML" test="count(/ncx:ncx/ncx:head/ncx:meta[@name='cover']) = 1"/>
     </x:scenario>
-
-    <x:pending>
       <x:scenario label="With ncx.include.root.chunk enabled">
-	<x:expect label="navPoint for root chunk should be generated"/>
+	<x:param name="ncx.include.root.chunk" select="1"/>
+	<!-- root.chunk.filename defaults to 'index.html'; content/@src should reflect that -->
+	<x:expect label="navPoint for root chunk should be generated"
+		  test="exists(/ncx:ncx/ncx:navMap/ncx:navPoint[ncx:content/@src='index.html'])"/>
       </x:scenario>
 
       <x:scenario label="With ncx.include.root.chunk disabled">
-	<x:expect label="navPoint for root chunk *should not* be generated"/>
+	<x:param name="ncx.include.root.chunk" select="0"/>
+	<x:expect label="navPoint for root chunk *should not* be generated"
+		  test="not(exists(/ncx:ncx/ncx:navMap/ncx:navPoint[ncx:content/@src='index.html']))"/>
       </x:scenario>
-    </x:pending>
-    
       </x:scenario>
 
-    <x:scenario label="When a book section/div is matched in ncx.toc.gen mode"  pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+    <x:scenario label="When a book section/div is matched in ncx.toc.gen mode" >
       <x:context mode="ncx.toc.gen">
 	<section data-type="chapter">
 	  <h1>Test Chapter</h1>
@@ -116,11 +126,11 @@ and the script from https://github.com/xspec/xspec.">
 	    </section>
 	  </section>
 	</x:context>
-	<x:expect label="Don't generate a navPoint" test="not(exists(ncx:navPoint))"/>
+	<x:expect label="Don't generate a navPoint" test="empty($x:result)"/>
 
 	<x:scenario label="when source TOC section elements have a class of 'notoc'">
 	  <x:context mode="ncx.toc.gen" select="(//h:section[@class='notoc'])[1]"/>
-	  <x:expect label="Don't generate a navPoint" test="not(exists(ncx:navPoint))"/>
+	  <x:expect label="Don't generate a navPoint" test="empty($x:result)"/>
 	</x:scenario>
       </x:scenario>
     </x:scenario>
@@ -166,7 +176,7 @@ and the script from https://github.com/xspec/xspec.">
 	  <p>Notes should not get navPoints!!!</p>
 	</div>
       </x:context>
-      <x:expect label="Don't generate a navPoint" test="not(exists(ncx:navPoint))"/>
+      <x:expect label="Don't generate a navPoint" test="empty($x:result)"/>
     </x:scenario>
 
     <x:scenario label="When a nav TOC is matched in ncx.toc.gen mode...">
@@ -174,9 +184,7 @@ and the script from https://github.com/xspec/xspec.">
 	<nav data-type="toc"/>
       </x:context>
 
-      <x:scenario label="...with $nav.in.ncx enabled"  pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+      <x:scenario label="...with $nav.in.ncx enabled" >
 	<x:context>
 	  <x:param name="nav.in.ncx" select="1"/>
 	</x:context>
@@ -186,17 +194,15 @@ and the script from https://github.com/xspec/xspec.">
       </x:scenario>
       
       <x:scenario label="...with $nav.in.ncx disabled">
-	<x:context>
-	  <x:param name="nav.in.ncx" select="0"/>
-	</x:context>
+	<x:param name="nav.in.ncx" select="0"/>
 	<x:expect label="*Do not* generate a navPoint"
-		  test="not(exists(ncx:navPoint))"/>
+		  test="empty($x:result)"/>
       </x:scenario>
     </x:scenario>
 
-    <x:scenario label="When generate.navpoint is called"  pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+    <x:scenario label="When generate.navpoint is called" >
+      <!-- Providing skeleton.html as source document so $chunks has a context item (see generate.ncx.toc.content scenario) -->
+      <x:context href="skeleton.html"/>
       <x:call template="generate.navpoint">
 	<x:param name="node">
 	  <section data-type="appendix">

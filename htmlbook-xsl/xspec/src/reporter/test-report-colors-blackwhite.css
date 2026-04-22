@@ -1,0 +1,143 @@
+/****************************************************************************/
+/*  File:       test-report-colors-blackwhite.css                           */
+/* ------------------------------------------------------------------------ */
+
+/* text and background colours */
+body {
+	--background-color: white;
+	--main-text-color: #171717; /* gray 90% */
+	--table-cell-text-color: #262626; /* gray 85% */
+	--deemphasis-color: #454545; /* gray 70% */
+	--diff-relevant-ws-color: #e6e6e6; /* gray 10% */
+	--link-hover-color: #f0f0f0; /* gray  5% */
+	background-color: var(--background-color);
+	color: var(--main-text-color);
+}
+
+h1 {
+}
+
+h2 {
+}
+
+a:link {
+	color: var(--main-text-color);
+	background: transparent;
+}
+
+a:visited {
+	color: var(--deemphasis-color);
+	background: transparent;
+}
+
+a:hover {
+	color: var(--link-hover-color);
+	background: var(--main-text-color);
+}
+
+a:active {
+	color: var(--main-text-color);
+	background: var(--background-color);
+}
+
+.same {
+}
+
+.inner-diff {
+	/* No change in color */
+	font-weight: bold;
+}
+
+.diff {
+	color: var(--background-color);
+	background-color: var(--main-text-color);
+	/* Underline is visible in Windows high-contrast mode,
+	 * where the white-on-black effect here is no different
+	 * from the surrounding text. */
+	text-decoration: underline;
+	text-decoration-color: var(--main-text-color);
+}
+
+/*
+ * Whitespace notation in diffs in test result report,
+ * not literal whitespace characters in code coverage report.
+ * There are two possibilities:
+ *
+ * 1. Not in relevant part of diff: dark against light background */
+td > pre > .whitespace {
+	font-style: italic;
+	color: var(--main-text-color);
+}
+
+/* 2. In relevant part of diff: override color
+ * and instead use light against dark background */
+.diff.whitespace {
+	color: var(--diff-relevant-ws-color);
+}
+
+.ellipsis {
+	color: var(--deemphasis-color);
+}
+
+.xmlns.trivial {
+	color: var(--deemphasis-color);
+	font-style: italic;
+}
+
+div > table > tbody > tr > th:first-child {
+	color: var(--deemphasis-color);
+}
+
+/* 'failed: n' part of Contents */
+table > thead > tr > th.emphasis {
+	color: var(--background-color);
+	background-color: var(--main-text-color);
+	padding: 2px;
+	/* Underline is visible in Windows high-contrast mode,
+	 * where the white-on-black effect here is no different
+	 * from the surrounding text. */
+	text-decoration: underline;
+	text-decoration-color: var(--main-text-color);
+}
+
+.xspec tbody td {
+	color: var(--table-cell-text-color);
+}
+
+.successful {
+}
+
+.pending {
+	color: var(--deemphasis-color);
+}
+
+/* body makes this selector more specific than the one in test-report.css  */
+body *:target {
+	box-shadow: -0.5rem 0 0 0 var(--diff-relevant-ws-color);
+}
+
+/* code coverage report styles */
+.ignored,
+.comment,
+pre.xspecCoverage > .whitespace {
+	color: var(--deemphasis-color);
+	background: var(--background-color);
+}
+
+.unknown {
+	color: var(--deemphasis-color);
+	background: var(--background-color);
+}
+
+.hit {
+}
+
+.missed {
+	color: var(--background-color);
+	background-color: var(--main-text-color);
+	/* Underline is visible in Windows high-contrast mode,
+	 * where the white-on-black effect here is no different
+	 * from the surrounding text. */
+	text-decoration: underline;
+	text-decoration-color: var(--main-text-color);
+}

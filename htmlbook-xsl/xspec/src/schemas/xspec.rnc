@@ -2,24 +2,93 @@
 # This schema is for XSpec documents, which can be used to describe the behaviour
 # of an XSLT application. They are similar to the RSpec documents used in RoR
 # testing, but for XSLT
-default namespace = "http://www.jenitennison.com/xslt/xspec"
-datatypes xs = "http://www.w3.org/2001/XMLSchema-datatypes"
+default namespace x = "http://www.jenitennison.com/xslt/xspec"
+namespace a = "http://relaxng.org/ns/compatibility/annotations/1.0"
+namespace p = "http://www.w3.org/ns/xproc"
+namespace local = ""
 
 start = description
 
 description = 
-	## A description is a description of a stylesheet application. 
-	## It must have a stylesheet and/or a query it's associated with.
+	## A description is a description of an application. It must be 
+	## associated with a stylesheet, query, schema, or XProc step/library. 
 	## It may also have a version to aid development over time.
 	element description { 
 		common-attributes,
-		attribute stylesheet { xs:anyURI }?,
-		attribute query { xs:anyURI }?,
-		attribute xslt-version { xs:NMTOKEN }?,
-		attribute query-at { xs:anyURI }?,
-		attribute version { xs:NMTOKEN }?,		
-		attribute preserve-space { xs:NMTOKENS }?,
-		(global-param | import | scenario | pending)+ }
+		attribute stylesheet { xsd:anyURI }?,
+		attribute query { xsd:anyURI }?,
+		attribute xproc { xsd:anyURI }?,
+
+		## XQuery version which will be declared in the compiled main module.
+		[ a:defaultValue = "3.1" ]
+		attribute xquery-version { text }?,
+
+		## XSLT version which will be declared in the compiled master stylesheet.
+		## This version may also activate a certain compatibility mode when
+		## evaluating expressions and comparing sequences.
+		[ a:defaultValue = "3.0" ]
+		attribute xslt-version { xsd:decimal }?,
+
+		attribute query-at { xsd:anyURI }?,
+		attribute version { xsd:decimal }?,
+		attribute preserve-space { xsd:NMTOKENS }?,
+		attribute schematron { xsd:anyURI }?,
+		
+		## EXPERIMENTAL. Subject to change. Ignored on XQuery and XProc.
+		## "import" (default) integrates SUT into the test runner using xsl:import (or "import module" on XQuery).
+		## "external" invokes SUT externally using fn:transform() (or possibly fn:load-xquery-module() on XQuery?).
+		[ a:defaultValue = "import" ]
+		attribute run-as { "import" | "external" }?,
+		
+		## Set this true to report how long it took XSpec to run scenarios including some overhead
+		## of XSpec itself.
+		## Requires Saxon-PE or Saxon-EE.
+		[ a:defaultValue = "no" ]
+		attribute measure-time { boolean.datatype }?,
+		
+		## This attribute determines whether to save results as separate files or not.
+		## If the number of nodes in an actual result or an expected result (after being wrapped in
+		## a report element) approximately exceeds this attribute, the result is saved as a separate
+		## file.
+		## Results are never saved as separate files, if the attribute value is 'inf' or when
+		## testing XQuery or XProc.
+		[ a:defaultValue = "inf" ]
+		attribute result-file-threshold { "inf" | xsd:positiveInteger }?,
+		
+		threads?,
+		(helper | global-param | import | scenario | pending-element | variable)+ }
+
+helper =
+	## The test runner will import this stylesheet (XSLT/XProc), query (XQuery), or XProc library
+	## (for testing XProc) module after importing the SUT module.
+	## Specifying an XSLT package will just insert the equivalent <xsl:use-package> in the test
+	## runner. To make the inserted <xsl:use-package> work, the user should set up a Saxon
+	## configuration and specify the package information in it. The Saxon configuration is usually
+	## set up by SAXON_CUSTOM_OPTIONS (CLI) or saxon.custom.options (Ant).
+	## XSLT and XProc ignore query modules. XQuery ignores stylesheets, packages, and XProc
+	## libraries.
+	element helper {
+		xml-ns-attributes,
+		(
+			(
+				attribute stylesheet { xsd:anyURI }
+				|
+				(
+					attribute package-name { xsd:anyURI },
+					attribute package-version { text }?
+				)
+			)
+			|
+			(
+				attribute query { xsd:anyURI },
+				attribute query-at { xsd:anyURI }?
+			)
+			|
+			(
+			    attribute xproc { xsd:anyURI }
+			)
+		)
+	}
 
 import = 
 	## An import brings in all the scenarios from the referenced file (which must
@@ -27,9 +96,11 @@ import =
 	## XSpec will be run on the stylesheet that this XSpec document describes.
 	## Importing is recursive and may be circular (although only one copy of a given
 	## imported document will actually be imported).
-	element import { common-attributes, attribute href { xs:anyURI } }
+	element import { xml-ns-attributes,
+	## The document URI (location) of the imported document.
+	attribute href { xsd:anyURI } }
 
-pending = 
+pending-element = 
 	## Anything that is within a <pending> element will remain untested, but will be
 	## reported as (eventual) desired behaviour. This is a good way of commenting out
 	## a set of behaviours that haven't been implemented yet, or scenarios whose
@@ -38,7 +109,18 @@ pending =
 	##
 	## An optional label attribute can be used to describe why the scenario or
 	## assertion should not be tested.
-	element pending { common-attributes, label?, (scenario | assertion)* }
+	element pending { common-attributes, label?, (scenario | assertion | schematron-expect)+ }
+
+pending-attribute =
+	## Anything which has the @pending attribute will remain untested, but will be
+	## reported as (eventual) desired behaviour. This is a good way of commenting out
+	## a set of behaviours that haven't been implemented yet, or scenarios whose
+	## desired behaviour hasn't been determined, or tests for code that you're not
+	## currently working on, to make the testing process faster.
+	##
+	## The attribute value can be used to describe why the scenario or
+	## assertion should not be tested.
+	attribute pending { text }
 
 scenario = 
 	## A scenario defines the environment in which a piece of processing takes place.
@@ -56,11 +138,41 @@ scenario =
 		label,
 		( matching-scenario |
 		  function-scenario |
-		  named-scenario ) }
+		  named-scenario | 
+		  schematron-scenario |
+		  step-scenario ) }
 
 common-scenario-attributes = common-attributes,
-                             attribute pending { text }?,
-                             attribute focus { text }?
+                             pending-attribute?,
+
+                            ## If any scenario has a focus attribute, any scenarios without a focus 
+                            ## attribute will be classed as pending.
+                            ##
+                            ## The attribute value can be used to describe why you're focusing
+                            ## on that particular scenario.
+                             attribute focus { text }?,
+
+                            threads?,
+
+                            ## Controls whether to catch errors. Not useful in Schematron scenario.
+                            ## The standard $err:* variables are collected in $x:result?err map. For example,
+                            ## $x:result?err?code stores $err:code.
+                            ## Details are subject to change. Any feedback is welcome.
+                             attribute catch { boolean.datatype }?
+
+threads =
+	## Specify the number of threads with which XSpec runs the child scenarios.
+	## Requires Saxon-EE XSLT processor. Ignored on the other processors.
+	## A special value, #child-scenario-count, runs the child scenarios in parallel, using as many
+	## threads as the number of child scenarios, regardless of the number of Java VM logical
+	## processors.
+	## Another special value, #logical-processor-count, runs the child scenarios in parallel, using
+	## at most as many threads as the number of Java VM logical processors.
+	attribute threads {
+		xpath
+		| "#child-scenario-count"
+		| "#logical-processor-count"
+	}
 
 label = 
 	## A scenario's label should describe the context that the scenario sets. Top-
@@ -69,13 +181,17 @@ label =
 	## the word "with"; it should make sense if the labels of ancestor scenarios are 
 	## concatenated with this one. For example "with a Type attribute".
 	attribute label { text } |
-	element label { any-content }
+	element label { text }
+
+variable =
+	## A test file can define global variables. A scenario can define local variables.
+	element variable { common-attributes, name, selection }
 
 shared = 
 	## There are shared scenarios (shared="yes") and unshared scenarios (shared="no",
 	## the default). Shared scenarios can be referenced and reused by other scenarios
 	## with the <like> element. Unshared scenarios are simply run.
-	attribute shared { "yes" | "no" }
+	attribute shared { boolean.datatype }
 
 like = 
 	## The <like> element pulls a shared scenario into this one (which may be shared
@@ -83,111 +199,334 @@ like =
 	## this one, and any tests in the shared scenario are run in addition to the
 	## ones in this scenario. This allows for modular, reusable sets of tests which
 	## can be applied in multiple contexts.
-	element like { common-attributes, label }
+	element like { xml-ns-attributes, label }
 
 ## A matching scenario is one based on the application of templates to a
-## particular node. The <context> element defines <xsl:apply-templates> used to
-## process the node, and the <assertion> elements define the tests on that node.
+## particular item. The <context> element defines <xsl:apply-templates> used to
+## process the item, and the <expect> elements define the tests on that item.
 ## Child scenarios can override the parameters in the context, and can provide
 ## any missing values in the <context> (for example, if the context on the parent
 ## scenario doesn't provide a mode, that could be provided by the child scenario).
-matching-scenario = context?,
-                    like*,
-                    (pending | assertion)*, 
-                    (pending | 
+matching-scenario = (global-param | variable)*, context?,
+                    (variable | like)*,
+                    (pending-element | assertion | variable)*,
+                    (pending-element | 
                      element scenario { common-scenario-attributes, 
                                         label, matching-scenario })*
 
 ## A function scenario is one based on a call to a stylesheet function. The
-## <call> element defines the function call and the paraemeters passed to it
-## and the <assertion> elements test the result of the function. Child scenarios
+## <call> element defines the function call and the parameters passed to it,
+## and the <expect> elements test the result of the function. Child scenarios
 ## can override the parameters in the function call.
-function-scenario = function-call?,
-                    like*,
-                    (pending | assertion)*,
-                    (pending | 
+function-scenario = (global-param | variable)*, context?, variable*, function-call?,
+                    (variable | like)*,
+                    (pending-element | assertion | variable)*,
+                    (pending-element | 
                      element scenario { common-scenario-attributes,
                                         label, function-scenario })*
-                      
+
+## A step scenario is one based on a call to an XProc step. The
+## <call> element defines the step call and the inputs and options passed to it,
+## and the <expect> elements test the outputs of the step. Child scenarios
+## can override the inputs or options in the step call.
+step-scenario = (global-param | variable)*, variable*, step-call?, variable*,
+                    like*,
+                    (pending-element | assertion | variable)*,
+                    (pending-element | 
+                     element scenario { common-scenario-attributes,
+                                        label, step-scenario })*
+
 ## A named scenario is one based on a call to a named template. The <call>
-## element defines the template call and the parameters passed to it and the
-## <assertion> elements test the result of the template call. Child scenarios
+## element defines the template call and the parameters passed to it, and the
+## <expect> elements test the result of the template call. Child scenarios
 ## can override the parameters in the template call.
-named-scenario = template-call?, 
-                 like*,
-                 (pending | assertion)*,
-                 (pending | 
+named-scenario = (global-param | variable)*, context?, variable*, template-call?,
+                 (variable | like)*,
+                 (pending-element | assertion | variable)*,
+                 (pending-element | 
                   element scenario { common-scenario-attributes,
                                      label, named-scenario })*
-                   
+
 context = 
-	## The <context> element defines a context node, the mode in which templates
+	## The <context> element defines a context item, the mode in which templates
 	## are applied to it, and any parameters included in the apply templates.
 	element context { 
 		common-attributes,
-		attribute mode { xs:QName }?,
+		## The mode in which templates are applied to the context.
+		attribute mode { eqname.datatype }?,
 		template-param*,
-		node-selection
+		selection
 	}
 
 function-call = 
-	## A <call> element either defines a function call or a template call and the
-	## parameters passed to it. 
+	## A <call> element defines a call to a function, template, or XProc step
+	## and the parameters/inputs/options passed to it.
 	element call {
 		common-attributes,
-		attribute function { xs:QName }?,
-		function-param*
+		## The qualified name of the function which should get called.
+		attribute function { eqname.datatype }?,
+		## "module-function" (default) refers to an XSLT stylesheet function or XQuery module function.
+		## "variable" refers to an XPath function stored in a variable.
+		[ a:defaultValue = "module-function" ]
+		attribute call-as { "module-function" | "variable" }?,
+		function-params
+	}
+
+step-call = 
+	## A <call> element defines a call to a function, template, or XProc step
+	## and the parameters/inputs/options passed to it.
+	element call {
+		common-attributes,
+		## The qualified name of the XProc step which should get called.
+		attribute step { eqname.datatype }?,
+		step-input*, step-option*
 	}
 
 template-call = 
-	## A <call> element either defines a function call or a template call and the
-	## parameters passed to it. 
+	## A <call> element defines a call to a function, template, or XProc step
+	## and the parameters/inputs/options passed to it.
 	element call {
 		common-attributes,
-		attribute template { xs:QName }?,
+		## The qualified name of the template which should get called.
+		attribute template { eqname.datatype }?,
 		template-param*
 	}
 
 global-param = 
-	## Global parameters are set globally, for the entire unit test suite. There's
-	## no way to set global parameters within a particular scenario (due to
-	## constraints on implementation).
-	element param { name, selection }
+	## Global parameters as children of x:description apply to entire test suite.
+	## Global parameters within a scenario require /x:description/@run-as="external" (EXPERIMENTAL, subject to change).
+	## Global parameters within a Schematron scenario take effect only in the compiled XSLT, not while compiling Schematron to XSLT.
+	## XQuery tests do not support global parameters.
+	element param { common-attributes, name, static?, selection }
+
+static = 
+	## EXPERIMENTAL. Subject to change. Not supported for XQuery, Schematron, or XProc.
+	## Enabling this attribute is supported only when /x:description/@run-as is "external".
+	attribute static { boolean.datatype }
 
 template-param = element param { common-attributes, 
-                                 name, as?, 
-                                 attribute tunnel { "yes" | "no" }?, selection }
+                                 name,
+                                 attribute tunnel { boolean.datatype }?, selection }
 
-function-param = element param { common-attributes,
-                                 name?, as?, position?, selection }
+function-param-base = common-attributes, name?, selection
+function-params = element param { function-param-base }* |
+                  element param { function-param-base, position }*
 
-name = attribute name { xs:QName }
+step-input =
+    ## Input to pass to an XProc step. Child <p:document> elements
+    ## are evaluated in XProc (recommended). Alternatively, provide
+    ## arbitrary content and/or attributes href, select, or as; the
+    ## current implementation evaluates them in XSLT.
+    element input { common-attributes,
+                              port-name,
+                              (selection | p-document+) }
 
-position = attribute position { xs:integer }
+## Adapted from xproc31.rnc.
+p-document =
+    ## Load XML or non-XML document using XProc processor.
+    element p:document { p-document-attributes }
+p-document-attributes =  href.attr,
+    attribute content-type { text }?,
+    document-properties.attr?,
+    attribute parameters { PropertyMap }?,
+    common-attributes,
+    use-when.attr?,
+    extension.attr*,
+    (Documentation | PipeInfo)*
+href.attr =
+    ## The document URI (location) of the selected XML or non-XML document.
+    attribute href { xsd:anyURI }
+use-when.attr =
+    ## XPath expression for XProc conditional element exclusion. The condition
+    ## is evaluated statically in XProc. 
+    attribute use-when { xpath }
+document-properties.attr = attribute document-properties { PropertyMap }
+PropertyMap = text
+extension.attr = attribute * - (local:* | xml:* | p:*) { text }
+Documentation =
+    element p:documentation {
+        xml-ns-attributes, extension.attr*, DocContent*
+    }
+PipeInfo =
+    element p:pipeinfo { xml-ns-attributes, extension.attr*, DocContent* }
+DocContent = Any
+Any =
+    element * { (_any.attr | Any)* }
+    | text
+_any.attr = attribute * { text }
+
+step-option =
+    ## Option to pass to an XProc step. Child <p:document> elements
+    ## are evaluated in XProc. Alternatively, provide arbitrary content
+    ## and/or attributes href, select, or as; the current
+    ## implementation evaluates them in XSLT.
+    element option { common-attributes, 
+                              name,
+                              (selection | p-document) }
+
+name = attribute name { eqname.datatype }
+
+port-name =
+    ## Name of XProc port.
+    attribute port { xsd:NCName }
+
+position = attribute position { xsd:positiveInteger }
 
 as = attribute as { text }
 
-selection = node-selection | value-selection
+selection = as?, (node-selection | value-selection)
 
-node-selection = attribute href { xs:anyURI }?,
-                 attribute select { xpath }?, 
-                 any-content
+node-selection = (
+                 ## The document URI (location) of the selected XML document.
+                 attribute href { xsd:anyURI }
+                 | user-content
+                 ),
+                 ## The XPath expression to access the selected node. 
+                 attribute select { xpath }?
 
-value-selection = attribute select { xpath }
+value-selection =
+    ## The XPath expression without definitive context.
+    attribute select { xpath }
 
-xpath = text
+xpath = xsd:string { minLength = "1" }
 
 assertion = 
 	## An assertion's test XPath can either return a boolean value, in which case the 
-	## assertion succeeds only if the test is true; or a node, in which case the
-	## assertion succeeds only if the node is equal to the one specified with the
+	## assertion succeeds only if the test is true; or a sequence, in which case the
+	## assertion succeeds only if the sequence is equal to the one specified with the
 	## href and select attributes or content of the <expect> element.
 	element expect { common-attributes,
-		label, test?, selection }
+		label, pending-attribute?, test?, result-type?, selection, port? }
 
 test = attribute test { xpath }
 
-common-attributes = attribute xml:* { text }*
+port =
+	## Name of output port of XProc step being tested
+	attribute port { xsd:string { minLength = "1" } }
 
-any-content = mixed { any-element* }
-any-element = element * { attribute * { text }*, any-content }
+result-type =
+	## Data type of actual result.
+	attribute result-type { xsd:string { minLength = "1" } }
+
+xml-ns-attributes = attribute xml:* { text }*
+common-attributes = xml-ns-attributes,
+	## Works like XSLT @expand-text.
+	attribute expand-text { boolean.datatype }?
+
+user-content = mixed { (user-element | text-element)* }
+user-element = element * - (x:* | p:document) { attribute * - x:expand-text { text }*, attribute x:expand-text { boolean.datatype }?, user-content }
+
+text-element =
+	## Works like <xsl:text>.
+	## Text in this element is not ignored even when it's whitespace-only.
+	element text { common-attributes, text }
+
+schematron-scenario = (global-param | variable)*, context?,
+                    (variable | like)*,
+                    (pending-element | schematron-expect | assertion | variable)*,
+                    (pending-element | 
+                     element scenario { common-scenario-attributes, 
+                                        label, schematron-scenario })*
+
+schematron-expect =  
+    expect-assert | expect-not-assert | 
+    expect-report | expect-not-report | 
+    expect-valid | expect-rule
+
+expect-valid =
+    ## In a Schematron test, verify that the Schematron is executed and the XML 
+    ## that is provided as context passes validation.
+    ## 
+    ## In the Schematron an <assert> or <report> can have a <role> attribute 
+    ## specifying that it is a warning or informational message and these are 
+    ## considered to be allowed for a passing validation.
+    element expect-valid {
+        pending-attribute?
+    }
+
+expect-assert = 
+    ## In a Schematron test, verify that an <assert> is thrown.
+    ## 
+    ## Text content and the attributes id, role, and location
+    ## can be used in combination to identify a specific <assert>. 
+    element expect-assert {
+        common-schematron-assert-report-expect-attributes,
+        schematron-expect-count-attribute,
+        text
+    }
+expect-report = 
+    ## In a Schematron test, verify that a <report> is thrown.
+    ## 
+    ## Text content and the attributes id, role, and location
+    ## can be used in combination to identify a specific <report>. 
+    element expect-report {
+        common-schematron-assert-report-expect-attributes,
+        schematron-expect-count-attribute,
+        text
+    }
+
+expect-not-assert = 
+    ## In a Schematron test, verify that an <assert> is not thrown.
+    ## 
+    ## The attributes id, role, and location can be used in combination to 
+    ## identify a specific <assert>. 
+    element expect-not-assert {
+        common-schematron-assert-report-expect-attributes
+    }
+expect-not-report = 
+    ## In a Schematron test, verify that a <report> is not thrown.
+    ## 
+    ## The attributes id, role, and location can be used in combination to 
+    ## identify a specific <report>. 
+    element expect-not-report {
+        common-schematron-assert-report-expect-attributes
+    }
+
+expect-rule = 
+    ## In a Schematron test, verify that a <rule> is fired.
+    element expect-rule {
+        pending-attribute?,
+
+        ## Optional label to describe the expectation.
+        attribute label { text }?,
+
+        ## Identify a specific <rule> using its id attribute.
+        attribute id { xsd:NCName }?,
+
+        ## Match a specific context attribute value of a <rule>.
+        attribute context { text }?,
+
+        schematron-expect-count-attribute
+    }
+
+common-schematron-assert-report-expect-attributes = 
+    pending-attribute?,
+
+    ## Optional label to describe the expectation.
+    attribute label { text }?,
+
+    ## Identify a specific <assert> or <report> using its id attribute or 
+    ## the id attribute of the ancestor <rule> or <pattern>. The test
+    ## uses the nearest of these id attributes.
+    attribute id { xsd:NCName }?,
+
+    ## Match a specific role attribute value of an <assert> or <report> or 
+    ## the parent <rule>. The test uses the nearest of these role attributes.
+    ## Role attribute values are often used to specify 'error', 'fatal',
+    ## 'warn', 'warning', 'info', 'information'.
+    attribute role { text }?,
+
+    ## XPath of a location in the context XML that the <assert> or <report> 
+    ## is expected to find. Namespace prefixes that are defined in Schematron 
+    ## using ns elements can be used.
+    attribute location { xpath }?
+
+schematron-expect-count-attribute = 
+    ## Number of times an <assert> or <report> is expected to be thrown.
+    attribute count { xsd:nonNegativeInteger }?
+
+# Data types from https://www.w3.org/TR/xslt-30/schema-for-xslt30.rnc
+uri.qualified.name = xsd:token { pattern = "Q\{[^\{\}]*\}[\i-[:]][\c-[:]]*" } 
+qname.strict = xsd:token { pattern = "[\i-[:]][\c-[:]]:[\i-[:]][\c-[:]]" }
+eqname.datatype = xsd:QName | uri.qualified.name | qname.strict 
+boolean.datatype = "yes" | "no" | "true" | "false" | "0" | "1" 

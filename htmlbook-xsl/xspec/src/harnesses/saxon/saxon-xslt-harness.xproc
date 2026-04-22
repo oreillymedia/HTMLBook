@@ -3,7 +3,7 @@
 <!--  File:       saxon-xslt-harness.xproc                                 -->
 <!--  Author:     Florent Georges                                          -->
 <!--  Date:       2011-08-30                                               -->
-<!--  URI:        http://xspec.googlecode.com/                             -->
+<!--  URI:        http://github.com/xspec/xspec                            -->
 <!--  Tags:                                                                -->
 <!--    Copyright (c) 2011 Florent Georges (see end of file.)              -->
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -21,17 +21,17 @@
             version="1.0">
 
    <p:documentation>
-      <p>This pipeline executes an XSpec test suite with the Saxon embedded in Calabash.</p>
-      <p><b>Primary input:</b> A XSpec test suite document.</p>
+      <p>This pipeline executes an XSpec test suite for XSLT using the Saxon bundled with XML Calabash 1.</p>
+      <p><b>Primary input:</b> An XSpec test suite document.</p>
       <p><b>Primary output:</b> A formatted HTML XSpec report.</p>
+      <p>'xspec-home' parameter: The directory where you unzipped the XSpec archive on your filesystem.</p>
    </p:documentation>
 
-   <p:serialization port="result" indent="true"/>
+   <p:serialization port="result" indent="true" method="xhtml"
+                    encoding="UTF-8" include-content-type="true"
+                    omit-xml-declaration="false" />
 
    <p:import href="../harness-lib.xpl"/>
-
-   <!-- TODO: Does not work yet... -->
-   <!--t:ensure-input/-->
 
    <!-- compile the suite into a stylesheet -->
    <t:compile-xslt name="compile"/>

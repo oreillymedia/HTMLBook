@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
+		
+	<system systemId="http://www.jenitennison.com/xslt/xspec/compile-xslt-tests.xsl"
+		uri="compile-xslt-tests.xsl" />
+	
+	<system systemId="http://www.jenitennison.com/xslt/xspec/compile-xquery-tests.xsl"
+		uri="compile-xquery-tests.xsl" />
+	
+	<system systemId="http://www.jenitennison.com/xslt/xspec/compile-xproc-tests.xsl"
+		uri="compile-xproc-tests.xsl" />
+</catalog>

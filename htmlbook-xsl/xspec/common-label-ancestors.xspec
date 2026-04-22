@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               xmlns="http://www.w3.org/1999/xhtml"
+               xmlns:h="http://www.w3.org/1999/xhtml"
+               stylesheet="xspec-htmlbook.xsl">
+
+  <!-- xspec-htmlbook.xsl wraps htmlbook.xsl with functions-xslt2.xsl for Saxon HE 12.5 compatibility.
+       Production uses htmlbook.xsl directly via lxml/libxslt with functions-exsl.xsl.
+       Both function files implement identical logic; see htmlbook.xsl for full explanation. -->
+
+  <!-- Tests for label.section.with.ancestors behavior in common.xsl.
+       Isolated here so the global param can be set to 1 without affecting common.xspec's
+       1400+ other tests, which rely on the default value of 0. -->
+
+  <x:param name="label.section.with.ancestors" select="1"/>
+
+  <x:param name="label.numeration.by.data-type">
+appendix:A
+chapter:1
+part:I
+sect1:a
+sect2:none
+sect3:none
+sect4:none
+sect5:none
+  </x:param>
+
+  <x:scenario label="When generating a label for a part div with label.section.with.ancestors enabled">
+    <!-- Note: parts have no ancestor sections, so label.section.with.ancestors does not change the output -->
+    <x:context mode="label.markup" select="/h:body/h:div[@data-type='part'][2]">
+      <body>
+	<div data-type="part">
+	  <h1>First Part</h1>
+	</div>
+	<div data-type="part">
+	  <h1>Second Part</h1>
+	</div>
+      </body>
+    </x:context>
+    <x:expect label="The appropriate numeration value should be generated">II</x:expect>
+  </x:scenario>
+
+  <x:scenario label="When generating a label for a section (chapter) with label.section.with.ancestors enabled">
+    <!-- Note: chapters have no ancestor sections, so label.section.with.ancestors does not change the output -->
+    <x:context mode="label.markup" select="/h:body/h:section[@data-type='chapter'][1]">
+      <body>
+	<section data-type="chapter">
+	  <h1>First Chapter</h1>
+	</section>
+      </body>
+    </x:context>
+    <x:expect label="The appropriate numeration value should be generated">1</x:expect>
+  </x:scenario>
+
+  <x:scenario label="When generating a label for a section (subsection) with label.section.with.ancestors enabled">
+    <!-- With label.section.with.ancestors enabled, ancestor section labels are prepended.
+         The result is: chapter label "1" + intralabel.punctuation "." + sect1 label "a" -->
+    <x:context mode="label.markup" select="/h:section[@data-type='chapter']/h:section[@data-type='sect1'][1]">
+      <section data-type="chapter">
+	<h1>A Chapter</h1>
+	<section data-type="sect1">
+	  <h1>First Subsection</h1>
+	</section>
+      </section>
+    </x:context>
+    <x:expect label="The appropriate numeration value should be generated">1.a</x:expect>
+  </x:scenario>
+
+</x:description>

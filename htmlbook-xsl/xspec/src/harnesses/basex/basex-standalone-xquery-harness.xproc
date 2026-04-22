@@ -3,7 +3,7 @@
 <!--  File:       basex-standalone-xquery-harness.xproc                    -->
 <!--  Author:     Florent Georges                                          -->
 <!--  Date:       2011-08-30                                               -->
-<!--  URI:        http://xspec.googlecode.com/                             -->
+<!--  URI:        http://github.com/xspec/xspec                            -->
 <!--  Tags:                                                                -->
 <!--    Copyright (c) 2011 Florent Georges (see end of file.)              -->
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -32,47 +32,43 @@
         file in /tmp).  The BaseX JAR file is passed through 'basex-jar'.</p>
    </p:documentation>
 
-   <p:serialization port="result" indent="true"/>
+   <p:serialization port="result" indent="true" method="xhtml"
+                    encoding="UTF-8" include-content-type="true"
+                    omit-xml-declaration="false" />
 
    <p:import href="../harness-lib.xpl"/>
 
    <t:parameters name="params"/>
 
    <p:group>
-      <p:variable name="xspec-home" select="
-          /c:param-set/c:param[@name eq 'xspec-home']/@value">
+      <p:variable name="xspec-home" select="/c:param-set/c:param[@name eq 'xspec-home']/@value">
          <p:pipe step="params" port="parameters"/>
       </p:variable>
-      <p:variable name="basex-jar" select="
-          /c:param-set/c:param[@name eq 'basex-jar']/@value">
+      <p:variable name="basex-jar" select="/c:param-set/c:param[@name eq 'basex-jar']/@value">
          <p:pipe step="params" port="parameters"/>
       </p:variable>
+
       <!-- TODO: Use a robust way to get a tmp file name from the OS... -->
-      <p:variable name="compiled-file" select="
-          ( /c:param-set/c:param[@name eq 'compiled-file']/@value,
-            'file:/tmp/xspec-basex-compiled-suite.xq' )[1]">
+      <p:variable name="compiled-file"
+         select="(
+               /c:param-set/c:param[@name eq 'compiled-file']/@value,
+               'file:/tmp/xspec-basex-compiled-suite.xq'
+            )[1]">
          <p:pipe step="params" port="parameters"/>
       </p:variable>
-      <p:variable name="utils-library-at" select="
-          /c:param-set/c:param[@name eq 'utils-library-at']/@value">
+
+      <p:variable name="utils-library-at"
+         select="/c:param-set/c:param[@name eq 'utils-library-at']/@value">
          <p:pipe step="params" port="parameters"/>
       </p:variable>
-      <!-- either no at location hint, or resolved from xspec-home if packaging not supported -->
-      <p:variable name="utils-lib" select="
-          if ( $utils-library-at ) then
-            $utils-library-at
-          else if ( $xspec-home ) then
-            resolve-uri('src/compiler/generate-query-utils.xql', $xspec-home)
-          else
-            ''"/>
 
       <!-- compile the suite into a query -->
       <t:compile-xquery>
-         <p:with-param  name="utils-library-at" select="$utils-lib"/>
+         <p:with-param name="utils-library-at" select="$utils-library-at" />
       </t:compile-xquery>
 
       <!-- escape the query as text -->
-      <p:escape-markup name="escape"/>
+      <t:escape-markup name="escape" />
 
       <!-- store it on disk in order to pass it to BaseX -->
       <p:store method="text" name="store">
@@ -84,10 +80,11 @@
          <p:when test="p:value-available('basex-jar')">
             <!-- use Java directly, rely on 'basex-jar' -->
             <p:exec command="java">
-               <p:with-option name="args" select="
-                   string-join(
-                     ('-cp', $basex-jar, 'org.basex.BaseX', $compiled-file),
-                     ' ')"/>
+               <p:with-option name="args"
+                  select="string-join(
+                        ('-cp', $basex-jar, 'org.basex.BaseX', $compiled-file),
+                        ' '
+                     )"/>
                <p:input port="source">
                   <p:empty/>
                </p:input>

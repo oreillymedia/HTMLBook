@@ -4,10 +4,11 @@
                xmlns:functx="http://www.functx.com"
 	       xmlns="http://www.w3.org/1999/xhtml"
 	       xmlns:h="http://www.w3.org/1999/xhtml"
-               stylesheet="../htmlbook.xsl">
+               stylesheet="../htmlbook.xsl"
+               run-as="external">
 
   <x:param name="book-language" select="'en'"/>
-  
+
   <!-- Use the following global label-generation params for testing of h1-h6 processing in the
        heading-processing section below -->
   <x:param name="label.numeration.by.data-type">
@@ -153,9 +154,7 @@ sect5:1
   </x:scenario>
 
   <!-- PDF bookmark attributes -->
-  <x:scenario label="When encountering a chapter-level section" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+  <x:scenario label="When encountering a chapter-level section">
     <x:context>
       <section data-type="chapter">
 	<h1>This is the Chapter title</h1>
@@ -166,9 +165,7 @@ and the script from https://github.com/xspec/xspec.">
     <x:expect label="Propagate the heading text to a data-pdf-bookmark attribute" test="exists(h:section[1]/@data-pdf-bookmark[contains(., current()//h:h1)])"/>
   </x:scenario>
 
-  <x:scenario label="When encountering a chapter-level section with heading in a header element" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+  <x:scenario label="When encountering a chapter-level section with heading in a header element">
     <x:context>
       <section data-type="chapter">
 	<header>
@@ -191,9 +188,7 @@ and the script from https://github.com/xspec/xspec.">
     <x:expect label="Don't change the data-pdf-bookmark value" test="/h:section/@data-pdf-bookmark = 'Custom Bookmark'"/>
   </x:scenario>
 
-  <x:scenario label="When encountering a sect1-level section" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+  <x:scenario label="When encountering a sect1-level section">
     <x:context>
       <section data-type="sect1">
 	<h1>This is the Section title</h1>
@@ -204,9 +199,7 @@ and the script from https://github.com/xspec/xspec.">
     <x:expect label="Propagate the heading text to a data-pdf-bookmark attribute" test="exists(h:section[1]/@data-pdf-bookmark[contains(., current()//h:h1)])"/>
   </x:scenario>
 
-  <x:scenario label="When encountering a sect1-level section with heading in a header element" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+  <x:scenario label="When encountering a sect1-level section with heading in a header element">
     <x:context>
       <section data-type="sect1">
 	<header>
@@ -229,9 +222,7 @@ and the script from https://github.com/xspec/xspec.">
     <x:expect label="Don't change the data-pdf-bookmark value" test="/h:section/@data-pdf-bookmark = 'Custom Bookmark'"/>
   </x:scenario>
 
-  <x:scenario label="When encountering a sect2-level section" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+  <x:scenario label="When encountering a sect2-level section">
     <x:context>
       <section data-type="sect2">
 	<h2>This is the Section title</h2>
@@ -242,9 +233,7 @@ and the script from https://github.com/xspec/xspec.">
     <x:expect label="Propagate the heading text to a data-pdf-bookmark attribute" test="exists(h:section[1]/@data-pdf-bookmark[contains(., current()//h:h2)])"/>
   </x:scenario>
 
-  <x:scenario label="When encountering a sect2-level section with heading in a header element" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+  <x:scenario label="When encountering a sect2-level section with heading in a header element">
     <x:context>
       <section data-type="sect2">
 	<header>
@@ -267,9 +256,7 @@ and the script from https://github.com/xspec/xspec.">
     <x:expect label="Don't change the data-pdf-bookmark value" test="/h:section/@data-pdf-bookmark = 'Custom Bookmark'"/>
   </x:scenario>
 
-  <x:scenario label="When encountering a sect3-level section" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+  <x:scenario label="When encountering a sect3-level section">
     <x:context>
       <section data-type="sect3">
 	<h3>This is the Section title</h3>
@@ -280,9 +267,7 @@ and the script from https://github.com/xspec/xspec.">
     <x:expect label="Propagate the heading text to a data-pdf-bookmark attribute" test="exists(h:section[1]/@data-pdf-bookmark[contains(., current()//h:h3)])"/>
   </x:scenario>
 
-  <x:scenario label="When encountering a sect3-level section with heading in a header element" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+  <x:scenario label="When encountering a sect3-level section with heading in a header element">
     <x:context>
       <section data-type="sect3">
 	<header>
@@ -305,9 +290,7 @@ and the script from https://github.com/xspec/xspec.">
     <x:expect label="Don't change the data-pdf-bookmark value" test="/h:section/@data-pdf-bookmark = 'Custom Bookmark'"/>
   </x:scenario>
 
-  <x:scenario label="When encountering a sect4-level section" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+  <x:scenario label="When encountering a sect4-level section">
     <x:context>
       <section data-type="sect4">
 	<h4>This is the Section title</h4>
@@ -318,9 +301,7 @@ and the script from https://github.com/xspec/xspec.">
     <x:expect label="Propagate the heading text to a data-pdf-bookmark attribute" test="exists(h:section[1]/@data-pdf-bookmark[contains(., current()//h:h4)])"/>
   </x:scenario>
 
-  <x:scenario label="When encountering a sect4-level section with heading in a header element" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+  <x:scenario label="When encountering a sect4-level section with heading in a header element">
     <x:context>
       <section data-type="sect4">
 	<header>
@@ -343,9 +324,7 @@ and the script from https://github.com/xspec/xspec.">
     <x:expect label="Don't change the data-pdf-bookmark value" test="/h:section/@data-pdf-bookmark = 'Custom Bookmark'"/>
   </x:scenario>
 
-  <x:scenario label="When encountering a sect5-level section" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+  <x:scenario label="When encountering a sect5-level section">
     <x:context>
       <section data-type="sect5">
 	<h5>This is the Section title</h5>
@@ -356,9 +335,7 @@ and the script from https://github.com/xspec/xspec.">
     <x:expect label="Propagate the heading text to a data-pdf-bookmark attribute" test="exists(h:section[1]/@data-pdf-bookmark[contains(., current()//h:h5)])"/>
   </x:scenario>
 
-  <x:scenario label="When encountering a sect5-level section with heading in a header element" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+  <x:scenario label="When encountering a sect5-level section with heading in a header element">
     <x:context>
       <section data-type="sect5">
 	<header>
@@ -383,9 +360,7 @@ and the script from https://github.com/xspec/xspec.">
     <x:expect label="Don't change the data-pdf-bookmark value" test="/h:section/@data-pdf-bookmark = 'Custom Bookmark'"/>
   </x:scenario>
 
-  <x:scenario label="When encountering a Part div" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+  <x:scenario label="When encountering a Part div">
     <x:context>
       <div data-type="part">
 	<h1>This is the Part title</h1>
@@ -430,9 +405,7 @@ and the script from https://github.com/xspec/xspec.">
       </div>
     </x:context>
 
-    <x:scenario label="With autogenerate.labels turned on" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+    <x:scenario label="With autogenerate.labels turned on">
       <x:context>
 	<x:param name="autogenerate.labels" select="1"/>
       </x:context>
@@ -462,9 +435,7 @@ and the script from https://github.com/xspec/xspec.">
       </div>
     </x:context>
 
-    <x:scenario label="With autogenerate.labels turned on" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+    <x:scenario label="With autogenerate.labels turned on">
       <x:context>
 	<x:param name="autogenerate.labels" select="1"/>
       </x:context>
@@ -510,9 +481,7 @@ and the script from https://github.com/xspec/xspec.">
       </section>
     </x:context>
 
-    <x:scenario label="With autogenerate.labels turned on" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+    <x:scenario label="With autogenerate.labels turned on">
       <x:context>
 	<x:param name="autogenerate.labels" select="1"/>
       </x:context>
@@ -542,9 +511,7 @@ and the script from https://github.com/xspec/xspec.">
       </section>
     </x:context>
 
-    <x:scenario label="With autogenerate.labels turned on" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+    <x:scenario label="With autogenerate.labels turned on">
       <x:context>
 	<x:param name="autogenerate.labels" select="1"/>
       </x:context>
@@ -591,9 +558,7 @@ and the script from https://github.com/xspec/xspec.">
       </section>
     </x:context>
 
-    <x:scenario label="With autogenerate.labels turned on" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+    <x:scenario label="With autogenerate.labels turned on">
       <x:context>
 	<x:param name="autogenerate.labels" select="1"/>
       </x:context>
@@ -623,9 +588,7 @@ and the script from https://github.com/xspec/xspec.">
       </section>
     </x:context>
 
-    <x:scenario label="With autogenerate.labels turned on" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+    <x:scenario label="With autogenerate.labels turned on">
       <x:context>
 	<x:param name="autogenerate.labels" select="1"/>
       </x:context>
@@ -671,9 +634,7 @@ and the script from https://github.com/xspec/xspec.">
       </section>
     </x:context>
 
-    <x:scenario label="With autogenerate.labels turned on" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+    <x:scenario label="With autogenerate.labels turned on">
       <x:context>
 	<x:param name="autogenerate.labels" select="1"/>
       </x:context>
@@ -703,9 +664,7 @@ and the script from https://github.com/xspec/xspec.">
       </section>
     </x:context>
 
-    <x:scenario label="With autogenerate.labels turned on" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+    <x:scenario label="With autogenerate.labels turned on">
       <x:context>
 	<x:param name="autogenerate.labels" select="1"/>
       </x:context>
@@ -751,9 +710,7 @@ and the script from https://github.com/xspec/xspec.">
       </section>
     </x:context>
 
-    <x:scenario label="With autogenerate.labels turned on" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+    <x:scenario label="With autogenerate.labels turned on">
       <x:context>
 	<x:param name="autogenerate.labels" select="1"/>
       </x:context>
@@ -783,9 +740,7 @@ and the script from https://github.com/xspec/xspec.">
       </section>
     </x:context>
 
-    <x:scenario label="With autogenerate.labels turned on" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+    <x:scenario label="With autogenerate.labels turned on">
       <x:context>
 	<x:param name="autogenerate.labels" select="1"/>
       </x:context>
@@ -831,9 +786,7 @@ and the script from https://github.com/xspec/xspec.">
       </section>
     </x:context>
 
-    <x:scenario label="With autogenerate.labels turned on" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+    <x:scenario label="With autogenerate.labels turned on">
       <x:context>
 	<x:param name="autogenerate.labels" select="1"/>
       </x:context>
@@ -863,9 +816,7 @@ and the script from https://github.com/xspec/xspec.">
       </section>
     </x:context>
 
-    <x:scenario label="With autogenerate.labels turned on" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+    <x:scenario label="With autogenerate.labels turned on">
       <x:context>
 	<x:param name="autogenerate.labels" select="1"/>
       </x:context>
@@ -914,9 +865,7 @@ and the script from https://github.com/xspec/xspec.">
       </section>
     </x:context>
 
-    <x:scenario label="With autogenerate.labels turned on" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+    <x:scenario label="With autogenerate.labels turned on">
       <x:context>
 	<x:param name="autogenerate.labels" select="1"/>
       </x:context>
@@ -953,9 +902,7 @@ and the script from https://github.com/xspec/xspec.">
       </x:expect>
     </x:scenario>
     
-    <x:scenario label="With add.title.heading.for.admonitions turned on" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+    <x:scenario label="With add.title.heading.for.admonitions turned on">
       <x:context>
         <x:param name="add.title.heading.for.admonitions" select="1"/>
       </x:context>
@@ -967,13 +914,14 @@ and the script from https://github.com/xspec/xspec.">
       </x:expect>
     </x:scenario>
     
-    <x:scenario pending="No clean way to parameterize language at template level for unit tests yet" label="With add.title.heading.for.admonitions turned on (es language localization)">
+    <x:scenario label="With add.title.heading.for.admonitions turned on (es language localization)">
+      <x:param name="book-language" select="'es'"/>
       <x:context>
         <x:param name="add.title.heading.for.admonitions" select="1"/>
       </x:context>
       <x:expect label="An admonition heading should be added">
         <div data-type="note">
-          <h6>Nota</h6>
+          <h6>nota</h6>
           <p>This is a note.</p>
         </div>
       </x:expect>
@@ -997,9 +945,7 @@ and the script from https://github.com/xspec/xspec.">
         </x:expect>
       </x:scenario>
       
-      <x:scenario label="With add.title.heading.for.admonitions turned on" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+      <x:scenario label="With add.title.heading.for.admonitions turned on">
         <x:context>
           <x:param name="add.title.heading.for.admonitions" select="1"/>
         </x:context>
@@ -1029,9 +975,7 @@ and the script from https://github.com/xspec/xspec.">
       </x:expect>
     </x:scenario>
     
-    <x:scenario label="With add.title.heading.for.admonitions turned on" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+    <x:scenario label="With add.title.heading.for.admonitions turned on">
       <x:context>
         <x:param name="add.title.heading.for.admonitions" select="1"/>
       </x:context>
@@ -1061,9 +1005,7 @@ and the script from https://github.com/xspec/xspec.">
       </x:expect>
     </x:scenario>
     
-    <x:scenario label="With add.title.heading.for.admonitions turned on" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+    <x:scenario label="With add.title.heading.for.admonitions turned on">
       <x:context>
         <x:param name="add.title.heading.for.admonitions" select="1"/>
       </x:context>
@@ -1093,9 +1035,7 @@ and the script from https://github.com/xspec/xspec.">
       </x:expect>
     </x:scenario>
     
-    <x:scenario label="With add.title.heading.for.admonitions turned on" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+    <x:scenario label="With add.title.heading.for.admonitions turned on">
       <x:context>
         <x:param name="add.title.heading.for.admonitions" select="1"/>
       </x:context>
@@ -1277,9 +1217,7 @@ and the script from https://github.com/xspec/xspec.">
       </section>
     </x:context>
 
-    <x:scenario label="With html4.structural.elements turned off" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+    <x:scenario label="With html4.structural.elements turned off">
       <x:context>
         <x:param name="html4.structural.elements" select="0"/>
       </x:context>
@@ -1291,9 +1229,7 @@ and the script from https://github.com/xspec/xspec.">
       </x:expect>
     </x:scenario>
     
-    <x:scenario label="With html4.structural.elements turned on" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+    <x:scenario label="With html4.structural.elements turned on">
       <x:context>
         <x:param name="html4.structural.elements" select="1"/>
       </x:context>
@@ -1515,9 +1451,7 @@ end</pre>
     </x:expect>
     </x:scenario>
       
-    <x:scenario label="with global line numbering enabled" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+    <x:scenario label="with global line numbering enabled">
       <x:context>
         <x:param name="number.code.lines" select="1"/>
       </x:context>
@@ -1539,9 +1473,7 @@ and the script from https://github.com/xspec/xspec.">
       </x:expect>
   </x:scenario>
     
-  <x:scenario label="with global line numbering enabled (blank lines in listing)" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+  <x:scenario label="with global line numbering enabled (blank lines in listing)">
     <x:context>
       <x:param name="number.code.lines" select="1"/>
       <pre xml:space="preserve" data-type="programlisting" data-code-language="java" data-line-numbering="numbered">import java.applet.*;
@@ -1569,9 +1501,7 @@ public class Scribble extends Applet {
     
   </x:scenario>
     
-    <x:scenario label="with global line numbering enabled (inline markup)" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+    <x:scenario label="with global line numbering enabled (inline markup)">
       <x:context>
         <x:param name="number.code.lines" select="1"/>
         <pre data-type="programlisting" data-code-language="ruby" xml:space="preserve"><code class="k">def</code> <code class="nc">self</code><code class="o">.</code><code class="nf">compile_file</code><code class="p">(</code><code class="n">filename</code><code class="p">,</code> <code class="o">*</code><code class="n">args</code><code class="p">)</code>
@@ -1607,9 +1537,7 @@ and the script from https://github.com/xspec/xspec.">
       </x:expect>
     </x:scenario>
 
-    <x:scenario label="with global line numbering disabled but data-linenumbering enabled for the individual listing" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+    <x:scenario label="with global line numbering disabled but data-linenumbering enabled for the individual listing">
       <x:context>
         <x:param name="number.code.lines" select="0"/>
         <pre data-type="programlisting" data-line-numbering="numbered">if css_filename
@@ -2079,9 +2007,7 @@ end</pre>
       </section>
     </x:context>
 
-    <x:scenario label="With process.footnotes disabled" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+    <x:scenario label="With process.footnotes disabled">
       <x:context>
 	<x:param name="process.footnotes" select="0"/>
       </x:context>
@@ -2089,9 +2015,7 @@ and the script from https://github.com/xspec/xspec.">
       <x:expect label="There should be no footnotes at end of section" test="count(//h:section/h:aside//*[@data-type='footnote']) = 0"/>
     </x:scenario>
 
-    <x:scenario label="With process.footnotes enabled" pending="We received an  error when trying to run this scenario.
-We were using the Saxon JAR file version SAXON HE 9.5.1.2
-and the script from https://github.com/xspec/xspec.">
+    <x:scenario label="With process.footnotes enabled">
       <x:context>
 	<x:param name="process.footnotes" select="1"/>
       </x:context>
