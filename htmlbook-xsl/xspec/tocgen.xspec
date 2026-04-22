@@ -346,8 +346,8 @@
     <x:expect label="it should return the proper TOC title">Table of Contents</x:expect>
   </x:scenario>
     <x:scenario label="When toc-title is called for non-English-language content">
-      <!-- For this test, would need to further parameterize get-localization-value so that you could grab a different localization for the test -->
+      <x:param name="book-language" select="'es'"/>
       <x:call template="toc-title"/>
-      <x:expect label="it should return the proper TOC title"/>
+      <x:expect label="it should return the proper TOC title">Tabla de contenidos</x:expect>
     </x:scenario>
 </x:description>

@@ -377,8 +377,8 @@ sect5:s
 	      <xsl:value-of select="@href"/>
 	    </xsl:with-param>
 	  </xsl:call-template>
-	  <!-- Oh well, just copy any existing href to output -->
-	  <xsl:apply-templates select="@href"/>
+	  <!-- Use calculated-output-href to normalize the href (prepend # if missing, strip filename for file/id refs) -->
+	  <xsl:attribute name="href"><xsl:value-of select="$calculated-output-href"/></xsl:attribute>
 	</xsl:otherwise>
       </xsl:choose>
       <xsl:choose>
@@ -416,6 +416,7 @@ sect5:s
 		               (contains(@data-type, 'footnoteref')) or
 			       (contains(@data-type, 'indexterm')))][@href]">
   <xsl:param name="url.in.parens" select="$url.in.parens"/>
+  <xsl:param name="autogenerate.xref.pagenum.style" select="$autogenerate.xref.pagenum.style"/>
   <!-- If the element is empty, does not have data-type="link", and is a valid XREF, go ahead and treat it like an <a> element with data-type="xref" -->
     <xsl:variable name="is-xref">
       <xsl:call-template name="href-is-xref">
@@ -432,7 +433,9 @@ sect5:s
       <xsl:when test="(not(node())) and 
 		      ($is-xref = 1) and
 		      not(@data-type='link')">
-	<xsl:call-template name="process-as-xref"/>
+	<xsl:call-template name="process-as-xref">
+	  <xsl:with-param name="autogenerate.xref.pagenum.style" select="$autogenerate.xref.pagenum.style"/>
+	</xsl:call-template>
       </xsl:when>
       <!-- Else if href is not external hyperlink, then process href -->
       <xsl:when test="$is-xref = 1">
@@ -456,8 +459,8 @@ sect5:s
 		      <xsl:value-of select="@href"/>
 		    </xsl:with-param>
 		  </xsl:call-template>
-		<!-- Oh well, just copy any existing href to output -->
-		<xsl:value-of select="@href"/>
+		<!-- Use calculated-output-href to normalize the href (prepend # if missing, strip filename for file/id refs) -->
+		<xsl:value-of select="$calculated-output-href"/>
 	      </xsl:otherwise>
 	    </xsl:choose>
 	  </xsl:attribute>

@@ -74,11 +74,16 @@ sect5:none
       <x:expect label="It should have a meta element for the cover HTML" test="count(/ncx:ncx/ncx:head/ncx:meta[@name='cover']) = 1"/>
     </x:scenario>
       <x:scenario label="With ncx.include.root.chunk enabled">
-	<x:expect label="navPoint for root chunk should be generated"/>
+	<x:param name="ncx.include.root.chunk" select="1"/>
+	<!-- root.chunk.filename defaults to 'index.html'; content/@src should reflect that -->
+	<x:expect label="navPoint for root chunk should be generated"
+		  test="exists(/ncx:ncx/ncx:navMap/ncx:navPoint[ncx:content/@src='index.html'])"/>
       </x:scenario>
 
       <x:scenario label="With ncx.include.root.chunk disabled">
-	<x:expect label="navPoint for root chunk *should not* be generated"/>
+	<x:param name="ncx.include.root.chunk" select="0"/>
+	<x:expect label="navPoint for root chunk *should not* be generated"
+		  test="not(exists(/ncx:ncx/ncx:navMap/ncx:navPoint[ncx:content/@src='index.html']))"/>
       </x:scenario>
       </x:scenario>
 

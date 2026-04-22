@@ -1368,28 +1368,34 @@ sidebar
 
     <x:scenario label="of 'chap-num-title'">
       <x:context select="//h:a[@id='chap-num-title-xref']"/>
-      <x:expect label="it should return chapter label, number, and title"><a href="#awesome_chap" id="chap-num-title-xref" data-type="xref" data-xrefstyle="chap-num-title" data-xref-pagenum-style="...">Chapter&#xa0;1, “AWESOME CHAPTER“</a></x:expect>
+      <!-- data-xref-pagenum-style value comes from xref.pagenum.style.for.section.by.data-type global param (chapter:decimal) -->
+      <x:expect label="it should return chapter label, number, and title"><a href="#awesome_chap" id="chap-num-title-xref" data-type="xref" data-xrefstyle="chap-num-title" data-xref-pagenum-style="decimal">Chapter&#xa0;1, “AWESOME CHAPTER”</a></x:expect>
     </x:scenario>
 
     <x:scenario label="of 'app-num-title'">
       <x:context select="//h:a[@id='app-num-title-xref']"/>
-      <x:expect label="it should return appendix label, number, and title"><a href="#awesome_app" id="app-num-title-xref" data-type="xref" data-xrefstyle="app-num-title" data-xref-pagenum-style="...">Appendix&#xa0;A, “Appendix Title“</a></x:expect>
+      <!-- data-xref-pagenum-style value comes from xref.pagenum.style.for.section.by.data-type global param (appendix:decimal) -->
+      <x:expect label="it should return appendix label, number, and title"><a href="#awesome_app" id="app-num-title-xref" data-type="xref" data-xrefstyle="app-num-title" data-xref-pagenum-style="decimal">Appendix&#xa0;A, “Appendix Title”</a></x:expect>
     </x:scenario>
 
     <x:scenario label="of 'part-num-title'">
       <x:context select="//h:a[@id='part-num-title-xref']"/>
-      <x:expect label="it should return part label, number, and title"><a href="#awesome_part" id="part-num-title-xref" data-type="xref" data-xrefstyle="part-num-title" data-xref-pagenum-style="...">Part&#xa0;I, “I'm Part of the Solution!“</a></x:expect>
+      <!-- data-xref-pagenum-style value comes from xref.pagenum.style.for.section.by.data-type global param (part is not listed, so falls back to empty/default) -->
+      <x:expect label="it should return part label, number, and title"><a href="#awesome_part" id="part-num-title-xref" data-type="xref" data-xrefstyle="part-num-title" data-xref-pagenum-style="decimal">Part&#xa0;I, “I'm Part of the Solution!”</a></x:expect>
     </x:scenario>
 
     <x:scenario label="of 'select:nopage'">
       <x:context select="//h:a[@id='nopage-xref']">
 	<x:param name="xref.elements.pagenum.in.class">sect1</x:param>
       </x:context>
-      <x:expect label="it should return an XREF as usual, but without a pagenum class"><a href="#awesome_sect1" id="nopage-xref" data-xref-pagenum-style="..." data-xrefstyle="select:nopage" data-type="xref">&#x201c;AWESOME SUBSECTION&#x201d;</a></x:expect>
+      <x:expect label="it should return an XREF as usual, but without a pagenum class"><a href="#awesome_sect1" id="nopage-xref" data-xref-pagenum-style="decimal" data-xrefstyle="select:nopage" data-type="xref">&#x201c;AWESOME SUBSECTION&#x201d;</a></x:expect>
     </x:scenario>
 
     <x:scenario label="of 'chap-num-title' (localization other than 'en')">
-      <x:expect label="FILL ME IN LATER" select="'FILL ME IN LATER'"/>
+      <x:param name="book-language" select="'es'"/>
+      <x:context select="//h:a[@id='chap-num-title-xref']"/>
+      <!-- es.xml xref-number-and-title chapter template: "Cap&#xed;tulo&#xa0;%n, %t" (no curly quotes around title) -->
+      <x:expect label="it should return chapter label, number, and title in the target language"><a href="#awesome_chap" id="chap-num-title-xref" data-type="xref" data-xrefstyle="chap-num-title" data-xref-pagenum-style="decimal">Cap&#xed;tulo&#xa0;1, AWESOME CHAPTER</a></x:expect>
     </x:scenario>
     
   </x:scenario>

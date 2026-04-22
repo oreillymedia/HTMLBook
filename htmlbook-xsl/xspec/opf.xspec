@@ -523,7 +523,7 @@ css_images/pizza.svg
 		test="exists(/opf:spine/opf:itemref[@idref = 'bookcover'])"/>
       <x:expect label="There should be an itemref for every chunk in the book"
 		test="every $dtype in ('preface', 'chapter', 'appendix')
-		      satisfies (exists($x:result/opf:spine/opf:itemref[contains(@idref, $dtype)]))"/>
+		      satisfies (exists($x:result/opf:itemref[contains(@idref, $dtype)]))"/>
 
       <x:scenario label="with NCX TOC generation disabled">
 	<x:call>
