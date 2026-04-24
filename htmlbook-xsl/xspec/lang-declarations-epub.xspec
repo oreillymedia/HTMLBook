@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               xmlns="http://www.w3.org/1999/xhtml"
+               xmlns:h="http://www.w3.org/1999/xhtml"
+               xmlns:epub="http://www.idpf.org/2007/ops"
+               xmlns:t="https://github.com/oreillymedia/HTMLBook/xspec-test"
+               stylesheet="lang-declarations-epub-driver.xsl">
+
+  <!-- TEMPORARY test suite (TOOLSDEV-539): covers the lang/xml:lang
+       attributes emitted by process-content-for-chunk in epub.xsl. The
+       same pattern is used in chunk.xsl; because epub.xsl imports chunk.xsl
+       and epub.xsl's process-content-for-chunk wins by precedence, this
+       suite exercises the EPUB branch specifically (the branch that also
+       emits xmlns:epub). Once the pre-existing opf.xsl undeclared-param bug
+       is fixed, fold these scenarios into epub.xspec and chunk.xspec and
+       delete the companion driver stylesheet. -->
+
+  <!-- Workaround: opf.xsl (included by epub.xsl) references these five
+       params without declaring them, which otherwise fails compilation. -->
+  <x:param name="access.mode" select="''"/>
+  <x:param name="access.mode.sufficient" select="''"/>
+  <x:param name="accessibility.feature" select="''"/>
+  <x:param name="accessibility.hazard" select="''"/>
+  <x:param name="accessibility.summary" select="''"/>
+
+  <!-- Non-default BCP 47 tag so a hard-coded default would be caught. -->
+  <x:param name="book-language" select="'es'"/>
+
+  <x:scenario label="When process-content-for-chunk wraps a non-html node">
+    <x:context select="(//t:chunk-trigger)[1]">
+      <t:chunk-trigger/>
+    </x:context>
+    <x:expect label="generated html carries lang"
+              test="/h:html/@lang = 'es'"/>
+    <x:expect label="generated html carries xml:lang"
+              test="/h:html/@xml:lang = 'es'"/>
+    <x:expect label="lang and xml:lang agree"
+              test="/h:html/@lang = /h:html/@xml:lang"/>
+    <x:expect label="only one lang attribute is emitted"
+              test="count(/h:html/@lang) = 1"/>
+    <x:expect label="only one xml:lang attribute is emitted"
+              test="count(/h:html/@xml:lang) = 1"/>
+    <x:expect label="generated html still declares the epub namespace"
+              test="namespace-uri-for-prefix('epub', /h:html) = 'http://www.idpf.org/2007/ops'"/>
+  </x:scenario>
+
+  <!-- NOTE: xml:lang on the <package> element in content.opf (emitted by
+       generate.opf.content in opf.xsl) cannot be covered here because
+       The existing version of Saxon HE does not implement exsl:node-set(), 
+       which generate.opf.content calls at runtime. That change is verified
+       manually via xsltproc; see the branch description for the command.
+       When the wider test-suite refactor lands, move this into opf.xspec
+       where the same limitation likely needs a different processor. -->
+
+</x:description>

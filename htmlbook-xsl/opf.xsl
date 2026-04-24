@@ -243,7 +243,7 @@
 
   <xsl:template name="generate.opf.content">
     <xsl:param name="generate.guide" select="$generate.guide"/>
-    <package version="3.0" unique-identifier="{$metadata.unique-identifier.id}">
+    <package version="3.0" unique-identifier="{$metadata.unique-identifier.id}" xml:lang="{$book-language}">
       <xsl:if test="$metadata.ibooks-specified-fonts = 1">
 	<xsl:attribute name="prefix">
 	  <xsl:text>ibooks: http://vocabulary.itunes.apple.com/rdf/ibooks/vocabulary-extensions-1.0/</xsl:text>

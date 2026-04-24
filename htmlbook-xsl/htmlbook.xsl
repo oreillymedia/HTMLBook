@@ -89,4 +89,20 @@
     </xsl:copy>
   </xsl:template>
 
-</xsl:stylesheet> 
+  <!-- Ensure the root <html> element in single-file output carries both
+       lang and xml:lang, with matching values taken from $book-language.
+       $book-language defaults to the source @lang but can be overridden
+       by the caller; the override is authoritative. -->
+  <xsl:template match="h:html">
+    <xsl:copy>
+      <xsl:attribute name="lang">
+        <xsl:value-of select="$book-language"/>
+      </xsl:attribute>
+      <xsl:attribute name="xml:lang">
+        <xsl:value-of select="$book-language"/>
+      </xsl:attribute>
+      <xsl:apply-templates select="@*[local-name() != 'lang' or (namespace-uri() != '' and namespace-uri() != 'http://www.w3.org/XML/1998/namespace')]|node()"/>
+    </xsl:copy>
+  </xsl:template>
+
+</xsl:stylesheet>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               xmlns="http://www.w3.org/1999/xhtml"
+               xmlns:h="http://www.w3.org/1999/xhtml"
+               stylesheet="../htmlbook.xsl">
+
+  <!-- TEMPORARY test suite (TOOLSDEV-539): covers the new h:html template in
+       htmlbook.xsl that emits lang and xml:lang on single-file HTML output.
+       Once the pre-existing opf.xsl undeclared-param bug is fixed, these
+       scenarios should be folded into elements.xspec. -->
+
+  <!-- Fix book-language globally to a non-default value; this xspec version
+       does not support per-scenario overrides. The value is chosen to be
+       distinct from the fallback 'en' and from any source @lang used in the
+       scenarios below, so that a hard-coded default would be caught. -->
+  <x:param name="book-language" select="'es'"/>
+
+  <x:scenario label="When the source html has no lang attribute">
+    <x:context select="/h:html">
+      <html>
+        <body data-type="book"><p>hello</p></body>
+      </html>
+    </x:context>
+    <x:expect label="lang is emitted with book-language value"
+              test="/h:html/@lang = 'es'"/>
+    <x:expect label="xml:lang is emitted with book-language value"
+              test="/h:html/@xml:lang = 'es'"/>
+  </x:scenario>
+
+  <x:scenario label="When the source html has a lang attribute that differs from book-language">
+    <x:context select="/h:html">
+      <html lang="fr">
+        <body data-type="book"><p>bonjour</p></body>
+      </html>
+    </x:context>
+    <x:expect label="output lang reflects book-language, not source lang"
+              test="/h:html/@lang = 'es'"/>
+    <x:expect label="output xml:lang also reflects book-language"
+              test="/h:html/@xml:lang = 'es'"/>
+    <x:expect label="only one lang attribute is emitted"
+              test="count(/h:html/@lang) = 1"/>
+  </x:scenario>
+
+  <x:scenario label="When the source html has an xml:lang attribute that differs from book-language">
+    <x:context select="/h:html">
+      <html xml:lang="de">
+        <body data-type="book"><p>hallo</p></body>
+      </html>
+    </x:context>
+    <x:expect label="output xml:lang reflects book-language, not source xml:lang"
+              test="/h:html/@xml:lang = 'es'"/>
+    <x:expect label="only one xml:lang attribute is emitted"
+              test="count(/h:html/@xml:lang) = 1"/>
+  </x:scenario>
+
+  <x:scenario label="When the source html carries unrelated attributes">
+    <x:context select="/h:html">
+      <html class="book" id="root">
+        <body data-type="book"><p>hi</p></body>
+      </html>
+    </x:context>
+    <x:expect label="class is preserved"
+              test="/h:html/@class = 'book'"/>
+    <x:expect label="id is preserved"
+              test="/h:html/@id = 'root'"/>
+  </x:scenario>
+
+</x:description>

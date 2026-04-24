@@ -243,7 +243,7 @@ sect5:s
       </xsl:when>
       <!-- Otherwise, go ahead and do the following default chunk processing -->
       <xsl:when test="not(self::h:html)">
-	<html>
+	<html lang="{$book-language}" xml:lang="{$book-language}">
 	  <!-- ToDo: What else do we want in the <head>? -->
 	  <head>
 	    <title>

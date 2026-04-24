@@ -323,7 +323,7 @@ UbuntuMono-Italic.otf</xsl:param>
     <!-- Only add the <html>/<head> if they don't already exist -->
     <xsl:choose>
       <xsl:when test="not(self::h:html)">
-	<html xmlns:epub="http://www.idpf.org/2007/ops">
+	<html xmlns:epub="http://www.idpf.org/2007/ops" lang="{$book-language}" xml:lang="{$book-language}">
 	  <!-- ToDo: What else do we want in the <head>? -->
 	  <head>
 	    <title>

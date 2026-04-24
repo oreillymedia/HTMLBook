@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               xmlns="http://www.w3.org/1999/xhtml"
+               xmlns:h="http://www.w3.org/1999/xhtml"
+               xmlns:t="https://github.com/oreillymedia/HTMLBook/xspec-test"
+               stylesheet="lang-declarations-chunk-driver.xsl">
+
+  <!-- TEMPORARY test suite (TOOLSDEV-539): covers the lang/xml:lang
+       attributes emitted by process-content-for-chunk in chunk.xsl for
+       chunked HTML output (distinct from epub.xsl, which has its own
+       higher-precedence override of the same template). Once the
+       xspec-compiler bug and opf.xsl param bug are fixed, these scenarios
+       should be folded into chunk.xspec and the driver deleted. -->
+
+  <!-- Non-default tag so a hard-coded default would be caught. -->
+  <x:param name="book-language" select="'es'"/>
+
+  <x:scenario label="When process-content-for-chunk wraps a non-html node">
+    <x:context select="(//t:chunk-trigger)[1]">
+      <t:chunk-trigger/>
+    </x:context>
+    <x:expect label="generated html carries lang"
+              test="/h:html/@lang = 'es'"/>
+    <x:expect label="generated html carries xml:lang"
+              test="/h:html/@xml:lang = 'es'"/>
+    <x:expect label="lang and xml:lang agree"
+              test="/h:html/@lang = /h:html/@xml:lang"/>
+    <x:expect label="only one lang attribute is emitted"
+              test="count(/h:html/@lang) = 1"/>
+    <x:expect label="only one xml:lang attribute is emitted"
+              test="count(/h:html/@xml:lang) = 1"/>
+    <x:expect label="generated html does NOT declare the epub namespace"
+              test="not(namespace-uri-for-prefix('epub', /h:html))"/>
+  </x:scenario>
+
+</x:description>

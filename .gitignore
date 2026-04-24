@@ -1,2 +1,5 @@
 # Mac Finder files
 .DS_Store
+
+# test artifacts
+htmlbook-xsl/xspec/xspec/ 
