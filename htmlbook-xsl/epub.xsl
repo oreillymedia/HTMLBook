@@ -141,6 +141,14 @@
 
   <xsl:param name="metadata.creators" select="//h:head/h:meta[contains(@name, 'creator') or contains(@name, 'author')]"/>
 
+  <!-- Accessibility metadata params: each accepts a newline-delimited list of values, except
+       accessibility.summary which is a plain string. Processed in opf.xsl into schema: meta elements. -->
+  <xsl:param name="access.mode" select="''"/>
+  <xsl:param name="access.mode.sufficient" select="''"/>
+  <xsl:param name="accessibility.feature" select="''"/>
+  <xsl:param name="accessibility.hazard" select="''"/>
+  <xsl:param name="accessibility.summary" select="''"/>
+
   <!-- Id to use to reference cover image -->
   <xsl:param name="epub.cover.image.id" select="'cover-image'"/>
 
