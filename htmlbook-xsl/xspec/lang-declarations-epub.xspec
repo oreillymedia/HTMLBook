@@ -45,9 +45,27 @@
               test="namespace-uri-for-prefix('epub', /h:html) = 'http://www.idpf.org/2007/ops'"/>
   </x:scenario>
 
+  <x:scenario label="When cover-html-document generates the cover HTML file">
+    <x:context select="(//t:cover-trigger)[1]">
+      <t:cover-trigger/>
+    </x:context>
+    <x:expect label="generated html carries lang"
+              test="/h:html/@lang = 'es'"/>
+    <x:expect label="generated html carries xml:lang"
+              test="/h:html/@xml:lang = 'es'"/>
+    <x:expect label="lang and xml:lang agree"
+              test="/h:html/@lang = /h:html/@xml:lang"/>
+    <x:expect label="only one lang attribute is emitted"
+              test="count(/h:html/@lang) = 1"/>
+    <x:expect label="only one xml:lang attribute is emitted"
+              test="count(/h:html/@xml:lang) = 1"/>
+    <x:expect label="generated html still declares the epub namespace"
+              test="namespace-uri-for-prefix('epub', /h:html) = 'http://www.idpf.org/2007/ops'"/>
+  </x:scenario>
+
   <!-- NOTE: xml:lang on the <package> element in content.opf (emitted by
        generate.opf.content in opf.xsl) cannot be covered here because
-       The existing version of Saxon HE does not implement exsl:node-set(), 
+       The existing version of Saxon HE does not implement exsl:node-set(),
        which generate.opf.content calls at runtime. That change is verified
        manually via xsltproc; see the branch description for the command.
        When the wider test-suite refactor lands, move this into opf.xspec

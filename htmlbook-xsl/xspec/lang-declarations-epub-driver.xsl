@@ -23,4 +23,10 @@
     <xsl:call-template name="process-content-for-chunk"/>
   </xsl:template>
 
+  <!-- Routes a cover trigger element through cover-html-document so
+       XSpec can assert on the generated <html> node. -->
+  <xsl:template match="t:cover-trigger">
+    <xsl:call-template name="cover-html-document"/>
+  </xsl:template>
+
 </xsl:stylesheet>

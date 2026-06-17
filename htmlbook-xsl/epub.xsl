@@ -256,22 +256,28 @@ UbuntuMono-Italic.otf</xsl:param>
     <xsl:apply-imports/>
   </xsl:template>
 
+  <!-- Produces the cover <html> document node. Extracted from generate-cover-html
+       so it can be called directly in XSpec tests (result-document output is not
+       testable via XSpec). -->
+  <xsl:template name="cover-html-document">
+    <html xmlns:epub="http://www.idpf.org/2007/ops" lang="{$book-language}" xml:lang="{$book-language}">
+      <head>
+        <title>Cover</title>
+        <xsl:if test="$css.filename != ''">
+          <link rel="stylesheet" type="text/css" href="{$css.filename}" />
+        </xsl:if>
+      </head>
+      <body>
+        <xsl:copy-of select="//h:figure[@data-type='cover'][1]"/>
+      </body>
+    </html>
+  </xsl:template>
+
   <!-- Output an HTML file for the book cover; override and customize as needed. Default output generally the same as epub3 docbook-xsl stylesheets -->
   <xsl:template name="generate-cover-html">
     <xsl:variable name="cover.html.content">
       <xsl:value-of select="'&lt;!DOCTYPE html&gt;'" disable-output-escaping="yes"/>
-      <html xmlns:epub="http://www.idpf.org/2007/ops">
-	<!-- ToDo: What else do we want in the <head>? -->
-	<head>
-	  <title>Cover</title>
-	  <xsl:if test="$css.filename != ''">
-	    <link rel="stylesheet" type="text/css" href="{$css.filename}" />
-	  </xsl:if>
-	</head>
-	<body>
-	  <xsl:copy-of select="//h:figure[@data-type='cover'][1]"/>
-	</body>
-      </html>
+      <xsl:call-template name="cover-html-document"/>
     </xsl:variable>
     <xsl:result-document href="{$full.cover.filename}" method="xml" encoding="UTF-8">
       <xsl:copy-of select="$cover.html.content"/>
